@@ -148,8 +148,9 @@ function sqlTablolar(tablolar, max = 200, kql = false) {
       return `<div class="sql-bas"><span class="ln">s.${t.satir}</span><b>${esc(t.komut)}</b> · ${ne}</div>`;
     }
     const n = t.satirlar.length;
+    // SPL'in çok değerli alanları \x1f ile ayrık gelir: Splunk'taki gibi her değer ayrı satırda
     const hucre = v => v === null ? `<td class="null">${kql ? "" : "NULL"}</td>`
-      : `<td${/^-?\d+(\.\d+)?$/.test(v) ? ' class="num"' : ""}>${esc(v)}</td>`;
+      : `<td${/^-?\d+(\.\d+)?$/.test(v) ? ' class="num"' : ""}>${esc(v).replace(/\x1f/g, "<br>")}</td>`;
     const govde = t.satirlar.slice(0, max).map(r => `<tr>${r.map(hucre).join("")}</tr>`).join("");
     const fazla = n > max ? `<div class="out-meta">ilk ${max} satır gösteriliyor</div>` : "";
     return `<div class="sql-sonuc"><div class="sql-bas"><span class="ln">s.${t.satir}</span>${n} satır${t.kesildi ? " (ilk 500)" : ""}</div>` +

@@ -107,3 +107,44 @@ INSERT INTO olcumler (sunucu_id, zaman, cpu) VALUES
     (4, '2026-10-19 08:00', 62), (4, '2026-10-19 09:00', 75), (4, '2026-10-19 10:00', 91), (4, '2026-10-19 11:00', 88),
     (1, '2026-10-19 08:00', 40), (1, '2026-10-19 09:00', 58), (1, '2026-10-19 10:00', 72), (1, '2026-10-19 11:00', 69),
     (8, '2026-10-19 08:00', 70), (8, '2026-10-19 09:00', 71), (8, '2026-10-19 10:00', 84), (8, '2026-10-19 11:00', 90);
+
+-- Öncelik başına hedef çözüm süresi (SPL yolunda lookup tablosu olarak da kullanılır)
+CREATE TABLE sla (
+    oncelik    TEXT PRIMARY KEY,
+    hedef_saat INTEGER NOT NULL                       -- bilet en geç kaç saatte çözülmeli
+);
+
+INSERT INTO sla (oncelik, hedef_saat) VALUES
+    ('kritik', 4), ('yüksek', 8), ('orta', 24), ('düşük', 72);
+
+-- Gece bakım işlerinin günlük satırları: her iş çalışması başladı ... bitti satırları bırakır
+CREATE TABLE isler (
+    id      INTEGER PRIMARY KEY,
+    zaman   TEXT NOT NULL,                            -- 'YYYY-AA-GG SS:DD'
+    _time   INTEGER NOT NULL,                         -- aynı an, epoch saniyesi (Splunk'ın _time alanı gibi)
+    sunucu  TEXT NOT NULL,
+    is_adi  TEXT NOT NULL,
+    calisma TEXT NOT NULL,                            -- çalışma kimliği: aynı çalışmanın satırları aynı kimliği taşır
+    mesaj   TEXT NOT NULL
+);
+
+INSERT INTO isler (id, zaman, _time, sunucu, is_adi, calisma, mesaj) VALUES
+(1 , '2026-10-17 01:00', 1792198800, 'yedek01', 'gece-yedek', 'Y17', 'başladı'),
+    (2 , '2026-10-17 01:40', 1792201200, 'yedek01', 'gece-yedek', 'Y17', 'ilerleme %50'),
+    (3 , '2026-10-17 02:00', 1792202400, 'db01', 'bakim', 'B17', 'başladı'),
+    (4 , '2026-10-17 02:25', 1792203900, 'yedek01', 'gece-yedek', 'Y17', 'bitti'),
+    (5 , '2026-10-17 02:35', 1792204500, 'db01', 'bakim', 'B17', 'bitti'),
+    (6 , '2026-10-17 03:00', 1792206000, 'izleme01', 'log-dondur', 'L17', 'başladı'),
+    (7 , '2026-10-17 03:04', 1792206240, 'izleme01', 'log-dondur', 'L17', 'bitti'),
+    (8 , '2026-10-18 01:00', 1792285200, 'yedek01', 'gece-yedek', 'Y18', 'başladı'),
+    (9 , '2026-10-18 01:50', 1792288200, 'yedek01', 'gece-yedek', 'Y18', 'ilerleme %50'),
+    (10, '2026-10-18 03:20', 1792293600, 'yedek01', 'gece-yedek', 'Y18', 'bitti'),
+    (11, '2026-10-18 06:00', 1792303200, 'web01', 'onbellek-isit', 'W18A', 'başladı'),
+    (12, '2026-10-18 06:02', 1792303320, 'web01', 'onbellek-isit', 'W18A', 'bitti'),
+    (13, '2026-10-18 06:30', 1792305000, 'web01', 'onbellek-isit', 'W18B', 'başladı'),
+    (14, '2026-10-18 06:31', 1792305060, 'web01', 'onbellek-isit', 'W18B', 'bitti'),
+    (15, '2026-10-19 01:00', 1792371600, 'yedek01', 'gece-yedek', 'Y19', 'başladı'),
+    (16, '2026-10-19 01:45', 1792374300, 'yedek01', 'gece-yedek', 'Y19', 'ilerleme %50'),
+    (17, '2026-10-19 02:00', 1792375200, 'db01', 'bakim', 'B19', 'başladı'),
+    (18, '2026-10-19 02:20', 1792376400, 'db01', 'bakim', 'B19', 'uyarı: kilit bekleniyor'),
+    (19, '2026-10-19 02:50', 1792378200, 'db01', 'bakim', 'B19', 'bitti');

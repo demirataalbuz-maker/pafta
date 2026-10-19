@@ -12,15 +12,31 @@ taşınır. Splunk'a sadık kalınan incelikler:
   - stats sonucu by alanlarına göre sıralanır; top/rare count ve percent üretir
   - join varsayılan olarak alt aramadan anahtar başına yalnızca ilk satırı alır (max=1)
   - tail son N satırı ters sırayla verir
+  - çok değerli alanlar (values, list, split, makemv) değerleri MV karakteriyle ayrılmış tek
+    metin olarak taşınır; aramada alan=değer herhangi bir değer eşleşince doğrudur
+  - _time epoch saniyesidir, sonuçta okunur tarih olarak gösterilir
+  - chart'ta olmayan birleşimler boş kalır; timechart boş dilimleri count için 0 yapar
+  - transaction diğer alanları alfabetik sıralı tekil değerler olarak birleştirir, startswith/
+    endswith verildiğinde yarım kalan işlemleri atar ve sonuçları en yeni işlemden eskiye verir
 
     cevir(kaynak, sutun_bul) → SQL metni
+    sutun_bul(sql) → sütun adları; sutun_bul.satirlar(sql) → satırlar (chart, timechart,
+    transaction, xyseries çeviri sırasında veriye bakar)
 """
+import json
+import math
 import re
 from datetime import datetime, timezone
+from itertools import groupby
 
 SIMDI = "2026-10-19 12:00"
+MV = "\x1f"                      # çok değerli alanın değer ayıracı
+URETEN = ("inputlookup", "makeresults")     # | ile aramanın başında çalışan komutlar
 KOMUTLAR = ("search", "where", "eval", "stats", "table", "fields", "rename", "sort", "head", "tail",
-            "dedup", "top", "rare", "bin", "bucket", "rex", "join")
+            "dedup", "top", "rare", "bin", "bucket", "rex", "join", "fillnull", "chart", "timechart",
+            "eventstats", "streamstats", "transaction", "lookup", "append", "appendpipe", "makemv",
+            "mvexpand", "xyseries", "untable") + URETEN
+_SURE = {"s": 1, "m": 60, "h": 3600, "d": 86400}
 
 
 class SplHatasi(Exception):
@@ -53,11 +69,46 @@ _ALANLAR = re.compile(r'\s*(?:(?P<metin>"(?:\\.|[^"\\])*")|(?P<isl>,|=)|(?P<keli
 _STATS = re.compile(r'\s*(?:(?P<metin>"(?:\\.|[^"\\])*")|(?P<isl>[(),=])|(?P<kelime>[^\s(),="]+))')
 
 
-def _jetonla(desen, metin, bas):
+def _kapanis(metin, i):
+    """metin[i] == '[' → eşleşen ']' konumu (tırnak ve iç içe köşeli parantez hesaba katılır), yoksa -1."""
+    derinlik, tirnak, n = 0, False, i
+    while n < len(metin):
+        c = metin[n]
+        if tirnak:
+            if c == "\\":
+                n += 2
+                continue
+            if c == '"':
+                tirnak = False
+        elif c == '"':
+            tirnak = True
+        elif c == "[":
+            derinlik += 1
+        elif c == "]":
+            derinlik -= 1
+            if derinlik == 0:
+                return n
+        n += 1
+    return -1
+
+
+def _jetonla(desen, metin, bas, alt=False):
+    """alt=True: arama ifadesindeki [ ... ] alt aramaları tek bir ("alt", içerik, konum) jetonu olur."""
     out, i = [], 0
     while i < len(metin):
         if metin[i:].strip() == "":
             break
+        if alt:
+            j = i
+            while metin[j].isspace():
+                j += 1
+            if metin[j] == "[":
+                k = _kapanis(metin, j)
+                if k < 0:
+                    raise SplHatasi("alt aramanın köşeli parantezi kapanmadı: ']' eksik", bas + j)
+                out.append(("alt", metin[j + 1:k], bas + j + 1))
+                i = k + 1
+                continue
         m = desen.match(metin, i)
         if not m or m.end() == i:
             raise SplHatasi(f"tanınmayan karakter: {metin[i:].lstrip()[:1]!r}", bas + i)
@@ -159,15 +210,33 @@ class _Cevirici:
         return ", ".join(on_ek + q(c) for c in cols)
 
     # — boru hattı —
-    def hat(self, bas, son):
+    def hat(self, bas, son, baslangic=None):
+        """baslangic verilirse (appendpipe) bütün parçalar komuttur ve o sonuçtan başlar."""
         parcalar = _parcala(self.kaynak, bas, son)
-        ilk, ilk_konum = parcalar[0]
-        komut0 = ilk.strip().split(None, 1)[0].lower() if ilk.strip() else ""
-        if komut0 == "search":
-            ilk_konum += ilk.index(ilk.strip().split(None, 1)[0]) + len("search")
-            ilk = self.kaynak[ilk_konum:ilk_konum + len(ilk) - (ilk_konum - parcalar[0][1])]
-        ad = self.temel_arama(ilk, ilk_konum)
-        for metin, konum in parcalar[1:]:
+        if baslangic is not None:
+            ad = baslangic
+            kalan = parcalar[1:] if not parcalar[0][0].strip() and len(parcalar) > 1 else parcalar
+        elif not parcalar[0][0].strip() and len(parcalar) > 1:
+            metin, konum = parcalar[1]
+            govde = metin.strip()
+            if not govde:
+                raise SplHatasi("| işaretinden sonra bir komut bekleniyordu", konum)
+            komut = govde.split(None, 1)[0]
+            if komut.lower() not in URETEN:
+                raise SplHatasi(f"| ile başlayan arama veri üreten bir komutla başlamalı: {', '.join(URETEN)}",
+                                konum + metin.index(komut))
+            arg_bas = konum + metin.index(komut) + len(komut)
+            ad = getattr(self, "u_" + komut.lower())(self.kaynak[arg_bas:konum + len(metin)], arg_bas)
+            kalan = parcalar[2:]
+        else:
+            ilk, ilk_konum = parcalar[0]
+            komut0 = ilk.strip().split(None, 1)[0].lower() if ilk.strip() else ""
+            if komut0 == "search":
+                ilk_konum += ilk.index(ilk.strip().split(None, 1)[0]) + len("search")
+                ilk = self.kaynak[ilk_konum:ilk_konum + len(ilk) - (ilk_konum - parcalar[0][1])]
+            ad = self.temel_arama(ilk, ilk_konum)
+            kalan = parcalar[1:]
+        for metin, konum in kalan:
             govde = metin.strip()
             if not govde:
                 raise SplHatasi("| işaretinden sonra bir komut bekleniyordu", konum)
@@ -176,6 +245,9 @@ class _Cevirici:
             if k not in KOMUTLAR:
                 raise SplHatasi(f"bu komut desteklenmiyor: {komut} (desteklenenler: {', '.join(KOMUTLAR)})",
                                 konum + metin.index(komut))
+            if k in URETEN:
+                raise SplHatasi(f"{komut} veri üreten bir komuttur; aramanın başında yazılır: | {k} ...",
+                                konum + metin.index(komut))
             arg_bas = konum + metin.index(komut) + len(komut)
             arg = self.kaynak[arg_bas:konum + len(metin)]
             ad = getattr(self, "k_" + {"bucket": "bin"}.get(k, k))(ad, arg, arg_bas)
@@ -183,7 +255,7 @@ class _Cevirici:
 
     # — arama —
     def temel_arama(self, metin, bas):
-        jet = _jetonla(_ARAMA, metin, bas)
+        jet = _jetonla(_ARAMA, metin, bas, alt=True)
         tablo, kalan, n = None, [], 0
         while n < len(jet):
             t = jet[n]
@@ -206,19 +278,47 @@ class _Cevirici:
         return self._arama_uygula(kaynak, kalan, bas + len(metin))
 
     def k_search(self, onceki, arg, bas):
-        jet = _jetonla(_ARAMA, arg, bas)
+        jet = _jetonla(_ARAMA, arg, bas, alt=True)
         if not jet:
             raise SplHatasi("search'ten sonra bir arama ifadesi bekleniyordu", bas)
         return self._arama_uygula(onceki, jet, bas + len(arg))
 
-    def _arama_uygula(self, onceki, jet, son):
+    def _arama_kosulu(self, onceki, jet, son):
+        """Arama jetonlarını onceki üzerinde bir SQL koşuluna çevir (alt aramalar onceki'ye bağlanır)."""
         a = _Akis(jet, son)
         cols = self.sutunlar(onceki)
-        kosul = self._a_ve(a, cols)
+        dis, self._dis = getattr(self, "_dis", None), onceki
+        try:
+            kosul = self._a_ve(a, cols)
+        finally:
+            self._dis = dis
         if not a.bitti():
             t = a.bak()
             raise SplHatasi(f"beklenmeyen: '{t[1]}'", t[2])
-        return self.yeni(f"SELECT * FROM {onceki} WHERE {kosul}")
+        return kosul
+
+    def _arama_uygula(self, onceki, jet, son):
+        return self.yeni(f"SELECT * FROM {onceki} WHERE {self._arama_kosulu(onceki, jet, son)}")
+
+    def _alt_arama(self, metin, bas):
+        """[ ... ] içeriğini kendi boru hattı olarak çevir → CTE adı."""
+        ilk = metin.strip().split(None, 1)
+        alt_bas = bas
+        if ilk and ilk[0].lower() == "search":
+            alt_bas = bas + metin.index(ilk[0]) + len("search")
+        if not metin.strip():
+            raise SplHatasi("alt arama boş", bas)
+        return self.hat(alt_bas, bas + len(metin))
+
+    def _alt_kosul(self, t, cols):
+        """Splunk alt aramanın sonucunu ( (a="x" AND b="y") OR (...) ) aramasına çevirir."""
+        alt = self._alt_arama(t[1], t[2])
+        acols = self.sutunlar(alt)
+        if not acols or any(c not in cols for c in acols):
+            return "0"                              # alt aramanın alanı olayda yoksa hiçbir olay eşleşmez
+        dis = self._dis
+        kosul = " AND ".join(f"(s.{q(c)} IS NULL OR spl_alt_esit({dis}.{q(c)}, s.{q(c)}))" for c in acols)
+        return f"EXISTS (SELECT 1 FROM {alt} AS s WHERE {kosul})"
 
     # Splunk'ın search komutunda öncelik: parantez, NOT, OR, AND (SQL'in tersine OR, AND'den sıkı bağlanır)
     def _a_ve(self, a, cols):
@@ -249,6 +349,8 @@ class _Cevirici:
 
     def _a_terim(self, a, cols):
         t = a.al()
+        if t[0] == "alt":
+            return self._alt_kosul(t, cols)
         if t[0] == "isl":
             raise SplHatasi(f"beklenmeyen: '{t[1]}'", t[2])
         if t[0] == "kelime" and a.bak()[0] == "isl" and a.bak()[1] in ("=", "!=", "<", ">", "<=", ">=", "=="):
@@ -413,6 +515,43 @@ class _Cevirici:
             if len(args) < 2:
                 raise SplHatasi(f"eval içinde {f}() en az iki değer ister; toplama için stats kullan", konum)
             return f"{f}({', '.join(args)})"
+        tek2 = {"mvcount": "spl_mvcount({0})", "mvdedup": "spl_mvdedup({0})", "mvsort": "spl_mvsort({0})",
+                "typeof": "spl_typeof({0})", "isnum": "(spl_typeof({0}) = 'Number')",
+                "isstr": "(spl_typeof({0}) = 'String')", "floor": "spl_floor({0})", "ceiling": "spl_ceil({0})",
+                "ceil": "spl_ceil({0})", "sqrt": "spl_sqrt({0})"}
+        if f in tek2:
+            say(1)
+            return tek2[f].format(args[0])
+        if f == "split":
+            say(2)
+            return f"spl_split({args[0]}, {args[1]})"
+        if f == "mvindex":
+            say(2, 3)
+            return f"spl_mvindex({args[0]}, {args[1]}, {args[2] if len(args) == 3 else 'NULL'})"
+        if f == "mvjoin":
+            say(2)
+            return f"spl_mvjoin({args[0]}, {args[1]})"
+        if f == "mvappend":
+            if not args:
+                raise SplHatasi("mvappend() en az bir değer ister", konum)
+            return f"spl_mvappend({', '.join(args)})"
+        if f in ("trim", "ltrim", "rtrim"):
+            say(1, 2)
+            return f"spl_{f}({args[0]}, {args[1] if len(args) == 2 else 'NULL'})"
+        if f == "in":
+            if len(args) < 2:
+                raise SplHatasi("in(alan, değer1, değer2, ...) en az bir değer ister", konum)
+            return f"({args[0]} IN ({', '.join(args[1:])}))"
+        if f == "nullif":
+            say(2)
+            return f"nullif({args[0]}, {args[1]})"
+        if f == "pow":
+            say(2)
+            return f"spl_pow({args[0]}, {args[1]})"
+        if f == "printf":
+            if not args:
+                raise SplHatasi('printf("biçim", değerler...) bir biçim metni ister', konum)
+            return f"spl_printf({', '.join(args)})"
         raise SplHatasi(f"bu fonksiyon desteklenmiyor: {ad}()", konum)
 
     # — komutlar —
@@ -549,14 +688,19 @@ class _Cevirici:
                          f"ORDER BY [__sira]) AS [__ilk] FROM {onceki} WHERE " +
                          " AND ".join(f"{q(a)} IS NOT NULL" for a in adlar) + ") WHERE [__ilk] = 1")
 
-    def k_stats(self, onceki, arg, bas):
+    def _stats_coz(self, arg, bas, komut="stats", secenekli=False):
+        """'count, avg(cpu) as ort by rol' → ([(ad, sql, fn)], [gruplar], {seçenek: (değer, konum)})."""
         a = _Akis(_jetonla(_STATS, arg, bas), bas + len(arg))
-        toplamalar = []
+        toplamalar, secenek = [], {}
         while not a.bitti() and not a.kelime_mi("by"):
             if a.isl_mi(","):
                 a.i += 1
                 continue
             t = a.bak()
+            if secenekli and t[0] == "kelime" and a.isl_mi("=", 1):
+                a.i += 2
+                secenek[t[1].lower()] = (a.ad(), t[2])
+                continue
             if t[0] != "kelime":
                 raise SplHatasi(f"bir toplama fonksiyonu bekleniyordu (count, sum, avg...), '{t[1]}' geldi", t[2])
             fn = t[1].lower()
@@ -571,7 +715,7 @@ class _Cevirici:
             if a.kelime_mi("as"):
                 a.i += 1
                 ad = a.ad()
-            toplamalar.append((ad, sql))
+            toplamalar.append((ad, sql, fn))
         gruplar = []
         if a.kelime_mi("by"):
             a.i += 1
@@ -581,8 +725,15 @@ class _Cevirici:
                     continue
                 gruplar.append(a.ad())
         if not toplamalar:
-            raise SplHatasi("stats'tan sonra en az bir toplama bekleniyordu (ör. stats count by rol)", bas)
-        secim = ", ".join([q(g) for g in gruplar] + [f"{s} AS {q(n)}" for n, s in toplamalar])
+            raise SplHatasi(f"{komut}'tan sonra en az bir toplama bekleniyordu (ör. {komut} count by rol)", bas)
+        return toplamalar, gruplar, secenek
+
+    def k_stats(self, onceki, arg, bas):
+        toplamalar, gruplar, _ = self._stats_coz(arg, bas)
+        return self._stats_sql(onceki, toplamalar, gruplar)
+
+    def _stats_sql(self, onceki, toplamalar, gruplar):
+        secim = ", ".join([q(g) for g in gruplar] + [f"{s} AS {q(n)}" for n, s, _ in toplamalar])
         if gruplar:
             sira = f"ROW_NUMBER() OVER (ORDER BY {', '.join(q(g) for g in gruplar)})"
             sql = (f"SELECT {secim}, {sira} AS [__sira] FROM {onceki} WHERE "
@@ -599,9 +750,10 @@ class _Cevirici:
             raise SplHatasi(f"{fn} bir alan ister: {fn}(alan)", konum)
         sablon = {"dc": "COUNT(DISTINCT {0})", "distinct_count": "COUNT(DISTINCT {0})", "sum": "SUM({0})",
                   "avg": "AVG({0})", "mean": "AVG({0})", "min": "MIN({0})", "max": "MAX({0})",
-                  "values": "group_concat(DISTINCT {0} ORDER BY {0})", "list": "group_concat({0})"}
+                  "range": "(MAX({0}) - MIN({0}))", "values": "spl_values({0})", "list": "spl_list({0} ORDER BY [__sira])"}
         if fn not in sablon:
-            raise SplHatasi(f"bu toplama desteklenmiyor: {fn}() (desteklenenler: count, dc, sum, avg, min, max, values, list)", konum)
+            raise SplHatasi(f"bu toplama desteklenmiyor: {fn}() (desteklenenler: count, dc, sum, avg, min, max, "
+                            "range, values, list)", konum)
         return sablon[fn].format(q(alan)), f"{fn}({alan})"
 
     def _top_rare(self, onceki, arg, bas, azalan):
@@ -656,6 +808,10 @@ class _Cevirici:
         if alan not in cols:
             raise SplHatasi(f"böyle bir alan yok: {alan}", bas + arg.index(alan))
         x = q(alan)
+        if alan == "_time":                         # epoch saniyesi: dilimin başına yuvarla
+            s = n * _SURE.get(birim or "s", 1)
+            secim = ", ".join(f"(CAST({x} / {s} AS INTEGER) * {s}) AS {x}" if c == alan else q(c) for c in cols)
+            return self.yeni(f"SELECT {secim}, [__sira] FROM {onceki}")
         if not birim:
             ifade = f"(CAST({x} / {n} AS INTEGER) * {n})"
         elif birim == "d" and n == 1:
@@ -725,6 +881,563 @@ class _Cevirici:
         katilim = "JOIN" if tur == "inner" else "LEFT JOIN"
         return self.yeni(f"SELECT {', '.join(secim)}, l.[__sira] AS [__sira] FROM {onceki} AS l {katilim} {tek} AS r ON {on}")
 
+    # — yardımcılar —
+    def _satirlar(self, sql):
+        """Çeviri sırasında veriye bak (chart sütunları, zaman dilimleri, transaction grupları)."""
+        al = getattr(self.sutun_bul, "satirlar", None)
+        if al is None:
+            raise SplHatasi("bu komut çeviri sırasında veriye bakmayı gerektiriyor")
+        return al(self.with_sql(sql))
+
+    def _kose(self, arg, bas, ornek):
+        """'seçenekler [ alt arama ]' → (seçenek metni, alt arama metni, alt aramanın mutlak başı)."""
+        ac = arg.find("[")
+        kapa = len(arg.rstrip()) - 1
+        if ac < 0 or _kapanis(arg, ac) != kapa:
+            raise SplHatasi(f"biçim: {ornek}", bas)
+        return arg[:ac], arg[ac + 1:kapa], bas + ac + 1
+
+    @staticmethod
+    def _secenekler(arg, bas):
+        """'delim="," maxpause=1h alan1 alan2' → ({seçenek: (değer, konum)}, [(kelime, konum)])."""
+        secenek, kelimeler = {}, []
+        for m in re.finditer(r'(\w+)\s*=\s*("(?:\\.|[^"\\])*"|[^\s,]+)|([^\s,=]+)', arg):
+            if m.group(3):
+                kelimeler.append((m.group(3), bas + m.start(3)))
+            else:
+                v = m.group(2)
+                tirnakli = v.startswith('"') and len(v) > 1
+                secenek[m.group(1).lower()] = (_metin_coz(v) if tirnakli else v, bas + m.start(2) + int(tirnakli))
+        return secenek, kelimeler
+
+    @staticmethod
+    def _fazla_secenek(secenek, komut, izinli):
+        for ad, (_, konum) in secenek.items():
+            if ad not in izinli:
+                raise SplHatasi(f"bu {komut} seçeneği desteklenmiyor: {ad} (desteklenenler: {', '.join(izinli)})", konum)
+
+    @staticmethod
+    def _sure_coz(v, konum):
+        m = re.fullmatch(r"(\d+)\s*(s|sec|m|min|h|d)?", v.strip().lower())
+        if not m or int(m.group(1)) == 0:
+            raise SplHatasi("süre 30s, 15m, 1h ya da 1d biçiminde olmalı", konum)
+        birim = {"sec": "s", "min": "m"}.get(m.group(2), m.group(2) or "s")
+        return int(m.group(1)) * _SURE[birim]
+
+    def _alan_var(self, cols, ad, konum):
+        if ad not in cols:
+            raise SplHatasi(f"böyle bir alan yok: {ad}", konum)
+
+    @staticmethod
+    def _deger_sql(v):
+        try:
+            float(v)
+            return v
+        except ValueError:
+            return sql_metin(v)
+
+    @staticmethod
+    def _ust_yaz(cols, yeniler, ifade):
+        """Sütunlar sırasıyla; yeni alan aynı adlı alanın yerine geçer, olmayanlar sona eklenir."""
+        secim = [f"{ifade(c)} AS {q(c)}" if c in yeniler else q(c) for c in cols]
+        return secim + [f"{ifade(n)} AS {q(n)}" for n in yeniler if n not in cols]
+
+    # — fillnull —
+    def k_fillnull(self, onceki, arg, bas):
+        secenek, kelimeler = self._secenekler(arg, bas)
+        self._fazla_secenek(secenek, "fillnull", ("value",))
+        deger = self._deger_sql(secenek["value"][0]) if "value" in secenek else "0"
+        cols = self.sutunlar(onceki)
+        adlar = [k for k, _ in kelimeler]
+        hedef = adlar or cols
+        secim = [f"coalesce({q(c)}, {deger}) AS {q(c)}" if c in hedef else q(c) for c in cols]
+        secim += [f"{deger} AS {q(a)}" for a in adlar if a not in cols]
+        return self.yeni(f"SELECT {', '.join(secim)}, [__sira] FROM {onceki}")
+
+    # — eventstats, streamstats —
+    def k_eventstats(self, onceki, arg, bas):
+        toplamalar, gruplar, _ = self._stats_coz(arg, bas, "eventstats")
+        cols = self.sutunlar(onceki)
+        for g in gruplar:
+            self._alan_var(cols, g, bas)
+        aggs = ", ".join(f"{s} AS {q(n)}" for n, s, _ in toplamalar)
+        if gruplar:
+            ozet = self.yeni(f"SELECT {', '.join(q(g) for g in gruplar)}, {aggs} FROM {onceki} WHERE "
+                             + " AND ".join(f"{q(g)} IS NOT NULL" for g in gruplar)
+                             + f" GROUP BY {', '.join(q(g) for g in gruplar)}")
+            on = " AND ".join(f"l.{q(g)} = r.{q(g)}" for g in gruplar)
+        else:
+            ozet = self.yeni(f"SELECT {aggs} FROM {onceki}")
+            on = "1"
+        yeniler = [n for n, _, _ in toplamalar]
+        secim = [f"r.{q(c)} AS {q(c)}" if c in yeniler else f"l.{q(c)} AS {q(c)}" for c in cols]
+        secim += [f"r.{q(n)} AS {q(n)}" for n in yeniler if n not in cols]
+        return self.yeni(f"SELECT {', '.join(secim)}, l.[__sira] AS [__sira] FROM {onceki} AS l LEFT JOIN {ozet} AS r ON {on}")
+
+    def k_streamstats(self, onceki, arg, bas):
+        toplamalar, gruplar, secenek = self._stats_coz(arg, bas, "streamstats", secenekli=True)
+        self._fazla_secenek(secenek, "streamstats", ("window", "current"))
+        pencere, konum = secenek.get("window", ("0", bas))
+        if not pencere.isdigit():
+            raise SplHatasi("window= bir sayı olmalı", konum)
+        n = int(pencere)
+        dahil = secenek.get("current", ("t", bas))[0].lower() in ("t", "true", "1")
+        ust = "CURRENT ROW" if dahil else "1 PRECEDING"
+        alt = "UNBOUNDED PRECEDING" if n == 0 else f"{n - 1 if dahil else n} PRECEDING"
+        if alt == "0 PRECEDING":
+            alt = "CURRENT ROW"
+        cols = self.sutunlar(onceki)
+        for g in gruplar:
+            self._alan_var(cols, g, bas)
+        bolum = f"PARTITION BY {', '.join(q(g) for g in gruplar)} " if gruplar else ""
+        cerceve = f"OVER ({bolum}ORDER BY [__sira] ROWS BETWEEN {alt} AND {ust})"
+        ifade = {}
+        for ad, sql, fn in toplamalar:
+            if fn not in ("count", "sum", "avg", "mean", "min", "max"):
+                raise SplHatasi(f"bu tezgahta streamstats count, sum, avg, min ve max ile çalışır ({fn} değil)", bas)
+            ifade[ad] = f"{sql} {cerceve}"
+        secim = self._ust_yaz(cols, list(ifade), lambda c: ifade[c] if c in ifade else q(c))
+        return self.yeni(f"SELECT {', '.join(secim)}, [__sira] FROM {onceki}")
+
+    # — chart, timechart —
+    def _seri_coz(self, arg, bas, komut):
+        """'count over a by b limit=5' → (seçenekler, [(ad, sql, fn)], over, [by alanları])."""
+        a = _Akis(_jetonla(_STATS, arg, bas), bas + len(arg))
+        secenek, toplamalar, over, by = {}, [], None, []
+        while not a.bitti():
+            if a.isl_mi(","):
+                a.i += 1
+                continue
+            t = a.bak()
+            if t[0] == "kelime" and a.isl_mi("=", 1):
+                a.i += 2
+                secenek[t[1].lower()] = (a.ad(), t[2])
+                continue
+            if a.kelime_mi("over"):
+                a.i += 1
+                over = a.ad()
+                continue
+            if a.kelime_mi("by"):
+                a.i += 1
+                while not a.bitti() and not (a.bak()[0] == "kelime" and a.isl_mi("=", 1)):
+                    if a.isl_mi(","):
+                        a.i += 1
+                        continue
+                    by.append((a.ad(), a.bak(-1)[2]))
+                continue
+            if t[0] != "kelime":
+                raise SplHatasi(f"bir toplama fonksiyonu bekleniyordu (count, avg(alan)...), '{t[1]}' geldi", t[2])
+            fn = t[1].lower()
+            a.i += 1
+            alan = None
+            if a.isl_mi("("):
+                a.i += 1
+                alan = a.ad()
+                a.bekle(")")
+            sql, ad = self._toplama(fn, alan, t[2])
+            if a.kelime_mi("as"):
+                a.i += 1
+                ad = a.ad()
+            toplamalar.append((ad, sql, fn))
+        if not toplamalar:
+            raise SplHatasi(f"{komut}'tan sonra bir toplama bekleniyordu (ör. {komut} count by durum)", bas)
+        return secenek, toplamalar, over, by
+
+    @staticmethod
+    def _seri_sirasi(degerler):
+        ozel = [d for d in ("NULL", "OTHER") if d in degerler]
+        duz = [d for d in degerler if d not in ("NULL", "OTHER")]
+        try:
+            duz.sort(key=float)
+        except (TypeError, ValueError):
+            duz.sort()
+        return duz + ozel
+
+    def _seriler(self, onceki, satir, sutun, sql, secenek, kosul):
+        """Sütun bölmesi: (__r, __c, __v) özeti ve seri adları; limit, useother ve usenull uygulanır."""
+        def evet(ad):
+            return secenek.get(ad, ("t", 0))[0].lower() in ("t", "true", "1")
+        lim, konum = secenek.get("limit", ("10", 0))
+        lim = lim.lower().replace("top", "")
+        if not lim.isdigit():
+            raise SplHatasi("limit= bir sayı olmalı (0: sınırsız)", konum)
+        limit = int(lim)
+        anahtar = f"CAST({q(sutun)} AS TEXT)"
+        nul = f" AND {q(sutun)} IS NOT NULL"
+        if evet("usenull"):
+            anahtar, nul = f"coalesce({anahtar}, 'NULL')", ""
+
+        def ozet(c):
+            return self.yeni(f"SELECT {satir} AS [__r], {c} AS [__c], {sql} AS [__v] FROM {onceki} "
+                             f"WHERE {kosul}{nul} GROUP BY [__r], [__c]")
+        ham = ozet(anahtar)
+        toplam = self._satirlar(f"SELECT [__c], SUM([__v]) FROM {ham} GROUP BY [__c]")
+        degerler = [r[0] for r in toplam]
+        if limit and len(degerler) > limit:
+            secilen = [r[0] for r in sorted(toplam, key=lambda r: (-(r[1] or 0), str(r[0])))[:limit]]
+            liste = ", ".join(sql_metin(v) for v in secilen)
+            if evet("useother"):
+                ham = ozet(f"CASE WHEN {anahtar} IN ({liste}) THEN {anahtar} ELSE 'OTHER' END")
+                degerler = secilen + ["OTHER"]
+            else:
+                ham = self.yeni(f"SELECT * FROM {ham} WHERE [__c] IN ({liste})")
+                degerler = secilen
+        return ham, self._seri_sirasi(degerler)
+
+    @staticmethod
+    def _hucreler(seriler, sifirla=False):
+        def hucre(v):
+            h = f"MAX(CASE WHEN [__c] = {sql_metin(v)} THEN [__v] END)"
+            return f"coalesce({h}, 0)" if sifirla else h
+        return "".join(f", {hucre(v)} AS {q(v)}" for v in seriler)
+
+    def k_chart(self, onceki, arg, bas):
+        secenek, toplamalar, over, by = self._seri_coz(arg, bas, "chart")
+        self._fazla_secenek(secenek, "chart", ("limit", "useother", "usenull"))
+        if over is None:
+            if len(by) > 2:
+                raise SplHatasi("chart en çok iki bölme alır: chart count by satır_alanı sütun_alanı", by[2][1])
+            satir, sutun = (by + [None, None])[:2]
+        else:
+            if len(by) > 1:
+                raise SplHatasi("over kullanınca by tek alan alır: chart count over satır by sütun", by[1][1])
+            satir, sutun = (over, bas), (by[0] if by else None)
+        cols = self.sutunlar(onceki)
+        for f in (satir, sutun):
+            if f:
+                self._alan_var(cols, *f)
+        if sutun is None:                               # tek boyut: stats ile aynı tablo
+            return self._stats_sql(onceki, toplamalar, [satir[0]] if satir else [])
+        if len(toplamalar) > 1:
+            raise SplHatasi("sütun bölmesiyle chart tek bir toplama alır", bas)
+        _, sql, _ = toplamalar[0]
+        ham, seriler = self._seriler(onceki, q(satir[0]), sutun[0], sql, secenek, f"{q(satir[0])} IS NOT NULL")
+        return self.yeni(f"SELECT [__r] AS {q(satir[0])}{self._hucreler(seriler)}, ROW_NUMBER() OVER (ORDER BY [__r]) "
+                         f"AS [__sira] FROM {ham} GROUP BY [__r]")
+
+    def k_timechart(self, onceki, arg, bas):
+        secenek, toplamalar, over, by = self._seri_coz(arg, bas, "timechart")
+        self._fazla_secenek(secenek, "timechart", ("span", "limit", "useother", "usenull"))
+        if over is not None or len(by) > 1:
+            raise SplHatasi("timechart satırları zamana böler; en çok bir by alanı alır: timechart span=1h count by rol", bas)
+        if "span" not in secenek:
+            raise SplHatasi("bu tezgahta timechart için span= zorunlu (ör. span=1d, span=1h, span=30m)", bas)
+        s = self._sure_coz(*secenek["span"])
+        cols = self.sutunlar(onceki)
+        if "_time" not in cols:
+            raise SplHatasi('timechart _time alanına göre çalışır; önce zamanı kur: '
+                            'eval _time=strptime(acilis, "%Y-%m-%d %H:%M")', bas)
+        kova = f"(CAST([_time] / {s} AS INTEGER) * {s})"
+
+        def sifir(fn):
+            return fn in ("count", "dc", "distinct_count")
+        if not by:
+            aggs = ", ".join(f"{sql} AS {q(ad)}" for ad, sql, _ in toplamalar)
+            ham = self.yeni(f"SELECT {kova} AS [__r], {aggs} FROM {onceki} WHERE [_time] IS NOT NULL GROUP BY [__r]")
+            adlar = [(ad, sifir(fn)) for ad, _, fn in toplamalar]
+        else:
+            self._alan_var(cols, *by[0])
+            if len(toplamalar) > 1:
+                raise SplHatasi("by ile timechart tek bir toplama alır", bas)
+            _, sql, fn = toplamalar[0]
+            ozet, seriler = self._seriler(onceki, kova, by[0][0], sql, secenek, "[_time] IS NOT NULL")
+            ham = self.yeni(f"SELECT [__r]{self._hucreler(seriler)} FROM {ozet} GROUP BY [__r]")
+            adlar = [(v, sifir(fn)) for v in seriler]
+        lo, hi = self._satirlar(f"SELECT MIN([__r]), MAX([__r]) FROM {ham}")[0]
+        if lo is None:
+            kovalar = self.yeni("SELECT NULL AS [__r] WHERE 0")
+        else:
+            adet = (int(hi) - int(lo)) // s + 1
+            if adet > 2000:
+                raise SplHatasi(f"{adet} zaman dilimi çıkıyor; span'ı büyüt", secenek["span"][1])
+            kovalar = self.yeni("SELECT column1 AS [__r] FROM (VALUES "
+                                + ", ".join(f"({int(lo) + n * s})" for n in range(adet)) + ")")
+        secim = "".join(f", {'coalesce(h.' + q(a) + ', 0)' if z else 'h.' + q(a)} AS {q(a)}" for a, z in adlar)
+        return self.yeni(f"SELECT k.[__r] AS [_time]{secim}, ROW_NUMBER() OVER (ORDER BY k.[__r]) AS [__sira] "
+                         f"FROM {kovalar} AS k LEFT JOIN {ham} AS h ON h.[__r] = k.[__r]")
+
+    # — transaction —
+    def _filtre(self, onceki, metin, konum):
+        """startswith / endswith değeri: bir arama ifadesi, (arama ifadesi) ya da eval(boolean ifade)."""
+        govde = metin.strip()
+        if not govde:
+            raise SplHatasi("startswith/endswith boş olamaz", konum)
+        if govde.lower().startswith("eval(") and govde.endswith(")"):
+            ic_bas = konum + metin.index("(") + 1
+            a, kosul = self.ifade_cevir(govde[5:-1], ic_bas)
+            if not a.bitti():
+                raise SplHatasi(f"beklenmeyen: '{a.bak()[1]}'", a.bak()[2])
+            return kosul
+        if govde.startswith("(") and govde.endswith(")"):
+            govde = govde[1:-1]
+        return self._arama_kosulu(onceki, _jetonla(_ARAMA, govde, konum), konum + len(govde))
+
+    def k_transaction(self, onceki, arg, bas):
+        secenek, kelimeler = self._secenekler(arg, bas)
+        self._fazla_secenek(secenek, "transaction", ("maxspan", "maxpause", "startswith", "endswith"))
+        cols = self.sutunlar(onceki)
+        if "_time" not in cols:
+            raise SplHatasi('transaction olayları _time\'a göre dizer; önce zamanı kur: '
+                            'eval _time=strptime(zaman, "%Y-%m-%d %H:%M")', bas)
+        if not kelimeler:
+            raise SplHatasi("transaction en az bir alan ister: transaction sunucu maxpause=1h", bas)
+        for ad, konum in kelimeler:
+            self._alan_var(cols, ad, konum)
+        anahtar = [a for a, _ in kelimeler]
+        maxspan = self._sure_coz(*secenek["maxspan"]) if "maxspan" in secenek else None
+        maxpause = self._sure_coz(*secenek["maxpause"]) if "maxpause" in secenek else None
+        bas_k = self._filtre(onceki, *secenek["startswith"]) if "startswith" in secenek else "0"
+        son_k = self._filtre(onceki, *secenek["endswith"]) if "endswith" in secenek else "0"
+        satirlar = self._satirlar(
+            f"SELECT [__sira], [_time], {', '.join(q(a) for a in anahtar)}, ({bas_k}), ({son_k}) FROM {onceki} "
+            "WHERE [_time] IS NOT NULL AND " + " AND ".join(f"{q(a)} IS NOT NULL" for a in anahtar))
+        gruplar = _islem_gruplari(satirlar, len(anahtar), maxspan, maxpause,
+                                  "startswith" in secenek, "endswith" in secenek)
+        if gruplar:
+            uyeler = self.yeni("SELECT column1 AS [__s], column2 AS [__g] FROM (VALUES "
+                               + ", ".join(f"({s}, {g})" for s, g in gruplar) + ")")
+        else:
+            uyeler = self.yeni("SELECT NULL AS [__s], NULL AS [__g] WHERE 0")
+        secim = ["MIN(o.[_time]) AS [_time]"] + [f"MIN(o.{q(a)}) AS {q(a)}" for a in anahtar]
+        secim += ["MAX(o.[_time]) - MIN(o.[_time]) AS [duration]", "COUNT(*) AS [eventcount]"]
+        secim += [f"spl_values(o.{q(c)}) AS {q(c)}" for c in cols
+                  if c not in anahtar and c not in ("_time", "duration", "eventcount")]
+        return self.yeni(f"SELECT {', '.join(secim)}, ROW_NUMBER() OVER (ORDER BY MIN(o.[_time]) DESC, "
+                         f"MIN(o.[__sira]) DESC) AS [__sira] FROM {onceki} AS o JOIN {uyeler} AS u "
+                         f"ON u.[__s] = o.[__sira] GROUP BY u.[__g]")
+
+    # — lookup —
+    def _lookup_tablosu(self, a):
+        t = a.bak()
+        tablo = a.ad()
+        if tablo.lower().endswith(".csv"):
+            tablo = tablo[:-4]
+        try:
+            return tablo, list(self.sutun_bul(f"SELECT * FROM {q(tablo)} LIMIT 0"))
+        except SplHatasi:
+            raise
+        except Exception:
+            raise SplHatasi(f"böyle bir lookup tablosu yok: {tablo}", t[2])
+
+    def k_lookup(self, onceki, arg, bas):
+        a = _Akis(_jetonla(_ALANLAR, arg, bas), bas + len(arg))
+        if a.bitti():
+            raise SplHatasi("biçim: lookup tablo alan [AS yerel_alan] OUTPUT çıktı_alanı [AS yeni_ad]", bas)
+        tablo, lcols = self._lookup_tablosu(a)
+        eslesme, cikti, kip = [], [], None
+        while not a.bitti():
+            if a.isl_mi(","):
+                a.i += 1
+                continue
+            if a.kelime_mi("OUTPUT") or a.kelime_mi("OUTPUTNEW"):
+                kip = a.al()[1].upper()
+                continue
+            t = a.bak()
+            ad = a.ad()
+            yerel = ad
+            if a.kelime_mi("as"):
+                a.i += 1
+                yerel = a.ad()
+            (cikti if kip else eslesme).append((ad, yerel, t[2]))
+        if not eslesme:
+            raise SplHatasi("lookup için en az bir eşleşme alanı gerekir: lookup sla oncelik", bas)
+        for ad, _, konum in eslesme + cikti:
+            if ad not in lcols:
+                raise SplHatasi(f"{tablo} lookup'ında böyle bir alan yok: {ad} (alanlar: {', '.join(lcols)})", konum)
+        if not cikti:
+            es = {e[0] for e in eslesme}
+            cikti = [(c, c, bas) for c in lcols if c not in es]
+            kip = "OUTPUT"
+        cols = self.sutunlar(onceki)
+        anahtar = ", ".join(q(e[0]) for e in eslesme)
+        ozet = self.yeni(f"SELECT {anahtar}, " + ", ".join(f"spl_values({q(c[0])}) AS [__o{n}]" for n, c in enumerate(cikti))
+                         + f", 1 AS [__eslesti] FROM {q(tablo)} GROUP BY {anahtar}")
+        on = " AND ".join(f"l.{q(yerel)} = r.{q(ad)}" if yerel in cols else "0" for ad, yerel, _ in eslesme)
+        hedef = {c[1]: n for n, c in enumerate(cikti)}
+
+        def deger(c):
+            n = hedef[c]
+            if c not in cols:
+                return f"r.[__o{n}]"
+            if kip == "OUTPUTNEW":
+                return f"coalesce(l.{q(c)}, r.[__o{n}])"
+            return f"CASE WHEN r.[__eslesti] IS NULL THEN l.{q(c)} ELSE r.[__o{n}] END"
+        secim = [f"{deger(c)} AS {q(c)}" if c in hedef else f"l.{q(c)} AS {q(c)}" for c in cols]
+        secim += [f"{deger(h)} AS {q(h)}" for h in hedef if h not in cols]
+        return self.yeni(f"SELECT {', '.join(secim)}, l.[__sira] AS [__sira] FROM {onceki} AS l LEFT JOIN {ozet} AS r ON {on}")
+
+    # — veri üreten komutlar —
+    def u_inputlookup(self, arg, bas):
+        a = _Akis(_jetonla(_ALANLAR, arg, bas), bas + len(arg))
+        if a.bitti():
+            raise SplHatasi("inputlookup bir tablo adı ister: | inputlookup sla", bas)
+        tablo, _ = self._lookup_tablosu(a)
+        if not a.bitti():
+            raise SplHatasi(f"beklenmeyen: '{a.bak()[1]}'", a.bak()[2])
+        return self.yeni(f"SELECT *, rowid AS [__sira] FROM {q(tablo)}")
+
+    def u_makeresults(self, arg, bas):
+        m = re.fullmatch(r"\s*(?:count\s*=\s*(\d+))?\s*", arg)
+        if not m:
+            raise SplHatasi("biçim: | makeresults [count=N]", bas)
+        n = int(m.group(1) or 1)
+        if not 1 <= n <= 1000:
+            raise SplHatasi("count 1 ile 1000 arasında olmalı", bas)
+        an = _epoch(SIMDI)
+        return self.yeni("SELECT column1 AS [_time], column2 AS [__sira] FROM (VALUES "
+                         + ", ".join(f"({an}, {i})" for i in range(1, n + 1)) + ")")
+
+    # — append, appendpipe —
+    def _ekle(self, ust, alt):
+        L, R = self.sutunlar(ust), self.sutunlar(alt)
+        hepsi = L + [c for c in R if c not in L]
+
+        def sec(var):
+            return ", ".join(q(c) if c in var else f"NULL AS {q(c)}" for c in hepsi)
+        birlesik = self.yeni(f"SELECT {sec(L)}, 0 AS [__p], [__sira] AS [__s] FROM {ust} "
+                             f"UNION ALL SELECT {sec(R)}, 1, [__sira] FROM {alt}")
+        return self.yeni(f"SELECT {self.secim(hepsi)}, ROW_NUMBER() OVER (ORDER BY [__p], [__s]) AS [__sira] FROM {birlesik}")
+
+    def k_append(self, onceki, arg, bas):
+        on, ic, ic_bas = self._kose(arg, bas, "append [search sourcetype=... | ...]")
+        if on.strip():
+            raise SplHatasi("bu tezgahta append seçenek almaz", bas)
+        return self._ekle(onceki, self._alt_arama(ic, ic_bas))
+
+    def k_appendpipe(self, onceki, arg, bas):
+        on, ic, ic_bas = self._kose(arg, bas, 'appendpipe [stats count | eval durum="TOPLAM"]')
+        if on.strip():
+            raise SplHatasi("bu tezgahta appendpipe seçenek almaz", bas)
+        if not ic.strip():
+            raise SplHatasi("appendpipe'ın alt borusu boş", ic_bas)
+        return self._ekle(onceki, self.hat(ic_bas, ic_bas + len(ic), baslangic=onceki))
+
+    # — çok değerli alanlar —
+    def _tek_alan(self, kelimeler, komut, ornek, bas):
+        if len(kelimeler) != 1:
+            raise SplHatasi(f"{komut} tek bir alan ister: {ornek}", bas)
+        return kelimeler[0]
+
+    def k_makemv(self, onceki, arg, bas):
+        secenek, kelimeler = self._secenekler(arg, bas)
+        self._fazla_secenek(secenek, "makemv", ("delim", "allowempty"))
+        alan, konum = self._tek_alan(kelimeler, "makemv", 'makemv delim="," alan', bas)
+        cols = self.sutunlar(onceki)
+        self._alan_var(cols, alan, konum)
+        ayrac = secenek.get("delim", (" ", bas))[0]
+        if not ayrac:
+            raise SplHatasi("delim boş olamaz", bas)
+        bos = int(secenek.get("allowempty", ("f", bas))[0].lower() in ("t", "true", "1"))
+        secim = self._ust_yaz(cols, [alan], lambda c: f"spl_makemv({q(c)}, {sql_metin(ayrac)}, {bos})" if c == alan else q(c))
+        return self.yeni(f"SELECT {', '.join(secim)}, [__sira] FROM {onceki}")
+
+    def k_mvexpand(self, onceki, arg, bas):
+        secenek, kelimeler = self._secenekler(arg, bas)
+        self._fazla_secenek(secenek, "mvexpand", ("limit",))
+        alan, konum = self._tek_alan(kelimeler, "mvexpand", "mvexpand alan", bas)
+        cols = self.sutunlar(onceki)
+        self._alan_var(cols, alan, konum)
+        sinir = ""
+        if "limit" in secenek:
+            if not secenek["limit"][0].isdigit():
+                raise SplHatasi("limit= bir sayı olmalı", secenek["limit"][1])
+            sinir = f" WHERE j.key < {int(secenek['limit'][0])}"
+        secim = ", ".join(f"j.value AS {q(c)}" if c == alan else f"o.{q(c)} AS {q(c)}" for c in cols)
+        return self.yeni(f"SELECT {secim}, ROW_NUMBER() OVER (ORDER BY o.[__sira], j.key) AS [__sira] "
+                         f"FROM {onceki} AS o, json_each(spl_mvjson(o.{q(alan)})) AS j{sinir}")
+
+    # — xyseries, untable —
+    def k_xyseries(self, onceki, arg, bas):
+        adlar = self._alan_listesi(arg, bas)
+        if len(adlar) != 3:
+            raise SplHatasi("xyseries üç alan ister: xyseries satır_alanı sütun_alanı değer_alanı", bas)
+        cols = self.sutunlar(onceki)
+        for ad, konum in adlar:
+            self._alan_var(cols, ad, konum)
+        x, y, v = (ad for ad, _ in adlar)
+        ham = self.yeni(f"SELECT {q(x)} AS [__r], CAST({q(y)} AS TEXT) AS [__c], {q(v)} AS [__v], [__sira] FROM {onceki} "
+                        f"WHERE {q(x)} IS NOT NULL AND {q(y)} IS NOT NULL")
+        seriler = self._seri_sirasi([r[0] for r in self._satirlar(f"SELECT DISTINCT [__c] FROM {ham}")])
+        return self.yeni(f"SELECT [__r] AS {q(x)}{self._hucreler(seriler)}, ROW_NUMBER() OVER (ORDER BY MIN([__sira])) "
+                         f"AS [__sira] FROM {ham} GROUP BY [__r]")
+
+    def k_untable(self, onceki, arg, bas):
+        adlar = self._alan_listesi(arg, bas)
+        if len(adlar) != 3:
+            raise SplHatasi("untable üç alan ister: untable satır_alanı ad_alanı değer_alanı", bas)
+        cols = self.sutunlar(onceki)
+        self._alan_var(cols, *adlar[0])
+        x, ad, deger = (a for a, _ in adlar)
+        digerleri = [c for c in cols if c != x]
+        if not digerleri:
+            return self.yeni(f"SELECT {q(x)}, NULL AS {q(ad)}, NULL AS {q(deger)}, [__sira] FROM {onceki} WHERE 0")
+        birlesik = self.yeni(" UNION ALL ".join(
+            f"SELECT {q(x)} AS {q(x)}, {sql_metin(c)} AS {q(ad)}, {q(c)} AS {q(deger)}, [__sira] AS [__s], {n} AS [__n] "
+            f"FROM {onceki} WHERE {q(c)} IS NOT NULL" for n, c in enumerate(digerleri)))
+        return self.yeni(f"SELECT {q(x)}, {q(ad)}, {q(deger)}, ROW_NUMBER() OVER (ORDER BY [__s], [__n]) AS [__sira] "
+                         f"FROM {birlesik}")
+
+
+def _islem_gruplari(satirlar, nk, maxspan, maxpause, bas_var, son_var):
+    """transaction: (sira, _time, anahtar..., başlar_mı, biter_mi) satırları → [(sira, grup no)].
+
+    Olaylar anahtara ve zamana göre dizilir. Yeni işlem şu durumlarda başlar: araya maxpause'tan uzun
+    süre girdi, işlem maxspan'ı aştı ya da startswith'e uyan bir olay geldi. endswith'e uyan olay işlemi
+    kapatır. startswith/endswith istenip tamamlanmayan işlemler atılır (Splunk'ın varsayılanı keepevicted=false).
+    """
+    sonuc, gid = [], 0
+
+    def anahtar(r):
+        return tuple(str(x) for x in r[2:2 + nk])
+    for _, grup in groupby(sorted(satirlar, key=lambda r: (anahtar(r), r[1], r[0])), key=anahtar):
+        acik = None
+        for r in grup:
+            sira, t, b, e = r[0], r[1], r[2 + nk], r[3 + nk]
+            if acik is not None and ((maxpause is not None and t - acik["son"] > maxpause)
+                                     or (maxspan is not None and t - acik["bas"] > maxspan) or (bas_var and b)):
+                if not son_var:
+                    gid += 1
+                    sonuc.extend((s, gid) for s in acik["uyeler"])
+                acik = None
+            if acik is None:
+                if bas_var and not b:
+                    continue                    # başlangıç olayı gelmeden gelen olay hiçbir işleme girmez
+                acik = {"bas": t, "son": t, "uyeler": []}
+            acik["uyeler"].append(sira)
+            acik["son"] = t
+            if son_var and e:
+                gid += 1
+                sonuc.extend((s, gid) for s in acik["uyeler"])
+                acik = None
+        if acik is not None and not son_var:
+            gid += 1
+            sonuc.extend((s, gid) for s in acik["uyeler"])
+    return sonuc
+
+
+def _zaman_metni(v):
+    try:
+        an = datetime.fromtimestamp(float(v), timezone.utc)
+    except (TypeError, ValueError, OverflowError, OSError):
+        return v
+    return an.strftime("%Y-%m-%d %H:%M:%S" if an.second else "%Y-%m-%d %H:%M")
+
+
+def satir_donustur(sutunlar, satirlar):
+    """Sonuçları göstermeye hazırla → (testlerin gördüğü satırlar, tabloda gösterilen satırlar).
+
+    _time okunur tarih olur; çok değerli alan testlerde liste, tabloda MV ile ayrık metin kalır."""
+    zaman = [n for n, c in enumerate(sutunlar) if c == "_time"]
+    ham, goster = [], []
+    for r in satirlar:
+        r = list(r)
+        for n in zaman:
+            if isinstance(r[n], (int, float)):
+                r[n] = _zaman_metni(r[n])
+        goster.append(tuple(r))
+        ham.append(tuple(v.split(MV) if isinstance(v, str) and MV in v else v for v in r))
+    return ham, goster
+
 
 def _epoch(metin):
     return int(datetime.strptime(metin, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).timestamp())
@@ -792,10 +1505,132 @@ def fonksiyonlari_kaydet(db):
         except (ValueError, OverflowError, OSError):
             return None
 
+    def degerler(x):
+        """Çok değerli alanın değerleri (tek değer → tek elemanlı liste, boş → boş liste)."""
+        if x is None:
+            return []
+        return x.split(MV) if isinstance(x, str) and MV in x else [x]
+
+    def mv(liste):
+        """Değer listesini alana çevir: boş → NULL, tek değer → kendisi, çok değer → MV ile ayrık metin."""
+        if not liste:
+            return None
+        if len(liste) == 1:
+            return liste[0]
+        return MV.join(m(v) for v in liste)
+
+    def herhangi(a, kosul):
+        return int(any(kosul(m(v)) for v in degerler(a)))
+
+    def alt_esit(a, b):
+        b = m(b)
+        if "*" in b:
+            return herhangi(a, lambda v: joker(v, b))
+        return herhangi(a, lambda v: v.lower() == b.lower())
+
+    def mvindex(x, bas, son):
+        d = degerler(x)
+        if not d or bas is None:
+            return None
+        n = len(d)
+        i = int(bas) + (n if int(bas) < 0 else 0)
+        if son is None:
+            return d[i] if 0 <= i < n else None
+        j = int(son) + (n if int(son) < 0 else 0)
+        if i < 0 or i >= n or j < i:
+            return None
+        return mv(d[i:min(j, n - 1) + 1])
+
+    def bol(x, ayrac):
+        if x is None:
+            return None
+        x, ayrac = m(x), m(ayrac)
+        return mv(list(x) if ayrac == "" else x.split(ayrac))
+
+    def makemv(x, ayrac, bos):
+        if x is None:
+            return None
+        parcalar = m(x).split(m(ayrac))
+        return mv(parcalar if bos else [p for p in parcalar if p != ""])
+
+    def tur(x):
+        if x is None:
+            return "Invalid"
+        if isinstance(x, (int, float)):
+            return "Number"
+        return "String"
+
+    def kirp(yon):
+        def f(x, kars):
+            if x is None:
+                return None
+            k = None if kars is None else m(kars)
+            return {"": m(x).strip, "l": m(x).lstrip, "r": m(x).rstrip}[yon](k)
+        return f
+
+    def printf(bicim, *args):
+        try:
+            return m(bicim) % tuple(args)
+        except (TypeError, ValueError):
+            return None
+
+    def sayi(fn):
+        def f(x, *y):
+            if x is None or any(v is None for v in y):
+                return None
+            try:
+                return fn(float(x), *(float(v) for v in y))
+            except (ValueError, OverflowError):
+                return None
+        return f
+
+    class Values:
+        """stats values(): farklı değerler, metin olarak sıralı."""
+        def __init__(self):
+            self.v = set()
+
+        def step(self, x):
+            self.v.update(degerler(x))
+
+        def finalize(self):
+            if len(self.v) == 1:
+                return next(iter(self.v))
+            return mv(sorted(self.v, key=m))
+
+    class Liste:
+        """stats list(): bütün değerler geliş sırasıyla."""
+        def __init__(self):
+            self.v = []
+
+        def step(self, x):
+            self.v.extend(degerler(x))
+
+        def finalize(self):
+            return mv(self.v)
+
     fonksiyonlar = {
-        "spl_esit": (2, lambda a, b: 0 if a is None else int(m(a).lower() == m(b).lower())),
-        "spl_wild": (2, joker),
-        "spl_icerir": (2, lambda a, b: 0 if a is None else int(m(b).lower() in m(a).lower())),
+        "spl_esit": (2, lambda a, b: herhangi(a, lambda v: v.lower() == m(b).lower())),
+        "spl_wild": (2, lambda a, b: herhangi(a, lambda v: joker(v, b))),
+        "spl_icerir": (2, lambda a, b: herhangi(a, lambda v: m(b).lower() in v.lower())),
+        "spl_alt_esit": (2, alt_esit),
+        "spl_mvcount": (1, lambda x: len(degerler(x)) or None),
+        "spl_mvindex": (3, mvindex),
+        "spl_mvjoin": (2, lambda x, d: None if x is None else m(d).join(m(v) for v in degerler(x))),
+        "spl_mvappend": (-1, lambda *xs: mv([v for x in xs for v in degerler(x)])),
+        "spl_mvdedup": (1, lambda x: mv(list(dict.fromkeys(degerler(x))))),
+        "spl_mvsort": (1, lambda x: mv(sorted(degerler(x), key=m))),
+        "spl_mvjson": (1, lambda x: json.dumps(degerler(x), ensure_ascii=False)),
+        "spl_split": (2, bol),
+        "spl_makemv": (3, makemv),
+        "spl_typeof": (1, tur),
+        "spl_trim": (2, kirp("")),
+        "spl_ltrim": (2, kirp("l")),
+        "spl_rtrim": (2, kirp("r")),
+        "spl_printf": (-1, printf),
+        "spl_floor": (1, sayi(lambda x: int(math.floor(x)))),
+        "spl_ceil": (1, sayi(lambda x: int(math.ceil(x)))),
+        "spl_sqrt": (1, sayi(lambda x: math.sqrt(x) if x >= 0 else None)),
+        "spl_pow": (2, sayi(lambda x, y: x ** y)),
         "spl_kucuk": (1, lambda a: None if a is None else str(a).lower()),
         "spl_buyuk": (1, lambda a: None if a is None else str(a).upper()),
         "spl_like": (2, like),
@@ -807,3 +1642,5 @@ def fonksiyonlari_kaydet(db):
     }
     for ad, (n, fn) in fonksiyonlar.items():
         db.create_function(ad, n, fn, deterministic=True)
+    db.create_aggregate("spl_values", 1, Values)
+    db.create_aggregate("spl_list", 1, Liste)

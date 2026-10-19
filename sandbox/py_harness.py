@@ -997,6 +997,8 @@ def _ceviri_kos(db, kod, dil):
 
     def sutun_bul(sql):
         return [d[0] for d in db.execute(sql).description]
+    sutun_bul.satirlar = lambda sql: db.execute(sql).fetchall()     # çevirici veriye bakabilsin (chart, timechart)
+    donustur = getattr(C, "satir_donustur", None)                  # SPL: _time okunur tarih, çok değerli alanlar
 
     for blok, satir in _sorgu_bloklari(kod):
         try:
@@ -1012,15 +1014,18 @@ def _ceviri_kos(db, kod, dil):
         satirlar = cur.fetchmany(SQL_SATIR_LIMIT + 1)
         kesildi = len(satirlar) > SQL_SATIR_LIMIT
         satirlar = [tuple(r[n] for n in tut) for r in satirlar[:SQL_SATIR_LIMIT]]
+        goster = satirlar
+        if donustur:
+            satirlar, goster = donustur([cols[n] for n in tut], satirlar)
         hamlar.append(satirlar)
         tablolar.append({"satir": satir, "sutunlar": [cols[n] for n in tut], "kesildi": kesildi,
-                         "satirlar": [[None if v is None else _sql_deger(v) for v in r] for r in satirlar]})
+                         "satirlar": [[None if v is None else _sql_deger(v) for v in r] for r in goster]})
     return tablolar, hamlar, None, sqller
 
 
 def _ceviri_metin(tablolar):
-    """KQL ve SPL'de boş değer boş görünür."""
-    return "".join("|".join("" if v is None else v for v in r) + "\n"
+    """KQL ve SPL'de boş değer boş görünür; çok değerli alanın değerleri virgülle ayrılır."""
+    return "".join("|".join("" if v is None else v.replace("\x1f", ",") for v in r) + "\n"
                    for t in tablolar if "sutunlar" in t for r in t["satirlar"])
 
 
