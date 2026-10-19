@@ -19,22 +19,50 @@
   },
   {
    "title": "Özetlemek ve Birleştirmek",
-   "rank": "kucuk-orta",
+   "rank": "tesviye",
    "zen": "Tablolar ilişkileriyle konuşur.",
    "lessons": [
     "sq04",
     "sq05",
-    "sq06",
-    "sq07"
+    "sq11"
    ]
   },
   {
-   "title": "Derin Sular",
+   "title": "Sorgu Araçları",
+   "rank": "kucuk-orta",
+   "zen": "Her soru bir sorgudur; her sorgu bir cümle.",
+   "lessons": [
+    "sq06",
+    "sq07",
+    "sq12",
+    "sq13"
+   ]
+  },
+  {
+   "title": "Pencereler ve Değişiklik",
+   "rank": "buyuk-orta",
+   "zen": "Satır yalnız değildir; komşularıyla anlam kazanır.",
+   "lessons": [
+    "sq08",
+    "sq14",
+    "sq09"
+   ]
+  },
+  {
+   "title": "Olay Dizileri",
+   "rank": "basalti",
+   "zen": "Kayıt bir hikâyedir; sıra ve sessizlik onu anlatır.",
+   "lessons": [
+    "sq15",
+    "sq16",
+    "sq17"
+   ]
+  },
+  {
+   "title": "Rapor Ustalığı",
    "rank": "baspehlivan",
    "zen": "Doğru sonuç, okunabilir sorgudan çıkar.",
    "lessons": [
-    "sq08",
-    "sq09",
     "sq10"
    ]
   }
@@ -45,15 +73,27 @@
   "Sorgu",
   "ya"
  ],
- "tagline": "Veriyi sorgulamak: seçmek, süzmek, özetlemek, birleştirmek, pencere fonksiyonları ve işlemler. 10 pafta; sorguların gerçek SQLite'ta, bir BT operasyonu veritabanında çalışır. Plan düğmesi sorgunun nasıl yürütüldüğünü gösterir.",
+ "tagline": "Veriyi sorgulamakta ustalık: seçmek, süzmek, özetlemek, birleştirmek, küme işlemleri, metin ve tarih, koşullu toplama, pencere fonksiyonları ve çerçeveleri, boşluk-ada analizi, oturumlaştırma ve özyinelemeli sorgular. Sorguların gerçek SQLite'ta, bir BT operasyonu veritabanında çalışır; olay dizisi teknikleri KQL ve SPL'de birebir karşılık bulur. Plan düğmesi sorgunun nasıl yürütüldüğünü gösterir.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",
