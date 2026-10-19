@@ -19,7 +19,7 @@
   },
   {
    "title": "Koleksiyonlar ve Akış",
-   "rank": "kucuk-orta",
+   "rank": "tesviye",
    "zen": "Metin değil, nesne aktar.",
    "lessons": [
     "ps04",
@@ -29,7 +29,7 @@
   },
   {
    "title": "Nesnelerle Çalışmak",
-   "rank": "baspehlivan",
+   "rank": "kucuk-orta",
    "zen": "Hatayı yut değil, yönet.",
    "lessons": [
     "ps07",
@@ -39,8 +39,20 @@
    ]
   },
   {
+   "title": "İleri Fonksiyonlar ve Tipler",
+   "rank": "buyuk-orta",
+   "zen": "İyi fonksiyon, cmdlet'ten ayırt edilemez.",
+   "lessons": [
+    "ps14",
+    "ps15",
+    "ps16",
+    "ps17",
+    "ps18"
+   ]
+  },
+  {
    "title": "Windows Olay Günlükleri",
-   "rank": "baspehlivan",
+   "rank": "basalti",
    "zen": "Makine ne yaşadıysa günlüğüne yazar; okumayı bilene anlatır.",
    "lessons": [
     "ps11",
@@ -55,15 +67,27 @@
   "Otomasyon",
   "a"
  ],
- "tagline": "Windows'un nesne tabanlı kabuğu: boru hattı, nesneler, CSV/JSON, hata yönetimi, araç gibi betikler ve olay günlüğü analizi. 13 pafta; kodun gerçek Windows PowerShell'de çalışır.",
+ "tagline": "Windows otomasyonunda ustalık: boru hattı ve nesneler, gelişmiş fonksiyonlar, sınıflar, metin ve kültür, dosya sistemi ve CIM, işler, olay günlüğü analizi, modüller, Pester testleri ve projeler. Kodun gerçek Windows PowerShell'de çalışır.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",
