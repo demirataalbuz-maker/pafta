@@ -19,24 +19,56 @@
    ]
   },
   {
-   "title": "Yapı Taşları",
-   "rank": "kucuk-orta",
+   "title": "Gruplar ve Değiştirme",
+   "rank": "tesviye",
    "zen": "Yakalamadığın şeyi yakalama.",
    "lessons": [
     "rx05",
     "rx06",
+    "rx12"
+   ]
+  },
+  {
+   "title": "Motorun Davranışı",
+   "rank": "kucuk-orta",
+   "zen": "Desen ne yazdığını değil, motorun ne yaptığını yapar.",
+   "lessons": [
     "rx07",
-    "rx08"
+    "rx08",
+    "rx09",
+    "rx13"
+   ]
+  },
+  {
+   "title": "İleri Yapılar",
+   "rank": "buyuk-orta",
+   "zen": "Geri izlemeyi kontrol eden, deseni kontrol eder.",
+   "lessons": [
+    "rx11",
+    "rx14",
+    "rx15"
    ]
   },
   {
    "title": "Sahada Regex",
+   "rank": "basalti",
+   "zen": "Standardı oku, kenar durumlarını listele, sonra yaz.",
+   "lessons": [
+    "rx10",
+    "rx16",
+    "rx17",
+    "rx18",
+    "rx19"
+   ]
+  },
+  {
+   "title": "Usta Desenler",
    "rank": "baspehlivan",
    "zen": "Okunamayan desen, bakımı yapılamayan desendir.",
    "lessons": [
-    "rx09",
-    "rx10",
-    "rx11"
+    "rx20",
+    "rx21",
+    "rx22"
    ]
   }
  ],
@@ -47,15 +79,27 @@
   "Desen",
   "e"
  ],
- "tagline": "Log ayıklamaktan kural yazmaya, her araçta geçen desen dili. 11 pafta; yazdığın her desen anında gerçek metin üzerinde denenir, eşleşmeler işaretlenir.",
+ "tagline": "Log ayıklamaktan kural yazmaya, her araçta geçen desen dili. Alfabe, gruplar ve değiştirme, Unicode ve Türkçe, bakınma, performans ve döngüyü açmak, koşullu desenler, lehçeler (PCRE, .NET, RE2/KQL, POSIX), URL ve CSV, syslog ve erişim günlükleri, doğrulama, desen tasarımı ve iki proje. Yazdığın her desen anında gerçek metin üzerinde denenir, eşleşmeler işaretlenir.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",

@@ -27,7 +27,7 @@ Adlı gruplarla her satır bir kayda dönüştü: `zaman`, `seviye`, `mesaj`.
 10.0.0.1 192.168.1.255 256.1.1.1 999.1.1.1
 ```
 
-Oktet alternatifi büyükten küçüğe sıralanmıştır: 250–255, 200–249, 100–199, 0–99. Alternatiflerin sırası önemlidir; P11'de bunun nedenini göreceksin.
+Oktet alternatifi büyükten küçüğe sıralanmıştır: 250–255, 200–249, 100–199, 0–99. Alternatiflerin sırası önemlidir; nedenini P11'de gördün.
 
 > [!NOT]
 > Her zaman katı desen en iyisi değildir. Bir analiz sorgusunda biraz geniş bir desenle hızlıca tarayıp sonucu ikinci bir adımda süzmek, dev bir "her şeyi bilen" desenden genellikle daha okunaklı ve daha hızlıdır.
