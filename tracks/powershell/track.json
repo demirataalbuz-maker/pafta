@@ -1,0 +1,73 @@
+{
+ "id": "powershell",
+ "name": "PowerShell",
+ "status": "active",
+ "group": "her-iki",
+ "order": 3,
+ "runner": "powershell",
+ "role": "Windows otomasyonu ve olay günlüğü analizi: sistem olaylarını okumak, süzmek, zaman çizelgesi çıkarmak.",
+ "modules": [
+  {
+   "title": "Temeller",
+   "rank": "minik",
+   "zen": "Fiil-İsim: ne yaptığını adı söyler.",
+   "lessons": [
+    "ps01",
+    "ps02",
+    "ps03"
+   ]
+  },
+  {
+   "title": "Koleksiyonlar ve Akış",
+   "rank": "kucuk-orta",
+   "zen": "Metin değil, nesne aktar.",
+   "lessons": [
+    "ps04",
+    "ps05",
+    "ps06"
+   ]
+  },
+  {
+   "title": "Nesnelerle Çalışmak",
+   "rank": "baspehlivan",
+   "zen": "Hatayı yut değil, yönet.",
+   "lessons": [
+    "ps07",
+    "ps08",
+    "ps09",
+    "ps10"
+   ]
+  },
+  {
+   "title": "Windows Olay Günlükleri",
+   "rank": "baspehlivan",
+   "zen": "Makine ne yaşadıysa günlüğüne yazar; okumayı bilene anlatır.",
+   "lessons": [
+    "ps11",
+    "ps12",
+    "ps13"
+   ]
+  }
+ ],
+ "dil": "powershell",
+ "kahraman": [
+  "Cmdlet'ten",
+  "Otomasyon",
+  "a"
+ ],
+ "tagline": "Windows'un nesne tabanlı kabuğu: boru hattı, nesneler, CSV/JSON, hata yönetimi, araç gibi betikler ve olay günlüğü analizi. 13 pafta; kodun gerçek Windows PowerShell'de çalışır.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

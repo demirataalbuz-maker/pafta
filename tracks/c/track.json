@@ -1,0 +1,59 @@
+{
+ "id": "c",
+ "name": "C",
+ "status": "active",
+ "group": "okuma",
+ "order": 23,
+ "runner": "python",
+ "dil": "python",
+ "okuma_dili": "c",
+ "role": "Okuma düzeyinde C: düşük seviyeli kodun, bellek ve bit işlemlerinin ne yaptığını anlamak.",
+ "modules": [
+  {
+   "title": "Bir C Programı",
+   "rank": "minik",
+   "zen": "Bilgisayar ne yazdıysan onu yapar; ne demek istediğini değil.",
+   "lessons": [
+    "c01",
+    "c02"
+   ]
+  },
+  {
+   "title": "Bellek",
+   "rank": "kucuk-orta",
+   "zen": "Her dizi bir adres, her adres bir sorumluluk.",
+   "lessons": [
+    "c03",
+    "c04"
+   ]
+  },
+  {
+   "title": "Bitler",
+   "rank": "baspehlivan",
+   "zen": "En küçük birim en çok şey söyler.",
+   "lessons": [
+    "c05"
+   ]
+  }
+ ],
+ "kahraman": [
+  "Bayttan",
+  "Anlam",
+  "a"
+ ],
+ "tagline": "Okuma düzeyinde C: printf, tam sayı aritmetiği, akış ve switch, diziler ve dizgiler, işaretçiler ve bellek, yapılar ve bit işlemleri. 5 pafta; C kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

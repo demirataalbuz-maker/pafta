@@ -1,0 +1,58 @@
+{
+ "id": "php",
+ "name": "PHP",
+ "status": "active",
+ "group": "okuma",
+ "order": 21,
+ "runner": "python",
+ "dil": "python",
+ "okuma_dili": "php",
+ "role": "Okuma düzeyinde PHP: web uygulamalarının sunucu tarafı kodunu, istek verisini ve çıktıyı okuyabilmek.",
+ "modules": [
+  {
+   "title": "Sayfayı Okumak",
+   "rank": "minik",
+   "zen": "Tırnağın türü anlamı değiştirir.",
+   "lessons": [
+    "ph01",
+    "ph02"
+   ]
+  },
+  {
+   "title": "Gevşek Türler",
+   "rank": "kucuk-orta",
+   "zen": "== sorar, === bilir.",
+   "lessons": [
+    "ph03"
+   ]
+  },
+  {
+   "title": "İstek ve Yanıt",
+   "rank": "baspehlivan",
+   "zen": "Gelen her şey veridir; çıkan her şey kaçırılır.",
+   "lessons": [
+    "ph04"
+   ]
+  }
+ ],
+ "kahraman": [
+  "Sayfadan",
+  "Sunucu",
+  "ya"
+ ],
+ "tagline": "Okuma düzeyinde PHP 8: echo ve tırnaklar, diziler ve foreach, gevşek ile katı karşılaştırma, istek verisi, htmlspecialchars ve json_encode. 4 pafta; PHP kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

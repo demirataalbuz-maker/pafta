@@ -1,0 +1,60 @@
+{
+ "id": "spl",
+ "name": "SPL",
+ "status": "active",
+ "group": "savunma",
+ "order": 11,
+ "runner": "spl",
+ "role": "Splunk'ın arama dili: olayları aramak, alanlarla çalışmak, istatistik ve rapor çıkarmak.",
+ "modules": [
+  {
+   "title": "Aramak",
+   "rank": "minik",
+   "zen": "Önce daralt, sonra işle.",
+   "lessons": [
+    "sp01",
+    "sp02"
+   ]
+  },
+  {
+   "title": "Saymak ve Sıralamak",
+   "rank": "kucuk-orta",
+   "zen": "stats bir soruyu bir tabloya çevirir.",
+   "lessons": [
+    "sp03",
+    "sp04",
+    "sp05"
+   ]
+  },
+  {
+   "title": "Birleştirmek",
+   "rank": "baspehlivan",
+   "zen": "İki kaynak bir hikâye anlatır.",
+   "lessons": [
+    "sp06",
+    "sp07"
+   ]
+  }
+ ],
+ "dil": "spl",
+ "kahraman": [
+  "Aramadan",
+  "Rapor",
+  "a"
+ ],
+ "tagline": "Splunk Search Processing Language: arama, eval ve where, stats, sort ve top, rex ve zaman, join. 7 pafta; aramaların SQLite'a çevrilip SQL yolunun BT operasyonu veritabanında çalışır, SQL düğmesi karşılığını gösterir.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

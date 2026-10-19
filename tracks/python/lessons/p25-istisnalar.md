@@ -1,0 +1,242 @@
+---
+id: p25
+title: İstisnalar · try / except
+summary: Hatayı yakalamak; belirli istisnalar, else, finally, raise ve hata hiyerarşisi.
+---
+
+::: anlat Hatayı yakala, programı ayakta tut
+Şimdiye kadar her hata programı durdurdu. Gerçek araçlar ise hatayı **yakalar** ve ne yapacağına karar verir. Python'da hata = **istisna** (exception) nesnesidir; `try` bloğunda bir istisna yükselirse akış, ona uyan `except` bloğuna atlar:
+
+```python
+girdiler = ["443", "http", "70000"]
+for g in girdiler:
+    try:
+        port = int(g)                    #! burada ValueError yükselebilir
+        print("port:", port)
+    except ValueError:                   #! sadece bu türü yakala
+        print(f"'{g}' sayı değil, atlandı")
+print("program devam ediyor")
+```
+
+`try` bloğunda hata olduğu an bloğun geri kalanı **atlanır**, `except` çalışır ve akış `try/except`'ten sonra devam eder.
+
+### Birden fazla except ve istisna nesnesi
+```python
+def oku(liste, i):
+    try:
+        return 100 // liste[i]
+    except IndexError:
+        return "indeks yok"
+    except ZeroDivisionError as e:       #! as e: istisna nesnesinin kendisi
+        return f"bölme hatası: {e}"
+    except (TypeError, ValueError):      #! demetle birden çok tür
+        return "tür sorunu"
+
+print(oku([5, 0], 0), oku([5, 0], 1), oku([5, 0], 9), oku(["x"], 0))
+```
+
+> [!TUZAK]
+> **Çıplak `except:`** ya da `except Exception:` yazıp her şeyi yutma. Yazım hatalarını (`NameError`), mantık hatalarını, hatta `Ctrl+C`'yi bile sessizce yutarsın. Programın yanlış çalışır ama neden olduğunu asla bilemezsin. **Sadece ne yapacağını bildiğin** istisnaları yakala.
+
+> [!ZEN]
+> Hatalar asla sessizce geçiştirilmemeli. Açıkça susturulmadıkça. (*Errors should never pass silently. Unless explicitly silenced.*)
+:::
+
+::: tahmin
+Üç satır:
+
+```python
+for x in ["10", "abc", "0"]:
+    try:
+        print(100 // int(x))
+    except ValueError:
+        print("sayı değil")
+    except ZeroDivisionError:
+        print("sıfır")
+```
+
+???
+
+`10`, `sayı değil`, `sıfır`. Her turda ayrı bir `try` çalışır. "abc" `int()`'te ValueError, "0" bölmede ZeroDivisionError verir.
+:::
+
+::: anlat else, finally ve raise
+Tam yapı:
+
+```python
+def dosya_oku(ad):
+    try:
+        f = open(ad, encoding="utf-8")
+    except FileNotFoundError:
+        print("yok:", ad)
+        return None
+    else:                        #! try HATASIZ biterse çalışır
+        icerik = f.read()
+        f.close()
+        return icerik
+    finally:                     #! NE OLURSA OLSUN çalışır (return olsa bile)
+        print("kontrol bitti:", ad)
+
+dosya_oku("olmayan.txt")
+```
+
+- **`else`**: `try` bloğu hatasız bittiyse çalışır. `try`'ı kısa tutmanı sağlar: sadece hata beklediğin satır `try`'da, gerisi `else`'de.
+- **`finally`**: her durumda çalışır: hata olsa, yakalansa, yakalanmasa, hatta `return` olsa bile. Kaynak temizliği (dosya, bağlantı, kilit) içindir. P27'de göreceğin `with` bunu otomatikleştirir.
+
+### raise: hatayı sen yükselt
+```python
+def port_dogrula(p):
+    if not isinstance(p, int):
+        raise TypeError(f"port int olmalı, {type(p).__name__} geldi")
+    if not 0 < p < 65536:
+        raise ValueError(f"port aralık dışı: {p}")
+    return p
+
+try:
+    port_dogrula(70000)
+except ValueError as e:
+    print("reddedildi:", e)
+```
+
+Geçersiz girdiyi **sessizce düzeltmek** yerine `raise` ile reddetmek, hatayı kaynağında yakalar. Except içinde çıplak `raise` yazarsan yakalanan istisna olduğu gibi **yeniden yükseltilir** (logla ve yukarı ilet kalıbı).
+
+> [!DERİN]
+> İstisnalar bir **sınıf hiyerarşisidir**: `BaseException` → `Exception` → `ArithmeticError` → `ZeroDivisionError`. `except ArithmeticError` alt türlerini de yakalar. `KeyboardInterrupt` ve `SystemExit` doğrudan `BaseException`'dan türer, `Exception`'dan değil. Böylece `except Exception` Ctrl+C'yi yutmaz. Tüm ağacı görmek için: `help(BaseException)` ya da Python belgelerindeki "Exception hierarchy" sayfası.
+
+> [!GÜVENLİK]
+> P01'de söz verdiğimiz konu: kullanıcıya **ham traceback gösterme**. Dosya yolları, sürümler ve iç mantık sızar. Doğru kalıp şudur: istisnayı yakala, ayrıntıyı **log'a** yaz, kullanıcıya genel bir mesaj ve bir olay numarası ver.
+:::
+
+::: tahmin
+İki satır:
+
+```python
+def f():
+    try:
+        return "try"
+    finally:
+        print("finally")
+
+print(f())
+```
+
+???
+
+`finally`, sonra `try`. `return "try"` değeri hazırlar ama fonksiyon çıkmadan önce `finally` çalışır ve ekrana yazar. Sonra değer döner ve dışarıdaki `print` onu yazar. (finally içinde `return` yazarsan asıl dönüş değerini ezer. Bunu asla yapma.)
+:::
+
+::: gorev Güvenli dönüşüm
+`guvenli_int(deger, varsayilan=0)` fonksiyonunu yaz: `int(deger)` başarılıysa sonucu, `ValueError` ya da `TypeError` olursa `varsayilan`'ı döndürsün.
+
+```starter
+def guvenli_int(deger, varsayilan=0):
+    return int(deger)
+```
+
+```test
+need("guvenli_int")
+eq(guvenli_int("42"), 42, "'42' → 42")
+eq(guvenli_int(" 7 "), 7, "' 7 ' → 7")
+eq(guvenli_int("abc"), 0, "'abc' → 0")
+eq(guvenli_int("abc", -1), -1, "varsayılan -1")
+eq(guvenli_int(None, 5), 5, "None → TypeError yakalanmalı → 5")
+eq(guvenli_int("3.5"), 0, "'3.5' → 0")
+ok(uses("try"), "try/except kullan")
+ok("except:" not in src.replace(" ", "") and "exceptException" not in src.replace(" ", ""), "Çıplak except ya da except Exception değil, belirli türleri yakala")
+```
+
+```solution
+def guvenli_int(deger, varsayilan=0):
+    try:
+        return int(deger)
+    except (ValueError, TypeError):
+        return varsayilan
+```
+
+```hint
+`except (ValueError, TypeError):` demetle iki türü birden yakalar.
+```
+:::
+
+::: gorev Geçerli port gelene kadar
+Girdiden satır satır oku. Her satır için:
+
+- Tam sayıya çevrilemiyorsa ya da 1–65535 dışındaysa `geçersiz` yaz ve sonraki satıra geç
+- Geçerliyse `port: N` yaz ve dur
+
+```starter
+while True:
+    satir = input()
+
+```
+
+```stdin
+abc
+70000
+443
+```
+
+```test
+eq(run("abc\n70000\n443").strip().splitlines(), ["geçersiz", "geçersiz", "port: 443"], "abc, 70000, 443")
+eq(run("22").strip(), "port: 22", "ilk satır geçerli")
+eq(run("0\n-5\n65535").strip().splitlines(), ["geçersiz", "geçersiz", "port: 65535"], "sınırlar")
+eq(run("8.5\n80").strip().splitlines(), ["geçersiz", "port: 80"], "ondalık geçersiz")
+ok(uses("try"), "try/except kullan")
+```
+
+```solution
+while True:
+    satir = input()
+    try:
+        port = int(satir)
+        if not 1 <= port <= 65535:
+            raise ValueError("aralık dışı")
+    except ValueError:
+        print("geçersiz")
+        continue
+    print(f"port: {port}")
+    break
+```
+
+```hint
+Aralık kontrolünü de istisnaya çevirebilirsin: `raise ValueError(...)`. Böylece tek bir `except` iki durumu da yakalar.
+```
+:::
+
+::: gorev Doğrulayıcı raise etsin
+`yas_dogrula(yas)` fonksiyonunu yaz:
+
+- `yas` int değilse (bool da kabul edilmez): `TypeError` yükselt
+- 0–150 aralığı dışındaysa: `ValueError` yükselt
+- Geçerliyse `yas`'ı döndür
+
+```starter
+def yas_dogrula(yas):
+    pass
+```
+
+```test
+need("yas_dogrula")
+eq(yas_dogrula(30), 30, "30 → 30")
+eq(yas_dogrula(0), 0, "0 → 0")
+raises(ValueError, yas_dogrula, -1, msg="-1 → ValueError")
+raises(ValueError, yas_dogrula, 151, msg="151 → ValueError")
+raises(TypeError, yas_dogrula, "30", msg="'30' → TypeError")
+raises(TypeError, yas_dogrula, 30.0, msg="30.0 → TypeError")
+raises(TypeError, yas_dogrula, True, msg="True → TypeError (bool, int'in alt sınıfı ama kabul etme)")
+ok(uses("raise"), "raise kullan")
+```
+
+```solution
+def yas_dogrula(yas):
+    if type(yas) is not int:
+        raise TypeError(f"yaş int olmalı, {type(yas).__name__} geldi")
+    if not 0 <= yas <= 150:
+        raise ValueError(f"geçersiz yaş: {yas}")
+    return yas
+```
+
+```hint
+`isinstance(True, int)` True döner, çünkü bool int'in alt sınıfıdır. Tam tür kontrolü için `type(yas) is not int`.
+```
+:::

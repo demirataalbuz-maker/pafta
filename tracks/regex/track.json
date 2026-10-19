@@ -1,0 +1,65 @@
+{
+ "id": "regex",
+ "name": "Regex",
+ "status": "active",
+ "group": "savunma",
+ "order": 14,
+ "runner": "regex",
+ "role": "Her yerde lazım: log parse etmekten kural yazmaya.",
+ "modules": [
+  {
+   "title": "Desen Alfabesi",
+   "rank": "minik",
+   "zen": "Önce düz metni eşle, sonra genelle.",
+   "lessons": [
+    "rx01",
+    "rx02",
+    "rx03",
+    "rx04"
+   ]
+  },
+  {
+   "title": "Yapı Taşları",
+   "rank": "kucuk-orta",
+   "zen": "Yakalamadığın şeyi yakalama.",
+   "lessons": [
+    "rx05",
+    "rx06",
+    "rx07",
+    "rx08"
+   ]
+  },
+  {
+   "title": "Sahada Regex",
+   "rank": "baspehlivan",
+   "zen": "Okunamayan desen, bakımı yapılamayan desendir.",
+   "lessons": [
+    "rx09",
+    "rx10",
+    "rx11"
+   ]
+  }
+ ],
+ "dil": "regex",
+ "girdi_etiketi": "Metin",
+ "kahraman": [
+  "Harften",
+  "Desen",
+  "e"
+ ],
+ "tagline": "Log ayıklamaktan kural yazmaya, her araçta geçen desen dili. 11 pafta; yazdığın her desen anında gerçek metin üzerinde denenir, eşleşmeler işaretlenir.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

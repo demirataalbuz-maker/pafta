@@ -1,0 +1,58 @@
+{
+ "id": "javascript",
+ "name": "JavaScript",
+ "status": "active",
+ "group": "okuma",
+ "order": 20,
+ "runner": "javascript",
+ "role": "Web uygulamalarının kodunu okuyabilmek: türler, fonksiyonlar, diziler, asenkron akış ve tarayıcı kodu.",
+ "modules": [
+  {
+   "title": "Dilin Huyları",
+   "rank": "minik",
+   "zen": "== değil, ===.",
+   "lessons": [
+    "js01",
+    "js02"
+   ]
+  },
+  {
+   "title": "Veri ve Zaman",
+   "rank": "kucuk-orta",
+   "zen": "Kod yazıldığı sırada değil, olay döngüsünün sırasında çalışır.",
+   "lessons": [
+    "js03",
+    "js04"
+   ]
+  },
+  {
+   "title": "Tarayıcı Kodu",
+   "rank": "baspehlivan",
+   "zen": "Kullanıcıdan gelen her metin veridir, kod değil.",
+   "lessons": [
+    "js05"
+   ]
+  }
+ ],
+ "dil": "javascript",
+ "kahraman": [
+  "Okuyarak",
+  "Anla",
+  "mak"
+ ],
+ "tagline": "Okuma düzeyinde JavaScript: türler ve karşılaştırma tuzakları, fonksiyonlar ve kapanışlar, diziler ve JSON, olay döngüsü, tarayıcı kodu. 5 pafta; kodun gerçek Node.js'te çalışır.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

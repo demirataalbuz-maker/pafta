@@ -1,0 +1,61 @@
+{
+ "id": "kql",
+ "name": "KQL",
+ "status": "active",
+ "group": "savunma",
+ "order": 10,
+ "runner": "kql",
+ "role": "Microsoft Sentinel / Defender / Log Analytics'in sorgu dili: kayıtları süzmek, özetlemek ve birleştirmek.",
+ "modules": [
+  {
+   "title": "Sorgu Borusu",
+   "rank": "minik",
+   "zen": "Veri soldan sağa akar; her | bir adım.",
+   "lessons": [
+    "kq01",
+    "kq02",
+    "kq03"
+   ]
+  },
+  {
+   "title": "Özetlemek ve Sıralamak",
+   "rank": "kucuk-orta",
+   "zen": "Bin satır bir şey söylemez; özeti söyler.",
+   "lessons": [
+    "kq04",
+    "kq05"
+   ]
+  },
+  {
+   "title": "Birleştirmek ve Zaman",
+   "rank": "baspehlivan",
+   "zen": "Kayıt, zamanı ve bağlamıyla anlam kazanır.",
+   "lessons": [
+    "kq06",
+    "kq07",
+    "kq08"
+   ]
+  }
+ ],
+ "dil": "kql",
+ "kahraman": [
+  "Borudan",
+  "Özet",
+  "e"
+ ],
+ "tagline": "Kusto Query Language: where, project, summarize, join ve zaman fonksiyonları. 8 pafta; sorguların SQLite'a çevrilip SQL yolunun BT operasyonu veritabanında çalışır, SQL düğmesi her sorgunun SQL karşılığını gösterir.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

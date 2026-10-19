@@ -1,0 +1,63 @@
+{
+ "id": "bash",
+ "name": "Bash",
+ "status": "active",
+ "group": "her-iki",
+ "order": 2,
+ "runner": "bash",
+ "role": "Linux tarafı: hedefte yaşamak, tek satırlık otomasyon, log ayıklama.",
+ "modules": [
+  {
+   "title": "Kabuğa Giriş",
+   "rank": "minik",
+   "zen": "Her şey bir dosyadır, her komut bir araçtır.",
+   "lessons": [
+    "bs01",
+    "bs02",
+    "bs03"
+   ]
+  },
+  {
+   "title": "Akış ve Fonksiyonlar",
+   "rank": "kucuk-orta",
+   "zen": "Bir işi yap, iyi yap.",
+   "lessons": [
+    "bs04",
+    "bs05",
+    "bs06"
+   ]
+  },
+  {
+   "title": "Metin İşleme",
+   "rank": "baspehlivan",
+   "zen": "Programlar birlikte çalışmak için yazılır.",
+   "lessons": [
+    "bs07",
+    "bs08",
+    "bs09",
+    "bs10"
+   ]
+  }
+ ],
+ "dil": "bash",
+ "kahraman": [
+  "Komuttan",
+  "Betiğ",
+  "e"
+ ],
+ "tagline": "Linux kabuğunda yaşamak: değişkenler, akış, borular, grep/sed/awk ve sağlam betikler. 10 pafta; kodun gerçek Git Bash'te çalışır, Röntgen her komutun nasıl genişlediğini gösterir.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}
