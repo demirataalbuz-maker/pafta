@@ -16,15 +16,21 @@ rule Iki_Ozellik {
         $b = "LAB_BETA"
         $c = "LAB_GAMMA"
     condition:
-        2 of them
+        2 of them                          #! tanımlı 3 farklı işaretten en az 2 tanesi bulunmalı
 }
 ```
+
+> [!NOT] `2 of ($a, $b, $c)` ile `#a >= 2` farkı
+> `2 of (...)` kaç **farklı** string tanımının eşleştiğini sayar; aynı dosyada on kez `"LAB_ALPHA"` geçmesi yalnızca 1 string tanımı (`$a`) sayılır. Tek bir işaretin tekrar sayısı için `#a`, özellik çeşitliliği için `N of (...)` kullanılır.
 :::
 
 ::: anlat Yeni işaret eklemenin etkisi
 `all of them` yazdığın kurala yeni bir string eklediğinde karar koşulu da değişir: artık yeni işaret de zorunludur. `2 of ($oz_*)` ise yalnızca seçtiğin aileyi sayar. Küçük kurallarda kolay görünen bu fark, bakım sırasında önemli bir regresyon kaynağıdır.
 
 Eşik seçimi test verisinden ve tespit amacından gelmelidir. Daha çok işaret istemek yanlış pozitifi azaltabilir, ancak gerçek örneklerde bazı alanlar isteğe bağlıysa kaçırma oranını artırabilir. Bu derste değişik kombinasyonları test ederek koşulun bütün durumlarını görürüz.
+
+> [!TUZAK] `all of them` kullanılan kurala sonradan string eklemek
+> Kuralda hem başlık (`$baslik`) hem de seçmeli özellikler (`$oz_1`, `$oz_2`, `$oz_3`) varsa `2 of them` yazmak başlığı da seçmeli özelliklerle aynı havuza sokar! Başlığı zorunlu tutup özellik ailesini ayrı saymak için `$baslik and 2 of ($oz_*)` desenini kullan.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -60,6 +66,10 @@ LAB_ALPHA LAB_GAMMA
 rule Iki_Uc { condition: false }
 ```
 
+```stdin
+ALPHA BETA
+```
+
 ```test
 for x in ("ALPHA BETA", "ALPHA GAMMA", "BETA GAMMA", "ALPHA BETA GAMMA"):
     ok(eslesir(x, "Iki_Uc"), "iki ya da üç farklı işaret")
@@ -89,6 +99,10 @@ rule Iki_Uc {
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Aile { condition: false }
+```
+
+```stdin
+PFAMILY FEATURE_A FEATURE_C
 ```
 
 ```test

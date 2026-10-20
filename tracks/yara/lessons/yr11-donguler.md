@@ -15,15 +15,22 @@ rule Baslik_Alanlari {
         $alan_a = "TYPE="
         $alan_b = "VER="
     condition:
-        for all of ($alan_*) : ( $ in (0..31) )
+        for all of ($alan_*) : ( $ in (0..31) )   #! her $alan_* işareti ilk 32 bayt içinde bulunmalı
 }
 ```
+
+> [!DERİN] İki farklı `for` döngüsü: string kümesi vs. eşleşme indeksi
+> - `for all of ($alan_*) : ( $ in (0..31) )` string tanımlarını gezer; içerideki `$` o anki stringi temsil eder.
+> - `for any i in (1..#a) : ( @a[i] < 64 )` ise tek bir stringin (`$a`) dosyadaki eşleşme numaralarını (`1`'den `#a`'ya kadar) gezer.
 :::
 
 ::: anlat Yalnız ilk eşleşmeye bakma
 `for any i in (1..#a) : ( @a[i] == 16 )`, `$a` işaretinin eşleşmeleri arasında konum 16'da başlayan bir örnek arar. Köşeli parantezdeki i eşleşme numarasıdır; konum değildir. `#a > 0` gibi bir varlık ön şartı niyeti açık tutar.
 
 Çok büyük veya iç içe aralık döngüleri tarama maliyetini artırabilir. Bir işaretin sabit aralıkta varlığı yeterliyse `$a in (...)` daha sade olabilir. Döngü seçimini, gerçekten her eşleşmeye özel bir ilişki kurman gerekip gerekmediğine göre yap.
+
+> [!TUZAK] `#a == 0` olduğunda `for all i in (1..#a)` davranışı
+> Eğer dosyada `$a` hiç geçmiyorsa `#a` değeri `0` olur ve `(1..0)` aralığı boştur. Bu yüzden eşleşme indeksleri üzerinde döngü kurarken `for any i in (1..#a)` kullanmak veya başına `#a >= 2 and ...` ön şartı eklemek boş aralık hatalarını önler.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -58,6 +65,10 @@ TYPE=lab;VER=1;
 rule Butun_Alanlar { condition: false }
 ```
 
+```stdin
+TYPE=x;VER=1;SIZE=9;
+```
+
 ```test
 ok(eslesir("TYPE=x;VER=1;SIZE=9;", "Butun_Alanlar"), "üç alan başlıkta")
 ok(not eslesir("TYPE=x;VER=1;", "Butun_Alanlar"), "alan eksik")
@@ -86,6 +97,10 @@ for all of ($alan_*) gövdesindeki $ o anki stringi gösterir.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Yakin_Cift { condition: false }
+```
+
+```stdin
+TAGxxxxxTAG
 ```
 
 ```test

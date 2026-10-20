@@ -14,15 +14,24 @@ rule Kucuk_Bicim {
     strings:
         $a = "PF"
     condition:
-        filesize >= 6 and $a at 0 and uint16(2) == 1
+        filesize >= 6 and $a at 0 and uint16(2) == 1   #! 2. bayttaki 16-bit little-endian tamsayı 1 olmalı
 }
 ```
+
+> [!DERİN] Little-endian (`uint16`) ve Big-endian (`uint16be`)
+> Bellekte `01 02` baytları dururken:
+> - `uint16(konum)` düşük anlamlı baytı önce okur: `0x0201` (`513`).
+> - `uint16be(konum)` yüksek anlamlı baytı önce okur: `0x0102` (`258`).
+> Ağ protokolleri ve bazı arşiv başlıkları big-endian, Windows PE ve x86/x64 yapıları ise little-endian kullanır.
 :::
 
 ::: anlat Önce sınır, sonra okuma
 Dosyada bulunmayan baytı okumak tanımsız sonuç üretir; bir istisnayla Python kodu gibi davranacağını bekleme. Koşulu dosya uzunluğuna dair açık bir ön şartla yazmak niyeti korur. Bu dersin biçimi: iki bayt PF başlığı, iki bayt sürüm, sonra içerik.
 
 PE gibi karmaşık dosyalarda bütün alanları elle okumak yerine PE modülünü kullanacağız. Elle okuma hâlâ küçük özel biçimler, sabit işaretler ve başlık doğrulaması için yararlıdır. Bu örnekler dosya biçimi öğrenmek içindir; veriyi çalıştırmaz.
+
+> [!TUZAK] Tüm dosyayı tarayan string ile doğrudan `uint` okuma sırası
+> `filesize` ve `uint16(2)` kontrolleri sabit zamanda ($O(1)$) çalışır. Koşulun başına `filesize` sınırını ve başlık kontrolünü koymak, boyut dışı dosyaları anlamlandırırken hem okunabilirliği hem güvenliği artırır.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -56,6 +65,10 @@ hex: 50 46 01 00 41 42
 rule Boyutlu { condition: false }
 ```
 
+```stdin
+PFxxxxxx
+```
+
 ```test
 for n in (8, 16, 64):
     ok(eslesir(b"PF" + b"x" * (n - 2), "Boyutlu"), f"geçerli {n}")
@@ -84,6 +97,10 @@ rule Boyutlu {
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Surum_Alanli { condition: false }
+```
+
+```stdin
+hex: 50 46 34 12 01 02 00 00
 ```
 
 ```test

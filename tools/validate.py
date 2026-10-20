@@ -61,6 +61,8 @@ def jobs_for(lib, tid, dil, lid):
             if not st.get("test"):
                 jobs.append(("TESTSİZ", tid, where, None, None))
                 continue
+            if dil in ("sigma", "yara") and not st.get("stdin", "").strip():
+                jobs.append(("GİRDİSİZ", tid, where, None, None))
             if not st.get("solution"):
                 jobs.append(("ÇÖZÜMSÜZ", tid, where, None, None))
             else:
@@ -79,7 +81,10 @@ def jobs_for(lib, tid, dil, lid):
                     desen, metin = regex_parcala(kod)
                     jobs.append(("ornek", tid, where, dict(st, stdin=metin), desen))
                 else:
-                    jobs.append(("ornek", tid, where, dict(st, stdin=""), strip_anno(kod)))
+                    ornek_stdin = st.get("stdin", "")
+                    if not ornek_stdin and dil in ("sigma", "yara"):
+                        ornek_stdin = next((s.get("stdin", "") for s in les["steps"] if s.get("stdin")), "")
+                    jobs.append(("ornek", tid, where, dict(st, stdin=ornek_stdin), strip_anno(kod)))
     return jobs
 
 
@@ -112,6 +117,8 @@ def run_job(job):
             return (False, f"{kind.upper()} {r.get('status')}", where, str(r.get("error"))[:300])
         if r.get("status") == "error" and kind == "ornek":
             return (False, "ÖRNEK HATA VERİYOR", where, f"{r['error']['type']}: {r['error']['msg']} | {code[:80]!r}")
+        if kind == "ornek" and tid in ("sigma", "yara") and not r.get("segs"):
+            return (False, "ÖRNEK EŞLEŞMİYOR", where, f"Örnek kural örnek girdiyle eşleşmedi: {code[:80]!r}")
         if r.get("status") == "error" and kind == "tahmin" and "hata" not in st["body"].lower():
             return (False, "TAHMİN HATA VERİYOR (bilerek mi?)", where, f"{r['error']['type']}: {r['error']['msg']}")
         return (True, kind, where, "")

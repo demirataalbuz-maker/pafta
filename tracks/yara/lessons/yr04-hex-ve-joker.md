@@ -12,17 +12,23 @@ Hex deseninde `??` herhangi bir bayt, `A?` ise üst yarısı A olan herhangi bir
 ```yara
 rule Baytlar {
     strings:
-        $a = { 50 41 46 54 41 00 ?? A? }
+        $a = { 50 41 46 54 41 00 ?? A? }   #! PAFTA + 0x00 + herhangi bir bayt + üst yarısı A olan bayt
     condition:
         $a
 }
 ```
+
+> [!DERİN] Atom seçimi ve joker maliyeti
+> libyara hız için her desenin içinden en fazla 4 baytlık sabit bir çekirdek (atom) seçer. Desenin başını ve ortasını tamamen `??` veya yarım bayt jokerleriyle doldurursan motor her baytta durup doğrulama yapmak zorunda kalır; en az 3–4 ardışık sabit baytı korumak taramayı hızlandırır.
 :::
 
 ::: anlat Girdiyi doğru biçimde ver
 Pafta girdi kutusunda `hex:` öneki hex rakamlarını bayta çevirir. `hex: 41 42` iki bayttır; `41 42` yazarsan beş karakterlik sıradan metindir. Testlerde `bytes.fromhex(...)` aynı işi açıkça yapar.
 
 Hex deseni bir dosyanın her yerinde aranır. Dosya başlığı olduğunu söylemek için ileride `$a at 0` yazacağız. Şimdilik bir işaretin varlığını öğreniyoruz; aynı baytların metin, görsel veya başka bir dosyada tesadüfen bulunabileceğini de olumsuz örneklerle kontrol ediyoruz.
+
+> [!TUZAK] Metin `"50 41"` ile hex `{ 50 41 }` farkı
+> Çift tırnak içindeki `"50 41"` beş karakterlik ASCII metindir (`35 30 20 34 31`). Süslü parantez içindeki `{ 50 41 }` ise yalnızca iki bayttır (`P` ve `A`). Tezgahta ikili veri denerken girdi kutusuna `hex:` önekini koymayı unutma.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -56,6 +62,10 @@ hex: 50 41 46 54 41 00 77 AB
 rule Surum_Bayti { condition: false }
 ```
 
+```stdin
+hex: 50 41 46 54 41 01 00 ff
+```
+
 ```test
 ok(eslesir(bytes.fromhex("50 41 46 54 41 01 00 FF"), "Surum_Bayti"), "birinci sürüm")
 ok(eslesir(bytes.fromhex("50 41 46 54 41 AB 00 FF"), "Surum_Bayti"), "farklı sürüm")
@@ -83,6 +93,10 @@ Bir sürüm baytı için bir tane ?? yeterlidir.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Nible { condition: false }
+```
+
+```stdin
+hex: 50 46 a0 0f
 ```
 
 ```test

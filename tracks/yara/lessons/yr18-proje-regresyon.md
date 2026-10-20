@@ -10,16 +10,25 @@ Son projede iki farklı rapor türünü aynı paketle ayıracağız. Ortak biçi
 Bu tasarım bir örneğin birden fazla türe uyabilmesini de görünür kılar. Türler karşılıklı dışlayıcı olacaksa bunu biçim sözleşmesiyle ve ek şartla tarif etmek gerekir. İlk görevde iki türün işaretleri birlikteyse iki tespit de raporlanır; ikinci görev bu politikayı değiştirecek.
 
 ```yara
-private rule Rapor_Bicim { strings: $a = "PFREP;" condition: $a at 0 and filesize >= 12 and filesize <= 256 }
-rule Rapor_A { strings: $k = "KIND=A;" $s = "SIGN=ALPHA;" condition: Rapor_Bicim and $k and $s }
-rule Rapor_B { strings: $k = "KIND=B;" $s = "SIGN=BETA;" condition: Rapor_Bicim and $k and $s }
+private rule Rapor_Bicim { strings: $a = "PFREP;" condition: $a at 0 and filesize >= 12 and filesize <= 256 } #! ortak biçim kapısı
+rule Rapor_A { strings: $k = "KIND=A;" $s = "SIGN=ALPHA;" condition: Rapor_Bicim and $k and $s }              #! A ailesi sınıflandırıcısı
+rule Rapor_B { strings: $k = "KIND=B;" $s = "SIGN=BETA;" condition: Rapor_Bicim and $k and $s }              #! B ailesi sınıflandırıcısı
 ```
+
+> [!DERİN] Tespit mühendisliğinde sınıflandırma (Classification) vs. avcılık (Hunting)
+> Geniş avcılık kurallarında bir örneğin birden fazla kuralla eşleşmesi normaldir; ancak otomatik ayrıştırma veya aile sınıflandırma paketlerinde iki ailenin işaretleri birbirini dışlamalıdır (`not ($other_k or $other_s)`).
 :::
 
 ::: anlat Regresyon kümesi yaşayan bir sözleşmedir
 Bir yanlış pozitifi düzeltirken eski olumlu örnekleri tekrar çalıştır. Yalnız yeni olumsuz örneği reddetmek yeterli değildir; düzeltme bütün tespitleri kapatmış olabilir. Küçük veri kümesinde “tamamı geçti” sonucu üretim kapsamasının kanıtı değildir. Veri kümesine yeni sürümleri, benzer zararsız dosyaları ve sınır durumlarını eklemek bakımın parçasıdır.
 
 Pafta testleri yalnız burada verilen etkisiz verileri tarar. Gerçek kullanıma geçerken derleyici sürümü, dosya türü, boyut sınırı, tarama zamanı ve beklenen yanlış pozitifler kayıt altına alınmalıdır. Kuralın amacı ve sınırları, onu kullanan analistin kararına eşlik eder.
+
+> [!GÜVENLİK] Üretim öncesi regresyon kontrol listesi
+> Bir YARA kural paketini üretime (EDR, e-posta ağ geçidi veya SIEM/SOAR hattına) almadan önce:
+> - Hedef aile örneklerinin tamamında eşleştiğini (**True Positive**),
+> - Yakın temiz dosyalarda ve bozuk başlıklarda sustuğunu (**True Negative**),
+> - Sınır değerlerinde (`filesize`, eşik sayısı, ofset) kırılmadığını otomatik testlerle doğrula.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -50,6 +59,10 @@ Anlatımdaki `Rapor_Bicim`, `Rapor_A`, `Rapor_B` paketini yaz. Biçim yardımcı
 private rule Rapor_Bicim { condition: false }
 rule Rapor_A { condition: false }
 rule Rapor_B { condition: false }
+```
+
+```stdin
+PFREP;KIND=A;SIGN=ALPHA;
 ```
 
 ```test
@@ -89,6 +102,10 @@ Yeni politika: bir rapor hem KIND=A; hem KIND=B; içeriyorsa **hiçbir tür tesp
 private rule Rapor_Bicim { condition: false }
 rule Rapor_A { condition: false }
 rule Rapor_B { condition: false }
+```
+
+```stdin
+PFREP;KIND=A;SIGN=ALPHA;
 ```
 
 ```test

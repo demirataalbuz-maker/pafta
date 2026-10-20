@@ -10,18 +10,24 @@ summary: Bütün dosya ve alan hashlerini ayır; bir bayt değişiminin etkisini
 Tam dosya özeti aynı örneği tanımada çok seçicidir. Buna karşılık tek bayt değişikliği, zararsız bir sürüm güncellemesi bile, özeti değiştirir. Bu yüzden hash eşitliği dosya ailesindeki bütün varyantları yakalayan yapısal bir kuralın yerini tutmaz. Bu dersin referansı sıradan bir eğitim metnidir.
 
 ```yara
-import "hash"
+import "hash"                                                        #! kriptografik özet modülü
 rule Referans {
     condition:
-        hash.sha256(0, filesize) == "358a8d18b877ed16ad935c687f59f2f87de8358d58735f5debbde4511215fbdc"
+        hash.sha256(0, filesize) == "358a8d18b877ed16ad935c687f59f2f87de8358d58735f5debbde4511215fbdc" #! 0. bayttan itibaren filesize uzunluğunda SHA-256
 }
 ```
+
+> [!DERİN] `hash.sha256(offset, length)` ikinci parametresi uzunluktur!
+> Dilimleme kullanan dillerin aksine `hash.sha256(4, 8)` konum 4'ten konum 8'e kadar değil, **konum 4'ten başlayarak 8 bayt** (`4..11`) okur! Sabit bir başlık veya bölüm özetini alırken `(başlangıç, uzunluk)` çiftini doğru hesapla.
 :::
 
 ::: anlat Aralık özeti ve sınır denetimi
 `hash.sha256(4, 8)` konum 4'ten başlayan 8 baytın özetidir; ikinci argüman bitiş konumu değildir. Dosya biçiminde sabit bir bölümü doğrularken önce o alanın dosyada bulunduğunu denetle. Örneğin konum 4'te dört bayt için en az sekiz bayt gerekir.
 
 Modül MD5 ve SHA1 de sunar; bunlar eski örnek kimliği listelerinde görülebilir. Burada yeni örneklerimizde SHA256 kullanıyoruz. Bir hash eşleşmesi yalnızca verinin kimliğine dair bulgudur; dosyanın nereden geldiği ve neden önemli olduğu ayrı analiz bilgisidir.
+
+> [!TUZAK] Büyük harfli hex özet yazmak
+> `hash.md5`, `hash.sha1` ve `hash.sha256` her zaman **küçük harfli** onaltılık metin döndürür. Tehdit istihbaratı raporundan kopyaladığın büyük harfli (`"358A8D..."`) özeti küçük harfe çevirmeden `==` ile karşılaştırırsan kural hiçbir zaman eşleşmez!
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/modules/hash.html).
 :::
@@ -54,6 +60,10 @@ PAFTA_REFERENCE_V1
 rule Tam_Referans { condition: false }
 ```
 
+```stdin
+PAFTA_REFERENCE_V1
+```
+
 ```test
 ok(eslesir(b"PAFTA_REFERENCE_V1", "Tam_Referans"), "birebir referans")
 ok(not eslesir(b"PAFTA_REFERENCE_V2", "Tam_Referans"), "tek bayt değişik")
@@ -80,6 +90,10 @@ Dosyanın tamamı için başlangıç 0 ve uzunluk filesize olmalı.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Alan_Ozeti { condition: false }
+```
+
+```stdin
+HEADABCDTAIL
 ```
 
 ```test

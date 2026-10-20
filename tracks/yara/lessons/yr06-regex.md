@@ -12,17 +12,23 @@ YARA regex tanımı eğik çizgiler arasındadır: `/LAB[0-9]{3}/`. Bu Python `r
 ```yara
 rule Kayit_No {
     strings:
-        $a = /LAB-[0-9]{3};/
+        $a = /LAB-[0-9]{3};/               #! sabit LAB- öneki, tam 3 rakam ve noktalı virgül sonlandırıcısı
     condition:
         $a
 }
 ```
+
+> [!DERİN] YARA regex motorunun sınırları
+> YARA kendi hafif düzenli ifade motorunu kullanır; Python `re` veya PCRE değildir. İleri/geri bakınma (`(?=...)`, `(?<=...)`) ve geri başvuru (`\1`) desteklenmez. Sabit bir önek (`LAB-` gibi) bırakmak, motorun regex'i tüm dosyada körlemesine koşturmak yerine yalnızca o önek bulunduğunda çalıştırmasını sağlar.
 :::
 
 ::: anlat Sınırlar ve kaçışlar
 Bir metin içindeki nokta literal olacaksa `\.` yazılır. Regex sonundaki `nocase` değiştiricisi metin tanımlarına benzer biçimde harf farkını yok sayabilir. Regex ile `fullword` de kullanılabilir; ama o zaman regexin başı ve sonundaki karakterlerin sözcük sınırıyla ilişkisini ayrıca düşün.
 
 Bu görevlerde sahte dosya sürümü ve iş kimliği arıyoruz. Olumsuz örnekler eksik basamak, fazla basamak ve benzer uzantıları içerir. Kuralın bir pozitif örneği bulması kadar, yakın komşularını reddetmesi de öğretilen davranışın parçasıdır.
+
+> [!TUZAK] Kaçırılmamış nokta (`.`) ve sonlandırıcısız nicelikleyici
+> `/LAB-[0-9]{3}/` deseni `LAB-12345` içindeki ilk üç rakamla da eşleşir! Tam üç rakam şartını korumak için biçimdeki alan sonlandırıcısını (`;` gibi) desene dahil etmeli, dosya uzantısındaki noktayı ise `\.` olarak kaçırmalısın.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -56,6 +62,10 @@ kayit=LAB-207; son
 rule Is_Kimligi { condition: false }
 ```
 
+```stdin
+JOB-0042;
+```
+
 ```test
 ok(eslesir("JOB-0042;", "Is_Kimligi"), "dört rakam")
 ok(not eslesir("JOB-042;", "Is_Kimligi"), "eksik rakam")
@@ -83,6 +93,10 @@ Rakam tekrarını {4} ile sınırla; bitiş işaretini de desene dahil et.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Ayar_Dosyasi { condition: false }
+```
+
+```stdin
+file=PAFTA.CONF;
 ```
 
 ```test

@@ -177,7 +177,7 @@ class Progress:
         with self._lock:
             if dil == "python":
                 self.data["playground"] = code[:200_000]
-            elif dil in ("regex", "bash", "powershell"):
+            elif dil in ("regex", "bash", "powershell", "sql", "kql", "spl", "javascript", "sigma", "yara"):
                 self.data.setdefault("playground_diller", {})[dil] = code[:200_000]
             self._save()
 

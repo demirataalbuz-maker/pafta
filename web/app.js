@@ -816,7 +816,8 @@ function showStep(i) {
   if (st.kind === "anlat") {
     body = `<h2 class="step-title">${esc(st.title || "Anlatım")}</h2><div class="md">${render(st.body, { dil })}</div>`;
     const ilk = firstCode(st.body, dil);
-    S.bench.load({ code: okuma ? OKUMA_BOS : (ilk.code || BOS_KOD[dil] || ""), stdin: ilk.stdin, resetCode: ilk.code });
+    const ornekStdin = ilk.stdin || st.stdin || (["sigma", "yara"].includes(dil) ? (L.steps.find(s => s.stdin)?.stdin || "") : "");
+    S.bench.load({ code: okuma ? OKUMA_BOS : (ilk.code || BOS_KOD[dil] || ""), stdin: ornekStdin, resetCode: ilk.code });
   } else if (st.kind === "tahmin") {
     const [q, expl] = (st.body || "").split(/\n\?\?\?\s*\n?/);
     const prog = S.lesson.progress.steps[i];
@@ -831,7 +832,7 @@ function showStep(i) {
       `<div class="guess-row"><button type="button" class="btn primary small" data-act="guess">Tahmini gönder</button>` +
       (prog?.done ? `<span class="label">daha önce: ${prog.guess_ok ? "doğru" : "yanlış"}</span>` : "") + `</div></div>` +
       `<div id="guessResult"></div><div class="md" id="guessExpl" hidden>${render(expl || "", { dil })}</div>`;
-    S.bench.load({ code: td.kod ?? "# Önce soldaki kodun çıktısını tahmin et.\n# Tahmin ettikten sonra kod buraya gelir; değiştirip denersin.\n", resetCode: st.code });
+    S.bench.load({ code: td.kod ?? "# Önce soldaki kodun çıktısını tahmin et.\n# Tahmin ettikten sonra kod buraya gelir; değiştirip denersin.\n", stdin: st.stdin || "", resetCode: st.code });
   } else {
     const prog = S.lesson.progress.steps[i] || {};
     const draft = S.lesson.progress.drafts[i];
@@ -908,7 +909,7 @@ async function sheetClick(e) {
     const block = a.closest(".code");
     const src = block.dataset.src;
     const detection = ["sigma", "yara"].includes(dilAdi(S.yol?.dil));
-    const metin = block.dataset.stdin || (detection ? S.bench.stdin.value : "");
+    const metin = block.dataset.stdin || (detection ? (S.bench.stdin.value || L.steps[i]?.stdin || L.steps.find(s => s.stdin)?.stdin || "") : "");
     if (act === "bench") {
       S.bench.setCode(src);
       if (metin || dilAdi(S.yol?.dil) === "regex") S.bench.setStdin(metin);

@@ -88,7 +88,7 @@ logsource:
 detection:
     selection:
         # TODO: gorevdeki davranis kosullarini buraya yaz
-    Action: 'TODO'
+        Action: 'TODO'
     condition: selection
 level: medium
 ```
@@ -164,7 +164,7 @@ logsource:
 detection:
     selection:
         # TODO: gorevdeki davranis kosullarini buraya yaz
-    Action: 'TODO'
+        Action: 'TODO'
     condition: selection
 level: medium
 ```

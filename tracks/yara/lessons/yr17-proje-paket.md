@@ -17,15 +17,26 @@ rule Paket_Ornek {
         $b = "BETA"
         $c = "GAMMA"
     condition:
-        $bas at 0 and filesize >= 16 and filesize <= 512 and (uint8(6) == 1 or uint8(6) == 2) and 2 of ($a, $b, $c)
+        $bas at 0 and filesize >= 16 and filesize <= 512             #! başlık ve boyut sözleşmesi
+        and (uint8(6) == 1 or uint8(6) == 2) and 2 of ($a, $b, $c)   #! sürüm baytı (6. ofset) ve özellik eşiği
 }
 ```
+
+> [!NOT] Savunma derinliği: Kural sözleşmesini katmanlara ayırmak
+> İyi bir tespit kuralı dört katmanı birleştirir:
+> 1. **Biçim kapısı:** `$bas at 0` ve `uint8(6)` sürüm doğrulaması.
+> 2. **Boyut sınırı:** `filesize >= 16 and filesize <= 512`.
+> 3. **Davranış/özellik kümesi:** `2 of ($a, $b, $c)`.
+> 4. **Konuma bağlı dar istisna:** `not ($safe at 7)`.
 :::
 
 ::: anlat İzin işaretini bütün dosyaya yayma
 İkinci görev biçime bir eğitim modu ekler: konum 7'de tam `SAFE` varsa dosya test paketi kabul edilsin ve tespit raporlanmasın. Aynı SAFE sözcüğü gövdede geçiyorsa dışlama yapmasın. Böylece “izinli metin bir yerde bulundu” gibi aşırı geniş bir filtre yerine biçimin tanımlı alanına bakarsın.
 
 Bu işaret bir üretim güven mekanizması değildir. Gerçek bir tespit sistemindeki güven kararı taklit edilebilir metinlerden ibaret olmamalıdır. Burada öğrendiğimiz şey, koşulun kapsamını açıkça tarif etmek ve negatif testle korumaktır.
+
+> [!TUZAK] `not $safe at 7` ile `not ($safe at 7)` öncelik farkı ve gövde istisnası
+> İstisnayı `and not $safe` diye yazarsan dosyanın gövdesinde tesadüfen `"SAFE"` geçen gerçek örnekleri kaçırırsın. İstisna bayrağı dosya biçiminde yalnızca 7. baytta tanımlıysa `and not ($safe at 7)` yazarak dışlamayı yalnız o konuma kilitlemelisin.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -60,6 +71,10 @@ hex: 50 46 4C 41 42 21 01 41 4C 50 48 41 20 42 45 54 41
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Paket { condition: false }
+```
+
+```stdin
+hex: 50 46 4c 41 42 21 01 41 4c 50 48 41 20 42 45 54 41
 ```
 
 ```test
@@ -101,6 +116,10 @@ Tek tek şartları and ile bağla; sürüm seçeneklerini parantez içine al.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Paket_Filtreli { condition: false }
+```
+
+```stdin
+hex: 50 46 4c 41 42 21 01 41 4c 50 48 41 20 42 45 54 41
 ```
 
 ```test

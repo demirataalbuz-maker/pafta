@@ -12,17 +12,23 @@ Sayımda eşleşmelerin nerede olduğu henüz dikkate alınmaz. İlk 32 bayttaki
 ```yara
 rule Tekrar {
     strings:
-        $a = "EVT;"
+        $a = "EVT;"                        #! sayılacak kayıt izi
     condition:
-        #a >= 3
+        #a >= 3                            #! dosyadaki toplam eşleşme sayısı en az 3 olmalı
 }
 ```
+
+> [!NOT] `$a` mantıksal varlıktır, `#a` ise tamsayıdır
+> Koşulda `$a` yazmak aslında `#a > 0` demektir. `#a in (0..31) >= 2` yazdığında ise tüm dosyadaki eşleşmeleri değil, yalnızca ilk 32 bayt içinde başlayan eşleşmeleri sayarsın.
 :::
 
 ::: anlat Eşiğin iki yanını test et
 Bir eşik görevi yalnızca 10 eşleşmeli örnekle doğrulanmaz. Eşik 3 ise 2, 3 ve 4 tekrar özellikle değerlidir. Tam sayı şartı ile alt sınır şartını karıştırma: `#a == 3`, dört eşleşmeli veriyi reddeder; `#a >= 3` kabul eder.
 
 Birden fazla işaretin sayısını da birlikte kullanabilirsin. Örneğin eğitim raporu iki hata kaydı ve hiç onay kaydı içeriyorsa eşleşebilir. Bu bir zaman korelasyonu değildir; dosya içindeki bayt örüntülerinin sayımıdır. Zaman ve kullanıcı bağlamı için Sigma/KQL/SPL yolundaki olay modelleri gerekir.
+
+> [!TUZAK] Eşik sınırında `<` ile `<=` veya `==` ile `>=` karışıklığı
+> ”En az 3 kayıt” yerine `== 3` yazarsan 4 kayıtlı gerçek örneği kaçırırsın; `> 3` yazarsan tam 3 kayıtlı sınır örneğini reddedersin. Eşik kurallarını her zaman `eşik - 1`, `eşik` ve `eşik + 1` örnekleriyle sına.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -56,6 +62,10 @@ EVT;EVT;EVT;
 rule Uc_Kayit { condition: false }
 ```
 
+```stdin
+EVT;EVT;EVT;
+```
+
 ```test
 for n in (0, 1, 2):
     ok(not eslesir("EVT;" * n, "Uc_Kayit"), f"eşik altı {n}")
@@ -83,6 +93,10 @@ Varlık için $a, sayım için #a kullanılır.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Baslik_Sayimi { condition: false }
+```
+
+```stdin
+OK;xxOK;zzzzzzzzzzzzzzzzzzzz
 ```
 
 ```test

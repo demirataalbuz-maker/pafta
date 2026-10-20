@@ -16,15 +16,22 @@ rule Lab_Ailesi {
         $a = "feature=alpha;"
         $b = "format=2;"
     condition:
-        $baslik at 0 and $a and $b and filesize <= 4096
+        $baslik at 0 and $a and $b and filesize <= 4096   #! başlık konumu + iki yapısal özellik + boyut sınırı
 }
 ```
+
+> [!DERİN] `xor` ve `base64` değiştiricileri derleme zamanında nasıl çalışır?
+> - `"PAFTA" xor(1-3)` yazdığında libyara dosyayı çalışma zamanında çözmez; derleme sırasında metnin `0x01`, `0x02` ve `0x03` ile XOR'lanmış 3 bayt dizisini üretip otomatına ekler.
+> - `"PAFTA_MARKER" base64` ise metnin Base64 kodlamasında oluşabilecek 3 farklı bayt hizalamasının (offset 0, 1, 2) ortak orta parçasını üretip arar.
 :::
 
 ::: anlat Dönüştürülmüş metinler de yalnız bayttır
 `xor(1-3)` bir metnin tek baytlık XOR anahtarları 1, 2 veya 3 ile dönüştürülmüş biçimlerini arayabilir. `base64` ise işaretin Base64 içindeki gösterimlerini arar. Bunlar bir dosyayı açıp içerik çalıştırmaz; motor alternatif bayt desenlerini tarar. Dönüşüm tanımak, verinin niyetini kanıtlamaz.
 
 `base64` bütün dosyayı genel amaçlı çözerek yeniden taramak değildir; kısa desenler ve kenardaki Base64 karakterleri beklenmedik eşleşme sınırları oluşturabilir. Her değiştiricinin uyum kuralları vardır: örneğin her metin değiştiricisini base64 ile birlikte kullanamazsın. Görevlerde uzun, etkisiz bir eğitim işareti ve sınırları belli dönüşüm kullanıyoruz.
+
+> [!GÜVENLİK] Çok kısa metinlerde `xor` ve `base64` gürültüsü
+> 3–4 karakterlik kısa bir metne `xor` veya `base64` uygulamak, neredeyse her ikili dosyada tesadüfen geçen bayt dizileri üretir ve hem aşırı yanlış pozitife hem de yavaşlamaya yol açar. Dönüşüm değiştiricilerini yalnızca uzun ve ayırt edici işaretlerde, mümkünse dar anahtar aralığıyla (`xor(0x01-0x1f)` gibi) kullan.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -58,6 +65,10 @@ PF-LAB;feature=alpha;format=2;
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Hassas_Lab { condition: false }
+```
+
+```stdin
+PF-LAB;feature=alpha;format=2;
 ```
 
 ```test
@@ -94,6 +105,10 @@ Bir şartı değişmiş komşu örneklerin her birini reddet.
 rule Xor_Isaret { condition: false }
 ```
 
+```stdin
+Q@GU@^YNS^M@C^L@SJDS
+```
+
 ```test
 raw = b"PAFTA_XOR_LAB_MARKER"
 for key in (1, 2, 3):
@@ -123,6 +138,10 @@ xor tek başına daha geniş bir anahtar kümesini kapsar; görev aralığı xor
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule B64_Isaret { condition: false }
+```
+
+```stdin
+UEFGVEFfQkFTRTY0X0xBQl9NQVJLRVJ0YWls
 ```
 
 ```test

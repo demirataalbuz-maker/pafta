@@ -9,6 +9,11 @@
   "role": "SIEM'den bağımsız tespit kuralı: davranışı tarif et, normal örneklerle sına, dağıtım gereksinimini belgele.",
   "tagline": "18 pafta, 6 rütbe: gerçek Sigma YAML, resmi pySigma ayrıştırıcısı, sentetik JSON olaylarında seçim testleri; telemetri, filtreler ve iki proje.",
   "girdi_etiketi": "JSON olayları",
+  "kahraman": [
+    "Olaydan",
+    "Kural",
+    "a"
+  ],
   "ranks": [
     {
       "id": "minik",
@@ -39,6 +44,7 @@
     {
       "title": "İlk Tespit Kuralı",
       "rank": "minik",
+      "zen": "Ne aradığını bilmeyen, her kaydı uyarı sanır.",
       "lessons": [
         "sg01",
         "sg02",
@@ -48,6 +54,7 @@
     {
       "title": "Seçimler ve Metinler",
       "rank": "tesviye",
+      "zen": "Alan adı bağlamdır; değiştirici ise niyet.",
       "lessons": [
         "sg04",
         "sg05",
@@ -57,6 +64,7 @@
     {
       "title": "Mantık ve Veri Kalitesi",
       "rank": "kucuk-orta",
+      "zen": "İyi kural, gürültüyü susturduğu kadar konuşur.",
       "lessons": [
         "sg07",
         "sg08",
@@ -66,6 +74,7 @@
     {
       "title": "Biçimler, Eşikler ve Ağlar",
       "rank": "buyuk-orta",
+      "zen": "Kodlanmış komut da iz bırakır; yeter ki katmanı aç.",
       "lessons": [
         "sg10",
         "sg11",
@@ -75,6 +84,7 @@
     {
       "title": "Tespit Mühendisliği",
       "rank": "basalti",
+      "zen": "Saldırgan aracı değiştirir, davranışı kolay değiştiremez.",
       "lessons": [
         "sg13",
         "sg14",
@@ -84,6 +94,7 @@
     {
       "title": "Korelasyon ve Projeler",
       "rank": "baspehlivan",
+      "zen": "Tek olay şüphedir; zincir ise kanıt.",
       "lessons": [
         "sg16",
         "sg17",

@@ -12,17 +12,23 @@ Sınırsız `[-]` atlama geniş alanları kabul eder. Böyle bir esneklik gerçe
 ```yara
 rule Aralik {
     strings:
-        $a = { 50 46 [2-4] 45 4E 44 }
+        $a = { 50 46 [2-4] 45 4E 44 }      #! PF (50 46) ile END (45 4E 44) arasında 2, 3 veya 4 bayt
     condition:
         $a
 }
 ```
+
+> [!NOT] `[n-m]` bayt sayar, hex basamağı saymaz
+> `[2-4]` ifadesi araya 2 ila 4 **bayt** (yani hex görünümünde 4 ila 8 onaltılık rakam) girebileceğini belirtir. Tam uzunluk biliniyorsa `[3]` yazmak `?? ?? ??` yazmakla eşdeğerdir ve daha okunaklıdır.
 :::
 
 ::: anlat Tek desende seçenekler
 `( 01 02 | 03 04 )`, iki baytlı iki seçenekten birini kabul eder. Seçenekler gelişigüzel joker değildir; biçimin bildiğin sürümlerini açıkça listeler. Parantez hex deseninin içinde kullanılır; koşuldaki boolean parantezden farklı bir katmandadır.
 
 Metin işareti, hex işareti ve koşulu birlikte kullanabilirsin. Bir dosya ailesinin sürüm alanını esnetirken dosyayı tanıtan sabit başlık ve sonlandırıcıyı korumak, her şeyi `??` yapmaktan daha ayırt edicidir.
+
+> [!TUZAK] Sınırsız `[-]` atlamaları
+> `{ 50 46 [-] 45 4E 44 }` aradaki mesafeyi sınırsız bırakır; hem yanlış pozitif ihtimalini büyütür hem de büyük dosyalarda geri izleme (backtracking) maliyetini artırır. Dosya biçimindeki alanın gerçek üst sınırını (`[0-64]` gibi) her zaman belirt.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -56,6 +62,10 @@ hex: 50 46 11 22 33 45 4E 44
 rule Aralik_Kurali { condition: false }
 ```
 
+```stdin
+hex: 42 45 47 49 4e 78 78 45 4e 44
+```
+
 ```test
 for n in (2, 3, 4):
     ok(eslesir(b"BEGIN" + b"x" * n + b"END", "Aralik_Kurali"), f"geçerli uzunluk {n}")
@@ -83,6 +93,10 @@ Hex bloktaki [2-4] aralığı her iki sınırı içerir.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Iki_Surum { condition: false }
+```
+
+```stdin
+hex: 50 46 01 02 00
 ```
 
 ```test

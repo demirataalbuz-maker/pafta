@@ -10,23 +10,29 @@ Bir kural yalnızca koşuldan ibaret değildir. `meta` içine yazar, açıklama 
 YARA bu alanlara tehdit bilgisi doğrulaması yapmaz. `severity = "high"` yazmak dosyanın tehlikeli olduğunu kanıtlamaz. Eğitim kuralını açıkça eğitim diye etiketle; gerekçeyi açıklamada koru. Sayı, metin ve boolean meta değerleri farklı türlerdir.
 
 ```yara
-rule Kimlik : egitim belge {
+rule Kimlik : egitim belge {        #! iki noktadan sonra boşlukla ayrılan kural etiketleri (tags)
  meta:
-  author = "Pafta"
+  author = "Pafta"                  #! metin (str), tamsayı (int) ve mantıksal (bool) bakım alanları
   revision = 1
   production = false
  strings:
   $a = "LAB_REPORT"
  condition:
-  $a
+  $a                                #! meta ve etiketler koşulun sonucunu etkilemez
 }
 ```
+
+> [!NOT] `meta` alanları karar motoruna katılmaz
+> `meta` içindeki değerler `condition` içinde kullanılamaz; yalnızca kural eşleştiğinde analiste ve otomasyon hattına bağlam taşır. Sürüm (`revision`), yazar ve yanlış pozitif notları kuralın yaşam döngüsünü izlemek içindir.
 :::
 
 ::: anlat Dışlama filtresi dar olmalı
 `$a and not $izinli` ifadesinde izinli işaret dosyanın **herhangi bir yerinde** bulunursa kural susar. Bu bazen doğru politikadır, bazen fazla geniş bir dışlamadır. Filtreyi yazarken saldırı davranışı öğreten kod değil, karar sınırlarını gösteren etkisiz veri kullanıyoruz.
 
 Bir güvenilirlik işaretine tek başına güvenilmez; gerçek üretimde imza doğrulaması, kaynağın güvenilirliği ve süreç bağlamı gibi ek bilgiler gerekir. Bu ders sadece kural mantığını kurar. Sonraki konum derslerinde dışlamayı başlığa ya da belirli aralığa daraltacağız.
+
+> [!GÜVENLİK] Kolay taklit edilebilir dışlama işaretleri
+> `$zararli and not $izinli_metin` biçimindeki bir filtrede, dosyanın herhangi bir yerine `$izinli_metin` ekleyen herkes kuralı susturabilir. Üretim kurallarında dışlama koşullarını dosya başlığına, belirli bayt konumuna veya kriptografik özet/imza doğrulamasına bağlamak gerekir.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -59,6 +65,10 @@ LAB_REPORT: egitim
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Bakimli { condition: false }
+```
+
+```stdin
+LAB_META
 ```
 
 ```test
@@ -97,6 +107,10 @@ meta ve strings ayrı bölümlerdir; etiketler rule adından sonra gelir.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Dislama { condition: false }
+```
+
+```stdin
+LAB_REPORT normal
 ```
 
 ```test

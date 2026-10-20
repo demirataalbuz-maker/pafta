@@ -10,19 +10,25 @@ YARA, verilen **baytların** bir kurala uyup uymadığını söyler. Dosyayı ç
 Bir kuralın adı raporda görünür. `strings` aranacak işaretleri tanımlar; `$etiket` o işaretin adıdır. `condition` kararın kendisidir ve zorunludur. Noktalı virgül gerekmez. Pafta gerçek **libyara** motorunu kullanır: Python ile benzetim yapmaz. Girdi kutusuna sıradan metin yazınca UTF-8 baytları taranır.
 
 ```yara
-rule Egitim_Isareti {
+rule Egitim_Isareti {               #! kural adı: çıktıda ve raporda görünen kimlik
     strings:
-        $etiket = "PAFTA_LAB"
+        $etiket = "PAFTA_LAB"       #! aranacak UTF-8 bayt dizisi
     condition:
-        $etiket
+        $etiket                     #! bu işaret en az bir kez geçiyorsa eşleşir
 }
 ```
+
+> [!DERİN] libyara nasıl tarar?
+> YARA her stringi dosyada tek tek baştan sona aramaz. Kural derlenirken sabit bayt parçalarından (atom) bir Aho-Corasick otomatı kurar; tek geçişte bütün aday konumları bulur ve en sonda `condition` ifadesini değerlendirir.
 :::
 
 ::: anlat Derlemek, taramak ve karar vermek
 Önce kural derlenir; yazım hatası varsa veri taranmadan hata alırsın. Sonra aynı derlenmiş kural farklı veriler üzerinde çalışır. Büyük-küçük harf varsayılan olarak önemlidir: `PAFTA_LAB` ile `pafta_lab` farklı baytlardır.
 
 Olumlu örnek kuralın yakalaması gereken veridir; olumsuz örnek yakalamaması gerekendir. Sadece olumlu örneği denemek, `condition: true` yazan bir kuralı bile başarılı gösterir. Her görev bu yüzden ikisini de sınar. Pafta çıktısı eşleşen **kural adlarını** satır satır gösterir; boş çıktı eşleşme yok demektir.
+
+> [!TUZAK] `condition: true` ve yalnızca olumlu örnekle sınama
+> Kuralı yalnızca yakalaması gereken örnek üzerinde denersen, aşırı geniş bir koşulun (hatta `condition: true` ifadesinin) bütün temiz dosyaları da yakaladığını fark edemezsin. Her YARA kuralı en az bir yakın olumsuz örnekle birlikte yazılır.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -56,6 +62,10 @@ rapor: PAFTA_LAB tamam
 rule Ilk_Imza { condition: false }
 ```
 
+```stdin
+bas:LAB_TOKEN_42:son
+```
+
 ```test
 ok(eslesir("bas:LAB_TOKEN_42:son", "Ilk_Imza"), "işaret içeride bulunmalı")
 ok(not eslesir("LAB_TOKEN_43", "Ilk_Imza"), "benzer işaret kabul edilmemeli")
@@ -83,6 +93,10 @@ strings bölümünde bir metin tanımla; condition bölümünde onun $adını ku
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Iki_Isaret { condition: false }
+```
+
+```stdin
+LAB_START veri LAB_END
 ```
 
 ```test

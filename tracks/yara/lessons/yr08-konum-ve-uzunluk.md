@@ -15,15 +15,21 @@ rule Baslik {
         $a = "PF01"
         $b = "END"
     condition:
-        $a at 0 and $b in (4..16)
+        $a at 0 and $b in (4..16)          #! başlık 0. baytta, END ise 4..16 bayt aralığında başlamalı
 }
 ```
+
+> [!DERİN] Sıfır tabanlı ofset (`at 0`) ve bir tabanlı eşleşme indeksi (`@a[1]`)
+> Dosya içindeki bayt konumları `0`'dan başlar (`at 0` dosyanın ilk baytıdır). Ancak bir işaretin kaçıncı eşleşmesine baktığını söyleyen `@a[1]` ve `!a[1]` dizinleri **`1`'den** başlar; `@a[0]` her zaman tanımsızdır (`undefined`).
 :::
 
 ::: anlat Parçalar arasındaki ilişki
 Bir işaretin konumunu diğerine bağlayabilirsin: `@son[1] > @bas[1]`. Fakat yalnızca ilk eşleşmeleri karşılaştırdığını unutma. Dosyada birden fazla başlık varsa bütün eşleşmeleri sonraki döngü dersinde inceleyeceğiz.
 
 Regex uzunluğu değişkense `!a[1]` seçilen eşleşmenin gerçek uzunluğunu verir. Uzunluk testi yazarken regexin nasıl eşleştiğini de düşün: kısa bir regex uzun kaydın ön ekini bulabilir. Alan sonlandırıcısını desene katmak hem anlamı hem testi netleştirir.
+
+> [!TUZAK] Tanımsız (`undefined`) konum karşılaştırmaları
+> Eğer `$a` dosyada hiç eşleşmemişse `@a[1]` ve `!a[1]` tanımsız (`undefined`) döner. YARA'da tanımsız bir değerle yapılan büyüklük/eşitlik karşılaştırması `false` üretir; ancak `not (@a[1] > 10)` gibi olumsuzlamalarda yanıltıcı olmaması için önce `$a` varlığını açıkça kontrol et.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -58,6 +64,10 @@ PF01xxxxEND
 rule Dosya_Basligi { condition: false }
 ```
 
+```stdin
+PF01xxEND
+```
+
 ```test
 ok(eslesir(b"PF01xxEND", "Dosya_Basligi"), "geçerli başlık")
 ok(not eslesir(b"xPF01xxEND", "Dosya_Basligi"), "başlık sıfırda değil")
@@ -86,6 +96,10 @@ Başlığın varlığı yetmez; at 0 kullan.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Alan { condition: false }
+```
+
+```stdin
+ID=123; son
 ```
 
 ```test

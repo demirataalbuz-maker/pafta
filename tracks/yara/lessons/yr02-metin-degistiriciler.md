@@ -12,10 +12,17 @@ summary: nocase, ascii, wide ve fullword ile neyin eşleştiğini bilinçli seç
 ```yara
 rule Iki_Kodlama {
     strings:
-        $a = "PAFTA" ascii wide nocase
+        $a = "PAFTA" ascii wide nocase   #! tek bayt (ascii) + çift bayt sıfır aralıklı (wide) + harf duyarsız
     condition:
-        $a
+        $a                               #! iki kodlamadan herhangi biri eşleşirse doğru döner
 }
+```
+
+> [!DERİN] `wide` tam olarak ne üretir?
+> `wide` değiştiricisi ASCII karakterlerinin her birinin yanına `0x00` baytı ekleyerek (`50 00 41 00 46 00 54 00 41 00`) arama yapar. Tek başına `wide` yazarsan normal ASCII kopyayı artık aramaz; her iki biçimi de yakalamak için `ascii wide` birlikte yazılır.
+
+```stdin
+hex: 70 00 61 00 66 00 74 00 61 00
 ```
 :::
 
@@ -23,6 +30,9 @@ rule Iki_Kodlama {
 `fullword`, işaretin alfanümerik bir sözcüğün içinden alınmasını engeller. Bu sınır bayt ve motor kurallarıyla değerlendirilir; doğal dildeki bütün Türkçe sözcük kurallarını kapsadığı varsayılmaz. `LAB` ararken `LABORATORY` dosyalarını da yakalıyorsan yararlıdır.
 
 Değiştiriciyi eklemek kuralı otomatik olarak daha iyi yapmaz. Dosya biçiminde işaret bilerek başka karaktere bitişikse `fullword` gerçek eşleşmeyi kaybettirebilir. Önce beklenen veri biçimini tanımla, sonra olumlu ve sınırda olumsuz örnekleri yaz.
+
+> [!TUZAK] `fullword` sınırlarını yanlış varsaymak
+> `fullword` yalnızca işaretin solundaki ve sağındaki baytın alfanümerik (`a-z`, `A-Z`, `0-9`) olup olmadığına bakar. Noktalama işaretleri (`=`, `;`, `:`, `-`) sözcük sınırı sayılır; bu yüzden `state=ready;` içindeki `ready` bir `fullword` eşleşmesidir, ancak `ready_state` içindeki `_` alfanümerik komşulukla birleştiğinde davranışı test etmeden varsaymamalısın.
 
 Kaynak: [Resmî YARA belgeleri](https://yara.readthedocs.io/en/stable/writingrules.html).
 :::
@@ -56,6 +66,10 @@ status=lab; tamam
 rule Surum { condition: false }
 ```
 
+```stdin
+PAFTA_AGENT
+```
+
 ```test
 ok(eslesir("PAFTA_AGENT", "Surum"), "büyük harf")
 ok(eslesir("PaFtA_AgEnT", "Surum"), "karışık harf")
@@ -82,6 +96,10 @@ Metin tanımının sonuna nocase eklenir.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Kodlamalar { condition: false }
+```
+
+```stdin
+xxLABKEYyy
 ```
 
 ```test
@@ -111,6 +129,10 @@ Sadece wide yazarsan normal ASCII biçimini dışarıda bırakırsın.
 ```starter
 // Koşulları ve gereken bölümleri görev metnine göre tamamla.
 rule Durum { condition: false }
+```
+
+```stdin
+state=ready;
 ```
 
 ```test
