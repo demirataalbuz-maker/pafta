@@ -14,6 +14,19 @@ Denetlenen sürüm: `99885a4`, 10 yol, 227 ders. Bu dosya bir bulgu listesidir: 
 | Yapı | Rütbeler, sahipsiz dosyalar, adım dağılımı, ipuçları | Sahipsiz ya da eksik dosya yok; her görevin ipucu ve çözümü var |
 | Gerçek sisteme sadakat | Splunk ve Kusto taklidinin gerçek davranıştan ayrıldığı yerler | Bir yüksek (1.1), iki düşük bulgu (3.1, 3.2) |
 
+## Durum tablosu (son denetim: `ed6e89d`, 267 ders)
+
+| Bulgu | Durum |
+|---|---|
+| 1.1 sp04 sıralama tuzağı | açık |
+| 1.2 sınır değeri test edilmeyen 20 görev | açık (c08:3, p70:5, p73:5 bozuk hâlde hâlâ geçiyor) |
+| 1.3 YARA örnek kümelerinde eşik örneği yok (7 görev) | yeni |
+| 2.1 ders numaraları harita sırasıyla uyuşmuyor | açık (Sigma ve YARA'da yok, ikisi de sıralı) |
+| 2.2 PowerShell Başpehlivan modülü | açık (5 rütbe) |
+| 2.3 Python PCPP1 | **kapandı** (`8be71c9`) |
+| 2.4 SPL bilgi nesneleri | açık |
+| 2.5 tezgahta pickle | açık (hâlâ `PicklingError`) |
+
 ## 1 · Yüksek öncelik
 
 ### 1.1 SPL sp04, gerçek Splunk'ta ters sonuç veren bir şey öğretiyor
@@ -52,6 +65,12 @@ Aşağıdaki görevlerde örnek çözümdeki karşılaştırma bir adım kaydır
 | python/p73:5 «Doğrulanmış port» *(ek denetim)* | `0 <= n` → `0 < n` | `Port(0)` ve `Port(65535)` geçerli, `Port(65536)` `ValueError` |
 
 Zararsız çıkanlar (sonucu değiştirmiyor, işlem gerekmez): p20:6, p46:5, p55:5, p55:6, p64:5.
+
+### 1.3 YARA örnek kümelerinde eşik örneği yok (7 görev) *(Sigma/YARA denetimi)*
+
+yr12:4, yr15:3, yr16:3, yr17:3, yr17:4, yr18:3, yr18:4. Koşuldaki `<=` / `>=` bir adım kaydırıldığında (`<`, `>`) bütün örnek dosyalarda sonuç **birebir aynı** kalıyor. Sebep: hiçbir örnek tam eşikte değil (tam N bayt, tam N eşleşme, tam eşik değerinde entropi). Test, sınırın hangi tarafta olduğunu ayırt edemiyor. En dikkat çekeni yr18: konusu regresyon testi olan projenin kendi kümesinde sınır örneği yok.
+
+**Düzeltme:** her görevin örnek kümesine eşiğin tam üstünde ve tam altında birer örnek ekle; bozuk hâlin artık geçmediğini doğrula.
 
 ## 2 · Orta öncelik
 
@@ -114,6 +133,27 @@ Splunk Power User sınavının **%60'ı** arayüzde kurulan bilgi nesneleri: ala
 6. **SPL sayı gösterimi:** tam sayı çıkan ortalamaları Pafta `69.0`, Splunk `69` gösterir. Bugün hiçbir tahmini etkilemiyor, yeni derslerde dikkat.
 7. **Kapsamda kalan küçük boşluklar:** Bash'te başlangıç dosyaları (`.bashrc`, `.bash_profile`), `alias`, `sha256sum`, `nice`; SQL'de `CREATE VIEW` ve veri sözlüğü (`sqlite_master`, `PRAGMA table_info`); KQL'de `render` (kavram olarak).
 
+## Sigma ve YARA denetimi (`ed6e89d`)
+
+| Kontrol | Sonuç |
+|---|---|
+| Bütün yollar (gerileme dahil; düzenek değişti) | 267 ders, **2466 kontrol temiz** |
+| Tahmin açıklamaları | Sigma ve YARA'nın 36 tahmininin hepsi gerçek çıktıyla uyuşuyor |
+| Mutasyon testi (koşulda and/or, 1 of/all of, değiştirici silme, sınır kaydırma) | **Sigma: 36 görevde 0 zayıf test.** YARA: 38 görevin 7'sinde eşik ayırt edilmiyor (1.3) |
+| Yapı | İkisinde de 6 rütbe dolu, ders numaraları sıralı, **her derste tahmin var** (projeler dahil). Bu konuda en düzenli iki yol. |
+| Motorlar | Sigma resmi pySigma ayrıştırıcısıyla, YARA gerçek libyara ile çalışıyor; KQL/SPL taklitlerinden daha güvenilir. Bağımlılık yoksa ikisi de kurulum komutunu gösteren anlaşılır bir hata veriyor. |
+| Bağımlılıklar | `.deps/` (17 MB) git'e girmiyor; README kurulumu anlatıyor. Temiz bir kopyada iki yol kurulum yapılana kadar çalışmaz. Bilinçli ve belgelenmiş bir seçim. |
+| Uygulama | 12 yol sekmesi açılıyor, hata kartı yok |
+
+Not: içerik betiklerle denetlendi; Sigma/YARA ders metinleri bu oturumda tek tek okunmadı (bu konuşmada konu daha önce otomatik güvenlik denetimine takılmıştı).
+
+## Hedef kapsam belgesine yorum
+
+Yazan tarafın TryHackMe yollarına göre çıkardığı kapsam belgesine (Codex çıktısı `pafta-hedef-kapsami.md`) büyük ölçüde katılıyorum. Elastic/Kibana KQL ve EQL, Wireshark görüntü filtreleri, Java ve C# okuma, CMD gerçek boşluklar. İki ekleme:
+
+1. **Ad karışıklığı:** Pafta'daki "KQL" Microsoft'un Kusto dilidir. TryHackMe SOC Level 1'deki Kibana "KQL"si bambaşka bir dildir. Elastic yolu eklenmeden önce bile yol adını "KQL (Kusto)" yapmak, sekmede de bunu göstermek yanlış öğrenmeyi önler.
+2. **Windows güvenlik olay kimlikleri:** SOC yollarında Security günlüğü (oturum açma, süreç oluşturma gibi olaylar) ve Sysmon olay kimlikleri temeldir. PowerShell yolu bilerek yalnızca System/Application günlüklerini kullanıyor. SOC hedefi için bu, okuma düzeyinde bir köprü dersiyle kapatılabilir.
+
 ## Diğer oturuma verilecek kısa talimat
 
-> Pafta kökündeki DENETIM.md'yi oku. Sırayla: (1) 1.1 sp04'ün sıralama tuzağı. (2) 1.2'deki 20 görevin her birine tablodaki sınır testini ekle ve bozuk hâlin artık geçmediğini doğrula. (3) 2.1 yeniden numaralandırma; progress.json henüz yok, şimdi yapmak ilerleme kaybettirmez. (4) 2.5 tezgahta pickle düzeltmesi: py_harness.py'deki Sigma/YARA işi commit edildikten sonra; ardından P71'in örneğini çalıştırılır yap. (5) 2.2 PowerShell Başpehlivan modülü ve 2.4 SPL bilgi nesneleri dersi. 2.3 kapandı.
+> Pafta kökündeki DENETIM.md'yi oku; en üstteki durum tablosu açık maddeleri gösteriyor. Sigma ve YARA denetimden iyi geçti. Yeni yol eklemeden önce sırayla: (1) 1.1 sp04 sıralama tuzağı. (2) 1.2'deki 20 görev ve 1.3'teki 7 YARA görevi: sınırdaki testi ya da örneği ekle, bozuk hâlin artık geçmediğini doğrula. (3) 2.1 yeniden numaralandırma; progress.json henüz yok, şimdi yapmak ilerleme kaybettirmez. (4) 2.5 tezgahta pickle düzeltmesi ve ardından bütün Python yolunu doğrula. (5) 2.2 PowerShell Başpehlivan ve 2.4 SPL bilgi nesneleri. Sonra kapsam belgesindeki yeni yollara geç; "KQL (Kusto)" adlandırmasını Elastic yolundan önce yap.
