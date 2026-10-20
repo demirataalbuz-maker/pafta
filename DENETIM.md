@@ -9,7 +9,7 @@ Denetlenen sürüm: `99885a4`, 10 yol, 227 ders. Bu dosya bir bulgu listesidir: 
 | Görevler çalışıyor mu | `tools/validate.py` | 2206 kontrol temiz |
 | Tahmin açıklamaları doğru mu | Her tahmin kodu çalıştırıldı; çıktının her satırı açıklamada geçiyor mu | 284 tahminin hepsi uyuşuyor |
 | "Beklenen çıktı" blokları doğru mu | Örnek çözüm çalıştırılıp blokla karşılaştırıldı | 78 bloğun hepsi doğru |
-| Testler yanlış cevabı yakalıyor mu | **Mutasyon testi:** örnek çözüm küçük hatalarla bozuldu (`>`→`>=`, artan↔azalan, AND→OR, LIMIT+1, LEFT JOIN→JOIN...); bozuk çözüm farklı sonuç verip testi geçiyor mu | SQL, KQL, SPL, Bash, PowerShell, JS: **0 zayıf test**. Python, PHP, C: 18 görevde sınır değeri test edilmiyor (bkz. 1.2) |
+| Testler yanlış cevabı yakalıyor mu | **Mutasyon testi:** örnek çözüm küçük hatalarla bozuldu (`>`→`>=`, artan↔azalan, AND→OR, LIMIT+1, LEFT JOIN→JOIN...); bozuk çözüm farklı sonuç verip testi geçiyor mu | SQL, KQL, SPL, Bash, PowerShell, JS: **0 zayıf test**. Python, PHP, C: 20 görevde sınır değeri test edilmiyor (bkz. 1.2; ikisi P70–P73 ek denetiminden) |
 | Önce anlat, sonra yazdır | Görev çözümündeki her komut ve fonksiyon, haritada daha önce bir anlatımda geçmiş mi | PowerShell, KQL, SQL temiz; birkaç küçük istisna (bkz. 3.3, 3.4) |
 | Yapı | Rütbeler, sahipsiz dosyalar, adım dağılımı, ipuçları | Sahipsiz ya da eksik dosya yok; her görevin ipucu ve çözümü var |
 | Gerçek sisteme sadakat | Splunk ve Kusto taklidinin gerçek davranıştan ayrıldığı yerler | Bir yüksek (1.1), iki düşük bulgu (3.1, 3.2) |
@@ -24,7 +24,7 @@ Gerçek Splunk olayları **en yeniden eskiye** getirir. Aynı arama orada her su
 
 **Düzeltme:** sp04'ün anlatımına bir `[!TUZAK]` kutusu ekle: gerçek Splunk en yeniden eskiye getirir, tezgah eskiden yeniye okur. Görevi sıradan bağımsız yap: "her sunucunun en eski bileti" iste ve çözümde `sort acilis` ile sırayı açıkça kur (`sort acilis | dedup sunucu_id`).
 
-### 1.2 Sınır değerleri test edilmiyor (18 görev)
+### 1.2 Sınır değerleri test edilmiyor (20 görev)
 
 Aşağıdaki görevlerde örnek çözümdeki karşılaştırma bir adım kaydırıldığında (`>` yerine `>=` gibi) test yine geçiyor. Yani tam sınırdaki bir hatayı (off-by-one) yapan öğrenci de ONAYLANDI mührü alıyor. En çarpıcısı, **sınır denetimini öğreten derslerin testleri tam sınırı denemiyor.**
 
@@ -48,6 +48,8 @@ Aşağıdaki görevlerde örnek çözümdeki karşılaştırma bir adım kaydır
 | python/p67:1, p67:2, p67:4 «Kural motoru» | `gt`/`lt` → `>=`/`<=` | eşit değerde `gt` ve `lt` **False** olmalı (gt ile gte farkı dersin konusu) |
 | python/p68:2 «İmzalı kayıt» | `sort_keys=True` silinse de geçiyor | anahtarları farklı sırayla eklenmiş iki eş sözlük **aynı** imzayı vermeli |
 | python/p69:1 «Jetonlayıcı» | `i + 1 < len(metin)` → `i < len(metin)` | sonunda tek bir `.` olan girdi (`"3."`) |
+| python/p70:5 «Kendi mini linter'ın» *(ek denetim)* | `len(satir) > 79` → `>= 79` | tam 79 karakterlik satır E501 **vermemeli**, 80 karakterlik vermeli (PEP 8'in sınırı tam olarak bu) |
+| python/p73:5 «Doğrulanmış port» *(ek denetim)* | `0 <= n` → `0 < n` | `Port(0)` ve `Port(65535)` geçerli, `Port(65536)` `ValueError` |
 
 Zararsız çıkanlar (sonucu değiştirmiyor, işlem gerekmez): p20:6, p46:5, p55:5, p55:6, p64:5.
 
@@ -66,6 +68,7 @@ Haritada SP08'den sonra SP07, SP13'ten sonra SP11, PS10'dan sonra PS14 geliyor. 
 | JavaScript | js01–js03, **js10, js06, js07, js04, js08, js05**, js09, js11, js12 |
 | PHP | ph01–ph03, **ph06, ph05**, ph07, **ph04**, ph08… |
 | PowerShell | ps01–ps10, **ps14–ps18, ps11–ps13** |
+| Python *(ek denetim)* | p01–p29, **p72**, p30–p41, **p73**, p42–p47, **p70**, p48, p49, **p71**, p50… |
 
 **Şimdi düzeltmek bedava:** ilerleme ders kimliğiyle saklanıyor ve `progress.json` henüz yok. Öğrenci başladıktan sonra yeniden numaralamak ilerlemesini siler. Kimlikleri ve dosya adlarını harita sırasına göre yeniden numaralandır (derslerin içindeki "SP11'de gördün" gibi atıfları da güncelle).
 
@@ -73,9 +76,29 @@ Haritada SP08'den sonra SP07, SP13'ten sonra SP11, PS10'dan sonra PS14 geliyor. 
 
 PowerShell 5 rütbede kaldı: en üst rütbe olan Başpehlivan'ın modülü yok. AZ-040'tan eksik konular bu modülün doğal içeriği: `Get-Help` ve `Get-Command` ile keşif, sağlayıcılar (`Env:`, `Variable:`, kayıt defteri), `Get-CimInstance`, işler (`Start-Job`, `Receive-Job`), modüller (`.psm1`, `Import-Module`), uzaktan yönetimi okumak (`Invoke-Command`). Bunların hepsi nötr yönetim konuları.
 
-### 2.3 Python'un PCPP1 eksikleri
+### 2.3 Python'un PCPP1 eksikleri · KAPANDI
 
-Python, derinleştirilmeyen tek yol. Eksikler: PEP 8, PEP 20, PEP 257 ve docstring; `pickle` ve `shelve` (güvenilmeyen veriyle `pickle.load` uyarısıyla); `xml.etree.ElementTree` ve `configparser`; yerleşik türlerden türetmek (`dict` alt sınıfı, `__missing__`, `UserDict`).
+`8be71c9` ile P70–P73 eklendi (kod standartları, pickle ve shelve, XML ve INI, yerleşik türleri genişletmek). Ek denetim: 40 kontrol temiz, 4 tahminin hepsi doğru. İçerik Python 3.11 ile tutarlı (pickle varsayılan protokol 4, en yüksek 5; `defusedxml` uyarısı Python belgeleriyle aynı). Kalan iki sınır testi 1.2'ye eklendi. tkinter bilerek dışarıda.
+
+### 2.5 Tezgahta sınıflar pickle'lanamıyor: düzenekte birkaç satırlık düzeltme *(ek denetim)*
+
+P71 bu yüzden sınıf pickle'lama örneğini çalıştırılmayan örnek yaptı, görevde de `copy.deepcopy` ile dolaylı sınadı. Sebep motor değil düzenek: [py_harness.py](sandbox/py_harness.py) `exec_user` kullanıcı kodunu düz bir sözlükte çalıştırıyor, `sys.modules["__main__"]` ise düzeneğin kendisi. pickle sınıfı `__main__.Hesap` adıyla aradığında bulamıyor.
+
+**Düzeltme:** ad alanını gerçek bir modül yap ve çalışırken `sys.modules["__main__"]` yerine koy:
+
+```python
+mod = types.ModuleType("__main__")
+mod.__dict__.update({"__builtins__": builtins, "__file__": "kod.py"})
+ns = mod.__dict__
+eski = sys.modules["__main__"]
+sys.modules["__main__"] = mod
+try:
+    exec(compile(code, FNAME, "exec"), ns)
+finally:
+    sys.modules["__main__"] = eski
+```
+
+Ayrı bir betikle denendi: bugünkü yolda `PicklingError: attribute lookup Hesap on __main__ failed`, düzeltmeyle aynı kod çalışıyor. Sonra P71'in `norun` örneği çalıştırılır yapılabilir ve görev pickle'ı doğrudan sınayabilir. **Dikkat:** `sandbox/py_harness.py` şu an Sigma/YARA üzerinde çalışan oturumda değişiklik halinde; bu düzeltme o iş commit edildikten sonra yapılmalı. Ardından bütün Python yolu yeniden doğrulanmalı (Röntgen ve testler de `exec_user` kullanıyor).
 
 ### 2.4 SPL'de bilgi nesneleri yok
 
@@ -93,4 +116,4 @@ Splunk Power User sınavının **%60'ı** arayüzde kurulan bilgi nesneleri: ala
 
 ## Diğer oturuma verilecek kısa talimat
 
-> Pafta kökündeki DENETIM.md'yi oku. Önce 1.1 (sp04 sıralama) ve 1.2'deki sınır testlerini düzelt; her görevin testine tablodaki sınır durumunu ekle ve bozuk hâlin artık geçmediğini doğrula. Sonra 2.1'deki yeniden numaralandırmayı yap; progress.json henüz yok, şimdi yapmak ilerleme kaybettirmez. Ardından 2.2 (PowerShell Başpehlivan), 2.3 (Python PCPP1) ve 2.4 (SPL bilgi nesneleri).
+> Pafta kökündeki DENETIM.md'yi oku. Sırayla: (1) 1.1 sp04'ün sıralama tuzağı. (2) 1.2'deki 20 görevin her birine tablodaki sınır testini ekle ve bozuk hâlin artık geçmediğini doğrula. (3) 2.1 yeniden numaralandırma; progress.json henüz yok, şimdi yapmak ilerleme kaybettirmez. (4) 2.5 tezgahta pickle düzeltmesi: py_harness.py'deki Sigma/YARA işi commit edildikten sonra; ardından P71'in örneğini çalıştırılır yap. (5) 2.2 PowerShell Başpehlivan modülü ve 2.4 SPL bilgi nesneleri dersi. 2.3 kapandı.
