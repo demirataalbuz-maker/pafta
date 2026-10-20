@@ -30,7 +30,7 @@ for i in range(3):
 ```
 
 > [!DERİN]
-> `range(10**12)` bellekte bir trilyon sayılık liste **oluşturmaz**. `range` tembel (lazy) bir nesnedir: sadece başlangıç, bitiş ve adımı saklar, sayıları istendikçe hesaplar. `len(range(10**12))` anında cevap verir, `10**11 in range(10**12)` bile matematikle hesaplanır, dolaşmaz. Bu tembellik fikri P43'te (üreteçler) Python'un süper gücüne dönüşecek.
+> `range(10**12)` bellekte bir trilyon sayılık liste **oluşturmaz**. `range` tembel (lazy) bir nesnedir: sadece başlangıç, bitiş ve adımı saklar, sayıları istendikçe hesaplar. `len(range(10**12))` anında cevap verir, `10**11 in range(10**12)` bile matematikle hesaplanır, dolaşmaz. Bu tembellik fikri P45'te (üreteçler) Python'un süper gücüne dönüşecek.
 :::
 
 ::: tahmin

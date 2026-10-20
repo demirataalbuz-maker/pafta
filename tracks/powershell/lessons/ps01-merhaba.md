@@ -19,7 +19,7 @@ $ad = "Pafta"                            #! değişkenler $ ile başlar
 # bu bir yorum
 ```
 
-PowerShell'in en önemli farkı: borularda **metin değil nesne** akar. `$ad.Length` diyebilmen, `$ad`'ın bir .NET `String` nesnesi olmasındandır. Bunu P05 ve P07'de derinleştireceğiz.
+PowerShell'in en önemli farkı: borularda **metin değil nesne** akar. `$ad.Length` diyebilmen, `$ad`'ın bir .NET `String` nesnesi olmasındandır. Bunu PS05 ve PS07'de derinleştireceğiz.
 
 > [!NOT]
 > `Write-Host` doğrudan ekrana yazar, boru hattına **yazmaz**: çıktısı bir değişkene atanamaz ya da başka bir komuta iletilemez. Veri üreten betiklerde `Write-Output` (ya da çıplak değer) kullan; `Write-Host`'u sadece kullanıcıya renkli mesaj göstermek için sakla.

@@ -61,7 +61,7 @@ ali,"Yılmaz, Ayşe","dedi ki ""merhaba""",42,
 | `"(?:[^"]\|"")*"` | tırnaklı alan: tırnak dışı karakterler ya da ikilenmiş tırnaklar |
 | `[^,]*` | tırnaksız alan; boş da olabilir (`,,` ya da sondaki virgül) |
 
-Tırnaklı alanı RX15'teki gibi açarak da yazabilirsin: `"[^"]*(?:""[^"]*)*"`. Burada "özel" kısım bir kaçış dizisi değil, ikilenmiş tırnaktır.
+Tırnaklı alanı RX14'teki gibi açarak da yazabilirsin: `"[^"]*(?:""[^"]*)*"`. Burada "özel" kısım bir kaçış dizisi değil, ikilenmiş tırnaktır.
 
 > [!TUZAK]
 > Tırnaklı alanın içinde satır sonu da olabilir; satır satır okuyan hiçbir desen bunu doğru işleyemez. Gerçek CSV için Python'da `csv`, PowerShell'de `Import-Csv` kullan. Regex hızlı bir göz atmak ve bozuk satırları bulmak içindir.

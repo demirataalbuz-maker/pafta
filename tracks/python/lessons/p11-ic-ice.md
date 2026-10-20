@@ -14,7 +14,7 @@ for satir in range(1, 4):
     print()                              #! iç döngü bitti → satır sonu
 ```
 
-Dış döngü 3, iç döngü 3 tur → toplam **9** kez çalışır. 1000 × 1000'lik iç içe döngü bir milyon tur eder: iç içe döngüler hızla pahalılaşır. Bu bedeli P64'te "karmaşıklık" (Big-O) olarak ölçeceğiz.
+Dış döngü 3, iç döngü 3 tur → toplam **9** kez çalışır. 1000 × 1000'lik iç içe döngü bir milyon tur eder: iç içe döngüler hızla pahalılaşır. Bu bedeli P68'te "karmaşıklık" (Big-O) olarak ölçeceğiz.
 
 Tipik kullanımlar: tablo/ızgara dolaşmak, **her çifti** karşılaştırmak, desen çizmek.
 

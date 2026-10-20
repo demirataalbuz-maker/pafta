@@ -99,7 +99,7 @@ print(f"{n=}")            #! n=42 — hata ayıklama kısayolu
 > f-string çalışma anında bir `str.format` çağrısına değil, doğrudan özel bytecode'a derlenir (`FORMAT_VALUE`, `BUILD_STRING`). Bu yüzden `%` biçimlendirmesinden ve `.format()`'tan hızlıdır. Bytecode düğmesiyle bak: `f"{x}"` için ayrı bir fonksiyon çağrısı göremezsin.
 
 > [!GÜVENLİK]
-> f-string'i **SQL sorgusu ya da kabuk komutu** kurmak için asla kullanma: `f"SELECT * FROM users WHERE ad='{ad}'"`. Kullanıcı `ad` olarak `' OR '1'='1` verirse sorgunun anlamı değişir. Bu SQL injection'ın ta kendisidir. Doğrusu parametreli sorgudur (P29) ve kabuk için argüman listesidir (P50).
+> f-string'i **SQL sorgusu ya da kabuk komutu** kurmak için asla kullanma: `f"SELECT * FROM users WHERE ad='{ad}'"`. Kullanıcı `ad` olarak `' OR '1'='1` verirse sorgunun anlamı değişir. Bu SQL injection'ın ta kendisidir. Doğrusu parametreli sorgudur (P29) ve kabuk için argüman listesidir (P54).
 :::
 
 ::: tahmin

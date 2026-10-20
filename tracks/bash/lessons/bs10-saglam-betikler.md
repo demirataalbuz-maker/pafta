@@ -47,7 +47,7 @@ kullanim() { echo "kullanım: $0 <log-dosyası>" >&2; exit 2; }
 ```
 
 > [!NOT]
-> **ShellCheck** (`shellcheck betik.sh`) Bash betiklerindeki tırnaksız değişkenleri, yanlış testleri ve taşınabilirlik sorunlarını bulan bir statik analiz aracıdır. Python'daki linter'ların (P62) Bash karşılığıdır; ciddi her betikte kullanılmalıdır.
+> **ShellCheck** (`shellcheck betik.sh`) Bash betiklerindeki tırnaksız değişkenleri, yanlış testleri ve taşınabilirlik sorunlarını bulan bir statik analiz aracıdır. Python'daki linter'ların (P50) Bash karşılığıdır; ciddi her betikte kullanılmalıdır.
 
 > [!GÜVENLİK]
 > `mktemp` yerine `/tmp/benim_dosyam` gibi tahmin edilebilir bir yol kullanmak, paylaşılan sistemlerde bir saldırganın aynı adla önceden bir sembolik bağ bırakmasına ve betiğin başka bir dosyanın üzerine yazmasına yol açabilir (P26'daki TOCTOU'nun kabuk hali). `mktemp` benzersiz ve güvenli izinli dosya üretir.

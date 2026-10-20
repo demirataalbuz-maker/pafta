@@ -5,7 +5,7 @@ summary: Olayları sessizlik eşiğine göre oturumlara bölmek; row_window_sess
 ---
 
 ::: anlat Olaylardan oturumlara
-SQ16'da `LAG` ve birikimli toplamla oturum kurdun. KQL'de aynı iş iki yoldan yapılır.
+SQ15'da `LAG` ve birikimli toplamla oturum kurdun. KQL'de aynı iş iki yoldan yapılır.
 
 ### Kısa yol: row_window_session
 `row_window_session(zaman, ilkten_en_fazla, komsular_arasi_en_fazla, yeniden_baslat)` her satır için içinde bulunduğu oturumun **başlangıç zamanını** döndürür. Yeni oturum şu durumlarda başlar:
@@ -42,7 +42,7 @@ istekler
 :::
 
 ::: anlat Seriler: ardışık aynı durumlar
-"Hatalar kaç dalga halinde geldi ve her dalga ne kadar sürdü?" SQ15'teki boşluk ve ada sorusudur. KQL'de en temiz çözüm, **durum değiştiğinde** artan bir sayaçtır. Aynı sayaca sahip ardışık satırlar bir seridir:
+"Hatalar kaç dalga halinde geldi ve her dalga ne kadar sürdü?" SQ14'teki boşluk ve ada sorusudur. KQL'de en temiz çözüm, **durum değiştiğinde** artan bir sayaçtır. Aynı sayaca sahip ardışık satırlar bir seridir:
 
 ```kql
 istekler

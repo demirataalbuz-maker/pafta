@@ -48,7 +48,7 @@ $olay.roller -join "/"
 `ConvertTo-Json` varsayılan olarak sadece **2 seviye** derinliğe iner; daha derin yapılarda iç kısımları metne çevirir. İç içe veride `-Depth 10` ver.
 
 > [!NOT]
-> Gerçek bir API'den JSON almak için `Invoke-RestMethod` kullanılır: yanıtı otomatik olarak nesneye çevirir. Python'daki `urllib` + `json` ikilisinin (P52) tek satırlık karşılığıdır.
+> Gerçek bir API'den JSON almak için `Invoke-RestMethod` kullanılır: yanıtı otomatik olarak nesneye çevirir. Python'daki `urllib` + `json` ikilisinin (P56) tek satırlık karşılığıdır.
 :::
 
 ::: tahmin

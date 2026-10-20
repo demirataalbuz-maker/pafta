@@ -38,7 +38,7 @@ $olaylar | Select-Object Kullanici, @{ Name = "Basarili"; Expression = { $_.Sonu
 `Group-Object` her grup için `Name` (anahtar), `Count` ve `Group` (o gruptaki nesneler) özellikleri olan bir nesne üretir. Bash'teki `sort | uniq -c` ve SIEM'lerdeki `stats count by` / `summarize count() by` ile aynı işi yapar.
 
 > [!NOT]
-> Ekrana tablo basmak için `Format-Table` vardır ama onu **en sona** koy: Format-* cmdlet'leri nesneleri biçimlendirme nesnelerine çevirir ve sonrasındaki komutlar artık özelliklere erişemez. Kural: "önce süz, sonra biçimle". Veriyi başka yere aktaracaksan `Export-Csv` ya da `ConvertTo-Json` (P08).
+> Ekrana tablo basmak için `Format-Table` vardır ama onu **en sona** koy: Format-* cmdlet'leri nesneleri biçimlendirme nesnelerine çevirir ve sonrasındaki komutlar artık özelliklere erişemez. Kural: "önce süz, sonra biçimle". Veriyi başka yere aktaracaksan `Export-Csv` ya da `ConvertTo-Json` (PS08).
 :::
 
 ::: tahmin

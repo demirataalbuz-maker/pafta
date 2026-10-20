@@ -20,7 +20,7 @@ file_put_contents(__DIR__ . "/gunluk.txt", "satır\n", FILE_APPEND | LOCK_EX);
 ```
 
 > [!GÜVENLİK]
-> `include` ya da `file_get_contents`'e verilen yol istekten geliyorsa (`$_GET["sayfa"]`), kullanıcı programın okuyacağı ya da çalıştıracağı dosyayı seçebilir. Güvenli kod yolu sabit bir izin listesinden seçer ya da `realpath()` ile çözüp izin verilen klasörün içinde kaldığını denetler (JS09'daki kalıbın PHP karşılığı).
+> `include` ya da `file_get_contents`'e verilen yol istekten geliyorsa (`$_GET["sayfa"]`), kullanıcı programın okuyacağı ya da çalıştıracağı dosyayı seçebilir. Güvenli kod yolu sabit bir izin listesinden seçer ya da `realpath()` ile çözüp izin verilen klasörün içinde kaldığını denetler (JS10'daki kalıbın PHP karşılığı).
 :::
 
 ::: anlat JSON ve diziler

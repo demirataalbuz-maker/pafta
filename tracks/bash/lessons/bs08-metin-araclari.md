@@ -31,7 +31,7 @@ grep ERROR app.log | cut -d' ' -f2- | sort | uniq -c | sort -rn   #! en sık hat
 grep -v INFO app.log | head -n 2              #! INFO olmayanların ilk ikisi
 ```
 
-İkinci satırdaki boru hattı "**say, grupla, sırala**" kalıbıdır: `sort | uniq -c | sort -rn`. Python'da `Counter.most_common()` (P31), SIEM'lerde `stats count by` / `summarize count() by` ne yapıyorsa bu satır da onu yapar.
+İkinci satırdaki boru hattı "**say, grupla, sırala**" kalıbıdır: `sort | uniq -c | sort -rn`. Python'da `Counter.most_common()` (P32), SIEM'lerde `stats count by` / `summarize count() by` ne yapıyorsa bu satır da onu yapar.
 
 > [!NOT]
 > `uniq` sadece **ardışık** tekrarları birleştirir; bu yüzden önüne neredeyse her zaman `sort` gelir. `sort | uniq` yerine `sort -u` de yazılabilir.
@@ -129,6 +129,6 @@ Kalıp: `cut ... | sort | uniq -c | sort -rn | head -n 3`. `uniq -c` çıktısı
 ```
 
 ```hint
-Sütunların yerini değiştirmek için en kolayı `awk '{ print $2, $1 }'` (P09'da göreceksin).
+Sütunların yerini değiştirmek için en kolayı `awk '{ print $2, $1 }'` (BS09'da göreceksin).
 ```
 :::

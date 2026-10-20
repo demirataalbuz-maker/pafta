@@ -22,7 +22,7 @@ başarısız: 4
 en çok başarısız: root (3)
 ```
 
-Bu projede, öğrendiğin her şeyi birleştiren bir **araç** yazacaksın: parametre (P02), dosya kontrolü ve kodlama (P08), nesneler ve gruplama (P07), hata yönetimi ve çıkış kodları (P09).
+Bu projede, öğrendiğin her şeyi birleştiren bir **araç** yazacaksın: parametre (PS02), dosya kontrolü ve kodlama (PS08), nesneler ve gruplama (PS07), hata yönetimi ve çıkış kodları (PS09).
 
 İyi bir aracın sözleşmesi:
 

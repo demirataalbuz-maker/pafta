@@ -85,7 +85,7 @@ print(islemler["carp"](6, 7))
 > `lambda` sadece **tek bir ifade** içerebilir: atama, döngü ya da birden fazla satır yok. Bir isme atayacaksan (`f = lambda ...`) bunun yerine `def` yaz; hata mesajlarında `<lambda>` yerine gerçek ismi görürsün. lambda'nın yeri, bir fonksiyona yerinde verilen tek kullanımlık anahtardır.
 
 > [!DERİN]
-> `map` ve `filter` liste değil **yineleyici** (iterator) döndürür: elemanları istendikçe hesaplar ve bir kez tüketilir. `m = map(...)` sonra iki kez `list(m)` dersen ikincisi boş gelir. Bu davranışın arkasındaki protokolü P42'de göreceksin.
+> `map` ve `filter` liste değil **yineleyici** (iterator) döndürür: elemanları istendikçe hesaplar ve bir kez tüketilir. `m = map(...)` sonra iki kez `list(m)` dersen ikincisi boş gelir. Bu davranışın arkasındaki protokolü P44'de göreceksin.
 :::
 
 ::: tahmin

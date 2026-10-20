@@ -51,7 +51,7 @@ Gerçek bir nokta aramak için onu ters eğik çizgiyle **kaçışla**: `\.`
 10.0.0.1 ve 10a0b0c1 ve 10.0.0.15
 ```
 
-Artık `10a0b0c1` eşleşmiyor. Ama `10.0.0.15`'in içindeki `10.0.0.1` hâlâ eşleşiyor: desen "bu dizi burada **bitmeli**" demiyor. Bunu P04'te (sınırlar) çözeceğiz.
+Artık `10a0b0c1` eşleşmiyor. Ama `10.0.0.15`'in içindeki `10.0.0.1` hâlâ eşleşiyor: desen "bu dizi burada **bitmeli**" demiyor. Bunu RX04'te (sınırlar) çözeceğiz.
 
 Her metakarakter `\` ile düz karaktere döner: `\?`, `\(`, `\$`, `\\` (gerçek ters eğik çizgi).
 
@@ -137,6 +137,6 @@ ne\?
 ```
 
 ```hint
-`?` "önceki karakter isteğe bağlı" demektir (P03'te göreceksin). Gerçek soru işareti için `\?`.
+`?` "önceki karakter isteğe bağlı" demektir (RX03'te göreceksin). Gerçek soru işareti için `\?`.
 ```
 :::

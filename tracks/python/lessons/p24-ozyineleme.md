@@ -31,7 +31,7 @@ sonsuz(5)                    # RecursionError: maximum recursion depth exceeded
 Python yığının sonsuza büyüyüp belleği tüketmesini önlemek için varsayılan olarak ~1000 derinlikte durur (`sys.getrecursionlimit()`).
 
 > [!DERİN]
-> Bazı diller (Scheme, Haskell) "kuyruk çağrısı optimizasyonu" yapar: son işlem kendini çağırmaksa yeni çerçeve açmaz. Python bunu **bilinçli olarak yapmaz**. Guido'nun gerekçesi: traceback'ler bozulur ve hata ayıklama zorlaşır. Sonuç olarak Python'da derin özyineleme yerine döngü tercih edilir. Özyinelemeyi **doğası gereği ağaç biçimli** problemlere sakla: iç içe klasörler, JSON, sözdizimi ağaçları (P69'da kendi yorumlayıcını yazarken).
+> Bazı diller (Scheme, Haskell) "kuyruk çağrısı optimizasyonu" yapar: son işlem kendini çağırmaksa yeni çerçeve açmaz. Python bunu **bilinçli olarak yapmaz**. Guido'nun gerekçesi: traceback'ler bozulur ve hata ayıklama zorlaşır. Sonuç olarak Python'da derin özyineleme yerine döngü tercih edilir. Özyinelemeyi **doğası gereği ağaç biçimli** problemlere sakla: iç içe klasörler, JSON, sözdizimi ağaçları (P73'da kendi yorumlayıcını yazarken).
 :::
 
 ::: tahmin
@@ -101,7 +101,7 @@ def fib(n):
 print(fib(90))
 ```
 
-Python'da bunun hazır bir dekoratörü var: `@functools.lru_cache`. Dekoratörleri P44'te kendin yazacaksın.
+Python'da bunun hazır bir dekoratörü var: `@functools.lru_cache`. Dekoratörleri P46'te kendin yazacaksın.
 :::
 
 ::: tahmin

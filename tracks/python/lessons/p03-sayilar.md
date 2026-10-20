@@ -59,7 +59,7 @@ print(abs(-5), min(3, 9), max(3, 9))
 print(divmod(17, 5))          #! (3, 2): tam bölüm ve kalan birlikte
 ```
 
-Para hesabında float kullanma: kuruşları int olarak tut ya da `decimal` modülünü kullan (P34).
+Para hesabında float kullanma: kuruşları int olarak tut ya da `decimal` modülünü kullan (P35).
 
 **Artırılmış atama** kısayolları: `x += 1` aslında `x = x + 1` demektir. `-=`, `*=`, `//=`, `%=`, `**=` de vardır.
 

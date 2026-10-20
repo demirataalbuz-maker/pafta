@@ -5,7 +5,7 @@ summary: KQL tablolarının sırasızlığı ve serialize; prev ve next ile kom�
 ---
 
 ::: anlat Komşu satıra bakmak
-SQ08'de `LAG` ve `LEAD` ile yaptığını KQL'de `prev()` ve `next()` yapar. Bir farkla: KQL tabloları **sırasızdır** ve "önceki satır" ancak satırlar sıralandıktan sonra anlam taşır. Bu yüzden `prev`, `next`, `row_number` ve `row_cumsum` yalnızca **serileştirilmiş** bir girdide çalışır. Girdi `sort by`, `top` ya da `serialize`'dan sonra serileşmiş olur:
+SQ11'de `LAG` ve `LEAD` ile yaptığını KQL'de `prev()` ve `next()` yapar. Bir farkla: KQL tabloları **sırasızdır** ve "önceki satır" ancak satırlar sıralandıktan sonra anlam taşır. Bu yüzden `prev`, `next`, `row_number` ve `row_cumsum` yalnızca **serileştirilmiş** bir girdide çalışır. Girdi `sort by`, `top` ya da `serialize`'dan sonra serileşmiş olur:
 
 ```kql
 olcumler

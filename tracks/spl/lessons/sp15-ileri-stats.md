@@ -5,7 +5,7 @@ summary: count(eval(...)) ve sum(eval(if(...))) ile tek stats'ta birden çok ko�
 ---
 
 ::: anlat Tek stats, birçok soru
-SP07'de koşullu sayım için her olaya `eval` ile 0/1 bayrağı koyup `sum` almıştın. Aynı işin kısa yolu, toplama fonksiyonunun içine bir `eval` yazmaktır:
+SP08'de koşullu sayım için her olaya `eval` ile 0/1 bayrağı koyup `sum` almıştın. Aynı işin kısa yolu, toplama fonksiyonunun içine bir `eval` yazmaktır:
 
 ```spl
 sourcetype=istekler

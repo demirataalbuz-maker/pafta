@@ -73,7 +73,7 @@ echo $(( 17 / 5 )) $(( 17 % 5 ))   #! tam bölme ve kalan
 printf "%05d|%-6s|\n" 42 ab   #! printf: biçimli yazdırma (C'deki gibi)
 ```
 
-Bash'te sadece **tam sayı** aritmetiği vardır; ondalıklı işlem için `awk` ya da `bc` kullanılır (P09).
+Bash'te sadece **tam sayı** aritmetiği vardır; ondalıklı işlem için `awk` ya da `bc` kullanılır (BS09).
 
 > [!NOT]
 > `echo` hızlı ve kolaydır, ama davranışı kabuktan kabuğa değişir (`-e`, `-n` seçenekleri, ters eğik çizgiler). Biçim önemliyse ve taşınabilirlik istiyorsan `printf` kullan.

@@ -29,7 +29,7 @@ Regex'in çekirdeği (`.`, `[...]`, `*`, `+`, `?`, `{n,m}`, `|`, `( )`, `^`, `$`
 | `\p{L}` | ✗ | ✓ | ✓ | `u` ile | ✓ | ✗ |
 | satır içi `(?i)` | ✓ | ✓ | ✓ | `/.../i` | ✓ | araç seçeneği (`grep -i`) |
 
-RE2'nin eksikleri bir tasarım tercihidir: bakınma ve geri başvuru olmadan her desen, metnin uzunluğuyla **doğrusal** sürede çalışır ve felaket geri izleme (RX11) imkânsızdır. Binlerce kullanıcının sorgu yazdığı bir platform için bu, özelliklerden daha değerlidir.
+RE2'nin eksikleri bir tasarım tercihidir: bakınma ve geri başvuru olmadan her desen, metnin uzunluğuyla **doğrusal** sürede çalışır ve felaket geri izleme (RX12) imkânsızdır. Binlerce kullanıcının sorgu yazdığı bir platform için bu, özelliklerden daha değerlidir.
 
 > [!TUZAK]
 > POSIX araçlarında `\d` yoktur ve hata da vermeyebilir. Bu makinedeki GNU grep 3.0'da `echo "disk 42" | grep -oE '\d+'` komutu `42` değil `d` yazar: `\d` sessizce `d` harfine dönüşür. Yeni grep sürümleri en azından uyarı verir. `grep`, `sed` ve `awk`'ta rakam için `[0-9]` yaz.

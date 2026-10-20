@@ -71,7 +71,7 @@ print(sol, sag)
 ```
 
 > [!DERİN]
-> İsimler aslında bir **sözlükte** tutulur. Modül düzeyindeki isimler `globals()` sözlüğündedir: `x = 5` yazmak kabaca `globals()["x"] = 5` demektir. Python bir ismi gördüğünde bu sözlüklere bakar ve bulamazsa `NameError` verir. Bu bilgi P22'de (kapsam) ve P59'da (nitelik erişimi) her şeyi açıklayacak.
+> İsimler aslında bir **sözlükte** tutulur. Modül düzeyindeki isimler `globals()` sözlüğündedir: `x = 5` yazmak kabaca `globals()["x"] = 5` demektir. Python bir ismi gördüğünde bu sözlüklere bakar ve bulamazsa `NameError` verir. Bu bilgi P22'de (kapsam) ve P63'da (nitelik erişimi) her şeyi açıklayacak.
 :::
 
 ::: tahmin

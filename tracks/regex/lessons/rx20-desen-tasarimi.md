@@ -32,7 +32,7 @@ sürüm 1.2.3, adres 10.0.0.1, eski 2.10.0-beta, yol 1.2.3.4.5
 :::
 
 ::: anlat Belgelenmiş desen
-`(?x)` (RX09) desendeki boşlukları yok sayar ve `#`'den satır sonuna kadar olan kısmı yorum sayar. Uzun bir desen böylece kendi belgesini taşır:
+`(?x)` (RX10) desendeki boşlukları yok sayar ve `#`'den satır sonuna kadar olan kısmı yorum sayar. Uzun bir desen böylece kendi belgesini taşır:
 
 ```regex
 (?x)

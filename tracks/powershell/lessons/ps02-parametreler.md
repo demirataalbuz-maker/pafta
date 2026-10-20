@@ -52,7 +52,7 @@ param([string]$Ad = "dünya", [int]$Tekrar = 2)
 
 ???
 
-`Merhaba dünya #1`, sonra `Merhaba dünya #2`. Varsayılanlar devreye girer. `1..2` bir aralıktır, `ForEach-Object` her eleman için bloğu çalıştırır ve `$_` o anki elemandır (P05).
+`Merhaba dünya #1`, sonra `Merhaba dünya #2`. Varsayılanlar devreye girer. `1..2` bir aralıktır, `ForEach-Object` her eleman için bloğu çalıştırır ve `$_` o anki elemandır (PS05).
 :::
 
 ::: gorev Selamla

@@ -35,7 +35,7 @@ Yanlışlıkla iki kez yazılmış kelimeleri bulmak için klasik desen budur. B
 ad="ali" rol='admin' not="karışık'
 ```
 
-`.*?` tembel bir niceleyicidir; P07'de göreceksin.
+`.*?` tembel bir niceleyicidir; RX08'de göreceksin.
 
 > [!DERİN]
 > Geri başvuru, regex'i matematiksel anlamdaki "düzenli dil" sınıfının **dışına** çıkarır: `(\w+) \1` gibi bir deseni sonlu bir otomatla tanımak mümkün değildir. Bu yüzden RE2 ve Rust'ın `regex`'i gibi garantili doğrusal zamanlı motorlar geri başvuruyu **desteklemez**. Hız garantisi ile ifade gücü arasında bir takas vardır.

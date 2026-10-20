@@ -23,7 +23,7 @@ try {
 }
 ```
 
-Betik genelinde varsayılanı değiştirmek için `$ErrorActionPreference = "Stop"`, Bash'teki `set -e`'nin (P10) karşılığıdır.
+Betik genelinde varsayılanı değiştirmek için `$ErrorActionPreference = "Stop"`, Bash'teki `set -e`'nin (BS10) karşılığıdır.
 
 ### throw ve belirli türleri yakalamak
 ```powershell

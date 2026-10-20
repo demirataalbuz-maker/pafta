@@ -95,7 +95,7 @@ eq(bul("Başla 09:30, ara 12:5, bitiş 18:45"), ["09:30", "18:45"], "sadece tam 
 ```
 
 ```hint
-Her `\d` tek bir rakamdır. İki rakam için iki kez yaz (P03'te bunun kısa yolunu göreceksin).
+Her `\d` tek bir rakamdır. İki rakam için iki kez yaz (RX03'te bunun kısa yolunu göreceksin).
 ```
 :::
 

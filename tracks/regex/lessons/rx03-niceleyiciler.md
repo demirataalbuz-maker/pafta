@@ -24,7 +24,7 @@ color colour colouur
 
 `u?` "u olabilir de olmayabilir de" demektir. `colouur`'da iki u var, bu yüzden tutmaz.
 
-"Önceki öğe" tek bir karakter, bir karakter sınıfı ya da parantezli bir grup olabilir (P05):
+"Önceki öğe" tek bir karakter, bir karakter sınıfı ya da parantezli bir grup olabilir (RX05):
 
 ```regex
 \d{3}-\d{4}
@@ -32,7 +32,7 @@ color colour colouur
 555-1234, 55-12345, 5555-12345
 ```
 
-Üçüncü eşleşmeye dikkat: `5555-12345` içinden `555-1234` çıktı. Niceleyici "en az/en çok bu kadar" der ama desene "burada başla, burada bit" demez. Sınırları P04'te öğreneceksin.
+Üçüncü eşleşmeye dikkat: `5555-12345` içinden `555-1234` çıktı. Niceleyici "en az/en çok bu kadar" der ama desene "burada başla, burada bit" demez. Sınırları RX04'te öğreneceksin.
 
 ```regex
 a{2,3}
@@ -40,7 +40,7 @@ a{2,3}
 a aa aaa aaaa
 ```
 
-`aaaa` metninden önce `aaa` alınır (niceleyiciler **açgözlüdür**: olabildiğince fazla alır), kalan tek `a` ise yetmez. Açgözlülüğü P07'de derinlemesine göreceğiz.
+`aaaa` metninden önce `aaa` alınır (niceleyiciler **açgözlüdür**: olabildiğince fazla alır), kalan tek `a` ise yetmez. Açgözlülüğü RX08'de derinlemesine göreceğiz.
 
 > [!TUZAK]
 > `ab+` "a, sonra bir ya da daha fazla b" demektir, "ab'nin tekrarı" değil. Tekrar edilecek şey birden fazla karakterse onu grupla: `(ab)+`.

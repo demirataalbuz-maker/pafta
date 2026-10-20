@@ -44,7 +44,7 @@ Hızlı ama yanlış bir sorgu, yavaş bir sorgudan daha tehlikelidir. KQL'de en
 |---|---|---|
 | `==` büyük-küçük harfe **duyarlıdır** | `seviye == "error"` hiçbir şey bulmaz | `=~`, `in~`, `has` (duyarsız) |
 | `has` terim arar | `has "rap"`, `rapor`'u bulmaz | tam terim ya da `hasprefix` |
-| `join` varsayılanı `innerunique` | sol tablodan satır kaybolur | `kind=inner` (KQ06, KQ11) |
+| `join` varsayılanı `innerunique` | sol tablodan satır kaybolur | `kind=inner` (KQ06, KQ10) |
 | `take` rastgeledir | her çalıştırmada farklı satırlar | `top N by ...` ya da `sort` + `take` |
 | dinamik değerle gruplamak | hata ya da beklenmedik gruplar | önce `tostring()` (KQ13) |
 | boş değerli karşılaştırma | `x != "a"` boş `x`'i elemez ya da beklenmedik davranır | `isempty()` / `isnotempty()` ile açıkça ele al |

@@ -22,7 +22,7 @@ Bash'te borudan **metin** akar ve her araç onu yeniden ayrıştırır. PowerShe
 | `Select-Object` | `select` | özellik seç, ilk/son N |
 | `Sort-Object` | `sort` | sırala |
 | `Measure-Object` | `measure` | say, topla, ortalama |
-| `Group-Object` | `group` | grupla (P07) |
+| `Group-Object` | `group` | grupla (PS07) |
 
 > [!NOT]
 > Kısaltmalar (`%`, `?`) etkileşimli kullanımda hızlıdır ama betiklerde okunabilirliği bozar. Paylaşacağın betiklerde tam adları yaz.

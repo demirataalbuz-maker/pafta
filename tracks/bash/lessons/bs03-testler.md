@@ -93,7 +93,7 @@ fi
 ```
 
 ```hint
-`(( n % 2 == 0 )) && echo çift || echo tek` ya da bir `if` bloğu (P04).
+`(( n % 2 == 0 )) && echo çift || echo tek` ya da bir `if` bloğu (BS04).
 ```
 :::
 

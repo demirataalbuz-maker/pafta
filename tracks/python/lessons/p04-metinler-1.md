@@ -37,7 +37,7 @@ print(afis)
 ```
 
 > [!TUZAK]
-> Windows yollarında `"C:\new"` yazarsan `\n` yeni satıra dönüşür. Ya ham metin (`r"C:\new"`) ya da ileri eğik çizgi (`"C:/new"`) kullan. Regex desenleri için de ham metin standarttır (P33).
+> Windows yollarında `"C:\new"` yazarsan `\n` yeni satıra dönüşür. Ya ham metin (`r"C:\new"`) ya da ileri eğik çizgi (`"C:/new"`) kullan. Regex desenleri için de ham metin standarttır (P34).
 
 ### Metinler değiştirilemez
 Bir metnin karakterini yerinde değiştiremezsin. `s[0] = "p"` hata verir. Metinler **değiştirilemez** (immutable) nesnelerdir. Değişiklik istiyorsan **yeni** bir metin üretirsin: `s = "p" + s[1:]`.
@@ -73,7 +73,7 @@ print(ip[100:])    #! '' — dilim taşmaz, hata vermez
 "Bitiş hariç" kuralının iki güzel sonucu var: `s[:n]` tam **n** karakter verir ve `s[:n] + s[n:]` her zaman `s`'in kendisidir.
 
 > [!DERİN]
-> `s[1:4]` aslında `s[slice(1, 4)]` demektir. `slice` gerçek bir nesnedir ve köşeli parantez çağrısı `s.__getitem__(slice(1, 4, None))`'a dönüşür. P38'de kendi sınıflarına dilimleme desteği eklerken bunu kullanacaksın. İndeks taşarsa `IndexError` alırsın, dilim taşarsa almazsın; dilim, sınırları sessizce kırpar.
+> `s[1:4]` aslında `s[slice(1, 4)]` demektir. `slice` gerçek bir nesnedir ve köşeli parantez çağrısı `s.__getitem__(slice(1, 4, None))`'a dönüşür. P39'de kendi sınıflarına dilimleme desteği eklerken bunu kullanacaksın. İndeks taşarsa `IndexError` alırsın, dilim taşarsa almazsın; dilim, sınırları sessizce kırpar.
 :::
 
 ::: tahmin

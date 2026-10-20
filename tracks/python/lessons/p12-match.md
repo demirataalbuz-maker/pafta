@@ -95,7 +95,7 @@ match olay:
 Sözlük deseni **alt küme** eşler: olayda fazladan anahtar (`ip`) olması sorun değil.
 
 > [!GÜVENLİK]
-> Tespit mühendisliğinin özü budur: olayın **yapısına** bakıp kural uygulamak. Sigma kuralları (P67'de mini bir motorunu yazacaksın) tam olarak "şu alanlar şu değerlerdeyse alarm" der. `match` bunun Python'a gömülü küçük bir versiyonudur.
+> Tespit mühendisliğinin özü budur: olayın **yapısına** bakıp kural uygulamak. Sigma kuralları (P71'de mini bir motorunu yazacaksın) tam olarak "şu alanlar şu değerlerdeyse alarm" der. `match` bunun Python'a gömülü küçük bir versiyonudur.
 :::
 
 ::: tahmin

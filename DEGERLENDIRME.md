@@ -1,5 +1,8 @@
 # Pafta · Sertifika Karşılaştırması (2026-10-20)
 
+> [!NOT]
+> 20 Ekim gecesi ders kimlikleri haritadaki sırayla yeniden numaralandı. Bu belgedeki kimlikler **eski** numaralardır (ör. P70–P73 bugün P50, P53, P30 ve P43; SP19 bugün SP17). Eşleme: [tools/numara_eslemesi.json](tools/numara_eslemesi.json).
+
 Her yol, kendi alanındaki en üst düzey sertifikanın ya da resmi eğitimin **resmi konu listesiyle** karşılaştırıldı. Yüzdeler kabaca bir tahmindir: konu listesindeki maddelerin ne kadarının derslerde gerçekten anlatılıp görevle pekiştirildiğini gösterir.
 
 ## Denetim · 20 Ekim akşamı

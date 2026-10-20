@@ -5,7 +5,7 @@ summary: Özel istisna sınıfları, raise from zinciri, EAFP ve LBYL, assert'in
 ---
 
 ::: anlat Kendi hata türlerin
-Kütüphane ya da araç yazarken kendi hata türlerini tanımlarsın. Böylece kodunu kullanan kişi senin hatalarını diğerlerinden ayırt edebilir. Sınıfları P35'te öğreneceğiz; şimdilik bu iki satırlık kalıbı ezberle:
+Kütüphane ya da araç yazarken kendi hata türlerini tanımlarsın. Böylece kodunu kullanan kişi senin hatalarını diğerlerinden ayırt edebilir. Sınıfları P36'te öğreneceğiz; şimdilik bu iki satırlık kalıbı ezberle:
 
 ```python
 class AgHatasi(Exception):            #! Exception'dan türeyen yeni bir tür
@@ -108,7 +108,7 @@ Python topluluğu genelde **EAFP**'yi tercih eder: "mutlu yol" daha okunaklıdı
 > **`assert`'i güvenlik ya da girdi kontrolü için kullanma.** `assert kullanici.yetkili` gibi bir satır, Python `-O` (optimize) bayrağıyla çalıştırıldığında **tamamen silinir**. Kontrolün yok olur. `assert` sadece "bu asla olmamalı" türünden iç tutarlılık kontrolleri ve testler içindir. Gerçek kontroller `if` + `raise` ile yapılır.
 
 > [!DERİN]
-> Python 3.11 **istisna grupları** getirdi: aynı anda birden çok bağımsız hata (ör. paralel 10 isteğin 3'ü başarısız) `ExceptionGroup` olarak yükselir ve `except*` ile türlerine göre ayrı ayrı yakalanır. Bunu P56'da asyncio'nun `TaskGroup`'u ile göreceksin.
+> Python 3.11 **istisna grupları** getirdi: aynı anda birden çok bağımsız hata (ör. paralel 10 isteğin 3'ü başarısız) `ExceptionGroup` olarak yükselir ve `except*` ile türlerine göre ayrı ayrı yakalanır. Bunu P60'da asyncio'nun `TaskGroup`'u ile göreceksin.
 :::
 
 ::: tahmin

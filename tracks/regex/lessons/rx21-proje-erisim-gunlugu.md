@@ -21,7 +21,7 @@ Desen yazmadan önce, standardın ve sunucuların gerçekte ürettiği satırlar
 | boyutsuz yanıt | `304 -` | boyut `\d+\|-` |
 | boş istek | `"-"` | istek satırı yöntem/yol/protokol diye bölünemez |
 | bozuk istek | `"BOZUK ISTEK"` | aynı şekilde; ham metin saklanmalı |
-| tarayıcı alanında tırnak | `"izleyici/1.2 (\"dahili\")"` | tırnaklı alanlar RX15'teki gibi açılmış kalıpla |
+| tarayıcı alanında tırnak | `"izleyici/1.2 (\"dahili\")"` | tırnaklı alanlar RX14'teki gibi açılmış kalıpla |
 | tarayıcı alanında köşeli parantez | `"Mozilla/5.0 [tr]"` | zaman alanı `[^\]]+` ile okunmalı, `.*` ile değil |
 
 ### Ham metin yedeği
@@ -128,7 +128,7 @@ eq(ozet(B), ("10.0.0.5", "BOZUK ISTEK", None, None, None, "400", "-"), "bozuk is
 ```
 
 ```hint
-Tırnaklı metnin içi için RX15'in açılmış kalıbı: `[^"\\]*(?:\\.[^"\\]*)*`. Aynısını yönlendiren ve tarayıcı alanlarında da kullan.
+Tırnaklı metnin içi için RX14'in açılmış kalıbı: `[^"\\]*(?:\\.[^"\\]*)*`. Aynısını yönlendiren ve tarayıcı alanlarında da kullan.
 ```
 :::
 

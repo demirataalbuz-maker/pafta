@@ -96,7 +96,7 @@ s = sayac_olustur()
 print(s(), s(), s())
 ```
 
-`say` fonksiyonu, `sayac_olustur` bittikten **sonra** bile `n`'i hatırlar. Buna **closure** (kapanım) denir ve P44'te dekoratörlerin temeli olacak.
+`say` fonksiyonu, `sayac_olustur` bittikten **sonra** bile `n`'i hatırlar. Buna **closure** (kapanım) denir ve P46'te dekoratörlerin temeli olacak.
 
 > [!NOT]
 > `global` kullanmak çoğu zaman tasarım kokusudur: fonksiyonun ne yaptığını sadece imzasından anlayamazsın. Değeri parametre olarak al ve sonucu `return` et. `global` yalnızca gerçekten modül düzeyinde bir durum (yapılandırma, sayaç) tutman gerektiğinde makuldür.

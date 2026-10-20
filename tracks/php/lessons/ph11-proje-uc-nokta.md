@@ -50,7 +50,7 @@ yanit(201, ["id" => (int)$pdo->lastInsertId(), "baslik" => $baslik, "oncelik" =>
 | `json_decode(..., true)` | bozuk JSON, `null` ya da tek bir sayı gelirse dizi değildir → 400 |
 | `$girdi["baslik"] ?? ""` | alan yoksa boş metin (ardından 422) |
 | `is_string` | `"baslik": 42` gibi bir sayı reddedilir |
-| `trim` + `mb_strlen` | baştaki ve sondaki boşluklar atılır; uzunluk **karakter** cinsinden (PH06) |
+| `trim` + `mb_strlen` | baştaki ve sondaki boşluklar atılır; uzunluk **karakter** cinsinden (PH04) |
 | `in_array(..., true)` | **sıkı** karşılaştırma: `"KRITIK"` ya da `0` kabul edilmez (PH03) |
 | `prepare` + `execute` | değerler sorgudan ayrı gider (PH08) |
 | `JSON_UNESCAPED_UNICODE` | Türkçe karakterler `ü` gibi kaçırılmadan yazılır |

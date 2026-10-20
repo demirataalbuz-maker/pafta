@@ -22,7 +22,7 @@ print("Bitti")                 #! satırlar sırayla çalışır
 Sağdaki tezgahta bu kod duruyor. **▶ Çalıştır**'a bas (ya da `Ctrl+Enter`), sonra bir satırı değiştirip tekrar çalıştır. Öğrenmenin en hızlı yolu kurcalamak.
 
 > [!DERİN]
-> Python dosyayı satır satır "okuyup çalıştırıyor" gibi görünse de aslında önce tüm kodu **bytecode** denen ara bir dile derler, sonra o bytecode'u bir sanal makinede yürütür. Tezgahtaki **Bytecode** düğmesine basarsan bu çeviriyi görürsün: `print("Bitti")` satırı `LOAD_NAME print`, `LOAD_CONST 'Bitti'`, `CALL` gibi komutlara dönüşür. Şimdilik sadece bil: P62'de o makinenin içine gireceğiz.
+> Python dosyayı satır satır "okuyup çalıştırıyor" gibi görünse de aslında önce tüm kodu **bytecode** denen ara bir dile derler, sonra o bytecode'u bir sanal makinede yürütür. Tezgahtaki **Bytecode** düğmesine basarsan bu çeviriyi görürsün: `print("Bitti")` satırı `LOAD_NAME print`, `LOAD_CONST 'Bitti'`, `CALL` gibi komutlara dönüşür. Şimdilik sadece bil: P66'de o makinenin içine gireceğiz.
 :::
 
 ::: tahmin

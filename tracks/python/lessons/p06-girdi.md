@@ -77,7 +77,7 @@ print(int("  42  "))       #! kenar boşluklarını int() kendisi tolere eder
 Kullanıcı girdisinin hatalı gelme ihtimalini `try/except` ile yönetmeyi P25'te öğreneceksin. O zamana kadar girdinin düzgün olduğunu varsay.
 
 > [!GÜVENLİK]
-> **Kullanıcı girdisine asla güvenme**, güvenliğin birinci kuralıdır. Python 2'de `input()` girilen metni **kod olarak çalıştırırdı**: kullanıcı `__import__('os').system('...')` yazsa komut çalışırdı. Python 3 bunu düzeltti, `input()` artık sadece metin döndürür. Aynı hatayı `eval(input())` yazarak sen geri getirme. `eval` alınan metni kod olarak yürütür; P50'de daha güvenli alternatiflerini göreceğiz.
+> **Kullanıcı girdisine asla güvenme**, güvenliğin birinci kuralıdır. Python 2'de `input()` girilen metni **kod olarak çalıştırırdı**: kullanıcı `__import__('os').system('...')` yazsa komut çalışırdı. Python 3 bunu düzeltti, `input()` artık sadece metin döndürür. Aynı hatayı `eval(input())` yazarak sen geri getirme. `eval` alınan metni kod olarak yürütür; P54'de daha güvenli alternatiflerini göreceğiz.
 :::
 
 ::: tahmin

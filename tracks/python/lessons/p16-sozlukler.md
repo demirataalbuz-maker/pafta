@@ -87,7 +87,7 @@ kullanici = {"zaman_asimi": 10}
 print(varsayilan | kullanici)   #! sağdaki kazanır
 ```
 
-Değere göre sıralamak için: `sorted(sayim.items(), key=lambda kv: kv[1], reverse=True)`. `lambda`'yı P23'te açacağız. P31'deki `collections.Counter` ise sayma işini tek satıra indirir.
+Değere göre sıralamak için: `sorted(sayim.items(), key=lambda kv: kv[1], reverse=True)`. `lambda`'yı P23'te açacağız. P32'deki `collections.Counter` ise sayma işini tek satıra indirir.
 
 > [!GÜVENLİK]
 > Neredeyse her tespit kuralının altında bu iki kalıp yatar: "aynı IP'den 5 dakikada 10'dan fazla başarısız giriş" = IP'ye göre **sayma**; "bir kullanıcının giriş yaptığı farklı makineler" = kullanıcıya göre **gruplama**. SIEM sorgu dillerindeki (KQL'de `summarize count() by ip`) ilk komut budur.
