@@ -20,7 +20,7 @@ Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Pytho
 
 | Yol | Ders | Karşılaştırılan | Sabah | Şimdi | Kalan eksik |
 |---|---|---|---|---|---|
-| Python | 69 | PCAP + PCPP1 | PCAP ~%90 · PCPP1 ~%50 | **aynı** | PEP 8/20/257 ve docstring, `pickle`/`shelve`, XML (`ElementTree`) ve `configparser`, yerleşik türlerden türetmek |
+| Python | 73 | PCAP + PCPP1 | PCAP ~%90 · PCPP1 ~%50 | PCAP ~%90 · PCPP1 ~%80 | P70–P73 eklendi (kod standartları, pickle/shelve, XML ve INI, yerleşik türlerden türetmek). Kalan: GUI (tkinter, bilerek dışarıda), REST'te tam CRUD, logging'de özel handler |
 | Bash | 27 | LPIC-1 (103 + 105) | ~%80 | ~%85 | başlangıç dosyaları ve `alias`, `sha256sum`/`md5sum`, `nice`/`renice`, BRE–ERE farkı, vi |
 | SQL | 17 | Oracle 1Z0-071 | ~%70 | ~%80 | görünümler (`CREATE VIEW`), veri sözlüğü (`sqlite_master`, `PRAGMA`) |
 | Regex | 22 | regular-expressions.info müfredatı | ~%80 | ~%95 | — |
@@ -37,7 +37,7 @@ Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Pytho
 
 ### Öncelikli kalan işler
 
-1. **Python · PCPP1:** dört ders (P70–P73). Python, derinleştirilmeyen tek yol.
+1. ~~**Python · PCPP1:** dört ders (P70–P73).~~ Yapıldı: P70 kod standartları, P71 pickle ve shelve, P72 XML ve INI, P73 yerleşik türleri genişletmek. Python yolu 73 ders.
 2. **SPL · bilgi nesneleri:** tezgahta çalışmayan arayüz konuları için bir kavram dersi. Makro, olay türü ve CIM'in ürettiği aramayı görevde yazdırmak mümkün.
 3. **PowerShell · AZ-040:** yardım/keşif, sağlayıcılar, CIM, işler, modüller.
 

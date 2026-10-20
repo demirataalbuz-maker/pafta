@@ -4,7 +4,7 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 
 | Yol | Pafta | Koşucu | Durum |
 |---|---|---|---|
-| **Python** | 69 (6 rütbe, Minik → Başpehlivan; sıfırdan CPython'un içine) | `python`: run, test, Röntgen (değişkenlerle adım adım), Bytecode | hazır |
+| **Python** | 73 (6 rütbe, Minik → Başpehlivan; sıfırdan CPython'un içine; PCAP ve PCPP1'in GUI dışındaki konuları) | `python`: run, test, Röntgen (değişkenlerle adım adım), Bytecode | hazır |
 | **Regex** | 22 (6 rütbe; Unicode, lehçeler, günlük biçimleri, iki proje) | `regex`: eşleşme tablosu, test, Ağaç (`re.DEBUG`) | hazır |
 | **Bash** | 27 (6 rütbe; awk, sed, getopts, iki proje) | `bash`: Git Bash, test, Röntgen (`bash -x` izi) | hazır |
 | **PowerShell** | 18 (Windows olay günlükleri, gelişmiş fonksiyonlar, sınıflar, XML) | `powershell`: Windows PowerShell 5.1, test, Röntgen (`Set-PSDebug -Trace 1`); her çalıştırmada `olaylar.json` hazır | hazır |
