@@ -82,6 +82,10 @@ eq(eslesenler("ALPHA"), ["A_Kaydi"], "yalnız A")
 eq(eslesenler("BETA"), ["B_Kaydi"], "yalnız B")
 eq(eslesenler("ALPHA BETA" + "x" * 32), [], "global boyut kapısı")
 eq(eslesenler("hicbiri"), [], "işaretsiz veri")
+for boyut in (31, 32, 33):
+    veri = b"ALPHA BETA" + b"x" * (boyut - len(b"ALPHA BETA"))
+    beklenen = ["A_Kaydi", "B_Kaydi"] if boyut <= 32 else []
+    eq(sorted(eslesenler(veri)), beklenen, f"global boyut sınırının komşusu: {boyut} bayt")
 ```
 
 ```solution

@@ -58,6 +58,16 @@ eq(eslesenler("PFREP;KIND=B;SIGN=BETA;"), ["Rapor_B"], "B raporu")
 eq(sorted(eslesenler("PFREP;KIND=A;SIGN=ALPHA;KIND=B;SIGN=BETA;")), ["Rapor_A", "Rapor_B"], "iki tür birlikte")
 for data in ("xPFREP;KIND=A;SIGN=ALPHA;", "PFREP;KIND=A;SIGN=BETA;", "PFREP;KIND=B;SIGN=ALPHA;", "PFREP;KIND=A;", "PFREP;KIND=A;SIGN=ALPHA;" + "x" * 256):
     eq(eslesenler(data), [], "yakın olumsuz örnek")
+# Tür işaretleri 12 bayta sığmaz; private biçim sözleşmesini ayrı gözlemle.
+probe = derle(src + "\nrule Pafta_Bicim_Probe { condition: Rapor_Bicim }")
+for boyut, beklenen in ((11, False), (12, True), (13, True), (255, True), (256, True), (257, False)):
+    veri = b"PFREP;" + b"x" * (boyut - 6)
+    eq([m.rule for m in probe.match(data=veri, timeout=2)], ["Pafta_Bicim_Probe"] if beklenen else [],
+       f"private biçim: {boyut} bayt, 12–256 sınırları dahil")
+for temel, kural in (("PFREP;KIND=A;SIGN=ALPHA;", "Rapor_A"), ("PFREP;KIND=B;SIGN=BETA;", "Rapor_B")):
+    for boyut, beklenen in ((255, True), (256, True), (257, False)):
+        veri = temel + "x" * (boyut - len(temel))
+        eq(eslesenler(veri), [kural] if beklenen else [], f"{kural}: {boyut} bayt üst sınırı")
 ```
 
 ```solution
@@ -88,6 +98,15 @@ eq(eslesenler("PFREP;KIND=A;SIGN=ALPHA;KIND=B;SIGN=BETA;"), [], "belirsiz dosya"
 eq(eslesenler("PFREP;KIND=A;SIGN=ALPHA;KIND=B;"), [], "diğer tür işareti tek başına dışlar")
 eq(eslesenler("PFREP;KIND=B;SIGN=BETA;KIND=A;"), [], "simetrik dışlama")
 eq(eslesenler("KIND=A;SIGN=ALPHA;"), [], "ortak biçim korunmuş")
+probe = derle(src + "\nrule Pafta_Bicim_Probe { condition: Rapor_Bicim }")
+for boyut, beklenen in ((11, False), (12, True), (13, True), (255, True), (256, True), (257, False)):
+    veri = b"PFREP;" + b"x" * (boyut - 6)
+    eq([m.rule for m in probe.match(data=veri, timeout=2)], ["Pafta_Bicim_Probe"] if beklenen else [],
+       f"private biçim regresyonu: {boyut} bayt, 12–256 sınırları dahil")
+for temel, kural in (("PFREP;KIND=A;SIGN=ALPHA;", "Rapor_A"), ("PFREP;KIND=B;SIGN=BETA;", "Rapor_B")):
+    for boyut, beklenen in ((255, True), (256, True), (257, False)):
+        veri = temel + "x" * (boyut - len(temel))
+        eq(eslesenler(veri), [kural] if beklenen else [], f"{kural}: dışlamadan sonra {boyut} bayt üst sınırı")
 ```
 
 ```solution

@@ -72,6 +72,10 @@ ok(not eslesir(b"x" + paket(), "Paket"), "başlık kaymış")
 ok(not eslesir(paket(body=b"ALPHA xxxx"), "Paket"), "tek özellik")
 ok(not eslesir(paket() + b"x" * 512, "Paket"), "fazla büyük")
 ok(not eslesir(b"PFLAB!\x01", "Paket"), "çok kısa")
+for boyut, beklenen in ((15, False), (16, True), (17, True), (511, True), (512, True), (513, False)):
+    # Boşluksuz ALPHABETA, 16 baytlık geçerli en küçük paketi kurar.
+    veri = (b"PFLAB!\x01ALPHABETA" + b"x" * 513)[:boyut]
+    eq(eslesir(veri, "Paket"), beklenen, f"{boyut} bayt: 16–512 sınırları dahil")
 ```
 
 ```solution
@@ -105,6 +109,9 @@ ok(not eslesir(b"PFLAB!\x01SAFE ALPHA BETA", "Paket_Filtreli"), "başlıkta eği
 ok(eslesir(b"PFLAB!\x01xxxx ALPHA BETA SAFE", "Paket_Filtreli"), "gövdedeki SAFE dışlama değildir")
 ok(not eslesir(b"PFLAB!\x03ALPHA BETA", "Paket_Filtreli"), "eski sürüm kontrolü korunmalı")
 ok(not eslesir(b"PFLAB!\x01ALPHA xxxx", "Paket_Filtreli"), "özellik eşiği korunmalı")
+for boyut, beklenen in ((15, False), (16, True), (17, True), (511, True), (512, True), (513, False)):
+    veri = (b"PFLAB!\x01ALPHABETA" + b"x" * 513)[:boyut]
+    eq(eslesir(veri, "Paket_Filtreli"), beklenen, f"{boyut} bayt: dışlama eklenince boyut sınırları korunmalı")
 ```
 
 ```solution

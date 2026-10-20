@@ -59,6 +59,25 @@ ok(eslesir(b"LABPACK" + bytes(range(256)) * 2, "Dengeli_Lab"), "biçim ve dengel
 ok(not eslesir(b"LABPACK" + b"A" * 600, "Dengeli_Lab"), "düşük entropi")
 ok(not eslesir(b"OTHERXX" + bytes(range(256)) * 2, "Dengeli_Lab"), "dağılım tek başına yetmez")
 ok(not eslesir(b"LABPACK" + bytes(range(128)), "Dengeli_Lab"), "kısa örnek")
+for boyut in (511, 512, 513):
+    veri = b"LABPACK" + (bytes(range(256)) * 2)[:boyut - 7]
+    eq(eslesir(veri, "Dengeli_Lab"), boyut >= 512, f"yüksek entropide boyut sınırının komşusu: {boyut} bayt")
+
+def entropi_ornegi(yon):
+    # 512 baytta 128 sembol ikişer, 64 sembol dörder: H = 7.5 tam.
+    # Bir sayımı taşımak aynı boyutta eşiğin alt/üst komşu dağılımını verir.
+    from collections import Counter
+    sayilar = Counter({bayt: 2 for bayt in range(128)})
+    sayilar.update({bayt: 4 for bayt in range(128, 192)})
+    sayilar[0] += yon
+    sayilar[128] -= yon
+    baslik = b"LABPACK"
+    sayilar.subtract(baslik)
+    return baslik + b"".join(bytes([bayt]) * sayilar[bayt] for bayt in sorted(sayilar))
+
+ok(not eslesir(entropi_ornegi(-1), "Dengeli_Lab"), "aynı boyutta entropi 7.5'in hemen altında")
+ok(not eslesir(entropi_ornegi(0), "Dengeli_Lab"), "entropi tam 7.5: büyük koşulu eşitliği reddetmeli")
+ok(eslesir(entropi_ornegi(1), "Dengeli_Lab"), "aynı boyutta entropi 7.5'in hemen üstünde")
 ```
 
 ```solution

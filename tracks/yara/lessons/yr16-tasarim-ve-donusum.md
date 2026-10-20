@@ -65,6 +65,9 @@ positives = [b"PF-LAB;feature=alpha;format=2;", b"PF-LAB;format=2; other;feature
 negatives = [b"manual PF-LAB;feature=alpha;format=2;", b"PF-LAB;feature=beta;format=2;", b"PF-LAB;feature=alpha;format=3;", positives[0] + b"x" * 4096, b""]
 eq(sum(eslesir(x, "Hassas_Lab") for x in positives), len(positives), "olumlu kümenin tamamı")
 eq(sum(eslesir(x, "Hassas_Lab") for x in negatives), 0, "yakın olumsuz kümede yanlış pozitif yok")
+for boyut in (4095, 4096, 4097):
+    veri = positives[0] + b"x" * (boyut - len(positives[0]))
+    eq(eslesir(veri, "Hassas_Lab"), boyut <= 4096, f"biçim sabitken boyut sınırının komşusu: {boyut} bayt")
 ```
 
 ```solution

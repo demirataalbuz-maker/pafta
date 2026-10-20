@@ -6,6 +6,7 @@
 import base64
 import hashlib
 import json
+import re
 import struct
 import sys
 import unittest
@@ -16,10 +17,51 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from sandbox import yara_engine as engine
+from engine.lessons import Library
+from engine.runners import get
 
 
 def names(rules, data):
     return [match.rule for match in engine.match_rules(rules, data)]
+
+
+# Skip strings/comments so only comparison operators in actual YARA code change.
+_COMPARISON = re.compile(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*[\s\S]*?\*/|<<|>>|(?P<op><=|>=|<|>)')
+_BOUNDARY_TASKS = (("yr12", 4, 1), ("yr15", 3, 2), ("yr16", 3, 1),
+                   ("yr17", 3, 2), ("yr17", 4, 2), ("yr18", 3, 2), ("yr18", 4, 2))
+
+
+def comparison_mutants(source):
+    """Toggle one strict/inclusive comparison per mutant, retaining valid syntax."""
+    replacements = {"<=": "<", ">=": ">", "<": "<=", ">": ">="}
+    for match in _COMPARISON.finditer(source):
+        operator = match.group("op")
+        if operator is None:
+            continue
+        changed = replacements[operator]
+        line = source.count("\n", 0, match.start()) + 1
+        yield f"s.{line} {operator} → {changed}", source[:match.start()] + changed + source[match.end():]
+
+
+class YaraCurriculumBoundaryTests(unittest.TestCase):
+    def test_lesson_boundary_mutants_are_rejected(self):
+        """Every audited solution passes, while each of its 12 boundary faults fails."""
+        library, runner = Library(), get("yara")
+        for lesson_id, index, expected_count in _BOUNDARY_TASKS:
+            step = library.lesson("yara", lesson_id)["steps"][index]
+            reference = f"{lesson_id}:{index}"
+            with self.subTest(task=reference, version="solution"):
+                self.assertEqual(step["kind"], "gorev")
+                result = runner.test(step["solution"], step)
+                self.assertEqual(result["status"], "pass", result)
+            mutants = list(comparison_mutants(step["solution"]))
+            self.assertEqual(len(mutants), expected_count, reference)
+            for label, code in mutants:
+                with self.subTest(task=reference, mutation=label):
+                    result = runner.test(code, step)
+                    self.assertEqual(result["status"], "fail", result)
+                    self.assertIsNone(result.get("error"), result)
+                    self.assertTrue(any(not check["ok"] for check in result["checks"]), result)
 
 
 class YaraRuntimeTests(unittest.TestCase):
