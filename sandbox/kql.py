@@ -47,7 +47,7 @@ _TOKEN = re.compile(r"""
   | (?P<metin>@"[^"\n]*"|@'[^'\n]*'|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')
   | (?P<sure>\d+(?:\.\d+)?(?:ms|d|h|m|s)(?!\w))
   | (?P<sayi>\d+(?:\.\d+)?(?!\w))
-  | (?P<ad>\$?[^\W\d]\w*(?:-(?:away|rename|reorder|expand|where))?)
+  | (?P<ad>in~(?!\w)|\$?[^\W\d]\w*(?:-(?:away|rename|reorder|expand|where))?)
   | (?P<isl>==|!=|<=|>=|=~|!~|\.\.|[<>=+\-*/%(),.|!;\[\]:])
 """, re.X)
 _TURLER = ("bosluk", "tarih", "metin", "sure", "sayi", "ad", "isl")
@@ -156,7 +156,8 @@ _TOPLAMA_ADI = {"count": "count_", "countif": "countif_", "dcount": "dcount_{}",
                 "stdev": "stdev_{}", "variance": "variance_{}", "percentile": "percentile_{}_{}"}
 _DIZGI = {"contains": "kql_contains", "contains_cs": "kql_contains_cs", "has": "kql_has", "has_cs": "kql_has_cs",
           "startswith": "kql_startswith", "startswith_cs": "kql_startswith_cs",
-          "endswith": "kql_endswith", "endswith_cs": "kql_endswith_cs"}
+          "endswith": "kql_endswith", "endswith_cs": "kql_endswith_cs",
+          "hasprefix": "kql_hasprefix", "hassuffix": "kql_hassuffix"}
 _SIRALI_FN = ("prev", "next", "row_number", "row_cumsum", "row_window_session")
 _PENCERE = "OVER (ORDER BY [__sira] ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)"
 _TIP_ADI = {"string": "string", "int": "int", "long": "long", "real": "real", "double": "real", "decimal": "real",
@@ -1883,6 +1884,8 @@ def fonksiyonlari_kaydet(db):
         "kql_contains_cs": (2, lambda a, b: int(m(b) in m(a))),
         "kql_has": (2, lambda a, b: int(terim(a, b, re.I))),
         "kql_has_cs": (2, lambda a, b: int(terim(a, b, 0))),
+        "kql_hasprefix": (2, lambda a, b: int(re.search(r"(?<!\w)" + re.escape(m(b)), m(a), re.I) is not None)),
+        "kql_hassuffix": (2, lambda a, b: int(re.search(re.escape(m(b)) + r"(?!\w)", m(a), re.I) is not None)),
         "kql_startswith": (2, lambda a, b: int(m(a).lower().startswith(m(b).lower()))),
         "kql_startswith_cs": (2, lambda a, b: int(m(a).startswith(m(b)))),
         "kql_endswith": (2, lambda a, b: int(m(a).lower().endswith(m(b).lower()))),

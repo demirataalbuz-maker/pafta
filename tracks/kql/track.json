@@ -19,7 +19,7 @@
   },
   {
    "title": "Özetlemek ve Sıralamak",
-   "rank": "kucuk-orta",
+   "rank": "tesviye",
    "zen": "Bin satır bir şey söylemez; özeti söyler.",
    "lessons": [
     "kq04",
@@ -28,20 +28,45 @@
   },
   {
    "title": "Birleştirmek ve Zaman",
-   "rank": "baspehlivan",
+   "rank": "kucuk-orta",
    "zen": "Kayıt, zamanı ve bağlamıyla anlam kazanır.",
    "lessons": [
     "kq06",
     "kq07",
-    "kq08",
     "kq09",
     "kq10",
     "kq11",
+    "kq08"
+   ]
+  },
+  {
+   "title": "Metin ve Dinamik Veri",
+   "rank": "buyuk-orta",
+   "zen": "Günlük konuşur; dinlemek için dilini çöz.",
+   "lessons": [
     "kq12",
     "kq13",
-    "kq14",
+    "kq14"
+   ]
+  },
+  {
+   "title": "Sıralar, Oturumlar ve Ağlar",
+   "rank": "basalti",
+   "zen": "Olayın anlamı, ondan önce ve sonra olanda saklıdır.",
+   "lessons": [
     "kq15",
-    "kq16"
+    "kq16",
+    "kq17"
+   ]
+  },
+  {
+   "title": "Usta Sorgular",
+   "rank": "baspehlivan",
+   "zen": "Önce az oku, sonra doğru düşün.",
+   "lessons": [
+    "kq18",
+    "kq19",
+    "kq20"
    ]
   }
  ],
@@ -51,15 +76,27 @@
   "Özet",
   "e"
  ],
- "tagline": "Kusto Query Language: where, project, summarize, join ve zaman fonksiyonları. 8 pafta; sorguların SQLite'a çevrilip SQL yolunun BT operasyonu veritabanında çalışır, SQL düğmesi her sorgunun SQL karşılığını gösterir.",
+ "tagline": "Kusto Query Language: boru mantığı, özetleme ve birleştirme, let ve datatable, union ve lookup, süre aritmetiği ve takvimler, parse ve extract, dinamik veri ve mv-expand, arg_max ve yüzdelikler, sıralı satırlar ve oturumlar, IP aralıkları, performans ve iki proje. 20 pafta; sorgular SQLite'a çevrilip istek, günlük ve dağıtım tablolarıyla genişletilmiş BT operasyonu veritabanında çalışır, SQL düğmesi her sorgunun SQL karşılığını gösterir.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",
