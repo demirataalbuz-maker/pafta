@@ -153,21 +153,22 @@ class KqlRunner(SqlRunner):
     name = "kql"
     ozellik = {"roentgen": False, "dis": "SQL"}
     modlar = {"run": "kql_run", "test": "kql_test", "dis": "kql_dis"}
-    ek_veri = os.path.join(ROOT, "tracks", "kql", "veri.sql")
+    ek_veri = (os.path.join(ROOT, "tracks", "kql", "veri.sql"),)
 
     def execute(self, job, timeout=None):
-        # KQL yolu, SQL veritabanının üstüne kendi günlük tablolarını (istekler, dagitimlar) ekler
+        # SQL veritabanının üstüne günlük tabloları (istekler, gunluk, dagitimlar) eklenir
         parcalar = []
-        for yol in (self.ek["tohum"], self.ek_veri):
+        for yol in (self.ek["tohum"],) + self.ek_veri:
             with open(yol, encoding="utf-8") as f:
                 parcalar.append(f.read())
         return super().execute(dict(job, tohum_sql="\n".join(parcalar)), timeout)
 
 
-class SplRunner(SqlRunner):
+class SplRunner(KqlRunner):
     name = "spl"
     ozellik = {"roentgen": False, "dis": "SQL"}
     modlar = {"run": "spl_run", "test": "spl_test", "dis": "spl_dis"}
+    ek_veri = KqlRunner.ek_veri + (os.path.join(ROOT, "tracks", "spl", "veri.sql"),)   # + Splunk'ın _time alanı
 
 
 def _bash_yolu():

@@ -58,7 +58,8 @@ def sql_metin(s):
 
 
 def _metin_coz(t):
-    return re.sub(r"\\(.)", lambda m: m.group(1), t[1:-1])
+    # Yalnızca \" ve \\ kaçış dizisidir; \d gibi diziler regex fonksiyonları (match, replace) için olduğu gibi kalır
+    return re.sub(r'\\(["\\])', lambda m: m.group(1), t[1:-1])
 
 
 # — jetonlayıcılar —
@@ -85,6 +86,29 @@ def _kapanis(metin, i):
         elif c == "[":
             derinlik += 1
         elif c == "]":
+            derinlik -= 1
+            if derinlik == 0:
+                return n
+        n += 1
+    return -1
+
+
+def _parantez_sonu(metin, i):
+    """metin[i] == '(' → eşleşen ')' konumu (tırnak içleri hesaba katılır), yoksa -1."""
+    derinlik, tirnak, n = 0, False, i
+    while n < len(metin):
+        c = metin[n]
+        if tirnak:
+            if c == "\\":
+                n += 2
+                continue
+            if c == '"':
+                tirnak = False
+        elif c == '"':
+            tirnak = True
+        elif c == "(":
+            derinlik += 1
+        elif c == ")":
             derinlik -= 1
             if derinlik == 0:
                 return n
@@ -422,7 +446,9 @@ class _Cevirici:
         s = self._i_tekli(a)
         while a.isl_mi("*") or a.isl_mi("/") or a.isl_mi("%"):
             op = a.al()[1]
-            s = f"({s} {op} {self._i_tekli(a)})"
+            r = self._i_tekli(a)
+            # Splunk'ta bölme her zaman ondalıklıdır: 300/11 = 27.27…, SQLite gibi 27 değil
+            s = f"(CAST({s} AS REAL) / {r})" if op == "/" else f"({s} {op} {r})"
         return s
 
     def _i_tekli(self, a):
@@ -701,21 +727,7 @@ class _Cevirici:
                 a.i += 2
                 secenek[t[1].lower()] = (a.ad(), t[2])
                 continue
-            if t[0] != "kelime":
-                raise SplHatasi(f"bir toplama fonksiyonu bekleniyordu (count, sum, avg...), '{t[1]}' geldi", t[2])
-            fn = t[1].lower()
-            a.i += 1
-            alan = None
-            if a.isl_mi("("):
-                a.i += 1
-                alan = a.ad()
-                a.bekle(")")
-            sql, varsayilan = self._toplama(fn, alan, t[2])
-            ad = varsayilan
-            if a.kelime_mi("as"):
-                a.i += 1
-                ad = a.ad()
-            toplamalar.append((ad, sql, fn))
+            toplamalar.append(self._toplama_oku(a))
         gruplar = []
         if a.kelime_mi("by"):
             a.i += 1
@@ -743,6 +755,45 @@ class _Cevirici:
             sql = f"SELECT {secim}, 1 AS [__sira] FROM {onceki}"
         return self.yeni(sql)
 
+    def _toplama_oku(self, a):
+        """Akıştan bir toplama oku: count, avg(alan), count(eval(koşul)) as ad → (ad, sql, fn)."""
+        t = a.bak()
+        if t[0] != "kelime":
+            raise SplHatasi(f"bir toplama fonksiyonu bekleniyordu (count, sum, avg...), '{t[1]}' geldi", t[2])
+        fn = t[1].lower()
+        a.i += 1
+        alan = ifade = None
+        if a.isl_mi("("):
+            a.i += 1
+            if a.kelime_mi("eval") and a.isl_mi("(", 1):
+                ac = a.bak(1)[2]                          # eval'in açılış parantezi (mutlak konum)
+                kapa = _parantez_sonu(self.kaynak, ac)
+                if kapa < 0:
+                    raise SplHatasi("eval( ... ) kapanmadı: ')' eksik", ac)
+                ia, ifade = self.ifade_cevir(self.kaynak[ac + 1:kapa], ac + 1)
+                if not ia.bitti():
+                    raise SplHatasi(f"beklenmeyen: '{ia.bak()[1]}'", ia.bak()[2])
+                while not a.bitti() and a.bak()[2] <= kapa:
+                    a.i += 1
+            else:
+                alan = a.ad()
+            a.bekle(")")
+        if ifade is not None:
+            sablon = {"count": "SUM(CASE WHEN {0} THEN 1 ELSE 0 END)", "sum": "SUM({0})", "avg": "AVG({0})",
+                      "mean": "AVG({0})", "min": "MIN({0})", "max": "MAX({0})", "dc": "COUNT(DISTINCT {0})",
+                      "distinct_count": "COUNT(DISTINCT {0})", "values": "spl_values({0})"}
+            if fn not in sablon:
+                raise SplHatasi(f"{fn}(eval(...)) desteklenmiyor (count, sum, avg, min, max, dc, values)", t[2])
+            sql, ad = sablon[fn].format(f"({ifade})"), None
+        else:
+            sql, ad = self._toplama(fn, alan, t[2])
+        if a.kelime_mi("as"):
+            a.i += 1
+            ad = a.ad()
+        if ad is None:
+            raise SplHatasi(f"{fn}(eval(...)) sonucuna bir ad verilmeli: {fn}(eval(...)) as ad", t[2])
+        return ad, sql, fn
+
     def _toplama(self, fn, alan, konum):
         if fn == "count":
             return ("COUNT(*)", "count") if alan is None else (f"COUNT({q(alan)})", f"count({alan})")
@@ -750,10 +801,12 @@ class _Cevirici:
             raise SplHatasi(f"{fn} bir alan ister: {fn}(alan)", konum)
         sablon = {"dc": "COUNT(DISTINCT {0})", "distinct_count": "COUNT(DISTINCT {0})", "sum": "SUM({0})",
                   "avg": "AVG({0})", "mean": "AVG({0})", "min": "MIN({0})", "max": "MAX({0})",
-                  "range": "(MAX({0}) - MIN({0}))", "values": "spl_values({0})", "list": "spl_list({0} ORDER BY [__sira])"}
+                  "range": "(MAX({0}) - MIN({0}))", "values": "spl_values({0})", "list": "spl_list({0} ORDER BY [__sira])",
+                  "stdev": "spl_stdev({0})", "var": "spl_var({0})",
+                  "earliest": "spl_earliest({0}, [_time])", "latest": "spl_latest({0}, [_time])"}
         if fn not in sablon:
             raise SplHatasi(f"bu toplama desteklenmiyor: {fn}() (desteklenenler: count, dc, sum, avg, min, max, "
-                            "range, values, list)", konum)
+                            "range, values, list, stdev, var, earliest, latest)", konum)
         return sablon[fn].format(q(alan)), f"{fn}({alan})"
 
     def _top_rare(self, onceki, arg, bas, azalan):
@@ -1025,20 +1078,7 @@ class _Cevirici:
                         continue
                     by.append((a.ad(), a.bak(-1)[2]))
                 continue
-            if t[0] != "kelime":
-                raise SplHatasi(f"bir toplama fonksiyonu bekleniyordu (count, avg(alan)...), '{t[1]}' geldi", t[2])
-            fn = t[1].lower()
-            a.i += 1
-            alan = None
-            if a.isl_mi("("):
-                a.i += 1
-                alan = a.ad()
-                a.bekle(")")
-            sql, ad = self._toplama(fn, alan, t[2])
-            if a.kelime_mi("as"):
-                a.i += 1
-                ad = a.ad()
-            toplamalar.append((ad, sql, fn))
+            toplamalar.append(self._toplama_oku(a))
         if not toplamalar:
             raise SplHatasi(f"{komut}'tan sonra bir toplama bekleniyordu (ör. {komut} count by durum)", bas)
         return secenek, toplamalar, over, by
@@ -1640,7 +1680,56 @@ def fonksiyonlari_kaydet(db):
         "spl_strptime": (2, strptime),
         "spl_strftime": (2, strftime),
     }
+    class Sapma:
+        """stdev ve var: örneklem (n − 1) formülü, Splunk'taki gibi."""
+        def __init__(self):
+            self.v = []
+
+        def step(self, x):
+            try:
+                self.v.append(float(x))
+            except (TypeError, ValueError):
+                pass
+
+        def varyans(self):
+            n = len(self.v)
+            if n < 2:
+                return 0.0 if n == 1 else None
+            ort = sum(self.v) / n
+            return sum((x - ort) ** 2 for x in self.v) / (n - 1)
+
+        def finalize(self):
+            v = self.varyans()
+            return None if v is None else math.sqrt(v)
+
+    class Varyans(Sapma):
+        def finalize(self):
+            return self.varyans()
+
+    class Uc:
+        """earliest/latest: _time'ı en küçük/en büyük olan olayın değeri."""
+        en_buyuk = False
+
+        def __init__(self):
+            self.t = self.d = None
+
+        def step(self, x, t):
+            if x is None or t is None:
+                return
+            if self.t is None or (t > self.t if self.en_buyuk else t < self.t):
+                self.t, self.d = t, x
+
+        def finalize(self):
+            return self.d
+
+    class EnGec(Uc):
+        en_buyuk = True
+
     for ad, (n, fn) in fonksiyonlar.items():
         db.create_function(ad, n, fn, deterministic=True)
     db.create_aggregate("spl_values", 1, Values)
     db.create_aggregate("spl_list", 1, Liste)
+    db.create_aggregate("spl_stdev", 1, Sapma)
+    db.create_aggregate("spl_var", 1, Varyans)
+    db.create_aggregate("spl_earliest", 2, Uc)
+    db.create_aggregate("spl_latest", 2, EnGec)

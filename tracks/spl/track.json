@@ -18,21 +18,53 @@
   },
   {
    "title": "Saymak ve Sıralamak",
-   "rank": "kucuk-orta",
+   "rank": "tesviye",
    "zen": "stats bir soruyu bir tabloya çevirir.",
    "lessons": [
     "sp03",
-    "sp04",
-    "sp05"
+    "sp04"
    ]
   },
   {
-   "title": "Birleştirmek",
-   "rank": "baspehlivan",
+   "title": "Metin, Zaman ve Birleştirme",
+   "rank": "kucuk-orta",
    "zen": "İki kaynak bir hikâye anlatır.",
    "lessons": [
+    "sp05",
     "sp06",
+    "sp08",
     "sp07"
+   ]
+  },
+  {
+   "title": "Pivot ve Bağlam",
+   "rank": "buyuk-orta",
+   "zen": "Olayı kaybetme; yanına bağlamını yaz.",
+   "lessons": [
+    "sp09",
+    "sp10",
+    "sp12",
+    "sp13"
+   ]
+  },
+  {
+   "title": "Olay Grupları ve İstatistik",
+   "rank": "basalti",
+   "zen": "Tek olay bir an, bir işlem bir hikâyedir.",
+   "lessons": [
+    "sp11",
+    "sp14",
+    "sp15"
+   ]
+  },
+  {
+   "title": "Usta Aramalar",
+   "rank": "baspehlivan",
+   "zen": "Dizinle düşün, belleği yorma.",
+   "lessons": [
+    "sp16",
+    "sp17",
+    "sp18"
    ]
   }
  ],
@@ -42,15 +74,27 @@
   "Rapor",
   "a"
  ],
- "tagline": "Splunk Search Processing Language: arama, eval ve where, stats, sort ve top, rex ve zaman, join. 7 pafta; aramaların SQLite'a çevrilip SQL yolunun BT operasyonu veritabanında çalışır, SQL düğmesi karşılığını gösterir.",
+ "tagline": "Splunk Search Processing Language: arama, eval ve where, stats, sort ve top, rex ve zaman, join, timechart, chart ve xyseries, eventstats ve streamstats, lookup, çok değerli alanlar, transaction, append ve appendpipe, koşullu toplama ve aykırı değerler, hızlı arama ve iki proje. 18 pafta; aramalar SQLite'a çevrilip istek, günlük ve dağıtım kaynaklarıyla genişletilmiş BT operasyonu veritabanında çalışır, SQL düğmesi karşılığını gösterir.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",
