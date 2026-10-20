@@ -716,6 +716,14 @@ class ProcTester(Tester):
             raise UserRunError(_surec_hatasi(self.job, r["kod"], r["hata"], 0), stdin)
         return r["cikti"]
 
+    def run_code(self, code, stdin="", argv=None):
+        r = _calistir(dict(self.job, code=code), stdin, argv)
+        if r is None:
+            raise TimeoutError("betik zaman aşımına uğradı")
+        if r[0] != 0:
+            raise UserRunError(_surec_hatasi(self.job, r[0], r[2], 0), stdin)
+        return r[1]
+
 
 def do_proc_test(job):
     run_setup(job)

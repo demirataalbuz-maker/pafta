@@ -157,6 +157,7 @@ eq(kaydet(db, {"baslik": ""}), (422, {"hata": "başlık 1-80 karakter olmalı"})
 eq(db.execute("SELECT COUNT(*) FROM biletler").fetchone()[0], 2, "tabloda iki bilet")
 eq(kaydet(db, {"baslik": "a" * 80})[0], 201, "tam 80 karakter kabul")
 eq(kaydet(db, {"baslik": "a" * 81}), (422, {"hata": "başlık 1-80 karakter olmalı"}), "81 karakter ret")
+eq(kaydet(db, {"baslik": "Disk", "oncelik": "acil"}), (422, {"hata": "geçersiz öncelik"}), "geçersiz öncelik kaydedilmez")
 ```
 
 ```solution

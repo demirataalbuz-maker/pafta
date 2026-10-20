@@ -1066,7 +1066,7 @@ const TEZGAH_DILLER = [
   ["bash", "Bash", { roentgen: true, dis: null }],
   ["powershell", "PowerShell", { roentgen: true, dis: null }],
   ["sql", "SQL", { roentgen: false, dis: "Plan" }],
-  ["kql", "KQL", { roentgen: false, dis: "SQL" }],
+  ["kql", "KQL (Kusto)", { roentgen: false, dis: "SQL" }],
   ["spl", "SPL", { roentgen: false, dis: "SQL" }],
   ["javascript", "JS", { roentgen: false, dis: null }],
   ["sigma", "Sigma", { roentgen: false, dis: null }],

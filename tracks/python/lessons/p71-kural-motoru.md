@@ -380,6 +380,8 @@ eq(motor(kurallar, []), [], "olay yok")
 sinir = [{"metrik": "disk", "deger": 85, "ortam": "prod"},
          {"servis": "odeme", "seviye": "INFO", "mesaj": "ok", "cpu": 90, "ortam": "prod"}]
 eq(motor(kurallar, sinir), [], "eşit değerde gt tutmaz: disk 85, cpu 90")
+lt_kural = [{"ad": "Boş alan az", "secimler": {"az": {"bos_gb|lt": 10}}, "ifade": "az"}]
+eq(motor(lt_kural, [{"bos_gb": 10}, {"bos_gb": 9}]), [("Boş alan az", 1)], "lt sınırında 10 eşleşmez, 9 eşleşir")
 ```
 
 ```solution

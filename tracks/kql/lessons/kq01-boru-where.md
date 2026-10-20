@@ -29,6 +29,11 @@ Bir sorguyu SQL ile karşılaştırınca fark görünür: SQL'de `SELECT ... FRO
 
 > [!NOT]
 > Tezgahta birden çok sorguyu **boş bir satırla** ayırarak tek seferde çalıştırabilirsin; her biri ayrı bir tablo verir. Kusto Explorer'da da sorgular boş satırla ayrılır. Bu tezgah KQL'i SQLite'a çevirerek çalıştırır; **SQL** düğmesi her sorgunun SQL karşılığını gösterir.
+
+> [!TUZAK] İki farklı "KQL": Kusto Query Language ve Kibana Query Language
+> Siber güvenlikte **KQL** kısaltması birbirinden tamamen farklı iki dil için kullanılır:
+> - **Kusto Query Language (bu yol):** Microsoft Sentinel, Microsoft Defender XDR ve Azure Data Explorer'ın boru (`|`) tabanlı analitik sorgu dilidir (`Tablo | where ... | summarize ...`).
+> - **Kibana Query Language (Elastic):** Elastic Security / Kibana arama çubuğunda kullanılan tek satırlık filtre dilidir (`source.ip: 10.0.0.1 and event.code: "4625"`). İkisinin sözdizimini birbirine karıştırma.
 :::
 
 ::: anlat where ile süzmek

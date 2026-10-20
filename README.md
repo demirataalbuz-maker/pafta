@@ -7,9 +7,9 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 | **Python** | 73 (6 rütbe, Minik → Başpehlivan; sıfırdan CPython'un içine; PCAP ve PCPP1'in GUI dışındaki konuları) | `python`: run, test, Röntgen (değişkenlerle adım adım), Bytecode | hazır |
 | **Regex** | 22 (6 rütbe; Unicode, lehçeler, günlük biçimleri, iki proje) | `regex`: eşleşme tablosu, test, Ağaç (`re.DEBUG`) | hazır |
 | **Bash** | 27 (6 rütbe; awk, sed, getopts, iki proje) | `bash`: Git Bash, test, Röntgen (`bash -x` izi) | hazır |
-| **PowerShell** | 18 (Windows olay günlükleri, gelişmiş fonksiyonlar, sınıflar, XML) | `powershell`: Windows PowerShell 5.1, test, Röntgen (`Set-PSDebug -Trace 1`); her çalıştırmada `olaylar.json` hazır | hazır |
+| **PowerShell** | 21 (6 rütbe; Windows olay günlükleri, gelişmiş fonksiyonlar, sınıflar, XML, sağlayıcılar, CIM, modüller, Security ve Sysmon telemetrisi) | `powershell`: Windows PowerShell 5.1, test, Röntgen (`Set-PSDebug -Trace 1`); her çalıştırmada `olaylar.json` hazır | hazır |
 | **SQL** | 17 (6 rütbe; pencere çerçeveleri, boşluk-ada, oturumlar, özyineleme) | `sql`: bellek içi SQLite, sonuç tabloları, test, Plan (`EXPLAIN QUERY PLAN`) | hazır |
-| **KQL** | 20 (6 rütbe; let, parse, dinamik veri, arg_max, sıralı satırlar, oturumlar, IP, iki proje) | `kql`: [sandbox/kql.py](sandbox/kql.py) KQL alt kümesini SQLite'a çevirir; SQL düğmesi karşılığı gösterir | hazır |
+| **KQL (Kusto)** | 20 (6 rütbe; let, parse, dinamik veri, arg_max, sıralı satırlar, oturumlar, IP, iki proje) | `kql`: [sandbox/kql.py](sandbox/kql.py) KQL alt kümesini SQLite'a çevirir; SQL düğmesi karşılığı gösterir | hazır |
 | **SPL** | 19 (6 rütbe; timechart, chart, eventstats/streamstats, lookup, transaction, append, bilgi nesneleri ve CIM, iki proje) | `spl`: [sandbox/spl.py](sandbox/spl.py) Splunk arama dilinin alt kümesini SQLite'a çevirir | hazır |
 | **JavaScript** (okuma) | 12 (6 rütbe; kapsam ve this, sınıflar, hatalar, Node sunucu kodu, küçültülmüş kod, proje) | `javascript`: Node.js | hazır |
 | **C** (okuma) | 13 (6 rütbe; taşma, yapı düzeni, bayt tamponları, fonksiyon işaretçileri, önişlemci, dosya G/Ç, Windows API, ayrıştırıcı projesi) | `python`: C kodu okunur, tahminin cevabı derste sabit (`gercek` bloğu); görevlerde davranış Python'da kurulur | hazır |

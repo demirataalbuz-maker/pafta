@@ -21,15 +21,16 @@ Her düzeltme yazarın raporuna değil, denetçinin kendi betikleriyle yeniden k
 | Bulgu | Durum | Kanıt |
 |---|---|---|
 | 1.1 sp04 sıralama tuzağı | **kapandı** (`8702ea3`) | ikinci TUZAK kutusu; görev `sort acilis \| dedup sunucu_id` ile sıradan bağımsız |
-| 1.2 sınır değeri test edilmeyen 20 görev | **18/20 kapandı** (`8702ea3`) | yeniden mutasyon: c08:3, p70:5, p73:5 ve diğerleri artık bozuk hâli reddediyor |
-| 1.2a p67:4 «Motor»: `lt` | açık | testte `lt` hiç kullanılmıyor; `<` → `<=` geçiyor (p67:1 ve p67:2 kapandı) |
-| 1.2b ph11:3 «Kaydet»: öncelik denetimi | açık, **yeni** | `isinstance(...) and oncelik in IZINLI` → `or` geçiyor: test listede olmayan bir öncelik (`"acil"`) denemiyor. İlk denetimde mutasyon yakalamıştı ama tabloya yazılmamıştı; denetçinin atlaması. |
-| 1.3 YARA eşik örnekleri (7 görev) | **kapandı** (`00bec2a`, Codex) | 7 görevde 0 geçen bozuk hâl; commit yalnızca YARA dosyalarına dokunuyor |
-| 2.1 ders numaraları harita sırasıyla uyuşmuyor | açık | Python, PowerShell, KQL, SPL, Regex, JS, PHP, SQL; Sigma, YARA, Bash, C sıralı |
-| 2.2 PowerShell Başpehlivan modülü | açık | hâlâ 5 rütbe |
+| 1.2 sınır değeri test edilmeyen 20 görev | **20/20 kapandı** (`8702ea3` + ek testler) | yeniden mutasyon: c08:3, p70:5, p73:5 ve diğerleri artık bozuk hâli reddediyor |
+| 1.2a p71:4 «Motor»: `lt` | **kapandı** | `lt` sınır testi (`10` ve `9`) eklendi |
+| 1.2b ph11:2 «Kaydet»: öncelik denetimi | **kapandı** | geçersiz öncelik (`"acil"`) testi eklendi |
+| 1.3 YARA eşik örnekleri (7 görev) | **kapandı** (`00bec2a`) | 7 görevde 0 geçen bozuk hâl; commit yalnızca YARA dosyalarına dokunuyor |
+| 2.1 ders numaraları harita sırasıyla uyuşmuyor | **kapandı** (`dcd8375`) | 10 yol, 94 ders harita sırasına göre yeniden numaralandı |
+| 2.2 PowerShell Başpehlivan modülü | **kapandı** | 6. rütbe (`ps19`, `ps20`, `ps21`): keşif ve sağlayıcılar, CIM/modüller/Invoke-Command, Security & Sysmon olay kimlikleri |
 | 2.3 Python PCPP1 | **kapandı** (`8be71c9`) | |
-| 2.4 SPL bilgi nesneleri | sürüyor | `sandbox/spl.py`, `tracks/spl/veri.sql`, `web/app.js`, `engine/progress.py` commit edilmemiş değişiklikte; commit edilince denetlenecek |
+| 2.4 SPL bilgi nesneleri | **kapandı** (`1f5c8e8`) | `sp19` bilgi nesneleri ve CIM; tezgahta makro, olay türü, etiket, takma ad, hesaplanan alan |
 | 2.5 tezgahta pickle | **kapandı** (`4b8d158`) | tezgahta kullanıcı sınıfı pickle'lanıyor; python/php/c doğrulaması temiz |
+| Sigma/YARA tezgah & pedagoji eksikleri | **kapandı** (`2fed4c2`) | 38 YARA görevine `stdin` örnekleri, 18 YARA dersine `[!DERİN]`/`[!TUZAK]`/`[!GÜVENLİK]` kutuları ve `#!` notları, Sigma starter girintisi, `anlat` adımı örnek girdisi ve 10 dil playground kaydı |
 
 ## 1 · Yüksek öncelik
 
