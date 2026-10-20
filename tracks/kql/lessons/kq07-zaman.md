@@ -40,7 +40,7 @@ olcumler
 ```
 
 ### Süreler ve saatler
-`datetime_diff('birim', son, ilk)` iki an arasındaki farkı verir; birim `'day'`, `'hour'`, `'minute'` ya da `'second'` olabilir. `hourofday(zaman)` saati 0–23 arası bir sayı olarak verir:
+`datetime_diff('birim', son, ilk)` iki an arasında **geçilen birim sınırlarının** sayısını verir; birim `'year'`, `'month'`, `'week'`, `'day'`, `'hour'`, `'minute'` ya da `'second'` olabilir. Dikkat: bu, geçen süre değildir. `datetime_diff('hour', 09:10, 08:50)` sonucu 1'dir (bir saat sınırı geçildi), `datetime_diff('hour', 08:55, 08:05)` ise 0. `hourofday(zaman)` saati 0–23 arası bir sayı olarak verir:
 
 ```kql
 biletler
@@ -127,7 +127,7 @@ biletler
 ```
 
 ```hint
-`datetime_diff('hour', ...)` tam saate keser ve 50 dakikayı 0 sayar. Dakika al, `60.0`'a böl.
+`datetime_diff('hour', ...)` geçen süreyi değil saat sınırlarını sayar: 08:30–09:20 arası 50 dakika 1 saat sayılır. Dakika al, `60.0`'a böl.
 ```
 :::
 
