@@ -29,10 +29,12 @@ Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Pytho
 | Regex | 22 | regular-expressions.info müfredatı | ~%80 | ~%95 | — |
 | KQL | 20 | SC-200 KQL yolu | ~%50 | ~%90 | `render` (görselleştirme; kavram olarak) |
 | SPL | 19 | Splunk Power User / Advanced Power User | ~%20 | ~%70 / ~%55 | SP19 eklendi: makrolar (argümanlı), olay türleri, etiketler, alan takma adları, hesaplanan alanlar, arama zamanı sırası, CIM, veri modelleri ve tstats; ilk beşi tezgahta gerçekten çalışıyor. Kalan: iş akışı eylemleri ve panolar (yalnızca adıyla geçiyor), veri modeli kurmak ve hızlandırmak (arayüz işi). |
-| PowerShell | 18 | AZ-040 | ~%35 | ~%55 | `Get-Help`/`Get-Command`, sağlayıcılar (`Env:`, kayıt defteri), CIM, işler (`Start-Job`), modüller, uzaktan yönetim. Diğer oturum ps18'den sonra durdu. |
+| PowerShell | 21 | AZ-040 + SOC Telemetrisi | ~%35 | ~%85 | `ps19`–`ps21` (Başpehlivan) eklendi: `Get-Help`/`Get-Command`, sağlayıcılar (`Variable:`, `Env:`, `HKLM:`), CIM (`Get-CimInstance` ve WQL), modüller (`New-Module`, `Export-ModuleMember`), `Invoke-Command -ScriptBlock`, Windows `Security` (4624/4625/4688/4698/4720) ve Sysmon (1/3/7/11/13/22) olay kimlikleri + XML `EventData` ayrıştırma. |
 | JavaScript (okuma) | 12 | JSA | ~%30 | ~%65 | `Map`/`Set` ayrıntısı |
 | C (okuma) | 13 | CLA | ~%45 | ~%75 | çok dosyalı programlar (`extern`, `static`, başlık dosyaları) |
 | PHP (okuma) | 11 | Zend PHP | ~%25 | ~%60 | trait ve namespace ayrıntısı |
+| Sigma | 18 | SigmaHQ Şartnamesi | %0 | ~%90 | `sg01`–`sg18`: resmi pySigma + yerel JSON olay motoru, değiştiriciler, filtreler, yaşam döngüsü, korelasyon ve iki proje |
+| YARA | 18 | Resmî YARA Belgeleri | %0 | ~%90 | `yr01`–`yr18`: gerçek libyara, metin/hex/regex, konum/boyut, `pe`/`hash`/`math` modülleri ve iki proje |
 
 ### Düzeltilenler
 
@@ -42,7 +44,7 @@ Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Pytho
 
 1. ~~**Python · PCPP1:** dört ders (P70–P73).~~ Yapıldı: P70 kod standartları, P71 pickle ve shelve, P72 XML ve INI, P73 yerleşik türleri genişletmek. Python yolu 73 ders.
 2. ~~**SPL · bilgi nesneleri:**~~ Yapıldı: SP19. SPL çeviricisi makroları, olay türlerini, etiketleri, alan takma adlarını ve hesaplanan alanları veritabanındaki tanım tablolarından okuyup gerçekten uyguluyor; görevlerde makro açmak, etiketle ve olay türüyle aramak, CIM adlarına eşlemek ve bir tstats aramasının veri modeli karşılığını yazmak var.
-3. **PowerShell · AZ-040:** yardım/keşif, sağlayıcılar, CIM, işler, modüller.
+3. ~~**PowerShell · AZ-040 ve SOC Telemetrisi:**~~ Yapıldı: `ps19`–`ps21` ile 6. rütbe (Başpehlivan) tamamlandı; PowerShell yolu 21 ders.
 
 ### En büyük eksik içerikte değil
 
