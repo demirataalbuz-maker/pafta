@@ -25,7 +25,7 @@ Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Pytho
 | SQL | 17 | Oracle 1Z0-071 | ~%70 | ~%80 | görünümler (`CREATE VIEW`), veri sözlüğü (`sqlite_master`, `PRAGMA`) |
 | Regex | 22 | regular-expressions.info müfredatı | ~%80 | ~%95 | — |
 | KQL | 20 | SC-200 KQL yolu | ~%50 | ~%90 | `render` (görselleştirme; kavram olarak) |
-| SPL | 18 | Splunk Power User / Advanced Power User | ~%20 | ~%35 / ~%45 | Sorgu dili tarafı neredeyse tam. Eksik olan Splunk arayüzünde kurulan bilgi nesneleri: makrolar, etiketler, olay türleri, alan takma adları, hesaplanan alanlar, veri modelleri ve CIM. Bunlar Power User sınavının **%60'ı**. Ayrıca tstats ve hızlandırma, panolar. |
+| SPL | 19 | Splunk Power User / Advanced Power User | ~%20 | ~%70 / ~%55 | SP19 eklendi: makrolar (argümanlı), olay türleri, etiketler, alan takma adları, hesaplanan alanlar, arama zamanı sırası, CIM, veri modelleri ve tstats; ilk beşi tezgahta gerçekten çalışıyor. Kalan: iş akışı eylemleri ve panolar (yalnızca adıyla geçiyor), veri modeli kurmak ve hızlandırmak (arayüz işi). |
 | PowerShell | 18 | AZ-040 | ~%35 | ~%55 | `Get-Help`/`Get-Command`, sağlayıcılar (`Env:`, kayıt defteri), CIM, işler (`Start-Job`), modüller, uzaktan yönetim. Diğer oturum ps18'den sonra durdu. |
 | JavaScript (okuma) | 12 | JSA | ~%30 | ~%65 | `Map`/`Set` ayrıntısı |
 | C (okuma) | 13 | CLA | ~%45 | ~%75 | çok dosyalı programlar (`extern`, `static`, başlık dosyaları) |
@@ -38,7 +38,7 @@ Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Pytho
 ### Öncelikli kalan işler
 
 1. ~~**Python · PCPP1:** dört ders (P70–P73).~~ Yapıldı: P70 kod standartları, P71 pickle ve shelve, P72 XML ve INI, P73 yerleşik türleri genişletmek. Python yolu 73 ders.
-2. **SPL · bilgi nesneleri:** tezgahta çalışmayan arayüz konuları için bir kavram dersi. Makro, olay türü ve CIM'in ürettiği aramayı görevde yazdırmak mümkün.
+2. ~~**SPL · bilgi nesneleri:**~~ Yapıldı: SP19. SPL çeviricisi makroları, olay türlerini, etiketleri, alan takma adlarını ve hesaplanan alanları veritabanındaki tanım tablolarından okuyup gerçekten uyguluyor; görevlerde makro açmak, etiketle ve olay türüyle aramak, CIM adlarına eşlemek ve bir tstats aramasının veri modeli karşılığını yazmak var.
 3. **PowerShell · AZ-040:** yardım/keşif, sağlayıcılar, CIM, işler, modüller.
 
 ### En büyük eksik içerikte değil

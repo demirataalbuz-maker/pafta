@@ -18,6 +18,11 @@ taşınır. Splunk'a sadık kalınan incelikler:
   - chart'ta olmayan birleşimler boş kalır; timechart boş dilimleri count için 0 yapar
   - transaction diğer alanları alfabetik sıralı tekil değerler olarak birleştirir, startswith/
     endswith verildiğinde yarım kalan işlemleri atar ve sonuçları en yeni işlemden eskiye verir
+  - bilgi nesneleri veritabanındaki tablolardan okunur (tracks/spl/veri.sql): `makro` ve
+    `makro(a, b)` çağrıları ayrıştırmadan önce düz metin olarak açılır (makrolar); aramada
+    eventtype=ad (olay_turleri) ve tag=etiket, tag::alan=etiket (etiketler) süzer; her
+    sourcetype=X aramasında önce alan takma adları (alan_takma_adlari), sonra hesaplanan
+    alanlar (hesaplanan_alanlar) kendiliğinden uygulanır, Splunk'ın arama zamanı sırasıyla
 
     cevir(kaynak, sutun_bul) → SQL metni
     sutun_bul(sql) → sütun adları; sutun_bul.satirlar(sql) → satırlar (chart, timechart,
@@ -210,11 +215,119 @@ def _parcala(kaynak, bas, son):
     return parcalar
 
 
+def _joker_rx(desen):
+    return re.compile(".*".join(map(re.escape, desen.split("*"))), re.I)
+
+
+def _arg_bol(metin):
+    """Makro argümanlarını en dış düzeydeki virgüllerden ayır (tırnak ve parantez içi hariç)."""
+    out, derinlik, tirnak, bas, i = [], 0, False, 0, 0
+    while i < len(metin):
+        c = metin[i]
+        if tirnak:
+            if c == "\\":
+                i += 2
+                continue
+            if c == '"':
+                tirnak = False
+        elif c == '"':
+            tirnak = True
+        elif c in "([":
+            derinlik += 1
+        elif c in ")]":
+            derinlik -= 1
+        elif c == "," and derinlik == 0:
+            out.append(metin[bas:i].strip())
+            bas = i + 1
+        i += 1
+    out.append(metin[bas:].strip())
+    return out
+
+
+_MAKRO_CAGRI = re.compile(r"\s*([A-Za-z_][\w.-]*)\s*(?:\((.*)\))?\s*$", re.S)
+
+
+def _makro_ac(kaynak, sutun_bul):
+    """`ad` ve `ad(a, b)` çağrılarını makrolar tablosundaki tanımlarla değiştir. Splunk bunu aramayı
+    ayrıştırmadan önce düz metin olarak yapar. → (açılmış metin, konum eşleyici ya da None)"""
+    if "`" not in kaynak:
+        return kaynak, None
+    try:
+        satirlar = sutun_bul.satirlar("SELECT ad, argumanlar, tanim FROM makrolar ORDER BY rowid")
+    except Exception:
+        satirlar = []
+    tanimlar = {}
+    for ad, argumanlar, tanim in satirlar:
+        adlar = [x.strip() for x in (argumanlar or "").split(",") if x.strip()]
+        tanimlar[(ad, len(adlar))] = (adlar, tanim)
+
+    def cagri(icerik, konum, yigin):
+        m = _MAKRO_CAGRI.match(icerik)
+        if not m:
+            raise SplHatasi(f"makro çağrısı `ad` ya da `ad(argüman, ...)` biçiminde olmalı: `{icerik}`", konum)
+        ad, arg_metni = m.group(1), m.group(2)
+        args = _arg_bol(arg_metni) if arg_metni and arg_metni.strip() else []
+        anahtar = (ad, len(args))
+        if anahtar not in tanimlar:
+            var = ", ".join(sorted(f"{a}({n})" if n else a for a, n in tanimlar)) or "yok"
+            raise SplHatasi(f"böyle bir makro yok: {ad}({len(args)}) · tanımlı makrolar: {var}", konum)
+        if anahtar in yigin:
+            raise SplHatasi(f"makro kendini çağırıyor: {' → '.join(a for a, _ in yigin + [anahtar])}", konum)
+        adlar, tanim = tanimlar[anahtar]
+        for a, v in zip(adlar, args):
+            tanim = tanim.replace(f"${a}$", v)
+        return ac(tanim, yigin + [anahtar], konum)[0]
+
+    def ac(metin, yigin, konum=None):
+        """konum None: en dış düzey, konumlar kaynağa göredir; iç düzeyde bütün hatalar o konuma düşer."""
+        out, uzunluk, araliklar, i, tirnak = [], 0, [], 0, False
+        while i < len(metin):
+            c = metin[i]
+            if c == "`" and not tirnak:
+                j = metin.find("`", i + 1)
+                k = i if konum is None else konum
+                if j < 0:
+                    raise SplHatasi("makronun ters tırnağı kapanmadı: ` eksik", k)
+                acik = cagri(metin[i + 1:j], k, yigin)
+                araliklar.append((uzunluk, uzunluk + len(acik), i, j + 1))
+                out.append(acik)
+                uzunluk += len(acik)
+                i = j + 1
+                continue
+            if tirnak and c == "\\":
+                parca = metin[i:i + 2]
+            else:
+                parca = c
+                if c == '"':
+                    tirnak = not tirnak
+            out.append(parca)
+            uzunluk += len(parca)
+            i += len(parca)
+        return "".join(out), araliklar
+
+    acik, araliklar = ac(kaynak, [])
+
+    def esle(k):
+        if k is None:
+            return None
+        kayma = 0
+        for a_bas, a_son, o_bas, o_son in araliklar:
+            if k < a_bas:
+                break
+            if k < a_son:
+                return o_bas
+            kayma = a_son - o_son
+        return k - kayma
+    return acik, esle
+
+
 class _Cevirici:
     def __init__(self, kaynak, sutun_bul):
         self.kaynak = kaynak
         self.sutun_bul = sutun_bul
         self.ctes = []
+        self.tablo = None              # aramanın sourcetype'ı (olay türü ve etiket tanımları buna bakar)
+        self._acik_turler = set()
 
     def yeni(self, sql):
         ad = f"a{len(self.ctes) + 1}"
@@ -236,6 +349,13 @@ class _Cevirici:
     # — boru hattı —
     def hat(self, bas, son, baslangic=None):
         """baslangic verilirse (appendpipe) bütün parçalar komuttur ve o sonuçtan başlar."""
+        dis_tablo = self.tablo                 # alt arama bitince dış aramanın sourcetype'ı geri gelsin
+        try:
+            return self._hat(bas, son, baslangic)
+        finally:
+            self.tablo = dis_tablo
+
+    def _hat(self, bas, son, baslangic):
         parcalar = _parcala(self.kaynak, bas, son)
         if baslangic is not None:
             ad = baslangic
@@ -280,14 +400,14 @@ class _Cevirici:
     # — arama —
     def temel_arama(self, metin, bas):
         jet = _jetonla(_ARAMA, metin, bas, alt=True)
-        tablo, kalan, n = None, [], 0
+        tablo, kalan, n, st_konum = None, [], 0, bas
         while n < len(jet):
             t = jet[n]
             if t[0] == "kelime" and t[1].lower() in ("sourcetype", "index") and n + 2 < len(jet) and jet[n + 1][1] == "=":
                 deger = jet[n + 2]
                 d = _metin_coz(deger[1]) if deger[0] == "metin" else deger[1]
                 if t[1].lower() == "sourcetype":
-                    tablo = d
+                    tablo, st_konum = d, t[2]
                 elif d not in ("ops", "*"):
                     raise SplHatasi(f"böyle bir index yok: {d} (bu tezgahta index=ops)", deger[2])
                 n += 3
@@ -295,11 +415,123 @@ class _Cevirici:
             kalan.append(t)
             n += 1
         if not tablo:
+            adaylar = self._kaynak_tahmini(kalan)
+            if len(adaylar) > 1:
+                raise SplHatasi(f"bu olay türleri ve etiketler birden çok sourcetype'a uyuyor ({', '.join(sorted(adaylar))}); "
+                                "tezgahta bir arama tek sourcetype okur, başa sourcetype=... ekle", bas)
+            tablo = next(iter(adaylar), None)
+        if not tablo:
             raise SplHatasi("arama sourcetype=<tablo> ile başlamalı (ör. sourcetype=biletler durum=açık)", bas)
+        self.tablo = tablo
         kaynak = self.yeni(f"SELECT *, rowid AS [__sira] FROM {q(tablo)}")
+        kaynak = self._arama_zamani_alanlari(kaynak, tablo, st_konum)
         if not kalan:
             return kaynak
         return self._arama_uygula(kaynak, kalan, bas + len(metin))
+
+    # — bilgi nesneleri —
+    def _tanim(self, sql):
+        """Bilgi nesnesi tablosunu oku; tablo yoksa boş."""
+        try:
+            return self.sutun_bul.satirlar(sql)
+        except Exception:
+            return []
+
+    def _arama_zamani_alanlari(self, kaynak, tablo, konum):
+        """props.conf'taki FIELDALIAS ve EVAL tanımları: Splunk bunları her aramada kendiliğinden,
+        önce takma adlar sonra hesaplanan alanlar sırasıyla uygular."""
+        st = sql_metin(tablo)
+        for alan, takma in self._tanim(f"SELECT alan, takma_ad FROM alan_takma_adlari WHERE sourcetype = {st} ORDER BY rowid"):
+            cols = self.sutunlar(kaynak)
+            if alan in cols:                   # kaynak alanı olmayan olayda takma ad da oluşmaz
+                secim = self._ust_yaz(cols, [takma], lambda c: q(alan))
+                kaynak = self.yeni(f"SELECT {', '.join(secim)}, [__sira] FROM {kaynak}")
+        for alan, ifade in self._tanim(f"SELECT alan, ifade FROM hesaplanan_alanlar WHERE sourcetype = {st} ORDER BY rowid"):
+            try:
+                kaynak = self.k_eval(kaynak, f"'{alan}' = {ifade}", konum)
+            except Exception as e:
+                raise SplHatasi(f"hesaplanan alan {alan} = {ifade}: {getattr(e, 'msg', e)}", konum)
+        return kaynak
+
+    def _olay_turleri(self, desen):
+        rx = _joker_rx(desen)
+        return [(ad, arama) for ad, arama in self._tanim("SELECT ad, arama FROM olay_turleri ORDER BY rowid")
+                if rx.fullmatch(ad)]
+
+    def _etiketler(self, desen, alan_kisiti):
+        rx = _joker_rx(desen)
+        return [(alan, deger) for alan, deger, etiket in self._tanim("SELECT alan, deger, etiket FROM etiketler ORDER BY rowid")
+                if rx.fullmatch(etiket) and (not alan_kisiti or alan == alan_kisiti)]
+
+    def _tur_kaynaklari(self, desen):
+        return {m.group(1) for _, arama in self._olay_turleri(desen)
+                for m in re.finditer(r'(?i)\bsourcetype\s*=\s*"?([^\s"()]+)', arama)}
+
+    def _kaynak_tahmini(self, jet):
+        """sourcetype yazılmamış aramada olay türü ve etiket tanımlarının işaret ettiği sourcetype'lar."""
+        adaylar = set()
+        for t, isl, v in zip(jet, jet[1:], jet[2:]):
+            if t[0] != "kelime" or isl[1] != "=" or v[0] not in ("kelime", "metin"):
+                continue
+            d = _metin_coz(v[1]) if v[0] == "metin" else v[1]
+            alan = t[1].lower()
+            if alan == "eventtype":
+                adaylar |= self._tur_kaynaklari(d)
+            elif alan == "tag" or alan.startswith("tag::"):
+                for a_, deger in self._etiketler(d, t[1][5:] if alan.startswith("tag::") else None):
+                    if a_ == "sourcetype":
+                        adaylar.add(deger)
+                    elif a_ == "eventtype":
+                        adaylar |= self._tur_kaynaklari(deger)
+        return adaylar
+
+    def _kaynak_kosulu(self, deger):
+        return "1" if self.tablo and deger.lower() == self.tablo.lower() else "0"
+
+    def _olay_turu_kosulu(self, desen, cols, konum):
+        """eventtype=ad: olay türünün kayıtlı aramasını bu aramanın alanları üzerinde bir koşula çevir."""
+        parcalar = []
+        for ad, arama in self._olay_turleri(desen):
+            if ad in self._acik_turler:
+                raise SplHatasi(f"olay türü kendine başvuruyor: {ad}", konum)
+            self._acik_turler.add(ad)
+            try:
+                jet, n = [], 0
+                ham = _jetonla(_ARAMA, arama, konum, alt=True)
+                while n < len(ham):
+                    t = ham[n]
+                    if t[0] == "kelime" and t[1].lower() in ("sourcetype", "index") and n + 2 < len(ham) and ham[n + 1][1] == "=":
+                        d = _metin_coz(ham[n + 2][1]) if ham[n + 2][0] == "metin" else ham[n + 2][1]
+                        jet.append(("sabit", self._kaynak_kosulu(d) if t[1].lower() == "sourcetype"
+                                    else ("1" if d in ("ops", "*") else "0"), t[2]))
+                        n += 3
+                        continue
+                    jet.append(t)
+                    n += 1
+                a = _Akis(jet, konum)
+                kosul = self._a_ve(a, cols)
+                if not a.bitti():
+                    raise SplHatasi(f"beklenmeyen: '{a.bak()[1]}'", konum)
+                parcalar.append(kosul)
+            except SplHatasi as e:
+                if e.msg.startswith("olay türü "):
+                    raise
+                raise SplHatasi(f"olay türü {ad} ({arama}): {e.msg}", konum)
+            finally:
+                self._acik_turler.discard(ad)
+        return "(" + " OR ".join(parcalar) + ")" if parcalar else "0"
+
+    def _etiket_kosulu(self, desen, alan_kisiti, cols, konum):
+        """tag=etiket: etiketin bağlı olduğu alan=değer çiftlerinden herhangi biri tutuyorsa."""
+        parcalar = []
+        for alan, deger in self._etiketler(desen, alan_kisiti):
+            if alan == "eventtype":
+                parcalar.append(self._olay_turu_kosulu(deger, cols, konum))
+            elif alan == "sourcetype":
+                parcalar.append(self._kaynak_kosulu(deger))
+            elif alan in cols:
+                parcalar.append(f"spl_esit({q(alan)}, {sql_metin(deger)})")
+        return "(" + " OR ".join(parcalar) + ")" if parcalar else "0"
 
     def k_search(self, onceki, arg, bas):
         jet = _jetonla(_ARAMA, arg, bas, alt=True)
@@ -373,6 +605,8 @@ class _Cevirici:
 
     def _a_terim(self, a, cols):
         t = a.al()
+        if t[0] == "sabit":                    # olay türü tanımındaki sourcetype=... (önceden çözüldü)
+            return t[1]
         if t[0] == "alt":
             return self._alt_kosul(t, cols)
         if t[0] == "isl":
@@ -383,6 +617,14 @@ class _Cevirici:
             if v[0] not in ("kelime", "metin"):
                 raise SplHatasi(f"'{alan}{op}' sonrasında bir değer bekleniyordu", v[2])
             deger = _metin_coz(v[1]) if v[0] == "metin" else v[1]
+            if alan.lower() in ("eventtype", "tag") or alan.lower().startswith("tag::"):
+                if op not in ("=", "==", "!="):
+                    raise SplHatasi(f"{alan} yalnızca = ve != ile aranır", t[2])
+                if alan.lower() == "eventtype":
+                    kosul = self._olay_turu_kosulu(deger, cols, t[2])
+                else:
+                    kosul = self._etiket_kosulu(deger, alan[5:] if alan.lower().startswith("tag::") else None, cols, t[2])
+                return f"(NOT {kosul})" if op == "!=" else kosul
             if alan not in cols:
                 return "0" if op != "!=" else "0"              # alanı olmayan olay eşleşmez
             if op in ("<", ">", "<=", ">="):
@@ -1486,8 +1728,15 @@ def _epoch(metin):
 def cevir(kaynak, sutun_bul):
     if not kaynak.strip():
         raise SplHatasi("arama boş", 0)
-    c = _Cevirici(kaynak, sutun_bul)
-    ad = c.hat(0, len(kaynak))
+    acik, esle = _makro_ac(kaynak, sutun_bul)
+    c = _Cevirici(acik, sutun_bul)
+    try:
+        ad = c.hat(0, len(acik))
+    except SplHatasi as e:
+        if esle:
+            e.konum = esle(e.konum)
+            e.msg += f" · makrolar açılınca arama: {' '.join(acik.split())}"
+        raise
     return c.with_sql(f"SELECT * FROM {ad} ORDER BY [__sira]")
 
 

@@ -14,7 +14,10 @@ function attr(s) {
 
 export function inline(s) {
   const codes = [];
-  s = esc(s).replace(/`([^`]+)`/g, (_, c) => { codes.push(c); return `\u0000${codes.length - 1}\u0000`; });
+  // `` `ad` `` biçimi: içinde ters tırnak geçen kod (Markdown'daki gibi, kenar boşlukları atılır)
+  s = esc(s).replace(/``\s?(.+?)\s?``|`([^`]+)`/g, (_, cift, tek) => {
+    codes.push(cift !== undefined ? cift : tek); return `\u0000${codes.length - 1}\u0000`;
+  });
   s = s
     .replace(/\*\*(?!\s)([^*]+?)\*\*/g, "<strong>$1</strong>")
     .replace(/(^|[^\w*])\*(?!\s)([^*\n]+?)\*(?!\w)/g, "$1<em>$2</em>")
