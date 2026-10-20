@@ -203,6 +203,7 @@ gunluk_mb = [210, 190, 205, 198, 220, 2400, 201, 195]
 eq(aykirilar(gunluk_mb), [2400], "günlük indirmede 2400 MB aykırı")
 eq(aykirilar([5, 5, 5, 5]), [], "sapma 0 → []")
 eq(aykirilar([1, 2, 3, 4, 100, -90], k=1), [100, -90], "k=1 ile iki uç değer")
+eq(aykirilar([0, 2], k=1), [], "tam k·σ uzaklık (ortalama 1, σ 1) aykırı sayılmaz")
 ok(calls("pstdev"), "statistics.pstdev kullan")
 ```
 

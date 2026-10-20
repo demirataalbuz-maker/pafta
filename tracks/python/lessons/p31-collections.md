@@ -226,6 +226,8 @@ eq(tespit(olaylar, 2, 10), ["A", "B", "C"], "eşik 2 → hepsi")
 eq(tespit(olaylar, 3, 12), ["A", "C"], "pencere 12 → C de yakalanır")
 eq(tespit([], 3, 10), [], "olay yok → []")
 eq(tespit([(0, "X"), (100, "X"), (200, "X")], 3, 60), [], "yavaş denemeler → yok")
+eq(tespit([(0, "X"), (5, "X"), (10, "X")], 3, 10), [], "tam 10 saniye: 10 < 10 değil → yok")
+eq(tespit([(0, "X"), (5, "X"), (9, "X")], 3, 10), ["X"], "9 saniye → alarm")
 ```
 
 ```solution

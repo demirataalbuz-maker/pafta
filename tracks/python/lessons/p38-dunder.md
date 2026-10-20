@@ -216,6 +216,8 @@ ok(S("0.9.9") < S("1.0.0"), "0.9.9 < 1.0.0")
 eq(str(S("3.1.4")), "3.1.4", "str orijinal metin")
 eq([str(x) for x in sorted([S("1.10.0"), S("1.2.0"), S("1.9.1"), S("1.2.10")])], ["1.2.0", "1.2.10", "1.9.1", "1.10.0"], "sayısal sıralama")
 ok(S("1.2") != S("1.3"), "!= çalışmalı")
+ok(not (S("1.2") < S("1.2")), "aynı sürüm: v < v False")
+ok(not (S("1.2") > S("1.2")), "aynı sürüm: v > v False")
 ```
 
 ```solution

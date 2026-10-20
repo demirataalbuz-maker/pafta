@@ -195,6 +195,12 @@ eq(t.durum, "ısıt", "hedef 25 → ısıt")
 raises(ValueError, setattr, t, "hedef", 40, msg="40 → ValueError")
 raises(ValueError, T, 2, 20, msg="kurucuda 2 → ValueError")
 raises(AttributeError, setattr, t, "durum", "x", msg="durum salt okunur")
+t.hedef = 21
+t.olcum = 20.5
+eq(t.durum, "bekle", "tam 0.5 düşük → bekle")
+t.olcum = 21.5
+eq(t.durum, "bekle", "tam 0.5 yüksek → bekle")
+eq((T(5).hedef, T(30).hedef), (5, 30), "5 ve 30 sınırları geçerli")
 ```
 
 ```solution
@@ -252,6 +258,9 @@ eq(D("x", 3 * 1024 * 1024 + 300000).okunakli, "3.3 MB", "3.3 MB")
 d.bayt = 2048
 eq(d.kb, 2.0, "bayt değişince kb de değişir")
 raises(AttributeError, setattr, d, "kb", 9, msg="kb salt okunur")
+eq(D("x", 1023).okunakli, "1023 B", "1023 B")
+eq(D("x", 1024).okunakli, "1.0 KB", "tam 1024 bayt → 1.0 KB")
+eq(D("x", 1024 ** 2).okunakli, "1.0 MB", "tam 1 MB")
 ```
 
 ```solution

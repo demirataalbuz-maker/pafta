@@ -191,6 +191,8 @@ eq(kota_aktar(db, "Ağ", "Uygulama", 10), True, "yeterli kota")
 eq(durum(), {"Ağ": 20, "Uygulama": 20}, "aktarıldı")
 eq(kota_aktar(db, "Uygulama", "Ağ", 50), False, "yetersiz kota")
 eq(durum(), {"Ağ": 20, "Uygulama": 20}, "hiçbir şey değişmedi")
+eq(kota_aktar(db, "Ağ", "Uygulama", 20), True, "kotanın tamamı aktarılabilir")
+eq(durum(), {"Ağ": 0, "Uygulama": 40}, "kaynak sıfıra indi")
 ```
 
 ```solution

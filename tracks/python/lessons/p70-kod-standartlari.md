@@ -262,6 +262,8 @@ ornek = "x = 1\nif x == None:  \n\tprint(x)\n" + "y = '" + "a" * 80 + "'\n" + "z
 eq(denetle(ornek), [(2, "E711"), (2, "W291"), (3, "W191"), (4, "E501")], "dört sorun")
 eq(denetle("temiz = True\n"), [], "temiz kod")
 eq(denetle("a != None\n"), [(1, "E711")], "!= None")
+eq(denetle("a" * 79 + "\n"), [], "tam 79 karakter: E501 yok")
+eq(denetle("a" * 80 + "\n"), [(1, "E501")], "80 karakter: E501")
 ```
 
 ```solution

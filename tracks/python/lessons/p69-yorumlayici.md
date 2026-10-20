@@ -72,6 +72,8 @@ eq(jetonla("(a_1^2)"), [("OP", "("), ("AD", "a_1"), ("OP", "^"), ("SAYI", 2), ("
 eq(jetonla("   "), [], "sadece boşluk → []")
 ok(type(jetonla("7")[0][1]) is int and type(jetonla("7.0")[0][1]) is float, "int ve float ayrımı")
 raises(SyntaxError, jetonla, "3 $ 4", msg="tanınmayan karakter → SyntaxError")
+eq(jetonla("3."), [("SAYI", 3.0)], "sonda nokta: 3. → float 3.0")
+raises(SyntaxError, jetonla, "3 + .", msg="sonda tek başına nokta → SyntaxError (IndexError değil)")
 ```
 
 ```solution

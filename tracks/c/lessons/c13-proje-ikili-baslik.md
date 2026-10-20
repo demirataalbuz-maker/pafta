@@ -209,6 +209,10 @@ eq(kayitlari_oku(iyi), [{"tur": 1, "bayrak": 0, "icerik": b"cpu=72;bellek=61"},
                         {"tur": 3, "bayrak": 1, "icerik": b"bakim"}], "iki kayıt")
 eq(kayitlari_oku(iyi[:30]), [], "kesik dosya: hiçbir şey okunmaz")
 eq(kayitlari_oku(b"XXXX" + iyi[4:]), [], "yanlış imza")
+sonda = struct.pack("<4sHHI", b"PFTA", 1, 1, 16) + b"ping" + struct.pack("<IIBBH", 12, 4, 2, 0, 0)
+eq(kayitlari_oku(sonda), [{"tur": 2, "bayrak": 0, "icerik": b"ping"}], "kayıt tablosu dosyanın tam sonunda bitiyor")
+need("dogrula")
+eq(dogrula(struct.pack("<4sHHI", b"PFTA", 1, 0, 12)), 0, "yalnızca başlık (12 bayt, 0 kayıt) geçerli")
 ```
 
 ```solution

@@ -145,6 +145,10 @@ try:
 except ValueError as e:
     eq(str(e), "sürüm desteklenmiyor", "mesaj: sürüm desteklenmiyor")
 ok(calls("compare_digest"), "hmac.compare_digest kullan")
+kaydet({"b.txt": "44" * 32, "a.txt": "55" * 32}, "s1.json", "gizli-anahtar")
+kaydet({"a.txt": "55" * 32, "b.txt": "44" * 32}, "s2.json", "gizli-anahtar")
+eq(json.load(open("s1.json", encoding="utf-8"))["imza"], json.load(open("s2.json", encoding="utf-8"))["imza"],
+   "anahtar ekleme sırası imzayı değiştirmemeli")
 ```
 
 ```solution

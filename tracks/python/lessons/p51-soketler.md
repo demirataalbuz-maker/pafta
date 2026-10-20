@@ -273,6 +273,20 @@ eq((mesaj_al(b), mesaj_al(b)), ("abc", "de"), "tek seferde gelen iki çerçeve a
 a.close()
 eq(mesaj_al(b), None, "temiz kapanış → None")
 b.close()
+class Damla:
+    """İkişer bayt veren sahte soket; recv(0) çağrısını kaydeder."""
+    def __init__(self, veri):
+        self.veri, self.sifir = veri, False
+    def recv(self, n):
+        if n <= 0:
+            self.sifir = True
+            return b""
+        parca, self.veri = self.veri[:min(n, 2)], self.veri[min(n, 2):]
+        return parca
+govde = "ağ hazır".encode("utf-8")
+d = Damla(struct.pack("!I", len(govde)) + govde)
+eq(mesaj_al(d), "ağ hazır", "parça parça gelen çerçeve birleşir")
+ok(not d.sifir, "tam n bayt gelince bir daha recv çağrılmamalı")
 ```
 
 ```solution

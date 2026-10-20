@@ -139,6 +139,8 @@ raises(ValueError, h.yatir, -5, msg="negatif yatırma → ValueError")
 raises(ValueError, h.cek, 0, msg="0 çekmek → ValueError")
 h2 = H("ali", 50)
 eq((h2.bakiye, h.bakiye), (50, 70), "hesaplar bağımsız")
+raises(ValueError, h.yatir, 0, msg="0 yatırmak → ValueError")
+eq(h2.cek(50), 0, "bakiyenin tamamını çekmek → 0")
 ```
 
 ```solution

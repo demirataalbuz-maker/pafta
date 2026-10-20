@@ -155,6 +155,8 @@ eq(kaydet(db, {"baslik": "Disk dolu", "oncelik": "kritik"}), (201, {"id": 1, "ba
 eq(kaydet(db, {"baslik": "Ali'nin bilgisayarı"}), (201, {"id": 2, "baslik": "Ali'nin bilgisayarı", "oncelik": "orta"}), "kesme işaretli başlık")
 eq(kaydet(db, {"baslik": ""}), (422, {"hata": "başlık 1-80 karakter olmalı"}), "geçersiz istek kaydedilmez")
 eq(db.execute("SELECT COUNT(*) FROM biletler").fetchone()[0], 2, "tabloda iki bilet")
+eq(kaydet(db, {"baslik": "a" * 80})[0], 201, "tam 80 karakter kabul")
+eq(kaydet(db, {"baslik": "a" * 81}), (422, {"hata": "başlık 1-80 karakter olmalı"}), "81 karakter ret")
 ```
 
 ```solution
@@ -215,6 +217,8 @@ eq(istek_isle(db, '{"baslik": "Güç kaynağı arızası", "oncelik": "yüksek"}
 eq(istek_isle(db, "{bozuk"), (400, '{"hata":"geçersiz JSON"}'), "bozuk gövde")
 eq(istek_isle(db, ""), (400, '{"hata":"geçersiz JSON"}'), "boş gövde")
 eq(istek_isle(db, '{"baslik": "Disk", "oncelik": "acil"}'), (422, '{"hata":"geçersiz öncelik"}'), "geçersiz öncelik")
+eq(istek_isle(db, '{"baslik": "' + "b" * 80 + '"}')[0], 201, "tam 80 karakter kabul")
+eq(istek_isle(db, '{"baslik": "' + "b" * 81 + '"}'), (422, '{"hata":"başlık 1-80 karakter olmalı"}'), "81 karakter ret")
 ```
 
 ```solution

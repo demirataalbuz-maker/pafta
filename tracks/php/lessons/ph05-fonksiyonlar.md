@@ -168,6 +168,8 @@ kutu["esik"] = 90
 eq(a(85), True, "kopya: hâlâ 80")
 eq(b(85), False, "başvuru: artık 90")
 eq(b(95), True, "başvuru: 95 > 90")
+eq(a(80), False, "kopya: tam 80 eşiği aşmaz")
+eq(b(90), False, "başvuru: tam 90 eşiği aşmaz")
 ```
 
 ```solution

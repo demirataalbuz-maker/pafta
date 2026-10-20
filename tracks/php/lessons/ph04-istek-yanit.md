@@ -132,6 +132,7 @@ eq(durum_yaniti({"sunucu": "db01"}, S), (200, '{"sunucu":"db01","cpu":91,"durum"
 eq(durum_yaniti({}, S), (400, '{"hata":"sunucu parametresi gerekli"}'), "parametre yok → 400")
 eq(durum_yaniti({"sunucu": ""}, S), (400, '{"hata":"sunucu parametresi gerekli"}'), "boş parametre → 400")
 eq(durum_yaniti({"sunucu": "x"}, S), (404, '{"hata":"sunucu bulunamad\\u0131"}'), "bilinmeyen sunucu → 404")
+eq(durum_yaniti({"sunucu": "app01"}, {"app01": 80}), (200, '{"sunucu":"app01","cpu":80,"durum":"yo\\u011fun"}'), "tam 80 → yoğun")
 ```
 
 ```solution

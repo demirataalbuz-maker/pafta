@@ -115,6 +115,7 @@ eq(oku_u16_le(veri, 9), None, "son baytta 2 bayt yok")
 eq(oku_u32_be(veri, 7), None, "taşan okuma")
 eq(oku_u16_le(veri, -1), None, "negatif ofset")
 eq(oku_u32_be(b"", 0), None, "boş tampon")
+eq(oku_u16_le(veri, 8), 0x0A01, "son iki bayt okunabilir (ofset = len - 2)")
 ```
 
 ```solution
@@ -205,6 +206,7 @@ eq(dokum_satiri(0, bytes([0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x00, 0x00])),
    "00000000  50 4b 03 04 14 00 00 00  PK......", "tam satır")
 eq(dokum_satiri(16, b"web01"), "00000010  77 65 62 30 31           web01", "eksik satır boşlukla tamamlanır")
 eq(dokum_satiri(255, b"\x7f\x41"), "000000ff  7f 41                    .A", "0x7F yazdırılamaz")
+eq(dokum_satiri(0, b"a b~"), "00000000  61 20 62 7e" + " " * 14 + "a b~", "boşluk (0x20) ve ~ (0x7E) yazdırılabilir")
 ```
 
 ```solution

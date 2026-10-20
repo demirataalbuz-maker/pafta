@@ -212,6 +212,8 @@ eq(repr(p), "Port(443)", "repr")
 ok(p == 443 and isinstance(p, int), "bir int gibi davranır")
 raises(ValueError, Port, 70000, msg="aralık dışı")
 raises(ValueError, Port, -1, msg="negatif")
+eq((repr(Port(0)), repr(Port(65535))), ("Port(0)", "Port(65535)"), "0 ve 65535 sınırları geçerli")
+raises(ValueError, Port, 65536, msg="65536 aralık dışı")
 eq(type(p + 1).__name__, "int", "işlemler taban türü döndürür")
 eq(sorted([Port(8080), Port(22), Port(443)]), [22, 443, 8080], "sayı gibi sıralanır")
 ```

@@ -83,6 +83,8 @@ eq(alan_eslesir(o, "mesaj|re", r"\(\d+ sn\)"), True, "re")
 eq(alan_eslesir(o, "mesaj|re", r"veritabanı"), False, "re büyük-küçük harfe duyarlı")
 eq(alan_eslesir(o, "cpu|gt", 90), True, "gt")
 eq(alan_eslesir(o, "cpu|lt", 90), False, "lt")
+eq(alan_eslesir(o, "cpu|gt", 93), False, "eşit değerde gt False (gte değil)")
+eq(alan_eslesir(o, "cpu|lt", 93), False, "eşit değerde lt False")
 eq(alan_eslesir(o, "kod", 504), True, "sayı eşitliği")
 eq(alan_eslesir(o, "olmayan", "x"), False, "eksik alan → False")
 raises(ValueError, alan_eslesir, o, "mesaj|tersten", "x", msg="bilinmeyen değiştirici → ValueError")
@@ -159,6 +161,8 @@ eq(secim_eslesir(o, {"seviye": "ERROR", "servis": "sepet"}), False, "biri tutmuy
 eq(secim_eslesir(o, [{"servis": "sepet"}, {"cpu|gt": 90}]), True, "listede biri tutuyor")
 eq(secim_eslesir(o, [{"servis": "sepet"}, {"cpu|lt": 50}]), False, "listede hiçbiri tutmuyor")
 eq(secim_eslesir(o, {}), True, "boş seçim her şeyle eşleşir")
+eq(secim_eslesir(o, {"cpu|gt": 93}), False, "eşit değerde gt False")
+eq(secim_eslesir(o, [{"cpu|lt": 93}, {"cpu|gt": 93}]), False, "eşit değerde ne lt ne gt")
 ```
 
 ```solution
@@ -373,6 +377,9 @@ olaylar = [
 eq(motor(kurallar, olaylar), [("Üretimde zaman aşımı", 0), ("Disk dolmak üzere", 2), ("Üretimde zaman aşımı", 3)], "eşleşmeler")
 eq(motor([], olaylar), [], "kural yok")
 eq(motor(kurallar, []), [], "olay yok")
+sinir = [{"metrik": "disk", "deger": 85, "ortam": "prod"},
+         {"servis": "odeme", "seviye": "INFO", "mesaj": "ok", "cpu": 90, "ortam": "prod"}]
+eq(motor(kurallar, sinir), [], "eşit değerde gt tutmaz: disk 85, cpu 90")
 ```
 
 ```solution
