@@ -8,29 +8,57 @@
  "role": "Web uygulamalarının kodunu okuyabilmek: türler, fonksiyonlar, diziler, asenkron akış ve tarayıcı kodu.",
  "modules": [
   {
-   "title": "Dilin Huyları",
+   "title": "Temeller",
    "rank": "minik",
-   "zen": "== değil, ===.",
+   "zen": "=== yaz, türü tahmin etme.",
    "lessons": [
     "js01",
     "js02"
    ]
   },
   {
-   "title": "Veri ve Zaman",
-   "rank": "kucuk-orta",
-   "zen": "Kod yazıldığı sırada değil, olay döngüsünün sırasında çalışır.",
+   "title": "Veriyle Çalışmak",
+   "rank": "tesviye",
+   "zen": "Metin sayı değildir, sayı da her zaman kesin değildir.",
    "lessons": [
     "js03",
-    "js04"
+    "js10"
    ]
   },
   {
-   "title": "Tarayıcı Kodu",
-   "rank": "baspehlivan",
-   "zen": "Kullanıcıdan gelen her metin veridir, kod değil.",
+   "title": "Kapsam ve Nesneler",
+   "rank": "kucuk-orta",
+   "zen": "this, çağıranın kim olduğunu söyler.",
    "lessons": [
-    "js05"
+    "js06",
+    "js07"
+   ]
+  },
+  {
+   "title": "Asenkron Kod ve Hatalar",
+   "rank": "buyuk-orta",
+   "zen": "Kod yazıldığı sırada değil, sırası geldiğinde çalışır.",
+   "lessons": [
+    "js04",
+    "js08"
+   ]
+  },
+  {
+   "title": "Tarayıcı, Sunucu ve Paket",
+   "rank": "basalti",
+   "zen": "İstemciden gelen her şey metindir ve her şey olabilir.",
+   "lessons": [
+    "js05",
+    "js09",
+    "js11"
+   ]
+  },
+  {
+   "title": "Analiz Projesi",
+   "rank": "baspehlivan",
+   "zen": "Okuduğunu yazabiliyorsan anlamışsındır.",
+   "lessons": [
+    "js12"
    ]
   }
  ],
@@ -40,15 +68,27 @@
   "Anla",
   "mak"
  ],
- "tagline": "Okuma düzeyinde JavaScript: türler ve karşılaştırma tuzakları, fonksiyonlar ve kapanışlar, diziler ve JSON, olay döngüsü, tarayıcı kodu. 5 pafta; kodun gerçek Node.js'te çalışır.",
+ "tagline": "Okuma düzeyinde JavaScript: türler ve ===, fonksiyonlar ve kapanışlar, dizi metotları ve JSON, metin, sayı ve tarih tuzakları, kapsam ve this, sınıflar ve prototipler, asenkron kod ve olay döngüsü, hata yönetimi, tarayıcı kodu, Node.js sunucu kodu, küçültülmüş kod ve bir günlük analizi projesi. 12 pafta; kod gerçek Node.js'te çalışır.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",
