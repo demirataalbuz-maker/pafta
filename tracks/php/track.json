@@ -10,28 +10,56 @@
  "role": "Okuma düzeyinde PHP: web uygulamalarının sunucu tarafı kodunu, istek verisini ve çıktıyı okuyabilmek.",
  "modules": [
   {
-   "title": "Sayfayı Okumak",
+   "title": "Bir PHP Sayfası",
    "rank": "minik",
-   "zen": "Tırnağın türü anlamı değiştirir.",
+   "zen": "PHP önce bir metin üreticisidir.",
    "lessons": [
     "ph01",
     "ph02"
    ]
   },
   {
-   "title": "Gevşek Türler",
-   "rank": "kucuk-orta",
-   "zen": "== sorar, === bilir.",
+   "title": "Türler ve Metinler",
+   "rank": "tesviye",
+   "zen": "== dönüştürür, === dönüştürmez.",
    "lessons": [
-    "ph03"
+    "ph03",
+    "ph06"
    ]
   },
   {
-   "title": "İstek ve Yanıt",
-   "rank": "baspehlivan",
-   "zen": "Gelen her şey veridir; çıkan her şey kaçırılır.",
+   "title": "Fonksiyonlar ve Sınıflar",
+   "rank": "kucuk-orta",
+   "zen": "Her fonksiyon kendi dünyasıdır.",
    "lessons": [
-    "ph04"
+    "ph05",
+    "ph07"
+   ]
+  },
+  {
+   "title": "İstek ve Veritabanı",
+   "rank": "buyuk-orta",
+   "zen": "Veri koddan ayrı gider.",
+   "lessons": [
+    "ph04",
+    "ph08"
+   ]
+  },
+  {
+   "title": "Oturum, Dosya ve Hata",
+   "rank": "basalti",
+   "zen": "Gizli olanı sabit sürede karşılaştır, hatayı ekrana değil günlüğe yaz.",
+   "lessons": [
+    "ph09",
+    "ph10"
+   ]
+  },
+  {
+   "title": "Uç Nokta Projesi",
+   "rank": "baspehlivan",
+   "zen": "Her satır neyi kabul ediyor, neyi reddediyor?",
+   "lessons": [
+    "ph11"
    ]
   }
  ],
@@ -40,15 +68,27 @@
   "Sunucu",
   "ya"
  ],
- "tagline": "Okuma düzeyinde PHP 8: echo ve tırnaklar, diziler ve foreach, gevşek ile katı karşılaştırma, istek verisi, htmlspecialchars ve json_encode. 4 pafta; PHP kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
+ "tagline": "Okuma düzeyinde PHP: sayfa ve echo, diziler, gevşek türler ve ===, metinlerin bayt olması ve mb_ fonksiyonları, fonksiyonlar ve closure'lar, sınıflar ve sihirli metotlar, istek ve yanıt, PDO ve parametreli sorgular, oturumlar ve parolalar, dosyalar, JSON ve hatalar ve bir API uç noktası projesi. 11 pafta; PHP kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da (gerekirse gerçek SQLite ile) kurarsın.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",
