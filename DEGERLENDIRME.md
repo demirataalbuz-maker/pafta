@@ -5,6 +5,8 @@
 
 Her yol, kendi alanındaki en üst düzey sertifikanın ya da resmi eğitimin **resmi konu listesiyle** karşılaştırıldı. Yüzdeler kabaca bir tahmindir: konu listesindeki maddelerin ne kadarının derslerde gerçekten anlatılıp görevle pekiştirildiğini gösterir.
 
+> **Ders numaraları hakkında:** bu belgedeki ders kimlikleri (P70–P73, SP08–SP15 gibi) 2026-10-20 akşamki yeniden numaralandırmadan (`dcd8375`) öncesine aittir. Güncel kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json); güncel açık bulgular için [DENETIM.md](DENETIM.md).
+
 ## Denetim · 20 Ekim akşamı
 
 Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Python dışındaki bütün yollar 6 rütbeye genişletildi. Bu bölüm o işin bağımsız denetimidir.
