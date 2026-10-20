@@ -42,6 +42,9 @@ sourcetype=biletler disk
 | table id baslik durum
 ```
 
+> [!NOT]
+> Tezgah serbest metni alanların içinde **alt metin** olarak arar: `dolu`, "doluluğu" kelimesini de bulur. Gerçek Splunk olayları dizinlerken **terimlere** böler ve serbest metin bütün bir terimle eşleşir: orada `dolu` yalnızca "dolu" kelimesini bulur, "doluluğu" için `dolu*` yazılır.
+
 > [!TUZAK]
 > `OR`, `AND` ve `NOT` yalnızca **büyük harfle** işleçtir. `durum=açık or oncelik=kritik` yazarsan Splunk "or" kelimesini arayan bir **serbest metin terimi** sanır ve hiçbir şey bulamaz.
 

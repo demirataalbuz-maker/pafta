@@ -43,6 +43,8 @@ console.log(yol, Number(durum) >= 500, Number(sure) / 1000);
 ::: gorev 1 · Ayrıştır
 `ayristir(metin)` fonksiyonunu yaz: `{kayitlar, bozuk}` döndürsün. Her geçerli satır `{zaman, ip, yontem, yol, durum, sure}` nesnesi olsun (`durum` ve `sure` **sayı**); kalıba uymayan satırlar `bozuk` sayacını artırsın. Alttaki iki satır olduğu gibi kalsın.
 
+`satir.match(/desen/)` eşleşme yoksa `null`, varsa bir dizi döndürür: `m[0]` eşleşen bütün metin, `m[1]`, `m[2]`... parantezli grupların yakaladıkları (Python'daki `re.match(...).group(n)` gibi).
+
 ```starter
 const GUNLUK = `2026-10-19T09:01:12Z 10.0.3.4 GET /api/rapor 500 2300
 2026-10-19T09:02:40Z 10.0.3.4 GET /api/rapor 500 2410

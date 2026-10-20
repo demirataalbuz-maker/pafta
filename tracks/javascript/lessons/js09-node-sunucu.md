@@ -131,7 +131,7 @@ Döngü yerine bir `next` fonksiyonu kur: sıradaki katmanı alıp ona kendisini
 :::
 
 ::: gorev Kökün dışına çıkma
-`guvenliYol(kok, istenen)` fonksiyonunu yaz: `istenen` (istemciden gelen göreli yol) `kok` klasörüne göre çözüldüğünde kökün **içinde** kalıyorsa mutlak yolu, kalmıyorsa `null` döndürsün. `path.posix` kullan.
+`guvenliYol(kok, istenen)` fonksiyonunu yaz: `istenen` (istemciden gelen göreli yol) `kok` klasörüne göre çözüldüğünde kökün **içinde** kalıyorsa mutlak yolu, kalmıyorsa `null` döndürsün. `path.posix` kullan. Bir metnin bir önekle başlayıp başlamadığını `metin.startsWith(onek)` söyler (`true` ya da `false`).
 
 ```starter
 const path = require("path");

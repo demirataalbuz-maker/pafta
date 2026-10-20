@@ -24,7 +24,7 @@ biletler
 ```
 
 > [!NOT]
-> Bu tezgahta "şimdi" sabittir: **2026-10-19 12:00**. Böylece `ago()` kullanan sorgular her gün aynı sonucu verir. Gerçek Sentinel'de `now()` gerçekten şu andır ve zamanlar UTC'dir; zaman dilimi farkını unutmak sık yapılan bir hatadır.
+> Bu tezgahta "şimdi" sabittir: **2026-10-19 12:00**. Böylece `ago()` kullanan sorgular her gün aynı sonucu verir. Gerçek Sentinel'de `now()` gerçekten şu andır ve zamanlar UTC'dir; zaman dilimi farkını unutmak sık yapılan bir hatadır. Gösterim de farklıdır: tezgah anları `2026-10-19 08:00` diye yazar, gerçek Kusto sonuç tablosu ISO 8601 biçimini ve UTC'yi kullanır: `2026-10-19T08:00:00Z`.
 
 ### bin ile dilimlemek
 `bin(zaman, 1h)` zamanı saatin başına, `bin(zaman, 1d)` günün başına yuvarlar. "Saat başına kaç kayıt?" sorusunun cevabı budur:

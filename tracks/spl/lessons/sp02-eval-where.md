@@ -28,6 +28,15 @@ sourcetype=sunucular
 | table ad cpu yuk
 ```
 
+Bir alanın boş olup olmadığını `isnull(alan)` ve `isnotnull(alan)` söyler. Boş alan `alan=""` ile değil, bu iki fonksiyonla yakalanır:
+
+```spl
+sourcetype=biletler
+| where isnull(kapanis)
+| eval atandi = if(isnotnull(atanan_id), "evet", "hayır")
+| table id baslik atandi
+```
+
 ### search mi where mi?
 | | `search` (aramanın kendisi) | `where` |
 |---|---|---|
