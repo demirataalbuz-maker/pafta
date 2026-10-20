@@ -12,27 +12,56 @@
   {
    "title": "Bir C Programı",
    "rank": "minik",
-   "zen": "Bilgisayar ne yazdıysan onu yapar; ne demek istediğini değil.",
+   "zen": "Önce ne yazdığını oku, sonra ne yaptığını.",
    "lessons": [
     "c01",
     "c02"
    ]
   },
   {
-   "title": "Bellek",
-   "rank": "kucuk-orta",
-   "zen": "Her dizi bir adres, her adres bir sorumluluk.",
+   "title": "Diziler ve İşaretçiler",
+   "rank": "tesviye",
+   "zen": "Her değişken bir adreste durur.",
    "lessons": [
     "c03",
     "c04"
    ]
   },
   {
-   "title": "Bitler",
-   "rank": "baspehlivan",
-   "zen": "En küçük birim en çok şey söyler.",
+   "title": "Bitler ve Tam Sayılar",
+   "rank": "kucuk-orta",
+   "zen": "Bir sayı, kaç bit ayırdıysan odur.",
    "lessons": [
-    "c05"
+    "c05",
+    "c06"
+   ]
+  },
+  {
+   "title": "Bellek Düzeni",
+   "rank": "buyuk-orta",
+   "zen": "Bayt nerede, kim gösteriyor, ne kadar büyük?",
+   "lessons": [
+    "c07",
+    "c08",
+    "c09"
+   ]
+  },
+  {
+   "title": "Önişlemci, Dosyalar ve Windows",
+   "rank": "basalti",
+   "zen": "Derleyiciden önce metin, programdan sonra dosya.",
+   "lessons": [
+    "c10",
+    "c11",
+    "c12"
+   ]
+  },
+  {
+   "title": "Ayrıştırıcı Projesi",
+   "rank": "baspehlivan",
+   "zen": "Güvenilmeyen baytı önce kanıtla, sonra oku.",
+   "lessons": [
+    "c13"
    ]
   }
  ],
@@ -41,15 +70,27 @@
   "Anlam",
   "a"
  ],
- "tagline": "Okuma düzeyinde C: printf, tam sayı aritmetiği, akış ve switch, diziler ve dizgiler, işaretçiler ve bellek, yapılar ve bit işlemleri. 5 pafta; C kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
+ "tagline": "Okuma düzeyinde C: printf ve tam sayı aritmetiği, akış, diziler ve dizgiler, işaretçiler, bitler ve bayt sırası, taşma ve tür dönüşümleri, yapıların bellek düzeni, bayt tamponları ve sağlama toplamları, fonksiyon işaretçileri, önişlemci, dosya G/Ç, Windows API kodu ve bir ikili dosya ayrıştırıcı projesi. 13 pafta; C kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
  "ranks": [
   {
    "id": "minik",
    "name": "Minik"
   },
   {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
    "id": "kucuk-orta",
    "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
   },
   {
    "id": "baspehlivan",
