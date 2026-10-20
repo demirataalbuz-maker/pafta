@@ -14,6 +14,7 @@ fark, düzeneğe hangi modla ve hangi ek bilgilerle gidildiğidir:
 Yeni dil = yeni bir Runner nesnesi + RUNNERS'a kayıt.
 """
 import json
+import glob
 import os
 import shlex
 import shutil
@@ -142,6 +143,24 @@ class RegexRunner(HarnessRunner):
     modlar = {"run": "regex_run", "test": "regex_test", "dis": "regex_dis"}
 
 
+class DetectionRunner(HarnessRunner):
+    """Sigma events / native YARA bytes, isolated like the existing runners."""
+    default_timeout = 12
+    test_timeout = 20
+
+    def __init__(self, name, package):
+        self.name = name
+        self.package = package
+        self.modlar = {"run": name + "_run", "test": name + "_test"}
+
+    def available(self):
+        import importlib.util
+        local = os.path.join(ROOT, ".deps")
+        return (os.path.isdir(os.path.join(local, self.package))
+                or bool(glob.glob(os.path.join(local, self.package + "*.pyd")))
+                or importlib.util.find_spec(self.package) is not None)
+
+
 class SqlRunner(HarnessRunner):
     name = "sql"
     ozellik = {"roentgen": False, "dis": "Plan"}
@@ -215,6 +234,8 @@ RUNNERS = {
     "sql": SqlRunner(),
     "kql": KqlRunner(),
     "spl": SplRunner(),
+    "sigma": DetectionRunner("sigma", "sigma"),
+    "yara": DetectionRunner("yara", "yara"),
     "bash": ProcRunner("bash", {
         "cmd": [BASH or ""], "iz_cmd": [BASH or "", "-x"], "dosya": "betik.sh",
         "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"}, "sure": 10,

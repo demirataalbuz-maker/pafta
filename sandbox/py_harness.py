@@ -1086,7 +1086,63 @@ def do_ceviri_dis(job, dil):
     return {"status": "ok", "text": metin or "(çevrilecek sorgu yok)"}
 
 
+def _detection_module(name):
+    import importlib
+    folder = os.path.dirname(os.path.abspath(__file__))
+    if folder not in sys.path:
+        sys.path.insert(0, folder)
+    return importlib.import_module(name + "_engine")
+
+
+def _detection_error(exc, name):
+    mark = getattr(exc, "problem_mark", None)
+    line = mark.line + 1 if mark is not None else None
+    if line is None:
+        match = re.search(r"line (\d+)", str(exc), re.I)
+        line = int(match.group(1)) if match else None
+    return {"type": name.upper() + "Hatası", "msg": str(exc), "line": line,
+            "frames": [], "where": "kod"}
+
+
+def do_detection_run(job, name):
+    try:
+        module = _detection_module(name)
+        if name == "sigma":
+            return module.SigmaProgram(job["code"]).run(module.parse_events(job.get("stdin", "")))
+        rules = module.compile_rules(job["code"])
+        return module.format_result(rules, module.decode_data(job.get("stdin", "")))
+    except Exception as exc:
+        return {"status": "error", "error": _detection_error(exc, name), "segs": []}
+
+
+def do_detection_test(job, name):
+    run_setup(job)
+    code, stdin = job["code"], job.get("stdin", "")
+    try:
+        module = _detection_module(name)
+        if name == "sigma":
+            program = module.SigmaProgram(code)
+            helpers = {"eslesir": program.matches, "eslesenler": program.matching_events,
+                       "kural_adlari": program.names,
+                       "kurallar": [item.rule.to_dict() for item in program.rules]}
+        else:
+            rules = module.compile_rules(code)
+            def names(data):
+                return [match.rule for match in module.match_rules(rules, data)]
+            helpers = {"eslesenler": names,
+                       "eslesir": lambda data, rule_name=None: any(rule_name is None or n == rule_name for n in names(data)),
+                       "derle": module.compile_rules}
+    except Exception as exc:
+        return {"status": "error", "error": _detection_error(exc, name), "checks": [], "segs": []}
+    tester = Tester("", {}, Capture(), stdin, job)
+    namespace = tester.namespace()
+    namespace.update(src=code, **helpers)
+    return _test_kos(tester, namespace, job, [])
+
+
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
+         "sigma_run": lambda j: do_detection_run(j, "sigma"), "sigma_test": lambda j: do_detection_test(j, "sigma"),
+         "yara_run": lambda j: do_detection_run(j, "yara"), "yara_test": lambda j: do_detection_test(j, "yara"),
          "kql_run": lambda j: do_ceviri_run(j, "kql"), "kql_test": lambda j: do_ceviri_test(j, "kql"),
          "kql_dis": lambda j: do_ceviri_dis(j, "kql"),
          "spl_run": lambda j: do_ceviri_run(j, "spl"), "spl_test": lambda j: do_ceviri_test(j, "spl"),

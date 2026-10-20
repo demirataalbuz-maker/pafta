@@ -169,7 +169,18 @@ const tokPhp = kural(
    w => (["null", "true", "false", "NULL"].includes(w) ? "const" : PHP_KW.has(w.toLowerCase()) ? "kw" : PHP_BI.has(w) ? "bi" : ""),
    () => "", () => "op"]);
 
-const TOKENIZERS = { javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+const SIGMA_KEYS = new Set("title id name status description author date modified references tags logsource category product service detection condition fields falsepositives level".split(" "));
+const tokSigma = kural(
+  /(#[^\n]*)|('(?:''|[^'])*'?|"(?:\\.|[^"\\])*"?)|(\b(?:true|false|null)\b)|(\b\d+(?:\.\d+)?\b)|([A-Za-z_][\w.|*-]*)|(\s+)|([^\s\w])/gy,
+  [() => "com", () => "str", () => "const", () => "num",
+   w => SIGMA_KEYS.has(w) ? "kw" : /\|/.test(w) ? "fn" : "", () => "", () => "op"]);
+const YARA_KEYS = new Set("rule private global meta strings condition import include and or not of them any all none for in at ascii wide nocase fullword xor base64 base64wide true false filesize entrypoint defined with".split(" "));
+const tokYara = kural(
+  /(\/\/[^\n]*|\/\*[\s\S]*?(?:\*\/|$))|("(?:\\.|[^"\\])*"?)|(\/(?:\\.|[^\/\\\n])*\/[is]*)|([$#@!][A-Za-z_]\w*|\$)|(\b0[xX][\da-fA-F]+\b|\b\d+(?:KB|MB)?\b)|([A-Za-z_]\w*)|(\s+)|([^\s\w])/gy,
+  [() => "com", () => "str", () => "str", () => "self", () => "num",
+   w => YARA_KEYS.has(w) ? "kw" : /^(?:uint|int)\d+(?:be)?$/.test(w) ? "bi" : "", () => "", () => "op"]);
+
+const TOKENIZERS = { sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {

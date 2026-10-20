@@ -1,10 +1,94 @@
 {
- "id": "sigma",
- "name": "Sigma",
- "status": "planned",
- "group": "savunma",
- "order": 12,
- "runner": "sigma",
- "role": "SIEM'den bağımsız tespit kuralı. Purple'ın kalbi: saldırı yap → Sigma kuralı yaz.",
- "modules": []
+  "id": "sigma",
+  "name": "Sigma",
+  "status": "active",
+  "group": "savunma",
+  "order": 12,
+  "runner": "sigma",
+  "dil": "sigma",
+  "role": "SIEM'den bağımsız tespit kuralı: davranışı tarif et, normal örneklerle sına, dağıtım gereksinimini belgele.",
+  "tagline": "18 pafta, 6 rütbe: gerçek Sigma YAML, resmi pySigma ayrıştırıcısı, sentetik JSON olaylarında seçim testleri; telemetri, filtreler ve iki proje.",
+  "girdi_etiketi": "JSON olayları",
+  "ranks": [
+    {
+      "id": "minik",
+      "name": "Minik"
+    },
+    {
+      "id": "tesviye",
+      "name": "Tesviye"
+    },
+    {
+      "id": "kucuk-orta",
+      "name": "Küçük Orta"
+    },
+    {
+      "id": "buyuk-orta",
+      "name": "Büyük Orta"
+    },
+    {
+      "id": "basalti",
+      "name": "Başaltı"
+    },
+    {
+      "id": "baspehlivan",
+      "name": "Başpehlivan"
+    }
+  ],
+  "modules": [
+    {
+      "title": "İlk Tespit Kuralı",
+      "rank": "minik",
+      "lessons": [
+        "sg01",
+        "sg02",
+        "sg03"
+      ]
+    },
+    {
+      "title": "Seçimler ve Metinler",
+      "rank": "tesviye",
+      "lessons": [
+        "sg04",
+        "sg05",
+        "sg06"
+      ]
+    },
+    {
+      "title": "Mantık ve Veri Kalitesi",
+      "rank": "kucuk-orta",
+      "lessons": [
+        "sg07",
+        "sg08",
+        "sg09"
+      ]
+    },
+    {
+      "title": "Biçimler, Eşikler ve Ağlar",
+      "rank": "buyuk-orta",
+      "lessons": [
+        "sg10",
+        "sg11",
+        "sg12"
+      ]
+    },
+    {
+      "title": "Tespit Mühendisliği",
+      "rank": "basalti",
+      "lessons": [
+        "sg13",
+        "sg14",
+        "sg15"
+      ]
+    },
+    {
+      "title": "Korelasyon ve Projeler",
+      "rank": "baspehlivan",
+      "lessons": [
+        "sg16",
+        "sg17",
+        "sg18"
+      ]
+    }
+  ]
 }

@@ -125,7 +125,7 @@ export class Editor {
       if (this._dil === "spl" || this._dil === "regex") return;   // bu dillerde satır yorumu yok
       const [a, b] = this.lineRange();
       const lines = ta.value.slice(a, b).split("\n");
-      const y = { sql: "--", kql: "//", javascript: "//" }[this._dil] || "#";
+      const y = { sql: "--", kql: "//", javascript: "//", yara: "//" }[this._dil] || "#";
       const all = lines.filter(l => l.trim()).every(l => l.trimStart().startsWith(y));
       this.replaceLines(l => {
         if (!l.trim()) return l;
@@ -150,7 +150,7 @@ export class Editor {
       const lineStart = v.lastIndexOf("\n", s - 1) + 1;
       const before = v.slice(lineStart, s);
       let indent = before.match(/^\s*/)[0];
-      const code = before.replace({ sql: /--.*$/, kql: /\/\/.*$/, javascript: /\/\/.*$/ }[this._dil] || /#.*$/, "").trimEnd();
+      const code = before.replace({ sql: /--.*$/, kql: /\/\/.*$/, javascript: /\/\/.*$/, yara: /\/\/.*$/ }[this._dil] || /#.*$/, "").trimEnd();
       const acar = this._dil === "python" ? code.endsWith(":") : this._dil === "bash" ? /\b(then|do|else)$/.test(code) : false;
       if (acar || /[([{]$/.test(code)) indent += IND;
       else if (this._dil === "python" && /^\s*(return|pass|break|continue|raise)\b/.test(before)) indent = indent.slice(0, Math.max(0, indent.length - 4));

@@ -32,7 +32,7 @@ TRACKS_DIR = os.path.join(ROOT, "tracks")
 
 STEP_KINDS = ("anlat", "tahmin", "gorev")
 KOD_DILLERI = ("python", "py", "", "regex", "bash", "sh", "powershell", "ps1", "sql", "kql", "kusto", "spl", "splunk",
-               "javascript", "js", "c", "php")
+               "javascript", "js", "c", "php", "sigma", "yara")
 # gercek: çalıştırılamayan dillerde (C, PHP) tahmin adımının gerçek çıktısı, ders yazarınca verilir
 SPECIAL = ("starter", "stdin", "test", "solution", "hint", "setup", "meta", "gercek")
 _STEP_RE = re.compile(r"^:::\s*(anlat|tahmin|gorev)\b\s*(.*)$")

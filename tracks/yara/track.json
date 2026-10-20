@@ -1,10 +1,99 @@
 {
  "id": "yara",
  "name": "YARA",
- "status": "planned",
+ "status": "active",
  "group": "savunma",
  "order": 13,
  "runner": "yara",
- "role": "Malware ve dosya tespit kuralları.",
- "modules": []
+ "dil": "yara",
+ "role": "Dosya ve bayt tespiti: gerçek libyara ile metin/hex kuralları, PE, hash, istatistik ve regresyon testleri.",
+ "tagline": "18 paftada ilk işaretten testli kural paketine. Gerçek YARA motoru; bütün örnekler etkisiz eğitim verileri.",
+ "girdi_etiketi": "Veri (metin / hex: / base64:)",
+ "kahraman": [
+  "Bayttan",
+  "Tespite",
+  ""
+ ],
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ],
+ "modules": [
+  {
+   "title": "İlk Kurallar",
+   "rank": "minik",
+   "lessons": [
+    "yr01",
+    "yr02",
+    "yr03"
+   ]
+  },
+  {
+   "title": "Baytlar ve Desenler",
+   "rank": "tesviye",
+   "lessons": [
+    "yr04",
+    "yr05",
+    "yr06"
+   ]
+  },
+  {
+   "title": "Sayı, Konum ve Biçim",
+   "rank": "kucuk-orta",
+   "lessons": [
+    "yr07",
+    "yr08",
+    "yr09"
+   ]
+  },
+  {
+   "title": "Kümeler ve Kural Paketleri",
+   "rank": "buyuk-orta",
+   "lessons": [
+    "yr10",
+    "yr11",
+    "yr12"
+   ]
+  },
+  {
+   "title": "Dosya Modülleri",
+   "rank": "basalti",
+   "lessons": [
+    "yr13",
+    "yr14",
+    "yr15"
+   ]
+  },
+  {
+   "title": "Tespit Tasarımı ve Projeler",
+   "rank": "baspehlivan",
+   "lessons": [
+    "yr16",
+    "yr17",
+    "yr18"
+   ]
+  }
+ ]
 }

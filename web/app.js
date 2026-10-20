@@ -108,7 +108,9 @@ async function refreshHeader() {
 // ── hata kartı ────────────────────────────────────────────────────────────────
 function errCard(err) {
   if (!err) return "";
-  const tr = ERR_TR[err.type] || "Python bir hata yükseltti. Mesajı ve işaretli satırı incele.";
+  const tr = ERR_TR[err.type] || (err.type === "SIGMAHatası" || err.type === "YARAHatası"
+    ? "Kural ya da örnek veri doğrulanamadı. Mesajı ve varsa işaretli satırı incele."
+    : "Çalıştırma sırasında hata oluştu. Mesajı ve işaretli satırı incele.");
   const parts = [];
   if (err.where === "kod-girdi") parts.push(`Program şu girdiyle çalıştırılırken hata verdi: <code>${esc(JSON.stringify(err.stdin))}</code>`);
   if (err.where === "kod-test") parts.push("Test, kodundaki fonksiyonu çağırdığında kodun hata verdi.");
@@ -150,13 +152,23 @@ function sqlTablolar(tablolar, max = 200, kql = false) {
     const n = t.satirlar.length;
     // SPL'in çok değerli alanları \x1f ile ayrık gelir: Splunk'taki gibi her değer ayrı satırda
     const hucre = v => v === null ? `<td class="null">${kql ? "" : "NULL"}</td>`
-      : `<td${/^-?\d+(\.\d+)?$/.test(v) ? ' class="num"' : ""}>${esc(v).replace(/\x1f/g, "<br>")}</td>`;
+      : `<td${/^-?\d+(\.\d+)?$/.test(v) ? ' class="num"' : ""}>${esc(String(v)).replace(/\x1f/g, "<br>")}</td>`;
     const govde = t.satirlar.slice(0, max).map(r => `<tr>${r.map(hucre).join("")}</tr>`).join("");
     const fazla = n > max ? `<div class="out-meta">ilk ${max} satır gösteriliyor</div>` : "";
     return `<div class="sql-sonuc"><div class="sql-bas"><span class="ln">s.${t.satir}</span>${n} satır${t.kesildi ? " (ilk 500)" : ""}</div>` +
       (n ? `<table class="sql-tablo"><thead><tr>${t.sutunlar.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${govde}</tbody></table>${fazla}`
         : `<div class="out-meta">sonuç boş · hiçbir satır koşulu sağlamadı</div>`) + `</div>`;
   }).join("");
+}
+
+function detectionOutput(res, dil, max = 200) {
+  const output = segsHtml(res.segs);
+  const warnings = (res.warnings || []).map(w => `<p>${esc(w)}</p>`).join("");
+  const message = dil === "sigma"
+    ? "Eşleşen olay kimlikleri (id yoksa girdideki sıra numarası)" : "Eşleşen kural adları";
+  return `<div class="out-meta">${message}</div><pre class="out">${output || "eşleşme yok"}</pre>` +
+    sqlTablolar(res.tablolar || [], max) +
+    (warnings ? `<div class="callout tuzak"><div class="ct">Motor uyarıları</div>${warnings}</div>` : "");
 }
 
 // ── TEZGAH ────────────────────────────────────────────────────────────────────
@@ -251,12 +263,14 @@ class Bench {
       bash: "Girdi (stdin) · read komutu satırları buradan okur",
       powershell: "Girdi · satırlar $Girdi dizisine gelir",
       javascript: "Girdi (stdin) · require(\"fs\").readFileSync(0, \"utf8\") ile okunur",
+      sigma: "Olaylar · JSON nesnesi, liste ya da her satırda bir JSON nesnesi",
+      yara: "Örnek veri · UTF-8 metin; ikili veri için hex: veya base64: öneki",
     }[dil] || "Girdi";
     this.stdin.rows = dil === "regex" ? 4 : 3;
-    this.girdiAdi = dil === "regex" ? "Metin" : "Girdi";
+    this.girdiAdi = dil === "regex" ? "Metin" : dil === "sigma" ? "Olaylar" : dil === "yara" ? "Örnek veri" : "Girdi";
     const vt = ["sql", "kql", "spl"].includes(dil);        // bu dillerin girdisi örnek veritabanıdır
     $('[data-b="stdin"]', h).hidden = vt;
-    this.toggleStdin(dil === "regex" ? true : vt ? false : !this.stdinBox.hidden);
+    this.toggleStdin(["regex", "sigma", "yara"].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
   }
 
   setStdin(t) {
@@ -352,6 +366,10 @@ class Bench {
 
   paintOut(res) {
     if (res.eslesmeler) return this.paintEslesme(res);
+    if (["sigma", "yara"].includes(this.dil) && !res.error) {
+      this.pane.innerHTML = detectionOutput(res, this.dil);
+      return;
+    }
     if (res.tablolar) {
       const meta = res.error ? "" : `<div class="out-meta">${res.tablolar.length ? "— bitti —" : "betikte çalışan bir ifade yok"}</div>`;
       this.pane.innerHTML = sqlTablolar(res.tablolar, 200, res.kql) + errCard(res.error) + meta;
@@ -756,10 +774,14 @@ const BOS_KOD = {
   kql: "// Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n// Tablolar: ekipler, personel, sunucular, biletler, olcumler\n",
   spl: "sourcetype=biletler | head 5\n",
   javascript: "// Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n",
+  sigma: "# Soldaki Sigma kuralını tezgaha al; Olaylar kutusuna JSON örnekleri yaz.\n",
+  yara: "// Soldaki YARA kuralını tezgaha al; Örnek veri kutusuna aranacak metni yaz.\n",
 };
 // Okuma yolları (C, PHP): kod çalıştırılmaz; görevlerde okunan kodun Python karşılığı yazılır
 const OKUMA_BOS = "# Bu yolda okuduğun kod bu bilgisayarda çalıştırılamıyor.\n# Görevlerde onun yaptığını Python ile yazacaksın; tezgah o görevler içindir.\n";
 const TAHMIN_DIL = {
+  sigma: { girdi: "Kural şu olaylarda deneniyor:", etiket: "Eşleşen olayların id değerlerini sırayla, her satıra bir tane yaz", baslik: "Hangi olaylar eşleşir?", ornek: "ör. 1", kod: "" },
+  yara: { girdi: "Kural şu örnek veriyi tarıyor:", etiket: "Eşleşen kural adlarını her satıra bir tane yaz", baslik: "Hangi kurallar eşleşir?", ornek: "ör. Ilk_Kural", kod: "" },
   regex: { girdi: "Desen şu metinde aranıyor:", etiket: "Tahminin — yakalanan parçaları satır satır yaz", baslik: "Bu desen neleri yakalar?", kod: "" },
   sql: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer için NULL)",
     baslik: "Bu sorgu ne döndürür?", ornek: "ör. web01|72", kod: "-- Önce soldaki sorgunun sonucunu tahmin et.\n-- Tahmin ettikten sonra sorgu buraya gelir; değiştirip denersin.\n" },
@@ -884,7 +906,9 @@ async function sheetClick(e) {
   const act = a.dataset.act, L = S.lesson.lesson, tid = S.tid, lid = L.id, i = S.idx;
   if (act === "run" || act === "bench") {
     const block = a.closest(".code");
-    const src = block.dataset.src, metin = block.dataset.stdin || "";
+    const src = block.dataset.src;
+    const detection = ["sigma", "yara"].includes(dilAdi(S.yol?.dil));
+    const metin = block.dataset.stdin || (detection ? S.bench.stdin.value : "");
     if (act === "bench") {
       S.bench.setCode(src);
       if (metin || dilAdi(S.yol?.dil) === "regex") S.bench.setStdin(metin);
@@ -900,6 +924,11 @@ async function sheetClick(e) {
         out.innerHTML = res.error ? `<span style="color:var(--bad)">${esc(res.error.type + ": " + res.error.msg)}</span>`
           : res.eslesmeler.length ? `<span class="label">${res.eslesmeler.length} eşleşme</span>\n` + res.eslesmeler.map(e => esc(JSON.stringify(e.metin))).join("\n")
           : '<span class="label">eşleşme yok</span>';
+        return;
+      }
+      if (["sigma", "yara"].includes(S.yol?.dil) && !res.error) {
+        out.classList.add("sql");
+        out.innerHTML = detectionOutput(res, S.yol.dil, 25);
         return;
       }
       if (res.tablolar) {
@@ -1039,8 +1068,12 @@ const TEZGAH_DILLER = [
   ["kql", "KQL", { roentgen: false, dis: "SQL" }],
   ["spl", "SPL", { roentgen: false, dis: "SQL" }],
   ["javascript", "JS", { roentgen: false, dis: null }],
+  ["sigma", "Sigma", { roentgen: false, dis: null }],
+  ["yara", "YARA", { roentgen: false, dis: null }],
 ];
 const TEZGAH_ORNEK = {
+  sigma: `title: Pafta Olay Denemesi\nlogsource:\n    category: process_creation\n    product: windows\ndetection:\n    selection:\n        Image|endswith: '\\whoami.exe'\n    condition: selection\nlevel: informational\n`,
+  yara: `rule Pafta_Ornek {\n    meta:\n        description = "Zararsız bir eğitim işareti"\n    strings:\n        $isaret = "PAFTA_ORNEK" ascii wide\n    condition:\n        $isaret\n}\n`,
   python: `# Serbest tezgah: ne istersen dene. Kod otomatik kaydedilir.\n# ◎ Röntgen ile adım adım izle.\n\nhedefler = ["10.0.0.1", "10.0.0.2", "10.0.0.1"]\nbenzersiz = sorted(set(hedefler))\nfor i, ip in enumerate(benzersiz, 1):\n    print(i, ip)\n`,
   regex: String.raw`(?P<yil>\d{4})-(?P<ay>\d{2})-(?P<gun>\d{2})`,
   bash: `# Serbest tezgah (Git Bash). Girdi kutusu read ile okunur.\nfor dosya in rapor.txt veri.csv notlar.md; do\n  echo "\${dosya%.*} -> \${dosya##*.}"\ndone\n`,
@@ -1050,7 +1083,9 @@ const TEZGAH_ORNEK = {
   kql: `// Serbest tezgah (KQL). Sorgu SQLite'a çevrilip örnek veritabanında çalışır; SQL düğmesi karşılığını gösterir.\n// Tablolar: ekipler, personel, sunucular, biletler, olcumler\n\nbiletler\n| where durum == "açık"\n| summarize adet = count() by oncelik\n| sort by adet desc\n`,
   sql: `-- Serbest tezgah (SQLite). Örnek veritabanı her çalıştırmada sıfırdan kurulur.\n-- Tablolar: ekipler, personel, sunucular, biletler, olcumler\n\nSELECT s.ad, s.rol, COUNT(b.id) AS bilet\nFROM sunucular AS s\nLEFT JOIN biletler AS b ON b.sunucu_id = s.id\nGROUP BY s.id\nORDER BY bilet DESC, s.ad\nLIMIT 5;\n`,
 };
-const TEZGAH_METIN = { regex: "Kayıtlar: 2026-10-19 giriş, 2026-10-20 çıkış, 19.10.2026 eski biçim" };
+const TEZGAH_METIN = { regex: "Kayıtlar: 2026-10-19 giriş, 2026-10-20 çıkış, 19.10.2026 eski biçim",
+  sigma: '[{"id":1,"Image":"C:\\\\Windows\\\\System32\\\\whoami.exe"},{"id":2,"Image":"C:\\\\Windows\\\\notepad.exe"}]',
+  yara: "Bu zararsız metinde PAFTA_ORNEK işareti var." };
 
 async function renderPlayground(dil) {
   S.mode = "play";

@@ -14,7 +14,8 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 | **JavaScript** (okuma) | 12 (6 rütbe; kapsam ve this, sınıflar, hatalar, Node sunucu kodu, küçültülmüş kod, proje) | `javascript`: Node.js | hazır |
 | **C** (okuma) | 13 (6 rütbe; taşma, yapı düzeni, bayt tamponları, fonksiyon işaretçileri, önişlemci, dosya G/Ç, Windows API, ayrıştırıcı projesi) | `python`: C kodu okunur, tahminin cevabı derste sabit (`gercek` bloğu); görevlerde davranış Python'da kurulur | hazır |
 | **PHP** (okuma) | 11 (6 rütbe; metinler ve baytlar, closure'lar, sınıflar, PDO, oturumlar ve parolalar, JSON ve hatalar, uç nokta projesi) | `python`: C ile aynı düzen, PHP 8 kuralları | hazır |
-| Sigma, YARA | — | — | planlı (`status: planned`) |
+| **Sigma** | 18 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma ayrıştırıcısı + JSON olaylarında yerel test backend'i | hazır |
+| **YARA** | 18 (6 rütbe; metin/hex, regex, sayım/konum, PE/hash/math, yanlış pozitifler ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
 
 SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çalışır: [tracks/sql/ornek.sql](tracks/sql/ornek.sql) (küçük bir şirketin BT operasyonu: ekipler, personel, sunucular, biletler, ölçümler). Her çalıştırmada bellekte sıfırdan kurulur. KQL ve SPL çevirileri gerçek Kusto ve Splunk'ın inceliklerine sadık kalır (KQL'de varsayılan `sort` yönü azalan, `join`'in varsayılanı `innerunique`; SPL'de aramada büyük-küçük harf duyarsızlığı, OR'un AND'den önce bağlanması, `!=` ile `NOT` farkı, `join`'in `max=1` davranışı), ama tam bir motor değildir: desteklenmeyen işleç anlaşılır bir hatayla reddedilir. KQL'de "şimdi" sabittir (2026-10-19 12:00), böylece `ago()` her gün aynı sonucu verir. KQL ve SPL yolları bu veritabanının üstüne günlük tablolarını yükler: [tracks/kql/veri.sql](tracks/kql/veri.sql) (`istekler`: web istek günlüğü, `ayrinti` sütunu JSON; `gunluk`: serbest metinli uygulama günlüğü; `dagitimlar`: sürüm dağıtımları); SPL bunlara Splunk'taki gibi bir `_time` alanı da ekler ([tracks/spl/veri.sql](tracks/spl/veri.sql)). SPL'de `eval` bölmesi her zaman ondalıklıdır ve `count(eval(...)) as ad`, `earliest`, `latest`, `stdev` desteklenir. Çevirici süre (`timespan`), bool ve dinamik türleri izler ve çıktıyı KQL biçiminde gösterir (`1.02:30:00`, `true`); `datetime_diff` gerçek Kusto gibi birim sınırlarını sayar; `prev`/`next`/`row_cumsum` serileştirilmemiş girdide hata verir.
 
@@ -24,7 +25,35 @@ SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çal
 - Elle: `pythonw Pafta.pyw` (Edge uygulama penceresi açılır; pencere kapanınca sunucu ~40 sn sonra kendini kapatır)
 - Geliştirme: `python server.py --port 8765` (tarayıcıda `http://127.0.0.1:8765/`; `--veri KLASOR` ile ayrı bir ilerleme klasörü)
 
-Gereksinim: Python 3.11+ (sadece standart kütüphane), Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell yolu Windows'la gelen PowerShell 5.1'i, JavaScript yolu Node.js'i kullanır. C ve PHP için derleyici gerekmez.
+Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell yolu Windows'la gelen PowerShell 5.1'i, JavaScript yolu Node.js'i kullanır. C ve PHP için derleyici gerekmez. Sigma/YARA dışındaki Python bileşenleri standart kütüphaneyi kullanır.
+
+Sigma ve YARA'nın bağımlılıklarını, **Pafta'yı başlatan Python sürümüyle**, proje klasöründe kur:
+
+```text
+python -m pip install --target .deps -r requirements-detection.txt
+```
+
+`.deps/` Git'e girmez; kurulum başka projelerin paketlerini değiştirmez. Bu bilgisayarda Python 3.11 için pySigma 1.5.1 ve yara-python 4.5.4 kurulmuştur. Başka Python sürümüne/mimarisine geçerken uyumlu paketleri bu klasöre yeniden kur. Çalışan uygulama eski sunucuyu kullanıyorsa yeni koşucuları yüklemek için Pafta'yı kapatıp yeniden aç.
+
+### Sigma ve YARA tezgahları
+
+Sigma girdisi tek bir JSON olay nesnesi, nesne listesi veya JSONL'dir. Sonuç, eşleşen olayların `id` değerlerini (yoksa 1'den başlayan sıra numarasını), kural başlıklarını ve olay tablosunu gösterir. `logsource` dağıtım/telemetri sözleşmesidir: yerel tezgah verilen olayların doğru kaynaktan seçildiğini varsayar; olaylara gizlice bir kaynak filtresi eklemez. Resmi pySigma seçicileri ve koşulları ayrıştırır; Pafta'nın yerel backend'i AND/OR/NOT, 1/all of, temel metin modifier'ları, `all`, `cased`, `re` bayrakları, `cidr`, `exists`, null ve sayısal karşılaştırmaları değerlendirir. Alan adları büyük/küçük harfe duyarlıdır. Sayısal karşılaştırmada sayıya çevrilebilen JSON metinleri kabul edilir; null, boş metin ve eksik alan aynı şey değildir. Kuraldaki sayısal sabitler ±2^53 aralığıyla sınırlıdır; olayların tam sayı değerleri karşılaştırılırken hassasiyet korunur. Korelasyonlar, pipeline/alan eşleme ve üretim SIEM dönüşümü okuma konularıdır; bu tezgahta çalışmaz. Desteklenmeyen özellik açık hata verir.
+
+YARA girdisi varsayılan olarak UTF-8 metindir. `hex:4d 5a 00` veya `base64:TVoA` önekiyle ikili veri verilebilir. Gerçek libyara kuralları derler ve yalnızca verilen baytları tarar; eşleşen kural adlarını, string konumlarını ve motor uyarılarını gösterir. Dosya yolu, süreç taraması ve `include` kullanılmaz. Her iki yolda veri sınırı 1 MiB, Sigma'da en fazla 1000 olay, YARA'da tarama başına 2 saniye sınırı vardır; ortak koşucu ayrıca süreç zaman aşımı uygular. Örnekler sentetik eğitim verileridir.
+
+Görev testlerinde ortak `eq/ok/raises/src` yanında Sigma'da `eslesir(olay, kural_basligi=None)`, `eslesenler(olaylar, kural_basligi=None)`, `kural_adlari` ve `kurallar`; YARA'da `eslesir(veri, kural_adi=None)`, `eslesenler(veri)` ve `derle(kaynak)` vardır. YARA yardımcılarında `str` her zaman gerçek UTF-8 metindir; hex/base64 önekini yalnızca UI girdi çözücüsü yorumlar. Her görev hem olumlu hem olumsuz örneklerle sınanır ve normal tekrar sistemine katılır.
+
+Doğrulama:
+
+```text
+python tools/validate.py --yol sigma
+python tools/validate.py --yol yara
+python tools/test_sigma_runtime.py
+python tools/test_yara_runtime.py
+python tools/test_detection_integration.py
+```
+
+Resmi dayanaklar: [Sigma şartnamesi](https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html), [pySigma](https://github.com/SigmaHQ/pySigma), [YARA Python API](https://yara.readthedocs.io/en/stable/yarapython.html).
 
 ## Bir paftanın akışı
 
@@ -36,7 +65,7 @@ Her pafta adımlardan oluşur:
 | **Tahmin** | Kodun çıktısını tahmin edersin, sonra gerçek çalıştırmayla karşılaştırılır |
 | **Görev** | Kodu sen yazarsın, testler denetler; geçince "ONAYLANDI" mührü basılır |
 
-Tezgah (sağ panel): editör, Çıktı, Kontrol, **Röntgen** ve dile göre bir görünüm (Python'da Bytecode, Regex'te Ağaç, SQL'de Plan, KQL ve SPL'de SQL karşılığı). Röntgen Python'da kodu adım adım yürütüp her satırda değişkenleri gösterir (aynı renk = aynı nesne); Bash ve PowerShell'de yorumlayıcının çalıştırdığı komutları sırasıyla, değişkenler yerine konmuş haliyle gösterir. Regex'te Röntgen yerine eşleşme tablosu, SQL'de her sorgunun sonuç tablosu vardır. Geçilen görevler **Tekrar** kutularına düşer (1, 3, 7, 16, 35 gün). **Serbest tezgah** sekiz dilde boş bir çalışma alanıdır (`#/tezgah/<dil>`: python, regex, bash, powershell, sql, kql, spl, javascript). Okuma yollarında (C, PHP) tezgah, görevlerdeki Python içindir.
+Tezgah (sağ panel): editör, Çıktı, Kontrol, **Röntgen** ve dile göre bir görünüm (Python'da Bytecode, Regex'te Ağaç, SQL'de Plan, KQL ve SPL'de SQL karşılığı). Röntgen Python'da kodu adım adım yürütüp her satırda değişkenleri gösterir (aynı renk = aynı nesne); Bash ve PowerShell'de yorumlayıcının çalıştırdığı komutları sırasıyla, değişkenler yerine konmuş haliyle gösterir. Regex'te Röntgen yerine eşleşme tablosu, SQL'de her sorgunun sonuç tablosu vardır. Sigma ve YARA'da olay/bayt eşleşmeleri gösterilir. Geçilen görevler **Tekrar** kutularına düşer (1, 3, 7, 16, 35 gün). **Serbest tezgah** on dilde boş bir çalışma alanıdır (`#/tezgah/<dil>`: python, regex, bash, powershell, sql, kql, spl, javascript, sigma, yara). Okuma yollarında (C, PHP) tezgah, görevlerdeki Python içindir.
 
 Kısayollar: `Ctrl+Enter` çalıştır · `Ctrl+Shift+Enter` kontrol et · `Ctrl+/` yorum · `Tab`/`Shift+Tab` girinti · Röntgende `←` `→`
 
