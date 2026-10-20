@@ -2,7 +2,52 @@
 
 Her yol, kendi alanındaki en üst düzey sertifikanın ya da resmi eğitimin **resmi konu listesiyle** karşılaştırıldı. Yüzdeler kabaca bir tahmindir: konu listesindeki maddelerin ne kadarının derslerde gerçekten anlatılıp görevle pekiştirildiğini gösterir.
 
-## Kısa hüküm
+## Denetim · 20 Ekim akşamı
+
+Sabahki değerlendirmeden sonra yollar 142 dersten **227 derse** çıktı. Python dışındaki bütün yollar 6 rütbeye genişletildi. Bu bölüm o işin bağımsız denetimidir.
+
+### Kalite kontrolleri
+
+| Kontrol | Sonuç |
+|---|---|
+| `tools/validate.py`: her görevin çözümü geçiyor, başlangıç kodu geçmiyor, örnekler hatasız çalışıyor | 227 ders, 2206 kontrol, **temiz** |
+| Tahmin açıklamaları: kod çalıştırıldı, çıktının her satırı açıklamada geçiyor mu? (9 çalıştırılabilir yol) | 284 tahminin **hepsi** uyuşuyor |
+| Görevlerdeki "beklenen çıktı" blokları: örnek çözüm gerçekten bu çıktıyı veriyor mu? | 78 bloğun **hepsi** doğru (4 işaretin dördü de yanlış alarm: ikisi bilerek `...` ile kısaltılmış, ikisi fonksiyon dönüş değeri) |
+| SPL dersleri Splunk belgeleriyle (transaction, chart, timechart) | Tutarlı: transaction sonuçları en yeniden eskiye, yarım işlemler atılıyor, `duration` saniye, `limit=10` ve `OTHER` varsayılanları doğru |
+| Uygulama (önizleme) | Açılıyor, konsolda hata yok; SPL'in çok değerli alanları Splunk'taki gibi hücrede alt alta |
+
+### Güncel kapsama
+
+| Yol | Ders | Karşılaştırılan | Sabah | Şimdi | Kalan eksik |
+|---|---|---|---|---|---|
+| Python | 69 | PCAP + PCPP1 | PCAP ~%90 · PCPP1 ~%50 | **aynı** | PEP 8/20/257 ve docstring, `pickle`/`shelve`, XML (`ElementTree`) ve `configparser`, yerleşik türlerden türetmek |
+| Bash | 27 | LPIC-1 (103 + 105) | ~%80 | ~%85 | başlangıç dosyaları ve `alias`, `sha256sum`/`md5sum`, `nice`/`renice`, BRE–ERE farkı, vi |
+| SQL | 17 | Oracle 1Z0-071 | ~%70 | ~%80 | görünümler (`CREATE VIEW`), veri sözlüğü (`sqlite_master`, `PRAGMA`) |
+| Regex | 22 | regular-expressions.info müfredatı | ~%80 | ~%95 | — |
+| KQL | 20 | SC-200 KQL yolu | ~%50 | ~%90 | `render` (görselleştirme; kavram olarak) |
+| SPL | 18 | Splunk Power User / Advanced Power User | ~%20 | ~%35 / ~%45 | Sorgu dili tarafı neredeyse tam. Eksik olan Splunk arayüzünde kurulan bilgi nesneleri: makrolar, etiketler, olay türleri, alan takma adları, hesaplanan alanlar, veri modelleri ve CIM. Bunlar Power User sınavının **%60'ı**. Ayrıca tstats ve hızlandırma, panolar. |
+| PowerShell | 18 | AZ-040 | ~%35 | ~%55 | `Get-Help`/`Get-Command`, sağlayıcılar (`Env:`, kayıt defteri), CIM, işler (`Start-Job`), modüller, uzaktan yönetim. Diğer oturum ps18'den sonra durdu. |
+| JavaScript (okuma) | 12 | JSA | ~%30 | ~%65 | `Map`/`Set` ayrıntısı |
+| C (okuma) | 13 | CLA | ~%45 | ~%75 | çok dosyalı programlar (`extern`, `static`, başlık dosyaları) |
+| PHP (okuma) | 11 | Zend PHP | ~%25 | ~%60 | trait ve namespace ayrıntısı |
+
+### Düzeltilenler
+
+- PowerShell yolunun açıklaması derslerde olmayan konuları ("dosya sistemi ve CIM, işler, modüller, Pester testleri") vaat ediyordu. Gerçek içeriğe göre düzeltildi.
+
+### Öncelikli kalan işler
+
+1. **Python · PCPP1:** dört ders (P70–P73). Python, derinleştirilmeyen tek yol.
+2. **SPL · bilgi nesneleri:** tezgahta çalışmayan arayüz konuları için bir kavram dersi. Makro, olay türü ve CIM'in ürettiği aramayı görevde yazdırmak mümkün.
+3. **PowerShell · AZ-040:** yardım/keşif, sağlayıcılar, CIM, işler, modüller.
+
+### En büyük eksik içerikte değil
+
+`%LOCALAPPDATA%\Pafta\progress.json` hâlâ yok: henüz hiçbir ders adımı açılmadı. 227 ders, bir sertifikaya hazırlanmak için fazlasıyla yeterli. Bundan sonraki her ders, başlamanın yerini tutmaz. Önerilen başlangıç: hedef SOC/purple team olduğuna göre **SPL ve KQL** (Splunk Power User'ın sorgu kısmı artık tam), ardından Python.
+
+## Sabahki değerlendirme
+
+### Kısa hüküm
 
 | Yol | Ders | Karşılaştırılan | Kapsama | Hüküm |
 |---|---|---|---|---|
@@ -19,9 +64,9 @@ Her yol, kendi alanındaki en üst düzey sertifikanın ya da resmi eğitimin **
 
 **Bir uyarı:** `%LOCALAPPDATA%\Pafta\progress.json` dosyası hiç oluşmamış, yani henüz hiçbir adım tamamlanmamış. 153 ders hazır. İçerik eksikleri gerçek, ama şu an önündeki en büyük engel içerik değil, başlamak.
 
-## Yol yol eksikler
+### Yol yol eksikler
 
-### Python · PCAP ve PCPP1
+#### Python · PCAP ve PCPP1
 
 PCAP'ın neredeyse tamamı var. Nesne yönelimi, dekoratörler, istisnalar ve kopyalama PCPP1 düzeyinde, hatta Python'un içi (descriptor, metasınıf, bytecode) PCPP1'in ötesinde. Eksikler PCPP1'in şu bölümlerinde:
 
@@ -37,7 +82,7 @@ PCAP'ta küçük boşluklar: `platform` ve `random` modülleri, `bytearray`, `er
 
 **Önerilen dersler:** P70 Kod Standartları (PEP 8/20/257) · P71 pickle, shelve ve güvenli serileştirme · P72 XML ve INI dosyaları · P73 Yerleşik türleri genişletmek
 
-### Bash · LPIC-1 (103 ve 105)
+#### Bash · LPIC-1 (103 ve 105)
 
 Komut satırı, filtreler, find/xargs, borular, süreçler, regex, sed/awk, betik yazma, getopts ve tar ile yedekleme var. Kalan küçük boşluklar:
 
@@ -50,7 +95,7 @@ Komut satırı, filtreler, find/xargs, borular, süreçler, regex, sed/awk, beti
 
 Bu yol şu an başka bir oturumda genişletildiği için bu listeyi o oturum bitince kontrol etmek gerekir.
 
-### SQL · Oracle 1Z0-071
+#### SQL · Oracle 1Z0-071
 
 SELECT, WHERE, sıralama, fonksiyonlar, CASE, GROUP BY, JOIN, alt sorgu ve CTE, NULL mantığı, DDL/DML ve işlemler var. Pencere fonksiyonları sınavın da ötesinde. Eksikler:
 
@@ -64,7 +109,7 @@ Oracle'a özgü konular (sequence, synonym, `GRANT`/`REVOKE`) SQLite'ta çalış
 
 **Önerilen dersler:** SQ11 Küme işleçleri ve görünümler · SQ12 Veritabanının kendini anlatması (sözlük, PRAGMA, dönüşümler)
 
-### Regex
+#### Regex
 
 Sertifikası yok; ölçüt regular-expressions.info'nun müfredatı. Temelden bakınma ve atomik gruplara kadar var. Eksikler:
 
@@ -74,7 +119,7 @@ Sertifikası yok; ölçüt regular-expressions.info'nun müfredatı. Temelden ba
 
 **Önerilen dersler:** RX12 Unicode ve Türkçe · RX13 Değiştirme ustalığı ve koşullu desenler · RX14 Regex lehçeleri
 
-### KQL · SC-200 öğrenme yolu
+#### KQL · SC-200 öğrenme yolu
 
 Microsoft'un resmi yolu dört modül: KQL ifadeleri kurmak, sonuçları özetlemek, çok tablolu sorgular, veriyle çalışmak. Pafta'da `where`, `project`, `extend`, `summarize`, `sort`/`top`, `join` ve zaman var. Eksikler:
 
@@ -90,7 +135,7 @@ Bunlar için `sandbox/kql.py` çeviricisinin genişlemesi gerekiyor: `let`, `uni
 
 **Önerilen dersler:** KQ09 let ve union · KQ10 parse ve metinden alan · KQ11 Dinamik veri ve JSON · KQ12 arg_max ve kümeler · KQ13 Proje
 
-### SPL · Splunk Power User ve Advanced Power User
+#### SPL · Splunk Power User ve Advanced Power User
 
 En büyük açık burada. Pafta'da arama, eval/where, stats, sort/top/dedup, rex, bin, join ve alt arama var. Sınav konularından sorgu diliyle ilgili olanların çoğu yok:
 
@@ -113,7 +158,7 @@ Bunlar için `sandbox/spl.py` çeviricisinin genişlemesi gerekiyor.
 
 **Önerilen dersler:** SP08 chart, timechart ve fillnull · SP09 eventstats ve streamstats · SP10 transaction ve stats ile ilişkilendirme · SP11 lookup ve inputlookup · SP12 Çok değerli alanlar · SP13 append, makeresults, xyseries · SP14 Bilgi nesneleri (kavram) · SP15 Proje
 
-### PowerShell · AZ-040
+#### PowerShell · AZ-040
 
 AZ-040, Microsoft'un "PowerShell ile yönetimi otomatikleştirmek" eğitimi (sınavı yok, ama resmi müfredat). Pafta'da temeller, parametreler, koleksiyonlar, boru hattı, fonksiyonlar, nesneler, CSV/JSON, hata yönetimi ve olay günlükleri var. Eksikler:
 
@@ -129,7 +174,7 @@ AZ-040, Microsoft'un "PowerShell ile yönetimi otomatikleştirmek" eğitimi (sı
 
 **Önerilen dersler:** PS14 Yardım, keşif ve sağlayıcılar · PS15 Gelişmiş fonksiyonlar · PS16 Metin ve regex · PS17 Modüller ve betik güvenliği · PS18 İşler ve CIM · PS19 Sınıflar ve enum · PS20 Uzaktan yönetimi okumak · PS21 Proje
 
-### Okuma yolları · JavaScript, C, PHP
+#### Okuma yolları · JavaScript, C, PHP
 
 Bu üç yol bilerek okuma düzeyinde. Sertifikaların yazma düzeyini hedeflemiyor. Ama okumak için de gereken bazı konular eksik:
 
@@ -139,13 +184,13 @@ Bu üç yol bilerek okuma düzeyinde. Sertifikaların yazma düzeyini hedeflemiy
 
 **Önerilen dersler:** JS06–JS08 · C06–C08 · PH05–PH07 (her yola üçer ders)
 
-## Sertifika düzeyindeki bir programda olup Pafta'da olmayanlar
+### Sertifika düzeyindeki bir programda olup Pafta'da olmayanlar
 
 1. **Deneme sınavı:** Sertifikalar süreli, çoktan seçmeli ve senaryo sorularıyla ölçer. Pafta'da tahmin ve görev var, ama süreli bir "sınav kipi" yok.
 2. **Kazanım eşlemesi:** Her dersin hangi sınav maddesini karşıladığı yazmıyor. Derslere `kazanim: PCAP 3.2` gibi bir alan eklenip haritada sertifika kapsamı gösterilebilir.
 3. **Arayüzde yapılan işler:** Splunk panoları, Sentinel çalışma kitapları, tkinter gibi konular tezgahta çalışamaz. Bunlar için kavram dersleri ve gerçek ortamda yapılacak alıştırma listeleri gerekir.
 
-## Düzeltme sırası
+### Düzeltme sırası
 
 1. **SPL:** en büyük açık; SOC işlerinde Splunk sertifikası değerli
 2. **KQL:** Sentinel'de her gün kullanılan işleçler
