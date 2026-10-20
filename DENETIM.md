@@ -14,18 +14,22 @@ Denetlenen sürüm: `99885a4`, 10 yol, 227 ders. Bu dosya bir bulgu listesidir: 
 | Yapı | Rütbeler, sahipsiz dosyalar, adım dağılımı, ipuçları | Sahipsiz ya da eksik dosya yok; her görevin ipucu ve çözümü var |
 | Gerçek sisteme sadakat | Splunk ve Kusto taklidinin gerçek davranıştan ayrıldığı yerler | Bir yüksek (1.1), iki düşük bulgu (3.1, 3.2) |
 
-## Durum tablosu (son denetim: `ed6e89d`, 267 ders)
+## Durum tablosu (son denetim: 22:55, `00bec2a`)
 
-| Bulgu | Durum |
-|---|---|
-| 1.1 sp04 sıralama tuzağı | açık |
-| 1.2 sınır değeri test edilmeyen 20 görev | açık (c08:3, p70:5, p73:5 bozuk hâlde hâlâ geçiyor) |
-| 1.3 YARA örnek kümelerinde eşik örneği yok (7 görev) | yeni |
-| 2.1 ders numaraları harita sırasıyla uyuşmuyor | açık (Sigma ve YARA'da yok, ikisi de sıralı) |
-| 2.2 PowerShell Başpehlivan modülü | açık (5 rütbe) |
-| 2.3 Python PCPP1 | **kapandı** (`8be71c9`) |
-| 2.4 SPL bilgi nesneleri | açık |
-| 2.5 tezgahta pickle | açık (hâlâ `PicklingError`) |
+Her düzeltme yazarın raporuna değil, denetçinin kendi betikleriyle yeniden koşturulmasına göre kapandı sayıldı.
+
+| Bulgu | Durum | Kanıt |
+|---|---|---|
+| 1.1 sp04 sıralama tuzağı | **kapandı** (`8702ea3`) | ikinci TUZAK kutusu; görev `sort acilis \| dedup sunucu_id` ile sıradan bağımsız |
+| 1.2 sınır değeri test edilmeyen 20 görev | **18/20 kapandı** (`8702ea3`) | yeniden mutasyon: c08:3, p70:5, p73:5 ve diğerleri artık bozuk hâli reddediyor |
+| 1.2a p67:4 «Motor»: `lt` | açık | testte `lt` hiç kullanılmıyor; `<` → `<=` geçiyor (p67:1 ve p67:2 kapandı) |
+| 1.2b ph11:3 «Kaydet»: öncelik denetimi | açık, **yeni** | `isinstance(...) and oncelik in IZINLI` → `or` geçiyor: test listede olmayan bir öncelik (`"acil"`) denemiyor. İlk denetimde mutasyon yakalamıştı ama tabloya yazılmamıştı; denetçinin atlaması. |
+| 1.3 YARA eşik örnekleri (7 görev) | **kapandı** (`00bec2a`, Codex) | 7 görevde 0 geçen bozuk hâl; commit yalnızca YARA dosyalarına dokunuyor |
+| 2.1 ders numaraları harita sırasıyla uyuşmuyor | açık | Python, PowerShell, KQL, SPL, Regex, JS, PHP, SQL; Sigma, YARA, Bash, C sıralı |
+| 2.2 PowerShell Başpehlivan modülü | açık | hâlâ 5 rütbe |
+| 2.3 Python PCPP1 | **kapandı** (`8be71c9`) | |
+| 2.4 SPL bilgi nesneleri | sürüyor | `sandbox/spl.py`, `tracks/spl/veri.sql`, `web/app.js`, `engine/progress.py` commit edilmemiş değişiklikte; commit edilince denetlenecek |
+| 2.5 tezgahta pickle | **kapandı** (`4b8d158`) | tezgahta kullanıcı sınıfı pickle'lanıyor; python/php/c doğrulaması temiz |
 
 ## 1 · Yüksek öncelik
 
