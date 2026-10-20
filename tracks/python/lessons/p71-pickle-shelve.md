@@ -39,7 +39,7 @@ Serileştirilemeyenler: `lambda`'lar ve iç içe tanımlanmış fonksiyonlar, a�
 ### Ne saklanacağını seçmek: __getstate__ ve __setstate__
 Bir nesne serileştirilemeyen bir alan taşıyorsa (bağlantı, kilit) ya da bazı alanların saklanmasını istemiyorsan:
 
-```python norun
+```python
 import pickle, threading
 
 class Istemci:
@@ -59,9 +59,6 @@ class Istemci:
 i = pickle.loads(pickle.dumps(Istemci("web01")))
 print(i.ad, type(i.kilit).__name__)
 ```
-
-> [!NOT]
-> Bu örneği bir `.py` dosyasına kaydedip çalıştırırsan sorunsuz çalışır. Pafta tezgahında ise kodun ayrı bir ad alanında çalıştığı için pickle, sınıfı `__main__` modülünde bulamaz. Bu yüzden görevde aynı `__getstate__` ve `__setstate__` mekanizmasını pickle ile aynı yolu izleyen `copy.deepcopy` üzerinden sınıyoruz.
 :::
 
 ::: anlat shelve ve güvenlik
@@ -145,13 +142,15 @@ class Oturum:
 ```
 
 ```test
-import copy, pickle
+import pickle
 need("Oturum", "sınıf")
 o = Oturum("web01", {"port": 8443})
 durum = o.__getstate__()
 eq(durum, {"ad": "web01", "ayarlar": {"port": 8443}}, "__getstate__ yalnızca ad ve ayarları verir")
-ok(b"kilit" not in pickle.dumps(durum), "kilit pickle'a hiç girmemeli")
-g = copy.deepcopy(o)
+baytlar = pickle.dumps(o)
+ok(b"kilit" not in baytlar, "kilit pickle'a hiç girmemeli")
+g = pickle.loads(baytlar)
+ok(isinstance(g, Oturum), "açılan nesne bir Oturum")
 eq((g.ad, g.ayarlar), ("web01", {"port": 8443}), "veri korunur")
 ok(hasattr(g, "kilit") and hasattr(g.kilit, "acquire"), "kurulan nesnede yeni bir kilit var")
 ok(g.kilit is not o.kilit, "kilit yeni oluşturulmuş")

@@ -180,12 +180,27 @@ def register_source(code):
     linecache.cache[FNAME] = (len(code), None, code.splitlines(True), FNAME)
 
 
-def exec_user(code, stdin="", echo=False, argv=None):
+@contextlib.contextmanager
+def ana_modul(kalici=False):
+    """Kullanıcı kodu gerçek bir __main__ modülünde koşsun: pickle gibi sınıfı
+    __main__.Ad diye arayanlar, kodda tanımlanan sınıfları bulabilsin.
+    kalici: test modunda modül, testler bitene kadar __main__ olarak kalır."""
+    mod = types.ModuleType("__main__")
+    mod.__dict__.update({"__builtins__": builtins, "__file__": "kod.py"})
+    eski = sys.modules["__main__"]
+    sys.modules["__main__"] = mod
+    try:
+        yield mod.__dict__
+    finally:
+        if not kalici:
+            sys.modules["__main__"] = eski
+
+
+def exec_user(code, stdin="", echo=False, argv=None, kalici=False):
     cap = Capture()
     feeder = Feeder(stdin, cap, echo)
-    ns = {"__name__": "__main__", "__builtins__": builtins, "__file__": "kod.py"}
     err = None
-    with Redirect(cap, feeder, argv):
+    with Redirect(cap, feeder, argv), ana_modul(kalici) as ns:
         try:
             exec(compile(code, FNAME, "exec"), ns)
         except SystemExit as e:
@@ -384,7 +399,7 @@ def test_error(e, tns):
 def do_test(job):
     run_setup(job)
     code, stdin = job["code"], job.get("stdin", "")
-    ns, cap, err = exec_user(code, stdin, echo=False, argv=job.get("argv"))
+    ns, cap, err = exec_user(code, stdin, echo=False, argv=job.get("argv"), kalici=True)
     if err:
         return {"status": "error", "segs": cap.segs, "error": err, "checks": []}
     tester = Tester(code, ns, cap, stdin, job)
@@ -456,7 +471,6 @@ def do_trace(job):
         return {"status": "error", "error": err_info(e), "steps": [], "out": ""}
     cap = Capture()
     feeder = Feeder(job.get("stdin", ""), cap, True)
-    ns = {"__name__": "__main__", "__builtins__": builtins, "__file__": "kod.py"}
     steps = []
     state = {"over": False}
 
@@ -490,7 +504,7 @@ def do_trace(job):
         return tracer
 
     err = None
-    with Redirect(cap, feeder):
+    with Redirect(cap, feeder), ana_modul() as ns:
         sys.settrace(tracer)
         try:
             exec(compiled, ns)
