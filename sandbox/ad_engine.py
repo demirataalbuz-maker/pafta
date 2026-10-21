@@ -724,12 +724,10 @@ def _ps_comparison_to_ldap(prop, cmp_op, raw_val, line=1):
     prop = ATTR_ALIASES.get(p_low, prop)
 
     if cmp_op == "-eq":
-        if raw_val == "*":
-            return f"({prop}=*)"
+        # about_ActiveDirectory_Filter, LDAP Special Characters: '*' in
+        # -eq/-ne STRING data is literal; wildcard comparisons use -like.
         return f"({prop}={_escape_ldap_literal(raw_val, keep_wildcards=False)})"
     if cmp_op == "-ne":
-        if raw_val == "*":
-            return f"(!({prop}=*))"
         return f"(!({prop}={_escape_ldap_literal(raw_val, keep_wildcards=False)}))"
     if cmp_op == "-like":
         if raw_val == "*":
