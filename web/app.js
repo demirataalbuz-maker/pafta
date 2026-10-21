@@ -49,6 +49,7 @@ const ERR_TR = {
   "SPLHatası": "Arama çalıştırılamadı. Sık sebepler: arama sourcetype=<tablo> ile başlamıyor, komutun önünde | unutulmuş, yanlış yazılmış bir alan ya da komut adı, eval içinde metinler için çift tırnak yerine tek tırnak (tek tırnak alan adı demektir), ya da iki arama arasında boş satır yok.",
   "KQLHatası": "Sorgu çalıştırılamadı. Sık sebepler: işlecin önünde | unutulmuş, yanlış yazılmış bir sütun ya da işleç adı (KQL büyük-küçük harfe duyarlıdır: Where ≠ where), metin karşılaştırmasında = yerine == gerekiyor, ya da iki sorgu arasında boş satır yok.",
   "SQLHatası": "SQLite sorguyu çalıştıramadı. Mesajın Türkçesi önde, aslı parantez içinde. Sık sebepler: yanlış yazılmış tablo ya da sütun adı, iki sütun arasında eksik virgül, metin değerinde tek tırnak yerine çift tırnak, WHERE içinde toplama fonksiyonu (orası HAVING olmalı) ya da kapanmamış bir parantez.",
+  "ADHatası": "LDAP filtresi ya da Get-AD* komutu çalıştırılamadı. Sık sebepler: kapanmamış parantez, RFC 4515 LDAP filtresinde >= veya <= yerine > veya < kullanımı, (!...) içine birden fazla alt filtre yazılması, değer içinde kaçışsız ( ) \\ karakteri ya da Get-AD* komutunda eksik -Filter / -LDAPFilter / -Identity parametresi.",
   "ÇıkışKodu": "Betik sıfırdan farklı bir çıkış koduyla bitti. Kabuk dünyasında 0 başarı, diğer her şey hatadır. Hata akışındaki (kırmızı) mesajı ve işaretli satırı oku: genelde yanlış yazılmış bir komut, bulunamayan bir dosya ya da eksik bir argüman.",
 };
 
@@ -273,7 +274,7 @@ class Bench {
     }[dil] || "Girdi";
     this.stdin.rows = dil === "regex" ? 4 : 3;
     this.girdiAdi = dil === "regex" ? "Metin" : dil === "sigma" ? "Olaylar" : dil === "yara" ? "Örnek veri" : "Girdi";
-    const vt = ["sql", "kql", "spl"].includes(dil);        // bu dillerin girdisi örnek veritabanıdır
+    const vt = ["sql", "kql", "spl", "ad"].includes(dil);        // bu dillerin girdisi örnek veritabanıdır / dizindir
     $('[data-b="stdin"]', h).hidden = vt;
     this.toggleStdin(["regex", "sigma", "yara", "packets", "wireshark", "bpf"].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
   }
@@ -339,7 +340,8 @@ class Bench {
         out: { regex: "▶ Çalıştır deseni Metin kutusundaki metinde arar;<br>eşleşmeler işaretlenir",
           sql: "▶ Çalıştır sorguyu örnek veritabanında çalıştırır;<br>her sorgunun sonucu bir tablo olarak görünür",
           kql: "▶ Çalıştır sorguyu örnek veritabanında çalıştırır;<br>boş satırla ayrılmış her sorgu ayrı bir tablo verir",
-          spl: "▶ Çalıştır aramayı örnek veritabanında çalıştırır;<br>boş satırla ayrılmış her arama ayrı bir tablo verir" }[this.dil]
+          spl: "▶ Çalıştır aramayı örnek veritabanında çalıştırır;<br>boş satırla ayrılmış her arama ayrı bir tablo verir",
+          ad: "▶ Çalıştır LDAP filtresini veya Get-AD* komutunu DC=pafta,DC=local dizininde çalıştırır;<br>sonuç tablosu burada görünür" }[this.dil]
           || "▶ Çalıştır ile kodun çıktısı burada görünür",
         check: "✓ Kontrol et ile görev testleri burada koşar",
         xray: py ? "◎ Röntgen kodu adım adım yürütür:<br>her satırda hangi isim hangi nesneyi gösteriyor, gör"
@@ -348,7 +350,8 @@ class Bench {
           regex: "Ağaç, desenin regex motoru tarafından nasıl parçalara ayrıldığını gösterir",
           sql: "Plan, SQLite'ın sorguyu nasıl yürüteceğini gösterir:<br>tabloyu baştan sona mı tarıyor, indeksle mi arıyor",
           kql: "SQL düğmesi KQL sorgunun SQL karşılığını gösterir:<br>her | aşaması bir WITH adımına dönüşür",
-          spl: "SQL düğmesi aramanın SQL karşılığını gösterir:<br>her | komutu bir WITH adımına dönüşür" }[this.dil] || "",
+          spl: "SQL düğmesi aramanın SQL karşılığını gösterir:<br>her | komutu bir WITH adımına dönüşür",
+          ad: "LDAP düğmesi Get-AD* komutunun veya filtrenin etkin RFC 4515 LDAP karşılığını ve arama kapsamını (SearchBase / SearchScope) gösterir" }[this.dil] || "",
       }[tab];
       return;
     }
@@ -778,7 +781,7 @@ function paintDims() {
   $("#antet").innerHTML = antet();
 }
 
-const DIL_ETIKET = { python: "python|py", bash: "bash|sh", powershell: "powershell|ps1?", regex: "regex", sql: "sql", kql: "kql|kusto", spl: "spl|splunk", javascript: "javascript|js", cmd: "cmd|batch|bat" };
+const DIL_ETIKET = { python: "python|py", bash: "bash|sh", powershell: "powershell|ps1?", regex: "regex", sql: "sql", kql: "kql|kusto", spl: "spl|splunk", javascript: "javascript|js", cmd: "cmd|batch|bat", ad: "ad|ldap" };
 const BOS_KOD = {
   python: "# Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n",
   bash: "# Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n",
@@ -788,11 +791,12 @@ const BOS_KOD = {
   sql: "-- Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n-- Tablolar: ekipler, personel, sunucular, biletler, olcumler\n",
   kql: "// Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n// Tablolar: ekipler, personel, sunucular, biletler, olcumler\n",
   spl: "sourcetype=biletler | head 5\n",
+  ad: "# DC=pafta,DC=local dizini hazır. RFC 4515 LDAP filtresi (...) ya da Get-AD* komutu yazabilirsin.\nGet-ADUser -Filter *\n",
   javascript: "// Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n",
   sigma: "# Soldaki Sigma kuralını tezgaha al; Olaylar kutusuna JSON örnekleri yaz.\n",
   yara: "// Soldaki YARA kuralını tezgaha al; Örnek veri kutusuna aranacak metni yaz.\n",
 };
-// Okuma yolları (C, PHP): kod çalıştırılmaz; görevlerde okunan kodun Python karşılığı yazılır
+// Okuma yolları (C, PHP, Java, C#): kod çalıştırılmaz; görevlerde okunan kodun Python karşılığı yazılır
 const OKUMA_BOS = "# Bu yolda okuduğun kod bu bilgisayarda çalıştırılamıyor.\n# Görevlerde onun yaptığını Python ile yazacaksın; tezgah o görevler içindir.\n";
 const ELASTIC_OKUMA_BOS = "# Elastic okuma yolu: bu tezgah yalnızca Python alıştırmalarını çalıştırır.\n# Kibana KQL, Lucene ve EQL sorguları Elasticsearch'e gönderilmez.\n# Görevdeki Python başlangıç kodunu kullan; sorguyu buraya yapıştırma.\n";
 const TAHMIN_DIL = {
@@ -810,6 +814,8 @@ const TAHMIN_DIL = {
   php: { baslik: "Bu PHP kodu ne yazdırır?", kod: OKUMA_BOS },
   java: { baslik: "Bu Java kodu ne yazdırır?", kod: OKUMA_BOS },
   csharp: { baslik: "Bu C# kodu ne yazdırır?", kod: OKUMA_BOS },
+  ad: { etiket: "Tahminin — eşleşen sAMAccountName değerlerini (veya -Properties verildiyse | ile ayrılmış satırları) her satıra bir tane yaz",
+    baslik: "Bu dizin sorgusu neleri döndürür?", ornek: "ör. ali.kaya", kod: "# Önce soldaki LDAP filtresinin / Get-AD* komutunun sonucunu tahmin et.\n# Tahmin ettikten sonra sorgu buraya gelir; değiştirip denersin.\n" },
   spl: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer boş kalır)",
     baslik: "Bu arama ne döndürür?", ornek: "ör. web01|72", kod: "" },
   kql: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer boş kalır)",
@@ -1099,8 +1105,10 @@ const TEZGAH_DILLER = [
   ["sigma", "Sigma", { roentgen: false, dis: null }],
   ["yara", "YARA", { roentgen: false, dis: null }],
   ["packets", "Wireshark / tcpdump", { roentgen: false, dis: null }],
+  ["ad", "AD / LDAP", { roentgen: false, dis: "LDAP" }],
 ];
 const TEZGAH_ORNEK = {
+  ad: "# Serbest tezgah (Active Directory / LDAP · DC=pafta,DC=local).\n# Doğrudan RFC 4515 LDAP filtresi (...) veya Get-AD* komutu yazabilirsin; LDAP düğmesi etkin filtreyi gösterir.\n\nGet-ADUser -Filter \"Enabled -eq $true -and Department -eq 'SOC'\" -Properties mail, badPwdCount\n",
   packets: "tcp.dstport == 443",
   sigma: `title: Pafta Olay Denemesi\nlogsource:\n    category: process_creation\n    product: windows\ndetection:\n    selection:\n        Image|endswith: '\\whoami.exe'\n    condition: selection\nlevel: informational\n`,
   yara: `rule Pafta_Ornek {\n    meta:\n        description = "Zararsız bir eğitim işareti"\n    strings:\n        $isaret = "PAFTA_ORNEK" ascii wide\n    condition:\n        $isaret\n}\n`,

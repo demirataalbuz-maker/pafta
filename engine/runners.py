@@ -173,6 +173,12 @@ class PacketRunner(HarnessRunner):
         return bool(tshark_path() and available())
 
 
+class AdRunner(HarnessRunner):
+    name = "ad"
+    ozellik = {"roentgen": False, "dis": "LDAP"}
+    modlar = {"run": "ad_run", "test": "ad_test", "dis": "ad_dis"}
+
+
 class SqlRunner(HarnessRunner):
     name = "sql"
     ozellik = {"roentgen": False, "dis": "Plan"}
@@ -262,6 +268,7 @@ RUNNERS = {
     "sigma": DetectionRunner("sigma", "sigma"),
     "yara": DetectionRunner("yara", "yara"),
     "packets": PacketRunner(),
+    "ad": AdRunner(),
     "bash": ProcRunner("bash", {
         "cmd": [BASH or ""], "iz_cmd": [BASH or "", "-x"], "dosya": "betik.sh",
         "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"}, "sure": 10,

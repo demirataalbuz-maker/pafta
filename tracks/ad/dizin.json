@@ -1,0 +1,869 @@
+[
+  {
+    "distinguishedName": "OU=Domain Controllers,DC=pafta,DC=local",
+    "name": "Domain Controllers",
+    "ou": "Domain Controllers",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Default container for domain controllers"
+  },
+  {
+    "distinguishedName": "CN=Users,DC=pafta,DC=local",
+    "name": "Users",
+    "cn": "Users",
+    "objectCategory": "container",
+    "objectClass": [
+      "top",
+      "container"
+    ],
+    "description": "Default container for upgraded user accounts"
+  },
+  {
+    "distinguishedName": "OU=Merkez,DC=pafta,DC=local",
+    "name": "Merkez",
+    "ou": "Merkez",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Genel Merkez Birimleri"
+  },
+  {
+    "distinguishedName": "OU=SOC,OU=Merkez,DC=pafta,DC=local",
+    "name": "SOC",
+    "ou": "SOC",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Guvenlik Operasyon Merkezi"
+  },
+  {
+    "distinguishedName": "OU=BT,OU=Merkez,DC=pafta,DC=local",
+    "name": "BT",
+    "ou": "BT",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Bilgi Teknolojileri ve Altyapi"
+  },
+  {
+    "distinguishedName": "OU=Finans,OU=Merkez,DC=pafta,DC=local",
+    "name": "Finans",
+    "ou": "Finans",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Finans ve Muhasebe"
+  },
+  {
+    "distinguishedName": "OU=ServisHesaplari,DC=pafta,DC=local",
+    "name": "ServisHesaplari",
+    "ou": "ServisHesaplari",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Uygulama ve Hizmet Hesaplari"
+  },
+  {
+    "distinguishedName": "OU=Sunucular,DC=pafta,DC=local",
+    "name": "Sunucular",
+    "ou": "Sunucular",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Merkez Sunuculari"
+  },
+  {
+    "distinguishedName": "OU=Istasyonlar,DC=pafta,DC=local",
+    "name": "Istasyonlar",
+    "ou": "Istasyonlar",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Kullanici Is Istasyonlari"
+  },
+  {
+    "distinguishedName": "OU=Gruplar,DC=pafta,DC=local",
+    "name": "Gruplar",
+    "ou": "Gruplar",
+    "objectCategory": "organizationalUnit",
+    "objectClass": [
+      "top",
+      "organizationalUnit"
+    ],
+    "description": "Guvenlik ve Dagitim Gruplari"
+  },
+  {
+    "distinguishedName": "CN=Administrator,CN=Users,DC=pafta,DC=local",
+    "sAMAccountName": "Administrator",
+    "cn": "Administrator",
+    "name": "Administrator",
+    "userPrincipalName": "Administrator@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "userAccountControl": 66048,
+    "adminCount": 1,
+    "badPwdCount": 0,
+    "logonCount": 37,
+    "pwdLastSet": 133000000000000000,
+    "primaryGroupID": 513,
+    "memberOf": [
+      "CN=Domain Admins,CN=Users,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Built-in account for administering the computer/domain"
+  },
+  {
+    "distinguishedName": "CN=Guest,CN=Users,DC=pafta,DC=local",
+    "sAMAccountName": "Guest",
+    "cn": "Guest",
+    "name": "Guest",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "userAccountControl": 66082,
+    "adminCount": 0,
+    "badPwdCount": 0,
+    "logonCount": 0,
+    "pwdLastSet": 0,
+    "primaryGroupID": 514,
+    "memberOf": [],
+    "servicePrincipalName": [],
+    "description": "Built-in account for guest access to the computer/domain"
+  },
+  {
+    "distinguishedName": "CN=krbtgt,CN=Users,DC=pafta,DC=local",
+    "sAMAccountName": "krbtgt",
+    "cn": "krbtgt",
+    "name": "krbtgt",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "userAccountControl": 514,
+    "adminCount": 1,
+    "badPwdCount": 0,
+    "logonCount": 0,
+    "pwdLastSet": 133200000000000000,
+    "primaryGroupID": 513,
+    "memberOf": [],
+    "servicePrincipalName": [
+      "kadmin/changepw"
+    ],
+    "description": "Key Distribution Center Service Account"
+  },
+  {
+    "distinguishedName": "CN=Ali Kaya,OU=SOC,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "ali.kaya",
+    "cn": "Ali Kaya",
+    "name": "Ali Kaya",
+    "userPrincipalName": "ali.kaya@pafta.local",
+    "mail": "ali.kaya@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "SOC",
+    "title": "Kidemli Analist",
+    "userAccountControl": 512,
+    "adminCount": 1,
+    "badPwdCount": 0,
+    "logonCount": 142,
+    "pwdLastSet": 133700000000000000,
+    "memberOf": [
+      "CN=SOC-Analistleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Vardiya-1 (Merkez)",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Ayse Demir,OU=SOC,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "ayse.demir",
+    "cn": "Ayse Demir",
+    "name": "Ayse Demir",
+    "userPrincipalName": "ayse.demir@pafta.local",
+    "mail": "ayse.demir@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "SOC",
+    "title": "SOC Takim Lideri",
+    "userAccountControl": 512,
+    "adminCount": 1,
+    "badPwdCount": 2,
+    "logonCount": 85,
+    "pwdLastSet": 133720000000000000,
+    "memberOf": [
+      "CN=SOC-Liderleri,OU=Gruplar,DC=pafta,DC=local",
+      "CN=SOC-Analistleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Onay: *Tam*",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Mehmet Yilmaz,OU=SOC,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "mehmet.yilmaz",
+    "cn": "Mehmet Yilmaz",
+    "name": "Mehmet Yilmaz",
+    "userPrincipalName": "mehmet.yilmaz@pafta.local",
+    "mail": "mehmet.yilmaz@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "SOC",
+    "title": "Analist",
+    "userAccountControl": 514,
+    "adminCount": 0,
+    "badPwdCount": 5,
+    "logonCount": 12,
+    "pwdLastSet": 133500000000000000,
+    "memberOf": [
+      "CN=SOC-Analistleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Izinde - gecici pasif",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Zeynep Arslan,OU=BT,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "zeynep.arslan",
+    "cn": "Zeynep Arslan",
+    "name": "Zeynep Arslan",
+    "userPrincipalName": "zeynep.arslan@pafta.local",
+    "mail": "zeynep.arslan@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "BT",
+    "title": "Sistem Yoneticisi",
+    "userAccountControl": 512,
+    "adminCount": 1,
+    "badPwdCount": 3,
+    "logonCount": 210,
+    "pwdLastSet": 133710000000000000,
+    "memberOf": [
+      "CN=Altyapi-Yoneticileri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Yol: C:\\Araclar\\AD",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Can Ozkan,OU=BT,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "can.ozkan",
+    "cn": "Can Ozkan",
+    "name": "Can Ozkan",
+    "userPrincipalName": "can.ozkan@pafta.local",
+    "mail": "can.ozkan@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "BT",
+    "title": "Ag Uzmani",
+    "userAccountControl": 66048,
+    "adminCount": 0,
+    "badPwdCount": 4,
+    "logonCount": 64,
+    "pwdLastSet": 0,
+    "memberOf": [
+      "CN=Ag-Ekibi,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Anahtar ve guvenlik duvari sorumlusu",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Elif Koc,OU=Finans,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "elif.koc",
+    "cn": "Elif Koc",
+    "name": "Elif Koc",
+    "userPrincipalName": "elif.koc@pafta.local",
+    "mail": "elif.koc@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "Finans",
+    "title": "Muhasebe Uzmani",
+    "userAccountControl": 512,
+    "adminCount": 0,
+    "badPwdCount": 1,
+    "logonCount": 40,
+    "pwdLastSet": 133690000000000000,
+    "memberOf": [
+      "CN=Finans-Ekibi,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Finans raporlama",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Burak Sahin,OU=Finans,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "burak.sahin",
+    "cn": "Burak Sahin",
+    "name": "Burak Sahin",
+    "userPrincipalName": "burak.sahin@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "Finans",
+    "title": "Stajyer",
+    "userAccountControl": 546,
+    "adminCount": 0,
+    "badPwdCount": 3,
+    "logonCount": 0,
+    "pwdLastSet": 0,
+    "memberOf": [
+      "CN=Finans-Ekibi,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [],
+    "description": "Eski stajyer hesabi",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Selin Aydinkaya,OU=Merkez,DC=pafta,DC=local",
+    "sAMAccountName": "selin.aydinkaya",
+    "cn": "Selin Aydinkaya",
+    "name": "Selin Aydinkaya",
+    "userPrincipalName": "selin.aydinkaya@pafta.local",
+    "mail": "selin.aydinkaya@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "Yonetim",
+    "title": "Genel Koordinator",
+    "userAccountControl": 512,
+    "adminCount": 0,
+    "badPwdCount": 0,
+    "logonCount": 95,
+    "pwdLastSet": 133730000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [],
+    "description": "Merkez koordinatorluk",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=svc_sql,OU=ServisHesaplari,DC=pafta,DC=local",
+    "sAMAccountName": "svc_sql",
+    "cn": "svc_sql",
+    "name": "svc_sql",
+    "userPrincipalName": "svc_sql@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "Servis",
+    "title": "SQL Servis Hesabi",
+    "userAccountControl": 66048,
+    "adminCount": 1,
+    "badPwdCount": 0,
+    "logonCount": 500,
+    "pwdLastSet": 133600000000000000,
+    "memberOf": [
+      "CN=Sunucu-Operatorleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [
+      "MSSQLSvc/srv-sql01.pafta.local:1433",
+      "MSSQLSvc/srv-sql01.pafta.local"
+    ],
+    "description": "SQL Server veritabani hizmeti",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=svc_web,OU=ServisHesaplari,DC=pafta,DC=local",
+    "sAMAccountName": "svc_web",
+    "cn": "svc_web",
+    "name": "svc_web",
+    "userPrincipalName": "svc_web@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "Servis",
+    "title": "Web API Servis Hesabi",
+    "userAccountControl": 524800,
+    "adminCount": 0,
+    "badPwdCount": 0,
+    "logonCount": 310,
+    "pwdLastSet": 133650000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [
+      "HTTP/srv-web01.pafta.local"
+    ],
+    "description": "Portal web uygulamasi (*uretim*)",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=svc_yedek,OU=ServisHesaplari,DC=pafta,DC=local",
+    "sAMAccountName": "svc_yedek",
+    "cn": "svc_yedek",
+    "name": "svc_yedek",
+    "userPrincipalName": "svc_yedek@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "Servis",
+    "title": "Yedekleme Servis Hesabi",
+    "userAccountControl": 66050,
+    "adminCount": 0,
+    "badPwdCount": 6,
+    "logonCount": 15,
+    "pwdLastSet": 133400000000000000,
+    "memberOf": [
+      "CN=Yedekleme-Operatorleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [
+      "backup/srv-file01.pafta.local"
+    ],
+    "description": "Eski yedekleme ajani",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=svc_rapor,OU=ServisHesaplari,DC=pafta,DC=local",
+    "sAMAccountName": "svc_rapor",
+    "cn": "svc_rapor",
+    "name": "svc_rapor",
+    "userPrincipalName": "svc_rapor@pafta.local",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user"
+    ],
+    "department": "Servis",
+    "title": "Raporlama Hesabi",
+    "userAccountControl": 4194816,
+    "adminCount": 0,
+    "badPwdCount": 1,
+    "logonCount": 28,
+    "pwdLastSet": 133680000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [],
+    "description": "Eski raporlama betigi (C:\\Rapor)",
+    "primaryGroupID": 513
+  },
+  {
+    "distinguishedName": "CN=Tedarikci Destek,OU=Finans,OU=Merkez,DC=pafta,DC=local",
+    "cn": "Tedarikci Destek",
+    "name": "Tedarikci Destek",
+    "mail": "destek@tedarikci.example",
+    "objectCategory": "person",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "contact"
+    ],
+    "description": "Dis tedarikci destek adresi (kisi nesnesi, hesap degil)"
+  },
+  {
+    "distinguishedName": "CN=DC01,OU=Domain Controllers,DC=pafta,DC=local",
+    "sAMAccountName": "DC01$",
+    "cn": "DC01",
+    "name": "DC01",
+    "dNSHostName": "dc01.pafta.local",
+    "operatingSystem": "Windows Server 2022",
+    "objectCategory": "computer",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user",
+      "computer"
+    ],
+    "userAccountControl": 532480,
+    "adminCount": 1,
+    "badPwdCount": 0,
+    "logonCount": 920,
+    "pwdLastSet": 133725000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [
+      "ldap/dc01.pafta.local",
+      "HOST/DC01"
+    ],
+    "description": "Birincil Etki Alani Denetleyicisi",
+    "primaryGroupID": 516
+  },
+  {
+    "distinguishedName": "CN=SRV-SQL01,OU=Sunucular,DC=pafta,DC=local",
+    "sAMAccountName": "SRV-SQL01$",
+    "cn": "SRV-SQL01",
+    "name": "SRV-SQL01",
+    "dNSHostName": "srv-sql01.pafta.local",
+    "operatingSystem": "Windows Server 2022",
+    "objectCategory": "computer",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user",
+      "computer"
+    ],
+    "userAccountControl": 4096,
+    "adminCount": 0,
+    "badPwdCount": 0,
+    "logonCount": 410,
+    "pwdLastSet": 133715000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [
+      "HOST/SRV-SQL01"
+    ],
+    "description": "Veritabani Sunucusu",
+    "primaryGroupID": 515
+  },
+  {
+    "distinguishedName": "CN=SRV-WEB01,OU=Sunucular,DC=pafta,DC=local",
+    "sAMAccountName": "SRV-WEB01$",
+    "cn": "SRV-WEB01",
+    "name": "SRV-WEB01",
+    "dNSHostName": "srv-web01.pafta.local",
+    "operatingSystem": "Windows Server 2022",
+    "objectCategory": "computer",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user",
+      "computer"
+    ],
+    "userAccountControl": 528384,
+    "adminCount": 1,
+    "badPwdCount": 0,
+    "logonCount": 380,
+    "pwdLastSet": 133712000000000000,
+    "memberOf": [
+      "CN=Sunucu-Operatorleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "servicePrincipalName": [
+      "HOST/SRV-WEB01",
+      "HTTP/srv-web01.pafta.local"
+    ],
+    "description": "Disa Acik Web Sunucusu",
+    "primaryGroupID": 515
+  },
+  {
+    "distinguishedName": "CN=SRV-ESKI01,OU=Sunucular,DC=pafta,DC=local",
+    "sAMAccountName": "SRV-ESKI01$",
+    "cn": "SRV-ESKI01",
+    "name": "SRV-ESKI01",
+    "dNSHostName": "srv-eski01.pafta.local",
+    "operatingSystem": "Windows Server 2012 R2",
+    "objectCategory": "computer",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user",
+      "computer"
+    ],
+    "userAccountControl": 4098,
+    "adminCount": 0,
+    "badPwdCount": 0,
+    "logonCount": 5,
+    "pwdLastSet": 132000000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [
+      "HOST/SRV-ESKI01"
+    ],
+    "description": "Devre disi arsiv sunucusu",
+    "primaryGroupID": 515
+  },
+  {
+    "distinguishedName": "CN=PC-SOC01,OU=Istasyonlar,DC=pafta,DC=local",
+    "sAMAccountName": "PC-SOC01$",
+    "cn": "PC-SOC01",
+    "name": "PC-SOC01",
+    "dNSHostName": "pc-soc01.pafta.local",
+    "operatingSystem": "Windows 11 Enterprise",
+    "objectCategory": "computer",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user",
+      "computer"
+    ],
+    "userAccountControl": 4096,
+    "adminCount": 0,
+    "badPwdCount": 1,
+    "logonCount": 220,
+    "pwdLastSet": 133722000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [
+      "HOST/PC-SOC01"
+    ],
+    "description": "SOC Analist Istasyonu",
+    "primaryGroupID": 515
+  },
+  {
+    "distinguishedName": "CN=PC-FIN01,OU=Istasyonlar,DC=pafta,DC=local",
+    "sAMAccountName": "PC-FIN01$",
+    "cn": "PC-FIN01",
+    "name": "PC-FIN01",
+    "dNSHostName": "pc-fin01.pafta.local",
+    "operatingSystem": "Windows 10 Enterprise",
+    "objectCategory": "computer",
+    "objectClass": [
+      "top",
+      "person",
+      "organizationalPerson",
+      "user",
+      "computer"
+    ],
+    "userAccountControl": 4096,
+    "adminCount": 0,
+    "badPwdCount": 0,
+    "logonCount": 180,
+    "pwdLastSet": 133718000000000000,
+    "memberOf": [],
+    "servicePrincipalName": [
+      "HOST/PC-FIN01"
+    ],
+    "description": "Finans Istasyonu",
+    "primaryGroupID": 515
+  },
+  {
+    "distinguishedName": "CN=Domain Admins,CN=Users,DC=pafta,DC=local",
+    "sAMAccountName": "Domain Admins",
+    "cn": "Domain Admins",
+    "name": "Domain Admins",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "Global",
+    "groupCategory": "Security",
+    "adminCount": 1,
+    "member": [
+      "CN=Administrator,CN=Users,DC=pafta,DC=local",
+      "CN=Altyapi-Yoneticileri,OU=Gruplar,DC=pafta,DC=local",
+      "CN=SOC-Liderleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "memberOf": [],
+    "description": "Designated administrators of the domain",
+    "groupType": -2147483646
+  },
+  {
+    "distinguishedName": "CN=Altyapi-Yoneticileri,OU=Gruplar,DC=pafta,DC=local",
+    "sAMAccountName": "Altyapi-Yoneticileri",
+    "cn": "Altyapi-Yoneticileri",
+    "name": "Altyapi-Yoneticileri",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "Global",
+    "groupCategory": "Security",
+    "adminCount": 1,
+    "member": [
+      "CN=Zeynep Arslan,OU=BT,OU=Merkez,DC=pafta,DC=local",
+      "CN=Sunucu-Operatorleri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "memberOf": [
+      "CN=Domain Admins,CN=Users,DC=pafta,DC=local"
+    ],
+    "description": "BT Altyapi ve Sunucu Yoneticileri",
+    "groupType": -2147483646
+  },
+  {
+    "distinguishedName": "CN=Sunucu-Operatorleri,OU=Gruplar,DC=pafta,DC=local",
+    "sAMAccountName": "Sunucu-Operatorleri",
+    "cn": "Sunucu-Operatorleri",
+    "name": "Sunucu-Operatorleri",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "Global",
+    "groupCategory": "Security",
+    "adminCount": 1,
+    "member": [
+      "CN=svc_sql,OU=ServisHesaplari,DC=pafta,DC=local",
+      "CN=SRV-WEB01,OU=Sunucular,DC=pafta,DC=local"
+    ],
+    "memberOf": [
+      "CN=Altyapi-Yoneticileri,OU=Gruplar,DC=pafta,DC=local"
+    ],
+    "description": "Sunucu Bakim Operatorleri",
+    "groupType": -2147483646
+  },
+  {
+    "distinguishedName": "CN=SOC-Liderleri,OU=Gruplar,DC=pafta,DC=local",
+    "sAMAccountName": "SOC-Liderleri",
+    "cn": "SOC-Liderleri",
+    "name": "SOC-Liderleri",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "Global",
+    "groupCategory": "Security",
+    "adminCount": 1,
+    "member": [
+      "CN=Ayse Demir,OU=SOC,OU=Merkez,DC=pafta,DC=local"
+    ],
+    "memberOf": [
+      "CN=Domain Admins,CN=Users,DC=pafta,DC=local"
+    ],
+    "description": "SOC Vardiya ve Takim Liderleri",
+    "groupType": -2147483646
+  },
+  {
+    "distinguishedName": "CN=SOC-Analistleri,OU=Gruplar,DC=pafta,DC=local",
+    "sAMAccountName": "SOC-Analistleri",
+    "cn": "SOC-Analistleri",
+    "name": "SOC-Analistleri",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "Global",
+    "groupCategory": "Security",
+    "adminCount": 0,
+    "member": [
+      "CN=Ali Kaya,OU=SOC,OU=Merkez,DC=pafta,DC=local",
+      "CN=Ayse Demir,OU=SOC,OU=Merkez,DC=pafta,DC=local",
+      "CN=Mehmet Yilmaz,OU=SOC,OU=Merkez,DC=pafta,DC=local"
+    ],
+    "memberOf": [],
+    "description": "SOC Izleme ve Mudahale Ekibi",
+    "groupType": -2147483646
+  },
+  {
+    "distinguishedName": "CN=Ag-Ekibi,OU=Gruplar,DC=pafta,DC=local",
+    "sAMAccountName": "Ag-Ekibi",
+    "cn": "Ag-Ekibi",
+    "name": "Ag-Ekibi",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "Global",
+    "groupCategory": "Security",
+    "adminCount": 0,
+    "member": [
+      "CN=Can Ozkan,OU=BT,OU=Merkez,DC=pafta,DC=local"
+    ],
+    "memberOf": [],
+    "description": "Ag ve Guvenlik Duvari Ekibi",
+    "groupType": -2147483646
+  },
+  {
+    "distinguishedName": "CN=Finans-Ekibi,OU=Gruplar,DC=pafta,DC=local",
+    "sAMAccountName": "Finans-Ekibi",
+    "cn": "Finans-Ekibi",
+    "name": "Finans-Ekibi",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "Global",
+    "groupCategory": "Security",
+    "adminCount": 0,
+    "member": [
+      "CN=Elif Koc,OU=Finans,OU=Merkez,DC=pafta,DC=local",
+      "CN=Burak Sahin,OU=Finans,OU=Merkez,DC=pafta,DC=local"
+    ],
+    "memberOf": [],
+    "description": "Finans ve Muhasebe Calisanlari",
+    "groupType": -2147483646
+  },
+  {
+    "distinguishedName": "CN=Yedekleme-Operatorleri,OU=Gruplar,DC=pafta,DC=local",
+    "sAMAccountName": "Yedekleme-Operatorleri",
+    "cn": "Yedekleme-Operatorleri",
+    "name": "Yedekleme-Operatorleri",
+    "objectCategory": "group",
+    "objectClass": [
+      "top",
+      "group"
+    ],
+    "groupScope": "DomainLocal",
+    "groupCategory": "Security",
+    "adminCount": 0,
+    "member": [
+      "CN=svc_yedek,OU=ServisHesaplari,DC=pafta,DC=local"
+    ],
+    "memberOf": [],
+    "description": "Sunucu Yedekleme Yetkilileri",
+    "groupType": -2147483644
+  }
+]

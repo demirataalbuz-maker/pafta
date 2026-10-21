@@ -1,0 +1,58 @@
+{
+ "id": "ad",
+ "name": "Active Directory ve LDAP",
+ "status": "active",
+ "group": "savunma",
+ "order": 26,
+ "runner": "ad",
+ "dil": "ad",
+ "role": "Active Directory'yi yönetim ve savunma gözüyle sorgulamak: RFC 4515 LDAP filtreleri ve Get-AD* komutlarıyla hesap, grup ve bilgisayar denetimi; AD kavramlarını ve güvenlik günlüklerini okumak.",
+ "modules": [
+  {
+   "title": "Dizin Ağacı ve İlk Filtreler",
+   "rank": "minik",
+   "zen": "DN sağdan sola okunur; filtre her zaman parantezle başlar ve biter.",
+   "lessons": ["ad01", "ad02"]
+  },
+  {
+   "title": "Karşılaştırma, Kaçış ve Bit Kuralları",
+   "rank": "tesviye",
+   "zen": "LDAP'ta > yoktur, >= vardır; userAccountControl bir sayı değil, bir bayrak demetidir.",
+   "lessons": ["ad03", "ad04"]
+  },
+  {
+   "title": "Get-AD* Komutları ve Arama Kapsamı",
+   "rank": "kucuk-orta",
+   "zen": "-Filter PowerShell gibi görünür ama LDAP'a çevrilir; nerede aradığın, ne aradığın kadar önemlidir.",
+   "lessons": ["ad05", "ad06"]
+  },
+  {
+   "title": "Gruplar, Zincir ve Hesap Denetimi",
+   "rank": "buyuk-orta",
+   "zen": "memberOf yalnızca bir basamak gösterir; yetki zincirin sonunda saklanır.",
+   "lessons": ["ad07", "ad08"]
+  },
+  {
+   "title": "Günlükler ve Görünmeyen Mekanizmalar",
+   "rank": "basalti",
+   "zen": "Olay kimliği ne olduğunu söyler; dizin kime olduğunu.",
+   "lessons": ["ad09", "ad10"]
+  },
+  {
+   "title": "Denetim Projesi ve Kendi Laboratuvarın",
+   "rank": "baspehlivan",
+   "zen": "Tezgah filtreyi öğretir; Kerberos'u, GPO'yu ve çoğaltmayı gerçek bir etki alanı öğretir.",
+   "lessons": ["ad11", "ad12"]
+  }
+ ],
+ "kahraman": ["Dizinden", "Denetim", "e"],
+ "tagline": "Active Directory'yi yönetim ve savunma gözüyle sorgula: DN ve nesne türleri, RFC 4515 LDAP filtreleri (&, |, !, joker, varlık, >= ve <=, \\2a \\28 \\29 \\5c kaçışları), userAccountControl bitleri ve 803/804 eşleştirme kuralları, Get-ADUser/Get-ADComputer/Get-ADGroup/Get-ADGroupMember ile -Filter, -LDAPFilter, -Properties, -SearchBase ve -SearchScope, iç içe gruplar ve 1941 zincir kuralı, hesap denetimi, AD güvenlik günlükleri, GPO/Kerberos/AdminSDHolder/çoğaltma kavramları ve kendi AD laboratuvarını kurmak. 12 pafta; filtreler ve sorgular sahte ama gerçeğe sadık bir dizinde (DC=pafta,DC=local) gerçekten çalışır.",
+ "ranks": [
+  {"id": "minik", "name": "Minik"},
+  {"id": "tesviye", "name": "Tesviye"},
+  {"id": "kucuk-orta", "name": "Küçük Orta"},
+  {"id": "buyuk-orta", "name": "Büyük Orta"},
+  {"id": "basalti", "name": "Başaltı"},
+  {"id": "baspehlivan", "name": "Başpehlivan"}
+ ]
+}

@@ -224,7 +224,13 @@ const PACKET_WORDS = new Set("and or not in contains matches tcp udp sctp ip ip6
 const tokPacket = kural(
   /("(?:\\.|[^"\\])*"?)|(\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)*)\b)|([A-Za-z_][\w.:-]*)|(\s+)|([^\s\w])/gy,
   [() => "str", () => "num", w => PACKET_WORDS.has(w) ? "kw" : w.includes(".") ? "self" : "", () => "", () => "op"]);
-const TOKENIZERS = { packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, csharp: tokCsharp, cs: tokCsharp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+const AD_CMD = new Set("get-aduser get-adcomputer get-adgroup get-adgroupmember get-adobject get-adorganizationalunit -filter -ldapfilter -identity -searchbase -searchscope -properties -recursive -and -or -not -eq -ne -like -notlike -gt -ge -lt -le subtree onelevel base".split(" "));
+const AD_ATTR = new Set("samaccountname objectclass objectcategory useraccountcontrol memberof member serviceprincipalname admincount badpwdcount logoncount pwdlastset mail department title description distinguishedname cn ou dc name dnshostname operatingsystem groupscope groupcategory enabled passwordneverexpires trustedfordelegation doesnotrequirepreauth passwordnotrequired".split(" "));
+const tokAd = kural(
+  /(#[^\n]*)|("(?:""|[^"])*"?|'(?:''|[^'])*'?)|(\\[0-9a-fA-F]{2}|\b1\.2\.840\.113556\.1\.4\.(?:803|804|1941)\b)|(\$true\b|\$false\b)|(\b\d+\b)|(-?[A-Za-z_][\w.-]*)|(\s+)|([^\s\w])/giy,
+  [() => "com", () => "str", () => "dec", () => "const", () => "num",
+   w => (AD_CMD.has(w.toLowerCase()) ? "kw" : AD_ATTR.has(w.toLowerCase()) ? "bi" : ""), () => "", () => "op"]);
+const TOKENIZERS = { ad: tokAd, ldap: tokAd, packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, csharp: tokCsharp, cs: tokCsharp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {
