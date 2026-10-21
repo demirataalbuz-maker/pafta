@@ -1,6 +1,6 @@
 # Pafta · Denetim
 
-Son denetim: 2026-10-21, `33ed7f2` (GitHub'daki son hâl; bekleyen commit yok). 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
+Son denetim: 2026-10-21, `2999a42`: 321 ders, 2856 kontrol temiz (HT15 henüz yazılmadı; CMD için bkz. A10). 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
 
 Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koşturulunca kapanmış sayılır.
 
@@ -22,6 +22,7 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
+| A10 | sandbox/cmd_process.py | CMD koşucusu `_pafta_cmd.cmd`'yi yolsuz çağırıyor; `cmd.exe` onu ancak geçerli klasörde arayarak bulabiliyor. `NoDefaultCurrentDirectoryInExePath` tanımlı bir süreçte bu arama kapalı ve CMD'nin bütün çalıştırmaları `'_pafta_cmd.cmd' is not recognized` hatasıyla düşüyor (doğrulamada 70 sorun). Claude Code bu değişkeni kendi komutlarına tanımlıyor; kullanıcı ve makine düzeyinde tanımlı değil, yani uygulama normal açıldığında CMD çalışıyor. Ama Claude ajanları (Yazar 1, denetçi) `validate.py`'yi çalıştırınca CMD'yi bozuk görür. Değişken kaldırılınca 107 kontrol temiz. | betiği tam yoluyla ya da `.\_pafta_cmd.cmd` olarak çağır; değişken tanımlıyken de çalıştığını bir testle doğrula | Codex |
 | A9 | PowerShell · Active Directory | Kullanıcının ilk dil listesinde "AD" vardı, hiç yazılmadı (`Get-ADUser`, `Get-ADGroupMember`, DN/OU yapısı, LDAP filtreleri yok). Tezgahta etki alanı olmadığı için ancak dışa aktarılmış veriyle ya da okuma düzeyinde kurulabilir. Not: aynı rapordaki "Başpehlivan boş", "Security günlüğü yok", "Sysmon yok" bilgileri eskiydi; üçü de `f6241cf` ile PS19–PS21'de var. | AZ-040'ın AD yönetimi çerçevesinde bir köprü ders | düşük öncelik; **kullanıcı kararı** |
 
 ## Planlanan yeni yollar
@@ -31,8 +32,8 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 | Sıra | Yol | Seviye | Ölçüt | Tezgah | Durum |
 |---|---|---|---|---|---|
 | — | Kibana KQL, Lucene ve EQL | **net** (yazma) | Elastic Certified Analyst, THM SOC L2 / SAL2: sorgular yazılır | şu an okuma; Codex'in gizli Python modelleri yazılan sorguyu değerlendiren bir tezgaha çevrilecek | yapıldı (`6b0d21a`, okuma); **yazmaya yükseltilecek** |
-| 1 | CMD/batch | **net** | Windows olay inceleme kursları ve sertifika sınavlarında komut satırı yazılarak kullanılır | gerçek `cmd.exe` (PowerShell yolu gibi süreç koşucusu) | sıradaki |
-| 2 | HTTP ve HTML | HTTP **net**, HTML **okuma** | Web sertifikalarında (HTB CWES, Burp Suite Certified Practitioner) ham istek yazılır, sayfa kaynağı okunur | Python ile gerçek istek ve yanıt | bekliyor |
+| 1 | CMD/batch | **net** | Windows olay inceleme kursları ve sertifika sınavlarında komut satırı yazılarak kullanılır | gerçek `cmd.exe` | **yapıldı ve denetlendi** (Codex, `208ec11`): 18 ders, 107 kontrol temiz, 36 görevde zayıf test yok; bkz. A10 |
+| 2 | HTTP ve HTML | HTTP **net**, HTML **okuma** | Web sertifikalarında (HTB CWES, Burp Suite Certified Practitioner) ham istek yazılır, sayfa kaynağı okunur | Python ile gerçek istek ve yanıt | **sürüyor** (Yazar 1): HT01–HT12 commit'li, HT13–HT15 yazılıyor |
 | 3 | Wireshark görüntü filtreleri ve tcpdump/BPF | **net** | Wireshark Certified Network Analyst ve SANS SEC503'te iki filtre dili de yazılır | görüntü filtreleri gerçek `tshark` 4.6.8 ile örnek kayıt dosyalarında; BPF için gerçeğe sadık değerlendirici (tcpdump kurulu değil) | bekliyor |
 | 4 | Java | **okuma** (derin kod okuma) | Beyaz kutu web sertifikalarında (OSWE, HTB CWEE) kaynak kodu okunur, uygulama yazılmaz | okuma yolu (`okuma_dili`), görevler Python'da; JDK kurulmayacak | bekliyor |
 | 5 | C# (.NET) | **okuma** (derin kod okuma) | aynı ölçüt | okuma yolu, ama **.NET 8 SDK kurulu** olduğundan tahmin cevapları gerçek çalıştırmayla üretilsin | bekliyor |
