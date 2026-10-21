@@ -1,0 +1,28 @@
+{
+  "id": "cmd",
+  "name": "CMD / Batch",
+  "status": "active",
+  "group": "her-iki",
+  "order": 16,
+  "runner": "cmd",
+  "dil": "cmd",
+  "role": "Windows komut satırında komut ve batch betiği yazmak; dosya, metin, parametre ve hata akışını yönetmek.",
+  "tagline": "18 pafta, 6 rütbe: değişken ve argümanlardan FOR döngülerine, metin filtrelerine, alt yordamlara ve rapor projesine. Yazdığın batch betikleri gerçek cmd.exe ile çalışır.",
+  "kahraman": ["Komuttan", "Betiğe", ""],
+  "ranks": [
+    {"id": "minik", "name": "Minik"},
+    {"id": "tesviye", "name": "Tesviye"},
+    {"id": "kucuk-orta", "name": "Küçük Orta"},
+    {"id": "buyuk-orta", "name": "Büyük Orta"},
+    {"id": "basalti", "name": "Başaltı"},
+    {"id": "baspehlivan", "name": "Başpehlivan"}
+  ],
+  "modules": [
+    {"title": "Komut, Değişken ve Argüman", "rank": "minik", "lessons": ["cm01", "cm02", "cm03"]},
+    {"title": "Girdi ve Kararlar", "rank": "tesviye", "lessons": ["cm04", "cm05", "cm06"]},
+    {"title": "Açılım ve Döngüler", "rank": "kucuk-orta", "lessons": ["cm07", "cm08", "cm09"]},
+    {"title": "Yol, Akış ve Metin", "rank": "buyuk-orta", "lessons": ["cm10", "cm11", "cm12"]},
+    {"title": "Hata ve Alt Yordamlar", "rank": "basalti", "lessons": ["cm13", "cm14", "cm15"]},
+    {"title": "Windows İncelemesi ve Proje", "rank": "baspehlivan", "lessons": ["cm16", "cm17", "cm18"]}
+  ]
+}

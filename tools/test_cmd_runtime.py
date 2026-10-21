@@ -70,6 +70,13 @@ class CmdRuntimeTests(unittest.TestCase):
         self.assertIsNone(self.runner.trace("echo test"))
         self.assertIsNone(self.runner.dis("echo test"))
 
+    def test_native_timeout_returns_without_hanging_the_harness(self):
+        proc = dict(self.runner.ek["proc"], sure=1)
+        result = self.runner.execute({"mode": "proc_run", "proc": proc,
+                                      "code": "@echo off\n:again\ngoto again\n"}, timeout=6)
+        self.assertEqual(result["status"], "timeout", result)
+        self.assertEqual(result["error"]["type"], "Zaman aşımı")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
