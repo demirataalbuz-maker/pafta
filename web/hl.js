@@ -230,7 +230,21 @@ const tokAd = kural(
   /(#[^\n]*)|("(?:""|[^"])*"?|'(?:''|[^'])*'?)|(\\[0-9a-fA-F]{2}|\b1\.2\.840\.113556\.1\.4\.(?:803|804|1941)\b)|(\$true\b|\$false\b)|(\b\d+\b)|(-?[A-Za-z_][\w.-]*)|(\s+)|([^\s\w])/giy,
   [() => "com", () => "str", () => "dec", () => "const", () => "num",
    w => (AD_CMD.has(w.toLowerCase()) ? "kw" : AD_ATTR.has(w.toLowerCase()) ? "bi" : ""), () => "", () => "op"]);
-const TOKENIZERS = { ad: tokAd, ldap: tokAd, packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, csharp: tokCsharp, cs: tokCsharp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+const ASM_OP = new Set(("mov movzx movsx movsxd lea push pop add sub inc dec neg imul mul idiv div and or xor not shl shr sal sar rol ror " +
+  "cmp test jmp je jz jne jnz jg jnle jge jnl jl jnge jle jng ja jnbe jae jnb jnc jb jnae jc jbe jna js jns jo jno " +
+  "sete setz setne setnz setg setge setl setle seta setae setb setbe cmove cmovz cmovne cmovnz cmovg cmovge cmovl cmovle cmova cmovae cmovb cmovbe " +
+  "call ret leave nop syscall int cdq cqo rep movsb stosb scasb").split(" "));
+const ASM_REG = new Set(("rax rbx rcx rdx rsi rdi rbp rsp rip r8 r9 r10 r11 r12 r13 r14 r15 " +
+  "eax ebx ecx edx esi edi ebp esp eip r8d r9d r10d r11d r12d r13d r14d r15d " +
+  "ax bx cx dx si di bp sp r8w r9w r10w r11w r12w r13w r14w r15w " +
+  "al bl cl dl ah bh ch dh sil dil bpl spl r8b r9b r10b r11b r12b r13b r14b r15b fs gs cs ds es ss rflags eflags").split(" "));
+const ASM_DIR = new Set("byte word dword qword ptr offset short near far rel section global globl extern text data bss align db dw dd dq intel_syntax noprefix".split(" "));
+const tokAsm = kural(
+  /(;[^\n]*)|("(?:\\.|[^"\\\n])*"?|'(?:\\.|[^'\\\n])*'?)|(\.[A-Za-z_][\w.]*:?|\b[A-Za-z_]\w*:)|(\b0[xX][\da-fA-F]+\b|\b0[bB][01]+\b|\b\d+[\da-fA-F]*h\b|\b\d+\b)|([A-Za-z_]\w*)|(\s+)|([^\s\w])/giy,
+  [() => "com", () => "str", () => "fn", () => "num",
+   w => { const l = w.toLowerCase(); return ASM_OP.has(l) ? "kw" : ASM_REG.has(l) ? "self" : ASM_DIR.has(l) ? "bi" : ""; },
+   () => "", () => "op"]);
+const TOKENIZERS = { asm: tokAsm, x86: tokAsm, ad: tokAd, ldap: tokAd, packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, csharp: tokCsharp, cs: tokCsharp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {

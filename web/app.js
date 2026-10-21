@@ -814,6 +814,7 @@ const TAHMIN_DIL = {
   php: { baslik: "Bu PHP kodu ne yazdırır?", kod: OKUMA_BOS },
   java: { baslik: "Bu Java kodu ne yazdırır?", kod: OKUMA_BOS },
   csharp: { baslik: "Bu C# kodu ne yazdırır?", kod: OKUMA_BOS },
+  asm: { baslik: "Bu assembly kodu ne yazdırır?", kod: OKUMA_BOS },
   ad: { etiket: "Tahminin — eşleşen sAMAccountName değerlerini (veya -Properties verildiyse | ile ayrılmış satırları) her satıra bir tane yaz",
     baslik: "Bu dizin sorgusu neleri döndürür?", ornek: "ör. ali.kaya", kod: "# Önce soldaki LDAP filtresinin / Get-AD* komutunun sonucunu tahmin et.\n# Tahmin ettikten sonra sorgu buraya gelir; değiştirip denersin.\n" },
   spl: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer boş kalır)",

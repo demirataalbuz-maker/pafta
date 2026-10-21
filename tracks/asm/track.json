@@ -1,0 +1,99 @@
+{
+ "id": "asm",
+ "name": "Assembly (x86/x64)",
+ "status": "active",
+ "group": "okuma",
+ "order": 27,
+ "runner": "python",
+ "dil": "python",
+ "okuma_dili": "asm",
+ "role": "Okuma düzeyinde x86/x64 Assembly: yazmaçları, bayrakları, yığın çerçevesini, çağrı kurallarını ve derlenmiş C fonksiyonlarının disassembly çıktısını okuyup çözümleyebilmek.",
+ "modules": [
+  {
+   "title": "Yazmaçlar, Alt Dilimler ve Aritmetik",
+   "rank": "minik",
+   "zen": "32-bit yazmaca yazmak üst yarıyı sıfırlar; lea ise belleğe gitmeden adres matematiği yapar.",
+   "lessons": [
+    "as01",
+    "as02"
+   ]
+  },
+  {
+   "title": "Bellek Adresleme, Bayt Sırası ve Bayraklar",
+   "rank": "tesviye",
+   "zen": "x86 küçük sonlu saklar; cmp ve test sonucu yazmaz, yalnızca RFLAGS bayraklarını kurar.",
+   "lessons": [
+    "as03",
+    "as04"
+   ]
+  },
+  {
+   "title": "Dallanma, Döngüler ve Yığın Çerçevesi",
+   "rank": "kucuk-orta",
+   "zen": "İşaretli jl ile işaretsiz jb aynı bitlere bambaşka gözle bakar; yığın ise aşağı doğru büyür.",
+   "lessons": [
+    "as05",
+    "as06"
+   ]
+  },
+  {
+   "title": "Çağrı Kuralları, Diziler ve Yapılar",
+   "rank": "buyuk-orta",
+   "zen": "Argümanın hangi yazmaçta geldiğini ABI söyler; alanı hangi ofsette arayacağını ise hizalama.",
+   "lessons": [
+    "as07",
+    "as08"
+   ]
+  },
+  {
+   "title": "Derleyici Kalıpları ve Yığın Güvenliği",
+   "rank": "basalti",
+   "zen": "C'deki her if ve switch, disassembly'de bir karşılaştırma ve atlama izine dönüşür.",
+   "lessons": [
+    "as09",
+    "as10"
+   ]
+  },
+  {
+   "title": "Disassembly Okuma ve İkili Doğrulayıcı Projesi",
+   "rank": "baspehlivan",
+   "zen": "Makine baytından sembole, sembolden algoritmaya: okuduğunu Python'da kanıtla.",
+   "lessons": [
+    "as11",
+    "as12"
+   ]
+  }
+ ],
+ "kahraman": [
+  "Yazmaçtan",
+  "Disassembly'",
+  "ye"
+ ],
+ "tagline": "Okuma düzeyinde x86/x64 Assembly: 64/32/16/8-bit yazmaç dilimleri, Intel ve AT&T sözdizimi, mov ve lea aritmetiği, bit kaydırma (shr/sar), little-endian bellek okuma ve movzx/movsx genişletmeleri, RFLAGS bayrakları (ZF, SF, CF, OF), cmp/test ve işaretli/işaretsiz koşullu dallanmalar (jl/jb, jg/ja), yığın çerçevesi (rsp, rbp, push/pop), System V AMD64 ve Windows x64 çağrı kuralları, dizi/dizgi ve struct ofsetleri, C kontrol kalıpları, yığın kanaryası ve tam sayı taşması, objdump disassembly okuma ve uçtan uca bir ikili doğrulayıcı projesi. 12 pafta; assembly kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}
