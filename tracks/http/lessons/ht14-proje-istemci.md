@@ -72,6 +72,10 @@ for govde in (None, b"", b"x", b"\x00\xff", "Ağ", "x" * 80):
     eq(ham, b"POST / HTTP/1.1\r\nHost: pafta.test\r\nX-A: 1\r\nX-A: 2\r\nConnection: close\r\n" + cl + b"\r\n" + (veri or b""), "None/0/1/Unicode/binary gövde")
 for url in ("http://pafta.test:0/", "http://pafta.test:65536/", "https://pafta.test/", "/a", "http:///a", "http://ad:sifre@pafta.test/", "http://pafta.test/a b", "http://pafta.test/\r\nx", "http://pafta.test/ışık"):
     raises(ValueError, istek_kur, "GET", url, msg="URL kapsamı: " + repr(url))
+for deger in ("Pafta Client/1.0", "Pafta\tClient/1.0"):
+    eq(istek_kur("GET", "http://pafta.test/", [("User-Agent", deger)]),
+       b"GET / HTTP/1.1\r\nHost: pafta.test\r\nUser-Agent: " + deger.encode("iso-8859-1") + b"\r\nConnection: close\r\n\r\n",
+       "başlık değerinde boşluk ve TAB kabul edilir, aynen korunur")
 for ad, deger in [("HOST", "x"), ("Connection", "close"), ("content-length", "0"), ("Transfer-Encoding", "chunked"), ("X A", "x"), ("X", "a\r\nY: b"), ("X", "\0")]:
     raises(ValueError, istek_kur, "GET", "http://pafta.test/", [(ad,deger)], msg="başlık denetimi")
 raises(ValueError, istek_kur, "GET /x", "http://pafta.test/", msg="yöntem jetonu")
@@ -166,6 +170,10 @@ for govde in (None, b"", b"x", b"\x00\xff", "Ağ", "x" * 80):
     eq(ham, b"POST / HTTP/1.1\r\nHost: pafta.test\r\nX-A: 1\r\nX-A: 2\r\nConnection: close\r\n" + cl + b"\r\n" + (veri or b""), "None/0/1/Unicode/binary gövde")
 for url in ("http://pafta.test:0/", "http://pafta.test:65536/", "https://pafta.test/", "/a", "http:///a", "http://ad:sifre@pafta.test/", "http://pafta.test/a b", "http://pafta.test/\r\nx", "http://pafta.test/ışık"):
     raises(ValueError, istek_kur, "GET", url, msg="URL kapsamı: " + repr(url))
+for deger in ("Pafta Client/1.0", "Pafta\tClient/1.0"):
+    eq(istek_kur("GET", "http://pafta.test/", [("User-Agent", deger)]),
+       b"GET / HTTP/1.1\r\nHost: pafta.test\r\nUser-Agent: " + deger.encode("iso-8859-1") + b"\r\nConnection: close\r\n\r\n",
+       "başlık değerinde boşluk ve TAB kabul edilir, aynen korunur")
 for ad, deger in [("HOST", "x"), ("Connection", "close"), ("content-length", "0"), ("Transfer-Encoding", "chunked"), ("X A", "x"), ("X", "a\r\nY: b"), ("X", "\0")]:
     raises(ValueError, istek_kur, "GET", "http://pafta.test/", [(ad,deger)], msg="başlık denetimi")
 raises(ValueError, istek_kur, "GET /x", "http://pafta.test/", msg="yöntem jetonu")
@@ -441,6 +449,21 @@ i=Istemci(kaydet); i.istek("GET","http://pafta.test/")
 i.istek("GET","http://pafta.test:80/a")
 eq(len(iz),2,"varsayılan port aynı kökendir")
 raises(ValueError,i.istek,"GET","http://diger.test/",msg="yeni çağrıda da aynı köken")
+for port in (1,65535):
+    iz=[]
+    def port_tasima(y,u,g,b):
+        iz.append((y,u,g,list(b)))
+        return 200,{},b"port-ok"
+    adres=f"http://pafta.test:{port}/sinir"
+    eq(Istemci(port_tasima).istek("GET",adres),(200,{},b"port-ok",adres),"geçerli portun iki ucu")
+    eq(iz,[("GET",adres,None,[])],"geçerli portta tek callback")
+for port in (0,65536):
+    iz=[]
+    def gecersiz_port(y,u,g,b):
+        iz.append(u)
+        return 200,{},b"yanlis"
+    raises(ValueError,Istemci(gecersiz_port).istek,"GET",f"http://pafta.test:{port}/",msg="port sınırının iki dış komşusu")
+    eq(iz,[],"geçersiz portta callback çağrılmaz")
 import tezgah, json
 def gercek(y,u,g,b):
     p=urlsplit(u); hedef=(p.path or "/")+("?"+p.query if p.query else "")
