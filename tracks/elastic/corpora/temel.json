@@ -1,0 +1,75 @@
+{
+  "dil": "lucene",
+  "mapping": {
+    "@timestamp": {
+      "type": "date"
+    },
+    "event.category": {
+      "type": "keyword"
+    },
+    "process.name": {
+      "type": "keyword"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "text",
+      "analyzer": "standard"
+    },
+    "id": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "@timestamp": "2026-01-01T00:00:00Z",
+      "event.category": "process",
+      "process.name": "cmd.exe",
+      "status": 400,
+      "message": "Login failed"
+    },
+    {
+      "id": "b",
+      "@timestamp": "2026-01-01T00:00:01Z",
+      "event.category": "network",
+      "process.name": "cmd.exe",
+      "status": 499,
+      "message": "Login has failed"
+    },
+    {
+      "id": "c",
+      "@timestamp": "2026-01-01T00:00:02Z",
+      "event.category": "process",
+      "process.name": "CMD.EXE",
+      "status": 500,
+      "message": "Login failed"
+    },
+    {
+      "id": "d",
+      "@timestamp": "2026-01-01T00:00:03Z",
+      "event.category": "process",
+      "process.name": "cmd.exe",
+      "status": 399,
+      "message": "Failed login"
+    },
+    {
+      "id": "e",
+      "@timestamp": "2026-01-01T00:00:04Z",
+      "event.category": "process",
+      "process.name": "powershell.exe",
+      "status": 499,
+      "message": "Login too many failed"
+    },
+    {
+      "id": "f",
+      "@timestamp": "2026-01-01T00:00:05Z",
+      "event.category": "process",
+      "process.name": "CMD.EXE",
+      "status": 499,
+      "message": "login failed"
+    }
+  ],
+  "context": {}
+}
