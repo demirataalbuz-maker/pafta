@@ -1,6 +1,6 @@
 # Pafta · Denetim
 
-Son denetim: 2026-10-21, `ac5e308`. 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
+Son denetim: 2026-10-21, `ac5e308`; ek kontrol `21f370f`. 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
 
 Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koşturulunca kapanmış sayılır.
 
@@ -22,9 +22,6 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A3 | python/p17:1 | "(hash rastgeleleştirme, P52)" atfı yanlış adrese gidiyor: P52 (Özet Fonksiyonları ve HMAC) bu konuyu anlatmıyor. Atıf yeniden numaralandırmadan önce de böyleydi (eski P49). Hash'lenebilirliği anlatan ders P19. | atfı P19 yap ya da kaldır | Yazar 1 |
-| A4 | regex/rx19:0 | "RX15'daki gibi": Türkçe ek yanlış, "RX15'teki" olmalı (on beş) | ek düzeltmesi | Yazar 1 |
-| A5 | sandbox/spl.py, SP17 | Ders doğru söylüyor: Splunk'ta hesaplanan alanlar aynı anda değerlendirilir, biri ötekini kullanamaz. Motor ise sırayla uyguluyor: `iki = cpu*2` ve `dort = iki*2` tanımlanınca Pafta `dort = 288` veriyor, Splunk'ta `dort` boş kalır. | başka bir hesaplanan alana dayanan tanımı boş bırak ya da açık hatayla reddet | Yazar 1 |
 | A6-ek | powershell/ps20 | Arka plan işleri yalnızca bir kez adıyla geçiyor (`Start-Job -ScriptBlock { ... }`); `Wait-Job`, `Receive-Job`, `Remove-Job` hiç yok. AZ-040'ın iş yaşam döngüsü anlatılmıyor. (İkinci denetçinin bulgusu, doğrulandı.) | `Start-Job` → `Wait-Job` → `Receive-Job` → `Remove-Job` örneği ve bir görev | Yazar 1 |
 | A9 | PowerShell · Active Directory | Kullanıcının ilk dil listesinde "AD" vardı, hiç yazılmadı (`Get-ADUser`, `Get-ADGroupMember`, DN/OU yapısı, LDAP filtreleri yok). Tezgahta etki alanı olmadığı için ancak dışa aktarılmış veriyle ya da okuma düzeyinde kurulabilir. Not: aynı rapordaki "Başpehlivan boş", "Security günlüğü yok", "Sysmon yok" bilgileri eskiydi; üçü de `f6241cf` ile PS19–PS21'de var. | AZ-040'ın AD yönetimi çerçevesinde bir köprü ders | düşük öncelik; **kullanıcı kararı** |
 | A7 | proje dersleri | Tahmin adımı yok: p70–p73, bs26, bs27, ps10, ps18, kq11, sp08, sq17. Sigma ve YARA'nın projelerinde var. | her projeye bir ara sonuç tahmini | ertelendi |
@@ -33,6 +30,7 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| A3 P17'de yanlış adresli atıf, A4 RX19 yazım hatası, A5 SPL motorunun zincirleme hesaplanan alana izin vermesi | `21f370f` (Yazar 1) | P17 artık P19'u gösteriyor; "RX15'teki"; `iki = cpu*2`, `dort = iki*2` tanımlanınca `dort` Splunk'taki gibi boş |
 | sp04: `dedup`/`head` gerçek Splunk'ta ters sonuç veriyordu | `8702ea3` | TUZAK kutusu; görev `sort acilis \| dedup sunucu_id` ile sıradan bağımsız |
 | 20 görevde sınır değeri test edilmiyordu | `8702ea3` (Yazar 1), `f6241cf` (Antigravity) | 696 görevlik mutasyonda geçen bozuk hâl yok |
 | p71:4 «Motor»: `lt` test edilmiyordu (A1) | `f6241cf` (Antigravity) | `<` → `<=` artık yakalanıyor |
