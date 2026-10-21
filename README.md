@@ -6,7 +6,7 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 |---|---|---|---|
 | **Python** | 73 (6 rütbe, Minik → Başpehlivan; sıfırdan CPython'un içine; PCAP ve PCPP1'in GUI dışındaki konuları) | `python`: run, test, Röntgen (değişkenlerle adım adım), Bytecode | hazır |
 | **Regex** | 22 (6 rütbe; Unicode, lehçeler, günlük biçimleri, iki proje) | `regex`: eşleşme tablosu, test, Ağaç (`re.DEBUG`) | hazır |
-| **Bash** | 27 (6 rütbe; awk, sed, getopts, iki proje) | `bash`: Git Bash, test, Röntgen (`bash -x` izi) | hazır |
+| **Bash** | 28 (6 rütbe; awk, sed, getopts, iki proje, kabuk ortamı: başlangıç dosyaları, alias, sha256sum, nice) | `bash`: Git Bash, test, Röntgen (`bash -x` izi) | hazır |
 | **PowerShell** | 21 (6 rütbe; Windows olay günlükleri, gelişmiş fonksiyonlar, sınıflar, XML, sağlayıcılar, CIM, modüller, Security ve Sysmon telemetrisi) | `powershell`: Windows PowerShell 5.1, test, Röntgen (`Set-PSDebug -Trace 1`); her çalıştırmada `olaylar.json` hazır | hazır |
 | **HTTP ve HTML** | 15 (6 rütbe; HTTP net, HTML okuma; ham istek ve yanıt, kodlama, yöntem/durum/başlıklar, gövde, yönlendirme/çerez/kimlik, kaynak ve formlar, bağlantı/chunked; HT14 kendi istemcin, HT15 formdan kayda projeleri) | `http`: Python; her çalıştırmada [sandbox/http_tezgah.py](sandbox/http_tezgah.py) yerel Pafta Bilet Masası başlatır; projelerde gerçek soket, katı çerçeveleme, yönlendirme ve form akışı sınanır | hazır |
 | **SQL** | 18 (6 rütbe; pencere çerçeveleri, boşluk-ada, oturumlar, özyineleme, görünümler ve veri sözlüğü) | `sql`: bellek içi SQLite, sonuç tabloları, test, Plan (`EXPLAIN QUERY PLAN`) | hazır |
