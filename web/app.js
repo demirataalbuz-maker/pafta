@@ -1092,7 +1092,6 @@ const TEZGAH_DILLER = [
   ["javascript", "JS", { roentgen: false, dis: null }],
   ["sigma", "Sigma", { roentgen: false, dis: null }],
   ["yara", "YARA", { roentgen: false, dis: null }],
-  ["packets", "Wireshark / tcpdump", { roentgen: false, dis: null }],
 ];
 const TEZGAH_ORNEK = {
   packets: "tcp.dstport == 443",
