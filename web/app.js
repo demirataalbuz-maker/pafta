@@ -371,7 +371,10 @@ class Bench {
   paintOut(res) {
     if (res.eslesmeler) return this.paintEslesme(res);
     if (Array.isArray(res.packet_ids)) {
+      const inventory = res.packet_inventory;
       this.pane.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 200) +
+        (inventory ? `<details class="packet-inventory"><summary>Kaydın tamamı · ${inventory.satirlar.length} paket</summary>` +
+          `<div class="out-meta">Eğitim kaydındaki paketlerin adres, port ve içerik açıklamaları.</div>${sqlTablolar([inventory], 200)}</details>` : "") +
         `<div class="out-meta">${esc(res.packet_dialect === "bpf" ? "BPF · " + res.packet_backend : "Wireshark · TShark")} · kayıtlı paketler</div>`;
       return;
     }
@@ -1092,6 +1095,7 @@ const TEZGAH_DILLER = [
   ["javascript", "JS", { roentgen: false, dis: null }],
   ["sigma", "Sigma", { roentgen: false, dis: null }],
   ["yara", "YARA", { roentgen: false, dis: null }],
+  ["packets", "Wireshark / tcpdump", { roentgen: false, dis: null }],
 ];
 const TEZGAH_ORNEK = {
   packets: "tcp.dstport == 443",
