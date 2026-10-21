@@ -169,6 +169,18 @@ const tokPhp = kural(
    w => (["null", "true", "false", "NULL"].includes(w) ? "const" : PHP_KW.has(w.toLowerCase()) ? "kw" : PHP_BI.has(w) ? "bi" : ""),
    () => "", () => "op"]);
 
+const JAVA_KW = new Set(("abstract boolean break byte case catch char class continue default do double else enum extends final " +
+  "finally float for if implements import instanceof int interface long new package private protected public return short static " +
+  "super switch synchronized throw throws transient try var void volatile while record sealed permits yield").split(" "));
+const JAVA_BI = new Set(("System String Integer Long Double Boolean Character Math Object List ArrayList Map HashMap LinkedHashMap " +
+  "TreeMap Set HashSet Optional Arrays Collections Objects StringBuilder Stream Collectors LocalDate Instant Duration " +
+  "Exception RuntimeException IllegalArgumentException IllegalStateException NullPointerException").split(" "));
+const tokJava = kural(
+  /(\/\/[^\n]*|\/\*[\s\S]*?(?:\*\/|$))|(@[A-Za-z_]\w*)|("""[\s\S]*?(?:"""|$)|"(?:\\.|[^"\\\n])*"?|'(?:\\.|[^'\\\n])*'?)|(\b0[xX][\da-fA-F_]+[lL]?\b|\b\d[\d_]*(?:\.\d+)?[lLfFdD]?\b)|([A-Za-z_$][\w$]*)|(\s+)|([^\s\w])/gy,
+  [() => "com", () => "dec", () => "str", () => "num",
+   w => (["null", "true", "false"].includes(w) ? "const" : w === "this" ? "self" : JAVA_KW.has(w) ? "kw" : JAVA_BI.has(w) ? "bi" : ""),
+   () => "", () => "op"]);
+
 const SIGMA_KEYS = new Set("title id name status description author date modified references tags logsource category product service detection condition fields falsepositives level".split(" "));
 const tokSigma = kural(
   /(#[^\n]*)|('(?:''|[^'])*'?|"(?:\\.|[^"\\])*"?)|(\b(?:true|false|null)\b)|(\b\d+(?:\.\d+)?\b)|([A-Za-z_][\w.|*-]*)|(\s+)|([^\s\w])/gy,
@@ -195,7 +207,7 @@ const PACKET_WORDS = new Set("and or not in contains matches tcp udp sctp ip ip6
 const tokPacket = kural(
   /("(?:\\.|[^"\\])*"?)|(\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)*)\b)|([A-Za-z_][\w.:-]*)|(\s+)|([^\s\w])/gy,
   [() => "str", () => "num", w => PACKET_WORDS.has(w) ? "kw" : w.includes(".") ? "self" : "", () => "", () => "op"]);
-const TOKENIZERS = { packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+const TOKENIZERS = { packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {
