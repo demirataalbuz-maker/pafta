@@ -1,6 +1,6 @@
 # Pafta · Denetim
 
-Son denetim: 2026-10-21, `ac5e308`; ek kontrol `21f370f`. 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
+Son denetim: 2026-10-21, `33ed7f2` (GitHub'daki son hâl; bekleyen commit yok). 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
 
 Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koşturulunca kapanmış sayılır.
 
@@ -8,8 +8,8 @@ Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koştur
 
 | Kontrol | Yöntem | Sonuç |
 |---|---|---|
-| Görevler çalışıyor mu | `tools/validate.py` | 271 ders, **2518 kontrol temiz** |
-| Tahmin açıklamaları | Her tahmin kodu çalıştırıldı; çıktının her satırı açıklamada geçiyor mu | 328 tahminin hepsi uyuşuyor (Sigma/YARA dahil) |
+| Görevler çalışıyor mu | `tools/validate.py` | 271 ders, **2533 kontrol temiz** |
+| Tahmin açıklamaları | Her tahmin kodu çalıştırıldı; çıktının her satırı açıklamada geçiyor mu | 340 tahminin hepsi uyuşuyor; tahmin adımı olmayan ders kalmadı (Sigma/YARA dahil) |
 | "Beklenen çıktı" blokları | Örnek çözüm çalıştırılıp blokla karşılaştırıldı | 78 bloğun hepsi doğru (4 bilinen yanlış alarm: `...` ile kısaltılmış ya da fonksiyonun dönüş değeri) |
 | Testler yanlış cevabı yakalıyor mu | **Mutasyon testi:** her örnek çözüm küçük hatalarla bozuldu (sınır kaydırma, artan↔azalan, AND↔OR, LIMIT+1, değiştirici silme...) | **696 görevde 0 zayıf test.** 5 işaretin hepsi sonucu değiştirmeyen zararsız mutasyon: p20:6, p48:5, p59:5, p59:6, p68:5 |
 | Ders sırası ve rütbeler | Kimlikler harita sırasıyla uyuşuyor mu, 6 rütbe dolu mu | **12 yolun hepsi sıralı ve 6 rütbeli** |
@@ -22,15 +22,33 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A6-ek | powershell/ps20 | Arka plan işleri yalnızca bir kez adıyla geçiyor (`Start-Job -ScriptBlock { ... }`); `Wait-Job`, `Receive-Job`, `Remove-Job` hiç yok. AZ-040'ın iş yaşam döngüsü anlatılmıyor. (İkinci denetçinin bulgusu, doğrulandı.) | `Start-Job` → `Wait-Job` → `Receive-Job` → `Remove-Job` örneği ve bir görev | Yazar 1 |
 | A9 | PowerShell · Active Directory | Kullanıcının ilk dil listesinde "AD" vardı, hiç yazılmadı (`Get-ADUser`, `Get-ADGroupMember`, DN/OU yapısı, LDAP filtreleri yok). Tezgahta etki alanı olmadığı için ancak dışa aktarılmış veriyle ya da okuma düzeyinde kurulabilir. Not: aynı rapordaki "Başpehlivan boş", "Security günlüğü yok", "Sysmon yok" bilgileri eskiydi; üçü de `f6241cf` ile PS19–PS21'de var. | AZ-040'ın AD yönetimi çerçevesinde bir köprü ders | düşük öncelik; **kullanıcı kararı** |
-| A7 | proje dersleri | Tahmin adımı yok: p70–p73, bs26, bs27, ps10, ps18, kq11, sp08, sq17. Sigma ve YARA'nın projelerinde var. | her projeye bir ara sonuç tahmini | ertelendi |
+
+## Planlanan yeni yollar
+
+Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını bitirmek. Bu yollarda karşısına çıkacak ama Pafta'da olmayan diller, kullanıcının çalışma sırasında ne zaman gerekeceğine göre sıralandı. Yazarı Codex; her yol bitince durur, denetçi ölçer, sonra sıradakine geçilir.
+
+| Sıra | Yol | Gerekeceği aşama |
+|---|---|---|
+| 1 | CMD/batch okuma | 1 |
+| 2 | HTML ve HTTP temeli | 1 |
+| 3 | Wireshark ve tcpdump filtreleri | 1 |
+| 4 | Kibana KQL ve EQL (Elastic; "KQL (Kusto)" yolundan ayrı) | 2 |
+| 5 | Java okuma | 2 |
+| 6 | C# okuma | 2 |
+| 7 | Snort/Suricata kuralları | 3 |
+| 8 | LDAP filtreleri | 3 |
+| 9 | x86/x64 assembly kavramları | 3 |
+
+Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyaları, KQL `render`, JS `Map`/`Set`, C çok dosyalı programlar, PHP `namespace`/`trait`) kullanıcı birkaç ders bitirdikten sonraya bırakıldı.
 
 ## Kapanan bulgular
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
-| A3 P17'de yanlış adresli atıf, A4 RX19 yazım hatası, A5 SPL motorunun zincirleme hesaplanan alana izin vermesi | `21f370f` (Yazar 1) | P17 artık P19'u gösteriyor; "RX15'teki"; `iki = cpu*2`, `dort = iki*2` tanımlanınca `dort` Splunk'taki gibi boş |
+| PS20'de iş yaşam döngüsü yoktu (A6-ek) | `89131c8` (Yazar 1) | `Start-Job` → `Wait-Job` → `Receive-Job` → `Remove-Job` bölümü ve «İşlerle paralel toplam» görevi; `-ge` → `-gt` ve `Remove-Job`'u silmek testte yakalanıyor |
+| 11 proje dersinde tahmin yoktu (A7) | `33ed7f2` (Yazar 1) | p70–p73, bs26, bs27, ps10, ps18, kq11, sp08, sq17: 14 tahmin ve 17 çıktı bloğu gerçek çıktıyla uyuşuyor; değişen derslerdeki 45 görevde zayıf test yok |
+| A3 P17'de yanlış adresli atıf, A4 RX19 yazım hatası, A5 SPL motorunun zincirleme hesaplanan alana izin vermesi | `21f370f` (Yazar 1) | P17 artık P19'u gösteriyor; "RX15'teki"; `iki = cpu*2`, `dort = iki*2` tanımlanınca `dort` Splunk'taki gibi boş; tanım sırası sonucu değiştirmiyor, `cpu = cpu+1` gibi kendini değiştiren tanımda öteki tanımlar ham değeri görüyor |
 | sp04: `dedup`/`head` gerçek Splunk'ta ters sonuç veriyordu | `8702ea3` | TUZAK kutusu; görev `sort acilis \| dedup sunucu_id` ile sıradan bağımsız |
 | 20 görevde sınır değeri test edilmiyordu | `8702ea3` (Yazar 1), `f6241cf` (Antigravity) | 696 görevlik mutasyonda geçen bozuk hâl yok |
 | p71:4 «Motor»: `lt` test edilmiyordu (A1) | `f6241cf` (Antigravity) | `<` → `<=` artık yakalanıyor |
