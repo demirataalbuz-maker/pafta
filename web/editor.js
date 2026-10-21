@@ -122,7 +122,7 @@ export class Editor {
     if (ta.readOnly) return;
     if (mod && e.key === "/") {
       e.preventDefault();
-      if (this._dil === "spl" || this._dil === "regex") return;   // bu dillerde satır yorumu yok
+      if (["spl", "regex", "packets", "wireshark", "bpf"].includes(this._dil)) return;   // bu dillerde satır yorumu yok
       const [a, b] = this.lineRange();
       const lines = ta.value.slice(a, b).split("\n");
       const y = { sql: "--", kql: "//", javascript: "//", yara: "//", cmd: "rem" }[this._dil] || "#";

@@ -32,7 +32,7 @@ TRACKS_DIR = os.path.join(ROOT, "tracks")
 
 STEP_KINDS = ("anlat", "tahmin", "gorev")
 KOD_DILLERI = ("python", "py", "", "regex", "bash", "sh", "powershell", "ps1", "sql", "kql", "kusto", "spl", "splunk",
-               "javascript", "js", "c", "php", "sigma", "yara", "kibana", "lucene", "eql", "cmd", "batch", "bat")
+               "javascript", "js", "c", "php", "sigma", "yara", "kibana", "lucene", "eql", "cmd", "batch", "bat", "wireshark", "bpf", "packets")
 # gercek: çalıştırılamayan dillerde (C, PHP) tahmin adımının gerçek çıktısı, ders yazarınca verilir
 SPECIAL = ("starter", "stdin", "test", "solution", "hint", "setup", "meta", "gercek")
 _STEP_RE = re.compile(r"^:::\s*(anlat|tahmin|gorev)\b\s*(.*)$")
@@ -91,7 +91,7 @@ def _parse_step(kind, title, lines):
     step = {"kind": kind, "title": title, "body": "\n".join(body).strip()}
     if kind == "tahmin":
         step["code"] = code or ""
-        if code_dil in ("kibana", "lucene", "eql"):
+        if code_dil in ("kibana", "lucene", "eql", "wireshark", "bpf", "packets"):
             step["code_dil"] = code_dil
     for k in ("starter", "stdin", "test", "solution", "setup"):
         if parts[k]:

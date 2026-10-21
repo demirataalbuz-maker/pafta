@@ -20,7 +20,7 @@ sys.path.insert(0, ROOT)
 from engine.lessons import Library  # noqa: E402
 from engine.runners import argv_coz, get  # noqa: E402
 
-FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat"}
+FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat", "packets": "wireshark|bpf|packets"}
 
 
 def kod_deseni(dil):

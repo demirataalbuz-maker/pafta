@@ -266,12 +266,15 @@ class Bench {
       javascript: "Girdi (stdin) · require(\"fs\").readFileSync(0, \"utf8\") ile okunur",
       sigma: "Olaylar · JSON nesnesi, liste ya da her satırda bir JSON nesnesi",
       yara: "Örnek veri · UTF-8 metin; ikili veri için hex: veya base64: öneki",
+      packets: 'Kayıt seçimi · {"dil":"wireshark" veya "bpf","kayit":"temel", "sinirlar" veya "olay"}',
+      wireshark: 'Wireshark · JSON: {"dil":"wireshark","kayit":"temel"}',
+      bpf: 'tcpdump/BPF · JSON: {"dil":"bpf","kayit":"temel"}',
     }[dil] || "Girdi";
     this.stdin.rows = dil === "regex" ? 4 : 3;
     this.girdiAdi = dil === "regex" ? "Metin" : dil === "sigma" ? "Olaylar" : dil === "yara" ? "Örnek veri" : "Girdi";
     const vt = ["sql", "kql", "spl"].includes(dil);        // bu dillerin girdisi örnek veritabanıdır
     $('[data-b="stdin"]', h).hidden = vt;
-    this.toggleStdin(["regex", "sigma", "yara"].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
+    this.toggleStdin(["regex", "sigma", "yara", "packets", "wireshark", "bpf"].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
   }
 
   setStdin(t) {
@@ -367,6 +370,11 @@ class Bench {
 
   paintOut(res) {
     if (res.eslesmeler) return this.paintEslesme(res);
+    if (Array.isArray(res.packet_ids)) {
+      this.pane.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 200) +
+        `<div class="out-meta">${esc(res.packet_dialect === "bpf" ? "BPF · " + res.packet_backend : "Wireshark · TShark")} · kayıtlı paketler</div>`;
+      return;
+    }
     if (["sigma", "yara"].includes(this.dil) && !res.error) {
       this.pane.innerHTML = detectionOutput(res, this.dil);
       return;
@@ -784,6 +792,8 @@ const BOS_KOD = {
 const OKUMA_BOS = "# Bu yolda okuduğun kod bu bilgisayarda çalıştırılamıyor.\n# Görevlerde onun yaptığını Python ile yazacaksın; tezgah o görevler içindir.\n";
 const ELASTIC_OKUMA_BOS = "# Elastic okuma yolu: bu tezgah yalnızca Python alıştırmalarını çalıştırır.\n# Kibana KQL, Lucene ve EQL sorguları Elasticsearch'e gönderilmez.\n# Görevdeki Python başlangıç kodunu kullan; sorguyu buraya yapıştırma.\n";
 const TAHMIN_DIL = {
+  wireshark: { girdi: "Filtrenin kayıt seçimi:", etiket: "Paketler: önekinden sonra eşleşen paket numaralarını virgülle yaz", baslik: "Görüntü filtresi hangi paketleri seçer?", ornek: "Paketler: 1, 2", kod: "" },
+  bpf: { girdi: "Filtrenin kayıt seçimi:", etiket: "Paketler: önekinden sonra eşleşen paket numaralarını virgülle yaz", baslik: "BPF hangi paketleri seçer?", ornek: "Paketler: 1, 2", kod: "" },
   elastic: { girdi: "Bu tahminin sabit örnek verisi (mapping ve sıralama varsayımları soruda):", etiket: "Soruda istenen kimlikleri veya dizileri belirtilen sırayla yaz", baslik: "Bu sorgu örnek veride neyi seçer?", ornek: "ör. e1", kod: ELASTIC_OKUMA_BOS },
   sigma: { girdi: "Kural şu olaylarda deneniyor:", etiket: "Eşleşen olayların id değerlerini sırayla, her satıra bir tane yaz", baslik: "Hangi olaylar eşleşir?", ornek: "ör. 1", kod: "" },
   yara: { girdi: "Kural şu örnek veriyi tarıyor:", etiket: "Eşleşen kural adlarını her satıra bir tane yaz", baslik: "Hangi kurallar eşleşir?", ornek: "ör. Ilk_Kural", kod: "" },
@@ -811,7 +821,8 @@ function firstCode(md, dil = "python") {
 function showStep(i) {
   S.idx = i;
   const L = S.lesson.lesson, st = L.steps[i];
-  const tid = S.tid, lid = L.id, dil = dilAdi(S.yol?.dil || "python");
+  const tid = S.tid, lid = L.id, dil = dilAdi(S.yol?.dil === "packets" ? (st.meta?.dil || "wireshark") : (S.yol?.dil || "python"));
+  S.bench.ayarla(dil, S.yol?.ozellik || {});
   const okuma = S.yol?.okuma_dili;           // C, PHP: okunan dil; tezgah ve görevler Python
   if (location.hash !== `#/ders/${tid}/${lid}/${i}`) history.replaceState(null, "", `#/ders/${tid}/${lid}/${i}`);
   api("/api/visit", { track: tid, lesson: lid, step: i, done: false }).catch(() => {});
@@ -917,7 +928,7 @@ async function sheetClick(e) {
   if (act === "run" || act === "bench") {
     const block = a.closest(".code");
     const src = block.dataset.src;
-    const detection = ["sigma", "yara"].includes(dilAdi(S.yol?.dil));
+    const detection = ["sigma", "yara", "packets"].includes(dilAdi(S.yol?.dil));
     const metin = block.dataset.stdin || (detection ? (S.bench.stdin.value || L.steps[i]?.stdin || L.steps.find(s => s.stdin)?.stdin || "") : "");
     if (act === "bench") {
       S.bench.setCode(src);
@@ -1041,7 +1052,7 @@ async function renderReviewSolve(tid, lid, idx) {
   const v = await api(`/api/lesson/${tid}/${lid}`);
   const st = v.lesson.steps[idx];
   S.yol = v.track || { id: tid, dil: "python", ozellik: { roentgen: true, dis: "Bytecode" } };
-  const dil = dilAdi(S.yol.dil || "python");
+  const dil = dilAdi(S.yol.dil === "packets" ? (st.meta?.dil || "wireshark") : (S.yol.dil || "python"));
   view.innerHTML = `<div class="lesson">
     <div class="sheet-wrap"><article class="sheet" id="sheet">
       <div class="sheet-head"><div class="crumbs"><a class="label" href="#/tekrar">← Tekrar</a><span class="label">${esc(S.yol.name || tid)} · ${esc(lid.toUpperCase())} · ${esc(v.lesson.title)}</span></div>
@@ -1081,8 +1092,10 @@ const TEZGAH_DILLER = [
   ["javascript", "JS", { roentgen: false, dis: null }],
   ["sigma", "Sigma", { roentgen: false, dis: null }],
   ["yara", "YARA", { roentgen: false, dis: null }],
+  ["packets", "Wireshark / tcpdump", { roentgen: false, dis: null }],
 ];
 const TEZGAH_ORNEK = {
+  packets: "tcp.dstport == 443",
   sigma: `title: Pafta Olay Denemesi\nlogsource:\n    category: process_creation\n    product: windows\ndetection:\n    selection:\n        Image|endswith: '\\whoami.exe'\n    condition: selection\nlevel: informational\n`,
   yara: `rule Pafta_Ornek {\n    meta:\n        description = "Zararsız bir eğitim işareti"\n    strings:\n        $isaret = "PAFTA_ORNEK" ascii wide\n    condition:\n        $isaret\n}\n`,
   python: `# Serbest tezgah: ne istersen dene. Kod otomatik kaydedilir.\n# ◎ Röntgen ile adım adım izle.\n\nhedefler = ["10.0.0.1", "10.0.0.2", "10.0.0.1"]\nbenzersiz = sorted(set(hedefler))\nfor i, ip in enumerate(benzersiz, 1):\n    print(i, ip)\n`,
@@ -1097,7 +1110,8 @@ const TEZGAH_ORNEK = {
 };
 const TEZGAH_METIN = { regex: "Kayıtlar: 2026-10-19 giriş, 2026-10-20 çıkış, 19.10.2026 eski biçim",
   sigma: '[{"id":1,"Image":"C:\\\\Windows\\\\System32\\\\whoami.exe"},{"id":2,"Image":"C:\\\\Windows\\\\notepad.exe"}]',
-  yara: "Bu zararsız metinde PAFTA_ORNEK işareti var." };
+  yara: "Bu zararsız metinde PAFTA_ORNEK işareti var.",
+  packets: '{"dil":"wireshark","kayit":"temel"}' };
 
 async function renderPlayground(dil) {
   S.mode = "play";

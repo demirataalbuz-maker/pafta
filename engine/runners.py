@@ -161,6 +161,18 @@ class DetectionRunner(HarnessRunner):
                 or importlib.util.find_spec(self.package) is not None)
 
 
+class PacketRunner(HarnessRunner):
+    name = "packets"
+    default_timeout = 12
+    test_timeout = 40
+    modlar = {"run": "packet_run", "test": "packet_test"}
+
+    def available(self):
+        from sandbox.packet_engine import tshark_path
+        from sandbox.bpf_native import available
+        return bool(tshark_path() and available())
+
+
 class SqlRunner(HarnessRunner):
     name = "sql"
     ozellik = {"roentgen": False, "dis": "Plan"}
@@ -249,6 +261,7 @@ RUNNERS = {
     "spl": SplRunner(),
     "sigma": DetectionRunner("sigma", "sigma"),
     "yara": DetectionRunner("yara", "yara"),
+    "packets": PacketRunner(),
     "bash": ProcRunner("bash", {
         "cmd": [BASH or ""], "iz_cmd": [BASH or "", "-x"], "dosya": "betik.sh",
         "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"}, "sure": 10,

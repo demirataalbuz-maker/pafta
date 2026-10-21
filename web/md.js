@@ -53,7 +53,7 @@ export function stripAnno(src) {
 export function codeBlock(src, info = "python", opts = {}) {
   const lang = dilAdi((info || "python").split(/\s+/)[0] || "python");
   const flags = (info || "").split(/\s+/).slice(1);
-  const kodDili = ["python", "bash", "powershell", "regex", "sql", "kql", "spl", "javascript", "c", "php", "sigma", "yara", "kibana", "lucene", "eql", "elastic", "cmd"].includes(lang);
+  const kodDili = ["python", "bash", "powershell", "regex", "sql", "kql", "spl", "javascript", "c", "php", "sigma", "yara", "kibana", "lucene", "eql", "elastic", "cmd", "wireshark", "bpf", "packets"].includes(lang);
   const izDili = dilAdi(opts.dil || "python");
   const runnable = lang === izDili && !flags.includes("norun") && opts.runnable !== false;
   let desen = src, metin = "";

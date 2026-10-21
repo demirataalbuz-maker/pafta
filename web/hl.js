@@ -191,7 +191,11 @@ const tokCmd = kural(
   /(^[ \t]*@?rem\b[^\n]*|^[ \t]*::[^\n]*)|("[^"\n]*"?)|(%[^%\n]+%|![^!\n]+!|%%~?[A-Za-z]*[A-Za-z]|%~?[A-Za-z]*[0-9*])|(\b\d+\b)|([A-Za-z_][\w.-]*)|(\s+)|([^\s\w])/gmiy,
   [() => "com", () => "str", () => "self", () => "num",
    w => CMD_WORDS.has(w.toLowerCase()) ? "kw" : "", () => "", () => "op"]);
-const TOKENIZERS = { cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+const PACKET_WORDS = new Set("and or not in contains matches tcp udp sctp ip ip6 ipv6 arp icmp icmp6 host net port portrange src dst ether proto vlan len less greater broadcast multicast tcpflags tcp-syn tcp-ack tcp-fin tcp-rst".split(" "));
+const tokPacket = kural(
+  /("(?:\\.|[^"\\])*"?)|(\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)*)\b)|([A-Za-z_][\w.:-]*)|(\s+)|([^\s\w])/gy,
+  [() => "str", () => "num", w => PACKET_WORDS.has(w) ? "kw" : w.includes(".") ? "self" : "", () => "", () => "op"]);
+const TOKENIZERS = { packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {
