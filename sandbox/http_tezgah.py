@@ -542,6 +542,10 @@ class Yanit:
         self.durum = int(parcalar[1]) if len(parcalar) > 1 and parcalar[1].isdigit() else None
         self.neden = parcalar[2] if len(parcalar) > 2 else ""
         self.basliklar = [(a.strip(), d.strip()) for a, _, d in (s.partition(":") for s in satirlar[1:] if s)]
+        uzunluk = self.baslik("Content-Length")
+        self.kalan_bayt = b""                      # Content-Length'ten sonra gelenler (ör. ikinci bir yanıt)
+        if uzunluk and uzunluk.isdigit():
+            govde, self.kalan_bayt = govde[:int(uzunluk)], govde[int(uzunluk):]
         self.govde_bayt = govde
         self.govde = govde.decode("utf-8", "replace")
 

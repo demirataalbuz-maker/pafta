@@ -1,0 +1,101 @@
+{
+ "id": "http",
+ "name": "HTTP ve HTML",
+ "status": "active",
+ "group": "her-iki",
+ "order": 4,
+ "runner": "http",
+ "dil": "python",
+ "role": "Web'in dili: ham HTTP isteği yazmak, yanıtı okumak, yöntemler, durum kodları, başlıklar, çerezler ve yönlendirmeler; HTML sayfa kaynağını ve formları okumak.",
+ "modules": [
+  {
+   "title": "İlk İstek",
+   "rank": "minik",
+   "zen": "HTTP bir metindir; önce oku, sonra yaz.",
+   "lessons": [
+    "ht01",
+    "ht02"
+   ]
+  },
+  {
+   "title": "Yöntemler ve Durumlar",
+   "rank": "tesviye",
+   "zen": "Fiil ne istediğini, sayı ne olduğunu söyler.",
+   "lessons": [
+    "ht03",
+    "ht04"
+   ]
+  },
+  {
+   "title": "Başlıklar ve Gövde",
+   "rank": "kucuk-orta",
+   "zen": "Bayt say, karakter değil.",
+   "lessons": [
+    "ht05",
+    "ht06"
+   ]
+  },
+  {
+   "title": "Yönlendirme, Çerez ve Kimlik",
+   "rank": "buyuk-orta",
+   "zen": "Sunucu hatırlamaz; hatırlatırsın.",
+   "lessons": [
+    "ht07",
+    "ht08",
+    "ht09"
+   ]
+  },
+  {
+   "title": "Sayfa Kaynağını Okumak",
+   "rank": "basalti",
+   "zen": "Tarayıcının gösterdiği değil, kaynağın söylediği.",
+   "lessons": [
+    "ht10",
+    "ht11",
+    "ht12"
+   ]
+  },
+  {
+   "title": "Telin Üstünde",
+   "rank": "baspehlivan",
+   "zen": "Çerçeveyi bilen, akışı okur.",
+   "lessons": [
+    "ht13",
+    "ht14",
+    "ht15"
+   ]
+  }
+ ],
+ "kahraman": [
+  "Ham istekten",
+  "Sayfa kaynağı",
+  "na"
+ ],
+ "tagline": "HTTP net, HTML okuma düzeyinde: isteğin ve yanıtın anatomisi, URL'ler ve yüzde kodlama, yöntemler, durum kodları, başlıklar ve önbellek, gövde göndermek, yönlendirmeler, çerezler, Basic ve Bearer, sayfa kaynağı, formlar, bağlantı düzeyi ve iki proje. 15 pafta; her çalıştırmada yerel bir demo web uygulaması (Pafta Bilet Masası) koşar, ham isteği tezgah.gonder ile kendin yazar, yanıtı kendin okursun.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}
