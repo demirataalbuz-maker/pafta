@@ -26,6 +26,7 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 | A4 | regex/rx19:0 | "RX15'daki gibi": Türkçe ek yanlış, "RX15'teki" olmalı (on beş) | ek düzeltmesi | Yazar 1 |
 | A5 | sandbox/spl.py, SP17 | Ders doğru söylüyor: Splunk'ta hesaplanan alanlar aynı anda değerlendirilir, biri ötekini kullanamaz. Motor ise sırayla uyguluyor: `iki = cpu*2` ve `dort = iki*2` tanımlanınca Pafta `dort = 288` veriyor, Splunk'ta `dort` boş kalır. | başka bir hesaplanan alana dayanan tanımı boş bırak ya da açık hatayla reddet | Yazar 1 |
 | A6-ek | powershell/ps20 | Arka plan işleri yalnızca bir kez adıyla geçiyor (`Start-Job -ScriptBlock { ... }`); `Wait-Job`, `Receive-Job`, `Remove-Job` hiç yok. AZ-040'ın iş yaşam döngüsü anlatılmıyor. (İkinci denetçinin bulgusu, doğrulandı.) | `Start-Job` → `Wait-Job` → `Receive-Job` → `Remove-Job` örneği ve bir görev | Yazar 1 |
+| A9 | PowerShell · Active Directory | Kullanıcının ilk dil listesinde "AD" vardı, hiç yazılmadı (`Get-ADUser`, `Get-ADGroupMember`, DN/OU yapısı, LDAP filtreleri yok). Tezgahta etki alanı olmadığı için ancak dışa aktarılmış veriyle ya da okuma düzeyinde kurulabilir. Not: aynı rapordaki "Başpehlivan boş", "Security günlüğü yok", "Sysmon yok" bilgileri eskiydi; üçü de `f6241cf` ile PS19–PS21'de var. | AZ-040'ın AD yönetimi çerçevesinde bir köprü ders | düşük öncelik; **kullanıcı kararı** |
 | A7 | proje dersleri | Tahmin adımı yok: p70–p73, bs26, bs27, ps10, ps18, kq11, sp08, sq17. Sigma ve YARA'nın projelerinde var. | her projeye bir ara sonuç tahmini | ertelendi |
 
 ## Kapanan bulgular
