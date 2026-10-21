@@ -163,6 +163,30 @@ function sqlTablolar(tablolar, max = 200, kql = false) {
   }).join("");
 }
 
+const ELASTIC_DIALECTS = ["kibana", "lucene", "eql"];
+const ELASTIC_LABELS = { kibana: "Kibana KQL", lucene: "Lucene", eql: "Elastic EQL" };
+
+function lessonLanguage(track, lesson, step) {
+  const language = track?.dil || "python";
+  if (["packets", "elastic"].includes(language)) {
+    return dilAdi(step?.meta?.dil || lesson?.steps?.find(s => s.meta?.dil)?.meta.dil ||
+      (language === "packets" ? "wireshark" : "kibana"));
+  }
+  return dilAdi(language);
+}
+
+function lessonInput(step, lesson, language) {
+  return step?.stdin || (["elastic", ...ELASTIC_DIALECTS].includes(language)
+    ? lesson?.steps?.find(s => s.stdin)?.stdin || "" : "");
+}
+
+function elasticOutput(res, max = 200) {
+  const sequences = res.elastic_ids.some(Array.isArray);
+  const label = ELASTIC_LABELS[res.elastic_dialect] || "Elastic";
+  return `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, max) + errCard(res.error) +
+    `<div class="out-meta">${esc(label)} · ${esc(res.elastic_backend || "yerel sorgu motoru")} · ${res.elastic_ids.length} eşleşen ${sequences ? "dizi" : "belge"}</div>`;
+}
+
 function detectionOutput(res, dil, max = 200) {
   const output = segsHtml(res.segs);
   const warnings = (res.warnings || []).map(w => `<p>${esc(w)}</p>`).join("");
@@ -271,12 +295,16 @@ class Bench {
       packets: 'Kayıt seçimi · {"dil":"wireshark" veya "bpf","kayit":"temel", "sinirlar" veya "olay"}',
       wireshark: 'Wireshark · JSON: {"dil":"wireshark","kayit":"temel"}',
       bpf: 'tcpdump/BPF · JSON: {"dil":"bpf","kayit":"temel"}',
+      kibana: "Kibana KQL korpusu · JSON: dil, mapping, documents, context",
+      lucene: "Lucene korpusu · JSON: dil, mapping, documents, context",
+      eql: "EQL korpusu · JSON: dil, mapping, documents, context",
+      elastic: 'Elastic korpusu · JSON dil: "kibana", "lucene" veya "eql"; mapping, documents, context',
     }[dil] || "Girdi";
-    this.stdin.rows = dil === "regex" ? 4 : 3;
-    this.girdiAdi = dil === "regex" ? "Metin" : dil === "sigma" ? "Olaylar" : dil === "yara" ? "Örnek veri" : "Girdi";
+    this.stdin.rows = ["elastic", ...ELASTIC_DIALECTS].includes(dil) ? 10 : dil === "regex" ? 4 : 3;
+    this.girdiAdi = dil === "regex" ? "Metin" : dil === "sigma" ? "Olaylar" : dil === "yara" ? "Örnek veri" : ["elastic", ...ELASTIC_DIALECTS].includes(dil) ? "Korpus JSON" : "Girdi";
     const vt = ["sql", "kql", "spl", "ad"].includes(dil);        // bu dillerin girdisi örnek veritabanıdır / dizindir
     $('[data-b="stdin"]', h).hidden = vt;
-    this.toggleStdin(["regex", "sigma", "yara", "packets", "wireshark", "bpf"].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
+    this.toggleStdin(["regex", "sigma", "yara", "packets", "wireshark", "bpf", "elastic", ...ELASTIC_DIALECTS].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
   }
 
   setStdin(t) {
@@ -341,6 +369,10 @@ class Bench {
           sql: "▶ Çalıştır sorguyu örnek veritabanında çalıştırır;<br>her sorgunun sonucu bir tablo olarak görünür",
           kql: "▶ Çalıştır sorguyu örnek veritabanında çalıştırır;<br>boş satırla ayrılmış her sorgu ayrı bir tablo verir",
           spl: "▶ Çalıştır aramayı örnek veritabanında çalıştırır;<br>boş satırla ayrılmış her arama ayrı bir tablo verir",
+          kibana: "▶ Çalıştır KQL sorgusunu Korpus JSON içindeki belgelerde değerlendirir;<br>eşleşen belge kimlikleri burada görünür",
+          lucene: "▶ Çalıştır Lucene sorgusunu Korpus JSON içindeki belgelerde değerlendirir;<br>eşleşen belge kimlikleri burada görünür",
+          eql: "▶ Çalıştır EQL sorgusunu Korpus JSON içindeki olaylarda değerlendirir;<br>kimlikler veya olay dizileri burada görünür",
+          elastic: "▶ Çalıştır sorguyu Korpus JSON içindeki dil, mapping ve belgelerle değerlendirir;<br>Kibana KQL, Lucene veya EQL seçebilirsin",
           ad: "▶ Çalıştır LDAP filtresini veya Get-AD* komutunu DC=pafta,DC=local dizininde çalıştırır;<br>sonuç tablosu burada görünür" }[this.dil]
           || "▶ Çalıştır ile kodun çıktısı burada görünür",
         check: "✓ Kontrol et ile görev testleri burada koşar",
@@ -374,6 +406,11 @@ class Bench {
 
   paintOut(res) {
     if (res.eslesmeler) return this.paintEslesme(res);
+    if (Array.isArray(res.elastic_ids)) {
+      this.pane.innerHTML = elasticOutput(res);
+      if (res.error?.line) this.ed.mark(res.error.line, "err");
+      return;
+    }
     if (Array.isArray(res.packet_ids)) {
       const inventory = res.packet_inventory;
       this.pane.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 200) +
@@ -682,7 +719,7 @@ async function renderMap(tid) {
         <div class="hero-kicker"><span class="label">Yol ${pad(sira)} · ${esc(track.name)}</span><span class="dim"></span><span class="label">Rütbe: ${esc(curRank.name)}</span></div>
         <h1 class="hero-title">${esc(kahraman1)}<br><em>${esc(kahraman2)}</em>${esc(kahraman3 || "")}</h1>
         <p class="hero-sub">${esc(track.tagline || "")}</p>
-        <div class="hero-cta">${cta}${st.due_count ? `<a class="btn" href="#/tekrar">Tekrar · ${st.due_count} görev</a>` : ""}<a class="btn" href="#/tezgah/${track.dil || tid}">${track.okuma_dili === "elastic" ? "Python alıştırma tezgahı" : "Serbest tezgah"}</a></div>
+        <div class="hero-cta">${cta}${st.due_count ? `<a class="btn" href="#/tekrar">Tekrar · ${st.due_count} görev</a>` : ""}<a class="btn" href="#/tezgah/${track.dil || tid}">Serbest tezgah</a></div>
       </div>
       <div class="hero-cells">
         <div class="cell"><span class="label">Seri</span><span class="cell-val">${st.streak}<small>gün</small></span></div>
@@ -692,7 +729,6 @@ async function renderMap(tid) {
       </div>
     </section>
     ${track.hazir === false ? `<div class="callout tuzak" style="margin-top:16px"><div class="ct">Kurulum gerekiyor</div><p>Bu yolun yorumlayıcısı bu bilgisayarda bulunamadı. ${track.dil === "bash" ? "Git for Windows (Git Bash) kurulunca" : "Yorumlayıcı kurulunca"} paftalar çalışır.</p></div>` : ""}
-    ${track.okuma_dili === "elastic" ? `<div class="callout not"><div class="ct">Okuma yolu · Kibana KQL, Lucene ve EQL</div><p>Sorguları okur, belirtilen mapping ve örnek veriye göre sonucu tahmin edersin. Python tezgahı görevlerdeki sınırlı yorumlama alıştırmalarını çalıştırır. Elasticsearch/Kibana sorgusu çalıştırmaz; tahmin cevapları bu veri için hazırlanmıştır. Gerçek sorgu denemesi ilgili Elastic ortamında yapılır.</p></div>` : ""}
     <div class="sec-head"><h2>Paftalar</h2><span class="dimline"></span><span class="label">${track.order.length} pafta · ${ranks.length} rütbe · her pafta: anlat → tahmin → görev</span></div>
     ${rankHtml}
     <div class="sec-head"><h2>Yol haritası</h2><span class="dimline"></span><span class="label">purple team dilleri · aynı motor, yeni yol</span></div>
@@ -798,11 +834,12 @@ const BOS_KOD = {
 };
 // Okuma yolları (C, PHP, Java, C#): kod çalıştırılmaz; görevlerde okunan kodun Python karşılığı yazılır
 const OKUMA_BOS = "# Bu yolda okuduğun kod bu bilgisayarda çalıştırılamıyor.\n# Görevlerde onun yaptığını Python ile yazacaksın; tezgah o görevler içindir.\n";
-const ELASTIC_OKUMA_BOS = "# Elastic okuma yolu: bu tezgah yalnızca Python alıştırmalarını çalıştırır.\n# Kibana KQL, Lucene ve EQL sorguları Elasticsearch'e gönderilmez.\n# Görevdeki Python başlangıç kodunu kullan; sorguyu buraya yapıştırma.\n";
 const TAHMIN_DIL = {
   wireshark: { girdi: "Filtrenin kayıt seçimi:", etiket: "Paketler: önekinden sonra eşleşen paket numaralarını virgülle yaz", baslik: "Görüntü filtresi hangi paketleri seçer?", ornek: "Paketler: 1, 2", kod: "" },
   bpf: { girdi: "Filtrenin kayıt seçimi:", etiket: "Paketler: önekinden sonra eşleşen paket numaralarını virgülle yaz", baslik: "BPF hangi paketleri seçer?", ornek: "Paketler: 1, 2", kod: "" },
-  elastic: { girdi: "Bu tahminin sabit örnek verisi (mapping ve sıralama varsayımları soruda):", etiket: "Soruda istenen kimlikleri veya dizileri belirtilen sırayla yaz", baslik: "Bu sorgu örnek veride neyi seçer?", ornek: "ör. e1", kod: ELASTIC_OKUMA_BOS },
+  kibana: { girdi: "Sorgunun korpusu (mapping, belgeler ve context):", etiket: "Eşleşen belge kimliklerini her satıra bir tane, sonuç sırasıyla yaz", baslik: "KQL sorgusu hangi belgeleri seçer?", ornek: "e1\ne2", kod: "" },
+  lucene: { girdi: "Sorgunun korpusu (mapping, belgeler ve context):", etiket: "Eşleşen belge kimliklerini her satıra bir tane, sonuç sırasıyla yaz", baslik: "Lucene sorgusu hangi belgeleri seçer?", ornek: "e1\ne2", kod: "" },
+  eql: { girdi: "Sorgunun korpusu (mapping, olaylar ve context):", etiket: "Kimlikleri satır satır; bir olay dizisini e1 -> e2 biçiminde aynı satıra yaz", baslik: "EQL sorgusu hangi olayları veya dizileri seçer?", ornek: "e1 -> e2", kod: "" },
   sigma: { girdi: "Kural şu olaylarda deneniyor:", etiket: "Eşleşen olayların id değerlerini sırayla, her satıra bir tane yaz", baslik: "Hangi olaylar eşleşir?", ornek: "ör. 1", kod: "" },
   yara: { girdi: "Kural şu örnek veriyi tarıyor:", etiket: "Eşleşen kural adlarını her satıra bir tane yaz", baslik: "Hangi kurallar eşleşir?", ornek: "ör. Ilk_Kural", kod: "" },
   regex: { girdi: "Desen şu metinde aranıyor:", etiket: "Tahminin — yakalanan parçaları satır satır yaz", baslik: "Bu desen neleri yakalar?", kod: "" },
@@ -834,7 +871,8 @@ function firstCode(md, dil = "python") {
 function showStep(i) {
   S.idx = i;
   const L = S.lesson.lesson, st = L.steps[i];
-  const tid = S.tid, lid = L.id, dil = dilAdi(S.yol?.dil === "packets" ? (st.meta?.dil || "wireshark") : (S.yol?.dil || "python"));
+  const tid = S.tid, lid = L.id, dil = lessonLanguage(S.yol, L, st);
+  const stepInput = lessonInput(st, L, dil);
   S.bench.ayarla(dil, S.yol?.ozellik || {});
   const okuma = S.yol?.okuma_dili;           // C, PHP: okunan dil; tezgah ve görevler Python
   if (location.hash !== `#/ders/${tid}/${lid}/${i}`) history.replaceState(null, "", `#/ders/${tid}/${lid}/${i}`);
@@ -844,10 +882,10 @@ function showStep(i) {
   const head = `<div class="step-kind"><span class="tag ${st.kind}">${KIND_LABEL[st.kind].toLocaleUpperCase("tr")}</span><span class="label">Adım ${i + 1} / ${L.steps.length}</span></div>`;
   let body = "";
   if (st.kind === "anlat") {
-    body = `<h2 class="step-title">${esc(st.title || "Anlatım")}</h2><div class="md">${render(st.body, { dil })}</div>`;
+    body = `<h2 class="step-title">${esc(st.title || "Anlatım")}</h2><div class="md">${render(st.body, { dil, stdin: stepInput })}</div>`;
     const ilk = firstCode(st.body, dil);
-    const ornekStdin = ilk.stdin || st.stdin || (["sigma", "yara"].includes(dil) ? (L.steps.find(s => s.stdin)?.stdin || "") : "");
-    S.bench.load({ code: okuma ? (okuma === "elastic" ? ELASTIC_OKUMA_BOS : OKUMA_BOS) : (ilk.code || BOS_KOD[dil] || ""), stdin: ornekStdin, resetCode: ilk.code });
+    const ornekStdin = ilk.stdin || stepInput || (["sigma", "yara"].includes(dil) ? L.steps.find(s => s.stdin)?.stdin || "" : "");
+    S.bench.load({ code: okuma ? OKUMA_BOS : (ilk.code || BOS_KOD[dil] || ""), stdin: ornekStdin, resetCode: ilk.code });
   } else if (st.kind === "tahmin") {
     const [q, expl] = (st.body || "").split(/\n\?\?\?\s*\n?/);
     const prog = S.lesson.progress.steps[i];
@@ -856,26 +894,25 @@ function showStep(i) {
     const ipucuEtiket = td.etiket || "Tahminin — çıktıyı satır satır yaz (hata bekliyorsan hatanın adını yaz)";
     body = `<h2 class="step-title">${esc(st.title || td.baslik || "Bu kod ne yazdırır?")}</h2><div class="md">${render(q || "", { dil })}</div>` +
       codeBlock(st.code, st.code_dil || okuma || dil, { runnable: false, bench: false }) +
-      (st.stdin ? `<div class="md"><p>${girdiMetni}</p></div>${codeBlock(st.stdin, "cikti")}` : "") +
+      (stepInput ? `<div class="md"><p>${girdiMetni}</p></div>${codeBlock(stepInput, "cikti")}` : "") +
       `<div class="guess"><span class="label">${ipucuEtiket}</span>` +
       `<textarea id="guessBox" rows="3" spellcheck="false" placeholder="${td.ornek || "ör. 42"}"></textarea>` +
       `<div class="guess-row"><button type="button" class="btn primary small" data-act="guess">Tahmini gönder</button>` +
       (prog?.done ? `<span class="label">daha önce: ${prog.guess_ok ? "doğru" : "yanlış"}</span>` : "") + `</div></div>` +
       `<div id="guessResult"></div><div class="md" id="guessExpl" hidden>${render(expl || "", { dil })}</div>`;
-    S.bench.load({ code: td.kod ?? "# Önce soldaki kodun çıktısını tahmin et.\n# Tahmin ettikten sonra kod buraya gelir; değiştirip denersin.\n", stdin: st.stdin || "", resetCode: st.code });
+    S.bench.load({ code: td.kod ?? "# Önce soldaki kodun çıktısını tahmin et.\n# Tahmin ettikten sonra kod buraya gelir; değiştirip denersin.\n", stdin: stepInput, resetCode: ELASTIC_DIALECTS.includes(dil) ? "" : st.code });
   } else {
     const prog = S.lesson.progress.steps[i] || {};
     const draft = S.lesson.progress.drafts[i];
-    body = `<h2 class="step-title">${esc(st.title || "Görev")}</h2><div class="md">${render(st.body, { dil })}</div>` +
+    body = `<h2 class="step-title">${esc(st.title || "Görev")}</h2><div class="md">${render(st.body, { dil, stdin: stepInput })}</div>` +
       `<div class="task-status" id="taskStatus"></div>` +
       `<div class="hints" id="hints"></div><div id="solution"></div>`;
-    S.bench.load({ code: draft ?? st.starter ?? "", stdin: st.stdin || "", resetCode: st.starter || "", checkable: true });
+    S.bench.load({ code: draft ?? st.starter ?? "", stdin: stepInput, resetCode: st.starter || "", checkable: true });
     S.hintN = 0;
   }
-  const readNotice = okuma === "elastic" ? `<div class="callout not"><div class="ct">Okuma alıştırması</div><p>Soldaki sorgu çalıştırılmaz. Sağdaki tezgah Python içindir; bu görevler tam bir Elastic sorgu motoru değildir.</p></div>` : "";
   const stepArgs = st.meta?.argv;
   const argNotice = stepArgs !== undefined ? `<div class="out-meta">Bu adımın argümanları: <code>${esc(Array.isArray(stepArgs) ? JSON.stringify(stepArgs) : String(stepArgs))}</code></div>` : "";
-  $("#stepBody").innerHTML = head + readNotice + argNotice + body;
+  $("#stepBody").innerHTML = head + argNotice + body;
   if (st.kind === "gorev") paintTaskStatus();
   paintFoot();
   if (stepDone(i) && st.kind === "gorev") stamp("ONAYLANDI", `görev · ${trDate()}`, false);
@@ -942,7 +979,9 @@ async function sheetClick(e) {
     const block = a.closest(".code");
     const src = block.dataset.src;
     const detection = ["sigma", "yara", "packets"].includes(dilAdi(S.yol?.dil));
-    const metin = block.dataset.stdin || (detection ? (S.bench.stdin.value || L.steps[i]?.stdin || L.steps.find(s => s.stdin)?.stdin || "") : "");
+    const elastic = S.yol?.dil === "elastic";
+    const metin = block.dataset.stdin || (elastic ? lessonInput(L.steps[i], L, lessonLanguage(S.yol, L, L.steps[i]))
+      : detection ? (S.bench.stdin.value || L.steps[i]?.stdin || L.steps.find(s => s.stdin)?.stdin || "") : "");
     if (act === "bench") {
       S.bench.setCode(src);
       if (metin || dilAdi(S.yol?.dil) === "regex") S.bench.setStdin(metin);
@@ -963,6 +1002,11 @@ async function sheetClick(e) {
       if (["sigma", "yara"].includes(S.yol?.dil) && !res.error) {
         out.classList.add("sql");
         out.innerHTML = detectionOutput(res, S.yol.dil, 25);
+        return;
+      }
+      if (Array.isArray(res.elastic_ids)) {
+        out.classList.add("sql");
+        out.innerHTML = elasticOutput(res, 25);
         return;
       }
       if (res.tablolar) {
@@ -1008,7 +1052,7 @@ async function sheetClick(e) {
         `<div class="good"><span class="label">gerçek çıktı</span><pre>${actual}${errTxt ? `<span style="color:var(--bad)">${actual ? "\n" : ""}${errTxt}</span>` : ""}</pre></div></div>`;
       $("#guessExpl").hidden = false;
       if (!stepDone(i)) S.lesson.progress.steps[i] = { done: true, guess_ok: r.correct };
-      if (!S.yol?.okuma_dili) S.bench.load({ code: L.steps[i].code, stdin: L.steps[i].stdin || "", resetCode: L.steps[i].code });
+      if (!S.yol?.okuma_dili) S.bench.load({ code: L.steps[i].code, stdin: lessonInput(L.steps[i], L, lessonLanguage(S.yol, L, L.steps[i])), resetCode: L.steps[i].code });
       paintDims();
       paintFoot();
       refreshHeader();
@@ -1019,7 +1063,7 @@ async function sheetClick(e) {
   if (act === "hint") {
     const st = L.steps[i];
     if (S.hintN < st.hints.length) {
-      $("#hints").insertAdjacentHTML("beforeend", `<div class="callout ipucu"><div class="ct">İpucu ${S.hintN + 1}</div>${render(st.hints[S.hintN], { dil: S.yol?.dil })}</div>`);
+      $("#hints").insertAdjacentHTML("beforeend", `<div class="callout ipucu"><div class="ct">İpucu ${S.hintN + 1}</div>${render(st.hints[S.hintN], { dil: lessonLanguage(S.yol, L, st), stdin: lessonInput(st, L, lessonLanguage(S.yol, L, st)) })}</div>`);
       S.hintN++;
       paintTaskStatus();
     }
@@ -1032,7 +1076,7 @@ async function sheetClick(e) {
     try {
       const r = await api("/api/solution", { track: tid, lesson: lid, step: i });
       S.lesson.progress.steps[i] = Object.assign(prog, { revealed: true });
-      $("#solution").innerHTML = `<div class="callout derin"><div class="ct">Örnek çözüm</div>${codeBlock(r.solution, dilAdi(S.yol?.dil || "python"), { dil: S.yol?.dil })}<p>Çözümü kopyalamak yerine kapatıp kendin yeniden yaz — beyin ancak üretirken öğrenir.</p></div>`;
+      $("#solution").innerHTML = `<div class="callout derin"><div class="ct">Örnek çözüm</div>${codeBlock(r.solution, lessonLanguage(S.yol, L, L.steps[i]), { dil: lessonLanguage(S.yol, L, L.steps[i]), stdin: lessonInput(L.steps[i], L, lessonLanguage(S.yol, L, L.steps[i])) })}<p>Çözümü kopyalamak yerine kapatıp kendin yeniden yaz — beyin ancak üretirken öğrenir.</p></div>`;
       paintTaskStatus();
       refreshHeader();
     } catch (err) { toast(err.message); }
@@ -1065,12 +1109,12 @@ async function renderReviewSolve(tid, lid, idx) {
   const v = await api(`/api/lesson/${tid}/${lid}`);
   const st = v.lesson.steps[idx];
   S.yol = v.track || { id: tid, dil: "python", ozellik: { roentgen: true, dis: "Bytecode" } };
-  const dil = dilAdi(S.yol.dil === "packets" ? (st.meta?.dil || "wireshark") : (S.yol.dil || "python"));
+  const dil = lessonLanguage(S.yol, v.lesson, st);
   view.innerHTML = `<div class="lesson">
     <div class="sheet-wrap"><article class="sheet" id="sheet">
       <div class="sheet-head"><div class="crumbs"><a class="label" href="#/tekrar">← Tekrar</a><span class="label">${esc(S.yol.name || tid)} · ${esc(lid.toUpperCase())} · ${esc(v.lesson.title)}</span></div>
       <h1 class="sheet-title">${esc(st.title || "Görev")}</h1><p class="sheet-summary">Boş sayfadan, ezberden değil anlayarak yaz.</p></div>
-      <div class="sheet-body"><div class="md">${render(st.body, { dil })}</div><div id="revStatus"></div><div class="hints" id="hints"></div></div>
+      <div class="sheet-body"><div class="md">${render(st.body, { dil, stdin: lessonInput(st, v.lesson, dil) })}</div><div id="revStatus"></div><div class="hints" id="hints"></div></div>
       <div class="sheet-foot"><a class="btn" href="#/ders/${tid}/${lid}/0">Paftayı aç</a><span class="grow"></span><a class="btn" href="#/tekrar">Listeye dön</a></div>
     </article></div>
     <section class="bench" id="bench"></section></div>`;
@@ -1089,7 +1133,7 @@ async function renderReviewSolve(tid, lid, idx) {
       refreshHeader();
     },
   });
-  S.bench.load({ code: st.starter || "", stdin: st.stdin || "", resetCode: st.starter || "", checkable: true });
+  S.bench.load({ code: st.starter || "", stdin: lessonInput(st, v.lesson, dil), resetCode: st.starter || "", checkable: true });
 }
 
 // ── SERBEST TEZGAH ────────────────────────────────────────────────────────────
@@ -1106,11 +1150,13 @@ const TEZGAH_DILLER = [
   ["sigma", "Sigma", { roentgen: false, dis: null }],
   ["yara", "YARA", { roentgen: false, dis: null }],
   ["packets", "Wireshark / tcpdump", { roentgen: false, dis: null }],
+  ["elastic", "Elastic / Kibana", { roentgen: false, dis: null }],
   ["ad", "AD / LDAP", { roentgen: false, dis: "LDAP" }],
 ];
 const TEZGAH_ORNEK = {
   ad: "# Serbest tezgah (Active Directory / LDAP · DC=pafta,DC=local).\n# Doğrudan RFC 4515 LDAP filtresi (...) veya Get-AD* komutu yazabilirsin; LDAP düğmesi etkin filtreyi gösterir.\n\nGet-ADUser -Filter \"Enabled -eq $true -and Department -eq 'SOC'\" -Properties mail, badPwdCount\n",
   packets: "tcp.dstport == 443",
+  elastic: "event.dataset: auth AND user.name: alice",
   sigma: `title: Pafta Olay Denemesi\nlogsource:\n    category: process_creation\n    product: windows\ndetection:\n    selection:\n        Image|endswith: '\\whoami.exe'\n    condition: selection\nlevel: informational\n`,
   yara: `rule Pafta_Ornek {\n    meta:\n        description = "Zararsız bir eğitim işareti"\n    strings:\n        $isaret = "PAFTA_ORNEK" ascii wide\n    condition:\n        $isaret\n}\n`,
   python: `# Serbest tezgah: ne istersen dene. Kod otomatik kaydedilir.\n# ◎ Röntgen ile adım adım izle.\n\nhedefler = ["10.0.0.1", "10.0.0.2", "10.0.0.1"]\nbenzersiz = sorted(set(hedefler))\nfor i, ip in enumerate(benzersiz, 1):\n    print(i, ip)\n`,
@@ -1126,7 +1172,18 @@ const TEZGAH_ORNEK = {
 const TEZGAH_METIN = { regex: "Kayıtlar: 2026-10-19 giriş, 2026-10-20 çıkış, 19.10.2026 eski biçim",
   sigma: '[{"id":1,"Image":"C:\\\\Windows\\\\System32\\\\whoami.exe"},{"id":2,"Image":"C:\\\\Windows\\\\notepad.exe"}]',
   yara: "Bu zararsız metinde PAFTA_ORNEK işareti var.",
-  packets: '{"dil":"wireshark","kayit":"temel"}' };
+  packets: '{"dil":"wireshark","kayit":"temel"}',
+  elastic: JSON.stringify({
+    dil: "kibana",
+    mapping: { "event.dataset": { type: "keyword" }, "user.name": { type: "keyword" }, message: { type: "text", analyzer: "standard" } },
+    documents: [
+      { id: "a", "event.dataset": "auth", "user.name": "alice", message: "access denied" },
+      { id: "b", "event.dataset": "auth", "user.name": "Alice", message: "access allowed" },
+      { id: "c", "event.dataset": "web", "user.name": "alice", message: "request complete" },
+      { id: "d", "event.dataset": "auth", "user.name": "alice", message: "retry denied" },
+    ],
+    context: {},
+  }, null, 2) };
 
 async function renderPlayground(dil) {
   S.mode = "play";

@@ -1,207 +1,245 @@
 ---
 id: el11
-title: Lucene · Regex, Kaçış ve Hata Okuma
-summary: Lucene regexini PCRE sanma; bütün terim eşleşmesi ve JSON kaçış katmanlarını ayır.
+title: Lucene · Regex Otomatı ve Açık Hatalar
+summary: Lucene regex dilini Python/PCRE kurallarından ayır; mapping hatasını sessiz sonuç sanma.
 ---
 
-::: anlat Regex ile joker aynı dil değildir
-`process.name:/svc_[0-9]{2}/` iki rakamlı bir terim desenidir. Regexte `?` önceki parçayı isteğe bağlı yapar; Lucene joker sorgusundaki “bir karakter” anlamına gelmez. Lucene regexi indeksli terimin tamamına uygulanır. Text alanı kullanıyorsan bütün kaynak satırı değil, analyzer terimlerini düşündüğünü hatırla.
+::: anlat Regex tek indeks terimini kapsar
+Slash içindeki Lucene regex, keyword değerinin veya text alanındaki tek indeks teriminin tamamını eşler. `process.name:/(cmd|powershell)\.exe/` iki tam dosya adını kabul eder; xcmd.exe ve cmd.exe.bak uymaz. Noktayı \. ile kaçırmak, herhangi bir karakter yerine gerçek noktayı ister. Normalizersız keyword büyük/küçük harfe duyarlıdır.
+
+Lucene regex'i Python re veya PCRE değildir. `^` ve `$` burada alışıldık başlangıç/bitiş çapaları olarak desteklenmez; desen zaten tüm terime uygulanır. Lookaround, geri başvuru ve Python bayrakları varsayma. Bu ders kontrollü alternatif, karakter sınıfı ve tekrar kullanır; gerçek Lucene RegExp otomatı derlenir.
 
 ```lucene
-process.name:/svc_[0-9]{2}/
+process.name:/(cmd|powershell)\.exe/
 ```
 
-Bu motor PCRE değildir: `^`/`$` ankrajlarını ya da lookaround yapılarını alışkanlıkla taşıma. Bütün terimi kapsama zaten modelin parçasıdır. Görevimiz yalnız literal önek + sınırlandırılmış ASCII rakam tekrarı alt kümesini Python fullmatch ile inceler; genel Lucene regex motorunu yeniden kurmaz. Kaynak: [Lucene regex sözdizimi](https://www.elastic.co/docs/reference/query-languages/query-dsl/regexp-syntax).
+`/cmd/` kaynak metin içinde cmd geçen her belgeyi bulmaz. Bunun için tek terime başta/sonda .* eklemek başka bir desendir; text alanında yine terim sınırlarını aşamaz. Çok geniş otomatlara motor çalışma limiti uygular. [Lucene RegExp dili](https://lucene.apache.org/core/9_12_3/core/org/apache/lucene/util/automaton/RegExp.html), [Elastic regex uyarıları](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query). Kaynaklar 21 Ekim 2026 tarihinde kontrol edildi.
+
+```meta
+dil: lucene
+```
 :::
 
-::: anlat Sorgu katmanı, JSON katmanı, sunucu cevabı
-Sorgu dilindeki bir ters eğik çizginin JSON metninde gösterimi ayrıca kaçırılır. Örneğin arama çubuğundaki `message:foo\-bar` dizgesini Python'da bir değer olarak tuttuğunda HTTP gövdesini `json.dumps` ile oluştur; JSON'a elle tırnak veya ters eğik çizgi ekleme. JSON'dan geri çözülen query değeri ilk sorguyla birebir aynı kalmalıdır. JSON kodlamak Lucene sözdizimi hatasını düzeltmez.
+::: anlat Hata, boş eşleşme ve sınırlı destek
+Geçerli sorgu hiç belge bulmayabilir; bu başarıyla hesaplanmış boş kümedir. Kapanmamış parantez, bilinmeyen alan veya long alanda geçersiz sayı ise sorgu hatasıdır. Pafta bunları geçerli boş sonuç gibi kabul etmez. Alan adını ve mapping'i kontrol ederek düzelt.
 
-Hata geldiğinde tahmin yürütmek yerine yanıtı ayır: parser hatası sorgu yazımını, sayısal dönüştürme hatası eşlemeye uymayan değeri, yetki hatası erişimi işaret edebilir. `timed_out` veya başarısız shard bulunan cevap eksik sonuç içerebilir. Hiç hit gelmemesi bunlardan farklıdır ve başarıyla tamamlanmış boş arama olabilir.
+Bu yolda explicit alan gereklidir. Varsayılan alan, alan adı jokeri, nested Lucene sorgusu, özel analyzer, puanlama boost'u ve Elasticsearch API seçenekleri kapsam dışıdır ve reddedilir. Gerçek Elasticsearch query_string davranışının tamamı olduğu iddiası yoktur. index:false alanının doc_values üzerinden aranması da desteklenmez. Bu sınırlar metin, eşleme ve API farklarını gizlememek içindir.
 
-İkinci görev bu kategoriler için **açık bir yerel öncelik politikası** kullanır; bütün Elasticsearch hatalarını tanıdığını iddia etmez. Kaynaklar: [query_string katmanı](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query), [arama yanıtı](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-search).
+Bir regex'in geçerli olması niyetinin doğru olduğu anlamına gelmez. Tam terim, harf büyüklüğü, tam iki rakam ve sayısal açık üst uç için ayrı karşı örnekler gerekir. Sonraki görevde regex ile sayısal aralığı AND kurarak dosya adı biçimi ile boyutu birlikte sınırlayacaksın. [Elastic Lucene özellik sınırları](https://www.elastic.co/docs/explore-analyze/query-filter/languages/lucene-query-syntax).
+
+```meta
+dil: lucene
+```
 :::
 
 ::: tahmin
-Aşağıdaki Lucene sorgusunu verilen eşleme, zaman filtresi ve sıralama altında oku. Hangi kimlikler döner? Pafta bu sorguyu Elasticsearch üzerinde çalıştırmaz; cevap, açık veri sözleşmesine göre hazırlanmış okuma cevabıdır.
+Sorguyu çalıştırmadan önce dönecek kimlikleri sırayla tahmin et. Gerçek Lucene motoru kullanılacak. Context sıralaması yoksa belge giriş sırası korunur; bütün veri aşağıdadır.
 
 ```lucene
-process.name:/svc_[0-9]{2}/
+process.name:/(cmd|powershell)\.exe/
 ```
 
 ```stdin
 {
+  "dil": "lucene",
   "mapping": {
-    "process.name": "keyword, normalizer yok; tek terim",
-    "@timestamp": "date UTC"
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "file.size": {
+      "type": "long"
+    }
   },
-  "time_filter": {
-    "gte": "2026-10-21T10:00:00Z",
-    "lt": "2026-10-21T11:00:00Z"
-  },
-  "ordering": "id artan; regex bütün indeksli terimi kapsar; yalnız ASCII [0-9]",
   "documents": [
     {
       "id": "a",
-      "@timestamp": "2026-10-21T10:01:00Z",
-      "process.name": "svc_01"
+      "process.name": "cmd.exe"
     },
     {
       "id": "b",
-      "@timestamp": "2026-10-21T10:02:00Z",
-      "process.name": "xsvc_01"
+      "process.name": "powershell.exe"
     },
     {
       "id": "c",
-      "@timestamp": "2026-10-21T10:03:00Z",
-      "process.name": "svc_012"
+      "process.name": "xcmd.exe"
     },
     {
       "id": "d",
-      "@timestamp": "2026-10-21T10:04:00Z",
-      "process.name": "svc_1"
+      "process.name": "CMD.exe"
     },
     {
       "id": "e",
-      "@timestamp": "2026-10-21T10:05:00Z",
-      "process.name": "svc_99"
+      "process.name": "cmd.exe.bak"
     },
     {
       "id": "f",
-      "@timestamp": "2026-10-21T10:06:00Z",
-      "process.name": "SVC_01"
-    },
-    {
-      "id": "g",
-      "@timestamp": "2026-10-21T10:07:00Z"
+      "process.name": "bash.exe"
     }
-  ]
+  ],
+  "context": {}
 }
 ```
 
-```gercek
-a
-e
-```
-
-```test
-import json, sys
-from datetime import datetime
-f = json.load(sys.stdin)
-dt = lambda s: datetime.fromisoformat(s.replace("Z", "+00:00"))
-bas, son = (dt(f["time_filter"][k]) for k in ("gte", "lt"))
-ids = []
-for d in f["documents"]:
-    value = d.get("process.name")
-    uygun = isinstance(value, str) and len(value) == 6 and value.startswith("svc_") and all(c in "0123456789" for c in value[4:])
-    if uygun and bas <= dt(d["@timestamp"]) < son:
-        ids.append(d["id"])
-for kimlik in sorted(ids):
-    print(kimlik)
+```meta
+dil: lucene
 ```
 
 ???
 
-`a` ve `e` bütün terim desenini sağlar. b fazladan önek, c fazladan rakam, d eksik rakam, f farklı harf içerir; g alanı yoktur.
+Çıktı:
+
+```text
+a
+b
+```
+
+Regex tüm keyword terimini tüketir; c/e yalnız alt metin olarak benzer. d büyük harf nedeniyle farklıdır; f alternatiflerde yoktur.
 :::
 
-::: gorev Bütün terim ve tekrar sınırı
-`regex_idleri(olaylar, alan, onek, en_az, en_cok)` normalizersız keyword değerin tamamı literal `onek` ve ardından `en_az`–`en_cok` ASCII rakamdan oluşuyorsa seçsin. İki tekrar sınırı dahil. Eksik/null alan elenir; kimlikler artan. Bu yalnız verilen alt kümenin okuma modelidir; onek içindeki regex karakterleri literaldir.
+::: gorev İki tam araç adını native regex ile bul
+process.name tam cmd.exe veya powershell.exe olsun. Büyük/küçük harfi koru; önek, ek ve nokta yerine başka karakteri kabul etme.
+
+Editöre yalnız Lucene sorgusu yaz. `stdin` eşlemeyi, belgeleri ve bağımsız zaman/sıralama bağlamını taşır. Testte `eslesenler()` senin sorgunun kimliklerini döndürür; `eslesenler(belge_listesi)` aynı mapping/context ile yeni belgeleri sınar. Python kodu yazman gerekmiyor.
 
 ```starter
-def regex_idleri(olaylar, alan, onek, en_az, en_cok):
-    return []
+*:*
+```
+
+```stdin
+{
+  "dil": "lucene",
+  "mapping": {
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "file.size": {
+      "type": "long"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "process.name": "cmd.exe"
+    },
+    {
+      "id": "b",
+      "process.name": "powershell.exe"
+    },
+    {
+      "id": "c",
+      "process.name": "xcmd.exe"
+    },
+    {
+      "id": "d",
+      "process.name": "CMD.exe"
+    },
+    {
+      "id": "e",
+      "process.name": "cmd.exe.bak"
+    },
+    {
+      "id": "f",
+      "process.name": "bash.exe"
+    }
+  ],
+  "context": {}
+}
+```
+
+```meta
+dil: lucene
 ```
 
 ```test
-need("regex_idleri")
-rows = [{"id": str(n), "p": "svc_" + "1" * n} for n in (1, 2, 3, 4)]
-rows += [{"id": "onek", "p": "xsvc_11"}, {"id": "son", "p": "svc_11x"}, {"id": "harf", "p": "SVC_11"}, {"id": "unicode", "p": "svc_١١"}, {"id": "eksik"}, {"id": "null", "p": None}]
-eq(regex_idleri(rows, "p", "svc_", 2, 3), ["2", "3"], "iki ucun eşitliği ve komşuları")
-eq(regex_idleri(rows, "p", "svc_", 3, 3), ["3"], "tek uzunluk")
-yeni = [{"id": "x", "code": "a.b12"}, {"id": "y", "code": "axb12"}, {"id": "z", "code": "a.b1"}]
-eq(regex_idleri(yeni, "code", "a.b", 2, 2), ["x"], "literal nokta ve değişen alan")
-eq(regex_idleri([], "p", "svc_", 1, 3), [], "boş korpus")
+eq(eslesenler(), ['a', 'b'], "ana korpus")
+eq(eslesenler([{'id': 'x', 'process.name': 'cmdXexe'}, {'id': 'y', 'process.name': 'powershell.exe.old'}, {'id': 'z', 'process.name': 'powershell.exe'}]), ['z'], "değişen korpus 1")
+eq(eslesenler([{'id': 'p', 'process.name': ['other', 'cmd.exe']}, {'id': 'q', 'process.name': 'PowerShell.exe'}, {'id': 'r'}]), ['p'], "değişen korpus 2")
 ```
 
 ```solution
-import re
-
-def regex_idleri(olaylar, alan, onek, en_az, en_cok):
-    desen = re.escape(onek) + "[0-9]{" + str(en_az) + "," + str(en_cok) + "}"
-    return sorted(d["id"] for d in olaylar if isinstance(d.get(alan), str)
-                  and re.fullmatch(desen, d[alan]) is not None)
+process.name:/(cmd|powershell)\.exe/
 ```
 
 ```hint
-Öneki re.escape ile kaçır; [0-9] kullan ve search yerine fullmatch seç.
+Alternatifleri (cmd|powershell) olarak grupla ve gerçek noktayı \. ile yaz.
 ```
 :::
 
-::: gorev JSON zarfı ve hata triyajı
-İki fonksiyon yaz. `istek_jsonu(sorgu)`, `{"query":{"query_string":{"query":sorgu}}}` gövdesini JSON metni olarak döndürsün. Sorguyu değiştirme; yalnız JSON kodla.
+::: gorev İki rakamlı raporu boyutuyla daralt
+file.name tam report + iki ASCII rakam + .txt biçiminde olsun. file.size 100 dahil, 200 hariç olsun. Dosya adı normalizersız keyword; eksik boyut dışlanır.
 
-`sonuc_durumu(yanit)` şu sırayla karar versin: error varsa, error/root_cause/caused_by içindeki type değerlerinde security_exception → `yetki`, parse_exception veya parsing_exception → `sozdizimi`, number_format_exception → `esleme`, diğer error → `hata`. Error yoksa timed_out → `zaman_asimi`, _shards.failed pozitif → `kismi`, kalan → `tamam`. Tip arama yalnız bu iç içe hata yapısındadır; liste root_cause elemanları da okunur. Bu bir eğitim triyaj politikasıdır; genel hata teşhisi değildir.
+Editöre yalnız Lucene sorgusu yaz. `stdin` eşlemeyi, belgeleri ve bağımsız zaman/sıralama bağlamını taşır. Testte `eslesenler()` senin sorgunun kimliklerini döndürür; `eslesenler(belge_listesi)` aynı mapping/context ile yeni belgeleri sınar. Python kodu yazman gerekmiyor.
 
 ```starter
-def istek_jsonu(sorgu):
-    return "{}"
+*:*
+```
 
-def sonuc_durumu(yanit):
-    return "tamam"
+```stdin
+{
+  "dil": "lucene",
+  "mapping": {
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "file.size": {
+      "type": "long"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "file.name": "report01.txt",
+      "file.size": 100
+    },
+    {
+      "id": "b",
+      "file.name": "report99.txt",
+      "file.size": 199
+    },
+    {
+      "id": "c",
+      "file.name": "report01.txt",
+      "file.size": 200
+    },
+    {
+      "id": "d",
+      "file.name": "report1.txt",
+      "file.size": 150
+    },
+    {
+      "id": "e",
+      "file.name": "xreport01.txt",
+      "file.size": 150
+    }
+  ],
+  "context": {}
+}
+```
+
+```meta
+dil: lucene
 ```
 
 ```test
-import json
-need("istek_jsonu")
-need("sonuc_durumu")
-for query in [r'message:foo\-bar', r'path:"C:\\Lab\\note.txt"', 'user.name:"Ayşe Kaya"', '(status:400 OR status:401)', '']:
-    eq(json.loads(istek_jsonu(query)), {"query": {"query_string": {"query": query}}}, "kaçışlar JSON turunda değişmemeli")
-eq(sonuc_durumu({"error": {"type": "parsing_exception"}}), "sozdizimi", "doğrudan parser hatası")
-eq(sonuc_durumu({"error": {"type": "search_phase_execution_exception", "root_cause": [{"type": "query_shard_exception", "caused_by": {"type": "parse_exception"}}]}}), "sozdizimi", "iç içe parser nedeni")
-eq(sonuc_durumu({"error": {"type": "query_shard_exception", "caused_by": {"type": "number_format_exception"}}}), "esleme", "sayısal alanın hata nedeni")
-eq(sonuc_durumu({"error": {"type": "security_exception"}, "timed_out": True}), "yetki", "error önceliği")
-eq(sonuc_durumu({"error": {"type": "unknown_future_error"}}), "hata", "bilinmeyeni uydurma")
-eq(sonuc_durumu({"timed_out": True, "_shards": {"failed": 1}}), "zaman_asimi", "açık öncelik")
-eq(sonuc_durumu({"timed_out": False, "_shards": {"failed": 1}}), "kismi", "shard başarısız")
-eq(sonuc_durumu({"timed_out": False, "_shards": {"failed": 0}, "hits": {"hits": []}}), "tamam", "boş sonuç hata değildir")
+eq(eslesenler(), ['a', 'b'], "ana korpus")
+eq(eslesenler([{'id': 'x', 'file.name': 'report00.txt', 'file.size': 99}, {'id': 'y', 'file.name': 'report10.txt', 'file.size': 100}, {'id': 'z', 'file.name': 'report100.txt', 'file.size': 150}, {'id': 'w', 'file.name': 'report10Xtxt', 'file.size': 150}]), ['y'], "değişen korpus 1")
+eq(eslesenler([{'id': 'p', 'file.name': 'Report01.txt', 'file.size': 199}, {'id': 'q', 'file.name': 'report02.txt'}, {'id': 'r', 'file.name': 'report02.txt', 'file.size': 199}, {'id': 's', 'file.name': 'report02.txt', 'file.size': 201}]), ['r'], "değişen korpus 2")
 ```
 
 ```solution
-import json
-
-def istek_jsonu(sorgu):
-    return json.dumps({"query": {"query_string": {"query": sorgu}}}, ensure_ascii=False)
-
-def sonuc_durumu(yanit):
-    if "error" in yanit:
-        tipler = set()
-        def gez(value):
-            if isinstance(value, list):
-                for item in value:
-                    gez(item)
-            elif isinstance(value, dict):
-                if isinstance(value.get("type"), str):
-                    tipler.add(value["type"])
-                for key in ("root_cause", "caused_by"):
-                    if key in value:
-                        gez(value[key])
-        gez(yanit["error"])
-        if "security_exception" in tipler:
-            return "yetki"
-        if tipler & {"parse_exception", "parsing_exception"}:
-            return "sozdizimi"
-        if "number_format_exception" in tipler:
-            return "esleme"
-        return "hata"
-    if yanit.get("timed_out", False):
-        return "zaman_asimi"
-    if yanit.get("_shards", {}).get("failed", 0) > 0:
-        return "kismi"
-    return "tamam"
+file.name:/report[0-9]{2}\.txt/ AND file.size:[100 TO 200}
 ```
 
 ```hint
-JSON için json.dumps kullan. Hata type değerlerini root_cause ve caused_by boyunca topla; sadece query_shard_exception adına bakarak parser hatası varsayma.
+Regex için /report[0-9]{2}\.txt/; boyut için ayrı yarı açık aralık yaz ve AND ile bağla.
 ```
 :::

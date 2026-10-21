@@ -1,160 +1,586 @@
 ---
 id: el16
-title: EQL · Zaman Penceresi ve until
-summary: maxspan başlangıçtan son olaya ölçülür; tam sınır dahildir, until ise aradaki sonlanma olayıyla adayı iptal eder.
+title: EQL · Maxspan ve Until
+summary: Tam süre eşiğini ve ordinal kullanan iptal olayını gerçek query görevleriyle sınırla.
 ---
 
-::: anlat Pencere ilk olayda başlar
-Beş dakikalık bir dizi, her komşu olay arasına ayrı beş dakika vermez. İlk olumlu olaydan son olumlu olaya kadar geçen toplam süreye bakılır. Örneğin 0, 4 ve 8'inci dakikadaki üç olayın komşu boşlukları küçük olsa da toplamı sekiz dakikadır.
+::: anlat Süre ilk olumlu olaydan ölçülür
+`with maxspan=5m` tüm olumlu dizinin ilk olayından son olayına kadar geçen süreyi sınırlar. Tam 300000 ms kabul, 300001 ms red; ara aşamadan süreyi yeniden başlatma. Sıra timestamp+tiebreaker ile kesinleştiğinde aynı timestamp'teki farklı olaylar sıfır süreli bir dizi oluşturabilir.
 
-```eql norun
-sequence by host.id, process.entity_id with maxspan=5m
-  [process where event.type == "start"]
-  [network where event.type == "connection"]
-```
-
-Bu dersin pozitif iki aşamalı örneklerinde **tam 300000 ms sınır dahildir**: 299999 ve 300000 ms geçer, 300001 ms geçmez. Bu ayrıntı yalnız “beş dakika içinde” sözünden tahmin edilmedi; Elasticsearch'ün `SequenceMatcher` uygulamasında süre ancak `maxspan` değerinden büyükse reddedilir. Kaynak sürümü değiştiğinde veya üretimde başka bir motor kullanıldığında sınır davranışını yeniden doğrula.
-
-Zaman aralığı denetimi ile olay sırası ayrı şeylerdir. Aynı milisaniyede iki olay farklı `event.sequence` değerleriyle sıralanabilir; süreleri sıfırdır. Sıra alanı yoksa bu dersteki Python fonksiyonunun kararı gerçek sorgu sırasının kanıtı olmaz.
-:::
-
-::: anlat Diziyi süreden önce bitiren olay
-`until`, henüz tamamlanmamış bir adayı sonlandıran olaydır. Bir süreç bitmişse daha sonraki ağ olayını eski başlangıca bağlamak istemeyebilirsin:
-
-```eql norun
-sequence by host.id, process.entity_id with maxspan=5m
-  [process where event.type == "start"]
-  [network where event.type == "connection"]
-until [process where event.type == "end"]
-```
-
-Aynı anahtardaki `end` başlangıç ile bağlantı arasındaysa aday iptal olur. Bağlantıdan sonra gelmesi tamamlanmış eşleşmeyi geriye dönük kaldırmaz. Başka makinenin veya başka süreç örneğinin sonlanması bu anahtarı kapatmaz. `until` olayı, tamamlanan dizinin normal kanıt listesine üçüncü aşama olarak eklenmez.
-
-Görevlerde zaman, başlangıçtan beri **tamsayı milisaniye**; ikincil sıra tamsayıdır. Adaylar önceden verilmiştir. İkinci görev yalnız kesin açık ordinal aralığındaki gözlemi arayan matematiksel bir yardımcıdır. Gerçek akışta aynı timestamp ve tiebreaker değerini paylaşan farklı kayıtların tam sırası bu iki alanla belirlenemez; yardımcı native motorun ek sıra/tie seçimini taklit etmez. Bütün EQL durum makinesini, çoklu bekleyen başlangıçları veya eksik telemetriyi bu yardımcılarla çözdüğümüzü varsayma.
-
-Kaynaklar: [EQL maxspan ve until](https://www.elastic.co/docs/reference/query-languages/eql/eql-syntax), [Elastic SequenceMatcher — süre sınırı](https://github.com/elastic/elasticsearch/blob/main/x-pack/plugin/eql/src/main/java/org/elasticsearch/xpack/eql/execution/sequence/SequenceMatcher.java).
-:::
-
-::: tahmin
-Alanlar tek değerli keyword, zaman alanı date ve `event.sequence` long olarak mapped. API isteğinde `tiebreaker_field: "event.sequence"` ayarlanmıştır; bu fixture'daki bütün `(zaman, sıra)` çiftleri benzersizdir. UTC milisaniye biçimi sabit; aynı anahtarda bir başlangıç ve bir bağlantı var. Tamamlanan çiftleri ilk olay sırasıyla yaz. `h1/a` dizisinin sonlanması bağlantıdan sonradır.
+Yerel uygulama bu eşitlik davranışını Elasticsearch v9.2.0 SequenceMatcher'ın `delta > maxspan` reddiyle sınırlar. Bu, motor kaynağından doğrulanmış bir kontrattır; burada `>=` ile red uygulanmaz. Tezgâh corpus tarihleri en fazla milisaniye hassasiyetindedir. maxspan yerel dilde pozitif tamsayı ve açık bir birim ister.
 
 ```eql
 sequence by host.id, process.entity_id with maxspan=5m
-  [process where event.type == "start"]
-  [network where event.type == "connection"]
-until [process where event.type == "end"]
+  [process where event.action == "start"]
+  [network where event.action == "connect"]
+```
+
+```meta
+dil: eql
 ```
 
 ```stdin
-[
-  {"event.id":"a1","@timestamp":"2026-10-21T12:00:00.000Z","event.sequence":1,"event.category":"process","event.type":"start","host.id":"h1","process.entity_id":"a"},
-  {"event.id":"a2","@timestamp":"2026-10-21T12:00:01.000Z","event.sequence":2,"event.category":"process","event.type":"start","host.id":"h2","process.entity_id":"b"},
-  {"event.id":"a3","@timestamp":"2026-10-21T12:00:02.000Z","event.sequence":3,"event.category":"process","event.type":"start","host.id":"h3","process.entity_id":"c"},
-  {"event.id":"x3","@timestamp":"2026-10-21T12:00:03.000Z","event.sequence":4,"event.category":"process","event.type":"end","host.id":"h3","process.entity_id":"c"},
-  {"event.id":"b3","@timestamp":"2026-10-21T12:00:04.000Z","event.sequence":5,"event.category":"network","event.type":"connection","host.id":"h3","process.entity_id":"c"},
-  {"event.id":"b1","@timestamp":"2026-10-21T12:05:00.000Z","event.sequence":6,"event.category":"network","event.type":"connection","host.id":"h1","process.entity_id":"a"},
-  {"event.id":"x1","@timestamp":"2026-10-21T12:05:00.001Z","event.sequence":7,"event.category":"process","event.type":"end","host.id":"h1","process.entity_id":"a"},
-  {"event.id":"b2","@timestamp":"2026-10-21T12:05:01.001Z","event.sequence":8,"event.category":"network","event.type":"connection","host.id":"h2","process.entity_id":"b"}
-]
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "process.entity_id": "keyword"
+  },
+  "documents": [
+    {
+      "id": "a1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 1,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 2,
+      "event.action": "start",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "process",
+      "event.sequence": 3,
+      "event.action": "start",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "stop",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 4,
+      "event.action": "end",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b3",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "network",
+      "event.sequence": 5,
+      "event.action": "connect",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "network",
+      "event.sequence": 6,
+      "event.action": "connect",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b2",
+      "@timestamp": "2026-10-21T00:05:01.001Z",
+      "event.category": "network",
+      "event.sequence": 7,
+      "event.action": "connect",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+:::
+
+::: anlat Until zaman damgasından daha ince bir sıraya bakar
+`until` aynı join anahtarında bir sonlandırıcı olayla bekleyen diziyi iptal eder; sonlandırıcı çıktıya eklenmez. Native matcher sonlandırıcıyı önceki olumlu ordinal dahil, yeni olumlu ordinal hariç aralığında kontrol eder. Aynı timestamp'te 10=start, 15=end, 20=connect varsa dizi iptal olur; end 21 sırasındaysa tamamlanan diziyi bozmaz.
+
+End ve önceki olumlu olay aynı belge olabilen örtüşen koşullarda alt uç da anlamlıdır. Buradaki start/end eşitlikleri ayrık olduğundan bir olay ikisi birden değildir. PID yeniden kullanımında `until` faydalıdır; entity_id ve host anahtarlarını yine dar tut. Kaynaklar: [EQL maxspan/until](https://www.elastic.co/docs/reference/query-languages/eql/eql-syntax), [v9.2.0 matcher](https://github.com/elastic/elasticsearch/blob/v9.2.0/x-pack/plugin/eql/src/main/java/org/elasticsearch/xpack/eql/execution/sequence/SequenceMatcher.java), [ordinal sınırları](https://github.com/elastic/elasticsearch/blob/v9.2.0/x-pack/plugin/eql/src/main/java/org/elasticsearch/xpack/eql/execution/search/Ordinal.java).
+
+```eql
+sequence by host.id, process.entity_id with maxspan=5m
+  [process where event.action == "start"]
+  [network where event.action == "connect"]
+until [process where event.action == "end"]
 ```
 
-```gercek
-a1 -> b1
+```meta
+dil: eql
 ```
 
-```test
-import json, sys
-from datetime import datetime
-events = json.load(sys.stdin)
-def ordinal(e):
-    return (datetime.fromisoformat(e["@timestamp"].replace("Z", "+00:00")), e["event.sequence"])
-def key(e):
-    return (e["host.id"], e["process.entity_id"])
-for a in events:
-    if (a["event.category"], a["event.type"]) != ("process", "start"):
-        continue
-    for b in events:
-        if (b["event.category"], b["event.type"]) != ("network", "connection") or key(a) != key(b):
-            continue
-        if not ordinal(a) < ordinal(b) or (ordinal(b)[0] - ordinal(a)[0]).total_seconds() > 300:
-            continue
-        if any(key(x) == key(a) and (x["event.category"],x["event.type"]) == ("process","end") and ordinal(a) < ordinal(x) < ordinal(b) for x in events):
-            continue
-        print(a["event.id"] + " -> " + b["event.id"])
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "process.entity_id": "keyword"
+  },
+  "documents": [
+    {
+      "id": "a1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 1,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 2,
+      "event.action": "start",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "process",
+      "event.sequence": 3,
+      "event.action": "start",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "stop",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 4,
+      "event.action": "end",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b3",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "network",
+      "event.sequence": 5,
+      "event.action": "connect",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "network",
+      "event.sequence": 6,
+      "event.action": "connect",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b2",
+      "@timestamp": "2026-10-21T00:05:01.001Z",
+      "event.category": "network",
+      "event.sequence": 7,
+      "event.action": "connect",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+:::
+
+::: tahmin
+Girdide üç anahtar var. h1 tam beş dakika sürüyor; h2 beş dakika +1 ms; h3'te start ve connect arasında aynı anahtarlı end var. Timestamp ve event.sequence ile sıralayıp süreyi ilk olumlu olaydan ölç.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "process.entity_id": "keyword"
+  },
+  "documents": [
+    {
+      "id": "a1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 1,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 2,
+      "event.action": "start",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "process",
+      "event.sequence": 3,
+      "event.action": "start",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "stop",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 4,
+      "event.action": "end",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b3",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "network",
+      "event.sequence": 5,
+      "event.action": "connect",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "network",
+      "event.sequence": 6,
+      "event.action": "connect",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b2",
+      "@timestamp": "2026-10-21T00:05:01.001Z",
+      "event.category": "network",
+      "event.sequence": 7,
+      "event.action": "connect",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+
+```eql
+sequence by host.id, process.entity_id with maxspan=5m
+  [process where event.action == "start"]
+  [network where event.action == "connect"]
+until [process where event.action == "end"]
 ```
 
 ???
 
-`a1/b1` tam beş dakikayla eşleşir; daha sonraki `x1` onu geri almaz. `a2/b2` beş dakikayı bir milisaniye aşar. `a3/b3` kısa sürer ama aradaki `x3` adayı kapatır. Fixture doğrulayıcısı yalnız bu çakışmasız üç zincirin kararını hesaplar.
-:::
+h1 a1–b1 tam eşikte kabul edilir. h2 a2–b2 süreyi 1 ms aşar. h3 a3–b3, stop ile iptal olur. Çıktıya stop yazılmaz.
 
-::: gorev Milisaniye penceresini denetle
-`pencereye_sigar(bas_ms, son_ms, max_ms)` süre negatif değil ve verilen pozitif sınırı aşmıyorsa `True` döndürsün. Girdiler tamsayıdır, `max_ms` pozitiftir. Bu fonksiyon yalnız süreyi denetler; olay kategorisini, anahtarı veya ikincil sırayı denetlemez. Sıfır süre, sıraları farklı iki olay için mümkün olduğundan kabul edilir.
-
-```starter
-def pencereye_sigar(bas_ms, son_ms, max_ms):
-    return son_ms - bas_ms < max_ms
-```
-
-```test
-for bas in (0, 900000, 1700000000000):
-    for fark, beklenen in ((-1,False), (0,True), (1,True), (299999,True), (300000,True), (300001,False)):
-        eq(pencereye_sigar(bas, bas + fark, 300000), beklenen, f"başlangıç {bas}, fark {fark}")
-for fark, beklenen in ((999,True), (1000,True), (1001,False)):
-    eq(pencereye_sigar(5000, 5000 + fark, 1000), beklenen, "sabit beş dakika kodlama")
-```
-
-```solution
-def pencereye_sigar(bas_ms, son_ms, max_ms):
-    fark = son_ms - bas_ms
-    return 0 <= fark <= max_ms
-```
-
-```hint
-İki sınırın da dahil olduğunu ayrı düşün: negatif süre yok, tam max_ms kabul. Başlangıcın 0 olduğunu varsayma.
+```text
+a1 -> b1
 ```
 :::
 
-::: gorev until için aradaki olayı bul
-`iptal_edilir_mi(bas, son, olaylar)` verilen aday çiftinin **kesin açık ordinal aralığına** aynı `host.id`/`process.entity_id` anahtarıyla bir `process`/`end` gözlemi düşüyorsa `True` döndürsün. Her olayda `t_ms` ve `event.sequence` vardır. Önce zaman, eşitse sıra karşılaştırılır. Bas ve son geçerli, aynı anahtarlı ve sıralıdır; başka kayıtların eksik/null anahtarları eşleşmesin. Bu sınırlı yardımcı uç ordinaline tam eşit girdiyi kabul eder ama arada saymaz: her iki uçta `False`. Bu, belirsiz native tie sırasını çözme iddiası değil, verilen açık aralığı denetleme sözleşmesidir.
+::: gorev Beş dakikalık kapalı süre sınırı
+Aynı host.id ve process.entity_id için process/start ardından network/connect dizisi yaz; ilk-son süre en fazla 5 dakika olsun. Henüz until kullanma: end olayları bu görevde etkisizdir. Tam eşik kabul, 1 ms üstü red; yanlış anahtar veya ters sıra red.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "process.entity_id": "keyword"
+  },
+  "documents": [
+    {
+      "id": "a1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 1,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 2,
+      "event.action": "start",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "process",
+      "event.sequence": 3,
+      "event.action": "start",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "stop",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 4,
+      "event.action": "end",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b3",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "network",
+      "event.sequence": 5,
+      "event.action": "connect",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "network",
+      "event.sequence": 6,
+      "event.action": "connect",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b2",
+      "@timestamp": "2026-10-21T00:05:01.001Z",
+      "event.category": "network",
+      "event.sequence": 7,
+      "event.action": "connect",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
 
 ```starter
-def iptal_edilir_mi(bas, son, olaylar):
-    return any(e.get("event.type") == "end" for e in olaylar)
+any where false
 ```
 
 ```test
-def e(t, sira, **ek):
-    sonuc = {"host.id":"h", "process.entity_id":"a", "event.category":"process", "event.type":"end", "t_ms":t, "event.sequence":sira}
-    sonuc.update(ek); return sonuc
-bas, son = e(1000,10), e(2000,20)
-for t, beklenen in ((999,False), (1000,True), (1001,True), (1999,True), (2000,True), (2001,False)):
-    eq(iptal_edilir_mi(bas, son, [e(t,15)]), beklenen, f"zaman {t}, sıra 15")
-eq(iptal_edilir_mi(bas, son, [e(1000,9)]), False, "başlangıçla aynı zaman ama önce")
-eq(iptal_edilir_mi(bas, son, [e(1000,10)]), False, "yardımcının açık aralığı: tam başlangıç ordinali")
-eq(iptal_edilir_mi(bas, son, [e(2000,19)]), True, "sonla aynı zaman ama önce")
-eq(iptal_edilir_mi(bas, son, [e(2000,20)]), False, "yardımcının açık aralığı: tam son ordinali")
-eq(iptal_edilir_mi(bas, son, [e(2000,21)]), False, "sondan sonra iptal yok")
-for ek in ({"host.id":"baska"}, {"process.entity_id":"baska"}, {"host.id":None}, {"event.category":"file"}, {"event.type":"start"}):
-    eq(iptal_edilir_mi(bas, son, [e(1500,15,**ek)]), False, "yalnız ilgili sonlanma")
-eq(iptal_edilir_mi(bas, son, []), False, "sonlanma yok")
+eq(eslesenler(),[["a3","b3"],["a1","b1"]],"dersteki gerçek sorgu sonucu")
+eq(eslesenler(veri={"documents":list(reversed(korpus["documents"]))}),[["a3","b3"],["a1","b1"]],"girdi sırası değil timestamp+tiebreaker sırası")
+from datetime import datetime, timedelta, timezone
+def olay(kimlik,t_ms=0,kategori="process",sira=0,**alanlar):
+    zaman=datetime(2026,10,21,tzinfo=timezone.utc)+timedelta(milliseconds=t_ms)
+    e={"id":kimlik,"@timestamp":zaman.isoformat(timespec="milliseconds").replace("+00:00","Z"),"event.category":kategori,"event.sequence":sira}
+    e.update(alanlar)
+    return e
+def p(k,t,host="h",entity="e",cat="process",action="start",seq=0):
+    return olay(k,t,cat,seq,**{"host.id":host,"process.entity_id":entity,"event.action":action})
+for fark,sonuc in ((299999,[["a","b"]]),(300000,[["a","b"]]),(300001,[])):
+    eq(eslesenler(veri={"documents":[p("a",0),p("b",fark,cat="network",action="connect")]}),sonuc,"maxspan eşiği "+str(fark))
+eq(eslesenler(veri={"documents":[p("a",0,seq=1),p("b",0,cat="network",action="connect",seq=2)]}),[["a","b"]],"sıfır süre doğru ordinalle mümkün")
+for b in (p("b",-1,cat="network",action="connect"),p("b",1,host="other",cat="network",action="connect"),p("b",1,entity="other",cat="network",action="connect"),p("b",1,cat="file",action="connect"),p("b",1,cat="network",action="wrong")):
+    eq(eslesenler(veri={"documents":[p("a",0),b]}),[],"zaman ve bağımsız ikinci aşama koşulları")
+eq(eslesenler(veri={"documents":[p("a",0),p("stop",1,action="end"),p("b",2,cat="network",action="connect")]}),[["a","b"]],"bu görev sonlandırıcı kullanmıyor")
+
+# == ile : arasındaki farkı aşama başına bağımsız büyük harfle sınarız.
+# Korpus sorgu metninden türetilmez; her olay aşağıdaki sabit sentetik veridir.
+def harf_olay(k, t, kategori, eylem):
+    return olay(k, t, kategori, **{"host.id":"case-host", "process.entity_id":"case-entity", "user.id":"case-user", "event.action":eylem, "process.name":"powershell.exe", "destination.port":443, "file.path":"C:\\Temp\\case.exe", "process.executable":"C:\\Temp\\case.exe"})
+harf_taban = [harf_olay("case-0", 0, 'process', 'start'), harf_olay("case-1", 2, 'network', 'connect')]
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[0]["event.action"] = 'START'
+eq(eslesenler(veri={"documents":harf_docs}), [], "1. olumlu aşamada action == harf duyarlıdır")
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[1]["event.action"] = 'CONNECT'
+eq(eslesenler(veri={"documents":harf_docs}), [], "2. olumlu aşamada action == harf duyarlıdır")
 ```
 
 ```solution
-def iptal_edilir_mi(bas, son, olaylar):
-    ilk = (bas["t_ms"], bas["event.sequence"])
-    son_sira = (son["t_ms"], son["event.sequence"])
-    for olay in olaylar:
-        if (olay.get("event.category"), olay.get("event.type")) != ("process", "end"):
-            continue
-        if any(olay.get(k) is None or olay.get(k) != bas[k] for k in ("host.id", "process.entity_id")):
-            continue
-        if ilk < (olay["t_ms"], olay["event.sequence"]) < son_sira:
-            return True
-    return False
+sequence by host.id, process.entity_id with maxspan=5m
+  [process where event.action == "start"]
+  [network where event.action == "connect"]
 ```
 
 ```hint
-Zamanı tek başına değil (t_ms, event.sequence) demetiyle karşılaştır. Yanlış anahtarın end olayını adayın içine katma.
+sequence by ... with maxspan=5m; süreyi kodla/Python ile hesaplaman gerekmiyor, sorgu ifadesini yaz.
+```
+:::
+
+::: gorev Süreyi koru, sonlandırıcıyı ekle
+Önceki diziyi aynı 5 dakikalık sınırla yaz ve aynı anahtardaki process/end için until ekle. End tam olumlu uç timestamp'inde olsa bile event.sequence sırasını kullan; başka host/entity end'i veya tamamlanmadan sonraki end engellemesin.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "process.entity_id": "keyword"
+  },
+  "documents": [
+    {
+      "id": "a1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 1,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 2,
+      "event.action": "start",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "a3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "process",
+      "event.sequence": 3,
+      "event.action": "start",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "stop",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 4,
+      "event.action": "end",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b3",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "network",
+      "event.sequence": 5,
+      "event.action": "connect",
+      "host.id": "h3",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "network",
+      "event.sequence": 6,
+      "event.action": "connect",
+      "host.id": "h1",
+      "process.entity_id": "e"
+    },
+    {
+      "id": "b2",
+      "@timestamp": "2026-10-21T00:05:01.001Z",
+      "event.category": "network",
+      "event.sequence": 7,
+      "event.action": "connect",
+      "host.id": "h2",
+      "process.entity_id": "e"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+
+```starter
+any where false
+```
+
+```test
+eq(eslesenler(),[["a1","b1"]],"dersteki gerçek sorgu sonucu")
+eq(eslesenler(veri={"documents":list(reversed(korpus["documents"]))}),[["a1","b1"]],"girdi sırası değil timestamp+tiebreaker sırası")
+from datetime import datetime, timedelta, timezone
+def olay(kimlik,t_ms=0,kategori="process",sira=0,**alanlar):
+    zaman=datetime(2026,10,21,tzinfo=timezone.utc)+timedelta(milliseconds=t_ms)
+    e={"id":kimlik,"@timestamp":zaman.isoformat(timespec="milliseconds").replace("+00:00","Z"),"event.category":kategori,"event.sequence":sira}
+    e.update(alanlar)
+    return e
+def p(k,t,host="h",entity="e",cat="process",action="start",seq=0):
+    return olay(k,t,cat,seq,**{"host.id":host,"process.entity_id":entity,"event.action":action})
+for fark,sonuc in ((299999,[["a","b"]]),(300000,[["a","b"]]),(300001,[])):
+    eq(eslesenler(veri={"documents":[p("a",0),p("b",fark,cat="network",action="connect")]}),sonuc,"until süre sınırını kaldırmaz")
+for seq,sonuc in ((9,[["a","b"]]),(11,[]),(19,[]),(21,[["a","b"]])):
+    eq(eslesenler(veri={"documents":[p("a",0,seq=10),p("stop",0,action="end",seq=seq),p("b",0,cat="network",action="connect",seq=20)]}),sonuc,"aynı timestamp end sırası "+str(seq))
+for stop in (p("stop",1,host="other",action="end"),p("stop",1,entity="other",action="end"),p("stop",1,cat="file",action="end"),p("stop",1,action="wrong")):
+    eq(eslesenler(veri={"documents":[p("a",0),stop,p("b",2,cat="network",action="connect")]}),[["a","b"]],"until anahtar/category/action ayrı ayrı")
+
+# == ile : arasındaki farkı aşama başına bağımsız büyük harfle sınarız.
+# Korpus sorgu metninden türetilmez; her olay aşağıdaki sabit sentetik veridir.
+def harf_olay(k, t, kategori, eylem):
+    return olay(k, t, kategori, **{"host.id":"case-host", "process.entity_id":"case-entity", "user.id":"case-user", "event.action":eylem, "process.name":"powershell.exe", "destination.port":443, "file.path":"C:\\Temp\\case.exe", "process.executable":"C:\\Temp\\case.exe"})
+harf_taban = [harf_olay("case-0", 0, 'process', 'start'), harf_olay("case-1", 2, 'network', 'connect')]
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[0]["event.action"] = 'START'
+eq(eslesenler(veri={"documents":harf_docs}), [], "1. olumlu aşamada action == harf duyarlıdır")
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[1]["event.action"] = 'CONNECT'
+eq(eslesenler(veri={"documents":harf_docs}), [], "2. olumlu aşamada action == harf duyarlıdır")
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs.insert(1, harf_olay("case-negative", 1, 'process', 'END'))
+eq(eslesenler(veri={"documents":harf_docs}), [['case-0', 'case-1']], "until action == büyük harfli olayı eşleştirmez")
+```
+
+```solution
+sequence by host.id, process.entity_id with maxspan=5m
+  [process where event.action == "start"]
+  [network where event.action == "connect"]
+until [process where event.action == "end"]
+```
+
+```hint
+until [process where event.action == "end"]; ortak by anahtarları sonlandırıcıya da uygulanır.
 ```
 :::

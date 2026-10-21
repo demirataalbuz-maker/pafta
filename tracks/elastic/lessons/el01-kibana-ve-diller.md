@@ -1,50 +1,33 @@
 ---
 id: el01
-title: Kibana KQL, Discover ve Dil Haritası
-summary: Kusto ile Kibana KQL farkı; Lucene, EQL ve ES|QL amaçları; data view, zaman filtresi ve sorgunun birlikte etkisi.
+title: Kibana KQL · İlk Belge Filtren
+summary: Kusto ile Kibana KQL farkı; gerçek Lucene alan sorguları, mapping ve dış zaman kapsamıyla iki alan koşulu yaz.
 ---
 
-::: anlat Aynı kısaltma, farklı dil
-Pafta'daki **KQL** yolunda gördüğün `tablo | where ...` ifadesi Microsoft'un **Kusto Query Language** dilidir. Buradaki **Kibana Query Language** ise `event.dataset: auth AND user.name: alice` gibi belge filtreleri yazar. İkisinin KQL diye kısaltılması sözdizimlerini aynı yapmaz. Kibana bir arayüz, Elasticsearch veriyi indeksleyen ve sorgulayan sistemdir.
+::: anlat Aynı kısaltma, ayrı sözdizimleri
+Microsoft Kusto'daki `tablo | where ...` ile Kibana Query Language aynı dil değildir. Kibana KQL, `alan: değer` koşullarıyla belge seçer. Lucene query-string ayrı bir arama dilidir; EQL olay dizilerini, ES|QL ise borularla veri işlemeyi ele alır. Bu yolda ilk altı pafta KQL yazdırır; dil seçimini değiştirmek sorgu metnini otomatik çevirmez.
 
-Bu Elastic okuma yolunda üç ayrı sözdizimini ayıracağız: Kibana KQL belge filtreler; Lucene query-string ayrı bir arama sözdizimidir; EQL olayların koşullarını ve zaman içindeki ilişkilerini anlatır. ES|QL ise borularla veri işleme ve özetleme yapabilen başka bir Elastic dilidir. Boru görmen onu Kusto yapmaz. Query DSL de Elasticsearch'ün JSON sorgu biçimidir. Birini öğrenmek diğerlerinin kurallarını otomatik taşımaz.
+Tezgâha bir **KQL sorgusu** yaz. Pafta'nın sınırlı KQL ayrıştırıcısı alan koşullarını gerçek Apache Lucene sorgularına dönüştürür; metin çözümleme ve eşleşme native Lucene'de çalışır. Bu tezgâh yerel bir Elasticsearch sunucusu değildir. Desteklenmeyen özellik açık hata verir. Görevlerde Python fonksiyonu yazılmaz.
 
-Güncel Elastic belgeleri Kibana KQL'yi Kibana sorgu çubuğu dışında Query DSL `kql` bileşeni ve ES|QL `KQL` fonksiyonuyla da gösteriyor. Bu derslerdeki bağlam **Discover klasik modunda Kibana KQL**: özel backend seçenekleri varsayılmıyor. Dilin işi filtrelemek; buradaki bir KQL koşulunun sonuna `summarize` ekleyip tablo özeti alamazsın.
+`event.dataset: auth` keyword alanda tam değeri arar. KQL filtreler; toplama, dönüştürme veya sıralama komutunu sorguya eklemezsin. Kaynak: [KQL söz dizimi](https://www.elastic.co/docs/reference/query-languages/kql).
 
-> [!NOT]
-> Bu bir **okuma yolu**. `kibana` blokları yerel Elastic motorunda çalıştırılmaz. Görevlerde belirli bir sorgunun mantığını Python'da kurarsın; genel KQL ayrıştırıcısı yazmıyorsun. Test başarısı, gerçek Kibana kümesinde doğrulama yapıldığını göstermez.
-:::
-
-::: anlat Discover sonucu yalnız sorgu metninden oluşmaz
-Discover klasik modda seçili **data view** ile KQL veya Lucene kullanır. Data view, hangi indeks/veri akışlarının kapsamda olduğunu ve varsa zaman alanını belirler. Zaman filtresi de bu alan üzerinde görünür belgeleri sınırlar. Doğru kullanıcı adını ararken yanlış data view veya zaman aralığı seçmek sıfır sonuç verebilir. ES|QL modu için aynı data view gereksinimini varsayma; o farklı bir çalışma biçimidir.
-
-İncelemeyi yeniden üretmek için sorguyu, seçili veri kapsamını, mutlak zaman aralığını, zaman alanını ve görüntüleme sırasını kaydet. “Son beş dakika” sürekli değişir. Bu paftada zamanlar ISO 8601 UTC'dir; sabit yarı açık `[09:00:00Z, 09:05:00Z)` aralığını **eğitim bağlamı** olarak kullanıyoruz. Bu, Kibana'nın her tarih seçicisinin varsayılan sınır politikası hakkında bir iddia değildir.
-
-Python görevlerinde `dict.get(ad)` eksik anahtarda `None` verir. `datetime.fromisoformat(metin.replace('Z', '+00:00'))` bu derste verilen UTC zamanını karşılaştırılabilir nesneye çevirir. Listeyi sırayla gezip eşleşen kaydın `id` değerini ekle; bir sıralama koşulu verilmedikçe girdi sırasını koru. Noktalı alan adları bu alıştırmalarda düz sözlük anahtarlarıdır.
-
-Kaynaklar (21 Ekim 2026'da kontrol edildi): [Discover](https://www.elastic.co/docs/explore-analyze/discover), [Kibana filtreleri ve zaman](https://www.elastic.co/docs/explore-analyze/query-filter/filtering), [Kibana KQL](https://www.elastic.co/docs/reference/query-languages/kql).
-:::
-
-::: tahmin
-Aşağıdaki **Kibana KQL** filtresini ve JSON'daki mapping/bağlam varsayımlarını oku. Belirtilen sırada hangi belge kimlikleri görünür? Bu yolun sorgu bloğu okunur; Pafta Elastic sunucusunda sorgu çalıştırmaz. Gizli Python denetimi yalnız verilen sabit sorgunun açıklanan küçük modelini kontrol eder.
-
-```kibana
-event.dataset: auth AND user.name: alice
+```meta
+dil: kibana
 ```
 
 ```stdin
 {
+  "dil": "kibana",
   "mapping": {
-    "event.dataset": "keyword, normalizer yok",
-    "user.name": "keyword, normalizer yok",
-    "@timestamp": "date"
-  },
-  "context": {
-    "data_view": "yalnız auth kayıtları",
-    "time_field": "@timestamp",
-    "start_inclusive": "2026-10-21T09:00:00Z",
-    "end_exclusive": "2026-10-21T09:05:00Z",
-    "order": "girdi sırası"
+    "event.dataset": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "@timestamp": {
+      "type": "date"
+    }
   },
   "documents": [
     {
@@ -77,101 +60,339 @@ event.dataset: auth AND user.name: alice
       "user.name": "alice",
       "@timestamp": "2026-10-21T09:04:59Z"
     }
-  ]
+  ],
+  "context": {
+    "time_filter": {
+      "field": "@timestamp",
+      "gte": "2026-10-21T09:00:00Z",
+      "lt": "2026-10-21T09:05:00Z"
+    }
+  }
 }
 ```
 
-```gercek
-a
-e
+```kibana
+event.dataset: auth
+```
+:::
+
+::: anlat Sorgu ile dış kapsam birlikte uygulanır
+Discover'da doğru data view ve zaman aralığı sorgu kadar önemlidir. Buradaki JSON'un `documents` listesi seçilmiş veri kapsamını temsil eder; gerçek Kibana data view nesnesini taklit etmez. `mapping` alanın nasıl indekslendiğini, `context.time_filter` ise sorgudan önce uygulanacak açık zaman penceresini belirtir. Örnekte başlangıç dahil, bitiş hariçtir: `[09:00,09:05)`.
+
+`user.name` normalizer olmayan keyword olduğundan `alice`, `Alice` ile eşit değildir. İki koşulu `AND` ile birleştirince ikisi de gerekir. Noktalı ECS adları burada alan yollarıdır; belge kimliği `id` ise yalnız sonucu göstermeye yarar, mapping'e eklenmedikçe sorgulanmaz.
+
+Sonuç sırası varsayılan olarak girdi sırasıdır. Gerçek Discover incelemesini yeniden üretirken sorgu, kapsam, zaman alanı/aralığı ve sıralamayı birlikte kaydet. Bu görevlerde bunlar JSON'da görünür. Kaynak: [KQL alan eşleşmesi](https://www.elastic.co/docs/reference/query-languages/kql).
+
+```meta
+dil: kibana
 ```
 
-```test
-import json
-import sys
-from datetime import datetime
-data = json.loads(sys.stdin.read())
-context = data['context']
-def utc(text):
-    return datetime.fromisoformat(text.replace('Z', '+00:00'))
-start = utc(context['start_inclusive'])
-end = utc(context['end_exclusive'])
-for doc in data['documents']:
-    stamp = doc.get('@timestamp')
-    if doc.get('event.dataset') == 'auth' and doc.get('user.name') == 'alice' and stamp is not None and start <= utc(stamp) < end:
-        print(doc['id'])
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "event.dataset": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "@timestamp": {
+      "type": "date"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:00:00Z"
+    },
+    {
+      "id": "b",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:05:00Z"
+    },
+    {
+      "id": "c",
+      "event.dataset": "auth",
+      "user.name": "Alice",
+      "@timestamp": "2026-10-21T09:02:00Z"
+    },
+    {
+      "id": "d",
+      "event.dataset": "web",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:01:00Z"
+    },
+    {
+      "id": "e",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:04:59Z"
+    }
+  ],
+  "context": {
+    "time_filter": {
+      "field": "@timestamp",
+      "gte": "2026-10-21T09:00:00Z",
+      "lt": "2026-10-21T09:05:00Z"
+    }
+  }
+}
+```
+
+```kibana
+event.dataset: auth AND user.name: alice
+```
+:::
+
+::: tahmin
+JSON içindeki mapping, belgeler ve context birlikte geçerli. Sorgunun döndürdüğü belge kimliklerini girdi sırasıyla tahmin et. `context.sort` verilmemişse alfabetik sıra uygulanmaz.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "event.dataset": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "@timestamp": {
+      "type": "date"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:00:00Z"
+    },
+    {
+      "id": "b",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:05:00Z"
+    },
+    {
+      "id": "c",
+      "event.dataset": "auth",
+      "user.name": "Alice",
+      "@timestamp": "2026-10-21T09:02:00Z"
+    },
+    {
+      "id": "d",
+      "event.dataset": "web",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:01:00Z"
+    },
+    {
+      "id": "e",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:04:59Z"
+    }
+  ],
+  "context": {
+    "time_filter": {
+      "field": "@timestamp",
+      "gte": "2026-10-21T09:00:00Z",
+      "lt": "2026-10-21T09:05:00Z"
+    }
+  }
+}
+```
+
+```kibana
+event.dataset: auth AND user.name: alice
 ```
 
 ???
 
-`a` ve `e` görünür. `b` bitiş sınırındadır ve bu bağlamda dışlanır. `c`de keyword kullanıcı adı Alice; alice ile aynı değer değildir. `d`, auth kapsamı dışında. Sonuçlar alfabetik değil, verilen belge sırasındadır.
+```text
+a
+e
+```
+
+`a` ve `e` iki keyword koşulunu ve dış zaman penceresini sağlar. `b` bitiş sınırında, `c` harf farkıyla, `d` veri kümesi farkıyla elenir.
 :::
 
-::: gorev Zaman ve veri kapsamını birlikte uygula
-`gorunur(kayit, baslangic, bitis)` Boolean döndürsün: event.dataset tam `auth` ve @timestamp mevcutsa, verilen UTC yarı açık `[baslangic, bitis)` penceresine üyeliği denetlesin. Kullanıcı adı bu görevde aranmaz. Zamanı olmayan kayıt False. Verilen zaman metinleri geçerli UTC ISO 8601'dir; sayısal eşik gibi baş/son sınırları da test et.
+::: gorev İstemci adını seç
 
-Bu, sabit Discover bağlamını anlamak için küçük bir modeldir; data view desenlerini veya serbest sorgu metnini ayrıştırma.
+Yalnız user.name tam alice olan belgeleri seç. JSON içindeki zaman penceresi ayrıca uygulanır; bu görevde event.dataset kısıtı istenmiyor.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "event.dataset": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "@timestamp": {
+      "type": "date"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:00:00Z"
+    },
+    {
+      "id": "b",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:05:00Z"
+    },
+    {
+      "id": "c",
+      "event.dataset": "auth",
+      "user.name": "Alice",
+      "@timestamp": "2026-10-21T09:02:00Z"
+    },
+    {
+      "id": "d",
+      "event.dataset": "web",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:01:00Z"
+    },
+    {
+      "id": "e",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:04:59Z"
+    }
+  ],
+  "context": {
+    "time_filter": {
+      "field": "@timestamp",
+      "gte": "2026-10-21T09:00:00Z",
+      "lt": "2026-10-21T09:05:00Z"
+    }
+  }
+}
+```
 
 ```starter
-from datetime import datetime
-
-def utc(metin):
-    return datetime.fromisoformat(metin.replace('Z', '+00:00'))
-
-def gorunur(kayit, baslangic, bitis):
-    return False
+event.dataset: "__pafta_baslangic__"
 ```
 
 ```test
-need('gorunur')
-start, end = '2026-10-21T09:00:00Z', '2026-10-21T09:05:00Z'
-for stamp, expected in [('2026-10-21T08:59:59Z', False), ('2026-10-21T09:00:00Z', True), ('2026-10-21T09:04:59Z', True), ('2026-10-21T09:05:00Z', False), ('2026-10-21T09:05:01Z', False)]:
-    eq(gorunur({'event.dataset':'auth','@timestamp':stamp}, start, end), expected, 'zaman sınırı: '+stamp)
-eq(gorunur({'event.dataset':'web','@timestamp':start}, start, end), False, 'yanlış veri kümesi')
-eq(gorunur({'event.dataset':'auth'}, start, end), False, 'zaman eksik')
-eq(gorunur({'@timestamp':start}, start, end), False, 'veri kümesi eksik')
-eq(gorunur({'event.dataset':'auth','@timestamp':'2026-10-21T10:00:00Z'}, '2026-10-21T10:00:00Z', '2026-10-21T10:01:00Z'), True, 'pencere parametreleri kullanılır')
+eq(eslesenler(), ['a', 'd', 'e'], "girdi korpusunun sabit kimlikleri")
+eq(referans('user.name: alice'), ['a', 'd', 'e'], "referans sorgunun native sağlaması")
+ek = [{'id': 'ilk', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:00:00Z'}, {'id': 'once', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T08:59:59.999Z'}, {'id': 'web', 'event.dataset': 'web', 'user.name': 'alice', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'harf', 'event.dataset': 'auth', 'user.name': 'ALICE', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'eksik', 'event.dataset': 'auth', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'bos', 'event.dataset': 'auth', 'user.name': '', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'son-ic', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:04:59.999Z'}, {'id': 'son', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:05:00Z'}, {'id': 'sonra', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:05:00.001Z'}]
+eq(eslesenler({"documents": ek}), ['ilk', 'web', 'son-ic'], "değişen belgeler ve yakın karşı örnekler")
+eq(eslesenler({"documents": list(reversed(ek))}), ['son-ic', 'web', 'ilk'], "sonuç girdi sırasını izler")
 ```
 
 ```solution
-from datetime import datetime
-
-def utc(metin):
-    return datetime.fromisoformat(metin.replace('Z', '+00:00'))
-
-def gorunur(kayit, baslangic, bitis):
-    stamp = kayit.get('@timestamp')
-    return kayit.get('event.dataset') == 'auth' and stamp is not None and utc(baslangic) <= utc(stamp) < utc(bitis)
+user.name: alice
 ```
 
 ```hint
-Önce veri kümesi ve zaman varlığını denetle; sonra başlangıç <= zaman < bitiş.
+Tek keyword alanda tam eşitlik için alan: değer yaz.
 ```
+
 :::
 
-::: gorev Keyword eşitliğini koru
-`sec(kayitlar)` şu sabit Kibana KQL filtresinin anlamını kursun: `event.dataset: auth AND user.name: alice`. İki alan normalizer olmayan tek değerli keyword; case-sensitive. Eşleşen id listesini girdi sırasında döndür. Zaman kapsamının bu göreve gelmeden uygulandığı varsayılır. Boş veya eksik alan eşleşmez.
+::: gorev İki alanı birlikte iste
+
+event.dataset tam auth ve user.name tam alice olan belgeleri seç. İki koşul aynı belgede sağlansın. JSON zaman penceresini sorguya kopyalaman gerekmiyor.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "event.dataset": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "@timestamp": {
+      "type": "date"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:00:00Z"
+    },
+    {
+      "id": "b",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:05:00Z"
+    },
+    {
+      "id": "c",
+      "event.dataset": "auth",
+      "user.name": "Alice",
+      "@timestamp": "2026-10-21T09:02:00Z"
+    },
+    {
+      "id": "d",
+      "event.dataset": "web",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:01:00Z"
+    },
+    {
+      "id": "e",
+      "event.dataset": "auth",
+      "user.name": "alice",
+      "@timestamp": "2026-10-21T09:04:59Z"
+    }
+  ],
+  "context": {
+    "time_filter": {
+      "field": "@timestamp",
+      "gte": "2026-10-21T09:00:00Z",
+      "lt": "2026-10-21T09:05:00Z"
+    }
+  }
+}
+```
 
 ```starter
-def sec(kayitlar):
-    return []
+event.dataset: "__pafta_baslangic__"
 ```
 
 ```test
-need('sec')
-rows = [{'id':'z','event.dataset':'auth','user.name':'alice'}, {'id':'a','event.dataset':'auth','user.name':'Alice'}, {'id':'m','event.dataset':'web','user.name':'alice'}, {'id':'c','event.dataset':'auth','user.name':'alice'}, {'id':'missing','event.dataset':'auth'}, {'id':'blank','event.dataset':'auth','user.name':''}]
-eq(sec(rows), ['z','c'], 'iki koşul ve harf farkı, girdi sırası')
-eq(sec(list(reversed(rows))), ['c','z'], 'alfabetik sıralama yapılmaz')
-eq(sec([{'id':'x','event.dataset':'AUTH','user.name':'alice'}, {'id':'n','user.name':'alice'}]), [], 'normalleştirme varsayma')
-eq(sec([]), [], 'boş küme')
+eq(eslesenler(), ['a', 'e'], "girdi korpusunun sabit kimlikleri")
+eq(referans('event.dataset: auth AND user.name: alice'), ['a', 'e'], "referans sorgunun native sağlaması")
+ek = [{'id': 'ilk', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:00:00Z'}, {'id': 'once', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T08:59:59.999Z'}, {'id': 'web', 'event.dataset': 'web', 'user.name': 'alice', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'harf', 'event.dataset': 'auth', 'user.name': 'ALICE', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'eksik', 'event.dataset': 'auth', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'bos', 'event.dataset': 'auth', 'user.name': '', '@timestamp': '2026-10-21T09:01:00Z'}, {'id': 'son-ic', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:04:59.999Z'}, {'id': 'son', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:05:00Z'}, {'id': 'sonra', 'event.dataset': 'auth', 'user.name': 'alice', '@timestamp': '2026-10-21T09:05:00.001Z'}]
+eq(eslesenler({"documents": ek}), ['ilk', 'son-ic'], "değişen belgeler ve yakın karşı örnekler")
+eq(eslesenler({"documents": list(reversed(ek))}), ['son-ic', 'ilk'], "sonuç girdi sırasını izler")
 ```
 
 ```solution
-def sec(kayitlar):
-    return [kayit['id'] for kayit in kayitlar if kayit.get('event.dataset') == 'auth' and kayit.get('user.name') == 'alice']
+event.dataset: auth AND user.name: alice
 ```
 
 ```hint
-İki get eşitliğini and ile bağla; lower() ekleme.
+İki alan eşleşmesini AND ile bağla.
 ```
+
 :::

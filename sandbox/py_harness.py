@@ -1185,6 +1185,25 @@ def do_packet_test(job):
     return _test_kos(tester, namespace, job, [])
 
 
+def do_elastic_run(job):
+    try:
+        return _detection_module("elastic").run(job["code"], job.get("stdin", ""))
+    except Exception as exc:
+        return {"status": "error", "error": _detection_error(exc, "elastic"), "segs": []}
+
+
+def do_elastic_test(job):
+    run_setup(job)
+    try:
+        helpers = _detection_module("elastic").test_helpers(job["code"], job.get("stdin", ""))
+    except Exception as exc:
+        return {"status": "error", "error": _detection_error(exc, "elastic"), "checks": [], "segs": []}
+    tester = Tester("", {}, Capture(), job.get("stdin", ""), job)
+    namespace = tester.namespace()
+    namespace.update(helpers)
+    return _test_kos(tester, namespace, job, [])
+
+
 def do_ad_run(job):
     try:
         return _detection_module("ad").run(job["code"], job.get("stdin", ""))
@@ -1221,6 +1240,7 @@ def do_ad_dis(job):
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "ad_run": do_ad_run, "ad_test": do_ad_test, "ad_dis": do_ad_dis,
          "packet_run": do_packet_run, "packet_test": do_packet_test,
+         "elastic_run": do_elastic_run, "elastic_test": do_elastic_test,
          "sigma_run": lambda j: do_detection_run(j, "sigma"), "sigma_test": lambda j: do_detection_test(j, "sigma"),
          "yara_run": lambda j: do_detection_run(j, "yara"), "yara_test": lambda j: do_detection_test(j, "yara"),
          "kql_run": lambda j: do_ceviri_run(j, "kql"), "kql_test": lambda j: do_ceviri_test(j, "kql"),

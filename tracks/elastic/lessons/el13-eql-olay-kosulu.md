@@ -1,136 +1,453 @@
 ---
 id: el13
-title: EQL · Olay Kategorisi ve Koşul
-summary: event.category ile where, ECS alanları, == ile : farkı ve EQL okuma alıştırmasının sınırları.
+title: EQL · Kategori ve Gerçek Sorgu
+summary: EQL sözdizimiyle sorgu yaz; category, keyword eşitliği ve sayısal aralıkları yerel motorla çalıştır.
 ---
 
-::: anlat Önce hangi olay, sonra hangi değer?
-Bir süreç başlangıcını ve onun ardından gelen ağ bağlantısını araştırırken tek tek belge filtrelemek yetmeyebilir. **Elasticsearch EQL**, olay koşullarını ve zaman sıralı dizileri ifade eder. Başlangıç biçimi `kategori where koşul`dur. Aşağıdaki sorgu yalnız `process` kategorisini seçer; süreç adını ve argüman sayısını ayrıca denetler:
+::: anlat event category where koşul
+`process where process.name == "cmd.exe"` iki şart ister: category alanındaki değer `process`, ad alanındaki değer tam `cmd.exe`. Varsayılan kategori alanı ECS `event.category`'dir; `any` kategori kısıtını kaldırır ve kategori değeri olmayan olayı da kapsayabilir. EQL, ES|QL'nin `FROM ... | WHERE` dili değildir. Alan adları ve `==` metin eşitliği harf duyarlıdır; `==` içinde yıldız joker olmaz.
 
-```eql norun
-process where event.type == "start" and process.name == "cmd.exe" and process.args_count >= 3
-```
-
-Kategori için API'nin varsayılan alanı `event.category`, zaman için `@timestamp`'tir. `process.name` ise süreç adıdır; `event.type` olayın daha ayrıntılı türüdür. Bu üç alanı birbirinin yerine okumak farklı kayıtları seçtirir. `any where ...` kategori sınırlamasını kaldırır.
-
-Bu dersin sözleşmesi: kategori ve diğer metinler indekslenmiş `keyword`, `process.args_count` tamsayı, `@timestamp` tarih alanıdır. Eğitim JSON'unda ECS adlarını noktalı düz anahtarlarla gösteriyoruz. Kategori bu örneklerde tek değerdir; çok değerli alan, analizör ve gerçek mapping davranışı Python görevlerinin konusu değildir. Elasticsearch EQL doğrudan `text` alanları veya `nested` alanların içini sorgulamaz; Python sözlüğünde anahtar bulabilmek bu sınırlamaları ortadan kaldırmaz.
-:::
-
-::: anlat Harf farkı ve dil farkı
-`process.name == "cmd.exe"` harfe duyarlıdır. `process.name : "cmd.exe"` aynı metni harf farkını gözetmeden karşılaştırır; `:` ayrıca jokerli metin kalıplarını destekler. `== "cmd*.exe"` ise joker açmaz, yıldızı gerçek karakter sayar. Sonraki derste kalıpları ayrı inceleyeceğiz. EQL metinleri çift tırnakla yazılır.
-
-**EQL, ES|QL değildir.** ES|QL'nin `FROM ... | WHERE ...` tablo hattını bu sorguya taşıma. Kibana KQL ve Microsoft Kusto KQL de ayrı dillerdir. Doğru sekmeyi ve API'yi seçmek, doğru koşulu yazmak kadar önemlidir.
-
-Pafta bu okuma yolunda Elasticsearch açmaz ve EQL çalıştırmaz. Görevlerde, açıkça verilen tek bir koşulun Python karşılığını kuracaksın. Testler bu küçük veri sözleşmesini doğrular; gerçek Elastic sorgusunun derlendiği veya bütün EQL'nin taklit edildiği anlamına gelmez.
-
-Kaynaklar: [EQL sözdizimi](https://www.elastic.co/docs/reference/query-languages/eql/eql-syntax), [EQL arama API'si](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-eql-search).
-:::
-
-::: tahmin
-Mapping yukarıdaki gibidir; tüm zamanlar aynı günün UTC zamanlarıdır. Kayıtlar zaten artan zaman sırasında. Aşağıdaki koşula uyan `event.id` değerlerini giriş sırasıyla yaz. `>= 3` sınırına ve harf farkına ayrı bak.
+Bu yol artık EQL sorgusunu senin yazdığın çalışma yoludur. Tezgâh, açık mapping ve sentetik olaylar üzerinde sınırlı bir yerel yorumlayıcı kullanır; Elasticsearch sunucusu çalıştırmaz. Her olayın `id` kimliği benzersizdir. Sonuç timestamp, sonra açık `tiebreaker_field` sırasındadır; bu örnekte ikinci alan `id`'dir.
 
 ```eql
-process where event.type == "start" and process.name == "cmd.exe" and process.args_count >= 3
+process where process.name == "cmd.exe"
+```
+
+```meta
+dil: eql
 ```
 
 ```stdin
-[
-  {"event.id":"e1","@timestamp":"2026-10-21T09:00:00.000Z","event.category":"process","event.type":"start","process.name":"cmd.exe","process.args_count":2},
-  {"event.id":"e2","@timestamp":"2026-10-21T09:00:01.000Z","event.category":"process","event.type":"start","process.name":"cmd.exe","process.args_count":3},
-  {"event.id":"e3","@timestamp":"2026-10-21T09:00:02.000Z","event.category":"process","event.type":"start","process.name":"CMD.EXE","process.args_count":4},
-  {"event.id":"e4","@timestamp":"2026-10-21T09:00:03.000Z","event.category":"file","event.type":"start","process.name":"cmd.exe","process.args_count":4},
-  {"event.id":"e5","@timestamp":"2026-10-21T09:00:04.000Z","event.category":"process","event.type":"start","process.name":"cmd.exe","process.args_count":4}
-]
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "process.name": "keyword",
+    "process.args_count": "long"
+  },
+  "documents": [
+    {
+      "id": "p1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 0
+    },
+    {
+      "id": "p2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "CMD.EXE",
+      "process.args_count": 1
+    },
+    {
+      "id": "p3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    },
+    {
+      "id": "p4",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd*.exe",
+      "process.args_count": 3
+    },
+    {
+      "id": "p5",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 4
+    },
+    {
+      "id": "p6",
+      "@timestamp": "2026-10-21T00:00:05.000Z",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "id"
+  }
+}
+```
+:::
+
+::: anlat Mapping ve ölçülebilir sınırlar
+Keyword alanını tam metinle, long alanını sayıyla karşılaştır. `>= 1 and <= 3` iki ucu da içerir; `and`, `or`'dan önce bağlanır. Alanın olayda eksik olması ile mapping'de hiç olmaması farklıdır. Mapping'de olmayan normal alan sorgu hatasıdır; sonraki ders `?alan` ve null kontrolünü işler.
+
+Yerel kapsam düz ve tek değerli keyword/long/integer/double/date/boolean alanlardır. Sorgulanan text/nested alanı, diziler, fonksiyon, aritmetik, regex ve pipe açık hata verir. Mapping normalizer/null_value/ignore_above seçenekleri de bu modelde yoktur. Tarih girişi ortak tezgâhta zonlu ISO, en fazla milisaniye hassasiyetindedir. Kaynak: [Elastic EQL syntax](https://www.elastic.co/docs/reference/query-languages/eql/eql-syntax).
+
+```eql
+process where process.args_count >= 1 and process.args_count <= 3
 ```
 
-```gercek
-e2
-e5
+```meta
+dil: eql
 ```
 
-```test
-import json, sys
-for e in json.load(sys.stdin):
-    if e.get("event.category") == "process" and e.get("event.type") == "start" and e.get("process.name") == "cmd.exe" and e.get("process.args_count", -1) >= 3:
-        print(e["event.id"])
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "process.name": "keyword",
+    "process.args_count": "long"
+  },
+  "documents": [
+    {
+      "id": "p1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 0
+    },
+    {
+      "id": "p2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "CMD.EXE",
+      "process.args_count": 1
+    },
+    {
+      "id": "p3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    },
+    {
+      "id": "p4",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd*.exe",
+      "process.args_count": 3
+    },
+    {
+      "id": "p5",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 4
+    },
+    {
+      "id": "p6",
+      "@timestamp": "2026-10-21T00:00:05.000Z",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "id"
+  }
+}
+```
+:::
+
+::: tahmin
+Mapping ve altı olay girdide açıkça verilmiştir. `p6` category taşımıyor. Tam, harf duyarlı adı ve category koşulunu birlikte değerlendir; çıktı kimlikleri hangi sırayla gelir?
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "process.name": "keyword",
+    "process.args_count": "long"
+  },
+  "documents": [
+    {
+      "id": "p1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 0
+    },
+    {
+      "id": "p2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "CMD.EXE",
+      "process.args_count": 1
+    },
+    {
+      "id": "p3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    },
+    {
+      "id": "p4",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd*.exe",
+      "process.args_count": 3
+    },
+    {
+      "id": "p5",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 4
+    },
+    {
+      "id": "p6",
+      "@timestamp": "2026-10-21T00:00:05.000Z",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "id"
+  }
+}
+```
+
+```eql
+process where process.name == "cmd.exe"
 ```
 
 ???
 
-`e2` tam üç argümanla sınırdadır; `e5` sınırı aşar. `e1` iki argümanlıdır. `e3`'te büyük harfler `==` koşulunu bozarken `e4` yanlış kategoridedir. Gizli doğrulayıcı yalnız bu fixture'ın koşulunu hesaplar, EQL sorgusu ayrıştırmaz.
+`p1` ve `p5` iki koşulu da sağlar. `p2` büyük harflidir; `p3` file kategorisindedir; `p4` literal yıldız taşır; `p6` category koşulunu sağlamaz. `==` yıldızı genişletmez.
+
+```text
+p1
+p5
+```
 :::
 
-::: gorev Bir süreç koşulunu uygula
-`surec_adayi(olay)` fonksiyonu, tahmindeki koşulun sonucunu `True`/`False` döndürsün. Eksik veya `None` alan eşleşmesin. `process.args_count` yalnız tamsayı olabilir; `bool`, sayı gibi kabul edilmesin. Bu, tek koşulluk okuma alıştırmasıdır.
+::: gorev Yalnız tam process adı
+`process` kategorisinde `process.name` değeri tam, harf duyarlı `cmd.exe` olan olayları döndüren EQL sorgusu yaz. Joker, alt dize veya başka kategori kabul edilmesin.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "process.name": "keyword",
+    "process.args_count": "long"
+  },
+  "documents": [
+    {
+      "id": "p1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 0
+    },
+    {
+      "id": "p2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "CMD.EXE",
+      "process.args_count": 1
+    },
+    {
+      "id": "p3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    },
+    {
+      "id": "p4",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd*.exe",
+      "process.args_count": 3
+    },
+    {
+      "id": "p5",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 4
+    },
+    {
+      "id": "p6",
+      "@timestamp": "2026-10-21T00:00:05.000Z",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "id"
+  }
+}
+```
 
 ```starter
-def surec_adayi(olay):
-    return olay.get("event.category") == "process"
+any where false
 ```
 
 ```test
-def ornek(n=3, **degisim):
-    e = {"event.category":"process", "event.type":"start", "process.name":"cmd.exe", "process.args_count":n}
-    e.update(degisim)
+eq(eslesenler(),["p1","p5"],"dersteki gerçek sorgu sonucu")
+eq(eslesenler(veri={"documents":list(reversed(korpus["documents"]))}),["p1","p5"],"girdi sırası değil timestamp+tiebreaker sırası")
+from datetime import datetime, timedelta, timezone
+def olay(kimlik,t_ms=0,kategori="process",sira=0,**alanlar):
+    zaman=datetime(2026,10,21,tzinfo=timezone.utc)+timedelta(milliseconds=t_ms)
+    e={"id":kimlik,"@timestamp":zaman.isoformat(timespec="milliseconds").replace("+00:00","Z"),"event.category":kategori,"event.sequence":sira}
+    e.update(alanlar)
     return e
-for n, beklenen in ((2, False), (3, True), (4, True)):
-    eq(surec_adayi(ornek(n)), beklenen, f"argüman sınırı: {n}")
-eq(surec_adayi(ornek(3, **{"process.name":"CMD.EXE"})), False, "== harfe duyarlı")
-eq(surec_adayi(ornek(3, **{"event.type":"end"})), False, "süreç sonu başlangıç değildir")
-eq(surec_adayi(ornek(3, **{"event.category":"network"})), False, "kategori zorunlu")
-for n in (None, "3", True):
-    eq(surec_adayi(ornek(n)), False, "mapping dışı tür")
-eq(surec_adayi({}), False, "eksik alanlar")
+docs=[olay("a",0,**{"process.name":"cmd.exe"}),olay("b",1,**{"process.name":"CMD.EXE"}),olay("c",2,"file",**{"process.name":"cmd.exe"}),olay("d",3,**{"process.name":"cmd.exe.bak"}),olay("e",4,**{"process.name":"cmd*.exe"}),olay("f",5)]
+eq(eslesenler(veri={"documents":docs}),["a"],"kategori, harf, tam değer ve eksiklik ayrı karşı örnekler")
+eq(eslesenler(veri={"documents":[olay("unicode",0,**{"process.name":"çmd.exe"})]}),[],"UTF-8 tam eşitlik joker değildir")
 ```
 
 ```solution
-def surec_adayi(olay):
-    n = olay.get("process.args_count")
-    return (olay.get("event.category") == "process"
-            and olay.get("event.type") == "start"
-            and olay.get("process.name") == "cmd.exe"
-            and type(n) is int and n >= 3)
+process where process.name == "cmd.exe"
 ```
 
 ```hint
-Üç metin koşulu ve tamsayı eşiği birlikte doğru olmalı. Python'da bool, int'in alt sınıfıdır; burada type(n) is int kullanabilirsin.
+process where process.name == "cmd.exe". == ile : aynı harf davranışını vermez.
 ```
 :::
 
-::: gorev İki sorgunun farkını raporla
-`harf_ozeti(olaylar)` iki liste döndürsün: `{"esit": [...], "esnek": [...]}`. Her ikisi de `process` kategorisindeki `start` olaylarını seçsin. `esit`, `process.name == "cmd.exe"`; `esnek`, `process.name : "cmd.exe"` koşulunun kimliklerini içersin. Argüman sayısı bu görevde sorgulanmıyor. Metinler ASCII, kimlikler benzersiz; sırayı koru. Eksik/`None` ad eşleşmesin.
+::: gorev İki kapalı sayı sınırı
+`process` olaylarından `process.args_count` 1 ile 3 arasında, iki uç dahil olanları seç. File kategorisi, eksik/null sayaç, 0 ve 4 dışarıda olsun. EQL'de zincirleme `1 <= alan <= 3` yerine iki karşılaştırma yaz.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "process.name": "keyword",
+    "process.args_count": "long"
+  },
+  "documents": [
+    {
+      "id": "p1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 0
+    },
+    {
+      "id": "p2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "CMD.EXE",
+      "process.args_count": 1
+    },
+    {
+      "id": "p3",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    },
+    {
+      "id": "p4",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd*.exe",
+      "process.args_count": 3
+    },
+    {
+      "id": "p5",
+      "@timestamp": "2026-10-21T00:00:04.000Z",
+      "event.category": "process",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 4
+    },
+    {
+      "id": "p6",
+      "@timestamp": "2026-10-21T00:00:05.000Z",
+      "event.sequence": 0,
+      "process.name": "cmd.exe",
+      "process.args_count": 2
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "id"
+  }
+}
+```
 
 ```starter
-def harf_ozeti(olaylar):
-    return {"esit": [], "esnek": []}
+any where false
 ```
 
 ```test
-olaylar = [{"event.id":str(i), "event.category":"process", "event.type":"start", "process.name":ad}
-           for i, ad in enumerate(("cmd.exe", "CMD.EXE", "Cmd.Exe", "cmd1.exe", "cmd.exe.bak", None), 1)]
-eq(harf_ozeti(olaylar), {"esit":["1"], "esnek":["1","2","3"]}, "eşitlik ve harf farkı")
-eq(harf_ozeti(list(reversed(olaylar))), {"esit":["1"], "esnek":["3","2","1"]}, "sıralama ekleme")
-for alan, deger in (("event.category", "file"), ("event.type", "end")):
-    e = dict(olaylar[0]); e[alan] = deger
-    eq(harf_ozeti([e]), {"esit":[], "esnek":[]}, "ortak ön koşullar")
-eq(harf_ozeti([{"event.id":"x"}]), {"esit":[], "esnek":[]}, "eksik kayıt")
+eq(eslesenler(),["p2","p4"],"dersteki gerçek sorgu sonucu")
+eq(eslesenler(veri={"documents":list(reversed(korpus["documents"]))}),["p2","p4"],"girdi sırası değil timestamp+tiebreaker sırası")
+from datetime import datetime, timedelta, timezone
+def olay(kimlik,t_ms=0,kategori="process",sira=0,**alanlar):
+    zaman=datetime(2026,10,21,tzinfo=timezone.utc)+timedelta(milliseconds=t_ms)
+    e={"id":kimlik,"@timestamp":zaman.isoformat(timespec="milliseconds").replace("+00:00","Z"),"event.category":kategori,"event.sequence":sira}
+    e.update(alanlar)
+    return e
+docs=[olay(str(i),i,**{"process.args_count":n}) for i,n in enumerate((0,1,2,3,4))]
+docs.extend([olay("wrong",6,"file",**{"process.args_count":2}),olay("missing",7),olay("null",8,**{"process.args_count":None})])
+eq(eslesenler(veri={"documents":docs}),["1","2","3"],"alt/eşit/üst ve category bağımsızlığı")
+eq(eslesenler(veri={"documents":[olay("negative",0,**{"process.args_count":-1})]}),[],"negatif sayı dışarı")
 ```
 
 ```solution
-def harf_ozeti(olaylar):
-    sonuc = {"esit": [], "esnek": []}
-    for olay in olaylar:
-        if olay.get("event.category") != "process" or olay.get("event.type") != "start":
-            continue
-        ad = olay.get("process.name")
-        if ad == "cmd.exe":
-            sonuc["esit"].append(olay["event.id"])
-        if isinstance(ad, str) and ad.lower() == "cmd.exe":
-            sonuc["esnek"].append(olay["event.id"])
-    return sonuc
+process where process.args_count >= 1 and process.args_count <= 3
 ```
 
 ```hint
-Kategori ve tür iki liste için ortak. Yalnız esnek karşılaştırmada ASCII adı lower() ile karşılaştır; bütün olayı küçük harfe çevirme.
+process category; args_count >= 1 and args_count <= 3.
 ```
 :::

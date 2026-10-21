@@ -9,6 +9,7 @@ Anlatımdaki çalıştırılabilir örnekler hatasız çalışmalı (norun işar
     python tools/validate.py --yol regex     # tek yol
     python tools/validate.py rx03 rx04       # belirli dersler (her yolda aranır)
 """
+import json
 import os
 import re
 import sys
@@ -20,7 +21,7 @@ sys.path.insert(0, ROOT)
 from engine.lessons import Library  # noqa: E402
 from engine.runners import argv_coz, get  # noqa: E402
 
-FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat", "packets": "wireshark|bpf|packets", "ad": "ad|ldap"}
+FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat", "packets": "wireshark|bpf|packets", "ad": "ad|ldap", "elastic": "kibana|lucene|eql"}
 
 
 def kod_deseni(dil):
@@ -61,7 +62,7 @@ def jobs_for(lib, tid, dil, lid):
             if not st.get("test"):
                 jobs.append(("TESTSİZ", tid, where, None, None))
                 continue
-            if dil in ("sigma", "yara") and not st.get("stdin", "").strip():
+            if dil in ("sigma", "yara", "elastic") and not st.get("stdin", "").strip():
                 jobs.append(("GİRDİSİZ", tid, where, None, None))
             if not st.get("solution"):
                 jobs.append(("ÇÖZÜMSÜZ", tid, where, None, None))
@@ -82,8 +83,12 @@ def jobs_for(lib, tid, dil, lid):
                     jobs.append(("ornek", tid, where, dict(st, stdin=metin), desen))
                 else:
                     ornek_stdin = st.get("stdin", "")
-                    if not ornek_stdin and dil in ("sigma", "yara"):
+                    if not ornek_stdin and dil in ("sigma", "yara", "elastic"):
                         ornek_stdin = next((s.get("stdin", "") for s in les["steps"] if s.get("stdin")), "")
+                    if dil == "elastic" and ornek_stdin:
+                        corpus = json.loads(ornek_stdin)
+                        corpus["dil"] = m.group(1)
+                        ornek_stdin = json.dumps(corpus, ensure_ascii=False)
                     jobs.append(("ornek", tid, where, dict(st, stdin=ornek_stdin), strip_anno(kod)))
     return jobs
 

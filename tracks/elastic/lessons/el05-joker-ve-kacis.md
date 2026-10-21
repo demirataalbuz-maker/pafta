@@ -1,154 +1,453 @@
 ---
 id: el05
-title: Jokerler, Kaçış ve Değer Grupları
-summary: KQL yalnız yıldız jokeri, literal soru işareti, tırnaklı yıldız ve kaçış; keyword harf farkı ve alan değer grupları.
+title: Jokerler · Literal Karakter ve Kaçış
+summary: KQL yalnız yıldız jokerini kullanır; ? literal, kaçırılmış yıldız literal; quoted değer ve daraltılmış text joker sınırı.
 ---
 
-::: anlat KQL jokerini Lucene veya glob sanma
-Kibana KQL'de desteklenen joker `*`dır: sıfır veya daha çok karakter. `file.name: report*.json`, report.json ve report_daily.json gibi değerleri seçebilir. `?` bu dilde “bir karakter” jokeri değildir; örneğin `report?.json` içindeki soru işareti literal karakterdir. Lucene ve shell glob kurallarını buraya taşımayacağız.
+::: anlat Yıldız ile soru işareti aynı işlevde değil
+KQL'de joker yalnız `*` karakteridir; sıfır veya daha çok karakteri temsil eder. `process.name: svc*` bu keyword alanda svc, svc-agent ve svc-test gibi tam terimleri seçer. `?` ise Lucene query-string'deki tek karakter jokeri gibi davranmaz: KQL `code: svc?*`, gerçek soru işaretinden sonra herhangi bir ek arar.
 
-Joker keyword alanı normalizer olmadan harf farkını kaldırmaz: Report ile report farklı kalır. Tırnak içindeki yıldız ise literal yıldızdır: `file.name: "report*.json"` gerçek değerinde yıldız bulunan adı arar. Bir pattern ile yıldız içeren bir metni aramak aynı soru değildir.
+Normalizer olmayan keyword'de harf farkı korunur. Lowercase normalizer tanımlanırsa terim ve desen aynı normalizasyonu görür. Text jokeri native indeks terimlerinde çalışır; bir message dizesinin tamamına genel Python regex uygulanmaz.
 
-Başta yıldız olan desenler geniş arama maliyeti yaratabilir; Kibana'daki `query:allowLeadingWildcards` ayarı bunları sınırlandırabilir. Bu dersteki örnekler başta sabit önek kullanır. Sayı/date/Boolean/IP alanlarına string wildcard uygulamak mapping türü hatası üretebilir; böyle bir durumda “sonuç yok” diye yorumlama.
-:::
+Bu tezgâhta başta yıldız açık: `*agent` yazılabilir. Gerçek Kibana'da query:allowLeadingWildcards ayarını ayrıca kontrol et; baştaki joker maliyetli olabilir. Kaynak: [KQL jokerleri](https://www.elastic.co/docs/reference/query-languages/kql).
 
-::: anlat Özel karakterleri iki dosya biçiminde karıştırma
-Bir URL'deki iki nokta veya bir değerdeki parantez, sorgu sözdizimiyle karışabilir. `url.full: "https://example.invalid/a?b=1"` gibi tırnak kullanabilirsin. Tırnak içinde gerçek çift tırnak ve ters eğik çizgi kaçırılır. Örneğin Windows yolunu KQL metninde `file.path: "C:\\Logs\\audit.log"` biçiminde okursun. Aynı metni JSON'a gömmek gerekirse JSON'un kendi kaçış katmanı da eklenir.
-
-Bir alanda birden çok değer için `user.name: (alice OR bob)` yazmak, `user.name: alice OR user.name: bob` fikrini açıkça toplar. Bunlar mevcut belge üzerinde alternatif değerlerdir, iki kullanıcının aynı anda oturum açması anlamına gelmez. Bir anahtar sözcüğü gerçek değer olarak arıyorsan tırnakla: `tag: "AND"`.
-
-Python görevleri tek sabit patterni yorumlar. `metin.startswith('report')` öneki, `.endswith('.json')` sonu denetler. Bunlar genel wildcard yorumlayıcısı değildir ve `?` için `fnmatch` kullanmayacağız; fnmatch onu farklı yorumlar. Literal görevde normal eşitlik kullan. Bu yolla sorgu ile örneklerin anlamsal sınırını çalışıyoruz.
-
-Kaynak (21 Ekim 2026): [KQL wildcard, escaping ve value groups](https://www.elastic.co/docs/reference/query-languages/kql).
-:::
-
-::: tahmin
-Aşağıdaki **Kibana KQL** filtresini ve JSON'daki mapping/bağlam varsayımlarını oku. Belirtilen sırada hangi belge kimlikleri görünür? Bu yolun sorgu bloğu okunur; Pafta Elastic sunucusunda sorgu çalıştırmaz. Gizli Python denetimi yalnız verilen sabit sorgunun açıklanan küçük modelini kontrol eder.
-
-```kibana
-file.name: report*.json AND user.name: (alice OR bob)
+```meta
+dil: kibana
 ```
 
 ```stdin
 {
+  "dil": "kibana",
   "mapping": {
-    "file.name": "tek değerli keyword; normalizer yok",
-    "user.name": "tek değerli keyword; normalizer yok"
-  },
-  "context": {
-    "order": "girdi sırası",
-    "time_filter": "yok",
-    "wildcard": "yalnız yıldız, tırnaksız pattern"
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "event.action": {
+      "type": "keyword"
+    },
+    "code": {
+      "type": "keyword"
+    }
   },
   "documents": [
     {
       "id": "a",
-      "file.name": "report.json",
-      "user.name": "alice"
+      "process.name": "svc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "read",
+      "code": "svc?worker"
     },
     {
       "id": "b",
-      "file.name": "report_daily.json",
-      "user.name": "bob"
+      "process.name": "svc-test",
+      "file.name": "report12026.txt",
+      "event.action": "read",
+      "code": "svcAworker"
     },
     {
       "id": "c",
-      "file.name": "Report_daily.json",
-      "user.name": "alice"
+      "process.name": "svc",
+      "file.name": "report?",
+      "event.action": "read",
+      "code": "svc?"
     },
     {
       "id": "d",
-      "file.name": "report_daily.json.bak",
-      "user.name": "bob"
+      "process.name": "Svc-agent",
+      "file.name": "Report?2026.txt",
+      "event.action": "read",
+      "code": "Svc?worker"
     },
     {
       "id": "e",
-      "file.name": "report?.json",
-      "user.name": "alice"
+      "process.name": "xsvc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "write",
+      "code": "svc*worker"
     },
     {
       "id": "f",
-      "file.name": "report_daily.json",
-      "user.name": "Alice"
+      "process.name": "svc-test-extra",
+      "file.name": "report?*",
+      "event.action": "read"
+    },
+    {
+      "id": "yok"
     }
-  ]
+  ],
+  "context": {}
 }
 ```
 
-```gercek
-a
-b
-e
+```kibana
+process.name: svc*
+```
+:::
+
+::: anlat Kaçış, iki dilin özelliklerini birbirine eklemez
+`file.name: report\**`, report sonrasında literal yıldız ve ardından joker ister. `file.name: "report*"` ise yalnız literal report* değerini arar. Literal iki nokta için `url: https\://example.test/` veya tırnaklı tam URL kullan. Boşluklu keyword değerini tırnaklamak okunaklıdır; tırnaksız boşluklu değer de bir keyword değeridir. Çift tırnak içindeki tırnak/backslash ayrıca kaçırılır.
+
+Regex `/.../`, fuzzy `~1`, phrase slop ve boost bu KQL görevlerinin sözdizimi değildir; tezgâh bunları açık hata olarak reddeder. Bunları keyword literalinde arayacaksan çift tırnak kullan. Alan adında joker ve alansız arama da bu tezgâhın sınırları dışında.
+
+Ayrıca text alanında **boşluklu karma joker değeri** bu motorda reddedilir: Kibana onu query_string'e geçirerek başka terim mantığı kurabilir. Ayrı `AND`/`OR` koşulları yaz. Keyword boşluklu joker deseni desteklenir. Kaynak: [Kaçış kuralları](https://www.elastic.co/docs/reference/query-languages/kql).
+
+```meta
+dil: kibana
 ```
 
-```test
-import json
-import sys
-data = json.loads(sys.stdin.read())
-for doc in data['documents']:
-    name = doc.get('file.name')
-    if isinstance(name,str) and name.startswith('report') and name.endswith('.json') and doc.get('user.name') in ('alice','bob'):
-        print(doc['id'])
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "event.action": {
+      "type": "keyword"
+    },
+    "code": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "process.name": "svc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "read",
+      "code": "svc?worker"
+    },
+    {
+      "id": "b",
+      "process.name": "svc-test",
+      "file.name": "report12026.txt",
+      "event.action": "read",
+      "code": "svcAworker"
+    },
+    {
+      "id": "c",
+      "process.name": "svc",
+      "file.name": "report?",
+      "event.action": "read",
+      "code": "svc?"
+    },
+    {
+      "id": "d",
+      "process.name": "Svc-agent",
+      "file.name": "Report?2026.txt",
+      "event.action": "read",
+      "code": "Svc?worker"
+    },
+    {
+      "id": "e",
+      "process.name": "xsvc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "write",
+      "code": "svc*worker"
+    },
+    {
+      "id": "f",
+      "process.name": "svc-test-extra",
+      "file.name": "report?*",
+      "event.action": "read"
+    },
+    {
+      "id": "yok"
+    }
+  ],
+  "context": {}
+}
+```
+
+```kibana
+file.name: report\?* AND event.action: read
+```
+:::
+
+::: tahmin
+JSON içindeki mapping, belgeler ve context birlikte geçerli. Sorgunun döndürdüğü belge kimliklerini girdi sırasıyla tahmin et. `context.sort` verilmemişse alfabetik sıra uygulanmaz.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "event.action": {
+      "type": "keyword"
+    },
+    "code": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "process.name": "svc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "read",
+      "code": "svc?worker"
+    },
+    {
+      "id": "b",
+      "process.name": "svc-test",
+      "file.name": "report12026.txt",
+      "event.action": "read",
+      "code": "svcAworker"
+    },
+    {
+      "id": "c",
+      "process.name": "svc",
+      "file.name": "report?",
+      "event.action": "read",
+      "code": "svc?"
+    },
+    {
+      "id": "d",
+      "process.name": "Svc-agent",
+      "file.name": "Report?2026.txt",
+      "event.action": "read",
+      "code": "Svc?worker"
+    },
+    {
+      "id": "e",
+      "process.name": "xsvc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "write",
+      "code": "svc*worker"
+    },
+    {
+      "id": "f",
+      "process.name": "svc-test-extra",
+      "file.name": "report?*",
+      "event.action": "read"
+    },
+    {
+      "id": "yok"
+    }
+  ],
+  "context": {}
+}
+```
+
+```kibana
+code: svc?*
 ```
 
 ???
 
-`a`da yıldız sıfır karakteri kapsar; `b`de _daily parçasını kapsar. `e`de soru işareti normal bir karakterdir ve yıldız onu da kapsayabilir. `c` dosya adında büyük R, `f` kullanıcı adında büyük A yüzünden elenir. `d` .json ile bitmez.
+```text
+a
+c
+```
+
+`?` literal soru işaretidir; yıldızın boş eki kabul etmesi sayesinde `svc?` de eşleşir. Svc büyük harfle başladığından ve diğer değerler literal soru işareti taşımadığından elenir.
 :::
 
-::: gorev Tek sabit yıldız desenini yorumla
-`desen_sec(kayitlar)`, `file.name: report*.json` filtresinin bu tek değerli, normalizer olmayan keyword modelini kursun. Başta report, sonda .json; aradaki parça boş olabilir. Eksik/null ad dışarıda. id'leri girdi sırasında döndür. Rastgele desen almayacak, genel wildcard parser yazmayacak.
+::: gorev Önek ve tek değer dışlaması
+
+process.name svc ile başlasın; tam svc-test değerini dışla. svc-test-extra dışlanmasın. Alan normalizer olmayan keyword, dolayısıyla harf farkı korunsun.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "event.action": {
+      "type": "keyword"
+    },
+    "code": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "process.name": "svc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "read",
+      "code": "svc?worker"
+    },
+    {
+      "id": "b",
+      "process.name": "svc-test",
+      "file.name": "report12026.txt",
+      "event.action": "read",
+      "code": "svcAworker"
+    },
+    {
+      "id": "c",
+      "process.name": "svc",
+      "file.name": "report?",
+      "event.action": "read",
+      "code": "svc?"
+    },
+    {
+      "id": "d",
+      "process.name": "Svc-agent",
+      "file.name": "Report?2026.txt",
+      "event.action": "read",
+      "code": "Svc?worker"
+    },
+    {
+      "id": "e",
+      "process.name": "xsvc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "write",
+      "code": "svc*worker"
+    },
+    {
+      "id": "f",
+      "process.name": "svc-test-extra",
+      "file.name": "report?*",
+      "event.action": "read"
+    },
+    {
+      "id": "yok"
+    }
+  ],
+  "context": {}
+}
+```
 
 ```starter
-def desen_sec(kayitlar):
-    return []
+process.name: "__pafta_baslangic__"
 ```
 
 ```test
-need('desen_sec')
-rows = [{'id':'a','file.name':'report.json'}, {'id':'b','file.name':'report_daily.json'}, {'id':'c','file.name':'report?.json'}, {'id':'d','file.name':'Report.json'}, {'id':'e','file.name':'xreport.json'}, {'id':'f','file.name':'report.json.bak'}, {'id':'g'}, {'id':'h','file.name':None}, {'id':'i','file.name':'report*literal.json'}]
-eq(desen_sec(rows), ['a','b','c','i'], 'sıfır/çok karakter, harf ve iki sınır')
-eq(desen_sec([{'id':'n','file.name':'reportxjson'},{'id':'m','file.name':'report.json'}]), ['m'], 'nokta literal ve son ek tam')
-eq(desen_sec([]), [], 'boş veri')
+eq(eslesenler(), ['a', 'c', 'f'], "girdi korpusunun sabit kimlikleri")
+eq(referans('process.name: svc* AND NOT process.name: svc-test'), ['a', 'c', 'f'], "referans sorgunun native sağlaması")
+ek = [{'id': 'bos-ek', 'process.name': 'svc'}, {'id': 'normal', 'process.name': 'svc-prod'}, {'id': 'test', 'process.name': 'svc-test'}, {'id': 'test-uzun', 'process.name': 'svc-test-extra'}, {'id': 'harf', 'process.name': 'SVC-prod'}, {'id': 'onceki', 'process.name': 'xsvc-prod'}, {'id': 'null', 'process.name': None}]
+eq(eslesenler({"documents": ek}), ['bos-ek', 'normal', 'test-uzun'], "değişen belgeler ve yakın karşı örnekler")
+eq(eslesenler({"documents": list(reversed(ek))}), ['test-uzun', 'normal', 'bos-ek'], "sonuç girdi sırasını izler")
 ```
 
 ```solution
-def desen_sec(kayitlar):
-    sonuc = []
-    for k in kayitlar:
-        ad = k.get('file.name')
-        if isinstance(ad,str) and ad.startswith('report') and ad.endswith('.json'):
-            sonuc.append(k['id'])
-    return sonuc
+process.name: svc* AND NOT process.name: svc-test
 ```
 
 ```hint
-Sabit pattern için iki string sınır kontrolü yeterli; lower veya fnmatch ekleme.
+Önek jokerini, tam değer dışlamasıyla AND kullanarak birleştir.
 ```
+
 :::
 
-::: gorev Soru işareti literal, değer grubu alternatif
-Sabit sorgu: `file.name: "report?.json" AND event.action: (open OR read)`. `literal_sec(kayitlar)` yalnız adı tam report?.json olan open/read olaylarının id'lerini döndürsün. report1.json eşleşmez; soru işareti tek karakter jokeri değildir. Alanlar tek değerli keyword ve harf duyarlı.
+::: gorev Literal soru işareti ve işlem türü
+
+file.name tam report? önekiyle başlasın; soru işareti literal, devamında sıfır veya daha çok karakter olabilir. Ayrıca event.action tam read olsun. Başka tek karakteri ? yerine kabul etme.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "process.name": {
+      "type": "keyword"
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "event.action": {
+      "type": "keyword"
+    },
+    "code": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "process.name": "svc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "read",
+      "code": "svc?worker"
+    },
+    {
+      "id": "b",
+      "process.name": "svc-test",
+      "file.name": "report12026.txt",
+      "event.action": "read",
+      "code": "svcAworker"
+    },
+    {
+      "id": "c",
+      "process.name": "svc",
+      "file.name": "report?",
+      "event.action": "read",
+      "code": "svc?"
+    },
+    {
+      "id": "d",
+      "process.name": "Svc-agent",
+      "file.name": "Report?2026.txt",
+      "event.action": "read",
+      "code": "Svc?worker"
+    },
+    {
+      "id": "e",
+      "process.name": "xsvc-agent",
+      "file.name": "report?2026.txt",
+      "event.action": "write",
+      "code": "svc*worker"
+    },
+    {
+      "id": "f",
+      "process.name": "svc-test-extra",
+      "file.name": "report?*",
+      "event.action": "read"
+    },
+    {
+      "id": "yok"
+    }
+  ],
+  "context": {}
+}
+```
 
 ```starter
-def literal_sec(kayitlar):
-    return []
+process.name: "__pafta_baslangic__"
 ```
 
 ```test
-need('literal_sec')
-rows = [{'id':'a','file.name':'report?.json','event.action':'open'}, {'id':'b','file.name':'report?.json','event.action':'read'}, {'id':'c','file.name':'report1.json','event.action':'open'}, {'id':'d','file.name':'report?.json','event.action':'delete'}, {'id':'e','file.name':'report?.json','event.action':'OPEN'}, {'id':'f','file.name':'report?.json'}, {'id':'g','event.action':'open'}, {'id':'h','file.name':'Report?.json','event.action':'read'}]
-eq(literal_sec(rows), ['a','b'], 'literal soru işareti ve değer grubu')
-eq(literal_sec([{'id':'x','file.name':'report*.json','event.action':'read'}]), [], 'yıldız metni farklı değer')
-eq(literal_sec([]), [], 'boş küme')
+eq(eslesenler(), ['a', 'c', 'f'], "girdi korpusunun sabit kimlikleri")
+eq(referans('file.name: report\\?* AND event.action: read'), ['a', 'c', 'f'], "referans sorgunun native sağlaması")
+ek = [{'id': 'soru', 'file.name': 'report?x', 'event.action': 'read'}, {'id': 'bos-ek', 'file.name': 'report?', 'event.action': 'read'}, {'id': 'yildiz', 'file.name': 'report?*', 'event.action': 'read'}, {'id': 'tek-karakter', 'file.name': 'reportAx', 'event.action': 'read'}, {'id': 'yazma', 'file.name': 'report?x', 'event.action': 'write'}, {'id': 'harf', 'file.name': 'Report?x', 'event.action': 'read'}, {'id': 'eksik', 'file.name': 'report?x'}, {'id': 'literal-yildiz', 'file.name': 'report*x', 'event.action': 'read'}]
+eq(eslesenler({"documents": ek}), ['soru', 'bos-ek', 'yildiz'], "değişen belgeler ve yakın karşı örnekler")
+eq(eslesenler({"documents": list(reversed(ek))}), ['yildiz', 'bos-ek', 'soru'], "sonuç girdi sırasını izler")
 ```
 
 ```solution
-def literal_sec(kayitlar):
-    return [k['id'] for k in kayitlar if k.get('file.name') == 'report?.json' and k.get('event.action') in ('open','read')]
+file.name: report\?* AND event.action: read
 ```
 
 ```hint
-Ad için tam eşitlik; eylem için iki öğeli üyelik kontrolü.
+KQL’de ? zaten literal; \? ile açıkça gösterebilirsin. Ardından * ve read koşulu gerekir.
 ```
+
 :::

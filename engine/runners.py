@@ -173,6 +173,18 @@ class PacketRunner(HarnessRunner):
         return bool(tshark_path() and available())
 
 
+class ElasticRunner(HarnessRunner):
+    """Bounded Elastic dialects; queries run in isolated native/local engines."""
+    name = "elastic"
+    default_timeout = 20
+    test_timeout = 60
+    modlar = {"run": "elastic_run", "test": "elastic_test"}
+
+    def available(self):
+        from sandbox.elastic_lucene import available
+        return available()
+
+
 class AdRunner(HarnessRunner):
     name = "ad"
     ozellik = {"roentgen": False, "dis": "LDAP"}
@@ -268,6 +280,7 @@ RUNNERS = {
     "sigma": DetectionRunner("sigma", "sigma"),
     "yara": DetectionRunner("yara", "yara"),
     "packets": PacketRunner(),
+    "elastic": ElasticRunner(),
     "ad": AdRunner(),
     "bash": ProcRunner("bash", {
         "cmd": [BASH or ""], "iz_cmd": [BASH or "", "-x"], "dosya": "betik.sh",

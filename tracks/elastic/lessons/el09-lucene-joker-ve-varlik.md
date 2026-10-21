@@ -1,228 +1,262 @@
 ---
 id: el09
-title: Lucene · Jokerler ve İndeksli Varlık
-summary: Tek karakteri, değişken uzunluğu ve varlık sorgusunu ayır; keyword/text eşlemesini oku.
+title: Lucene · İndekslenmiş Varlık ve Kaçış
+summary: Var olan değeri kaynak anahtardan ayır; *, ? ve literal kaçışları gerçek sorguda yaz.
 ---
 
-::: anlat Joker bütün kaynak metni taramak değildir
-Tek terimde `?` bir karakteri, `*` sıfır veya daha çok karakteri karşılar. `host.name:web?` web1'i kabul eder, web12'yi etmez. Normalizersız keyword eşlemesinde harf farkı korunur. `text` alanında ise aranan şey ham kaynak cümlesi değil, analyzer'ın ürettiği terimlerdir; aynı joker iki eşlemede farklı sonuç verebilir.
+::: anlat Exists kaynak anahtarını saymaz
+`user.name:*` alanın indekslenmiş bir değeri olup olmadığını sınar. `_exists_:user.name` aynı amaç için desteklenir. Kaynakta anahtarın bulunması yeterli değildir: null ve boş dizi değer üretmez. Boş keyword metni ise indekslenebilir ve varlık koşulunu sağlar. Bir dizi içinde null ile geçerli metin birlikteyse geçerli metin yeterlidir.
+
+Bu derste user.name için ignore_above:12 var. On iki karakteri aşan tek değer kaynakta görünür ama bu keyword indeksine girmez; yalnız o değer varsa exists false olur. null_value tanımlansaydı açık null yerine o terim indekslenebilirdi; alanın hiç bulunmaması yine aynı şey değildir. Pafta index:false alanını sorgulamayı desteklemez; gerçek Elasticsearch'teki doc_values seçeneklerini burada varsayma.
 
 ```lucene
-(host.name:web?) AND (user.name:*)
+user.name:* AND (NOT user.name:svc_*)
 ```
 
-Baştan jokerle çok geniş arama pahalı olabilir. Önce uygun alanı ve kapsamı seç. Görevde yalnız `*` ve `?` özel karakterdir; köşeli parantez gibi Python fnmatch uzantıları Lucene jokeri diye eklenmez. Kaynaklar: [keyword eşlemesi](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/keyword), [text ve analyzer](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/text).
+Bu filtre var olan kullanıcıları alır ve svc_ önekiyle eşleşen değer taşıyan belgeleri çıkarır. Dizide hem alice hem svc_backup varsa NOT bütün belgeyi çıkarır. [Elastic exists davranışı](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query), [ignore_above](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/ignore-above). Kaynaklar 21 Ekim 2026 tarihinde kontrol edildi.
+
+```meta
+dil: lucene
+```
 :::
 
-::: anlat Alanın kaynakta görünmesi ile aranabilir olması farklıdır
-`user.name:*` ve `_exists_:user.name`, bu fixture'ın eşlemesi altında alanın indeksli bir değeri olmasını ister. Boş metin indekslenmişse vardır; null veya boş dizi tek başına değer üretmez. `_source` içinde değer görünmesi de yeterli değildir: `ignore_above` gibi eşleme kuralları o değeri indeksten dışlamış olabilir.
+::: anlat Lucene soru işareti gerçek jokerdir
+Lucene `*` ile sıfır veya daha çok, `?` ile tam bir karakter eşler. KQL dersindeki literal `?` kuralını buraya taşıma. `file.name:report?.txt`, report1.txt ve report?.txt gibi tek karakterli arayı kabul eder; report12.txt kabul edilmez. Normalizersız keyword alanında harf büyüklüğü korunur; Report1.txt farklıdır.
 
-Bu yüzden görevler kendi analyzer'ını veya indeksleyicisini uydurmaz. `indexed` sözlüğü önceden hazırlanmış terim listesidir: eksik anahtar ya da boş liste indeksli değer yok, `[""]` ise boş metin terimi var demektir. Böylece kaynağı, mapping'i ve indeks görünümünü ayrı ayrı okuyabilirsin.
+Literal jokeri ters eğik çizgiyle kaçır: `file.name:report\?.txt` yalnız gerçek soru işaretli adı ister. `file.name:report\*.txt` ise gerçek yıldız içeren adı ister. Editörde tek sorgu katmanı vardır; JSON API gövdesine aynı sorguyu koyarken JSON'un ters eğik çizgi kaçışını ayrıca yaparsın. Dersin stdin JSON'u sorgu değildir, veri korpusudur.
 
-Gerçek incelemede mapping, normalizer, null_value ve alanın indeksleme durumunu sunucudan kontrol edersin. Bu derste yalnız açık sözleşmedeki indeks görünümü geçerlidir. Kaynak: [İndeksli varlık ve boş değerler](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query).
+```lucene
+file.name:report\?.txt
+```
+
+Jokerler keyword değerinin veya text alanındaki tek indeks teriminin üzerinde çalışır; kendiliğinden tüm kaynak içinde alt metin araması yapmaz. Başta yıldız burada desteklenir, geniş gerçek indekslerde maliyeti yüksek olabilir. [Lucene terim jokerleri ve kaçış](https://lucene.apache.org/core/9_12_3/queryparser/org/apache/lucene/queryparser/classic/package-summary.html).
+
+```meta
+dil: lucene
+```
 :::
 
 ::: tahmin
-Aşağıdaki Lucene sorgusunu verilen eşleme, zaman filtresi ve sıralama altında oku. Hangi kimlikler döner? Pafta bu sorguyu Elasticsearch üzerinde çalıştırmaz; cevap, açık veri sözleşmesine göre hazırlanmış okuma cevabıdır.
+Sorguyu çalıştırmadan önce dönecek kimlikleri sırayla tahmin et. Gerçek Lucene motoru kullanılacak. Context sıralaması yoksa belge giriş sırası korunur; bütün veri aşağıdadır.
 
 ```lucene
-(host.name:web?) AND (user.name:*)
+user.name:* AND (NOT user.name:svc_*)
 ```
 
 ```stdin
 {
+  "dil": "lucene",
   "mapping": {
-    "host.name": "keyword, normalizer yok",
-    "user.name": "keyword, null_value yok; ignore_above uygulanmış"
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 12
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "host.name": {
+      "type": "keyword"
+    }
   },
-  "time_filter": {
-    "gte": "2026-10-21T10:00:00Z",
-    "lt": "2026-10-21T11:00:00Z"
-  },
-  "ordering": "id artan; indexed sözlüğü gerçekten indekslenmiş terimleri verir; _source karar kaynağı değildir",
   "documents": [
     {
       "id": "a",
-      "@timestamp": "2026-10-21T10:01:00Z",
-      "_source": {
-        "user.name": ""
-      },
-      "indexed": {
-        "host.name": [
-          "web1"
-        ],
-        "user.name": [
-          ""
-        ]
-      }
+      "user.name": ""
     },
     {
       "id": "b",
-      "@timestamp": "2026-10-21T10:02:00Z",
-      "_source": {
-        "user.name": null
-      },
-      "indexed": {
-        "host.name": [
-          "web2"
-        ]
-      }
+      "user.name": null
     },
     {
       "id": "c",
-      "@timestamp": "2026-10-21T10:03:00Z",
-      "_source": {
-        "user.name": "ali"
-      },
-      "indexed": {
-        "host.name": [
-          "web12"
-        ],
-        "user.name": [
-          "ali"
-        ]
-      }
+      "user.name": []
     },
     {
       "id": "d",
-      "@timestamp": "2026-10-21T10:04:00Z",
-      "_source": {
-        "user.name": "uzun-ve-indeks-disinda"
-      },
-      "indexed": {
-        "host.name": [
-          "web3"
-        ]
-      }
+      "user.name": "svc_backup"
     },
     {
       "id": "e",
-      "@timestamp": "2026-10-21T10:05:00Z",
-      "_source": {
-        "user.name": "can"
-      },
-      "indexed": {
-        "host.name": [
-          "Web4"
-        ],
-        "user.name": [
-          "can"
-        ]
-      }
+      "user.name": "alice"
     },
     {
       "id": "f",
-      "@timestamp": "2026-10-21T10:06:00Z",
-      "_source": {
-        "user.name": [
-          "ayse",
-          null
-        ]
-      },
-      "indexed": {
-        "host.name": [
-          "web5"
-        ],
-        "user.name": [
-          "ayse"
-        ]
-      }
+      "user.name": "thirteenchars!"
+    },
+    {
+      "id": "g",
+      "user.name": [
+        null,
+        "bob"
+      ]
     }
-  ]
+  ],
+  "context": {}
 }
 ```
 
-```gercek
-a
-f
-```
-
-```test
-import json, sys
-from datetime import datetime
-f = json.load(sys.stdin)
-dt = lambda s: datetime.fromisoformat(s.replace("Z", "+00:00"))
-bas, son = (dt(f["time_filter"][k]) for k in ("gte", "lt"))
-ids = []
-for d in f["documents"]:
-    terms = d.get("indexed", {})
-    host_ok = any(len(t) == 4 and t.startswith("web") for t in terms.get("host.name", []))
-    user_exists = len(terms.get("user.name", [])) > 0
-    if bas <= dt(d["@timestamp"]) < son and host_ok and user_exists:
-        ids.append(d["id"])
-for kimlik in sorted(ids):
-    print(kimlik)
+```meta
+dil: lucene
 ```
 
 ???
 
-`a` ve `f` döner. a için boş metin indekslenmiş bir değerdir; f için en az bir kullanıcı terimi vardır. b/d indeksli kullanıcı içermez; c hostu iki son karakterlidir; e harf farkıyla ayrılır.
+Çıktı:
+
+```text
+a
+e
+g
+```
+
+Boş keyword var sayılır; null/[] sayılmaz. f değeri ignore_above sınırını aşar. d svc_ önekinden dışlanır.
 :::
 
-::: gorev Yalnız iki joker
-`joker_idleri(olaylar, alan, desen)` tek değerli, normalizersız keyword alanını eşleştirsin. Desende yalnız `*` ve `?` özeldir; diğer bütün karakterler literal. Bütün değerin eşleşmesi gerekir. Eksik/null alan elenir; mevcut boş metin `*` ile eşleşir. Kimlikleri artan döndür. Bu sınırlı görev genel Lucene ayrıştırıcısı değildir.
+::: gorev Var olan kişisel kullanıcıları seç
+İndekslenmiş user.name değeri bulunan belgeleri al; değerlerinden biri svc_ önekiyle başlıyorsa belgeyi çıkar. Boş metni ayrıca dışlama.
+
+Editöre yalnız Lucene sorgusu yaz. `stdin` eşlemeyi, belgeleri ve bağımsız zaman/sıralama bağlamını taşır. Testte `eslesenler()` senin sorgunun kimliklerini döndürür; `eslesenler(belge_listesi)` aynı mapping/context ile yeni belgeleri sınar. Python kodu yazman gerekmiyor.
 
 ```starter
-def joker_idleri(olaylar, alan, desen):
-    return []
+*:*
+```
+
+```stdin
+{
+  "dil": "lucene",
+  "mapping": {
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 12
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "host.name": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "user.name": ""
+    },
+    {
+      "id": "b",
+      "user.name": null
+    },
+    {
+      "id": "c",
+      "user.name": []
+    },
+    {
+      "id": "d",
+      "user.name": "svc_backup"
+    },
+    {
+      "id": "e",
+      "user.name": "alice"
+    },
+    {
+      "id": "f",
+      "user.name": "thirteenchars!"
+    },
+    {
+      "id": "g",
+      "user.name": [
+        null,
+        "bob"
+      ]
+    }
+  ],
+  "context": {}
+}
+```
+
+```meta
+dil: lucene
 ```
 
 ```test
-need("joker_idleri")
-rows = [{"id": str(i), "host": x} for i, x in enumerate(["web", "web1", "web12", "Web1", "", "xweb1", "web[1]"])] + [{"id": "eksik"}, {"id": "null", "host": None}]
-eq(joker_idleri(rows, "host", "web?"), ["1"], "tek karakterin 0/1/2 sınırı")
-eq(joker_idleri(rows, "host", "web*"), ["0", "1", "2", "6"], "yıldız sıfır karakteri de kapsar")
-eq(joker_idleri(rows, "host", "*"), ["0", "1", "2", "3", "4", "5", "6"], "boş metin var; null yok")
-eq(joker_idleri(rows, "host", "web[1]"), ["6"], "fnmatch karakter sınıfı ekleme")
-eq(joker_idleri(rows, "host", "web"), ["0"], "tam terim eşleşmesi")
-yeni = [{"id": "q", "path": "a.b"}, {"id": "r", "path": "axb"}, {"id": "s", "path": "a..b"}]
-eq(joker_idleri(yeni, "path", "a.b"), ["q"], "regex noktası literal")
-eq(joker_idleri(yeni, "path", "a?b"), ["q", "r"], "alan ve desen değişti")
+eq(eslesenler(), ['a', 'e', 'g'], "ana korpus")
+eq(eslesenler([{'id': 'x', 'user.name': 'abcdefghijkl'}, {'id': 'y', 'user.name': 'abcdefghijklm'}, {'id': 'z', 'user.name': ['alice', 'svc_job']}, {'id': 'w', 'user.name': None}]), ['x'], "değişen korpus 1")
+eq(eslesenler([{'id': 'p', 'user.name': 'Svc_job'}, {'id': 'q', 'user.name': []}, {'id': 'r', 'user.name': ['', 'bob']}]), ['p', 'r'], "değişen korpus 2")
 ```
 
 ```solution
-import re
-
-def joker_idleri(olaylar, alan, desen):
-    regex = "".join(".*" if c == "*" else "." if c == "?" else re.escape(c) for c in desen)
-    return sorted(d["id"] for d in olaylar if isinstance(d.get(alan), str)
-                  and re.fullmatch(regex, d[alan], flags=re.DOTALL) is not None)
+user.name:* AND (NOT user.name:svc_*)
 ```
 
 ```hint
-Deseni karakter karakter kur; * ve ? dışında re.escape kullanıp bütün terimi fullmatch ile denetle.
+Önce varlık koşulu, ardından NOT svc_*; ignore_above motor tarafından mapping üzerinden uygulanır.
 ```
 :::
 
-::: gorev Kaynağa değil indeks görünümüne bak
-`indeksli_idler(olaylar, alan)` her olayın `indexed` sözlüğünde ilgili alanın **en az bir terimi** varsa kimliği döndürsün. Kimlik sırası artan olsun. Terim listeleri yalnız metin içerir; boş metin geçerli terimdir. `_source` alanını karar için kullanma; indeksleme bu görevin dışında hazırlanmıştır.
+::: gorev Literal soru işareti ve host kapsamı
+Yalnız lab01 hostunda, adı tam olarak gerçek soru işareti içeren report?.txt olan belgeyi seç. report1.txt ve report12.txt bu görevde kabul edilmez.
+
+Editöre yalnız Lucene sorgusu yaz. `stdin` eşlemeyi, belgeleri ve bağımsız zaman/sıralama bağlamını taşır. Testte `eslesenler()` senin sorgunun kimliklerini döndürür; `eslesenler(belge_listesi)` aynı mapping/context ile yeni belgeleri sınar. Python kodu yazman gerekmiyor.
 
 ```starter
-def indeksli_idler(olaylar, alan):
-    return []
+*:*
+```
+
+```stdin
+{
+  "dil": "lucene",
+  "mapping": {
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 12
+    },
+    "file.name": {
+      "type": "keyword"
+    },
+    "host.name": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "host.name": "lab01",
+      "file.name": "report?.txt"
+    },
+    {
+      "id": "b",
+      "host.name": "lab01",
+      "file.name": "report1.txt"
+    },
+    {
+      "id": "c",
+      "host.name": "lab02",
+      "file.name": "report?.txt"
+    },
+    {
+      "id": "d",
+      "host.name": "lab01",
+      "file.name": "report12.txt"
+    }
+  ],
+  "context": {}
+}
+```
+
+```meta
+dil: lucene
 ```
 
 ```test
-need("indeksli_idler")
-rows = [{"id": "a", "_source": {"user": ""}, "indexed": {"user": [""]}},
-        {"id": "b", "_source": {"user": None}, "indexed": {}},
-        {"id": "c", "_source": {"user": []}, "indexed": {"user": []}},
-        {"id": "d", "_source": {"user": "ignore_above nedeniyle dışarıda"}, "indexed": {}},
-        {"id": "e", "_source": {"user": [None, "ali"]}, "indexed": {"user": ["ali"], "host": ["web1"]}},
-        {"id": "f"}]
-eq(indeksli_idler(rows, "user"), ["a", "e"], "boş liste ile boş terim farklı")
-eq(indeksli_idler(rows, "host"), ["e"], "alan parametresi")
-eq(indeksli_idler(rows, "olmayan"), [], "indeksli değer yok")
-eq(indeksli_idler([{"id": "degisti", "indexed": {"x": ["bir", "iki"]}}], "x"), ["degisti"], "çok değer ve değişen metin")
-eq(indeksli_idler([], "user"), [], "boş korpus")
+eq(eslesenler(), ['a'], "ana korpus")
+eq(eslesenler([{'id': 'x', 'host.name': 'lab01', 'file.name': 'Report?.txt'}, {'id': 'y', 'host.name': 'lab01', 'file.name': ['other', 'report?.txt']}, {'id': 'z', 'file.name': 'report?.txt'}]), ['y'], "değişen korpus 1")
+eq(eslesenler([{'id': 'p', 'host.name': 'lab01', 'file.name': 'report*.txt'}, {'id': 'q', 'host.name': 'lab01', 'file.name': 'report?.txt'}]), ['q'], "değişen korpus 2")
 ```
 
 ```solution
-def indeksli_idler(olaylar, alan):
-    return sorted(d["id"] for d in olaylar if len(d.get("indexed", {}).get(alan, [])) > 0)
+host.name:lab01 AND file.name:report\?.txt
 ```
 
 ```hint
-Listenin içindeki metnin doğruluğunu değil listenin uzunluğunu denetle; [""] dolu listedir.
+Soru işaretini \? yap. İki alanı AND ile bağla; JSON içine sorgu yazmıyorsun.
 ```
 :::

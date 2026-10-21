@@ -58,6 +58,7 @@ export function codeBlock(src, info = "python", opts = {}) {
   const runnable = lang === izDili && !flags.includes("norun") && opts.runnable !== false;
   let desen = src, metin = "";
   if (lang === "regex") [desen, metin] = regexParcala(src);
+  else if (["kibana", "lucene", "eql", "elastic"].includes(lang)) metin = opts.stdin || "";
   const notlu = kodDili && lang !== "regex";
   const raw = notlu ? stripAnno(desen) : desen;
   const rows = desen.split("\n").map(l => (notlu ? splitAnno(l) : [l, null]));
@@ -67,7 +68,7 @@ export function codeBlock(src, info = "python", opts = {}) {
     const an = note !== null ? `<span class="an"><span>${inline(note)}</span></span>` : "<span></span>";
     return `<div class="cl"><span class="cc">${hl[i] || " "}</span>${an}</div>`;
   }).join("");
-  const label = { python: "PYTHON", cikti: "ÇIKTI", text: "METİN", bash: "BASH", powershell: "POWERSHELL", regex: "DESEN", sql: "SQL", kql: "KQL", spl: "SPL", javascript: "JAVASCRIPT", c: "C", php: "PHP", java: "JAVA", csharp: "C#", asm: "ASSEMBLY", ad: "AD / LDAP", kibana: "KIBANA KQL · OKUMA", lucene: "LUCENE · OKUMA", eql: "ELASTIC EQL · OKUMA", elastic: "ELASTIC · OKUMA" }[lang] || lang.toUpperCase();
+  const label = { python: "PYTHON", cikti: "ÇIKTI", text: "METİN", bash: "BASH", powershell: "POWERSHELL", regex: "DESEN", sql: "SQL", kql: "KQL", spl: "SPL", javascript: "JAVASCRIPT", c: "C", php: "PHP", java: "JAVA", csharp: "C#", asm: "ASSEMBLY", ad: "AD / LDAP", kibana: "KIBANA KQL", lucene: "LUCENE", eql: "ELASTIC EQL", elastic: "ELASTIC" }[lang] || lang.toUpperCase();
   const btns = runnable
     ? `<button type="button" data-act="run">▶ Çalıştır</button><button type="button" data-act="bench">⇢ Tezgaha al</button>`
     : (lang === izDili && opts.bench !== false ? `<button type="button" data-act="bench">⇢ Tezgaha al</button>` : "");

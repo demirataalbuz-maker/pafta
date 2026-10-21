@@ -1,196 +1,276 @@
 ---
 id: el07
-title: Lucene · Dil Seçimi ve Mantık Grupları
-summary: Kibana arama dilini doğrula; alan grubunu, AND/OR/NOT kapsamını açık parantezlerle oku.
+title: Lucene · Gerçek Sorgu ve Mantık Grupları
+summary: Native Lucene sorguları yaz; alan grubunu, OR varsayımını ve NOT kapsamını test et.
 ---
 
-::: anlat Önce hangi dilde olduğunu bil
-Kibana sorgu çubuğunda **KQL ile Lucene ayrı seçimlerdir**. Önce arama menüsündeki dili kontrol et. Bu altı ders Lucene sorgu metnini okutur; sağdaki tezgâh Python ile sınırları belirtilmiş okuma görevlerini çalıştırır. Burada Elasticsearch sunucusu, indeksleme ya da genel bir Lucene ayrıştırıcısı yoktur.
+::: anlat Kibana dil seçimi ve gerçek motor
+Kibana arama çubuğunda KQL ve Lucene ayrı dillerdir. Bu bölümde editöre **Lucene sorgusu** yazarsın; Pafta sorguyu Apache Lucene 9.12.3 QueryParser ile ayrıştırır ve geçici bellek indeksinde çalıştırır. Elasticsearch sunucusu kurulmaz. Phrase, joker, fuzzy ve regex davranışı gerçek Lucene'den gelir; mapping'e göre sayısal/tarih aralıkları, indekslenmiş değer varlığı ve saf NOT seçimi Pafta adaptörünün açık ekleridir.
 
-`event.outcome:(failure OR unknown)` iki terimi aynı alana bağlar. `AND`, `OR` ve `NOT` işleçlerini büyük harfle yaz. Boşlukla ayrılmış terimlerin davranışını bağlamdan tahmin etme: API'de `default_operator` ayarı bulunur. Örneklerimiz her ilişkiyi açıkça yazar.
+Bu tezgâhta varsayılan bağlayıcı OR'dur: `host.name:web01 host.name:web02` iki alternatif demektir. Gerçek Elasticsearch query_string isteğinde `default_operator` ayrıca ayarlanabilir. Dersleri başka ortama taşırken bu ayarı doğrula. Alanı olmayan terim ve alan adına joker burada reddedilir; `*:*` bütün belgeleri seçer. Bilinmeyen alanın sessiz boş sonuç vermesi yerine eşlemeyi düzeltmen istenir.
 
 ```lucene
-(event.category:authentication AND event.outcome:(failure OR unknown)) AND (NOT user.name:svc_backup)
+host.name:(web01 OR web02) AND event.outcome:failure
 ```
 
-Bu sorgu bir olay seçer; zaman sırası veya eşik sayımı yapmaz. Kibana zaman filtresi ayrıca uygulanır. Kaynak: [Kibana Lucene seçimi](https://www.elastic.co/docs/explore-analyze/query-filter/languages/lucene-query-syntax).
+Sorgu bir belge kümesi seçer. Olay sayısı, zaman sırası ve nedensellik üretmez. [Elastic Lucene arama dili](https://www.elastic.co/docs/explore-analyze/query-filter/languages/lucene-query-syntax), [query_string ayarları](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query). Kaynaklar 21 Ekim 2026 tarihinde kontrol edildi.
+
+```meta
+dil: lucene
+```
 :::
 
-::: anlat Parantez bir okuma sözleşmesidir
-`(A AND B) OR C` ile `A AND (B OR C)` farklı kümeler üretir. Özellikle bir host kısıtını bütün dallara uygulamak istiyorsan host grubunu dışta `AND` ile bağla. Karışık boolean ifadelerde alıştığın programlama dilinin önceliğini Lucene'e taşıma; parantezlerle niyetini yaz.
+::: anlat Parantez ve eksik alanın etkisi
+`AND`, `OR`, `NOT` büyük harfle yazılır. `event.outcome:(failure OR unknown)` iki terimi aynı alana bağlar. Bütün hostlarda başarısızlık istemek ile yalnız iki hostta başarısızlık/yüksek seviye istemek farklıdır: host koşulunu alternatiflerin dışına bağla.
 
-Bu derste tüm alanlar tek değerli, `keyword` ve normalizersızdır. Dolayısıyla `failure` ile `Failure` farklıdır. Eksik alan bir pozitif terimi sağlamaz. Fakat `NOT user.name:svc_backup` ifadesi, kullanıcı alanı eksik belgeyi kendi başına dışlamaz; pozitif kısıtlar sağlanıyorsa o belge kalabilir. Kullanıcının varlığı da gerekliyse bunu ayrı koşulla istemelisin.
+Classic QueryParser, AND/OR karışımında programlama dillerinden beklediğin önceliği sağlamaz. Örneğin `A AND B OR C` ifadesini SQL önceliğiyle okuma; `(A AND B) OR C` niyetini açıkça yaz. Testler değişen belge kümelerinde yanlış gruplanan dalları yakalar.
 
-Görevlerde JSON sözlüklerindeki düz ECS alan adlarını okuyacaksın. Bu, yalnızca anlatılan boolean seçim modelidir; analyzer, nested alan, puan veya sorgu ayrıştırma taklidi değildir. Kaynak: [Gruplar ve query_string ayarları](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-query-string-query).
+Normalizersız keyword alanı büyük/küçük harfe duyarlıdır. Eksik user.name pozitif kullanıcı terimini sağlamaz; fakat `NOT user.name:svc_backup` dışlamasından geçer. Kullanıcı varlığı da gerekiyorsa `user.name:*` ekle. Saf NOT bu tezgâhta tüm belgelerden çıkarma olarak desteklenir; bu, Lucene çekirdeğinin saf negatif BooleanQuery'sine uygulanan açık adaptör davranışıdır. [Lucene QueryParser söz dizimi](https://lucene.apache.org/core/9_12_3/queryparser/org/apache/lucene/queryparser/classic/package-summary.html).
+
+```meta
+dil: lucene
+```
 :::
 
 ::: tahmin
-Aşağıdaki Lucene sorgusunu verilen eşleme, zaman filtresi ve sıralama altında oku. Hangi kimlikler döner? Pafta bu sorguyu Elasticsearch üzerinde çalıştırmaz; cevap, açık veri sözleşmesine göre hazırlanmış okuma cevabıdır.
+Sorguyu çalıştırmadan önce dönecek kimlikleri sırayla tahmin et. Gerçek Lucene motoru kullanılacak. Context sıralaması yoksa belge giriş sırası korunur; bütün veri aşağıdadır.
 
 ```lucene
-(event.category:authentication AND event.outcome:(failure OR unknown)) AND (NOT user.name:svc_backup)
+event.category:authentication AND event.outcome:(failure OR unknown) AND (NOT user.name:svc_backup)
 ```
 
 ```stdin
 {
+  "dil": "lucene",
   "mapping": {
-    "event.category": "keyword, normalizer yok",
-    "event.outcome": "keyword, normalizer yok",
-    "user.name": "keyword, normalizer yok",
-    "@timestamp": "date UTC"
+    "event.category": {
+      "type": "keyword"
+    },
+    "event.outcome": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "host.name": {
+      "type": "keyword"
+    },
+    "alert.level": {
+      "type": "keyword"
+    }
   },
-  "time_filter": {
-    "gte": "2026-10-21T10:00:00Z",
-    "lt": "2026-10-21T10:05:00Z"
-  },
-  "ordering": "id artan; alanlar tek değerli; eksik alan ilgili terimi eşleştirmez",
   "documents": [
     {
       "id": "a",
-      "@timestamp": "2026-10-21T10:00:00Z",
       "event.category": "authentication",
       "event.outcome": "failure",
       "user.name": "alice"
     },
     {
       "id": "b",
-      "@timestamp": "2026-10-21T10:01:00Z",
       "event.category": "authentication",
       "event.outcome": "unknown",
       "user.name": "svc_backup"
     },
     {
       "id": "c",
-      "@timestamp": "2026-10-21T10:02:00Z",
       "event.category": "authentication",
-      "event.outcome": "success",
-      "user.name": "alice"
+      "event.outcome": "success"
     },
     {
       "id": "d",
-      "@timestamp": "2026-10-21T10:05:00Z",
+      "event.category": "process",
+      "event.outcome": "failure"
+    },
+    {
+      "id": "e",
+      "event.category": "authentication",
+      "event.outcome": "unknown"
+    },
+    {
+      "id": "f",
+      "event.category": "authentication"
+    }
+  ],
+  "context": {}
+}
+```
+
+```meta
+dil: lucene
+```
+
+???
+
+Çıktı:
+
+```text
+a
+e
+```
+
+e kullanıcı alanı eksik olsa da dışlanan kullanıcıya eşleşmez. b dışlamaya, c sonuç grubuna, d kategoriye, f eksik sonuca takılır.
+:::
+
+::: gorev Kimlik doğrulama adaylarını seç
+Yalnız authentication kategorisinde failure veya unknown sonucu olanları seç. svc_backup kullanıcısını çıkar; kullanıcı alanı eksik aday kalabilir.
+
+Editöre yalnız Lucene sorgusu yaz. `stdin` eşlemeyi, belgeleri ve bağımsız zaman/sıralama bağlamını taşır. Testte `eslesenler()` senin sorgunun kimliklerini döndürür; `eslesenler(belge_listesi)` aynı mapping/context ile yeni belgeleri sınar. Python kodu yazman gerekmiyor.
+
+```starter
+*:*
+```
+
+```stdin
+{
+  "dil": "lucene",
+  "mapping": {
+    "event.category": {
+      "type": "keyword"
+    },
+    "event.outcome": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "host.name": {
+      "type": "keyword"
+    },
+    "alert.level": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
       "event.category": "authentication",
       "event.outcome": "failure",
       "user.name": "alice"
     },
     {
-      "id": "e",
-      "@timestamp": "2026-10-21T10:03:00Z",
+      "id": "b",
+      "event.category": "authentication",
+      "event.outcome": "unknown",
+      "user.name": "svc_backup"
+    },
+    {
+      "id": "c",
+      "event.category": "authentication",
+      "event.outcome": "success"
+    },
+    {
+      "id": "d",
       "event.category": "process",
       "event.outcome": "failure"
     },
     {
-      "id": "f",
-      "@timestamp": "2026-10-21T10:04:00Z",
-      "event.category": "authentication"
-    },
-    {
-      "id": "g",
-      "@timestamp": "2026-10-21T10:04:30Z",
+      "id": "e",
       "event.category": "authentication",
       "event.outcome": "unknown"
+    },
+    {
+      "id": "f",
+      "event.category": "authentication"
     }
-  ]
+  ],
+  "context": {}
 }
 ```
 
-```gercek
-a
-g
+```meta
+dil: lucene
 ```
 
 ```test
-import json, sys
-from datetime import datetime
-f = json.load(sys.stdin)
-dt = lambda s: datetime.fromisoformat(s.replace("Z", "+00:00"))
-bas, son = (dt(f["time_filter"][k]) for k in ("gte", "lt"))
-secilen = [d["id"] for d in f["documents"]
-           if bas <= dt(d["@timestamp"]) < son
-           and d.get("event.category") == "authentication"
-           and d.get("event.outcome") in ("failure", "unknown")
-           and d.get("user.name") != "svc_backup"]
-for kimlik in sorted(secilen):
-    print(kimlik)
-```
-
-???
-
-`a` ve `g` döner. g kullanıcı alanı eksik olsa da NOT filtresini ihlal etmez. b dışlanmış kullanıcıdır; d zamanın açık üst sınırındadır. Diğerleri pozitif gruplardan birini sağlamaz.
-:::
-
-::: gorev Kimlik doğrulama adaylarını oku
-`aday_idleri(olaylar, kategori, sonuclar, haric_kullanici)` fonksiyonu kategori eşitliği **ve** izin verilen sonuçlardan birini **ve** dışlanan kullanıcıdan farklı olmayı istesin. Kimlikleri artan döndür. Alanlar tek değerli keyword; eksik kategori/sonuç elenir, eksik kullanıcı dışlamadan geçer. `sonuclar` boşsa sonuç boştur. Zaman filtresi bu göreve dahil değildir.
-
-```starter
-def aday_idleri(olaylar, kategori, sonuclar, haric_kullanici):
-    return []
-```
-
-```test
-need("aday_idleri")
-olaylar = [
-    {"id": "z", "event.category": "auth", "event.outcome": "fail", "user.name": "ali"},
-    {"id": "a", "event.category": "auth", "event.outcome": "unknown"},
-    {"id": "b", "event.category": "auth", "event.outcome": "fail", "user.name": "yedek"},
-    {"id": "c", "event.category": "process", "event.outcome": "fail"},
-    {"id": "d", "event.category": "auth", "event.outcome": "success"},
-    {"id": "e", "event.category": "auth"},
-    {"id": "f", "event.outcome": "fail"},
-]
-eq(aday_idleri(olaylar, "auth", ["fail", "unknown"], "yedek"), ["a", "z"], "gruplar ve NOT")
-eq(aday_idleri(olaylar, "process", ["fail"], "yedek"), ["c"], "kategori parametresi değişti")
-eq(aday_idleri(olaylar, "auth", ["success"], "ali"), ["d"], "sonuç parametresi değişti")
-eq(aday_idleri(olaylar, "auth", [], "yedek"), [], "boş OR grubu")
-eq(aday_idleri([], "auth", ["fail"], "yedek"), [], "boş korpus")
-yeni = [{"id": "yeni", "event.category": "vpn", "event.outcome": "blocked", "user.name": "can"}]
-eq(aday_idleri(yeni, "vpn", ["blocked"], "svc"), ["yeni"], "sabit cevap yok")
+eq(eslesenler(), ['a', 'e'], "ana korpus")
+eq(eslesenler([{'id': 'g', 'event.category': 'authentication', 'event.outcome': 'unknown', 'user.name': 'other'}, {'id': 'h', 'event.category': 'authentication', 'event.outcome': 'failure', 'user.name': 'svc_backup'}, {'id': 'i', 'event.category': 'Authentication', 'event.outcome': 'failure'}, {'id': 'j', 'event.outcome': 'unknown'}]), ['g'], "değişen korpus 1")
+eq(eslesenler([{'id': 'z', 'event.category': 'authentication', 'event.outcome': ['success', 'failure']}, {'id': 'y', 'event.category': 'authentication', 'event.outcome': 'success'}]), ['z'], "değişen korpus 2")
 ```
 
 ```solution
-def aday_idleri(olaylar, kategori, sonuclar, haric_kullanici):
-    return sorted(d["id"] for d in olaylar
-                  if d.get("event.category") == kategori
-                  and d.get("event.outcome") in sonuclar
-                  and d.get("user.name") != haric_kullanici)
+event.category:authentication AND event.outcome:(failure OR unknown) AND (NOT user.name:svc_backup)
 ```
 
 ```hint
-Üç koşulu and ile bağla; sonuç grubu için in, kullanıcı dışlaması için != kullan.
+Kategori AND sonuç grubu AND parantezli NOT yaz. Keyword dizisinin herhangi bir değeri terimi sağlayabilir.
 ```
 :::
 
-::: gorev Host kısıtı bütün dallarda
-`host_kapsami(olaylar, hostlar, sonuc, seviye)` şu açık grubu okusun: `(host.name:(izinli hostlar)) AND ((event.outcome:sonuc) OR (alert.level:seviye))`. Kimlikleri artan döndür. Yüksek seviyeli fakat hostu kapsam dışında olay dönmemeli. Bütün alanlar tek değerli keyword; eksikler ilgili terimi sağlamaz.
+::: gorev Host kısıtını iki dala uygula
+Yalnız web01 veya web02 hostlarını al. Bu kapsam içinde event.outcome failure VEYA alert.level high yeterli olsun. Kapsam dışındaki high olayını alma. Eksik host da kapsam dışıdır.
+
+Editöre yalnız Lucene sorgusu yaz. `stdin` eşlemeyi, belgeleri ve bağımsız zaman/sıralama bağlamını taşır. Testte `eslesenler()` senin sorgunun kimliklerini döndürür; `eslesenler(belge_listesi)` aynı mapping/context ile yeni belgeleri sınar. Python kodu yazman gerekmiyor.
 
 ```starter
-def host_kapsami(olaylar, hostlar, sonuc, seviye):
-    return []
+*:*
+```
+
+```stdin
+{
+  "dil": "lucene",
+  "mapping": {
+    "event.category": {
+      "type": "keyword"
+    },
+    "event.outcome": {
+      "type": "keyword"
+    },
+    "user.name": {
+      "type": "keyword"
+    },
+    "host.name": {
+      "type": "keyword"
+    },
+    "alert.level": {
+      "type": "keyword"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "host.name": "web01",
+      "event.outcome": "failure"
+    },
+    {
+      "id": "b",
+      "host.name": "web02",
+      "alert.level": "high"
+    },
+    {
+      "id": "c",
+      "host.name": "db01",
+      "alert.level": "high"
+    },
+    {
+      "id": "d",
+      "host.name": "web01",
+      "alert.level": "low"
+    },
+    {
+      "id": "e",
+      "alert.level": "high"
+    }
+  ],
+  "context": {}
+}
+```
+
+```meta
+dil: lucene
 ```
 
 ```test
-need("host_kapsami")
-olaylar = [{"id": "a", "host.name": "web01", "event.outcome": "failure"},
-           {"id": "b", "host.name": "web02", "event.outcome": "success", "alert.level": "high"},
-           {"id": "c", "host.name": "db01", "alert.level": "high"},
-           {"id": "d", "alert.level": "high"},
-           {"id": "e", "host.name": "web01", "event.outcome": "success", "alert.level": "low"},
-           {"id": "f", "host.name": "web01"}]
-eq(host_kapsami(olaylar, ["web01", "web02"], "failure", "high"), ["a", "b"], "host dışındaki OR sızmamalı")
-eq(host_kapsami(olaylar, ["db01"], "failure", "high"), ["c"], "host kümesi değişebilir")
-eq(host_kapsami(olaylar, ["web01"], "success", "low"), ["e"], "iki dalın parametreleri")
-eq(host_kapsami(olaylar, [], "failure", "high"), [], "boş host kapsamı")
-eq(host_kapsami([{"id": "r", "host.name": "edge", "alert.level": "critical"}], ["edge"], "denied", "critical"), ["r"], "yeni terimler")
+eq(eslesenler(), ['a', 'b'], "ana korpus")
+eq(eslesenler([{'id': 'x', 'host.name': 'web02', 'event.outcome': 'success', 'alert.level': 'high'}, {'id': 'y', 'host.name': 'other', 'event.outcome': 'failure'}, {'id': 'z', 'host.name': 'web01', 'event.outcome': 'Failure'}]), ['x'], "değişen korpus 1")
+eq(eslesenler([{'id': 'n', 'host.name': ['db01', 'web01'], 'event.outcome': 'failure'}, {'id': 'm', 'host.name': 'WEB01', 'alert.level': 'high'}]), ['n'], "değişen korpus 2")
 ```
 
 ```solution
-def host_kapsami(olaylar, hostlar, sonuc, seviye):
-    return sorted(d["id"] for d in olaylar
-                  if d.get("host.name") in hostlar
-                  and (d.get("event.outcome") == sonuc or d.get("alert.level") == seviye))
+host.name:(web01 OR web02) AND (event.outcome:failure OR alert.level:high)
 ```
 
 ```hint
-Önce host koşulunu yaz, sonra iki alternatifin tamamını tek parantez içinde tut.
+Host grubunu AND ile bütün alternatif parantezine bağla.
 ```
 :::

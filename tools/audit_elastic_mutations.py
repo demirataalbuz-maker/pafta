@@ -1,82 +1,223 @@
-"""Audit single Python reading-exercise faults; this is not an Elastic backend.
+"""Query mutations against actual task tests; proven equivalents stay visible.
 
-Comparisons at a numeric/time boundary and AND/OR combinations are changed one
-at a time. A survivor needs an added counterexample or a documented equivalence.
-Run `python tools/audit_elastic_mutations.py [el01 ...]` from the project folder.
+The bounded equivalence rules below are semantic, not corpus-output guesses:
+Lucene's unbounded range inclusion has no endpoint to exclude; and classic
+OR-default QueryParser leaves both operands required when their *other*
+adjacent conjunctions at the same parenthesis level are AND. No general
+query equivalence is claimed. Every mutant is executed, including these.
 """
-import ast
-import copy
-import sys
+import argparse
 from concurrent.futures import ThreadPoolExecutor
+import json
 from pathlib import Path
+import re
+import sys
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from engine.lessons import Library
 from engine.runners import get
 
 
-def mutations(source):
-    tree = ast.parse(source)
-    replacements = {ast.Lt: ast.LtE, ast.LtE: ast.Lt, ast.Gt: ast.GtE, ast.GtE: ast.Gt}
-    nodes = list(ast.walk(tree))
-    for index, node in enumerate(nodes):
-        if isinstance(node, ast.Compare):
-            for position, operator in enumerate(node.ops):
-                if type(operator) not in replacements:
+def lexical_mask(source, dialect):
+    """Keep operator positions, blank quoted/regexp/escaped literal contents."""
+    result = list(source)
+    at = 0
+    while at < len(source):
+        start = at
+        if source[at] == '\\':
+            at = min(at + 2, len(source))
+        elif source.startswith('"""', at) and dialect == 'eql':
+            end = source.find('"""', at + 3)
+            at = len(source) if end < 0 else end + 3
+        elif source[at] in ('"', "'"):
+            quote = source[at]
+            at += 1
+            while at < len(source):
+                if source[at] == '\\':
+                    at += 2
+                elif source[at] == quote:
+                    at += 1
+                    break
+                else:
+                    at += 1
+        elif source[at] == '/' and dialect == 'lucene':
+            at += 1
+            while at < len(source):
+                if source[at] == '\\':
+                    at += 2
+                elif source[at] == '/':
+                    at += 1
+                    break
+                else:
+                    at += 1
+        else:
+            at += 1
+            continue
+        for pos in range(start, min(at, len(source))):
+            result[pos] = '\n' if source[pos] == '\n' else ' '
+    return ''.join(result)
+
+
+def range_matches(source):
+    # Quoted timestamps and regex literal character classes cannot introduce
+    # fake TO operators. Endpoints are recovered from the original positions.
+    mask = lexical_mask(source, 'lucene')
+    return re.finditer(r'(\[|\{)[^\[\]{}]*\bTO\b[^\[\]{}]*(\]|\})', mask)
+
+
+def mutations(source, dialect):
+    mask = lexical_mask(source, dialect)
+    seen = {source}
+    def changed(a, b, replacement, label):
+        value = source[:a] + replacement + source[b:]
+        if value not in seen:
+            seen.add(value)
+            return label, value
+    for match in re.finditer(r'\b(AND|OR|and|or)\b|>=|<=|(?<![<>!=])[<>](?!=)', mask):
+        text = match[0]
+        replacement = {'AND':'OR', 'OR':'AND', 'and':'or', 'or':'and', '>=':'>', '<=':'<', '>':'>=', '<':'<='}[text]
+        result = changed(*match.span(), replacement, f'{text} -> {replacement} @{match.start()}')
+        if result:
+            yield result
+    for match in re.finditer(r'\b(?:NOT|not)\s+', mask):
+        result = changed(*match.span(), '', f'NOT removed @{match.start()}')
+        if result:
+            yield result
+    if dialect == 'lucene':
+        for match in range_matches(source):
+            for position, old in ((match.start(), match[1]), (match.end()-1, match[2])):
+                replacement = {'[':'{', '{':'[', ']':'}', '}':']'}[old]
+                result = changed(position, position+1, replacement, f'range {old} -> {replacement} @{position}')
+                if result:
+                    yield result
+        for match in re.finditer(r'~([0-9]+)(?![0-9.])', mask):
+            number = int(match[1])
+            for n in (number-1, number+1):
+                if 0 <= n <= 2:
+                    result = changed(*match.span(), '~'+str(n), f'slop/fuzzy {number} -> {n} @{match.start()}')
+                    if result:
+                        yield result
+    if dialect == 'eql':
+        for match in re.finditer(r'\bmaxspan\s*=\s*(\d+)(ms|s|m|h|d)\b', mask):
+            milliseconds = int(match[1]) * {'ms':1,'s':1000,'m':60000,'h':3600000,'d':86400000}[match[2]]
+            # Unit-sized changes miss off-by-one bugs. Replace the full duration
+            # with a valid millisecond literal at the exact adjacent boundary.
+            for delta in (-1, 1):
+                value = milliseconds + delta
+                if value > 0:
+                    result = changed(match.start(1), match.end(2), str(value)+'ms',
+                                     f'maxspan {milliseconds}ms -> {value}ms @{match.start(1)}')
+                    if result:
+                        yield result
+        for match in re.finditer(r'==|:', mask):
+            if source[match.end():].lstrip().startswith('"'):
+                replacement = ':' if match[0] == '==' else '=='
+                result = changed(*match.span(), replacement, f'case operator {match[0]} -> {replacement} @{match.start()}')
+                if result:
+                    yield result
+        for match in re.finditer(r'\b(?:in|like)~?(?![A-Za-z0-9_])', mask):
+            text = match[0]
+            if text in ('in','like') and source[match.end():].startswith('~'):
+                continue
+            replacement = text[:-1] if text.endswith('~') else text+'~'
+            result = changed(*match.span(), replacement, f'case operator {text} -> {replacement} @{match.start()}')
+            if result:
+                yield result
+        for match in re.finditer(r'\buntil\s*\[[^\]]*\]', mask):
+            result = changed(*match.span(), '', f'until removed @{match.start()}')
+            if result:
+                yield result
+        for match in re.finditer(r'!\s*(?=\[)', mask):
+            result = changed(*match.span(), '', f'missing stage made positive @{match.start()}')
+            if result:
+                yield result
+
+
+def equivalence_reason(source, mutant, dialect):
+    if dialect != 'lucene':
+        return None
+    for match in range_matches(source):
+        interior = source[match.start()+1:match.end()-1]
+        # TO is outside quoted strings by range_matches; the same source slice
+        # can contain no other syntactic TO in the currently supported grammar.
+        split = re.search(r'\bTO\b', lexical_mask(interior, 'lucene'))
+        if split is None:
+            continue
+        ends = (interior[:split.start()].strip(), interior[split.end():].strip())
+        for position, token, bound in ((match.start(), match[1], ends[0]), (match.end()-1, match[2], ends[1])):
+            replacement = {'[':'{', '{':'[', ']':'}', '}':']'}[token]
+            if bound == '*' and source[:position]+replacement+source[position+1:] == mutant:
+                return 'Lucene range endpoint is unbounded *; its inclusive/exclusive bracket cannot change membership.'
+    mask = lexical_mask(source, 'lucene')
+    # Only a single AND -> OR edit is eligible, in a flat explicit-AND run.
+    # Parenthesis scopes are tracked structurally. OR-default QueryParser marks
+    # both neighboring operands MUST via their other adjacent AND, so replacing
+    # this middle connector has no effect. Unary +/- are deliberately excluded.
+    stack = [0]
+    next_scope = 1
+    operators = {}
+    for token in re.finditer(r'[()]|\bAND\b|\bOR\b', mask):
+        if token[0] == '(':
+            stack.append(next_scope); next_scope += 1
+        elif token[0] == ')':
+            if len(stack) > 1:
+                stack.pop()
+        else:
+            operators.setdefault(stack[-1], []).append(token)
+    for tokens in operators.values():
+        for i in range(1,len(tokens)-1):
+            left, target, right = tokens[i-1:i+2]
+            if all(t[0] == 'AND' for t in (left,target,right)):
+                segment = mask[left.end():right.start()]
+                if '+' in segment or '-' in segment:
                     continue
-                mutated = copy.deepcopy(tree)
-                changed = list(ast.walk(mutated))[index]
-                changed.ops[position] = replacements[type(operator)]()
-                yield f"s.{node.lineno} {type(operator).__name__} -> {replacements[type(operator)].__name__}", ast.unparse(mutated)
-        elif isinstance(node, ast.BoolOp):
-            changed_type = ast.Or if isinstance(node.op, ast.And) else ast.And
-            mutated = copy.deepcopy(tree)
-            list(ast.walk(mutated))[index].op = changed_type()
-            yield f"s.{node.lineno} {type(node.op).__name__} -> {changed_type.__name__}", ast.unparse(mutated)
+                if source[:target.start()]+'OR'+source[target.end():] == mutant:
+                    return 'Classic Lucene OR-default QueryParser: both operands remain MUST through the adjacent AND on their other sides.'
+    return None
 
 
 def main():
-    sys.stdout.reconfigure(encoding="utf-8")
-    library = Library()
-    wanted = set(sys.argv[1:])
-    tasks, jobs = [], []
-    for lesson_id in library.outline("elastic")["order"]:
-        if wanted and lesson_id not in wanted:
-            continue
-        for index, step in enumerate(library.lesson("elastic", lesson_id)["steps"]):
-            if step["kind"] != "gorev":
-                continue
-            reference = f"{lesson_id}:{index}"
-            tasks.append((reference, step))
-            jobs.extend((reference, step, label, code) for label, code in mutations(step["solution"]))
-    def original(job):
-        reference, step = job
-        return reference, get("python").test(step["solution"], step)
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        baseline = list(pool.map(original, tasks))
-    invalid = [(ref, result) for ref, result in baseline if result["status"] != "pass"]
+    parser = argparse.ArgumentParser()
+    parser.add_argument('lessons', nargs='*')
+    parser.add_argument('--json', dest='report')
+    args = parser.parse_args()
+    lib = Library()
+    tasks = [(f'{lid}:{i}', step) for lid in lib.outline('elastic')['order'] if not args.lessons or lid in args.lessons
+             for i, step in enumerate(lib.lesson('elastic', lid)['steps']) if step['kind'] == 'gorev']
+    runner = get('elastic')
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        baseline = list(pool.map(lambda pair: (pair[0], runner.test(pair[1]['solution'], pair[1])), tasks))
+    invalid = [(ref,result) for ref,result in baseline if result['status'] != 'pass']
     if invalid:
-        for reference, result in invalid:
-            print("ORIGINAL FAILED", reference, result)
+        for ref,result in invalid:
+            print('ORIGINAL FAILED',ref,result)
         return 1
+    jobs = [(ref,step,label,query) for ref,step in tasks for label,query in mutations(step['solution'],step['meta']['dil'])]
     def check(job):
-        reference, step, label, code = job
-        return reference, label, get("python").test(code, step)
-    with ThreadPoolExecutor(max_workers=6) as pool:
-        results = list(pool.map(check, jobs))
-    survivors = [(ref, label) for ref, label, result in results if result["status"] == "pass"]
-    unexpected = [(ref, label, result["status"]) for ref, label, result in results
-                  if result["status"] not in ("pass", "fail")]
-    rejected = sum(result["status"] == "fail" for _, _, result in results)
-    print(f"{len(tasks)} original solutions pass; {len(jobs)} single mutations; "
-          f"{rejected} rejected with fail; {len(survivors)} survivors; {len(unexpected)} unexpected statuses")
-    for reference, label in survivors:
-        print("SURVIVED", reference, label)
-    for reference, label, status in unexpected:
-        print("UNEXPECTED", reference, label, status)
-    return bool(survivors or unexpected)
+        ref,step,label,query = job
+        return {'task':ref,'mutation':label,'query':query,'result':runner.test(query,step),
+                'equivalence_reason':equivalence_reason(step['solution'],query,step['meta']['dil'])}
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        results = list(pool.map(check,jobs))
+    survivors = [r for r in results if r['result']['status']=='pass' and not r['equivalence_reason']]
+    equivalent = [r for r in results if r['result']['status']=='pass' and r['equivalence_reason']]
+    errors = [r for r in results if r['result']['status'] not in ('pass','fail')]
+    failed = [r for r in results if r['result']['status']=='fail']
+    # A counterexample disproves the bounded classification and must not be hidden.
+    wrong_proof = [r for r in failed if r['equivalence_reason']]
+    print(f'{len(tasks)} solutions pass; {len(results)} mutations; {len(failed)} fail; {len(equivalent)} proven-equivalent; {len(survivors)} survivors; {len(errors)} errors')
+    for row in equivalent+survivors+errors:
+        print('EQUIVALENT' if row in equivalent else row['result']['status'].upper(),row['task'],row['mutation'],repr(row['query']))
+        if row['equivalence_reason']:
+            print('  Reason:',row['equivalence_reason'])
+    for row in wrong_proof:
+        print('EQUIVALENCE PROOF CONTRADICTED',row['task'],row['mutation'])
+    if args.report:
+        Path(args.report).parent.mkdir(parents=True,exist_ok=True)
+        Path(args.report).write_text(json.dumps({'tasks':len(tasks),'baseline':baseline,'summary':{'mutations':len(results),'fail':len(failed),'equivalent':len(equivalent),'survivors':len(survivors),'errors':len(errors)},'mutations':results},ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+    return bool(survivors or errors or wrong_proof)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())

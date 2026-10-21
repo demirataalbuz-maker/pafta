@@ -1,150 +1,455 @@
 ---
 id: el02
-title: Mapping, Keyword, Text ve Alan Varlığı
-summary: İndekslenen değer ile _source farkı; boş metin, null, boş dizi; analyzer ve phrase için açık eğitim modeli.
+title: Mapping · Keyword, Text ve Varlık
+summary: Keyword tam değer, text native analiz/OR ve tırnaklı ifade; indexed-value exists ile null/boş/ignore_above farkı.
 ---
 
-::: anlat Aynı metin, iki farklı arama alanı
-Elasticsearch'te mapping, alanın nasıl indekslendiğini belirler. Normalizer olmayan bir `keyword` alanında `Error Timeout` bir bütün değerdir; harf ve noktalama önemlidir. Bir `text` alanı analyzer tarafından terimlere dönüştürülür. Bu yüzden keyword'e göre yazılmış tam eşitlik mantığını text alanına taşıyamazsın.
+::: anlat Aynı metin iki alanda farklı aranabilir
+Keyword alan bütün değeri tek terim olarak tutar. Normalizer yoksa harf ve noktalama korunur; lowercase normalizer varsa indeksleme ve sorgu aynı normalizasyondan geçer. Text alanı ise mapping'deki analyzer ile terimlere ayrılır. Bu tezgâhta text analyzer yalnız **standard**, keyword normalizer isteğe bağlı **lowercase** olabilir; özel analiz zinciri varsayılmaz.
 
-Örneğin yalnız küçük harfli sözcük tokenları üreten **bu dersin açık modeli** için `message: error timeout`, iki terimi içermeye ilişkin bir aramadır; tırnaklı `message: "error timeout"` sıralı phrase arar. Gerçek analyzer tokenizasyon, normalleştirme ve konum bilgisi üretir. Burada onun yerine kayıtlarla birlikte hazır `message_tokens` dizisi veriyoruz. Bu dizi gerçek Elasticsearch analyzer çıktısını hesaplamaz; kendi belirttiğimiz varsayımı görünür kılar.
+Tırnaksız `message: access denied`, standard text alanda iki analyzed terim için **OR** davranır: yalnız access veya yalnız denied içeren belge de eşleşir. İki terimin ikisini zorlamak için `message:(access AND denied)` yaz. Bu, tek tırnaksız değerin varsayılanını AND sanmaktan farklıdır.
 
-Bir alanın `.keyword` alt alanı var mı sorusunu adına bakarak cevaplama; mapping'e bak. Text çoklu alanının keyword sürümü tanımlanmış olabilir ama her kayıtta her alt alan için indekslenen değer bulunmayabilir. Sırf `_source` içinde metni görmek, tam eşleşme alanında sorgulanabildiğini göstermez.
-:::
+Tırnaklı `message: "access denied"` ise native phrase sorgusudur: analyzed terimlerin bu sırada, yan yana bulunmasını ister. Mesajın tamamının yalnız bu iki sözcükten oluşması gerekmez. Kaynaklar: [KQL](https://www.elastic.co/docs/reference/query-languages/kql), [match varsayılan OR](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-match-query).
 
-::: anlat exists, Python anahtar varlığı değildir
-Kibana KQL'de `user.name: *`, **indekslenen bir değer** varlığını arar. Boş metin `""` bir değerdir ve eşleşebilir. Varsayılan null davranışında `null`, `[]` ve yalnız null içeren diziler değer üretmez; `[null, "alice"]` ise bir değer taşır. `0` ve `false` de uygun mapping'lerde gerçek değerlerdir; Python'un `bool(deger)` kontrolü exists için doğru model değildir.
-
-`ignore_above` sınırını aşma, `ignore_malformed` ve indeksleme/doc_values ayarları da kaynağı görünen alanı sorgu açısından değersiz bırakabilir. Özel `null_value` tanımı null'u başka bir değerle indeksleyebilir. Bu alıştırmalarda özel null_value ve bu istisnalar **yok**; varlık yalnız açıklanan düz scalar/dizi kuralıyla modellenir. Canlı sistemde mapping ve `_ignored` gibi bağlamlar ayrıca incelenir.
-
-Python'da `is None` null'u ayırır. `isinstance(v, list)` diziyi ayırır; `any(x is not None for x in v)` en az bir değer ister ve boş metni yanlışlıkla atmaz. İkinci görevde bitişik tokenları görmek için `zip(tokenlar, tokenlar[1:])` yan yana çiftler üretir. Bu araçların hiçbiri serbest KQL metni ayrıştırmaz.
-
-Kaynaklar (21 Ekim 2026): [KQL değer/exists kuralları](https://www.elastic.co/docs/reference/query-languages/kql), [exists ve indeksleme istisnaları](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query), [keyword](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/keyword), [text](https://www.elastic.co/docs/reference/elasticsearch/mapping-reference/text).
-:::
-
-::: tahmin
-Aşağıdaki **Kibana KQL** filtresini ve JSON'daki mapping/bağlam varsayımlarını oku. Belirtilen sırada hangi belge kimlikleri görünür? Bu yolun sorgu bloğu okunur; Pafta Elastic sunucusunda sorgu çalıştırmaz. Gizli Python denetimi yalnız verilen sabit sorgunun açıklanan küçük modelini kontrol eder.
-
-```kibana
-user.name: *
+```meta
+dil: kibana
 ```
 
 ```stdin
 {
+  "dil": "kibana",
   "mapping": {
-    "user.name": "keyword; normalizer/null_value/ignore_above yok; tüm değerler indeksleniyor"
-  },
-  "context": {
-    "order": "girdi sırası",
-    "array_semantics": "null olmayan her öğe indekslenen değer; boş metin dahildir"
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 8
+    },
+    "message": {
+      "type": "text",
+      "analyzer": "standard"
+    }
   },
   "documents": [
     {
       "id": "a",
-      "user.name": ""
+      "user.name": "alice",
+      "message": "access denied"
     },
     {
       "id": "b",
-      "user.name": null
+      "user.name": null,
+      "message": "denied access"
     },
     {
       "id": "c",
-      "user.name": []
+      "message": "access only"
     },
     {
-      "id": "d"
+      "id": "d",
+      "user.name": "",
+      "message": "denied only"
     },
     {
       "id": "e",
       "user.name": [
         null,
-        "alice"
-      ]
+        "bob"
+      ],
+      "message": "other"
     },
     {
       "id": "f",
+      "user.name": [],
+      "message": null
+    },
+    {
+      "id": "g",
+      "user.name": "toolongname",
+      "message": ""
+    },
+    {
+      "id": "h",
+      "user.name": "null"
+    },
+    {
+      "id": "i",
       "user.name": [
-        null
+        "toolongname",
+        "eve"
       ]
     }
-  ]
+  ],
+  "context": {}
 }
 ```
 
-```gercek
-a
-e
+```kibana
+message: access denied
+```
+:::
+
+::: anlat Exists, JSON anahtarını saymak değildir
+`user.name: *`, alanda **indekslenmiş bir değer** arar. Anahtarın bulunması yeterli değildir: null, boş dizi ve yalnız null içeren dizi normalde indekslenmiş değer üretmez. Keyword `""` ise boş metin olsa da değerdir. Bir dizide en az bir indekslenebilir değer bulunması yeterlidir.
+
+Bu korpusta user.name için `ignore_above: 8` var. Sekiz karakterlik keyword indekslenir; dokuz karakterlik değer _source'ta görünmesine rağmen bu alanın aramasına katılmaz. `null_value` tanımlanırsa açık null yerine belirtilen keyword indekslenebilir; eksik anahtar için kendiliğinden eklenmez. Görevde null_value tanımlı değil.
+
+`user.name: "*"` ve `user.name: \*` literal yıldız arar; exists değildir. `NOT user.name: *`, indekslenmiş değeri olmayan belgeleri seçebilir. index:false alan sorguları bu tezgâhta açıkça reddedilir; Elasticsearch doc_values seçeneklerini burada varsayma. Kaynak: [exists ve indekslenmiş değer](https://www.elastic.co/docs/reference/query-languages/query-dsl/query-dsl-exists-query).
+
+```meta
+dil: kibana
 ```
 
-```test
-import json
-import sys
-data = json.loads(sys.stdin.read())
-for doc in data['documents']:
-    value = doc.get('user.name')
-    exists = any(item is not None for item in value) if isinstance(value, list) else value is not None
-    if exists:
-        print(doc['id'])
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 8
+    },
+    "message": {
+      "type": "text",
+      "analyzer": "standard"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "user.name": "alice",
+      "message": "access denied"
+    },
+    {
+      "id": "b",
+      "user.name": null,
+      "message": "denied access"
+    },
+    {
+      "id": "c",
+      "message": "access only"
+    },
+    {
+      "id": "d",
+      "user.name": "",
+      "message": "denied only"
+    },
+    {
+      "id": "e",
+      "user.name": [
+        null,
+        "bob"
+      ],
+      "message": "other"
+    },
+    {
+      "id": "f",
+      "user.name": [],
+      "message": null
+    },
+    {
+      "id": "g",
+      "user.name": "toolongname",
+      "message": ""
+    },
+    {
+      "id": "h",
+      "user.name": "null"
+    },
+    {
+      "id": "i",
+      "user.name": [
+        "toolongname",
+        "eve"
+      ]
+    }
+  ],
+  "context": {}
+}
+```
+
+```kibana
+user.name: *
+```
+:::
+
+::: tahmin
+JSON içindeki mapping, belgeler ve context birlikte geçerli. Sorgunun döndürdüğü belge kimliklerini girdi sırasıyla tahmin et. `context.sort` verilmemişse alfabetik sıra uygulanmaz.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 8
+    },
+    "message": {
+      "type": "text",
+      "analyzer": "standard"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "user.name": "alice",
+      "message": "access denied"
+    },
+    {
+      "id": "b",
+      "user.name": null,
+      "message": "denied access"
+    },
+    {
+      "id": "c",
+      "message": "access only"
+    },
+    {
+      "id": "d",
+      "user.name": "",
+      "message": "denied only"
+    },
+    {
+      "id": "e",
+      "user.name": [
+        null,
+        "bob"
+      ],
+      "message": "other"
+    },
+    {
+      "id": "f",
+      "user.name": [],
+      "message": null
+    },
+    {
+      "id": "g",
+      "user.name": "toolongname",
+      "message": ""
+    },
+    {
+      "id": "h",
+      "user.name": "null"
+    },
+    {
+      "id": "i",
+      "user.name": [
+        "toolongname",
+        "eve"
+      ]
+    }
+  ],
+  "context": {}
+}
+```
+
+```kibana
+message: access denied
 ```
 
 ???
 
-`a`daki boş metin indekslenen değerdir. `e`de null yanında alice vardır. `b`, `c`, `d` ve `f` bu mapping varsayımında indekslenen user.name değeri sağlamaz. Anahtarın bulunması ya da Python truthiness kontrolü tek başına yeterli değil.
+```text
+a
+b
+c
+d
+```
+
+Tırnaksız text değeri OR ile aranır: `a`/`b` iki terimi, `c` yalnız access ve `d` yalnız denied içerir. Sıra şartı ve ikisini birden bulma şartı bu sorguda yoktur.
 :::
 
-::: gorev İndekslenen değer modeli
-`indeksli(deger)` fonksiyonu bu dersin sınırlı scalar/dizi modeli için Boolean döndürsün: None yok; boş liste veya yalnız None öğeleri yok; diğer scalar değerler var; listede en az bir None olmayan öğe varsa var. Diziler yalnız scalar/None içerir, iç içe dizi verilmez. `""`, `0`, `False` var sayılmalı. Gerçek mapping istisnalarını bu fonksiyona uydurup gizleme.
+::: gorev İndekslenmiş kullanıcı değeri
+
+user.name için indekslenmiş bir değeri bulunan belgeleri seç. Boş keyword metni dahil; eksik/null/boş dizi/yalnız null dışarıda. ignore_above=8 etkisini koru.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 8
+    },
+    "message": {
+      "type": "text",
+      "analyzer": "standard"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "user.name": "alice",
+      "message": "access denied"
+    },
+    {
+      "id": "b",
+      "user.name": null,
+      "message": "denied access"
+    },
+    {
+      "id": "c",
+      "message": "access only"
+    },
+    {
+      "id": "d",
+      "user.name": "",
+      "message": "denied only"
+    },
+    {
+      "id": "e",
+      "user.name": [
+        null,
+        "bob"
+      ],
+      "message": "other"
+    },
+    {
+      "id": "f",
+      "user.name": [],
+      "message": null
+    },
+    {
+      "id": "g",
+      "user.name": "toolongname",
+      "message": ""
+    },
+    {
+      "id": "h",
+      "user.name": "null"
+    },
+    {
+      "id": "i",
+      "user.name": [
+        "toolongname",
+        "eve"
+      ]
+    }
+  ],
+  "context": {}
+}
+```
 
 ```starter
-def indeksli(deger):
-    return False
+user.name: "__pafta_baslangic__"
 ```
 
 ```test
-need('indeksli')
-for value, expected in [(None,False),([],False),([None],False),([None,None],False),('',True),(0,True),(False,True),('alice',True),([None,''],True),([None,'alice'],True),([0],True),([False],True)]:
-    eq(indeksli(value), expected, 'indeks varlığı: '+repr(value))
+eq(eslesenler(), ['a', 'd', 'e', 'h', 'i'], "girdi korpusunun sabit kimlikleri")
+eq(referans('user.name: *'), ['a', 'd', 'e', 'h', 'i'], "referans sorgunun native sağlaması")
+ek = [{'id': 'sekiz', 'user.name': 'eight888'}, {'id': 'dokuz', 'user.name': 'nine99999'}, {'id': 'null', 'user.name': None}, {'id': 'dizi-null', 'user.name': [None]}, {'id': 'dizi-bos', 'user.name': []}, {'id': 'bos-metin', 'user.name': ''}, {'id': 'yok'}]
+eq(eslesenler({"documents": ek}), ['sekiz', 'bos-metin'], "değişen belgeler ve yakın karşı örnekler")
+eq(eslesenler({"documents": list(reversed(ek))}), ['bos-metin', 'sekiz'], "sonuç girdi sırasını izler")
 ```
 
 ```solution
-def indeksli(deger):
-    if isinstance(deger, list):
-        return any(oge is not None for oge in deger)
-    return deger is not None
+user.name: *
 ```
 
 ```hint
-bool(deger) boş metin, 0 ve False için yanlış sonuç verir; None ile ayrı karşılaştır.
+Değer yerinde tırnaksız tek yıldız exists sorgusudur.
 ```
+
 :::
 
-::: gorev Hazır tokenlarla phrase oku
-Sabit sorgu `message: "error timeout"`. Her kayıtta analyzer çıktısının küçük eğitim modeli olarak `message_tokens` verilmiş: bunlar küçük harfli sıralı tokenlar. `phrase_sec(kayitlar)` yan yana error, timeout içerenlerin id'lerini sırayla döndürsün. Arada başka token varsa veya sıraları tersse eşleşmez. Eksik token dizisi boş kabul edilir. Ham message alanını ayrıca parçalamaya çalışma.
+::: gorev Yan yana iki terim
+
+Standard text message alanında analyzed access ve denied terimleri tam bu sırada yan yana bulunsun. Ters sıra, araya sözcük girmesi veya terimlerin ayrı dizi değerlerine dağılması yeterli değil.
+
+```meta
+dil: kibana
+```
+
+```stdin
+{
+  "dil": "kibana",
+  "mapping": {
+    "user.name": {
+      "type": "keyword",
+      "ignore_above": 8
+    },
+    "message": {
+      "type": "text",
+      "analyzer": "standard"
+    }
+  },
+  "documents": [
+    {
+      "id": "a",
+      "user.name": "alice",
+      "message": "access denied"
+    },
+    {
+      "id": "b",
+      "user.name": null,
+      "message": "denied access"
+    },
+    {
+      "id": "c",
+      "message": "access only"
+    },
+    {
+      "id": "d",
+      "user.name": "",
+      "message": "denied only"
+    },
+    {
+      "id": "e",
+      "user.name": [
+        null,
+        "bob"
+      ],
+      "message": "other"
+    },
+    {
+      "id": "f",
+      "user.name": [],
+      "message": null
+    },
+    {
+      "id": "g",
+      "user.name": "toolongname",
+      "message": ""
+    },
+    {
+      "id": "h",
+      "user.name": "null"
+    },
+    {
+      "id": "i",
+      "user.name": [
+        "toolongname",
+        "eve"
+      ]
+    }
+  ],
+  "context": {}
+}
+```
 
 ```starter
-def phrase_sec(kayitlar):
-    return []
+user.name: "__pafta_baslangic__"
 ```
 
 ```test
-need('phrase_sec')
-rows = [{'id':'a','message_tokens':['error','timeout']}, {'id':'b','message_tokens':['timeout','error']}, {'id':'c','message_tokens':['error','network','timeout']}, {'id':'d','message_tokens':['before','error','timeout','after']}, {'id':'e','message_tokens':['error']}, {'id':'f','message':'error timeout'}, {'id':'g','message_tokens':[]}]
-eq(phrase_sec(rows), ['a','d'], 'bitişik ve doğru sıra')
-eq(phrase_sec([{'id':'x','message_tokens':['error','error','timeout']},{'id':'y','message_tokens':['errors','timeout']}]), ['x'], 'konum varyasyonu ve token eşitliği')
-eq(phrase_sec([]), [], 'boş küme')
+eq(eslesenler(), ['a'], "girdi korpusunun sabit kimlikleri")
+eq(referans('message: "access denied"'), ['a'], "referans sorgunun native sağlaması")
+ek = [{'id': 'buyuk', 'message': 'ACCESS denied'}, {'id': 'ters', 'message': 'denied access'}, {'id': 'aralik', 'message': 'access strongly denied'}, {'id': 'devam', 'message': 'access denied later'}, {'id': 'dizi-ayri', 'message': ['access', 'denied']}, {'id': 'dizi-ic', 'message': ['other', 'access denied']}, {'id': 'null', 'message': None}, {'id': 'bos', 'message': ''}]
+eq(eslesenler({"documents": ek}), ['buyuk', 'devam', 'dizi-ic'], "değişen belgeler ve yakın karşı örnekler")
+eq(eslesenler({"documents": list(reversed(ek))}), ['dizi-ic', 'devam', 'buyuk'], "sonuç girdi sırasını izler")
 ```
 
 ```solution
-def phrase_sec(kayitlar):
-    sonuc = []
-    for kayit in kayitlar:
-        tokenlar = kayit.get('message_tokens', [])
-        if any(a == 'error' and b == 'timeout' for a, b in zip(tokenlar, tokenlar[1:])):
-            sonuc.append(kayit['id'])
-    return sonuc
+message: "access denied"
 ```
 
 ```hint
-zip(tokenlar, tokenlar[1:]) bitişik çiftler verir; yalnız iki tokenın listede bulunması phrase için yetmez.
+KQL değerini çift tırnağa al; phrase sorgusu oluşur.
 ```
+
 :::

@@ -172,6 +172,29 @@ class SequenceMachine(unittest.TestCase):
 
 
 class RejectionContract(unittest.TestCase):
+    def test_maxspan_units_match_elastic_and_negative_zero_is_explicit(self):
+        for unit in ("ns", "micros", "us", "w", "S"):
+            with self.subTest(unit=unit), self.assertRaises(EqlError):
+                evaluate('sequence with maxspan=1' + unit + ' [any where true] [any where true]', MAPPING, [])
+        mapping = {**MAPPING, "ratio": "double"}
+        for query in ('any where ratio == -0.0', 'any where ratio in (-0e0, 1.0)'):
+            with self.subTest(query=query), self.assertRaisesRegex(EqlError, "negatif double sıfırı"):
+                evaluate(query, mapping, [])
+        with self.assertRaisesRegex(EqlError, "negatif double sıfırı"):
+            evaluate('any where ratio >= 0.0', mapping, [event("a", ratio=-0.0)])
+
+    def test_unsupported_numeric_promotion_and_key_coercion_fail_clearly(self):
+        mapping = {**MAPPING, "ratio": "double", "other_n": "integer"}
+        for query in ('any where ratio < 9007199254740993', 'any where n == 1.0',
+                      'any where 9007199254740993 == 9007199254740992.0',
+                      'any where process.name < "z"',
+                      'sequence [any where true] by n [any where true] by ratio',
+                      'sequence [any where true] by n [any where true] by other_n',
+                      'sequence by ratio [any where true] [any where true]'):
+            with self.subTest(query=query), self.assertRaises(EqlError):
+                evaluate(query, mapping, [])
+        self.assertEqual(evaluate('any where ratio == 1.0', mapping, [event("a", ratio=1.0)]), ["a"])
+
     def test_unsupported_or_unconsumed_syntax_never_silently_passes(self):
         queries = [
             'process where process.name = "a"', 'process where process.name == "a" garbage',

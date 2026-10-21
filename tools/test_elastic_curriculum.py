@@ -1,10 +1,6 @@
-"""Elastic reading track: structure, Python exercises and fixed answer consistency.
-
-These checks do NOT execute queries in Elasticsearch. A prediction's hidden
-`test` block is a small independent Python reader of its declared JSON corpus;
-it verifies the hand-authored `gercek` answer, not arbitrary query semantics.
-"""
+"""Writing track contract: real queries, no hand-authored prediction bypass."""
 import json
+import re
 import sys
 import unittest
 from concurrent.futures import ThreadPoolExecutor
@@ -17,16 +13,17 @@ from engine.runners import get
 
 
 class ElasticCurriculumTests(unittest.TestCase):
-    def setUp(self):
-        self.library = Library()
-        self.outline = self.library.outline("elastic")
+    @classmethod
+    def setUpClass(cls):
+        cls.library = Library()
+        cls.outline = cls.library.outline("elastic")
 
     def test_catalog_and_source_contract(self):
-        self.assertEqual(self.outline["runner"], "python")
-        self.assertEqual(self.outline["okuma_dili"], "elastic")
-        self.assertEqual(self.outline["order"], [f"el{i:02}" for i in range(1, 19)])
-        self.assertEqual({m["rank"] for m in self.outline["modules"]},
-                         {r["id"] for r in self.outline["ranks"]})
+        self.assertEqual(self.outline["runner"], "elastic")
+        self.assertEqual(self.outline["dil"], "elastic")
+        self.assertNotIn("okuma_dili", self.outline)
+        self.assertEqual(self.outline["order"], [f"el{i:02}" for i in range(1, 20)])
+        self.assertEqual({m["rank"] for m in self.outline["modules"]}, {r["id"] for r in self.outline["ranks"]})
         self.assertEqual(len(self.outline["modules"]), 6)
         for path in (ROOT / "tracks" / "elastic").rglob("*"):
             if path.is_file():
@@ -34,54 +31,52 @@ class ElasticCurriculumTests(unittest.TestCase):
                 self.assertNotIn(b"\r", data, str(path))
                 self.assertFalse(data.startswith(b"\xef\xbb\xbf"), str(path))
                 data.decode("utf-8")
-        for number, lesson_id in enumerate(self.outline["order"], 1):
-            with self.subTest(lesson=lesson_id):
-                lesson = self.library.lesson("elastic", lesson_id)
-                self.assertEqual(lesson["id"], lesson_id)
-                predictions = [s for s in lesson["steps"] if s["kind"] == "tahmin"]
-                self.assertTrue(predictions)
-                tasks = [s for s in lesson["steps"] if s["kind"] == "gorev"]
-                self.assertGreaterEqual(len(tasks), 2)
-                for prediction in predictions:
-                    expected_language = "kibana" if number <= 6 else "lucene" if number <= 12 else "eql"
-                    self.assertEqual(prediction["code_dil"], expected_language)
-                    self.assertTrue(prediction["code"])
-                    self.assertTrue(prediction["gercek"])
-                    self.assertTrue(prediction["test"])
-                    self.assertIn("???", prediction["body"])
-                    json.loads(prediction["stdin"])
-                    public = public_step(prediction)
-                    for secret in ("gercek", "test", "solution"):
-                        self.assertNotIn(secret, public)
-                for task in tasks:
+        for lesson_id in self.outline["order"]:
+            lesson = self.library.lesson("elastic", lesson_id)
+            self.assertEqual(lesson["id"], lesson_id)
+            predictions = [s for s in lesson["steps"] if s["kind"] == "tahmin"]
+            self.assertTrue(predictions, lesson_id)
+            self.assertGreaterEqual(len([s for s in lesson["steps"] if s["kind"] == "gorev"]), 2)
+            for step in lesson["steps"]:
+                if step["kind"] not in ("tahmin", "gorev"):
+                    continue
+                config = json.loads(step["stdin"])
+                self.assertEqual(config["dil"], step["meta"]["dil"])
+                self.assertIn(config["dil"], ("kibana", "lucene", "eql"))
+                self.assertIsInstance(config["mapping"], dict)
+                self.assertTrue(config["documents"])
+                if step["kind"] == "tahmin":
+                    self.assertEqual(step["code_dil"], config["dil"])
+                    self.assertNotIn("gercek", step)
+                    self.assertNotIn("test", step)
+                    self.assertIn("???", step["body"])
+                else:
                     for key in ("test", "solution", "starter", "hints"):
-                        self.assertTrue(task[key], (lesson_id, key))
+                        self.assertTrue(step[key], (lesson_id, key))
+                self.assertFalse({"gercek", "test", "solution", "setup"} & public_step(step).keys())
 
-    def test_fixed_prediction_answers_match_declared_python_models(self):
-        jobs = [(lesson_id, step) for lesson_id in self.outline["order"]
-                for step in self.library.lesson("elastic", lesson_id)["steps"]
-                if step["kind"] == "tahmin"]
+    def test_prediction_outputs_match_explanations(self):
+        jobs = [(lid, step) for lid in self.outline["order"] for step in self.library.lesson("elastic", lid)["steps"] if step["kind"] == "tahmin"]
         def check(job):
-            lesson_id, step = job
-            result = get("python").run(step["test"], step["stdin"])
-            output = "".join(text for kind, text in result.get("segs", []) if kind == "out")
-            return lesson_id, step, result, output
-        with ThreadPoolExecutor(max_workers=6) as pool:
-            for lesson_id, step, result, output in pool.map(check, jobs):
-                with self.subTest(lesson=lesson_id):
+            lid, step = job
+            return lid, step, get("elastic").run(step["code"], step["stdin"])
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            for lid, step, result in pool.map(check, jobs):
+                with self.subTest(lesson=lid):
                     self.assertEqual(result["status"], "ok", result)
-                    self.assertEqual(output.strip(), step["gercek"].strip())
+                    output = "".join(text for kind, text in result["segs"] if kind == "out").strip()
+                    blocks = re.findall(r"```(?:text|cikti)\s*\n(.*?)```", step["body"], re.S)
+                    self.assertIn(output, [b.strip() for b in blocks], (lid, output, blocks))
 
-    def test_exercise_solutions_pass_and_starters_do_not(self):
-        jobs = [(lesson_id, index, step) for lesson_id in self.outline["order"]
-                for index, step in enumerate(self.library.lesson("elastic", lesson_id)["steps"])
-                if step["kind"] == "gorev"]
+    def test_solutions_pass_and_starters_do_not(self):
+        jobs = [(lid, i, step) for lid in self.outline["order"] for i, step in enumerate(self.library.lesson("elastic", lid)["steps"]) if step["kind"] == "gorev"]
         def check(job):
-            lesson_id, index, step = job
-            return lesson_id, index, get("python").test(step["solution"], step), get("python").test(step["starter"], step)
-        with ThreadPoolExecutor(max_workers=6) as pool:
-            for lesson_id, index, solution, starter in pool.map(check, jobs):
-                with self.subTest(lesson=lesson_id, step=index):
+            lid, i, step = job
+            runner = get("elastic")
+            return lid, i, runner.test(step["solution"], step), runner.test(step["starter"], step)
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            for lid, index, solution, starter in pool.map(check, jobs):
+                with self.subTest(lesson=lid, step=index):
                     self.assertEqual(solution["status"], "pass", solution)
                     self.assertNotEqual(starter["status"], "pass", starter)
 

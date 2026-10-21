@@ -20,7 +20,7 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 | **Assembly (x86/x64)** (okuma) | 12 (6 rütbe; 64/32/16/8-bit yazmaç dilimleri ve mov, aritmetik/bit/lea, little-endian bellek ve movzx/movsx, RFLAGS ve cmp/test, işaretsiz ja/jb ile işaretli jg/jl dallanmaları ve cmovcc, yığın/push-pop ve prolog/epilog, Windows x64 ve System V ABI çağrı kuralları, diziler/dizgiler/struct hizalaması, C kontrol kalıpları, yığın kanaryası ve jo taşma denetimi, objdump/RIP-göreli adresleme ve rol/ror, ikili paket doğrulayıcı projesi) | `python`: C ile aynı düzen, x86-64 Intel sözdizimi kuralları | hazır |
 | **Sigma** | 18 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma ayrıştırıcısı + JSON olaylarında yerel test backend'i | hazır |
 | **YARA** | 18 (6 rütbe; metin/hex, regex, sayım/konum, PE/hash/math, yanlış pozitifler ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
-| **Elastic / Kibana** (okuma) | 18 (6 rütbe; Kibana KQL, Lucene query string, Elastic EQL; mapping, zaman, olay dizileri ve projeler) | `python`: sorgular okunur; tahminler belirtilen sabit örnekler içindir, görevler sınırlı Python yorumlama/istek/yanıt alıştırmalarıdır | hazır |
+| **Elastic / Kibana** | 19 (6 rütbe; Kibana KQL, Lucene query string, Elastic EQL; sorgu yazma, mapping, zaman, olay dizileri ve gerçek ortam dersi) | `elastic`: KQL/Lucene gerçek Apache Lucene 9.12.3 üzerinde; EQL açık sınırları olan yerel yorumlayıcı | hazır |
 | **CMD / Batch** | 18 (6 rütbe; parametreler, değişken açılımı, for/for /f, dosya ve metin akışı, hata kodları, alt yordamlar ve rapor projeleri) | `cmd`: gerçek Windows cmd.exe; run/test, UTF-8 girdi/çıktı | hazır |
 | **Wireshark / tcpdump** | 18 (6 rütbe; görüntü filtreleri, adres/port/alanlar, DNS/HTTP, BPF byte/uzunluk/bayrak koşulları, fragment/VLAN ve projeler) | `packets`: gerçek TShark 4.6.8 + libpcap 1.10.6 BPF, offline PCAP üzerinde filtre yazma ve test | hazır |
 | **Active Directory ve LDAP** | 12 (6 rütbe; DN/OU/CN ağacı, RFC 4515 LDAP filtreleri, joker/varlık/kaçış dizileri, userAccountControl bit eşleşmesi 803/804, Get-ADUser/Get-ADComputer/Get-ADGroup/Get-ADGroupMember -Recursive ve 1941 zincir kuralı, SPN/temsil/hesap denetimi, AD güvenlik günlükleri, GPO/Kerberos/AdminSDHolder/çoğaltma okuma ve Windows Server AD laboratuvar kurulumu) | `ad`: [sandbox/ad_engine.py](sandbox/ad_engine.py) `DC=pafta,DC=local` dizini üzerinde RFC 4515 LDAP ve `Get-AD*` değerlendiricisi; LDAP düğmesi etkin filtreyi gösterir | hazır |
@@ -33,7 +33,7 @@ SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çal
 - Elle: `pythonw Pafta.pyw` (Edge uygulama penceresi açılır; pencere kapanınca sunucu ~40 sn sonra kendini kapatır)
 - Geliştirme: `python server.py --port 8765` (tarayıcıda `http://127.0.0.1:8765/`; `--veri KLASOR` ile ayrı bir ilerleme klasörü)
 
-Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java, C# ve Assembly için derleyici, Elastic okuma yolu için Elasticsearch/Kibana kurulumu gerekmez. Sigma/YARA dışındaki Python bileşenleri standart kütüphaneyi kullanır.
+Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java, C# ve Assembly okuma yolları için derleyici gerekmez. Elastic tezgahı JDK 17+ ve `python tools/install_elastic_runtime.py` ile kurulan pinli Lucene JAR'larını kullanır; son gerçek ortam dersi dışında Elasticsearch/Kibana kurulumu gerekmez. Python bileşenleri Sigma/YARA bağımlılıkları dışında standart kütüphaneyi kullanır.
 
 ### Ağ filtreleri tezgahı
 
@@ -73,11 +73,12 @@ python tools/test_detection_integration.py
 
 Resmi dayanaklar: [Sigma şartnamesi](https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html), [pySigma](https://github.com/SigmaHQ/pySigma), [YARA Python API](https://yara.readthedocs.io/en/stable/yarapython.html).
 
-### Elastic / Kibana okuma yolu
+### Elastic / Kibana sorgu tezgahı
 
-Bu yol **KQL (Kusto)** yolundan ayrıdır. Kibana KQL, Lucene query string ve Elastic EQL'nin gerçek sözdizimi okunur; Pafta Elasticsearch sorgusu çalıştırmaz. Her tahminde mapping, örnek veri ve sıralama sözleşmesi verilir; sabit yanıt gizli Python modeliyle çapraz denetlenir. Bu model genel sorgu ayrıştırıcısı veya native motor doğrulaması değildir. Python görevleri verilen koşulu yorumlar, istek sözlüğü hazırlar veya örnek yanıtı okur; sınır ve mantık testleri bu alıştırmalar içindir. Arayüz sorguları **OKUMA**, tezgahı **Python** olarak ayırır. Ayrıntılar ve resmi kaynaklar: [yolun sözleşmesi](tracks/elastic/README.md).
+Bu yol **KQL (Kusto)** yolundan ayrıdır. Öğrenci Kibana KQL, Lucene ve EQL sorgusu yazar; sorgu JSON girdisindeki mapping ve sentetik belgeler üzerinde değerlendirilir. Tahmin yanıtı da aynı motorla hesaplanır. KQL gerçek Lucene sorgularına ayrılır; Lucene yolu gerçek Classic QueryParser, analyzer, phrase/slop/fuzzy/regex kullanır. EQL sınırlı yerel yorumlayıcıdır; sequence anahtarları, maxspan ve until sınırları test edilir. Desteklenmeyen özellikler açık hatadır. Gerçek Elasticsearch sunucusu başlatılmaz; EL19 ücretsiz yerel Elasticsearch/Kibana üzerinde aynı sorguları denemeyi öğretir. JDK 17+ gerekir (Android Studio JBR kullanılabilir); JAR'lar SHA-512 ile doğrulanır. Ayrıntılar, destek sınırları ve resmi kaynaklar: [yolun sözleşmesi](tracks/elastic/README.md).
 
 ```text
+python tools/install_elastic_runtime.py
 python tools/validate.py --yol elastic
 python tools/test_elastic_curriculum.py
 python tools/test_elastic_integration.py
@@ -110,7 +111,7 @@ Her pafta adımlardan oluşur:
 | **Tahmin** | Kodun çıktısını tahmin edersin; çalıştırılabilir yolda gerçek çalıştırmayla, okuma yolunda açıklanan sabit cevapla karşılaştırılır |
 | **Görev** | Kodu sen yazarsın, testler denetler; geçince "ONAYLANDI" mührü basılır |
 
-Tezgah (sağ panel): editör, Çıktı, Kontrol, **Röntgen** ve dile göre bir görünüm (Python'da Bytecode, Regex'te Ağaç, SQL'de Plan, KQL ve SPL'de SQL karşılığı). Röntgen Python'da kodu adım adım yürütüp her satırda değişkenleri gösterir (aynı renk = aynı nesne); Bash ve PowerShell'de yorumlayıcının çalıştırdığı komutları sırasıyla, değişkenler yerine konmuş haliyle gösterir. Regex'te Röntgen yerine eşleşme tablosu, SQL'de her sorgunun sonuç tablosu vardır. Sigma ve YARA'da olay/bayt eşleşmeleri gösterilir. Geçilen görevler **Tekrar** kutularına düşer (1, 3, 7, 16, 35 gün). **Serbest tezgah** on bir dilde boş bir çalışma alanıdır (`#/tezgah/<dil>`: python, regex, bash, powershell, cmd, sql, kql, spl, javascript, sigma, yara). Okuma yollarında (C, PHP, Elastic / Kibana) tezgah, görevlerdeki Python içindir.
+Tezgah (sağ panel): editör, Çıktı, Kontrol, **Röntgen** ve dile göre bir görünüm (Python'da Bytecode, Regex'te Ağaç, SQL'de Plan, KQL ve SPL'de SQL karşılığı). Röntgen Python'da kodu adım adım yürütüp her satırda değişkenleri gösterir (aynı renk = aynı nesne); Bash ve PowerShell'de yorumlayıcının çalıştırdığı komutları sırasıyla, değişkenler yerine konmuş haliyle gösterir. Regex'te Röntgen yerine eşleşme tablosu, SQL'de her sorgunun sonuç tablosu vardır. Sigma ve YARA'da olay/bayt eşleşmeleri gösterilir. Geçilen görevler **Tekrar** kutularına düşer (1, 3, 7, 16, 35 gün). **Serbest tezgah** diller için ayrı bir çalışma alanıdır (`#/tezgah/<dil>`: python, regex, bash, powershell, cmd, sql, kql, spl, javascript, sigma, yara, packets, elastic, ad). Elastic sorguları JSON corpus üzerinde denenir. Okuma yollarında (C, PHP) tezgah, görevlerdeki Python içindir.
 
 Kısayollar: `Ctrl+Enter` çalıştır · `Ctrl+Shift+Enter` kontrol et · `Ctrl+/` yorum · `Tab`/`Shift+Tab` girinti · Röntgende `←` `→`
 
@@ -190,7 +191,7 @@ SQL çıktısı (`out`, tahmin karşılaştırması) sqlite3 kabuğunun liste bi
 
 **Okuma yolları (C, PHP)**: `track.json`'da `"runner": "python"`, `"dil": "python"` ve `"okuma_dili": "c"` (ya da `"php"`). Anlatım ve tahmin kodu ` ``c ` / ` ``php ` bloklarında yazılır ve çalıştırılmaz; tahmin adımına gerçek çıktı bir ` ``gercek ` bloğuyla elle verilir (ön yüze tahmin edilmeden gönderilmez). Görevler, okunan kodun davranışını Python'da kurdurur ve Python testleriyle denetlenir. `gercek` blokları doğrulayıcı tarafından çalıştırılamadığı için C/PHP davranışını iyi bildiğin örneklerle sınırlı tut ve Python karşılığıyla çapraz denetle.
 
-**Elastic okuma yolu** aynı Python koşucusunu `"okuma_dili": "elastic"` ile kullanır. Native kod blokları `kibana`, `lucene`, `eql` olarak etiketlenir; okuyucu tahmindeki dili `code_dil` alanında korur. `gercek` yanında gizli `test` bloğu ve JSON `stdin` verisi bulunur; `test_elastic_curriculum.py` bu sabit tahmin modelini ayrıca çalıştırır. Genel doğrulayıcı `gercek` yanıtını çalıştırmadığı için bu ek kontrol gereklidir.
+**Elastic yazma yolu** `"runner": "elastic"`, `"dil": "elastic"` kullanır. Adımın `meta.dil` alanı ve JSON `stdin.dil` değeri `kibana`, `lucene` veya `eql` seçer; tahmin çiti de bu dildedir. Tahminlerde `gercek` ve sorguya özel Python modelleri yoktur. Görev çözümü sorgudur; gizli Python testleri `eslesenler(veri=None)`, `referans(sorgu, veri=None, dil=None)` ve `korpus` yardımcılarıyla gerçek sorgu sonuçlarını sınar. Açık kimlik beklentileri ve sınır corpus'ları eklenmelidir; yalnız çözüm metni denetimi yapılmaz.
 
 Yeni ders ekleyince `track.json`'daki ilgili modülün `lessons` listesine id'yi ekle ve doğrula:
 

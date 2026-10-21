@@ -1,29 +1,99 @@
 {
   "id": "elastic",
-  "name": "Elastic / Kibana (okuma)",
+  "name": "Elastic / Kibana",
   "status": "active",
   "group": "savunma",
   "order": 15,
-  "runner": "python",
-  "dil": "python",
-  "okuma_dili": "elastic",
-  "role": "SOC için Kibana KQL, Lucene ve Elastic EQL sorgularını okumak; mapping, zaman ve olay dizilerini doğru yorumlamak.",
-  "tagline": "18 pafta, 6 rütbe: Kibana KQL ve Lucene filtrelerinden EQL olay dizilerine. Okuma yolu: gerçek sorgu sözdizimi, sabit örneklerle tahmin, Python ile yorumlama alıştırmaları. Elasticsearch motoru çalıştırılmaz.",
-  "kahraman": ["Sorgudan", "Kanıta", ""],
+  "runner": "elastic",
+  "dil": "elastic",
+  "role": "SOC için Kibana KQL, Lucene ve Elastic EQL sorgularını yazmak; mapping, zaman, metin ve olay dizilerini sınamak.",
+  "tagline": "19 pafta, 6 rütbe: gerçek Lucene üzerinde KQL ve Lucene sorguları, sınırlı EQL tezgahında olay dizileri; son derste ücretsiz yerel Elastic laboratuvarı.",
+  "kahraman": [
+    "Sorgudan",
+    "Kanıta",
+    ""
+  ],
   "ranks": [
-    {"id": "minik", "name": "Minik"},
-    {"id": "tesviye", "name": "Tesviye"},
-    {"id": "kucuk-orta", "name": "Küçük Orta"},
-    {"id": "buyuk-orta", "name": "Büyük Orta"},
-    {"id": "basalti", "name": "Başaltı"},
-    {"id": "baspehlivan", "name": "Başpehlivan"}
+    {
+      "id": "minik",
+      "name": "Minik"
+    },
+    {
+      "id": "tesviye",
+      "name": "Tesviye"
+    },
+    {
+      "id": "kucuk-orta",
+      "name": "Küçük Orta"
+    },
+    {
+      "id": "buyuk-orta",
+      "name": "Büyük Orta"
+    },
+    {
+      "id": "basalti",
+      "name": "Başaltı"
+    },
+    {
+      "id": "baspehlivan",
+      "name": "Başpehlivan"
+    }
   ],
   "modules": [
-    {"title": "Kibana ve KQL Temeli", "rank": "minik", "lessons": ["el01", "el02", "el03"]},
-    {"title": "KQL ile Sınırlar ve Bağlam", "rank": "tesviye", "lessons": ["el04", "el05", "el06"]},
-    {"title": "Lucene ile Açık Aramalar", "rank": "kucuk-orta", "lessons": ["el07", "el08", "el09"]},
-    {"title": "Lucene Metni ve İnceleme Projesi", "rank": "buyuk-orta", "lessons": ["el10", "el11", "el12"]},
-    {"title": "Elastic EQL ve Olay İlişkileri", "rank": "basalti", "lessons": ["el13", "el14", "el15"]},
-    {"title": "EQL Zamanı ve Tespit Projesi", "rank": "baspehlivan", "lessons": ["el16", "el17", "el18"]}
+    {
+      "title": "Kibana ve KQL Temeli",
+      "rank": "minik",
+      "lessons": [
+        "el01",
+        "el02",
+        "el03"
+      ]
+    },
+    {
+      "title": "KQL ile Sınırlar ve Bağlam",
+      "rank": "tesviye",
+      "lessons": [
+        "el04",
+        "el05",
+        "el06"
+      ]
+    },
+    {
+      "title": "Lucene ile Açık Aramalar",
+      "rank": "kucuk-orta",
+      "lessons": [
+        "el07",
+        "el08",
+        "el09"
+      ]
+    },
+    {
+      "title": "Lucene Metni ve İnceleme Projesi",
+      "rank": "buyuk-orta",
+      "lessons": [
+        "el10",
+        "el11",
+        "el12"
+      ]
+    },
+    {
+      "title": "Elastic EQL ve Olay İlişkileri",
+      "rank": "basalti",
+      "lessons": [
+        "el13",
+        "el14",
+        "el15"
+      ]
+    },
+    {
+      "title": "EQL Zamanı ve Tespit Projesi",
+      "rank": "baspehlivan",
+      "lessons": [
+        "el16",
+        "el17",
+        "el18",
+        "el19"
+      ]
+    }
   ]
 }

@@ -4,7 +4,7 @@ This is not an Elasticsearch server and does not use Endgame's Python ``eql``.
 Supported: scalar event predicates, common/per-stage join keys, ascending
 sequences, maxspan (inclusive), until, and *middle* missing clauses. There are
 no functions, arithmetic, regex, pipes, runs, samples, outer missing clauses,
-arrays, nested/text queries, normalizers or custom mapping null/index options.
+arrays, nested/text queries, signed-negative zero, normalizers or custom mapping null/index options.
 Case-insensitive predicates are deliberately restricted to ASCII values.
 
 Sequence semantics were checked against Elasticsearch v9.2.0 SequenceMatcher,
@@ -279,6 +279,8 @@ class Parser:
                 raise EqlError("İşaret yalnız sayılarda kullanılabilir.")
             if token.kind == "num":
                 value *= sign
+                if isinstance(value, float) and value == 0.0 and math.copysign(1.0, value) < 0:
+                    raise EqlError("Yerel EQL negatif double sıfırı (-0.0) desteklemez; gerçek Elastic üzerinde deneyin.")
                 if isinstance(value, int) and not -(2**63) <= value < 2**63:
                     raise EqlError("EQL tamsayı sabiti signed 64-bit sınırında olmalı.")
             return value
@@ -377,9 +379,9 @@ class Parser:
             self.need("maxspan"); self.need("=")
             amount = self.need("num").value
             unit = self.need("id").value
-            factors = {"ns": 1, "micros": 1000, "ms": 1_000_000, "s": 1_000_000_000, "m": 60_000_000_000, "h": 3_600_000_000_000, "d": 86_400_000_000_000}
+            factors = {"ms": 1_000_000, "s": 1_000_000_000, "m": 60_000_000_000, "h": 3_600_000_000_000, "d": 86_400_000_000_000}
             if type(amount) is not int or amount <= 0 or unit not in factors:
-                raise EqlError("Yerel maxspan pozitif tamsayı + ns/micros/ms/s/m/h/d olmalı.")
+                raise EqlError("maxspan pozitif tamsayı + ms/s/m/h/d olmalı.")
             span = amount * factors[unit]
             if span > 2**63 - 1:
                 raise EqlError("maxspan nanosecond aralığı aşıldı.")
@@ -406,8 +408,10 @@ class Parser:
             stage.keys = common + stage.keys
         for index in range(len(stages[0].keys)):
             kinds = {s.keys[index].kind for s in stages + ([until] if until else [])} - {None}
-            if len(kinds) > 1 and not kinds <= {"long", "integer", "float", "double"}:
-                raise EqlError("Join anahtarı türleri aşamalar arasında uyumlu olmalı.")
+            if len(kinds) > 1:
+                raise EqlError("Yerel join anahtarı mapping türü bütün aşamalarda aynı olmalı; sayısal tür dönüştürme desteklenmez.")
+            if "double" in kinds:
+                raise EqlError("Yerel EQL double join anahtarlarını desteklemez.")
         return stages, span, until
 
 
@@ -427,8 +431,14 @@ def _compatible(a, b):
 def _check_comparison(node):
     _, op, left, right = node
     a, b = _kind(left), _kind(right)
+    if left[0] == "lit" and right[0] == "lit":
+        raise EqlError("Yerel EQL sabit-sabit karşılaştırması desteklemez; where içinde alan koşulu veya true/false kullanın.")
     if not _compatible(a, b):
         raise EqlError("EQL karşılaştırma türleri uyumsuz.")
+    if (a == "double" and b in ("integer", "long")) or (b == "double" and a in ("integer", "long")):
+        raise EqlError("Yerel EQL tamsayı/double karışık karşılaştırması desteklemez; mapping ile aynı türde sabit yazın.")
+    if op not in ("==", "!=") and a == b == "keyword":
+        raise EqlError("Yerel EQL keyword sıralama karşılaştırması desteklemez; ==, != veya metin işleci kullanın.")
     if op not in ("==", "!=") and (a == "boolean" or b == "boolean"):
         raise EqlError("Boolean alanlarda yalnız == ve != desteklenir.")
     for field_side, literal_side in ((left, right), (right, left)):
@@ -492,6 +502,8 @@ def _get(doc, item):
         if not finite:
             raise EqlError("Sayısal alan sonlu sayı olmalı: " + item.name)
         value = float(value)
+        if value == 0.0 and math.copysign(1.0, value) < 0:
+            raise EqlError("Yerel EQL negatif double sıfırı (-0.0) desteklemez: " + item.name)
     elif item.kind in ("date", "date_nanos"):
         value = _date(value)
     else:

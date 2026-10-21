@@ -1,43 +1,13 @@
 ---
 id: el17
-title: EQL · Eksik Olay ve Sonucu Daraltmak
-summary: ![] için maxspan, eksik telemetriyi olay yokluğundan ayırmak; runs, pipe sınırları ve sequence yanıtındaki boş aşama.
+title: EQL · Ortadaki Eksik Olay
+summary: Maxspan içinde olumlu diziyi kur; ortadaki ![] koşulunu açık timestamp aralığında değerlendir.
 ---
 
-::: anlat Olmayan olayı hangi aralıkta aradın?
-“Oturum açıldıktan sonra dosya okundu, arada çıkış yok” sorusunun olumlu ve olumsuz aşamaları vardır. EQL'de `![ ... ]` eksik olay koşuludur; böyle bir sequence için `with maxspan` zorunludur ve en az bir olumlu aşama bulunmalıdır.
+::: anlat Yokluğu sınırlı bir zaman aralığında sor
+`![ ... ]` bir eksik olay koşuludur; EQL'de maxspan zorunludur. Buradaki desteklenen biçim en az iki olumlu aşama arasındaki eksik aşamadır. Önce olumlu sequence makinesi adayını tamamlar; ardından aynı anahtarlı olumsuz olayın iki komşu olumlu timestamp'in **kesin arasında** bulunup bulunmadığı sınanır.
 
-```eql norun
-sequence by host.id, user.id with maxspan=5m
-  [authentication where event.action == "login"]
-  ![authentication where event.action == "logout"]
-  [file where event.action == "read"]
-```
-
-Buradaki ortadaki olumsuz aşama iki olumlu olayın **zaman damgaları arasını** sorar; uçlarla aynı zaman damgasındaki bir kayıt bu açık zaman aralığına girmez. Bunu önceki dersteki ordinal kullanan `until` kontrolüyle karıştırma. “O kullanıcı hayatı boyunca hiç çıkış yapmadı” sonucu da çıkmaz. Aynı kullanıcı adı başka makinede bulunabilir; anahtarın host parçasını koru. Bu örneklerde kullanıcı ve makine kimlikleri dolu, tek değerli keyword alanlarıdır; zamanlar ve sıra numaraları tamdır.
-
-İndekste olay görünmemesi, olayın hiç yaşanmadığını kanıtlamaz. Sensör durmuş, arama aralığı dar, shard yanıtı kısmi veya veri gecikmiş olabilir. Gerçek soruşturma bu kalite bilgisini ayrıca toplar. Python görevindeki `belirsiz` etiketi analistin veri kalitesi kararıdır; EQL'nin döndürdüğü özel bir durum değildir.
-:::
-
-::: anlat Tekrarlı aşama, pipe ve kanıt listesi
-`with runs=3`, aynı olay ölçütünü dizide üç kez art arda yazmanın kısaltmasıdır; değer aralığı 1–100'dür. Başka olayların hiç araya girmemesi anlamına gelmez. EQL'deki `by` anahtarı SQL'deki serbest `JOIN` komutuna dönüşmez.
-
-```eql norun
-sequence by host.id, user.id with maxspan=5m
-  [authentication where event.action == "login"]
-  [file where event.action == "read"] with runs=3
-| head 5
-```
-
-Elasticsearch EQL'nin `head`/`tail` pipe'ları sonuçtaki olay veya dizilerin sayısını daraltır. `| head 5`, dizinin beş olaylı olduğu ya da beş dakika sürdüğü anlamına gelmez. Endgame EQL örneklerindeki `join`, `child of`, `| count` veya `| unique` ifadelerini Elasticsearch'e aynı biçimde taşıma. ES|QL'nin pipe komutları da başka bir dildir.
-
-Eksik aşamalı bir arama sonucunda `events` listesinde `missing: true` yer tutucusu bulunabilir. Bu nesneye sahte bir `_id` atayıp gözlenmiş olay sayma. Aşağıdaki ikinci görev yalnız verilen yanıtı özetler; yeni sequence keşfetmez.
-
-Kaynaklar: [EQL eksik olay ve sınırlamalar](https://www.elastic.co/docs/reference/query-languages/eql/eql-syntax), [EQL pipe'ları](https://www.elastic.co/docs/reference/query-languages/eql/eql-pipe-ref), [arama yanıtı](https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-eql-search), [Elastic'in eksik aşama zaman aralığı](https://github.com/elastic/elasticsearch/blob/main/x-pack/plugin/eql/src/main/java/org/elasticsearch/xpack/eql/execution/sequence/TumblingWindow.java).
-:::
-
-::: tahmin
-Veri eksiksizdir. Mapping keyword/date/long sözleşmesini kullanır; API isteğinde `tiebreaker_field: "event.sequence"` ayarlanmıştır. Her anahtarda bir login ve bir read vardır. Hangi olumlu olay çiftleri tamamlanır? Eksik aşamayı bir kimlikle doldurma.
+Ortadaki eksik olay, `until` ile aynı ordinal aralığı değildir. Uç timestamp'ine eşit logout, tiebreaker ile uçların arasında dursa bile bu açık timestamp aralığına girmez. Maxspan'ın ilk-son tam eşik kabulü yine geçerlidir. Kaynak: [Elastic eksik olay](https://www.elastic.co/docs/reference/query-languages/eql/eql-syntax), [native aralık hazırlama](https://github.com/elastic/elasticsearch/blob/v9.2.0/x-pack/plugin/eql/src/main/java/org/elasticsearch/xpack/eql/execution/sequence/TumblingWindow.java).
 
 ```eql
 sequence by host.id, user.id with maxspan=5m
@@ -46,120 +16,860 @@ sequence by host.id, user.id with maxspan=5m
   [file where event.action == "read"]
 ```
 
+```meta
+dil: eql
+```
+
 ```stdin
-[
-  {"event.id":"l1","@timestamp":"2026-10-21T13:00:00.000Z","event.sequence":1,"event.category":"authentication","event.action":"login","host.id":"h1","user.id":"u1"},
-  {"event.id":"r1","@timestamp":"2026-10-21T13:00:01.000Z","event.sequence":2,"event.category":"file","event.action":"read","host.id":"h1","user.id":"u1"},
-  {"event.id":"l2","@timestamp":"2026-10-21T13:00:02.000Z","event.sequence":3,"event.category":"authentication","event.action":"login","host.id":"h2","user.id":"u2"},
-  {"event.id":"o2","@timestamp":"2026-10-21T13:00:03.000Z","event.sequence":4,"event.category":"authentication","event.action":"logout","host.id":"h2","user.id":"u2"},
-  {"event.id":"r2","@timestamp":"2026-10-21T13:00:04.000Z","event.sequence":5,"event.category":"file","event.action":"read","host.id":"h2","user.id":"u2"}
-]
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "user.id": "keyword",
+    "process.entity_id": "keyword",
+    "destination.port": "long"
+  },
+  "documents": [
+    {
+      "id": "l1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 1,
+      "event.action": "login",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "l2",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 2,
+      "event.action": "login",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "l3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 3,
+      "event.action": "login",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 4,
+      "event.action": "logout",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "authentication",
+      "event.sequence": 5,
+      "event.action": "logout",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r2",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 6,
+      "event.action": "read",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r3",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "file",
+      "event.sequence": 7,
+      "event.action": "read",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "r1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "file",
+      "event.sequence": 8,
+      "event.action": "read",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "s1",
+      "@timestamp": "2026-10-21T00:06:40.000Z",
+      "event.category": "process",
+      "event.sequence": 9,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "w1",
+      "@timestamp": "2026-10-21T00:06:50.000Z",
+      "event.category": "file",
+      "event.sequence": 10,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "s2",
+      "@timestamp": "2026-10-21T00:07:00.000Z",
+      "event.category": "process",
+      "event.sequence": 11,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "tls",
+      "@timestamp": "2026-10-21T00:07:05.000Z",
+      "event.category": "network",
+      "event.sequence": 12,
+      "destination.port": 443,
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "w2",
+      "@timestamp": "2026-10-21T00:07:10.000Z",
+      "event.category": "file",
+      "event.sequence": 13,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+:::
+
+::: anlat Destek kapsamı ile kanıtın sınırını ayır
+Yerel motor orta `![]` koşulunu çalıştırır; başta/sonda eksik aşama, runs, sample, join, pipe, fonksiyon ve regex'i açıkça reddeder. Gerçek Elasticsearch'ün bunların bazılarını desteklemesi, bu tezgâhın hepsini uyguladığı anlamına gelmez. Bu derste onları çalışıyormuş gibi yaklaşık hesaplamıyoruz.
+
+Bir kayıtta logout veya TLS bağlantısı bulunmaması, gerçek dünyada hiç olmadığına tek başına kanıt değildir. Sensör kapsamı, kayıp olay, arama penceresi ve gecikme ayrıca raporlanmalıdır. Tezgâh sentetik corpus'u eksiksiz kabul eder; motor analistin 'telemetri belirsiz' kararını kendi başına üretmez. Aşağıdaki ikinci sorgu sadece bu corpus içinde iki olumlu olay arasında 443 bağlantısı yokluğunu sorar.
+
+```eql
+sequence by host.id, process.entity_id with maxspan=10s
+  [process where event.action == "start"]
+  ![network where destination.port == 443]
+  [file where event.action == "write"]
 ```
 
-```gercek
-l1 -> r1
+```meta
+dil: eql
 ```
 
-```test
-import json, sys
-from datetime import datetime
-events = json.load(sys.stdin)
-def key(e):
-    return (e["host.id"], e["user.id"])
-def order(e):
-    return (datetime.fromisoformat(e["@timestamp"].replace("Z", "+00:00")), e["event.sequence"])
-for a in events:
-    if (a["event.category"],a["event.action"]) != ("authentication","login"):
-        continue
-    for b in events:
-        if (b["event.category"],b["event.action"]) != ("file","read") or key(a) != key(b):
-            continue
-        if not order(a) < order(b) or (order(b)[0] - order(a)[0]).total_seconds() > 300:
-            continue
-        if not any(key(x) == key(a) and (x["event.category"],x["event.action"]) == ("authentication","logout") and order(a)[0] < order(x)[0] < order(b)[0] for x in events):
-            print(a["event.id"] + " -> " + b["event.id"])
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "user.id": "keyword",
+    "process.entity_id": "keyword",
+    "destination.port": "long"
+  },
+  "documents": [
+    {
+      "id": "l1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 1,
+      "event.action": "login",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "l2",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 2,
+      "event.action": "login",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "l3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 3,
+      "event.action": "login",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 4,
+      "event.action": "logout",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "authentication",
+      "event.sequence": 5,
+      "event.action": "logout",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r2",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 6,
+      "event.action": "read",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r3",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "file",
+      "event.sequence": 7,
+      "event.action": "read",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "r1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "file",
+      "event.sequence": 8,
+      "event.action": "read",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "s1",
+      "@timestamp": "2026-10-21T00:06:40.000Z",
+      "event.category": "process",
+      "event.sequence": 9,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "w1",
+      "@timestamp": "2026-10-21T00:06:50.000Z",
+      "event.category": "file",
+      "event.sequence": 10,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "s2",
+      "@timestamp": "2026-10-21T00:07:00.000Z",
+      "event.category": "process",
+      "event.sequence": 11,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "tls",
+      "@timestamp": "2026-10-21T00:07:05.000Z",
+      "event.category": "network",
+      "event.sequence": 12,
+      "destination.port": 443,
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "w2",
+      "@timestamp": "2026-10-21T00:07:10.000Z",
+      "event.category": "file",
+      "event.sequence": 13,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+:::
+
+::: tahmin
+Girdide h1/h2/h3 için aynı kullanıcı kimliği var. h1'in süresi tam 5 dakika; h2'nin logout'u kesin arada; h3 logout'u login ile aynı timestamp'te, farklı sıra numarasında. Ortadaki eksik aşama için timestamp ile ordinal ayrımını kullan.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "user.id": "keyword",
+    "process.entity_id": "keyword",
+    "destination.port": "long"
+  },
+  "documents": [
+    {
+      "id": "l1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 1,
+      "event.action": "login",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "l2",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 2,
+      "event.action": "login",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "l3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 3,
+      "event.action": "login",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 4,
+      "event.action": "logout",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "authentication",
+      "event.sequence": 5,
+      "event.action": "logout",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r2",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 6,
+      "event.action": "read",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r3",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "file",
+      "event.sequence": 7,
+      "event.action": "read",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "r1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "file",
+      "event.sequence": 8,
+      "event.action": "read",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "s1",
+      "@timestamp": "2026-10-21T00:06:40.000Z",
+      "event.category": "process",
+      "event.sequence": 9,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "w1",
+      "@timestamp": "2026-10-21T00:06:50.000Z",
+      "event.category": "file",
+      "event.sequence": 10,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "s2",
+      "@timestamp": "2026-10-21T00:07:00.000Z",
+      "event.category": "process",
+      "event.sequence": 11,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "tls",
+      "@timestamp": "2026-10-21T00:07:05.000Z",
+      "event.category": "network",
+      "event.sequence": 12,
+      "destination.port": 443,
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "w2",
+      "@timestamp": "2026-10-21T00:07:10.000Z",
+      "event.category": "file",
+      "event.sequence": 13,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+
+```eql
+sequence by host.id, user.id with maxspan=5m
+  [authentication where event.action == "login"]
+  ![authentication where event.action == "logout"]
+  [file where event.action == "read"]
 ```
 
 ???
 
-`l1/r1` arasında ilgili çıkış kaydı yoktur. `l2/r2` arasında `o2` vardır; ikinci aday elenir. Bu kararın “veri eksiksiz” varsayımına dayandığını raporda sakla. Fixture doğrulaması genel bir EQL sequence motoru değildir.
-:::
+h3 l3–r3 tamamlanır: o3 login'in timestamp'ine eşit olduğu için açık aralığa girmez. h1 l1–r1 tam maxspan eşiğinde tamamlanır. h2 o2 ile elenir. Sonuç son olumlu olayın sırasına göre r3, sonra r1 şeklindedir; eksik aşamaya sahte id yazılmaz.
 
-::: gorev Eksik olaydan önce veri kalitesini değerlendir
-`eksik_karari(bas, son, gozlenen, telemetri_tam)` fonksiyonunu yaz. Telemetri tam değilse `"belirsiz"`; tamsayı `t_ms` değerleri için süre 0'dan küçük veya 300000'den büyükse `"elenir"`; aynı `host.id` ve `user.id` için iki zamanın **kesin arasında** authentication/logout varsa `"elenir"`; aksi halde `"aday"` döndür. Bas ve son önceden seçilmiş doğru kategorili, aynı dolu anahtarlı adaydır. Eşit zamanlı olumlu uçların kendi sırası önceden doğrulanmıştır; sıfır süre mümkündür. Ortadaki eksik aşamada yalnız açık timestamp aralığını denetle: uç zamanına eşit logout engellemesin. Başka anahtarın çıkış kaydı da engellemesin.
-
-```starter
-def eksik_karari(bas, son, gozlenen, telemetri_tam):
-    return "aday"
-```
-
-```test
-def e(t, **ek):
-    x = {"t_ms":t, "host.id":"h", "user.id":"u", "event.category":"authentication", "event.action":"logout"}
-    x.update(ek); return x
-bas = e(1000)
-for fark, beklenen in ((-1,"elenir"), (0,"aday"), (1,"aday"), (299999,"aday"), (300000,"aday"), (300001,"elenir")):
-    eq(eksik_karari(bas,e(1000+fark),[],True), beklenen, f"pencere {fark}")
-for t, beklenen in ((999,"aday"), (1000,"aday"), (1001,"elenir"), (1999,"elenir"), (2000,"aday"), (2001,"aday")):
-    eq(eksik_karari(bas,e(2000),[e(t)],True), beklenen, f"çıkış zamanı {t}")
-for ek in ({"host.id":"baska"}, {"user.id":"baska"}, {"user.id":None}, {"event.category":"process"}, {"event.action":"login"}):
-    eq(eksik_karari(bas,e(2000),[e(1500,**ek)],True), "aday", "ilgili çıkış olmalı")
-eq(eksik_karari(bas,e(2000),[],False), "belirsiz", "kayıt yok ama sensör eksik")
-eq(eksik_karari(bas,e(2000),[e(1500)],False), "belirsiz", "kalite etiketi öncelikli")
-```
-
-```solution
-def eksik_karari(bas, son, gozlenen, telemetri_tam):
-    if not telemetri_tam:
-        return "belirsiz"
-    fark = son["t_ms"] - bas["t_ms"]
-    if fark < 0 or fark > 300000:
-        return "elenir"
-    for e in gozlenen:
-        if (e.get("host.id"), e.get("user.id")) != (bas["host.id"], bas["user.id"]):
-            continue
-        if (e.get("event.category"), e.get("event.action")) == ("authentication", "logout") and bas["t_ms"] < e["t_ms"] < son["t_ms"]:
-            return "elenir"
-    return "aday"
-```
-
-```hint
-Önce eksik telemetri, sonra süre, sonra ilgili çıkış. Başka makinenin logout olayını kullanıcıya bakıp tek başına kullanma.
+```text
+l3 -> r3
+l1 -> r1
 ```
 :::
 
-::: gorev Eksik aşamayı olaymış gibi sayma
-`dizi_ozeti(dizi)` verilen tek sequence nesnesinden `{"anahtarlar": demet, "olaylar": liste, "eksik": sayı}` üretsin. `join_keys` sırasını koru. `events` içinde `missing` tam olarak `True` olan yer tutucuları say; diğer nesnelerde `_id` varsa sırayla listele. Aynı `_id` tekrar görünürse kendiliğinden tekilleştirme; özet veriyi saklamalıdır. Boş listeler geçerlidir. Bu çıktı gerçek EQL yanıtının tamamı değil, okuma kolaylığı için bir özettir.
+::: gorev Login ile read arasında logout yok
+Aynı host.id ve user.id için authentication/login ardından file/read dizisi yaz; ilk-son süre en fazla 5 dakika, arada aynı anahtarlı authentication/logout bulunmasın. Ortadaki `![]` kullan; uç timestamp'ine eşit logout engellemesin. Eksik aşamayı sonuç kimliği olarak uydurma.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "user.id": "keyword",
+    "process.entity_id": "keyword",
+    "destination.port": "long"
+  },
+  "documents": [
+    {
+      "id": "l1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 1,
+      "event.action": "login",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "l2",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 2,
+      "event.action": "login",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "l3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 3,
+      "event.action": "login",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 4,
+      "event.action": "logout",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "authentication",
+      "event.sequence": 5,
+      "event.action": "logout",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r2",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 6,
+      "event.action": "read",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r3",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "file",
+      "event.sequence": 7,
+      "event.action": "read",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "r1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "file",
+      "event.sequence": 8,
+      "event.action": "read",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "s1",
+      "@timestamp": "2026-10-21T00:06:40.000Z",
+      "event.category": "process",
+      "event.sequence": 9,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "w1",
+      "@timestamp": "2026-10-21T00:06:50.000Z",
+      "event.category": "file",
+      "event.sequence": 10,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "s2",
+      "@timestamp": "2026-10-21T00:07:00.000Z",
+      "event.category": "process",
+      "event.sequence": 11,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "tls",
+      "@timestamp": "2026-10-21T00:07:05.000Z",
+      "event.category": "network",
+      "event.sequence": 12,
+      "destination.port": 443,
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "w2",
+      "@timestamp": "2026-10-21T00:07:10.000Z",
+      "event.category": "file",
+      "event.sequence": 13,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
 
 ```starter
-def dizi_ozeti(dizi):
-    return {"anahtarlar": (), "olaylar": [], "eksik": 0}
+any where false
 ```
 
 ```test
-eq(dizi_ozeti({"join_keys":["h","u"], "events":[{"_id":"l1"},{"missing":True},{"_id":"r1"}]}),
-   {"anahtarlar":("h","u"), "olaylar":["l1","r1"], "eksik":1}, "ortadaki eksik aşama")
-for sayi in (0,1,2):
-    d = {"join_keys":["u","h"], "events":[{"missing":True}] * sayi + [{"_id":"x","missing":False}]}
-    eq(dizi_ozeti(d), {"anahtarlar":("u","h"), "olaylar":["x"], "eksik":sayi}, f"yer tutucu sayısı {sayi}")
-eq(dizi_ozeti({"join_keys":["h"], "events":[{"_id":"x"},{"_id":"x"},{"_id":"y"}]}),
-   {"anahtarlar":("h",), "olaylar":["x","x","y"], "eksik":0}, "runs benzeri tekrarlar korunur")
-eq(dizi_ozeti({"events":[{}, {"missing":True,"_id":"sahte"}]}), {"anahtarlar":(),"olaylar":[],"eksik":1}, "eksik aşama sahte id ile olaya dönüşmez")
-eq(dizi_ozeti({}), {"anahtarlar":(),"olaylar":[],"eksik":0}, "boş özet")
+eq(eslesenler(),[["l3","r3"],["l1","r1"]],"dersteki gerçek sorgu sonucu")
+eq(eslesenler(veri={"documents":list(reversed(korpus["documents"]))}),[["l3","r3"],["l1","r1"]],"girdi sırası değil timestamp+tiebreaker sırası")
+from datetime import datetime, timedelta, timezone
+def olay(kimlik,t_ms=0,kategori="process",sira=0,**alanlar):
+    zaman=datetime(2026,10,21,tzinfo=timezone.utc)+timedelta(milliseconds=t_ms)
+    e={"id":kimlik,"@timestamp":zaman.isoformat(timespec="milliseconds").replace("+00:00","Z"),"event.category":kategori,"event.sequence":sira}
+    e.update(alanlar)
+    return e
+def a(k,t,host="h",user="u",cat="authentication",action="login",seq=0):
+    return olay(k,t,cat,seq,**{"host.id":host,"user.id":user,"event.action":action})
+for zaman,sonuc in ((0,[["l","r"]]),(1,[]),(299999,[]),(300000,[["l","r"]])):
+    docs=[a("l",0,seq=1),a("o",zaman,action="logout",seq=2),a("r",300000,cat="file",action="read",seq=3)]
+    eq(eslesenler(veri={"documents":docs}),sonuc,"açık timestamp aralığının iki ucu ve iç komşuları "+str(zaman))
+for fark,sonuc in ((299999,[["l","r"]]),(300000,[["l","r"]]),(300001,[])):
+    eq(eslesenler(veri={"documents":[a("l",0),a("r",fark,cat="file",action="read")]}),sonuc,"maxspan iki komşusu")
+for o in (a("o",1,host="other",action="logout"),a("o",1,user="other",action="logout"),a("o",1,cat="process",action="logout"),a("o",1,action="wrong")):
+    eq(eslesenler(veri={"documents":[a("l",0),o,a("r",2,cat="file",action="read")]}),[["l","r"]],"olumsuz aşamanın anahtar/category/action koşulları ayrı")
+eq(eslesenler(veri={"documents":[a("l1",0),a("l2",1),a("r",2,cat="file",action="read"),a("r2",3,cat="file",action="read")]}),[["l2","r"]],"eksik aşama pozitif pending/tüketim semantiğini değiştirmez")
+
+# == ile : arasındaki farkı aşama başına bağımsız büyük harfle sınarız.
+# Korpus sorgu metninden türetilmez; her olay aşağıdaki sabit sentetik veridir.
+def harf_olay(k, t, kategori, eylem):
+    return olay(k, t, kategori, **{"host.id":"case-host", "process.entity_id":"case-entity", "user.id":"case-user", "event.action":eylem, "process.name":"powershell.exe", "destination.port":443, "file.path":"C:\\Temp\\case.exe", "process.executable":"C:\\Temp\\case.exe"})
+harf_taban = [harf_olay("case-0", 0, 'authentication', 'login'), harf_olay("case-1", 2, 'file', 'read')]
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[0]["event.action"] = 'LOGIN'
+eq(eslesenler(veri={"documents":harf_docs}), [], "1. olumlu aşamada action == harf duyarlıdır")
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[1]["event.action"] = 'READ'
+eq(eslesenler(veri={"documents":harf_docs}), [], "2. olumlu aşamada action == harf duyarlıdır")
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs.insert(1, harf_olay("case-negative", 1, 'authentication', 'LOGOUT'))
+eq(eslesenler(veri={"documents":harf_docs}), [['case-0', 'case-1']], "missing action == büyük harfli olayı eşleştirmez")
 ```
 
 ```solution
-def dizi_ozeti(dizi):
-    ids, eksik = [], 0
-    for e in dizi.get("events", []):
-        if e.get("missing") is True:
-            eksik += 1
-        elif "_id" in e:
-            ids.append(e["_id"])
-    return {"anahtarlar":tuple(dizi.get("join_keys", [])), "olaylar":ids, "eksik":eksik}
+sequence by host.id, user.id with maxspan=5m
+  [authentication where event.action == "login"]
+  ![authentication where event.action == "logout"]
+  [file where event.action == "read"]
 ```
 
 ```hint
-missing kontrolünü _id kontrolünden önce yap. Sayı veya indis eşikleri yerine nesneleri giriş sırasıyla dolaş.
+İki olumlu aşamanın arasına ![authentication where event.action == "logout"] koy; by ve maxspan'ı koru.
+```
+:::
+
+::: gorev Süreçten dosyaya, arada 443 yok
+Aynı host.id ve process.entity_id için process/start ardından file/write dizisi yaz. En fazla 10 saniye içinde tamamlanmalı; kesin aradaki aynı anahtarlı network olayının destination.port'u 443 ise aday elensin. Port 442/444, yanlış kategori veya yanlış anahtar engellemesin. Uç timestamp'ine eşit network olayı arada sayılmaz.
+
+```meta
+dil: eql
+```
+
+```stdin
+{
+  "dil": "eql",
+  "mapping": {
+    "id": "keyword",
+    "@timestamp": "date",
+    "event.category": "keyword",
+    "event.sequence": "long",
+    "event.action": "keyword",
+    "host.id": "keyword",
+    "user.id": "keyword",
+    "process.entity_id": "keyword",
+    "destination.port": "long"
+  },
+  "documents": [
+    {
+      "id": "l1",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 1,
+      "event.action": "login",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "l2",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 2,
+      "event.action": "login",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "l3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 3,
+      "event.action": "login",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o3",
+      "@timestamp": "2026-10-21T00:00:00.000Z",
+      "event.category": "authentication",
+      "event.sequence": 4,
+      "event.action": "logout",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "o2",
+      "@timestamp": "2026-10-21T00:00:01.000Z",
+      "event.category": "authentication",
+      "event.sequence": 5,
+      "event.action": "logout",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r2",
+      "@timestamp": "2026-10-21T00:00:02.000Z",
+      "event.category": "file",
+      "event.sequence": 6,
+      "event.action": "read",
+      "host.id": "h2",
+      "user.id": "u"
+    },
+    {
+      "id": "r3",
+      "@timestamp": "2026-10-21T00:00:03.000Z",
+      "event.category": "file",
+      "event.sequence": 7,
+      "event.action": "read",
+      "host.id": "h3",
+      "user.id": "u"
+    },
+    {
+      "id": "r1",
+      "@timestamp": "2026-10-21T00:05:00.000Z",
+      "event.category": "file",
+      "event.sequence": 8,
+      "event.action": "read",
+      "host.id": "h1",
+      "user.id": "u"
+    },
+    {
+      "id": "s1",
+      "@timestamp": "2026-10-21T00:06:40.000Z",
+      "event.category": "process",
+      "event.sequence": 9,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "w1",
+      "@timestamp": "2026-10-21T00:06:50.000Z",
+      "event.category": "file",
+      "event.sequence": 10,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e1"
+    },
+    {
+      "id": "s2",
+      "@timestamp": "2026-10-21T00:07:00.000Z",
+      "event.category": "process",
+      "event.sequence": 11,
+      "event.action": "start",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "tls",
+      "@timestamp": "2026-10-21T00:07:05.000Z",
+      "event.category": "network",
+      "event.sequence": 12,
+      "destination.port": 443,
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    },
+    {
+      "id": "w2",
+      "@timestamp": "2026-10-21T00:07:10.000Z",
+      "event.category": "file",
+      "event.sequence": 13,
+      "event.action": "write",
+      "host.id": "h1",
+      "process.entity_id": "e2"
+    }
+  ],
+  "context": {
+    "tiebreaker_field": "event.sequence"
+  }
+}
+```
+
+```starter
+any where false
+```
+
+```test
+eq(eslesenler(),[["s1","w1"]],"dersteki gerçek sorgu sonucu")
+eq(eslesenler(veri={"documents":list(reversed(korpus["documents"]))}),[["s1","w1"]],"girdi sırası değil timestamp+tiebreaker sırası")
+from datetime import datetime, timedelta, timezone
+def olay(kimlik,t_ms=0,kategori="process",sira=0,**alanlar):
+    zaman=datetime(2026,10,21,tzinfo=timezone.utc)+timedelta(milliseconds=t_ms)
+    e={"id":kimlik,"@timestamp":zaman.isoformat(timespec="milliseconds").replace("+00:00","Z"),"event.category":kategori,"event.sequence":sira}
+    e.update(alanlar)
+    return e
+def p(k,t,host="h",entity="e",cat="process",action="start",port=None,seq=0):
+    alanlar={"host.id":host,"process.entity_id":entity,"event.action":action}
+    if port is not None: alanlar["destination.port"]=port
+    return olay(k,t,cat,seq,**alanlar)
+for port,sonuc in ((442,[["s","w"]]),(443,[]),(444,[["s","w"]])):
+    eq(eslesenler(veri={"documents":[p("s",0),p("n",5000,cat="network",port=port),p("w",10000,cat="file",action="write")]}),sonuc,"olumsuz port eşiği "+str(port))
+for t,sonuc in ((0,[["s","w"]]),(1,[]),(9999,[]),(10000,[["s","w"]])):
+    eq(eslesenler(veri={"documents":[p("s",0,seq=1),p("n",t,cat="network",port=443,seq=2),p("w",10000,cat="file",action="write",seq=3)]}),sonuc,"orta eksik olay açık zaman aralığı")
+for n in (p("n",1,host="other",cat="network",port=443),p("n",1,entity="other",cat="network",port=443),p("n",1,cat="file",port=443)):
+    eq(eslesenler(veri={"documents":[p("s",0),n,p("w",2,cat="file",action="write")]}),[["s","w"]],"olumsuz kategori ve iki anahtar")
+for fark,sonuc in ((9999,[["s","w"]]),(10000,[["s","w"]]),(10001,[])):
+    eq(eslesenler(veri={"documents":[p("s",0),p("w",fark,cat="file",action="write")]}),sonuc,"10 saniye iki komşusu")
+
+# == ile : arasındaki farkı aşama başına bağımsız büyük harfle sınarız.
+# Korpus sorgu metninden türetilmez; her olay aşağıdaki sabit sentetik veridir.
+def harf_olay(k, t, kategori, eylem):
+    return olay(k, t, kategori, **{"host.id":"case-host", "process.entity_id":"case-entity", "user.id":"case-user", "event.action":eylem, "process.name":"powershell.exe", "destination.port":443, "file.path":"C:\\Temp\\case.exe", "process.executable":"C:\\Temp\\case.exe"})
+harf_taban = [harf_olay("case-0", 0, 'process', 'start'), harf_olay("case-1", 2, 'file', 'write')]
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[0]["event.action"] = 'START'
+eq(eslesenler(veri={"documents":harf_docs}), [], "1. olumlu aşamada action == harf duyarlıdır")
+harf_docs = [dict(e) for e in harf_taban]
+harf_docs[1]["event.action"] = 'WRITE'
+eq(eslesenler(veri={"documents":harf_docs}), [], "2. olumlu aşamada action == harf duyarlıdır")
+```
+
+```solution
+sequence by host.id, process.entity_id with maxspan=10s
+  [process where event.action == "start"]
+  ![network where destination.port == 443]
+  [file where event.action == "write"]
+```
+
+```hint
+sequence ... maxspan=10s; ortada ![network where destination.port == 443].
 ```
 :::
