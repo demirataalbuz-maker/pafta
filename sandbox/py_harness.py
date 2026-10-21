@@ -612,6 +612,10 @@ def _betik_yaz(job):
 def _calistir(job, stdin="", argv=None, iz=False):
     """(kod, stdout, stderr, kayma) ya da zaman aşımında None."""
     p = job["proc"]
+    if p.get("batch"):
+        import runpy
+        execute = runpy.run_path(os.path.join(os.path.dirname(__file__), "cmd_process.py"))["run_batch"]
+        return execute(job, stdin, argv)
     kayma = _betik_yaz(job)
     hedef = p["dosya"]
     if p.get("sarmal"):

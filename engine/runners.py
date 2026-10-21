@@ -217,6 +217,7 @@ class ProcRunner(HarnessRunner):
 
 BASH = _bash_yolu()
 NODE = shutil.which("node") or (r"C:\Program Files\nodejs\node.exe" if os.path.isfile(r"C:\Program Files\nodejs\node.exe") else None)
+CMD = shutil.which("cmd.exe") if os.name == "nt" else None
 # Sarmalayıcı: UTF-8 çıktı, Girdi kutusunu $Girdi dizisine okur, betiği argümanlarıyla çağırır.
 PS_SARMAL = (
     "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n"
@@ -254,6 +255,10 @@ RUNNERS = {
         "cmd": [NODE or ""], "dosya": "betik.js", "sure": 10,
         "satir_deseni": r"betik\.js:(\d+)",
     }, default_timeout=15, test_timeout=30, iz=False),
+    "cmd": ProcRunner("cmd", {
+        "cmd": [CMD or "", "/d", "/q", "/e:on", "/v:off", "/c"],
+        "dosya": "betik.cmd", "batch": True, "sure": 10,
+    }, default_timeout=15, test_timeout=35, iz=False),
 }
 
 
