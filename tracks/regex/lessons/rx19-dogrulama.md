@@ -16,7 +16,7 @@ Regex sayı bilmez, **karakter** bilir. "01 ile 12 arası" demek için aralığ�
 | gün 01–31 | `0[1-9]\|[12]\d\|3[01]` | 0x, 1x–2x, 3 ile başlıyorsa 0–1 |
 | saat 00–23 | `[01]\d\|2[0-3]` | 0x–1x, 2 ile başlıyorsa 0–3 |
 | dakika 00–59 | `[0-5]\d` | |
-| oktet 0–255 | `25[0-5]\|2[0-4]\d\|1\d\d\|[1-9]?\d` | RX15'daki gibi |
+| oktet 0–255 | `25[0-5]\|2[0-4]\d\|1\d\d\|[1-9]?\d` | RX15'teki gibi |
 
 ### 2. Tutarlılık için geri başvuru
 MAC adresi `00:1A:2B:3C:4D:5E` ya da `00-1A-2B-3C-4D-5E` yazılabilir, ama ikisi **karışık** yazılamaz. İlk ayırıcıyı yakala, sonrakilerde `\1` ile aynısını iste:

@@ -197,6 +197,32 @@ INSERT INTO hesaplanan_alanlar VALUES
 ```
 :::
 
+::: tahmin
+Bu adımda `sunucular` için iki hesaplanan alan tanımlı:
+
+```ini
+# props.conf
+[sunucular]
+EVAL-iki = cpu * 2
+EVAL-dort = iki * 2
+```
+
+db01'in CPU'su 91. Tabloda `iki` ve `dort` ne olur?
+
+```spl
+sourcetype=sunucular ad=db01
+| table ad cpu iki dort
+```
+
+???
+
+`db01|91|182|`: `iki` 182, `dort` ise **boş**. Hesaplanan alanlar aynı anda değerlendirilir: her ifade, takma adlardan sonraki olayı görür, öteki hesaplanan alanların sonucunu görmez. `dort` hesaplanırken `iki` henüz yoktur; `iki * 2` boş bir değerle çarpım olur ve sonuç boş kalır. Tanımların sırası bunu değiştirmez. Zincir gerekiyorsa ifadeyi tek alanda yaz: `EVAL-dort = cpu * 4`.
+
+```setup
+INSERT INTO hesaplanan_alanlar VALUES ('sunucular', 'iki', 'cpu * 2'), ('sunucular', 'dort', 'iki * 2');
+```
+:::
+
 ::: gorev Makrolarla hata oranı
 `web_istekleri` makrosuyla başla. Her sunucu için istek sayısını (`toplam`) ve durumu 500 ya da üstü olan istekleri (`hata`) say, sonra hata yüzdesini `yuzde` makrosuyla `oran` alanına yaz. Sütunlar: `sunucu`, `toplam`, `hata`, `oran`.
 

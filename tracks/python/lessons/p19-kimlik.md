@@ -82,6 +82,9 @@ hash(t)                   #! TypeError: demet hash'lenebilir ama içindeki liste
 
 İçinde liste olan bir demet **yine de değiştirilebilir bir parça taşır**: demetin kendisi aynı nesneleri gösterir ama gösterdiği liste değişebilir.
 
+> [!NOT]
+> `hash("admin")` her çalıştırmada başka bir sayı verir. Python, metinlerin (`str`) ve baytların (`bytes`) hash'ine her süreçte rastgele bir tohum katar: **hash rastgeleleştirme**. Amaç, aynı yere düşecek anahtarlar seçilerek bir sözlüğün kasıtlı olarak yavaşlatılmasını önlemektir. Bu yüzden metin kümelerinin yineleme sırası çalıştırmadan çalıştırmaya değişebilir (P17). Tekrarlanabilir bir sıra gerektiğinde (ör. bir testte) program `PYTHONHASHSEED=0` ortam değişkeniyle başlatılır. Tam sayıların hash'i rastgele değildir: `hash(42)` her zaman `42`'dir.
+
 > [!DERİN]
 > CPython iki önbellek hilesi yapar ve bunlar `is` ile şaşırtıcı sonuçlar doğurur:
 > 1. **Küçük tam sayı önbelleği**: -5 ile 256 arasındaki her int tek bir nesnedir. `a = 256; b = 256; a is b` → True. `a = 257; b = 257` ise ayrı satırlarda yazılırsa False olabilir.

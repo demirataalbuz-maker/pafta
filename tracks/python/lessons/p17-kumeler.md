@@ -60,7 +60,7 @@ print("değişen:", dun ^ bugun)
 Sırayı koruyarak tekrarları atmak istiyorsan kümeyi değil sözlüğü kullan: `list(dict.fromkeys(liste))`. Sözlük hem benzersizdir hem ekleme sırasını korur.
 
 > [!DERİN]
-> Değiştirilemez küme de var: `frozenset`. Hash'lenebilir olduğu için sözlük anahtarı ya da başka bir kümenin elemanı olabilir. Küçük tam sayıların hash'i kendisine eşit olduğundan `{3, 1, 2}` çoğu zaman sıralı **görünür**, ama buna asla güvenme; metin kümelerinin sırası her çalıştırmada değişebilir (hash rastgeleleştirme, P52).
+> Değiştirilemez küme de var: `frozenset`. Hash'lenebilir olduğu için sözlük anahtarı ya da başka bir kümenin elemanı olabilir. Küçük tam sayıların hash'i kendisine eşit olduğundan `{3, 1, 2}` çoğu zaman sıralı **görünür**, ama buna asla güvenme; metin kümelerinin sırası her çalıştırmada değişebilir (hash rastgeleleştirme, P19).
 :::
 
 ::: tahmin

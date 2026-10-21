@@ -439,19 +439,35 @@ class _Cevirici:
 
     def _arama_zamani_alanlari(self, kaynak, tablo, konum):
         """props.conf'taki FIELDALIAS ve EVAL tanımları: Splunk bunları her aramada kendiliğinden,
-        önce takma adlar sonra hesaplanan alanlar sırasıyla uygular."""
+        önce takma adlar sonra hesaplanan alanlar sırasıyla uygular. Hesaplanan alanlar **aynı anda**
+        değerlendirilir: hepsi takma adlardan sonraki olayı görür, biri ötekinin sonucunu göremez
+        (başka bir hesaplanan alana dayanan ifade o alanı boş görür)."""
         st = sql_metin(tablo)
         for alan, takma in self._tanim(f"SELECT alan, takma_ad FROM alan_takma_adlari WHERE sourcetype = {st} ORDER BY rowid"):
             cols = self.sutunlar(kaynak)
             if alan in cols:                   # kaynak alanı olmayan olayda takma ad da oluşmaz
                 secim = self._ust_yaz(cols, [takma], lambda c: q(alan))
                 kaynak = self.yeni(f"SELECT {', '.join(secim)}, [__sira] FROM {kaynak}")
-        for alan, ifade in self._tanim(f"SELECT alan, ifade FROM hesaplanan_alanlar WHERE sourcetype = {st} ORDER BY rowid"):
+        hesaplar = self._tanim(f"SELECT alan, ifade FROM hesaplanan_alanlar WHERE sourcetype = {st} ORDER BY rowid")
+        if not hesaplar:
+            return kaynak
+        cols = self.sutunlar(kaynak)
+        yeniler = [a for a in dict.fromkeys(alan for alan, _ in hesaplar) if a not in cols]
+        if yeniler:                            # henüz hesaplanmamış alanlar: öteki ifadeler bunları boş görür
+            kaynak = self.yeni(f"SELECT *, {', '.join(f'NULL AS {q(a)}' for a in yeniler)} FROM {kaynak}")
+        ifadeler = {}
+        for alan, ifade in hesaplar:
             try:
-                kaynak = self.k_eval(kaynak, f"'{alan}' = {ifade}", konum)
+                a = _Akis(_jetonla(_IFADE, ifade, konum), konum)
+                sql = self._i_veya(a)
+                if not a.bitti():
+                    raise SplHatasi(f"beklenmeyen: '{a.bak()[1]}'", konum)
+                self.sutun_bul(self.with_sql(f"SELECT {sql} FROM {kaynak} LIMIT 0"))
             except Exception as e:
                 raise SplHatasi(f"hesaplanan alan {alan} = {ifade}: {getattr(e, 'msg', e)}", konum)
-        return kaynak
+            ifadeler[alan] = sql
+        secim = ", ".join(f"{ifadeler[c]} AS {q(c)}" if c in ifadeler else q(c) for c in self.sutunlar(kaynak))
+        return self.yeni(f"SELECT {secim}, [__sira] FROM {kaynak}")
 
     def _olay_turleri(self, desen):
         rx = _joker_rx(desen)
