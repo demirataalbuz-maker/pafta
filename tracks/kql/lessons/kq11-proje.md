@@ -32,6 +32,24 @@ biletler
 > Uzun KQL sorgularında her `|` adımını ayrı satıra yaz ve adımların arasına `//` ile kısa notlar düş. Bir sorgunun hangi adımda yanlış sonuç verdiğini bulmanın en hızlı yolu, sondan adım silerek ara sonuçlara bakmaktır.
 :::
 
+::: tahmin
+Hafta aralığını iki biçimde yazınca kaç bilet sayılır? İki sayı:
+
+```kql
+biletler
+| where acilis between (datetime(2026-10-12) .. datetime(2026-10-18))
+| count
+
+biletler
+| where acilis >= datetime(2026-10-12) and acilis < datetime(2026-10-19)
+| count
+```
+
+???
+
+`17` ve `19`. `between` iki ucu da dahil eder, ama `datetime(2026-10-18)` pazar gecesi 00:00 demektir: pazar gündüzü ve akşamı açılan iki bilet dışarıda kalır. Yarı açık aralık (başlangıç dahil, ertesi pazartesi 00:00 hariç) haftanın bütün anlarını kapsar. SQL yolundaki `BETWEEN` tuzağının aynısı.
+:::
+
 ::: gorev 1 · Haftanın özeti
 Tek satırda üç sütun getir: `acilan` (hafta içinde açılan), `cozulen` (hafta içinde kapanan), `acik_kalan` (hafta içinde açılmış ama hafta bittiğinde hâlâ kapanmamış olan: hiç kapanmamış ya da hafta bittikten sonra kapanmış).
 

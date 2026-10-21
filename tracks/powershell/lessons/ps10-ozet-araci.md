@@ -36,6 +36,28 @@ Bu projede, öğrendiğin her şeyi birleştiren bir **araç** yazacaksın: para
 > Çıkış kodları aracını otomasyona uygun yapar: zamanlanmış bir görev ya da CI hattı, `$LASTEXITCODE`'a bakarak işin başarılı olup olmadığını anlar. Kullanım hatası (2) ile çalışma zamanı hatasını (1) ayırmak Unix geleneğidir ve PowerShell araçlarında da iyi bir uygulamadır.
 :::
 
+::: tahmin
+Özetin iki sayısı. İki satır yazar:
+
+```powershell
+$kayitlar = @"
+kullanici,sonuc
+ali,basarili
+root,basarisiz
+veli,basarisiz
+root,basarisiz
+"@ | ConvertFrom-Csv
+$basarisiz = $kayitlar | Where-Object sonuc -eq "basarisiz"
+$basarisiz.Count
+$en = $basarisiz | Group-Object kullanici | Sort-Object Count -Descending | Select-Object -First 1
+"$($en.Name) ($($en.Count))"
+```
+
+???
+
+`3` ve `root (2)`. `ConvertFrom-Csv` başlık satırını alan adı yapar ve her satırı bir nesneye çevirir. Üç başarısız kayıt var; `Group-Object kullanici` onları kullanıcıya göre toplar, her grubun `Name` ve `Count` özelliği olur. Çoktan aza sıralayıp ilkini almak en çok başarısız denemesi olan kullanıcıyı verir: root, iki kez.
+:::
+
 ::: gorev 1 · Sağlam giriş kontrolleri
 Önce sözleşmenin hata kısımlarını yaz. Betik `$Dosya` parametresi alsın:
 

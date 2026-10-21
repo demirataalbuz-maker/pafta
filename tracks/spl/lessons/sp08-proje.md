@@ -25,6 +25,21 @@ Zaman alanları metin olduğu için hafta aralığını `where` içinde metin ka
 > Splunk'ta uzun aramaları komut başına bir satıra böl. Bir aramanın hangi adımda bozulduğunu bulmak için sondan komut silip ara sonuçlara bak; kayıt sorgulayan her dilde aynı yöntem işe yarar.
 :::
 
+::: tahmin
+Bayrak kalıbıyla üç sayı. Tek satır yazar:
+
+```spl
+sourcetype=biletler
+| eval hafta = if(acilis>="2026-10-12" AND acilis<"2026-10-19", 1, 0),
+       pazarsiz = if(acilis>="2026-10-12" AND acilis<="2026-10-18", 1, 0)
+| stats count as toplam, sum(hafta) as hafta, sum(pazarsiz) as pazarsiz
+```
+
+???
+
+`20|19|17`. `count` bütün olayları sayar (20 bilet), `sum(hafta)` yalnızca bayrağı 1 olanları (19). Zamanlar metindir: `"2026-10-18 22:00"` metni `"2026-10-18"`'den **büyüktür**, bu yüzden `<="2026-10-18"` pazar günü açılan iki bileti kaçırır (17). Yarı açık aralık `<"2026-10-19"` doğrusudur.
+:::
+
 ::: gorev 1 · Haftanın özeti
 Tek satırda üç alan getir: `acilan` (hafta içinde açılan), `cozulen` (hafta içinde kapanan), `acik_kalan` (hafta içinde açılmış ama hafta bittiğinde hâlâ kapanmamış: hiç kapanmamış ya da hafta bittikten sonra kapanmış).
 

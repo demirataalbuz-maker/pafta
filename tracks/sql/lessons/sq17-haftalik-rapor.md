@@ -33,6 +33,22 @@ FROM biletler;
 > Okunabilir SQL için: her yan tümce (`SELECT`, `FROM`, `WHERE`...) kendi satırında, uzun sorgular `WITH` adımlarıyla, tablolar kısa ama anlamlı takma adlarla. Altı ay sonra raporu güncelleyecek kişi büyük ihtimalle sensin.
 :::
 
+::: tahmin
+"Hafta bittiğinde hâlâ açık" biletleri iki parçada sayalım. İki sayı:
+
+```sql
+SELECT COUNT(*) FROM biletler
+WHERE acilis >= '2026-10-12' AND acilis < '2026-10-19' AND kapanis >= '2026-10-19';
+
+SELECT COUNT(*) FROM biletler
+WHERE acilis >= '2026-10-12' AND acilis < '2026-10-19' AND kapanis IS NULL;
+```
+
+???
+
+`1` ve `8`. Hiç kapanmamış biletlerde `kapanis` NULL'dur ve `NULL >= '2026-10-19'` doğru değil **bilinmez** sayılır: ilk sorgu onları atar, yalnızca hafta bittikten sonra kapanan tek bileti bulur (pazar 22:00'de açılıp pazartesi kapanan 19 numara). Hafta sonunda açık kalanlar ikisinin toplamıdır, 9; tek koşulda `(kapanis IS NULL OR kapanis >= '2026-10-19')` diye parantezle yazılır.
+:::
+
 ::: gorev 1 · Haftanın özeti
 Tek satırda üç sütun getir:
 

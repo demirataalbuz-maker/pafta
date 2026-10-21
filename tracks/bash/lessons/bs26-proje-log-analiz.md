@@ -29,6 +29,21 @@ Her görevin başlangıç kodu bir öncekinin çözümüdür. Araç BS10'daki ku
 > Bir raporu tek bir dev boru hattıyla değil, her biri tek bir soruyu cevaplayan küçük fonksiyonlarla yaz: `durumlar()`, `en_yavaslar()`. Hata ayıklarken her fonksiyonu tek başına çalıştırıp çıktısına bakabilirsin.
 :::
 
+::: tahmin
+Alan numaraları aracın temeli. Üç satır yazar:
+
+```bash
+satir='10.0.0.9 - - [19/Oct/2026:09:01:45 +0300] "GET /api/rapor HTTP/1.1" 500 32 1830'
+echo "$satir" | awk '{ print $6, $7, $9 }'
+echo "$satir" | awk '{ print NF, $NF, $4 }'
+echo "$satir" | awk '{ gsub(/"/, "", $6); print $6 }'
+```
+
+???
+
+`"GET /api/rapor 500`, `11 1830 [19/Oct/2026:09:01:45` ve `GET`. awk satırı boşluklardan böler ve tırnaklara ya da köşeli parantezlere aldırmaz: `$6` baştaki çift tırnağı, `$4` köşeli parantezi taşır. Satırda 11 alan vardır, `$NF` sonuncusudur (süre). Yöntemi temiz almak için `gsub` ile tırnağı silmek gerekir; durum kodu (`$9`) ve süre (`$11`) ise doğrudan sayıdır.
+:::
+
 ::: gorev 1 · Durum dağılımı
 Betik log dosyasının adını 1. argüman olarak alsın ve her durum kodu için `durum sayı` yazdırsın: çoktan aza, eşitlikte koda göre artan.
 

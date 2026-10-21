@@ -5,7 +5,7 @@ summary: Jetonlayıcı, özyinelemeli iniş ayrıştırıcı, ağaç değerlendi
 ---
 
 ::: anlat Son pafta: makineyi kendin kur
-69 paftadır Python'un kodunu nasıl okuduğunu, ağaca çevirdiğini ve çalıştırdığını öğrendin (P66). Son projede bunu **kendin** yapacaksın: değişkenleri, dört işlemi, üs almayı ve parantezleri anlayan küçük bir dil.
+72 paftadır Python'un kodunu nasıl okuduğunu, ağaca çevirdiğini ve çalıştırdığını öğrendin (P66). Son projede bunu **kendin** yapacaksın: değişkenleri, dört işlemi, üs almayı ve parantezleri anlayan küçük bir dil.
 
 ```text
 >>> x = 3 + 4 * 2
@@ -50,6 +50,20 @@ Ağaç düğümleri düz demetlerdir:
 ("ikili", "+", sol, sag)           # + - * / ^
 ("atama", "x", ifade)              # x = ifade (sadece en üst düzeyde)
 ```
+:::
+
+::: tahmin
+Kuracağın dilbilgisi, Python'un kendi öncelik kurallarını taklit ediyor. Üç satır yazar:
+
+```python
+print(-2 ** 2, (-2) ** 2)
+print(2 ** 3 ** 2, (2 ** 3) ** 2)
+print(10 - 4 - 3, 8 / 2 / 2)
+```
+
+???
+
+`-4 4`, `512 64` ve `3 2.0`. Üs alma eksi işaretinden sıkı bağlanır: `-2 ** 2`, `-(2 ** 2)` demektir. Üs alma **sağdan** birleşir: `2 ** 3 ** 2` = `2 ** 9` = 512. Çıkarma ve bölme **soldan** birleşir: `(10 - 4) - 3` = 3, `(8 / 2) / 2` = 2.0. Dilbilgisindeki `tekli := "-" tekli | us` ve `us := atom ("^" tekli)?` kuralları tam bu davranışı kurar.
 :::
 
 ::: gorev 1 · Jetonlayıcı

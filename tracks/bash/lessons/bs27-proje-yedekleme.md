@@ -35,6 +35,23 @@ Damgaların `YYYYAAGG-SSDDss` biçiminde olması, **ada göre sıralamanın zama
 > Bir şeyi silen her betiği önce `-n` ile çalıştır ve listeye bak. Yanlış bir desen ya da boş bir değişken yüzünden bütün yedekleri silen betik, bakım işlerinin en bilinen kâbusudur.
 :::
 
+::: tahmin
+Döndürmenin mantığı. `-t 2` verildiğinde hangi yedekler silinir? Üç satır yazar:
+
+```bash
+yedekler='yedek-20261017-120000.tar.gz
+yedek-20261019-120000.tar.gz
+yedek-20261018-090000.tar.gz
+yedek-20261016-230000.tar.gz'
+echo "$yedekler" | sort | tail -n 1
+echo "$yedekler" | sort -r | tail -n +3
+```
+
+???
+
+`yedek-20261019-120000.tar.gz`, sonra `yedek-20261017-120000.tar.gz` ve `yedek-20261016-230000.tar.gz`. Damga `YYYYAAGG-SSDDss` biçiminde olduğu için ada göre sıralama zamana göre sıralamadır: `sort` sonrası en yeni yedek en sondadır. `sort -r` en yeniyi başa alır, `tail -n +3` üçüncü satırdan başlar, yani en yeni iki yedeği atlar. Kalanlar silinecek olanlardır.
+:::
+
 ::: gorev 1 · Arşiv al
 Betik `-k KAYNAK`, `-h HEDEF` ve `-d DAMGA` seçeneklerini alsın; hedef klasör yoksa oluştursun, `HEDEF/yedek-DAMGA.tar.gz` arşivini oluşturup `oluşturuldu: yedek-DAMGA.tar.gz` yazdırsın.
 

@@ -31,6 +31,34 @@ $olaylar |
 > Zaman çizelgesi yöntemi her günlük incelemesinde aynıdır: önce olayları süz ve sırala, sonra "bundan hemen önce ne oldu?" diye sor. Bu ders boyunca aynı kalıbı kullanacaksın: olayları zaman sırasıyla dolaşan tek bir `foreach` ve geçmişi hatırlayan birkaç değişken.
 :::
 
+::: tahmin
+Zaman çizelgesi yöntemi küçük bir veride. Üç satır yazar:
+
+```powershell
+$olaylar = @(
+    [pscustomobject]@{ Zaman = "2026-10-16 22:41"; Id = 6005 }
+    [pscustomobject]@{ Zaman = "2026-10-14 03:12"; Id = 6005 }
+    [pscustomobject]@{ Zaman = "2026-10-18 03:00"; Id = 6005 }
+    [pscustomobject]@{ Zaman = "2026-10-16 22:40"; Id = 41 }
+    [pscustomobject]@{ Zaman = "2026-10-18 02:58"; Id = 1074 }
+)
+$onceki = $null
+foreach ($o in $olaylar | Sort-Object Zaman) {
+    if ($o.Id -eq 6005) {
+        $tur = if ($onceki -in 41, 6008) { "beklenmedik" } elseif ($onceki -eq 1074) { "planlı" } else { "bilinmiyor" }
+        "$($o.Zaman) $tur"
+        $onceki = $null
+    } else {
+        $onceki = $o.Id
+    }
+}
+```
+
+???
+
+`2026-10-14 03:12 bilinmiyor`, `2026-10-16 22:41 beklenmedik` ve `2026-10-18 03:00 planlı`. Önce sıralama: olaylar karışık gelir, `YYYY-AA-GG SS:DD` biçimindeki zamanlar metin olarak sıralanınca zaman sırasına girer. İlk açılıştan önce kayıt yoktur: bilinmiyor. İkincisinden hemen önce `41` (düzgün kapanmama) vardır: beklenmedik. Üçüncüsünden önce `1074` (birinin başlattığı yeniden başlatma) vardır: planlı. Her açılıştan sonra `$onceki` sıfırlanır; böylece bir sonraki açılış yalnızca kendisinden önceki olaylara bakar.
+:::
+
 ::: gorev 1 · Açılışlar
 Sunucunun her açılışını (Id 6005) `yyyy-MM-dd HH:mm` biçiminde, zaman sırasıyla yazdır.
 

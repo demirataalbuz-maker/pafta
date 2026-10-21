@@ -33,6 +33,24 @@ Görüntü, göreli yol (`/` ayraçlı) → onaltılık özet sözlüğüdür:
 > Görüntüyü neden imzalıyoruz? Görüntü dosyası klasörün yanında duruyorsa, dosyaları değiştirebilen biri görüntüyü de yeni özetlerle güncelleyip değişikliği gizleyebilir. HMAC anahtarı başka bir yerde (ör. bir parola kasasında) tutulursa, görüntüyü anahtarsız yeniden imzalamak mümkün olmaz. Kanonik JSON (`sort_keys=True`) imzalamak önemlidir: aynı veri her zaman aynı baytlara dönüşmeli.
 :::
 
+::: tahmin
+Fark raporunun ve imzanın çekirdeği. Üç satır yazar:
+
+```python
+import json
+eski = {"a.txt": "11", "b.txt": "22", "c.txt": "33"}
+yeni = {"b.txt": "22", "c.txt": "99", "d.txt": "44"}
+print(sorted(yeni.keys() - eski.keys()), sorted(eski.keys() - yeni.keys()))
+print(sorted(k for k in eski.keys() & yeni.keys() if eski[k] != yeni[k]))
+print(json.dumps({"b": 1, "a": 2}) == json.dumps({"a": 2, "b": 1}),
+      json.dumps({"b": 1, "a": 2}, sort_keys=True) == json.dumps({"a": 2, "b": 1}, sort_keys=True))
+```
+
+???
+
+`['d.txt'] ['a.txt']`, `['c.txt']` ve `False True`. Sözlüğün `keys()` görünümü küme işlemlerini destekler (P17): yeni eksi eski eklenenleri, eski eksi yeni silinenleri verir, kesişimde özeti farklı olanlar değişenlerdir. `json.dumps` anahtarları ekleme sırasıyla yazar: aynı iki sözlük farklı metinlere, dolayısıyla farklı HMAC'lere dönüşür. `sort_keys=True` metni kanonik yapar; imzalanan bayt dizisi veri aynıysa hep aynıdır.
+:::
+
 ::: gorev 1 · Anlık görüntü
 `anlik_goruntu(kok, haric=())` fonksiyonu `kok` altındaki **bütün dosyaları** (alt klasörler dahil) gezsin ve `{göreli_yol: sha256_hex}` sözlüğünü döndürsün:
 

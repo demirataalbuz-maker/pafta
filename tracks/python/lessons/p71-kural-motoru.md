@@ -46,6 +46,24 @@ Okuma kuralları:
 > 3. adımda ifadeyi `eval()` ile değerlendirmek cazip gelebilir: `eval("(hata or yuk) and not test", {}, sonuclar)` tek satırda çalışır. Ama kural dosyası dışarıdan geliyorsa `eval` o dosyayı yazan herkese **kod çalıştırma** yetkisi verir (P06, P66). Bu yüzden kendi küçük ayrıştırıcını yazacaksın: sadece izin verdiğin dilbilgisini anlar, başka hiçbir şeyi değil. Yol haritasındaki **Sigma** yolunda, SIEM'lerin tespit kurallarının aynı fikri nasıl kullandığını göreceksin.
 :::
 
+::: tahmin
+Kuralı bir olaya elle uygulayalım. Üç satır yazar:
+
+```python
+olay = {"servis": "odeme", "seviye": "ERROR", "mesaj": "Veritabanı zaman aşımı", "cpu": 40, "ortam": "test"}
+hata = olay["seviye"] in ["ERROR", "CRITICAL"] and "zaman aşımı" in olay["mesaj"].lower()
+yuk = olay["cpu"] > 90
+test = olay["ortam"] == "test"
+print(hata, yuk, test)
+print((hata or yuk) and not test)
+print(hata or yuk and not test)
+```
+
+???
+
+`True False True`, `False` ve `True`. Seçimlerin sonucu: `hata` tutuyor (seviye listede, mesajda "zaman aşımı" var), `yuk` tutmuyor (40 > 90 değil), `test` tutuyor. Parantezli ifade `(True or False) and not True`, yani `False`: test ortamındaki olay alarm vermez. Parantezsiz yazınca `and`, `or`'dan önce bağlanır ve ifade `hata or (yuk and not test)` olur: `True`. Görev 3'te yazacağın ayrıştırıcı da aynı önceliği uygulamalı.
+:::
+
 ::: gorev 1 · Alan eşleştirme
 `alan_eslesir(olay, anahtar, deger)` fonksiyonunu yaz. `anahtar` `"alan"` ya da `"alan|degistirici"` biçiminde olabilir:
 

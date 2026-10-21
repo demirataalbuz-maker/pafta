@@ -37,6 +37,24 @@ Her görev kendi başına çalışır. Görev 2–4, görev 1'in ürettiği kay�
 > Gerçek dünyada bu iş için hazır araçlar (GoAccess, ELK, Grafana Loki) vardır. Ama hepsinin çekirdeği bu projedeki dört adımdır. Kendin yazınca, hazır aracın sana gösterdiği bir sayının nereden geldiğini de bilirsin.
 :::
 
+::: tahmin
+Görev 1'in ayrıştırıcısı bir satırdan ne çıkarır? Üç satır yazar:
+
+```python
+import re
+satir = '10.0.0.5 - - [19/Oct/2026:09:01:44 +0300] "GET /resim/logo.png HTTP/1.1" 304 - 0.003'
+m = re.match(r'(\S+) \S+ \S+ \[([^\]]+)\] "(\S+) (\S+) [^"]*" (\d{3}) (\S+) ([\d.]+)', satir)
+ip, zaman, yontem, yol, durum, bayt, sure = m.groups()
+print(zaman)
+print(yol, durum, bayt)
+print(int(durum) // 100, 0 if bayt == "-" else int(bayt), round(float(sure) * 1000))
+```
+
+???
+
+`19/Oct/2026:09:01:44 +0300`, `/resim/logo.png 304 -` ve `3 0 3`. `\[([^\]]+)\]` grubu zamanı köşeli parantezler olmadan yakalar. Gruplar her zaman **metin** döndürür: `durum` `"304"`, `bayt` `"-"`. `304 // 100` durum sınıfını verir (3xx). İçeriği olmayan yanıtta boyut `-` yazıldığı için doğrudan `int(bayt)` hata verirdi; önce `-`'yi 0'a çevirmek gerekir. Süre saniye cinsindendir: 0.003 sn, 3 ms.
+:::
+
 ::: gorev 1 · Satır ayrıştırıcı
 `ayristir(satir)` fonksiyonunu yaz: yukarıdaki biçimdeki bir satırı kayıt sözlüğüne çevirsin, biçime uymayan satırlarda `None` döndürsün.
 
