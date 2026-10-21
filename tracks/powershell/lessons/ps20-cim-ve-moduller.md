@@ -1,7 +1,7 @@
 ---
 id: ps20
 title: CIM, Modüller ve Uzaktan Yönetim
-summary: Get-CimInstance ile işletim sistemi sorguları, New-Module ve Export-ModuleMember ile kapsülleme, ScriptBlock ve Invoke-Command kalıbı.
+summary: Get-CimInstance ile işletim sistemi sorguları, New-Module ve Export-ModuleMember ile kapsülleme, ScriptBlock ve Invoke-Command kalıbı, Start-Job, Wait-Job, Receive-Job ve Remove-Job ile arka plan işlerinin yaşam döngüsü.
 ---
 
 ::: anlat CIM ile makine röntgeni
@@ -53,6 +53,41 @@ Invoke-Command -ScriptBlock $blok -ArgumentList 30, $veri   #! yerel oturumda ay
 
 > [!DERİN] Neden `Invoke-Command -ScriptBlock` yerelde de kullanılır?
 > Yerel makinede `-ComputerName` vermeden çağrılan `Invoke-Command -ScriptBlock $sb -ArgumentList ...`, uzak sunucularda çalıştıracağın denetim bloğunu ağ bağlantısı açmadan önce birebir aynı parametre sözleşmesiyle test etmeni sağlar.
+:::
+
+::: anlat Arka plan işleri: Start-Job'dan Remove-Job'a
+Uzun süren bir işi (büyük bir günlüğü taramak, birkaç sunucuyu yoklamak) beklerken oturumu kilitlemek istemezsin. `Start-Job` betik bloğunu **ayrı bir PowerShell sürecinde** başlatır ve hemen bir **iş nesnesi** döndürür. Bir işin yaşam döngüsü dört adımdır:
+
+| Adım | Komut | Ne yapar |
+|---|---|---|
+| başlat | `Start-Job -ScriptBlock {...} -ArgumentList ...` | işi başlatır, iş nesnesini döndürür (`Id`, `Name`, `State`) |
+| bekle | `Wait-Job` | iş ya da işler bitene kadar bekler; `-Timeout` ile saniye sınırı verilebilir |
+| sonucu al | `Receive-Job` | işin çıktısını getirir; alınan çıktıyı varsayılan olarak işten **siler** (`-Keep` ile kalır) |
+| temizle | `Remove-Job` | iş nesnesini oturumdan kaldırır |
+
+`Get-Job` oturumdaki işleri listeler. `State` alanı `Running`, `Completed`, `Failed` ya da `Stopped` olur. İşler ayrı süreçte çalıştığı için yerel değişkenleri görmez; değerler, `Invoke-Command`'daki gibi `param(...)` ve `-ArgumentList` ile geçer:
+
+```powershell
+$isler = foreach ($n in 3, 5) {
+    Start-Job -ScriptBlock { param($x) $x * $x } -ArgumentList $n
+}
+$isler | Wait-Job | Out-Null            #! ikisi de bitene kadar bekle
+$isler | ForEach-Object { $_.State }    #! Completed, Completed
+$isler | Receive-Job                    #! 9 ve 25: işlerin çıktısı
+$isler | Remove-Job                     #! oturumu temizle
+(Get-Job).Count                         #! 0
+```
+
+Kısa yolu da var: `Start-Job {...} | Receive-Job -Wait -AutoRemoveJob` bekler, sonucu alır ve işi siler.
+
+> [!TUZAK]
+> Bir **diziyi** tek argüman olarak geçirmek istiyorsan `-ArgumentList (,$dizi)` yaz. `-ArgumentList $dizi` dizinin elemanlarını ayrı ayrı argümanlara dağıtır: `param([int[]]$Sayilar)` yalnızca ilk elemanı alır.
+
+> [!TUZAK]
+> İşin içindeki bir hata **senin oturumunda yükselmez**. İş `Failed` ya da `Completed` olarak biter, hata da `Receive-Job` çağrıldığında hata akışına yazılır. İşlerin `State` değerine bak ve `Receive-Job`'u unutma. `Remove-Job` yazmazsan bitmiş işler ve çıktıları oturum kapanana kadar bellekte kalır.
+
+> [!NOT]
+> `Start-Job` her iş için yeni bir `powershell.exe` süreci açar; başlaması zaman alır. Çok kısa işlerde bu bedel kazançtan büyüktür. PowerShell 7'de daha hafif `Start-ThreadJob` ve satır sonuna `&` koyma sözdizimi vardır; Pafta tezgahı Windows PowerShell 5.1 kullanır.
 :::
 
 ::: tahmin
@@ -234,5 +269,64 @@ Invoke-Command -ScriptBlock $DenetimBlok -ArgumentList $minMb, $surecler
 
 ```hint
 Betik bloğu içinde `$Surecler | Where-Object { $_.WorkingSetMb -ge $MinMb } | Sort-Object WorkingSetMb -Descending` borusunu kur.
+```
+:::
+
+::: gorev İşlerle paralel toplam
+`$Girdi`'nin ilk satırı bir eşik, kalan satırlar `ad:sayı,sayı,...` biçiminde. Her satır için bir **arka plan işi** başlat: iş, sayıları `-ArgumentList` ile alsın ve toplamlarını döndürsün. Bütün işleri bekle (`Wait-Job`), sonuçları **girdideki sırayla** al (`Receive-Job`) ve her satır için `ad toplam` yazdır; toplam eşiğe **eşit ya da büyükse** satırın sonuna ` !` ekle. Sonunda bütün işleri kaldır (`Remove-Job`).
+
+```stdin
+20
+web01:3,5,9
+db01:10,10
+cache01:4,4,4
+```
+
+```starter
+$esik = [int]$Girdi[0]
+$satirlar = $Girdi[1..($Girdi.Count - 1)]
+foreach ($satir in $satirlar) {
+    $ad, $liste = $satir.Split(":")
+    $sayilar = [int[]]$liste.Split(",")
+    # Burada toplamı hesaplayan bir iş başlat
+}
+```
+
+```test
+eq(out, "web01 17\ndb01 20 !\ncache01 12\n", "girdideki sırayla toplamlar; tam 20 eşiğe dahil")
+for komut in ("Start-Job", "Wait-Job", "Receive-Job", "Remove-Job"):
+    ok(komut in src, f"{komut} kullanmalısın")
+eq(run(stdin="10\na:9\nb:10\nc:4,7\n"), "a 9\nb 10 !\nc 11 !\n", "eşik 10: 9 hariç, 10 ve 11 dahil")
+son = run_code(src + "\n(Get-Job).Count\n", stdin="5\nx:1,2\n").splitlines()
+eq(son, ["x 3", "0"], "tek işte de çalışmalı ve bitince oturumda iş kalmamalı")
+```
+
+```solution
+$esik = [int]$Girdi[0]
+$satirlar = $Girdi[1..($Girdi.Count - 1)]
+$isler = foreach ($satir in $satirlar) {
+    $ad, $liste = $satir.Split(":")
+    $sayilar = [int[]]$liste.Split(",")
+    Start-Job -ScriptBlock {
+        param([int[]]$Sayilar)
+        ($Sayilar | Measure-Object -Sum).Sum
+    } -ArgumentList (,$sayilar)
+}
+$isler | Wait-Job | Out-Null
+for ($i = 0; $i -lt $satirlar.Count; $i++) {
+    $ad = $satirlar[$i].Split(":")[0]
+    $toplam = Receive-Job -Job @($isler)[$i]
+    $isaret = if ($toplam -ge $esik) { " !" } else { "" }
+    "$ad $toplam$isaret"
+}
+$isler | Remove-Job
+```
+
+```hint
+`Start-Job -ScriptBlock { param([int[]]$Sayilar) ... } -ArgumentList (,$sayilar)`: diziyi tek argüman olarak geçirmek için başına virgül koy. İşleri bir değişkende topla (`$isler = foreach (...) { Start-Job ... }`).
+```
+
+```hint
+Sırayı korumak için işleri girdideki sırayla `Receive-Job -Job @($isler)[$i]` ile al. `@(...)` tek iş olduğunda da diziyle çalışmanı sağlar. Sonda `$isler | Remove-Job`.
 ```
 :::
