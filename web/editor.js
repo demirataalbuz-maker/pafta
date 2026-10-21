@@ -125,7 +125,7 @@ export class Editor {
       if (this._dil === "spl" || this._dil === "regex") return;   // bu dillerde satır yorumu yok
       const [a, b] = this.lineRange();
       const lines = ta.value.slice(a, b).split("\n");
-      const y = { sql: "--", kql: "//", javascript: "//", yara: "//" }[this._dil] || "#";
+      const y = { sql: "--", kql: "//", javascript: "//", yara: "//", cmd: "rem" }[this._dil] || "#";
       const all = lines.filter(l => l.trim()).every(l => l.trimStart().startsWith(y));
       this.replaceLines(l => {
         if (!l.trim()) return l;

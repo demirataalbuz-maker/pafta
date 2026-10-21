@@ -33,7 +33,7 @@ function splitAnno(line) {
   return [line.slice(0, m.index).replace(/\s+$/, ""), m[2]];
 }
 
-const DIL_ADI = { py: "python", sh: "bash", ps: "powershell", ps1: "powershell", sqlite: "sql", kusto: "kql", splunk: "spl", js: "javascript" };
+const DIL_ADI = { py: "python", sh: "bash", ps: "powershell", ps1: "powershell", sqlite: "sql", kusto: "kql", splunk: "spl", js: "javascript", bat: "cmd", batch: "cmd" };
 export const dilAdi = d => DIL_ADI[d] || d;
 
 // Regex blokları: desen, `---` satırı, aranacak metin
@@ -53,7 +53,7 @@ export function stripAnno(src) {
 export function codeBlock(src, info = "python", opts = {}) {
   const lang = dilAdi((info || "python").split(/\s+/)[0] || "python");
   const flags = (info || "").split(/\s+/).slice(1);
-  const kodDili = ["python", "bash", "powershell", "regex", "sql", "kql", "spl", "javascript", "c", "php", "sigma", "yara", "kibana", "lucene", "eql", "elastic"].includes(lang);
+  const kodDili = ["python", "bash", "powershell", "regex", "sql", "kql", "spl", "javascript", "c", "php", "sigma", "yara", "kibana", "lucene", "eql", "elastic", "cmd"].includes(lang);
   const izDili = dilAdi(opts.dil || "python");
   const runnable = lang === izDili && !flags.includes("norun") && opts.runnable !== false;
   let desen = src, metin = "";

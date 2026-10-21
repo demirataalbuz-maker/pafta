@@ -262,6 +262,7 @@ class Bench {
       regex: "Metin · desen bu metnin içinde aranır",
       bash: "Girdi (stdin) · read komutu satırları buradan okur",
       powershell: "Girdi · satırlar $Girdi dizisine gelir",
+      cmd: "Girdi (stdin) · set /p satırları, for /f dosya içeriğini okur",
       javascript: "Girdi (stdin) · require(\"fs\").readFileSync(0, \"utf8\") ile okunur",
       sigma: "Olaylar · JSON nesnesi, liste ya da her satırda bir JSON nesnesi",
       yara: "Örnek veri · UTF-8 metin; ikili veri için hex: veya base64: öneki",
@@ -765,11 +766,12 @@ function paintDims() {
   $("#antet").innerHTML = antet();
 }
 
-const DIL_ETIKET = { python: "python|py", bash: "bash|sh", powershell: "powershell|ps1?", regex: "regex", sql: "sql", kql: "kql|kusto", spl: "spl|splunk", javascript: "javascript|js" };
+const DIL_ETIKET = { python: "python|py", bash: "bash|sh", powershell: "powershell|ps1?", regex: "regex", sql: "sql", kql: "kql|kusto", spl: "spl|splunk", javascript: "javascript|js", cmd: "cmd|batch|bat" };
 const BOS_KOD = {
   python: "# Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n",
   bash: "# Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n",
   powershell: "# Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n",
+  cmd: "@echo off\nrem Soldaki örneği tezgaha alıp değiştirerek çalıştırabilirsin.\n",
   regex: "",
   sql: "-- Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n-- Tablolar: ekipler, personel, sunucular, biletler, olcumler\n",
   kql: "// Bu adımdaki örnekleri ⇢ Tezgaha al ile buraya getirip kurcalayabilirsin.\n// Tablolar: ekipler, personel, sunucular, biletler, olcumler\n",
@@ -789,6 +791,7 @@ const TAHMIN_DIL = {
   sql: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer için NULL)",
     baslik: "Bu sorgu ne döndürür?", ornek: "ör. web01|72", kod: "-- Önce soldaki sorgunun sonucunu tahmin et.\n-- Tahmin ettikten sonra sorgu buraya gelir; değiştirip denersin.\n" },
   javascript: { kod: "// Önce soldaki kodun çıktısını tahmin et.\n// Tahmin ettikten sonra kod buraya gelir; değiştirip denersin.\n" },
+  cmd: { kod: "@echo off\nrem Önce soldaki batch betiğinin çıktısını tahmin et.\n" },
   c: { baslik: "Bu C programı ne yazdırır?", kod: OKUMA_BOS },
   php: { baslik: "Bu PHP kodu ne yazdırır?", kod: OKUMA_BOS },
   spl: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer boş kalır)",
@@ -1069,6 +1072,7 @@ const TEZGAH_DILLER = [
   ["regex", "Regex", { roentgen: false, dis: "Ağaç" }],
   ["bash", "Bash", { roentgen: true, dis: null }],
   ["powershell", "PowerShell", { roentgen: true, dis: null }],
+  ["cmd", "CMD / Batch", { roentgen: false, dis: null }],
   ["sql", "SQL", { roentgen: false, dis: "Plan" }],
   ["kql", "KQL (Kusto)", { roentgen: false, dis: "SQL" }],
   ["spl", "SPL", { roentgen: false, dis: "SQL" }],
@@ -1083,6 +1087,7 @@ const TEZGAH_ORNEK = {
   regex: String.raw`(?P<yil>\d{4})-(?P<ay>\d{2})-(?P<gun>\d{2})`,
   bash: `# Serbest tezgah (Git Bash). Girdi kutusu read ile okunur.\nfor dosya in rapor.txt veri.csv notlar.md; do\n  echo "\${dosya%.*} -> \${dosya##*.}"\ndone\n`,
   powershell: `# Serbest tezgah (Windows PowerShell). Girdi kutusu $Girdi dizisine gelir.\n1..5 | ForEach-Object { [pscustomobject]@{ Sayi = $_; Kare = $_ * $_ } } | Format-Table -AutoSize\n`,
+  cmd: `@echo off\nsetlocal enabledelayedexpansion\nrem Gerçek cmd.exe: batch dosyasında FOR değişkeni iki yüzde işareti kullanır.\nfor /l %%N in (1,1,3) do (\n  set /a "kare=%%N*%%N"\n  echo %%N: !kare!\n)\n`,
   spl: `sourcetype=biletler durum=açık\n| stats count by oncelik\n| sort -count\n`,
   javascript: `// Serbest tezgah (Node.js). Girdi kutusu: require("fs").readFileSync(0, "utf8")\nconst sunucular = [{ ad: "web01", cpu: 72 }, { ad: "db01", cpu: 91 }, { ad: "web03", cpu: 18 }];\nconst yogun = sunucular.filter(s => s.cpu > 50).map(s => s.ad);\nconsole.log(yogun.join(", "));\n`,
   kql: `// Serbest tezgah (KQL). Sorgu SQLite'a çevrilip örnek veritabanında çalışır; SQL düğmesi karşılığını gösterir.\n// Tablolar: ekipler, personel, sunucular, biletler, olcumler\n\nbiletler\n| where durum == "açık"\n| summarize adet = count() by oncelik\n| sort by adet desc\n`,
