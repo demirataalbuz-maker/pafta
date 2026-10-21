@@ -141,6 +141,9 @@ raises(ValueError, basic_coz, "Bearer demo-jeton-123", msg="başka şema")
 raises(ValueError, basic_coz, "Digest eW9uZXRpY2k6cGFmdGEtZGVtbw==", msg="geçerli base64 olsa da şema Basic değil")
 raises(ValueError, basic_coz, "Basic eW9uZXRpY2k=", msg="':' yok")
 raises(ValueError, basic_coz, "Basic !!!", msg="geçersiz base64")
+raises(ValueError, basic_coz, "Basic eW9u*ZXRp", msg="base64 alfabesinde olmayan karakter")
+raises(ValueError, basic_coz, "Basic eW9uZXRp*Y2k6cGFmdGEtZGVtbw==",
+       msg="geçersiz karakter atlanarak çözülmemeli (atlansa yonetici:pafta-demo çıkardı)")
 raises(ValueError, basic_coz, "Basic", msg="değer yok")
 ```
 
