@@ -23,7 +23,6 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
 | A14 | tracks/packets | Paket yolu GitHub'a yarım gitti: `track.json` 18 ders listeliyor, yalnızca PK01–PK09 yazılı. Uygulamada 9 ders "yazılmamış" görünüyor. Codex yolu bitirince kendiliğinden kapanır. | PK10–PK18'i bitir | Codex |
-| A9 | PowerShell · Active Directory | Kullanıcının ilk dil listesinde "AD" vardı, hiç yazılmadı (`Get-ADUser`, `Get-ADGroupMember`, DN/OU yapısı, LDAP filtreleri yok). Tezgahta etki alanı olmadığı için ancak dışa aktarılmış veriyle ya da okuma düzeyinde kurulabilir. Not: aynı rapordaki "Başpehlivan boş", "Security günlüğü yok", "Sysmon yok" bilgileri eskiydi; üçü de `f6241cf` ile PS19–PS21'de var. | AZ-040'ın AD yönetimi çerçevesinde bir köprü ders | düşük öncelik; **kullanıcı kararı** |
 
 ## Planlanan yeni yollar
 
@@ -38,7 +37,7 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 | 4 | Java | **okuma** (derin kod okuma) | Beyaz kutu web sertifikalarında (OSWE, HTB CWEE) kaynak kodu okunur, uygulama yazılmaz | okuma yolu (`okuma_dili`), görevler Python'da; tahmin cevapları Android Studio'yla gelen JDK 21 ile gerçek çalıştırmadan üretilebilir. Yazar 1'in altyapı commit'leri hazır (`23180f5` renklendirme, `5382fbf` kod bloğu) | **Codex'e devredildi**: Yazar 1 yolu hazırlarken otomatik güvenlik denetimine takıldı |
 | 5 | C# (.NET) | **okuma** (derin kod okuma) | aynı ölçüt | okuma yolu, ama **.NET 8 SDK kurulu** olduğundan tahmin cevapları gerçek çalıştırmayla üretilsin | bekliyor · **Codex** |
 | 6 | Snort/Suricata kuralları | **net** | SANS SEC503 ve HTB Detection Engineer yolunda kural yazılır | gerçek Suricata (kullanıcı resmi Windows sürümünü kurarsa, kayıt dosyalarında çevrimdışı); kurulmazsa okuma + değerlendirici | bekliyor |
-| 7 | LDAP filtreleri | **net** | AD yönetimi ve AD kurslarında filtre yazılır | standart kütüphaneyle RFC 4515'e sadık değerlendirici | bekliyor · **Codex** |
+| 7 | **Active Directory ve LDAP** (A9 ile birleşti) | LDAP filtreleri ve `Get-AD*` sorguları **net**, AD kavramları **okuma** | AZ-040'ın AD yönetimi ve AD kurslarında filtre ve sorgu yazılır; amaç, aboneliği olmayan birinin de AD'yi öğrenebilmesi | sahte ama gerçeğe sadık bir dizin (kullanıcı, grup, bilgisayar, OU verisi); üzerinde RFC 4515'e sadık LDAP filtre değerlendiricisi ve `Get-ADUser`/`Get-ADGroup`/`Get-ADGroupMember`/`Get-ADComputer` (`-Filter`, `-LDAPFilter`, `-Properties`, `-SearchBase`) taklidi; içerik yönetim ve savunma tarafında (yapı, sorgu, hesap denetimi, AD günlükleri). Son ders: Windows Server değerlendirme sürümüyle kendi AD laboratuvarını kurmak. Sınırı derste açıkça yazılsın: gerçek Kerberos, GPO ve çoğaltma yok | bekliyor · **Codex** |
 | 8 | x86/x64 assembly kavramları | **okuma** | THM Red Teaming ve hedeflenen HTB yolları kavram ve okuma düzeyinde ister | okuma yolu | bekliyor |
 
 Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyaları, KQL `render`, JS `Map`/`Set`, C çok dosyalı programlar, PHP `namespace`/`trait`) **yapıldı ve denetlendi** (Yazar 1).
@@ -47,6 +46,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| Active Directory hiç yoktu (A9) | karar: kullanıcı | LDAP filtreleriyle birleştirilip "Active Directory ve LDAP" yolu olarak plana alındı (sıra 7) |
 | Mevcut yollara küçük eklemeler | `a0ccb9e`, `0895b6c`, `ac5b5e2`, `78f4e44`, `f339c97`, `dd86685` (Yazar 1) | SQ18 görünümler ve veri sözlüğü, BS28 kabuk ortamı, KQ07 `render`, JS03 `Map`/`Set`, C10 çok dosyalı programlar, PH06 namespace ve trait: 22 görevde zayıf test yok, 9 tahmin doğru. C10 ve PH06'nın elle doğrulanan cevapları (derleyici ve PHP yok) denetçi tarafından da satır satır doğrulandı. |
 | KQL tezgahı yalnızca tarih içeren `datetime()` değerlerini metin gibi karşılaştırıyordu; gece yarısında Kusto'nun tersini veriyordu | `ac5b5e2` (Yazar 1) | gece yarısı sınırında `>` 1, `>=` 2, `<=` 2 sonuç: Kusto'yla aynı; 20 KQL tahmini değişmeden doğru |
 | CMD süreçleri Git Bash'ten başlatılınca Unix `sort`/`find`'a gidiyordu (A11) | Codex | Git Bash'ten 107 CMD kontrolü temiz |
