@@ -365,6 +365,9 @@ class Isleyici(BaseHTTPRequestHandler):
     def r_dongu(self):
         self._yonlendir(302, "/dongu")
 
+    def r_son_rapor(self):
+        self._yonlendir(303, "/rapor.csv")
+
     def r_zincir(self, n):
         n = int(n)
         if n == 0:
@@ -510,6 +513,7 @@ ROTALAR = [
     (r"/tasindi", ("GET", "POST"), "tasindi"),
     (r"/kalici", ("GET", "POST"), "kalici"),
     (r"/dongu", ("GET",), "dongu"),
+    (r"/son-rapor", ("GET",), "son_rapor"),
     (r"/zincir/(\d+)", ("GET",), "zincir"),
     (r"/bilet-ac", ("GET", "POST"), "bilet_ac"),
     (r"/tercih", ("GET",), "tercih"),
