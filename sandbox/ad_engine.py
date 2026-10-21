@@ -67,8 +67,9 @@ DEFAULT_OBJECT_CATEGORY = {
 }
 
 
-def _dn_norm(dn):
-    return re.sub(r"\s*([,=])\s*", r"\1", dn.strip())
+def _dn_norm(dn, strip_outer=True):
+    s = dn.strip() if strip_outer else dn
+    return re.sub(r"\s*([,=])\s*", r"\1", s)
 
 
 class ADError(Exception):
@@ -93,6 +94,7 @@ class Directory:
         for obj in self.objects:
             dn = obj.get("distinguishedName", "")
             self.by_dn[dn.casefold()] = obj
+            self.by_dn[_dn_norm(dn.casefold())] = obj
         self._enrich()
 
     def _enrich(self):
@@ -156,22 +158,54 @@ class Directory:
         return low in self.by_dn
 
     def in_scope(self, obj, search_base, search_scope="Subtree"):
-        if not search_base:
-            return True
-        base_low = search_base.strip().casefold()
+        scope_low = str(search_scope if search_scope is not None else "Subtree").strip().casefold()
+        scope_map = {
+            "base": "base", "0": "base",
+            "onelevel": "onelevel", "1": "onelevel",
+            "subtree": "subtree", "2": "subtree",
+        }
+        norm_scope = scope_map.get(scope_low)
+        if norm_scope is None:
+            raise ADError(f"Geçersiz -SearchScope değeri: '{search_scope}'. Base (0), OneLevel (1) veya Subtree (2) olmalı.")
+        base_low = (search_base or DOMAIN_DN).strip().casefold()
         dn = obj.get("distinguishedName", "")
         dn_low = dn.casefold()
-        scope_low = (search_scope or "Subtree").strip().casefold()
-        if scope_low == "base":
+        if norm_scope == "base":
             return dn_low == base_low
-        if scope_low == "onelevel":
+        if norm_scope == "onelevel":
             if "," not in dn_low:
                 return False
             parent_low = dn_low.split(",", 1)[1].strip()
             return parent_low == base_low
-        if scope_low == "subtree":
-            return dn_low == base_low or dn_low.endswith("," + base_low)
-        raise ADError(f"Geçersiz -SearchScope değeri: '{search_scope}'. Base, OneLevel veya Subtree olmalı.")
+        return dn_low == base_low or dn_low.endswith("," + base_low)
+
+    def transitive_attr_targets(self, obj, attr):
+        """Verilen DN özniteliği (memberOf, member, manager, managedBy vb.) üzerinden
+        zincirleme ulaşılabilen tüm normalize DN'leri (casefold) döndürür (1.2.840.113556.1.4.1941)."""
+        visited = set()
+        raw_vals = self.get_attr(obj, attr)
+        if not raw_vals:
+            return visited
+        if not isinstance(raw_vals, list):
+            raw_vals = [raw_vals]
+        stack = [_dn_norm(str(v).casefold()) for v in raw_vals if v is not None]
+        while stack:
+            cur_dn = stack.pop()
+            if cur_dn in visited:
+                continue
+            visited.add(cur_dn)
+            target_obj = self.by_dn.get(cur_dn)
+            if target_obj is not None:
+                next_vals = self.get_attr(target_obj, attr)
+                if next_vals:
+                    if not isinstance(next_vals, list):
+                        next_vals = [next_vals]
+                    for nv in next_vals:
+                        if nv is not None:
+                            n_low = _dn_norm(str(nv).casefold())
+                            if n_low not in visited:
+                                stack.append(n_low)
+        return visited
 
     def transitive_member_of(self, obj):
         """Nesnenin doğrudan ve dolaylı (iç içe) üye olduğu tüm grup DN'lerini (casefold) döndürür."""
@@ -283,10 +317,10 @@ def _parse_filter_at(s, pos, line=1):
     if pos >= n or s[pos] != "(":
         raise ADError("LDAP filtresinde '(' bekleniyordu.", line=line)
     pos += 1
-    while pos < n and s[pos].isspace():
-        pos += 1
     if pos >= n:
         raise ADError("Kapanmamış '(' parantezi.", line=line)
+    if s[pos].isspace():
+        raise ADError("RFC 4515 LDAP filtresinde '(' karakterinden hemen sonra boşluk gelemez.", line=line)
 
     op = s[pos]
     if op in ("&", "|"):
@@ -323,7 +357,8 @@ def _parse_filter_at(s, pos, line=1):
         pos += 1
         return ("not", child), pos
 
-    # Basit filtre öğesi: ')' karakterine kadar oku (ancak içerde '(' varsa hata)
+    # Basit filtre öğesi: ')' karakterine kadar oku (ancak içerde '(' varsa hata).
+    # RFC 4515 gereği öznitelik adından önce/sonra veya değerin sonunda boşluk kırpılmaz!
     start = pos
     while pos < n and s[pos] != ")":
         if s[pos] == "(":
@@ -334,7 +369,7 @@ def _parse_filter_at(s, pos, line=1):
         pos += 1
     if pos >= n or s[pos] != ")":
         raise ADError("LDAP filtresinde kapanış ')' parantezi eksik.", line=line)
-    item_str = s[start:pos].strip()
+    item_str = s[start:pos]
     pos += 1
     if not item_str:
         raise ADError("Boş filtre '()' geçersizdir.", line=line)
@@ -342,7 +377,7 @@ def _parse_filter_at(s, pos, line=1):
 
 
 _SIMPLE_ITEM_RE = re.compile(
-    r"^([A-Za-z][A-Za-z0-9-]*)(?::([A-Za-z0-9.-]+(?::[A-Za-z0-9.-]+)*))?\s*(:=|>=|<=|~=|=[><]?|[><])(.*)$",
+    r"^([A-Za-z][A-Za-z0-9-]*)(?::([A-Za-z0-9.-]+(?::[A-Za-z0-9.-]+)*))?(:=|>=|<=|~=|=[><]?|[><])(.*)$",
     re.S,
 )
 
@@ -426,7 +461,7 @@ def _substring_match(candidate_str, parts):
 
 def _compare_single(cand, op, target_str, attr_low, line=1):
     if attr_low in BOOL_ATTRS or isinstance(cand, bool):
-        t_low = target_str.strip().casefold()
+        t_low = target_str.casefold()
         if t_low in ("true", "$true", "1"):
             t_bool = True
         elif t_low in ("false", "$false", "0"):
@@ -439,9 +474,11 @@ def _compare_single(cand, op, target_str, attr_low, line=1):
         return False
 
     if attr_low in NUMERIC_ATTRS or isinstance(cand, int):
+        if target_str != target_str.strip():
+            raise ADError(f"'{attr_low}' sayısal alanı için boşluksuz tam sayı değer bekleniyordu: {target_str!r}", line=line)
         try:
             c_num = int(cand)
-            t_num = int(target_str.strip())
+            t_num = int(target_str)
         except ValueError:
             raise ADError(f"'{attr_low}' sayısal alanı için tam sayı değer bekleniyordu: {target_str!r}", line=line)
         if op in ("=", "~="):
@@ -464,8 +501,8 @@ def _compare_single(cand, op, target_str, attr_low, line=1):
         c_str = c_str.replace("-", "")
         return op in ("=", "~=") and c_str == t_str
     if attr_low in DN_ATTRS:
-        c_str = _dn_norm(c_str)
-        t_str = _dn_norm(t_str)
+        c_str = _dn_norm(c_str, strip_outer=True)
+        t_str = _dn_norm(t_str, strip_outer=False)
     if op in ("=", "~="):
         return c_str == t_str
     if op == ">=":
@@ -504,8 +541,10 @@ def eval_ldap_ast(ast_node, directory, obj, line=1):
         _, attr, oid, target = ast_node
         attr_low = attr.casefold()
         if oid in (OID_BIT_AND, OID_BIT_OR):
+            if target != target.strip():
+                raise ADError(f"Bit eşleştirme kuralında ({oid}) boşluksuz tam sayı maske bekleniyordu: {target!r}", line=line)
             try:
-                mask = int(target.strip())
+                mask = int(target)
             except ValueError:
                 raise ADError(f"Bit eşleştirme kuralında ({oid}) tam sayı maske bekleniyordu: {target!r}", line=line)
             vals = _values_of(directory, obj, attr)
@@ -520,12 +559,10 @@ def eval_ldap_ast(ast_node, directory, obj, line=1):
                     return True
             return False
         if oid == OID_IN_CHAIN:
-            target_dn = _dn_norm(target.strip().casefold())
-            if attr_low == "memberof":
-                return target_dn in directory.transitive_member_of(obj)
-            if attr_low == "member":
-                return target_dn in directory.transitive_members(obj)
-            return False
+            if target != target.strip():
+                return False
+            target_dn = _dn_norm(target.casefold(), strip_outer=False)
+            return target_dn in directory.transitive_attr_targets(obj, attr)
     raise ADError(f"Bilinmeyen filtre düğümü: {kind}", line=line)
 
 
@@ -708,10 +745,10 @@ def _ps_comparison_to_ldap(prop, cmp_op, raw_val, line=1):
         return f"({prop}<={_escape_ldap_literal(raw_val)})"
     if cmp_op == "-gt":
         v = _escape_ldap_literal(raw_val)
-        return f"(&({prop}>={v})(!({prop}={v})))"
+        return f"(!({prop}<={v}))"
     if cmp_op == "-lt":
         v = _escape_ldap_literal(raw_val)
-        return f"(&({prop}<={v})(!({prop}={v})))"
+        return f"(!({prop}>={v}))"
     raise ADError(f"Desteklenmeyen -Filter işleci: {cmp_op}", line=line)
 
 
@@ -1057,7 +1094,7 @@ def execute_code(code, raw_directory=None):
             elif explicit_props:
                 cols = ["sAMAccountName"] + explicit_props
             else:
-                cols = ["sAMAccountName", "name", "objectCategory", "Enabled", "userAccountControl", "distinguishedName"]
+                cols = ["sAMAccountName", "name", "Enabled", "distinguishedName"]
 
             satirlar = []
             for obj in objs:

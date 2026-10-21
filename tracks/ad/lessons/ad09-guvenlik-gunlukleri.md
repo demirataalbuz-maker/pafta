@@ -13,7 +13,7 @@ En kritik olay kimlikleri:
 | Olay Kimliği | Anlamı | Savunma Notu |
 |---|---|---|
 | **4624** | Başarılı oturum açma | Logon Type'a bakılır (Type 2 yerel konsol, Type 3 ağ/SMB/LDAP, Type 10 RDP) |
-| **4625** | Başarısız oturum açma | Hata kodu (0xC000006A yanlış parola, 0xC0000064 kullanıcı yok, 0xC000006E süre kısıtı, 0xC0000234 kilitli) |
+| **4625** | Başarısız oturum açma | Hata kodu (0xC000006A yanlış parola, 0xC0000064 kullanıcı yok, 0xC000006E hesap kısıtı, 0xC000006F oturum saati kısıtı, 0xC0000234 kilitli) |
 | **4740** | Bir hesap kilitlendi | `badPwdCount` eşiğe ulaştığında üretilir; kaynak makine adını taşır |
 
 ### 2. Hesap ve Grup Yönetimi

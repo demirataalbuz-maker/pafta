@@ -48,8 +48,8 @@ Active Directory karmaşık ve çok katmanlı bir ekosistemdir. Tezgah ile gerç
 > **Tezgahta neler VAR:**
 > - RFC 4515 uyumlu LDAP filtre ayrıştırıcısı ve değerlendiricisi (`&`, `|`, `!`, `=`, `>=`, `<=`, `*` jokeri, varlık filtresi `attr=*`, onaltılık kaçışlar `\2a`, `\28`, `\29`, `\5c`).
 > - LDAP bit eşleştirme kuralları (`1.2.840.113556.1.4.803` BIT_AND ve `804` BIT_OR).
-> - LDAP geçişli grup zinciri eşleştirme kuralı (`1.2.840.113556.1.4.1941` IN_CHAIN).
-> - PowerShell `ActiveDirectory` modülünün temel cmdlet'leri (`Get-ADUser`, `Get-ADComputer`, `Get-ADGroup`, `Get-ADGroupMember -Recursive`, `Get-ADObject`, `Get-ADOrganizationalUnit`) ve bunların `-Filter`, `-LDAPFilter`, `-SearchBase`, `-SearchScope`, `-Properties` parametreleri.
+> - LDAP geçişli DN zinciri eşleştirme kuralı (`1.2.840.113556.1.4.1941` IN_CHAIN; `memberOf`, `member`, `manager` gibi DN değerli alanlarda).
+> - PowerShell `ActiveDirectory` modülünün temel cmdlet'leri (`Get-ADUser`, `Get-ADComputer`, `Get-ADGroup`, `Get-ADGroupMember -Recursive`, `Get-ADObject`, `Get-ADOrganizationalUnit`) ve bunların `-Filter`, `-LDAPFilter`, `-SearchBase`, `-SearchScope` (isim veya `0`/`1`/`2`), `-Properties` parametreleri.
 > - Büyük-küçük harf duyarsızlığı ve hesaplanan AD özellikleri (`Enabled`, `PasswordNeverExpires` vb.).
 
 > [!TUZAK]
@@ -58,6 +58,7 @@ Active Directory karmaşık ve çok katmanlı bir ekosistemdir. Tezgah ile gerç
 > 2. **Grup İlkesi (GPO) motoru ve SYSVOL paylaşımı yoktur:** `\\domain\sysvol` paylaşımı, istemcilerin GPO çekmesi, kayıt defteri zorlamaları tezgah sınırları dışındadır.
 > 3. **AD Çoğaltma (Replication) yoktur:** Çoklu DC replikasyon mekanizması, USN vektörleri ve DRS RPC çağrıları sanal olarak taklit edilmez.
 > 4. **Gerçek RPC / SAMR / LSA protokolleri yoktur:** Canlı ağ üzerinden Mimikatz, Rubeus, BloodHound (SharpHound) gibi araçlar bu tezgaha bağlanamaz; bu araçlar için yukarıda kurduğun Windows Server laboratuvarı şarttır.
+> 5. **`-Filter` dilinin canlı AD olmadan doğrulanamayan uç durumları:** `about_ActiveDirectory_Filter` belgesinde yer alan `-band`, `-bor`, `-recursivematch` ve `-approx` işleçleri tezgahta `-Filter` içinde desteklenmez (karşılıkları olan `803`, `804`, `1941` ve `~=` kurallarını `-LDAPFilter` içinde kullanabilirsin). Ayrıca belgedeki işleç tablosu ile Örnek 3'ün çeliştiği `-lt`/`-gt` çevirisi (tezgahta tabloya göre `(!(attr>=val))` ve `(!(attr<=val))`) ile `-eq '*'` / `-ne '*'` ifadesinin varlık kontrolü mü yoksa düz `\*` (`\2a`) mi sayıldığı konusunu kurduğun laboratuvarda bizzat test edebilirsin.
 
 ### Kendi Laboratuvarında İlk Savunma Adımları
 Kendi kurduğun laboratuvarda ilk yapman gereken sıkılaştırma (hardening) adımları:

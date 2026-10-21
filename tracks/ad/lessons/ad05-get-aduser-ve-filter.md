@@ -14,7 +14,8 @@ Windows'ta AD'yi PowerShell'den sorgulamanın yolu **ActiveDirectory** modülüd
 | `Department -eq "SOC"` | `(Department=SOC)` |
 | `Title -like "*Uzman*"` | `(Title=*Uzman*)` |
 | `badPwdCount -ge 3` | `(badPwdCount>=3)` |
-| `badPwdCount -gt 3` | `(&(badPwdCount>=3)(!(badPwdCount=3)))` |
+| `badPwdCount -gt 3` | `(!(badPwdCount<=3))` |
+| `badPwdCount -lt 3` | `(!(badPwdCount>=3))` |
 | `Department -ne "SOC"` | `(!(Department=SOC))` |
 | `A -and B` | `(&(A)(B))` |
 | `-not A` | `(!(A))` |
@@ -50,6 +51,8 @@ LDAP düğmesine basınca ilk komutun `(userAccountControl:1.2.840.113556.1.4.80
 
 > [!TUZAK]
 > `-ne`, `(!(...))`'e çevrilir; özniteliği **hiç olmayan** nesneler de sonuca girer. `Get-ADUser -Filter 'Department -ne "SOC"'` yerleşik Administrator, Guest ve krbtgt hesaplarını da getirir, çünkü onların `department` özniteliği yoktur. "Departmanı dolu ama SOC değil" demek için `Department -like "*" -and Department -ne "SOC"` yaz.
+>
+> **Tablo ve Örnek 3 çelişkisi (`-lt` / `-gt`) ile `-eq '*'` sınırı:** Microsoft'un `about_ActiveDirectory_Filter` yardım konusundaki işleç tablosuna göre LDAP'ta `<` ve `>` olmadığı için `-lt` → `(!(attr>=val))` ve `-gt` → `(!(attr<=val))`'a çevrilir; tezgah bu tabloyu izler ve bu yüzden özniteliği hiç olmayan nesneler de `!(attr>=val)` koşulunu sağlar. Ancak Microsoft'un aynı belgesindeki Örnek 3 bu tabloyla çelişir (`badPwdCount -lt 1`'in özniteliği olmayanları getirmediğini, onları da getirmek için `-not (badPwdCount -ge 1)` yazılması gerektiğini söyler). Benzer biçimde `about_ActiveDirectory_Filter` `-eq` işlecinin joker desteklemediğini ve varlık kontrolünün `-like "*"` ile yapılacağını söylerken, resmi `Get-ADUser` örneklerinde `-Filter 'Name -eq "*"'` de geçer; tezgah tek `'*'` değerini varlık kontrolü (`(attr=*)`) kabul eder, ama gerçek modülün bunu `(attr=*)` mi yoksa düz `\2a` mı saydığını ve `-lt`/`-gt` çevirisini son derste (AD12) kuracağın gerçek AD laboratuvarında denemeni öneririz.
 :::
 
 ::: anlat -Properties, -Identity ve -LDAPFilter
@@ -74,7 +77,7 @@ Get-ADUser -LDAPFilter "(title=*Uzman*)" -Properties title, department
 ```
 
 > [!İPUCU]
-> `-Filter`, `-LDAPFilter` ve `-Identity` aynı komutta birlikte kullanılamaz; birini seç. Bit kuralları ve DN zincirleri gibi incelikler için `-LDAPFilter`, okunaklı günlük sorgular için `-Filter` daha rahattır.
+> `-Filter`, `-LDAPFilter` ve `-Identity` aynı komutta birlikte kullanılamaz; birini seç. Bit kuralları ve DN zincirleri gibi incelikler için `-LDAPFilter`, okunaklı günlük sorgular için `-Filter` daha rahattır. **Tezgah sınırı:** `about_ActiveDirectory_Filter`'da geçen `-band` (`1.2.840.113556.1.4.803`), `-bor` (`1.2.840.113556.1.4.804`), `-recursivematch` (`1.2.840.113556.1.4.1941`) ve `-approx` (`~=`) işleçlerinin `-Filter` içindeki sözdizimi canlı AD olmadan doğrulanamadığı için tezgahta `-Filter` içinde desteklenmez; bu dört kuralı tezgahta `-LDAPFilter` ile kullanabilirsin.
 :::
 
 ::: tahmin

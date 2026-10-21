@@ -159,6 +159,7 @@ eq(dene(ek=[yeni_kullanici("parolasiz", userAccountControl=544)]), ["svc_rapor",
 eq(dene(ek=[yeni_kullanici("ikisi.de", userAccountControl=4194848)]), ["svc_rapor", "ikisi.de"], "iki biti de açık etkin hesap gelmeli")
 eq(dene(ek=[yeni_kullanici("pasif.parolasiz", userAccountControl=546)]), ["svc_rapor"], "devre dışı 546 gelmemeli")
 eq(dene(ek=[yeni_kullanici("temiz", userAccountControl=66048)]), ["svc_rapor"], "iki biti de kapalı hesap gelmemeli")
+eq(dene(ek=[yeni_kullanici("komsu.bitler", userAccountControl=513)]), ["svc_rapor"], "SCRIPT (1) gibi komşu bitleri açık hesap (513) gelmemeli")
 ```
 
 ```solution

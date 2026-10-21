@@ -90,6 +90,7 @@ eq(satirlar, ["SRV-ESKI01$|Windows Server 2012 R2", "PC-FIN01$|Windows 10 Enterp
 eq(dene(ek=[yeni_bilgisayar("SRV-ESKI02", ou="OU=Sunucular", operatingSystem="Windows Server 2012")], satir_olarak=True), ["SRV-ESKI01$|Windows Server 2012 R2", "PC-FIN01$|Windows 10 Enterprise", "SRV-ESKI02$|Windows Server 2012"], "Windows Server 2012 (R2'siz) de gelmeli")
 eq(len(dene(ek=[yeni_bilgisayar("PC-YENI", operatingSystem="Windows 11 Pro")], satir_olarak=True)), 2, "Windows 11 gelmemeli")
 eq(len(dene(ek=[yeni_bilgisayar("SRV-2016", ou="OU=Sunucular", operatingSystem="Windows Server 2016")], satir_olarak=True)), 2, "Windows Server 2016 gelmemeli")
+eq(len(dene(ek=[yeni_bilgisayar("PC-KALIP", operatingSystem="Eski Windows 10 Kalibi")], satir_olarak=True)), 2, "Windows 10 ile başlamayan işletim sistemi gelmemeli")
 ```
 
 ```solution

@@ -79,6 +79,7 @@ ok(kullanir("1.2.840.113556.1.4.804"), "en az biri için BIT_OR (804) kuralını
 eq(dene(ek=[yeni_kullanici("uac.32", userAccountControl=544)]), ["svc_web", "svc_rapor", "uac.32"], "32 biti açık etkin hesap gelmeli")
 eq(dene(ek=[yeni_kullanici("uac.pasif", userAccountControl=546)]), ["svc_web", "svc_rapor"], "aynı biti taşıyan devre dışı hesap gelmemeli")
 eq(dene(ek=[yeni_kullanici("uac.temiz", userAccountControl=512)]), ["svc_web", "svc_rapor"], "sıradan 512 gelmemeli")
+eq(dene(ek=[yeni_kullanici("uac.komsu", userAccountControl=513)]), ["svc_web", "svc_rapor"], "SCRIPT (1) gibi komşu bitleri açık hesap (513) gelmemeli")
 ```
 
 ```solution
