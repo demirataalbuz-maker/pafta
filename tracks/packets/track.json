@@ -1,0 +1,99 @@
+{
+ "id": "packets",
+ "name": "Wireshark / tcpdump",
+ "status": "active",
+ "group": "savunma",
+ "order": 18,
+ "runner": "packets",
+ "dil": "packets",
+ "role": "Paket kayıtlarında görüntü filtresi ve yakalama filtresi yazmak: gerçek TShark ve native libpcap BPF ile çevrimdışı inceleme.",
+ "tagline": "18 pafta, 6 rütbe: Wireshark görüntü filtrelerinden tcpdump/BPF koşullarına, sentetik kayıtlar üzerinde testli paket incelemesi.",
+ "kahraman": [
+  "Paketten",
+  "Bulgulara",
+  ""
+ ],
+ "girdi_etiketi": "Kayıt seçimi JSON",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ],
+ "modules": [
+  {
+   "title": "Paket, Adres ve Port",
+   "rank": "minik",
+   "lessons": [
+    "pk01",
+    "pk02",
+    "pk03"
+   ]
+  },
+  {
+   "title": "Başlık ve Uygulama Alanları",
+   "rank": "tesviye",
+   "lessons": [
+    "pk04",
+    "pk05",
+    "pk06"
+   ]
+  },
+  {
+   "title": "Görüntü Filtresiyle İnceleme",
+   "rank": "kucuk-orta",
+   "lessons": [
+    "pk07",
+    "pk08",
+    "pk09"
+   ]
+  },
+  {
+   "title": "Yakalama Filtresine Giriş",
+   "rank": "buyuk-orta",
+   "lessons": [
+    "pk10",
+    "pk11",
+    "pk12"
+   ]
+  },
+  {
+   "title": "BPF Alanları ve Sınırları",
+   "rank": "basalti",
+   "lessons": [
+    "pk13",
+    "pk14",
+    "pk15"
+   ]
+  },
+  {
+   "title": "Kayıt Üzerinde BPF Projeleri",
+   "rank": "baspehlivan",
+   "lessons": [
+    "pk16",
+    "pk17",
+    "pk18"
+   ]
+  }
+ ]
+}
