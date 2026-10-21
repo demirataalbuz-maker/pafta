@@ -66,21 +66,32 @@ def range_matches(source):
     return re.finditer(r'(\[|\{)[^\[\]{}]*\bTO\b[^\[\]{}]*(\]|\})', mask)
 
 
+def operator_mask(source, dialect):
+    mask = list(lexical_mask(source, dialect))
+    if dialect == 'lucene':
+        # QueryParser's range lexical state accepts words such as AND as a
+        # bound. Those are data, not Boolean connectors or proof evidence.
+        for match in range_matches(source):
+            for at in range(match.start(), match.end()):
+                mask[at] = '\n' if source[at] == '\n' else ' '
+    return ''.join(mask)
+
+
 def mutations(source, dialect):
-    mask = lexical_mask(source, dialect)
+    mask = operator_mask(source, dialect)
     seen = {source}
     def changed(a, b, replacement, label):
         value = source[:a] + replacement + source[b:]
         if value not in seen:
             seen.add(value)
             return label, value
-    for match in re.finditer(r'\b(AND|OR|and|or)\b|>=|<=|(?<![<>!=])[<>](?!=)', mask):
+    for match in re.finditer(r'(?<![\w.@:\-])(?:AND|OR|and|or)(?![\w.@:\-])|>=|<=|(?<![<>!=])[<>](?!=)', mask):
         text = match[0]
         replacement = {'AND':'OR', 'OR':'AND', 'and':'or', 'or':'and', '>=':'>', '<=':'<', '>':'>=', '<':'<='}[text]
         result = changed(*match.span(), replacement, f'{text} -> {replacement} @{match.start()}')
         if result:
             yield result
-    for match in re.finditer(r'\b(?:NOT|not)\s+', mask):
+    for match in re.finditer(r'(?<![\w.@:\-])(?:NOT|not)\s+', mask):
         result = changed(*match.span(), '', f'NOT removed @{match.start()}')
         if result:
             yield result
@@ -116,7 +127,7 @@ def mutations(source, dialect):
                 result = changed(*match.span(), replacement, f'case operator {match[0]} -> {replacement} @{match.start()}')
                 if result:
                     yield result
-        for match in re.finditer(r'\b(?:in|like)~?(?![A-Za-z0-9_])', mask):
+        for match in re.finditer(r'(?<![\w.@:\-])(?:in|like)~?(?![\w.@:\-])', mask):
             text = match[0]
             if text in ('in','like') and source[match.end():].startswith('~'):
                 continue
@@ -134,6 +145,43 @@ def mutations(source, dialect):
                 yield result
 
 
+def single_clause(fragment):
+    """Conservative complete-clause check, never an implicit-OR term list.
+
+    This is only a precondition for the narrow proof, not a query parser. The
+    actual mutant still runs through the native parser and the task tests.
+    """
+    value = fragment.strip()
+    if value.startswith('NOT '):
+        value = value[4:].strip()
+    field = re.match(r'[A-Za-z@][A-Za-z0-9_.@-]*:\s*', value)
+    if field:
+        value = value[field.end():]
+    elif not value.startswith('('):
+        return False
+    if not value:
+        return False
+    if value.startswith('('):
+        mask = operator_mask(value, 'lucene')
+        depth = 0
+        for i,ch in enumerate(mask):
+            if ch == '(':
+                depth += 1
+            elif ch == ')':
+                depth -= 1
+                if depth == 0:
+                    return i == len(value)-1
+        return False
+    if value[0] in '[{':
+        matches = list(range_matches(value))
+        return len(matches) == 1 and matches[0].span() == (0,len(value))
+    if value.startswith('"'):
+        return bool(re.fullmatch(r'"(?:\\.|[^"\\])*"(?:~[0-9]+)?',value))
+    if value.startswith('/'):
+        return bool(re.fullmatch(r'/(?:\\.|[^/\\])+/',value))
+    return bool(re.fullmatch(r'(?:\\.|[^\s()])+',value))
+
+
 def equivalence_reason(source, mutant, dialect):
     if dialect != 'lucene':
         return None
@@ -149,7 +197,7 @@ def equivalence_reason(source, mutant, dialect):
             replacement = {'[':'{', '{':'[', ']':'}', '}':']'}[token]
             if bound == '*' and source[:position]+replacement+source[position+1:] == mutant:
                 return 'Lucene range endpoint is unbounded *; its inclusive/exclusive bracket cannot change membership.'
-    mask = lexical_mask(source, 'lucene')
+    mask = operator_mask(source, 'lucene')
     # Only a single AND -> OR edit is eligible, in a flat explicit-AND run.
     # Parenthesis scopes are tracked structurally. OR-default QueryParser marks
     # both neighboring operands MUST via their other adjacent AND, so replacing
@@ -157,7 +205,7 @@ def equivalence_reason(source, mutant, dialect):
     stack = [0]
     next_scope = 1
     operators = {}
-    for token in re.finditer(r'[()]|\bAND\b|\bOR\b', mask):
+    for token in re.finditer(r'[()]|(?<![\w.@:\-])(?:AND|OR)(?![\w.@:\-])', mask):
         if token[0] == '(':
             stack.append(next_scope); next_scope += 1
         elif token[0] == ')':
@@ -171,6 +219,8 @@ def equivalence_reason(source, mutant, dialect):
             if all(t[0] == 'AND' for t in (left,target,right)):
                 segment = mask[left.end():right.start()]
                 if '+' in segment or '-' in segment:
+                    continue
+                if not single_clause(source[left.end():target.start()]) or not single_clause(source[target.end():right.start()]):
                     continue
                 if source[:target.start()]+'OR'+source[target.end():] == mutant:
                     return 'Classic Lucene OR-default QueryParser: both operands remain MUST through the adjacent AND on their other sides.'
