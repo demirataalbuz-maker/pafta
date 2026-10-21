@@ -30,6 +30,9 @@ SIMDI = "2026-10-19 12:00"     # now() ve ago() için sabit "şimdi": sonuçlar 
 ISLECLER = ("where", "project", "project-away", "project-rename", "project-reorder", "extend", "summarize",
             "sort", "order", "take", "limit", "top", "count", "distinct", "join", "lookup", "union", "parse",
             "parse-where", "mv-expand", "serialize", "getschema", "render")
+GRAFIKLER = {"anomalychart", "areachart", "barchart", "card", "columnchart", "ladderchart", "linechart",
+             "piechart", "pivotchart", "scatterchart", "stackedareachart", "table", "timechart", "timepivot",
+             "treemap"}
 
 _TARIH_DESENI = re.compile(r"\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?")
 
@@ -121,6 +124,8 @@ def _tarih(ic):
         raise KqlHatasi(f"tarih biçimi anlaşılmadı: {ic!r} (ör. datetime(2026-10-12) ya da datetime(2026-10-12 08:00))")
     if len(ic) == 19 and ic.endswith(":00"):
         ic = ic[:16]
+    if len(ic) == 10:
+        ic += " 00:00"                     # yalnızca tarih = gece yarısı; '2026-10-13 00:00' > datetime(2026-10-13) yanlış olmalı
     return ic
 
 
@@ -798,8 +803,26 @@ class _Cevirici:
         return onceki, True
 
     def op_render(self, onceki, sira):
-        while self.bak()[0] != "son" and not self.isl_mi("|") and not self.isl_mi(";") and not self.isl_mi(")"):
+        """render sonucu değiştirmez; istemciye "bunu şöyle çiz" der. Tezgah grafik türünü ve render'ın
+        sorgunun son işleci olduğunu denetler, tabloyu olduğu gibi gösterir (with (...) seçenekleri atlanır)."""
+        t = self.bak()
+        if t[0] != "ad" or t[1] not in GRAFIKLER:
+            raise KqlHatasi(f"render'dan sonra bir grafik türü bekleniyordu: {', '.join(sorted(GRAFIKLER))}", t[2])
+        self.i += 1
+        if self.bak()[0] == "ad" and self.bak()[1] == "with":
             self.i += 1
+            self.bekle("(")
+            derinlik = 1
+            while derinlik:
+                if self.bak()[0] == "son":
+                    raise KqlHatasi("render with (...) parantezi kapanmadı", self.bak()[2])
+                if self.isl_mi("("):
+                    derinlik += 1
+                elif self.isl_mi(")"):
+                    derinlik -= 1
+                self.i += 1
+        if self.isl_mi("|"):
+            raise KqlHatasi("render sorgunun son işleci olmalı", self.bak()[2])
         return onceki, sira
 
     def op_getschema(self, onceki, sira):

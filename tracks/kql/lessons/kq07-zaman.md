@@ -1,7 +1,7 @@
 ---
 id: kq07
 title: Zamanla Çalışmak
-summary: datetime ve ago, zaman aralıkları, bin ile saatlik ve günlük dilimler, datetime_diff ile süre hesabı ve hourofday.
+summary: datetime ve ago, zaman aralıkları, bin ile saatlik ve günlük dilimler, datetime_diff ile süre hesabı, hourofday ve sonucu render ile görselleştirmek.
 ---
 
 ::: anlat Zaman her kaydın omurgasıdır
@@ -56,6 +56,34 @@ biletler
 
 > [!DERİN]
 > Zaman aralığını her zaman sorgunun **başına** koy: `where acilis > ago(1d)` ilk adım olsun. Gerçek Kusto verisi zamana göre parçalara bölünmüş halde saklanır. Zaman süzgeci erken gelince motor ilgisiz parçaları hiç okumaz; sorgu hem hızlanır hem ucuzlar.
+:::
+
+::: anlat Görselleştirmek: render
+Zaman dilimlerine bölünmüş bir sonuç çoğu zaman bir grafikle okunur. KQL'de bunu **`render`** işleci söyler:
+
+```kql
+biletler
+| summarize adet = count() by gun = bin(acilis, 1d)
+| sort by gun asc
+| render columnchart with (title="Günlük açılan bilet")
+```
+
+`render` sonucu **değiştirmez**: veri aynı tablodur, `render` yalnızca onu gösterecek araca (Sentinel, Azure Data Explorer, Log Analytics, bir çalışma kitabı) "bunu şöyle çiz" der. Bu yüzden her zaman sorgunun **son** işlecidir; arkasına başka bir işleç gelemez.
+
+| Grafik | Ne zaman |
+|---|---|
+| `timechart` | zamana göre değişim: ilk sütun zaman, geri kalanlar seriler |
+| `linechart`, `areachart` | sıralı bir eksende değişim |
+| `columnchart`, `barchart` | kategorileri karşılaştırmak (dikey / yatay çubuklar) |
+| `piechart` | bir bütünün payları (az sayıda dilimle) |
+| `scatterchart` | iki sayısal değerin ilişkisi |
+| `card` | tek bir sayı |
+| `table` | tablo olarak göster (varsayılan) |
+
+`with (...)` içine başlık ve eksen adı gibi seçenekler yazılır: `title`, `xtitle`, `ytitle`, `kind=stacked`. Bir zaman grafiği için önce `bin` ile dilimle ve zamana göre sırala; dilimlenmemiş zaman değerleri her olayı ayrı bir noktaya çevirir.
+
+> [!NOT]
+> Tezgah grafik çizmez: `render`'ın türünü ve sorgunun sonunda olduğunu denetler, sonucu tablo olarak gösterir. Gerçek ortamda aynı sorgu bir grafik olarak açılır.
 :::
 
 ::: tahmin
@@ -154,5 +182,44 @@ biletler
 
 ```hint
 `hourofday(acilis)` saati sayı olarak verir; `extend` ile ekle, `where saat < 9` ile süz.
+```
+:::
+
+::: gorev Günlük bilet grafiği
+Her gün açılan bilet sayısını (`gun`: günün başı, `adet`) gün sırasıyla getir ve sonucu bir **zaman grafiği** olarak gösterilecek biçimde bitir. Yalnızca 13 Ekim ile 18 Ekim 2026 arası (iki gün de dahil) sayılsın.
+
+```starter
+biletler
+| summarize adet = count() by acilis
+```
+
+```test
+import re
+eq(sutunlar, ["gun", "adet"], "sütunlar: gun, adet")
+eq([(g[:10], a) for g, a in sonuc], [("2026-10-13", 3), ("2026-10-14", 3), ("2026-10-15", 3), ("2026-10-16", 3),
+                                     ("2026-10-17", 2), ("2026-10-18", 2)], "altı gün; 12 ve 19 Ekim dışarıda")
+def ekle(an):
+    return dene(f"INSERT INTO biletler (id, baslik, acan_id, oncelik, durum, acilis) VALUES (90, 'sınır', 1, 'orta', 'açık', '{an}');")
+eq(ekle("2026-10-13 00:00")[0][1], 4, "13 Ekim 00:00 dahil")
+eq(ekle("2026-10-18 23:59")[-1][1], 3, "18 Ekim'in son dakikası dahil")
+eq(len(ekle("2026-10-19 00:00")), 6, "19 Ekim 00:00 hariç: yeni bir gün eklenmez")
+eq(len(ekle("2026-10-12 23:59")), 6, "12 Ekim'in son dakikası hariç")
+ok(re.search(r"\|\s*render\s+timechart\b[^|]*$", src.strip()), "sorguyu | render timechart ile bitir")
+```
+
+```solution
+biletler
+| where acilis >= datetime(2026-10-13) and acilis < datetime(2026-10-19)
+| summarize adet = count() by gun = bin(acilis, 1d)
+| sort by gun asc
+| render timechart
+```
+
+```hint
+Günleri `bin(acilis, 1d)` ile dilimle. Aralığı yarı açık yaz: `acilis >= datetime(2026-10-13) and acilis < datetime(2026-10-19)`; böylece 18 Ekim'in bütün saatleri dahil olur.
+```
+
+```hint
+`render timechart` her zaman en sonda durur ve sonucu değiştirmez.
 ```
 :::
