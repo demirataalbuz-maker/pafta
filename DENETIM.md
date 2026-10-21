@@ -1,6 +1,6 @@
 # Pafta · Denetim
 
-Son denetim: 2026-10-21, `39db1e3`: 357 ders, 3088 kontrol temiz. Paket yolunun PK10–PK18 dersleri bilgisayarda yazılmış ama henüz commit edilmemiş (A14).
+Son denetim: 2026-10-21, `0780eaf`: 366 ders, 3151 kontrol temiz, hem normal Windows ortamında hem Git Bash'ten. AD yolu commit edilmemiş, yazılıyor. Paket yolunun PK10–PK18 dersleri bilgisayarda yazılmış ama henüz commit edilmemiş (A14).
 
 Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koşturulunca kapanmış sayılır.
 
@@ -22,7 +22,6 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A14 | tracks/packets | Paket yolu GitHub'a yarım gitti: `track.json` 18 ders listeliyor, yalnızca PK01–PK09 yazılı. Uygulamada 9 ders "yazılmamış" görünüyor. Codex yolu bitirince kendiliğinden kapanır. | PK10–PK18'i bitir | Codex |
 
 ## Planlanan yeni yollar
 
@@ -33,11 +32,11 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 | — | Kibana KQL, Lucene ve EQL | **net** (yazma) | Elastic Certified Analyst, THM SOC L2 / SAL2: sorgular yazılır | şu an okuma; Codex'in gizli Python modelleri yazılan sorguyu değerlendiren bir tezgaha çevrilecek | yapıldı (`6b0d21a`, okuma); **yazmaya yükseltilecek** |
 | 1 | CMD/batch | **net** | Windows olay inceleme kursları ve sertifika sınavlarında komut satırı yazılarak kullanılır | gerçek `cmd.exe` | **yapıldı ve denetlendi** (Codex, `208ec11`): 18 ders, 107 kontrol temiz, 36 görevde zayıf test yok; bkz. A10 |
 | 2 | HTTP ve HTML | HTTP **net**, HTML **okuma** | Web sertifikalarında (HTB CWES, Burp Suite Certified Practitioner) ham istek yazılır, sayfa kaynağı okunur | Python ile gerçek istek ve yanıt | **yapıldı ve denetlendi**: HT01–HT13 Yazar 1 (`5e4b604`), HT14–HT15 Codex (`87be609`, `55f94f4`); 15 ders, 130 kontrol temiz; bkz. A13 |
-| 3 | Wireshark görüntü filtreleri ve tcpdump/BPF | **net** | Wireshark Certified Network Analyst ve SANS SEC503'te iki filtre dili de yazılır | görüntü filtreleri gerçek `tshark` 4.6.8 ile örnek kayıt dosyalarında; BPF için gerçeğe sadık değerlendirici (tcpdump kurulu değil) | **sürüyor** (Codex): PK01–PK09 görüntü filtreleri yapıldı ve denetlendi (`cd72585`; 9 tahmin doğru, 18 görevde zayıf test yok); PK10–PK18 (BPF ve proje) yazılmadı, Codex'in tokenı bitti; bkz. A14 |
+| 3 | Wireshark görüntü filtreleri ve tcpdump/BPF | **net** | Wireshark Certified Network Analyst ve SANS SEC503'te iki filtre dili de yazılır | görüntü filtreleri gerçek `tshark` 4.6.8 ile örnek kayıt dosyalarında; BPF için gerçeğe sadık değerlendirici (tcpdump kurulu değil) | **yapıldı ve denetlendi** (Codex, `cd72585` + `0780eaf`): 18 ders, 126 kontrol temiz; 18 tahmin doğru; 36 görevde zayıf test yok. Görüntü filtreleri gerçek TShark 4.6.8, BPF gerçek libpcap 1.10.6 ile çalışıyor (Npcap gerekmiyor) |
 | 4 | Java | **okuma** (derin kod okuma) | Beyaz kutu web sertifikalarında (OSWE, HTB CWEE) kaynak kodu okunur, uygulama yazılmaz | okuma yolu (`okuma_dili`), görevler Python'da; tahmin cevapları gerçek JDK 21 (Android Studio) ile üretildi | **yapıldı ve denetlendi** (Antigravity, `cae6531`): 12 ders, 6 rütbe, 62 kontrol temiz; 12 tahminin 12'si denetçinin gerçek JDK 21 çalıştırmasıyla birebir aynı; 25 görevde zayıf test yok; commit yalnızca izin verilen dosyalara dokunuyor |
 | 5 | C# (.NET) | **okuma** (derin kod okuma) | Beyaz kutu web sertifikalarında (OSWE, HTB CWEE) kaynak kodu okunur, uygulama yazılmaz | okuma yolu (`okuma_dili`), görevler Python'da; tahmin cevapları gerçek .NET 8 SDK ile üretildi | **yapıldı ve denetlendi** (Antigravity, `39db1e3`): 12 ders, 6 rütbe, 62 kontrol temiz; 12 tahminin 12'si denetçinin gerçek .NET 8 çalıştırmasıyla birebir aynı; 25 görevde zayıf test yok; commit sınırların içinde |
 | 6 | Snort/Suricata kuralları | **net** | SANS SEC503 ve HTB Detection Engineer yolunda kural yazılır | gerçek Suricata (kullanıcı resmi Windows sürümünü kurarsa, kayıt dosyalarında çevrimdışı); kurulmazsa okuma + değerlendirici | bekliyor · **Antigravity**, kullanıcı Npcap ve Suricata'yı kurduktan sonra |
-| 7 | **Active Directory ve LDAP** (A9 ile birleşti) | LDAP filtreleri ve `Get-AD*` sorguları **net**, AD kavramları **okuma** | AZ-040'ın AD yönetimi ve AD kurslarında filtre ve sorgu yazılır; amaç, aboneliği olmayan birinin de AD'yi öğrenebilmesi | sahte ama gerçeğe sadık bir dizin (kullanıcı, grup, bilgisayar, OU verisi); üzerinde RFC 4515'e sadık LDAP filtre değerlendiricisi ve `Get-ADUser`/`Get-ADGroup`/`Get-ADGroupMember`/`Get-ADComputer` (`-Filter`, `-LDAPFilter`, `-Properties`, `-SearchBase`) taklidi; içerik yönetim ve savunma tarafında (yapı, sorgu, hesap denetimi, AD günlükleri). Son ders: Windows Server değerlendirme sürümüyle kendi AD laboratuvarını kurmak. Sınırı derste açıkça yazılsın: gerçek Kerberos, GPO ve çoğaltma yok | bekliyor · **Antigravity** |
+| 7 | **Active Directory ve LDAP** (A9 ile birleşti) | LDAP filtreleri ve `Get-AD*` sorguları **net**, AD kavramları **okuma** | AZ-040'ın AD yönetimi ve AD kurslarında filtre ve sorgu yazılır; amaç, aboneliği olmayan birinin de AD'yi öğrenebilmesi | sahte ama gerçeğe sadık bir dizin (kullanıcı, grup, bilgisayar, OU verisi); üzerinde RFC 4515'e sadık LDAP filtre değerlendiricisi ve `Get-ADUser`/`Get-ADGroup`/`Get-ADGroupMember`/`Get-ADComputer` (`-Filter`, `-LDAPFilter`, `-Properties`, `-SearchBase`) taklidi; içerik yönetim ve savunma tarafında (yapı, sorgu, hesap denetimi, AD günlükleri). Son ders: Windows Server değerlendirme sürümüyle kendi AD laboratuvarını kurmak. Sınırı derste açıkça yazılsın: gerçek Kerberos, GPO ve çoğaltma yok | **sürüyor** (Antigravity): AD01–AD08 ve `sandbox/ad_engine.py` commit edilmemiş; yazar daha zayıf bir modele (Gemini 3.8 Flash) geçiyor, bu yüzden denetim sıkılaştırılacak: motor, denetçinin bağımsız bir RFC 4515 değerlendiricisiyle rastgele filtrelerde karşılaştırılacak |
 | 8 | x86/x64 assembly kavramları | **okuma** | THM Red Teaming ve hedeflenen HTB yolları kavram ve okuma düzeyinde ister | okuma yolu | bekliyor · **Antigravity** |
 
 Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyaları, KQL `render`, JS `Map`/`Set`, C çok dosyalı programlar, PHP `namespace`/`trait`) **yapıldı ve denetlendi** (Yazar 1).
@@ -46,6 +45,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| Paket yolu GitHub'a yarım gitmişti (A14) | `0780eaf` (Codex) | PK10–PK18 commit'li, 18 dersin hepsi denetimden geçti |
 | Active Directory hiç yoktu (A9) | karar: kullanıcı | LDAP filtreleriyle birleştirilip "Active Directory ve LDAP" yolu olarak plana alındı (sıra 7) |
 | Mevcut yollara küçük eklemeler | `a0ccb9e`, `0895b6c`, `ac5b5e2`, `78f4e44`, `f339c97`, `dd86685` (Yazar 1) | SQ18 görünümler ve veri sözlüğü, BS28 kabuk ortamı, KQ07 `render`, JS03 `Map`/`Set`, C10 çok dosyalı programlar, PH06 namespace ve trait: 22 görevde zayıf test yok, 9 tahmin doğru. C10 ve PH06'nın elle doğrulanan cevapları (derleyici ve PHP yok) denetçi tarafından da satır satır doğrulandı. |
 | KQL tezgahı yalnızca tarih içeren `datetime()` değerlerini metin gibi karşılaştırıyordu; gece yarısında Kusto'nun tersini veriyordu | `ac5b5e2` (Yazar 1) | gece yarısı sınırında `>` 1, `>=` 2, `<=` 2 sonuç: Kusto'yla aynı; 20 KQL tahmini değişmeden doğru |
