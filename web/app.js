@@ -849,7 +849,9 @@ function showStep(i) {
     S.hintN = 0;
   }
   const readNotice = okuma === "elastic" ? `<div class="callout not"><div class="ct">Okuma alıştırması</div><p>Soldaki sorgu çalıştırılmaz. Sağdaki tezgah Python içindir; bu görevler tam bir Elastic sorgu motoru değildir.</p></div>` : "";
-  $("#stepBody").innerHTML = head + readNotice + body;
+  const stepArgs = st.meta?.argv;
+  const argNotice = stepArgs !== undefined ? `<div class="out-meta">Bu adımın argümanları: <code>${esc(Array.isArray(stepArgs) ? JSON.stringify(stepArgs) : String(stepArgs))}</code></div>` : "";
+  $("#stepBody").innerHTML = head + readNotice + argNotice + body;
   if (st.kind === "gorev") paintTaskStatus();
   paintFoot();
   if (stepDone(i) && st.kind === "gorev") stamp("ONAYLANDI", `görev · ${trDate()}`, false);
