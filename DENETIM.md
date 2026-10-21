@@ -1,6 +1,6 @@
 # Pafta · Denetim
 
-Son denetim: 2026-10-21, `5e4b604` (GitHub'daki son hâl): 320 ders, 2848 kontrol temiz (normal Windows ortamında; Git Bash'ten çalıştırılınca CMD'de 4 sorun, bkz. A11). 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
+Son denetim: 2026-10-21, `cd72585` (GitHub'daki son hâl): 333 ders, 2964 kontrol temiz, hem normal Windows ortamında hem Git Bash'ten. Paket yolunda 9 ders henüz yazılmadı (A14).
 
 Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koşturulunca kapanmış sayılır.
 
@@ -22,8 +22,7 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A11 | sandbox/cmd_process.py | CMD süreçleri PATH'i olduğu gibi devralıyor. Pafta Git Bash'ten başlatılırsa (README'deki geliştirme komutu gibi) PATH'te Git'in Unix araçları Windows'tan önce gelir; `sort` ve `find` Unix sürümlerine gider ve cm12'nin örneği, tahmini ve iki görevi düşer (`sort: cannot read: /l`, zaman aşımı). Kullanıcının gerçek PATH'inde Windows önde olduğundan uygulama normal açıldığında sorun yok. | cmd.exe süreçlerinde `%SystemRoot%\System32` ve `%SystemRoot%` PATH'in başına konsun; Git Bash ortamında bir testle doğrula | Codex |
-| A13 | http/ht14:3, ht14:4, ht14:6 | HT14'te başlık değeri denetimi `ord(c) < 32` yerine `<= 32` yazılsa da test geçiyor: bu bozuk hâl başlık değerlerindeki **boşluğu** reddeder (ör. `User-Agent`), test boşluklu bir başlık denemiyor. ht14:6'da `1 <= port` yerine `1 < port` geçiyor: bu adımda port 1 denenmiyor. | boşluklu bir başlık değerinin kabul edildiğini ve 6. adımda port 1'in geçerli olduğunu test et | Codex |
+| A14 | tracks/packets | Paket yolu GitHub'a yarım gitti: `track.json` 18 ders listeliyor, yalnızca PK01–PK09 yazılı. Uygulamada 9 ders "yazılmamış" görünüyor. Codex yolu bitirince kendiliğinden kapanır. | PK10–PK18'i bitir | Codex |
 | A9 | PowerShell · Active Directory | Kullanıcının ilk dil listesinde "AD" vardı, hiç yazılmadı (`Get-ADUser`, `Get-ADGroupMember`, DN/OU yapısı, LDAP filtreleri yok). Tezgahta etki alanı olmadığı için ancak dışa aktarılmış veriyle ya da okuma düzeyinde kurulabilir. Not: aynı rapordaki "Başpehlivan boş", "Security günlüğü yok", "Sysmon yok" bilgileri eskiydi; üçü de `f6241cf` ile PS19–PS21'de var. | AZ-040'ın AD yönetimi çerçevesinde bir köprü ders | düşük öncelik; **kullanıcı kararı** |
 
 ## Planlanan yeni yollar
@@ -35,19 +34,23 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 | — | Kibana KQL, Lucene ve EQL | **net** (yazma) | Elastic Certified Analyst, THM SOC L2 / SAL2: sorgular yazılır | şu an okuma; Codex'in gizli Python modelleri yazılan sorguyu değerlendiren bir tezgaha çevrilecek | yapıldı (`6b0d21a`, okuma); **yazmaya yükseltilecek** |
 | 1 | CMD/batch | **net** | Windows olay inceleme kursları ve sertifika sınavlarında komut satırı yazılarak kullanılır | gerçek `cmd.exe` | **yapıldı ve denetlendi** (Codex, `208ec11`): 18 ders, 107 kontrol temiz, 36 görevde zayıf test yok; bkz. A10 |
 | 2 | HTTP ve HTML | HTTP **net**, HTML **okuma** | Web sertifikalarında (HTB CWES, Burp Suite Certified Practitioner) ham istek yazılır, sayfa kaynağı okunur | Python ile gerçek istek ve yanıt | **yapıldı ve denetlendi**: HT01–HT13 Yazar 1 (`5e4b604`), HT14–HT15 Codex (`87be609`, `55f94f4`); 15 ders, 130 kontrol temiz; bkz. A13 |
-| 3 | Wireshark görüntü filtreleri ve tcpdump/BPF | **net** | Wireshark Certified Network Analyst ve SANS SEC503'te iki filtre dili de yazılır | görüntü filtreleri gerçek `tshark` 4.6.8 ile örnek kayıt dosyalarında; BPF için gerçeğe sadık değerlendirici (tcpdump kurulu değil) | bekliyor |
+| 3 | Wireshark görüntü filtreleri ve tcpdump/BPF | **net** | Wireshark Certified Network Analyst ve SANS SEC503'te iki filtre dili de yazılır | görüntü filtreleri gerçek `tshark` 4.6.8 ile örnek kayıt dosyalarında; BPF için gerçeğe sadık değerlendirici (tcpdump kurulu değil) | **sürüyor** (Codex): PK01–PK09 görüntü filtreleri yapıldı ve denetlendi (`cd72585`; 9 tahmin doğru, 18 görevde zayıf test yok); PK10–PK18 (BPF ve proje) yazılmadı, Codex'in tokenı bitti; bkz. A14 |
 | 4 | Java | **okuma** (derin kod okuma) | Beyaz kutu web sertifikalarında (OSWE, HTB CWEE) kaynak kodu okunur, uygulama yazılmaz | okuma yolu (`okuma_dili`), görevler Python'da; tahmin cevapları Android Studio'yla gelen JDK 21 ile gerçek çalıştırmadan üretilebilir. Yazar 1'in altyapı commit'leri hazır (`23180f5` renklendirme, `5382fbf` kod bloğu) | **Codex'e devredildi**: Yazar 1 yolu hazırlarken otomatik güvenlik denetimine takıldı |
 | 5 | C# (.NET) | **okuma** (derin kod okuma) | aynı ölçüt | okuma yolu, ama **.NET 8 SDK kurulu** olduğundan tahmin cevapları gerçek çalıştırmayla üretilsin | bekliyor · **Codex** |
 | 6 | Snort/Suricata kuralları | **net** | SANS SEC503 ve HTB Detection Engineer yolunda kural yazılır | gerçek Suricata (kullanıcı resmi Windows sürümünü kurarsa, kayıt dosyalarında çevrimdışı); kurulmazsa okuma + değerlendirici | bekliyor |
 | 7 | LDAP filtreleri | **net** | AD yönetimi ve AD kurslarında filtre yazılır | standart kütüphaneyle RFC 4515'e sadık değerlendirici | bekliyor · **Codex** |
 | 8 | x86/x64 assembly kavramları | **okuma** | THM Red Teaming ve hedeflenen HTB yolları kavram ve okuma düzeyinde ister | okuma yolu | bekliyor |
 
-Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyaları, KQL `render`, JS `Map`/`Set`, C çok dosyalı programlar, PHP `namespace`/`trait`) artık Yazar 1'in işi (kullanıcı uygulamanın eksiksiz olmasını istedi).
+Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyaları, KQL `render`, JS `Map`/`Set`, C çok dosyalı programlar, PHP `namespace`/`trait`) **yapıldı ve denetlendi** (Yazar 1).
 
 ## Kapanan bulgular
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| Mevcut yollara küçük eklemeler | `a0ccb9e`, `0895b6c`, `ac5b5e2`, `78f4e44`, `f339c97`, `dd86685` (Yazar 1) | SQ18 görünümler ve veri sözlüğü, BS28 kabuk ortamı, KQ07 `render`, JS03 `Map`/`Set`, C10 çok dosyalı programlar, PH06 namespace ve trait: 22 görevde zayıf test yok, 9 tahmin doğru. C10 ve PH06'nın elle doğrulanan cevapları (derleyici ve PHP yok) denetçi tarafından da satır satır doğrulandı. |
+| KQL tezgahı yalnızca tarih içeren `datetime()` değerlerini metin gibi karşılaştırıyordu; gece yarısında Kusto'nun tersini veriyordu | `ac5b5e2` (Yazar 1) | gece yarısı sınırında `>` 1, `>=` 2, `<=` 2 sonuç: Kusto'yla aynı; 20 KQL tahmini değişmeden doğru |
+| CMD süreçleri Git Bash'ten başlatılınca Unix `sort`/`find`'a gidiyordu (A11) | Codex | Git Bash'ten 107 CMD kontrolü temiz |
+| HT14'te boşluklu başlık ve port 1 sınanmıyordu (A13) | Codex | HT14'te geçen bozuk hâl kalmadı |
 | ht09:4 testinde geçersiz base64 denenmiyordu (A12) | `e3c5cda` (Yazar 1) | `validate=True` silinince test artık "fail" |
 | CMD koşucusu `NoDefaultCurrentDirectoryInExePath` tanımlıyken hiç çalışmıyordu (A10) | `4b0c268` (Codex) | değişken tanımlıyken "not recognized" hatası kalmadı |
 | PS20'de iş yaşam döngüsü yoktu (A6-ek) | `89131c8` (Yazar 1) | `Start-Job` → `Wait-Job` → `Receive-Job` → `Remove-Job` bölümü ve «İşlerle paralel toplam» görevi; `-ge` → `-gt` ve `Remove-Job`'u silmek testte yakalanıyor |
