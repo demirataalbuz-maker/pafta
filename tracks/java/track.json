@@ -1,0 +1,99 @@
+{
+ "id": "java",
+ "name": "Java",
+ "status": "active",
+ "group": "okuma",
+ "order": 24,
+ "runner": "python",
+ "dil": "python",
+ "okuma_dili": "java",
+ "role": "Okuma düzeyinde Java: kurumsal web uygulamalarının yönlendirme, filtre, veri erişimi ve nesne bağlama kodunu okuyabilmek.",
+ "modules": [
+  {
+   "title": "Bir Java Sınıfı ve Türler",
+   "rank": "minik",
+   "zen": "Derleyici türü bilir; sen referans ile değeri ayır.",
+   "lessons": [
+    "jv01",
+    "jv02"
+   ]
+  },
+  {
+   "title": "Koleksiyonlar ve Seçenekler",
+   "rank": "tesviye",
+   "zen": "Referans boş olabilir; çağırmadan önce kimin konuştuğuna bak.",
+   "lessons": [
+    "jv03",
+    "jv04"
+   ]
+  },
+  {
+   "title": "Nesneler, Arayüzler ve Akışlar",
+   "rank": "kucuk-orta",
+   "zen": "Sözleşmeyi arayüz tanımlar; veriyi record taşır.",
+   "lessons": [
+    "jv05",
+    "jv06"
+   ]
+  },
+  {
+   "title": "İstisnalar, G/Ç ve Yollar",
+   "rank": "buyuk-orta",
+   "zen": "Denetlenen istisna derleyicide, çalışma zamanı hatası üretimde yakalanır.",
+   "lessons": [
+    "jv07",
+    "jv08"
+   ]
+  },
+  {
+   "title": "Web Katmanı, Filtreler ve Veritabanı",
+   "rank": "basalti",
+   "zen": "İstek önce filtreden geçer, sonra denetleyiciye varır; sorgu ise her zaman parametreli gider.",
+   "lessons": [
+    "jv09",
+    "jv10"
+   ]
+  },
+  {
+   "title": "Yansıma, JSON ve Denetleyici Projesi",
+   "rank": "baspehlivan",
+   "zen": "Veri yalnızca veridir; sınıf adını dışarıdan alma, her katmanı sözleşmeyle doğrula.",
+   "lessons": [
+    "jv11",
+    "jv12"
+   ]
+  }
+ ],
+ "kahraman": [
+  "Sınıftan",
+  "Servis",
+  "e"
+ ],
+ "tagline": "Okuma düzeyinde Java: sınıflar ve ilkel türler, String havuzu ve equals, List/Map ve Integer önbelleği, null ve Optional, JavaBeans ve record, arayüzler ve Stream boru hattı, istisnalar ve try-with-resources, Path normalleştirme, Servlet filtre zinciri ve Spring anotasyonları, JDBC PreparedStatement ve işlemler, yansıma (Reflection) ve JSON/XML bağlama, uçtan uca bir web hizmeti projesi. 12 pafta; Java 21 kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

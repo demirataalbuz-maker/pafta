@@ -808,6 +808,7 @@ const TAHMIN_DIL = {
   cmd: { kod: "@echo off\nrem Önce soldaki batch betiğinin çıktısını tahmin et.\n" },
   c: { baslik: "Bu C programı ne yazdırır?", kod: OKUMA_BOS },
   php: { baslik: "Bu PHP kodu ne yazdırır?", kod: OKUMA_BOS },
+  java: { baslik: "Bu Java kodu ne yazdırır?", kod: OKUMA_BOS },
   spl: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer boş kalır)",
     baslik: "Bu arama ne döndürür?", ornek: "ör. web01|72", kod: "" },
   kql: { etiket: "Tahminin — her sonuç satırını ayrı satıra, sütunları | ile ayırarak yaz (boş değer boş kalır)",
