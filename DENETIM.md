@@ -26,7 +26,7 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 ## Planlanan yeni yollar
 
-Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını bitirmek. Bu yollarda karşısına çıkacak ama Pafta'da olmayan diller, kullanıcının çalışma sırasında ne zaman gerekeceğine göre sıralandı. Seviye kararı, konunun en üst sertifika ve kurslarda hangi derinlikte istendiğine göre denetçi tarafından verildi (kullanıcının isteği). Yazarı Codex; her yol bitince durur, denetçi ölçer, sonra sıradakine geçilir.
+Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını bitirmek. Bu yollarda karşısına çıkacak ama Pafta'da olmayan diller, kullanıcının çalışma sırasında ne zaman gerekeceğine göre sıralandı. Seviye kararı, konunun en üst sertifika ve kurslarda hangi derinlikte istendiğine göre denetçi tarafından verildi (kullanıcının isteği). Yazarlar: **Codex** CMD/batch, Wireshark/tcpdump, Snort/Suricata, Elastic yükseltmesi ve assembly; **Yazar 1 (Claude)** HTTP/HTML, Java, C# ve LDAP filtreleri (nötr konular; Claude oturumları tespit kuralı ve alt seviye içerikte otomatik güvenlik denetimine takılıyor). İki yazar aynı anda farklı yollarda çalışabilir, ama yeni yolu kaydetmek için ortak dosyalara (`engine/`, `web/`, `README.md`) dokunulacağı zaman önce `git status`: ötekinin commit edilmemiş değişikliği varsa bekle. Her yol bitince durulur, denetçi ölçer, sonra sıradakine geçilir.
 
 | Sıra | Yol | Seviye | Ölçüt | Tezgah | Durum |
 |---|---|---|---|---|---|
