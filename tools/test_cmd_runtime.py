@@ -1,6 +1,8 @@
 """Real Windows cmd.exe process contract, independent of lesson fixtures."""
 import os
+import json
 from pathlib import Path
+import subprocess
 import sys
 import unittest
 from unittest.mock import patch
@@ -53,6 +55,26 @@ class CmdRuntimeTests(unittest.TestCase):
             code = '@echo off\nif "%~1"=="" (echo hazir) else (echo %~1)\nexit /b 0\n'
             self.assertEqual(self.runner.test(code, step)["status"], "pass")
 
+    def test_git_bash_path_uses_windows_find_and_sort(self):
+        bash = Path(r"C:\Program Files\Git\bin\bash.exe")
+        if not bash.is_file():
+            self.skipTest("Git Bash kurulu değil")
+        command = 'export PATH="/usr/bin:/bin:$PATH"; exec "$1" -X utf8 "$2" --git-bash-probe'
+        result = subprocess.run([str(bash), "-c", command, "pafta-cmd-path-test",
+                                 sys.executable.replace("\\", "/"), str(Path(__file__).resolve()).replace("\\", "/")],
+                                capture_output=True, text=True, encoding="utf-8", timeout=30,
+                                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        probe = json.loads(result.stdout)
+        # Prove the parent really prioritizes Git's tools; a normal Windows
+        # launch would not reproduce the audit finding.
+        self.assertIn("git", probe["parent_path"].split(";")[0].lower())
+        self.assertEqual(probe["status"], "ok", probe)
+        expected = str(Path(os.environ["SystemRoot"]) / "System32").lower()
+        self.assertEqual(probe["sort"].lower(), expected + r"\sort.exe")
+        self.assertEqual(probe["find"].lower(), expected + r"\find.exe")
+        self.assertEqual(probe["output"], "alfa\nzeta\n2\n")
+
     def test_input_file_supports_multiple_native_line_reads(self):
         code = '@echo off\nset "a="\nset "b="\nset /p a=\nset /p b=\necho "%a%"\necho "%b%"\nexit /b 0\n'
         for stdin in ("bir\niki\n", "bir\r\niki\r\n"):
@@ -88,4 +110,15 @@ class CmdRuntimeTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    if sys.argv[1:] == ["--git-bash-probe"]:
+        code = '@echo off\nwhere sort\nwhere find\n>adlar.txt echo zeta\n>>adlar.txt echo alfa\ntype adlar.txt|sort /l C\ntype adlar.txt|find /c "a"\n'
+        result = get("cmd").run(code)
+        lines = "".join(t for k, t in result.get("segs", []) if k == "out").splitlines()
+        sorts = [line for line in lines if line.lower().endswith("sort.exe")]
+        finds = [line for line in lines if line.lower().endswith("find.exe")]
+        output = "\n".join(line for line in lines if not line.lower().endswith(("sort.exe", "find.exe"))) + "\n"
+        print(json.dumps({"parent_path": os.environ.get("PATH", ""), "status": result["status"],
+                          "sort": sorts[0] if sorts else "", "find": finds[0] if finds else "", "output": output,
+                          "error": result.get("error")}, ensure_ascii=False))
+    else:
+        unittest.main(verbosity=2)

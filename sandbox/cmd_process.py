@@ -18,6 +18,13 @@ def run_batch(job, stdin="", argv=None):
                                   encoding="utf-8", newline="\r\n")
     env = dict(os.environ)
     env.update(proc.get("env", {}))
+    # Git Bash prepends Unix tools called find.exe/sort.exe to PATH. A CMD
+    # lesson must resolve Windows commands with their Windows argument syntax.
+    # Change only this child environment; retain the remaining search path.
+    system_root = env.get("SystemRoot") or env.get("SYSTEMROOT") or r"C:\Windows"
+    path_key = next((key for key in env if key.upper() == "PATH"), "PATH")
+    env[path_key] = os.pathsep.join((os.path.join(system_root, "System32"),
+                                     system_root, env.get(path_key, "")))
     arguments = [str(a) for a in (argv or [])]
     if any(any(c in a for c in ('"', "\x00", "\r", "\n")) for a in arguments):
         return (87, "", "Pafta CMD: argv değerinde çift tırnak, NUL veya satır sonu desteklenmez.\n", 0)
