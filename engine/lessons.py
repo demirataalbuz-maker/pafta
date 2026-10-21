@@ -32,7 +32,7 @@ TRACKS_DIR = os.path.join(ROOT, "tracks")
 
 STEP_KINDS = ("anlat", "tahmin", "gorev")
 KOD_DILLERI = ("python", "py", "", "regex", "bash", "sh", "powershell", "ps1", "sql", "kql", "kusto", "spl", "splunk",
-               "javascript", "js", "c", "php", "sigma", "yara")
+               "javascript", "js", "c", "php", "sigma", "yara", "kibana", "lucene", "eql")
 # gercek: çalıştırılamayan dillerde (C, PHP) tahmin adımının gerçek çıktısı, ders yazarınca verilir
 SPECIAL = ("starter", "stdin", "test", "solution", "hint", "setup", "meta", "gercek")
 _STEP_RE = re.compile(r"^:::\s*(anlat|tahmin|gorev)\b\s*(.*)$")
@@ -65,6 +65,7 @@ def _parse_meta(lines):
 def _parse_step(kind, title, lines):
     body, parts = [], {k: [] for k in SPECIAL}
     code = None
+    code_dil = None
     i = 0
     while i < len(lines):
         m = _FENCE_RE.match(lines[i])
@@ -82,6 +83,7 @@ def _parse_step(kind, title, lines):
             parts[info].append("\n".join(block))
         elif kind == "tahmin" and code is None and info in KOD_DILLERI:
             code = "\n".join(block)
+            code_dil = info
         else:
             body.extend(lines[i:j + 1])
         i = j + 1
@@ -89,6 +91,8 @@ def _parse_step(kind, title, lines):
     step = {"kind": kind, "title": title, "body": "\n".join(body).strip()}
     if kind == "tahmin":
         step["code"] = code or ""
+        if code_dil in ("kibana", "lucene", "eql"):
+            step["code_dil"] = code_dil
     for k in ("starter", "stdin", "test", "solution", "setup"):
         if parts[k]:
             step[k] = parts[k][0]

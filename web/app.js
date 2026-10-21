@@ -666,7 +666,7 @@ async function renderMap(tid) {
         <div class="hero-kicker"><span class="label">Yol ${pad(sira)} · ${esc(track.name)}</span><span class="dim"></span><span class="label">Rütbe: ${esc(curRank.name)}</span></div>
         <h1 class="hero-title">${esc(kahraman1)}<br><em>${esc(kahraman2)}</em>${esc(kahraman3 || "")}</h1>
         <p class="hero-sub">${esc(track.tagline || "")}</p>
-        <div class="hero-cta">${cta}${st.due_count ? `<a class="btn" href="#/tekrar">Tekrar · ${st.due_count} görev</a>` : ""}<a class="btn" href="#/tezgah/${track.dil || tid}">Serbest tezgah</a></div>
+        <div class="hero-cta">${cta}${st.due_count ? `<a class="btn" href="#/tekrar">Tekrar · ${st.due_count} görev</a>` : ""}<a class="btn" href="#/tezgah/${track.dil || tid}">${track.okuma_dili === "elastic" ? "Python alıştırma tezgahı" : "Serbest tezgah"}</a></div>
       </div>
       <div class="hero-cells">
         <div class="cell"><span class="label">Seri</span><span class="cell-val">${st.streak}<small>gün</small></span></div>
@@ -676,6 +676,7 @@ async function renderMap(tid) {
       </div>
     </section>
     ${track.hazir === false ? `<div class="callout tuzak" style="margin-top:16px"><div class="ct">Kurulum gerekiyor</div><p>Bu yolun yorumlayıcısı bu bilgisayarda bulunamadı. ${track.dil === "bash" ? "Git for Windows (Git Bash) kurulunca" : "Yorumlayıcı kurulunca"} paftalar çalışır.</p></div>` : ""}
+    ${track.okuma_dili === "elastic" ? `<div class="callout not"><div class="ct">Okuma yolu · Kibana KQL, Lucene ve EQL</div><p>Sorguları okur, belirtilen mapping ve örnek veriye göre sonucu tahmin edersin. Python tezgahı görevlerdeki sınırlı yorumlama alıştırmalarını çalıştırır. Elasticsearch/Kibana sorgusu çalıştırmaz; tahmin cevapları bu veri için hazırlanmıştır. Gerçek sorgu denemesi ilgili Elastic ortamında yapılır.</p></div>` : ""}
     <div class="sec-head"><h2>Paftalar</h2><span class="dimline"></span><span class="label">${track.order.length} pafta · ${ranks.length} rütbe · her pafta: anlat → tahmin → görev</span></div>
     ${rankHtml}
     <div class="sec-head"><h2>Yol haritası</h2><span class="dimline"></span><span class="label">purple team dilleri · aynı motor, yeni yol</span></div>
@@ -779,7 +780,9 @@ const BOS_KOD = {
 };
 // Okuma yolları (C, PHP): kod çalıştırılmaz; görevlerde okunan kodun Python karşılığı yazılır
 const OKUMA_BOS = "# Bu yolda okuduğun kod bu bilgisayarda çalıştırılamıyor.\n# Görevlerde onun yaptığını Python ile yazacaksın; tezgah o görevler içindir.\n";
+const ELASTIC_OKUMA_BOS = "# Elastic okuma yolu: bu tezgah yalnızca Python alıştırmalarını çalıştırır.\n# Kibana KQL, Lucene ve EQL sorguları Elasticsearch'e gönderilmez.\n# Görevdeki Python başlangıç kodunu kullan; sorguyu buraya yapıştırma.\n";
 const TAHMIN_DIL = {
+  elastic: { girdi: "Bu tahminin sabit örnek verisi (mapping ve sıralama varsayımları soruda):", etiket: "Soruda istenen kimlikleri veya dizileri belirtilen sırayla yaz", baslik: "Bu sorgu örnek veride neyi seçer?", ornek: "ör. e1", kod: ELASTIC_OKUMA_BOS },
   sigma: { girdi: "Kural şu olaylarda deneniyor:", etiket: "Eşleşen olayların id değerlerini sırayla, her satıra bir tane yaz", baslik: "Hangi olaylar eşleşir?", ornek: "ör. 1", kod: "" },
   yara: { girdi: "Kural şu örnek veriyi tarıyor:", etiket: "Eşleşen kural adlarını her satıra bir tane yaz", baslik: "Hangi kurallar eşleşir?", ornek: "ör. Ilk_Kural", kod: "" },
   regex: { girdi: "Desen şu metinde aranıyor:", etiket: "Tahminin — yakalanan parçaları satır satır yaz", baslik: "Bu desen neleri yakalar?", kod: "" },
@@ -817,7 +820,7 @@ function showStep(i) {
     body = `<h2 class="step-title">${esc(st.title || "Anlatım")}</h2><div class="md">${render(st.body, { dil })}</div>`;
     const ilk = firstCode(st.body, dil);
     const ornekStdin = ilk.stdin || st.stdin || (["sigma", "yara"].includes(dil) ? (L.steps.find(s => s.stdin)?.stdin || "") : "");
-    S.bench.load({ code: okuma ? OKUMA_BOS : (ilk.code || BOS_KOD[dil] || ""), stdin: ornekStdin, resetCode: ilk.code });
+    S.bench.load({ code: okuma ? (okuma === "elastic" ? ELASTIC_OKUMA_BOS : OKUMA_BOS) : (ilk.code || BOS_KOD[dil] || ""), stdin: ornekStdin, resetCode: ilk.code });
   } else if (st.kind === "tahmin") {
     const [q, expl] = (st.body || "").split(/\n\?\?\?\s*\n?/);
     const prog = S.lesson.progress.steps[i];
@@ -825,7 +828,7 @@ function showStep(i) {
     const girdiMetni = td.girdi || "Girdi kutusunda şu satırlar var:";
     const ipucuEtiket = td.etiket || "Tahminin — çıktıyı satır satır yaz (hata bekliyorsan hatanın adını yaz)";
     body = `<h2 class="step-title">${esc(st.title || td.baslik || "Bu kod ne yazdırır?")}</h2><div class="md">${render(q || "", { dil })}</div>` +
-      codeBlock(st.code, okuma || dil, { runnable: false, bench: false }) +
+      codeBlock(st.code, st.code_dil || okuma || dil, { runnable: false, bench: false }) +
       (st.stdin ? `<div class="md"><p>${girdiMetni}</p></div>${codeBlock(st.stdin, "cikti")}` : "") +
       `<div class="guess"><span class="label">${ipucuEtiket}</span>` +
       `<textarea id="guessBox" rows="3" spellcheck="false" placeholder="${td.ornek || "ör. 42"}"></textarea>` +
@@ -842,7 +845,8 @@ function showStep(i) {
     S.bench.load({ code: draft ?? st.starter ?? "", stdin: st.stdin || "", resetCode: st.starter || "", checkable: true });
     S.hintN = 0;
   }
-  $("#stepBody").innerHTML = head + body;
+  const readNotice = okuma === "elastic" ? `<div class="callout not"><div class="ct">Okuma alıştırması</div><p>Soldaki sorgu çalıştırılmaz. Sağdaki tezgah Python içindir; bu görevler tam bir Elastic sorgu motoru değildir.</p></div>` : "";
+  $("#stepBody").innerHTML = head + readNotice + body;
   if (st.kind === "gorev") paintTaskStatus();
   paintFoot();
   if (stepDone(i) && st.kind === "gorev") stamp("ONAYLANDI", `görev · ${trDate()}`, false);

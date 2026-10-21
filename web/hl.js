@@ -180,7 +180,13 @@ const tokYara = kural(
   [() => "com", () => "str", () => "str", () => "self", () => "num",
    w => YARA_KEYS.has(w) ? "kw" : /^(?:uint|int)\d+(?:be)?$/.test(w) ? "bi" : "", () => "", () => "op"]);
 
-const TOKENIZERS = { sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+// These are display lexers only: no Elastic query is evaluated in the browser.
+const ELASTIC_WORDS = new Set("and or not AND OR NOT TO where sequence by with maxspan until any true false null in like regex head tail sample join runs of missing".split(" "));
+const tokElastic = kural(
+  /(\/\/[^\n]*)|("(?:\\.|[^"\\])*"?|`(?:``|[^`])*`?)|(\/(?:\\.|[^\/\\\n])*\/)|(\b\d+(?:\.\d+)?(?:ms|s|m|h|d)?\b)|([?@]?[A-Za-z_][\w.~-]*)|(\s+)|([^\s\w])/gy,
+  [() => "com", () => "str", () => "str", () => "num",
+   w => ELASTIC_WORDS.has(w) ? "kw" : w.includes(".") ? "self" : "", () => "", () => "op"]);
+const TOKENIZERS = { kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {
