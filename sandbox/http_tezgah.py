@@ -152,7 +152,8 @@ class Isleyici(BaseHTTPRequestHandler):
             self.send_header(ad, deger)
         if bossuz:
             self.send_header("Content-Length", str(len(govde)))
-        if self._kapat:
+        istemci_kapatiyor = "close" in [t.strip().lower() for t in self.headers.get("Connection", "").split(",")]
+        if self._kapat or istemci_kapatiyor:
             self.send_header("Connection", "close")
             self.close_connection = True
         self.end_headers()
