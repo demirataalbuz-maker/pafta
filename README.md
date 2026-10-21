@@ -16,6 +16,7 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 | **C** (okuma) | 13 (6 rütbe; taşma, yapı düzeni, bayt tamponları, fonksiyon işaretçileri, önişlemci ve çok dosyalı programlar, dosya G/Ç, Windows API, ayrıştırıcı projesi) | `python`: C kodu okunur, tahminin cevabı derste sabit (`gercek` bloğu); görevlerde davranış Python'da kurulur | hazır |
 | **PHP** (okuma) | 11 (6 rütbe; metinler ve baytlar, closure'lar, sınıflar, namespace ve trait'ler, PDO, oturumlar ve parolalar, JSON ve hatalar, uç nokta projesi) | `python`: C ile aynı düzen, PHP 8 kuralları | hazır |
 | **Java** (okuma) | 12 (6 rütbe; ilkel türler ve taşma, String havuzu ve equals, koleksiyonlar ve kutulama, Optional, record ve JavaBeans, Stream, istisnalar, Path ve dizin aşımı, Servlet filtreleri ve Spring, JDBC, yansıma/JSON/XML, denetleyici projesi) | `python`: C ile aynı düzen, Java 21 kuralları | hazır |
+| **C# (.NET)** (okuma) | 12 (6 rütbe; değer/referans türleri ve checked, string == ve Substring(başlangıç, uzunluk), null güvenliği ?/??, Dictionary ve TryGetValue, özellikler ve record, LINQ ve ertelenmiş çalıştırma, Path.Combine tuzağı, async/await, ASP.NET Core ara katmanı ve denetleyiciler, EF Core FromSqlInterpolated/FromSqlRaw, DI/IConfiguration/System.Text.Json, Web API projesi) | `python`: C ile aynı düzen, .NET 8 / C# 12 kuralları | hazır |
 | **Sigma** | 18 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma ayrıştırıcısı + JSON olaylarında yerel test backend'i | hazır |
 | **YARA** | 18 (6 rütbe; metin/hex, regex, sayım/konum, PE/hash/math, yanlış pozitifler ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
 | **Elastic / Kibana** (okuma) | 18 (6 rütbe; Kibana KQL, Lucene query string, Elastic EQL; mapping, zaman, olay dizileri ve projeler) | `python`: sorgular okunur; tahminler belirtilen sabit örnekler içindir, görevler sınırlı Python yorumlama/istek/yanıt alıştırmalarıdır | hazır |
@@ -30,7 +31,7 @@ SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çal
 - Elle: `pythonw Pafta.pyw` (Edge uygulama penceresi açılır; pencere kapanınca sunucu ~40 sn sonra kendini kapatır)
 - Geliştirme: `python server.py --port 8765` (tarayıcıda `http://127.0.0.1:8765/`; `--veri KLASOR` ile ayrı bir ilerleme klasörü)
 
-Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP ve Java için derleyici, Elastic okuma yolu için Elasticsearch/Kibana kurulumu gerekmez. Sigma/YARA dışındaki Python bileşenleri standart kütüphaneyi kullanır.
+Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java ve C# için derleyici, Elastic okuma yolu için Elasticsearch/Kibana kurulumu gerekmez. Sigma/YARA dışındaki Python bileşenleri standart kütüphaneyi kullanır.
 
 ### Ağ filtreleri tezgahı
 

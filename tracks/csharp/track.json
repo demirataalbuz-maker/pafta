@@ -1,0 +1,99 @@
+{
+ "id": "csharp",
+ "name": "C#",
+ "status": "active",
+ "group": "okuma",
+ "order": 25,
+ "runner": "python",
+ "dil": "python",
+ "okuma_dili": "csharp",
+ "role": "Okuma düzeyinde C# (.NET): ASP.NET Core denetleyicilerini, ara katmanı, LINQ boru hatlarını, null güvenliğini, async/await akışını ve Entity Framework veri erişimini okuyabilmek.",
+ "modules": [
+  {
+   "title": "Türler, Taşma ve Metinler",
+   "rank": "minik",
+   "zen": "Değer kopyalanır, referans paylaşılır; metinlerin nasıl karşılaştırıldığını bilmeden koşula güvenme.",
+   "lessons": [
+    "cs01",
+    "cs02"
+   ]
+  },
+  {
+   "title": "Null Güvenliği ve Koleksiyonlar",
+   "rank": "tesviye",
+   "zen": "Soru işareti hem uyarır hem korur; sözlükte anahtar ararken fırlatılan istisnayı değil TryGetValue'yu seç.",
+   "lessons": [
+    "cs03",
+    "cs04"
+   ]
+  },
+  {
+   "title": "Özellikler, record ve LINQ",
+   "rank": "kucuk-orta",
+   "zen": "Sorgu yazıldığında değil, tüketildiğinde çalışır.",
+   "lessons": [
+    "cs05",
+    "cs06"
+   ]
+  },
+  {
+   "title": "İstisnalar, Yollar ve Eşzamansız Kod",
+   "rank": "buyuk-orta",
+   "zen": "Path.Combine kök görünce geçmişi siler; beklenmeyen Task ise hatayı sessizce yutar.",
+   "lessons": [
+    "cs07",
+    "cs08"
+   ]
+  },
+  {
+   "title": "ASP.NET Core ve Entity Framework",
+   "rank": "basalti",
+   "zen": "Ara katman zinciri sırayla akar; sorguda enterpolasyon ile ham metin birleştirme aynı şey değildir.",
+   "lessons": [
+    "cs09",
+    "cs10"
+   ]
+  },
+  {
+   "title": "Bağımlılık Enjeksiyonu, JSON ve Web API Projesi",
+   "rank": "baspehlivan",
+   "zen": "Yaşam süresini karıştırma, dış veriyi doğrudan varlık modeline bağlama.",
+   "lessons": [
+    "cs11",
+    "cs12"
+   ]
+  }
+ ],
+ "kahraman": [
+  "Sınıftan",
+  "API'",
+  "ye"
+ ],
+ "tagline": "Okuma düzeyinde C# (.NET 8): değer ve referans türleri, checked/unchecked taşma, string == ve StringComparison, Substring(başlangıç, uzunluk), null güvenliği (?, ?., ??, ??=), List/Dictionary ve TryGetValue, get/set/init özellikler, record ve desen eşleme, LINQ ve ertelenmiş çalıştırma, istisna filtreleri, Path.Combine tuzağı, async/await ve Task, ASP.NET Core ara katmanı ve denetleyiciler, Entity Framework Core ve parametreli sorgular, DI/IConfiguration/System.Text.Json ve uçtan uca bir Web API projesi. 12 pafta; C# kodunu okur ve çıktısını tahmin edersin, görevlerde aynı davranışı Python'da kurarsın.",
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ]
+}

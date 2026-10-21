@@ -181,6 +181,23 @@ const tokJava = kural(
    w => (["null", "true", "false"].includes(w) ? "const" : w === "this" ? "self" : JAVA_KW.has(w) ? "kw" : JAVA_BI.has(w) ? "bi" : ""),
    () => "", () => "op"]);
 
+const CSHARP_KW = new Set(("abstract as async await base bool break byte case catch char checked class const continue decimal default " +
+  "delegate do double else enum event explicit extern finally fixed float for foreach from get global goto group if implicit in " +
+  "init int interface internal into is join let lock long namespace new notnull object on operator orderby out override params " +
+  "partial private protected public readonly record ref required return sbyte sealed select set short sizeof stackalloc static " +
+  "string struct switch throw try typeof uint ulong unchecked unsafe ushort using value var virtual void volatile when where " +
+  "while with yield").split(" "));
+const CSHARP_BI = new Set(("Console String Int32 Int64 Double Decimal Boolean Char Math Object List Dictionary HashSet IEnumerable " +
+  "IQueryable Task ValueTask Action Func Nullable TimeSpan DateTime DateTimeOffset Guid Path File Directory JsonSerializer " +
+  "JsonSerializerOptions StringComparison StringComparer StringSplitOptions FormattableString Exception InvalidOperationException " +
+  "ArgumentException ArgumentNullException ArgumentOutOfRangeException FormatException KeyNotFoundException OverflowException " +
+  "DivideByZeroException ControllerBase IActionResult DbContext DbSet").split(" "));
+const tokCsharp = kural(
+  /(\/\/[^\n]*|\/\*[\s\S]*?(?:\*\/|$))|("""[\s\S]*?(?:"""|$)|\$@"(?:""|[^"])*"?|@\$"(?:""|[^"])*"?|@"(?:""|[^"])*"?|\$"(?:\\.|[^"\\\n])*"?|"(?:\\.|[^"\\\n])*"?|'(?:\\.|[^'\\\n])*'?)|(\b0[xX][\da-fA-F_]+[uUlL]*\b|\b\d[\d_]*(?:\.\d+)?[mMdDfFlLuU]*\b)|([A-Za-z_]\w*)|(\s+)|([^\s\w])/gy,
+  [() => "com", () => "str", () => "num",
+   w => (["null", "true", "false"].includes(w) ? "const" : ["this", "base"].includes(w) ? "self" : CSHARP_KW.has(w) ? "kw" : CSHARP_BI.has(w) ? "bi" : ""),
+   () => "", () => "op"]);
+
 const SIGMA_KEYS = new Set("title id name status description author date modified references tags logsource category product service detection condition fields falsepositives level".split(" "));
 const tokSigma = kural(
   /(#[^\n]*)|('(?:''|[^'])*'?|"(?:\\.|[^"\\])*"?)|(\b(?:true|false|null)\b)|(\b\d+(?:\.\d+)?\b)|([A-Za-z_][\w.|*-]*)|(\s+)|([^\s\w])/gy,
@@ -207,7 +224,7 @@ const PACKET_WORDS = new Set("and or not in contains matches tcp udp sctp ip ip6
 const tokPacket = kural(
   /("(?:\\.|[^"\\])*"?)|(\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)*)\b)|([A-Za-z_][\w.:-]*)|(\s+)|([^\s\w])/gy,
   [() => "str", () => "num", w => PACKET_WORDS.has(w) ? "kw" : w.includes(".") ? "self" : "", () => "", () => "op"]);
-const TOKENIZERS = { packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+const TOKENIZERS = { packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, csharp: tokCsharp, cs: tokCsharp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {
