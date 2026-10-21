@@ -116,7 +116,7 @@ Yukarıdaki `istek_degerlendir` fonksiyonu 4 farklı argüman üçlüsüyle ça�
 :::
 
 ::: gorev `istek_degerlendir` disassembly mantığını Python'da kurmak
-Yukarıdaki `istek_degerlendir(rol, puan, aktif)` disassembly çıktısının yaptığı hesabı birebir uygulayan Python fonksiyonunu yaz (`aktif == 0` ise `-1`, `rol == 1` ve `puan >= 80` ise `puan + 20`, `rol == 2` veya `puan >= 50` ise `puan + 5`, aksi halde `0`).
+Yukarıdaki `istek_degerlendir(rol, puan, aktif)` disassembly çıktısının yaptığı 32-bit işaretli (`int`) hesabı birebir uygulayan Python fonksiyonunu yaz (`aktif == 0` ise `-1`, `rol == 1` ve `puan >= 80` ise `puan + 20`, `rol == 2` veya `puan >= 50` ise `puan + 5`, aksi halde `0`; `add eax, 0x14` ve `lea edx, [rax + 0x5]` 32-bit yazmaçta çalıştığı için `puan + 20` veya `puan + 5` toplamı `0x7FFFFFFF` sınırını aşarsa 32-bit işaretli tam sayıya sarılır).
 
 ```starter
 def istek_degerlendir(rol, puan, aktif):
@@ -134,6 +134,9 @@ eq(istek_degerlendir(2, 10, 1), 15, "rol=2 iken puan < 50 olsa bile puan + 5 = 1
 eq(istek_degerlendir(3, 50, 1), 55, "rol=3 ve puan=50 sınırında puan + 5 = 55")
 eq(istek_degerlendir(3, 49, 1), 0, "rol=3 ve puan=49 sınırında 0")
 eq(istek_degerlendir(1, 49, -5), 0, "aktif != 0 (ör. -5) aktif sayılır")
+eq(istek_degerlendir(1, 0x7FFFFFFF - 20, 1), 0x7FFFFFFF, "0x7FFFFFFF - 20 + 20 = 0x7FFFFFFF tam üst sınırda taşmaz")
+eq(istek_degerlendir(2, 0x7FFFFFFF - 4, 1), -0x80000000, "0x7FFFFFFB + 5 = 0x80000000 -> 32-bit işaretli -2147483648'e sarılır")
+eq(istek_degerlendir(1, 0x7FFFFFFF, 1), -2147483629, "0x7FFFFFFF + 20 -> 32-bit işaretli -2147483629'a sarılır")
 ```
 
 ```solution
@@ -141,10 +144,12 @@ def istek_degerlendir(rol, puan, aktif):
     if aktif == 0:
         return -1
     if rol == 1 and puan >= 80:
-        return puan + 20
-    if rol == 2 or puan >= 50:
-        return puan + 5
-    return 0
+        sonuc = puan + 20
+    elif rol == 2 or puan >= 50:
+        sonuc = puan + 5
+    else:
+        return 0
+    return sonuc - 0x100000000 if sonuc > 0x7FFFFFFF else sonuc
 ```
 
 ```hint

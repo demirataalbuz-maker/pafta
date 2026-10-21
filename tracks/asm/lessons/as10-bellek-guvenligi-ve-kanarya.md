@@ -23,7 +23,7 @@ Bir fonksiyonun içinde `char buf[64];` gibi yerel bir tampon bulunduğunda, yı
 Derleyici `-fstack-protector-strong` (Linux GCC/Clang) veya `/GS` (Windows MSVC) ile derleme yaptığında prolog ve epilogda şu kalıbı görürsünüz:
 
 ```asm
-; Linux x86-64 kanarya kalıbı:
+; Linux x86-64 kanarya kalıbı (GCC/Clang -fstack-protector-strong):
     mov rax, QWORD PTR fs:0x28          #! Prolog: TLS'ten rastgele 64-bit kanarya değerini oku
     mov QWORD PTR [rbp - 8], rax        #! Tampon ile saved rbp arasına yerleştir
     xor eax, eax                        #! Kanarya değerini yazmaçta bırakma (sızıntı önlemi)
@@ -34,7 +34,16 @@ Derleyici `-fstack-protector-strong` (Linux GCC/Clang) veya `/GS` (Windows MSVC)
     leave
     ret
 .L_kanarya_bozuldu:
-    call __stack_chk_fail               #! Windows'ta: call __security_check_cookie
+    call __stack_chk_fail               #! Yalnızca bozulma dalında çağrılır ve süreci sonlandırır
+
+; Windows x64 MSVC (/GS) güvenlik çerezi kalıbı:
+    mov rax, QWORD PTR [__security_cookie] #! Prolog: Global çerezi oku
+    xor rax, rsp                           #! Çerezi o anki rsp ile XOR'layıp çerçeveye bağla
+    mov QWORD PTR [rsp + 0x48], rax        #! Tamponun üstüne kaydet
+    ; ... fonksiyon gövdesi ...
+    mov rcx, QWORD PTR [rsp + 0x48]        #! Epilog (her çıkışta): Kaydedilen çerezi rcx'e oku
+    xor rcx, rsp                           #! rsp ile tekrar XOR'layıp orijinal çerezi geri elde et
+    call __security_check_cookie           #! Her çıkışta çağrılır; eşleşmezse __report_gsfailure'a gider!
 ```
 
 ### 2. Tam Sayı Çarpım Taşması (`Integer Overflow`) ve `jo` / `jc`

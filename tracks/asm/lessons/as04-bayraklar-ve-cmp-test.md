@@ -105,6 +105,11 @@ eq(cmp_bayraklari(0x7F, 0xFF), {"ZF": 0, "SF": 1, "CF": 1, "OF": 1}, "+127 (0x7F
 eq(cmp_bayraklari(0, 1), {"ZF": 0, "SF": 1, "CF": 1, "OF": 0}, "0 - 1 = 0xFF: ZF=0, SF=1, CF=1, OF=0")
 eq(cmp_bayraklari(0xF0, 5), {"ZF": 0, "SF": 1, "CF": 0, "OF": 0}, "-16 (0xF0) - 5 = -21 (0xEB): işaretli taşma yok (OF=0), CF=0")
 eq(cmp_bayraklari(10, 0xFE), {"ZF": 0, "SF": 0, "CF": 1, "OF": 0}, "10 - (-2 / 0xFE) = +12: işaretli taşma yok (OF=0), işaretsiz borç CF=1")
+eq(cmp_bayraklari(0x80, 0), {"ZF": 0, "SF": 1, "CF": 0, "OF": 0}, "-128 (0x80) - 0 = -128: alt sınırda işaretli taşma yok (OF=0)")
+eq(cmp_bayraklari(0xFF, 0x7F), {"ZF": 0, "SF": 1, "CF": 0, "OF": 0}, "-1 (0xFF) - 127 (0x7F) = -128: alt sınırda işaretli taşma yok (OF=0)")
+eq(cmp_bayraklari(0x7F, 0), {"ZF": 0, "SF": 0, "CF": 0, "OF": 0}, "+127 (0x7F) - 0 = +127: üst sınırda işaretli taşma yok (hepsi 0)")
+eq(cmp_bayraklari(0xFF, 0x80), {"ZF": 0, "SF": 0, "CF": 0, "OF": 0}, "-1 (0xFF) - (-128 / 0x80) = +127: üst sınırda işaretli taşma yok (OF=0)")
+eq(cmp_bayraklari(0x7E, 0xFF), {"ZF": 0, "SF": 0, "CF": 1, "OF": 0}, "+126 (0x7E) - (-1 / 0xFF) = +127: üst sınırda OF=0, CF=1")
 ```
 
 ```solution

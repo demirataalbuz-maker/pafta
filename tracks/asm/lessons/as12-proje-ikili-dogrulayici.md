@@ -7,55 +7,65 @@ summary: Üç fonksiyonlu gerçek bir x86-64 disassembly dökümünü (başlık 
 ---
 
 ::: anlat
-Bu bitirme projesinde kaynak kodu elimizde olmayan, derlenmiş bir ikili ağ/telemetri doğrulayıcı modülün `llvm-objdump -d -M intel` çıktısını baştan sona okuyacağız. Modül üç fonksiyondan oluşmaktadır:
+Bu bitirme projesinde kaynak kodu elimizde olmayan, `clang --target=x86_64-pc-windows-msvc -O1` ile derlenmiş bir ikili ağ/telemetri doğrulayıcı modülün `objdump -d -M intel` çıktısını baştan sona okuyacağız. Modül üç fonksiyondan oluşmaktadır:
 
-1. **`as12_baslik_coz` (`0x00 .. 0x23`):** Paketin ilk 4 baytlık başlığını (sihirli sayı, sürüm ve gövde uzunluğu) denetler.
-2. **`as12_imza_uret` (`0x24 .. 0x40`):** Gövde baytları üzerinde `xor` ve `lea eax, [rax + 2*rax + 7]` adımlarıyla 32-bit imza üretir.
-3. **`as12_paket_dogrula` (`0x41 .. 0x70`):** İlk iki fonksiyonu Windows x64 ABI kurallarına göre (yığında gölge alan ve uçucu yazmaç kaydıyla) sırayla çağırır.
+1. **`as12_baslik_coz` (`0x00 .. 0x1b`):** Paketin ilk 4 baytlık başlığını (sihirli sayı, sürüm ve gövde uzunluğu) denetler.
+2. **`as12_imza_uret` (`0x20 .. 0x47`):** Gövde baytları üzerinde `xor`, `lea eax, [r9+r9*2]` ve `add eax, 0x7` adımlarıyla 32-bit imza üretir.
+3. **`as12_paket_dogrula` (`0x50 .. 0x82`):** İlk iki fonksiyonu Windows x64 ABI kurallarına göre (kalıcı `rsi`/`rdi` yazmaçlarını koruyarak, 32 bayt gölge alan + 8 bayt hizalama ayırarak ve ikinci çağrıyı kuyruk çağrısı `jmp` ile yaparak) sırayla çağırır.
 
-### Tam Disassembly Dökümü (`llvm-objdump -d -M intel`)
+### Tam Disassembly Dökümü (`objdump -d -M intel`)
 
 ```asm
 0000000000000000 <as12_baslik_coz>:
-   0: 0f b7 01              movzx  eax, word ptr [rcx]          #! Ofset 0..1: 16-bit little-endian sihirli sayı
-   3: 3d 46 50 00 00        cmp    eax, 0x5046                  #! Sihirli sayı == 0x5046 mı? (Bellekte: 0x46, 0x50 -> "FP")
-   8: 75 0e                 jne    0x18 <as12_baslik_coz+0x18>  #! Eşit değilse -1 döndür
-   a: 0f b6 41 02           movzx  eax, byte ptr [rcx + 0x2]    #! Ofset 2: 1 bayt sürüm (version)
-   e: 83 f8 02              cmp    eax, 0x2                     #! Sürüm == 2 mi?
-  11: 75 0b                 jne    0x1e <as12_baslik_coz+0x1e>  #! Eşit değilse -2 döndür
-  13: 0f b6 41 03           movzx  eax, byte ptr [rcx + 0x3]    #! Ofset 3: 1 bayt gövde uzunluğu (payload_len)
-  17: c3                    ret                                 #! Gövde uzunluğunu (0..255) döndür
-  18: b8 ff ff ff ff        mov    eax, 0xffffffff              #! Hata kodu: -1 (geçersiz sihirli sayı)
-  1d: c3                    ret
-  1e: b8 fe ff ff ff        mov    eax, 0xfffffffe              #! Hata kodu: -2 (desteklenmeyen sürüm)
-  23: c3                    ret
+   0: b8 ff ff ff ff                mov    eax, 0xffffffff              #! Varsayılan dönüş: -1 (geçersiz sihirli sayı)
+   5: 66 81 39 46 50                cmp    WORD PTR [rcx], 0x5046       #! Ofset 0..1: 16-bit little-endian == 0x5046 mı? ("FP")
+   a: 75 0f                         jne    0x1b <as12_baslik_coz+0x1b>  #! Eşit değilse -1 döndür
+   c: b8 fe ff ff ff                mov    eax, 0xfffffffe              #! Varsayılan dönüş: -2 (desteklenmeyen sürüm)
+  11: 80 79 02 02                   cmp    BYTE PTR [rcx+0x2], 0x2      #! Ofset 2: 1 bayt sürüm == 2 mi?
+  15: 75 04                         jne    0x1b <as12_baslik_coz+0x1b>  #! Eşit değilse -2 döndür
+  17: 0f b6 41 03                   movzx  eax, BYTE PTR [rcx+0x3]      #! Ofset 3: 1 bayt gövde uzunluğu (0..255)
+  1b: c3                            ret                                 #! Sonucu (0..255, -1 veya -2) döndür
+  1c: 0f 1f 40 00                   nop    DWORD PTR [rax+0x0]          #! Sonraki fonksiyonu 0x20 (16-bayt) sınırına hizala
 
-0000000000000024 <as12_imza_uret>:
-  24: 44 89 c0              mov    eax, r8d                     #! eax = tohum (3. argüman: r8d)
-  27: 45 31 c9              xor    r9d, r9d                     #! r9d = 0 (indeks i = 0)
-  2a: 41 39 d1              cmp    r9d, edx                     #! i ile uzunluk (2. argüman: edx) karşılaştır
-  2d: 7d 11                 jge    0x40 <as12_imza_uret+0x1c>   #! i >= uzunluk ise döngüden çık
-  2f: 46 0f b6 14 09        movzx  r10d, byte ptr [rcx + r9]    #! r10d = govde[i] (1. argüman: rcx)
-  34: 44 31 d0              xor    eax, r10d                    #! eax = eax ^ govde[i]
-  37: 8d 44 40 07           lea    eax, [rax + 2*rax + 0x7]     #! eax = eax * 3 + 7 (32-bit aritmetik!)
-  3b: 41 ff c1              inc    r9d                          #! i++
-  3e: eb ea                 jmp    0x2a <as12_imza_uret+0x6>    #! Döngü başına dön
-  40: c3                    ret                                 #! İmzayı (eax) döndür
+0000000000000020 <as12_imza_uret>:
+  20: 44 89 c0                      mov    eax, r8d                     #! eax = tohum (3. argüman: r8d)
+  23: 85 d2                         test   edx, edx                     #! uzunluk (2. argüman: edx) <= 0 mı?
+  25: 7e 20                         jle    0x47 <as12_imza_uret+0x27>   #! uzunluk <= 0 ise döngüye girmeden çık
+  27: 89 d2                         mov    edx, edx                     #! rdx'in üst 32 bitini sıfırla (rdx = uzunluk)
+  29: 45 31 c0                      xor    r8d, r8d                     #! r8 = 0 (indeks i = 0)
+  2c: 0f 1f 40 00                   nop    DWORD PTR [rax+0x0]          #! Döngü başını 0x30 (16-bayt) sınırına hizala
+  30: 46 0f b6 0c 01                movzx  r9d, BYTE PTR [rcx+r8*1]     #! r9d = govde[i] (1. argüman: rcx)
+  35: 41 31 c1                      xor    r9d, eax                     #! r9d = govde[i] ^ eax
+  38: 43 8d 04 49                   lea    eax, [r9+r9*2]               #! eax = r9d * 3 (32-bit adres matematiği!)
+  3c: 83 c0 07                      add    eax, 0x7                     #! eax = eax + 7
+  3f: 49 ff c0                      inc    r8                           #! i++
+  42: 4c 39 c2                      cmp    rdx, r8                      #! uzunluk == i mi?
+  45: 75 e9                         jne    0x30 <as12_imza_uret+0x10>   #! Eşit değilse döngü başına (0x30) dön
+  47: c3                            ret                                 #! İmzayı (eax) döndür
+  48: 0f 1f 84 00 00 00 00 00       nop    DWORD PTR [rax+rax*1+0x0]    #! Sonraki fonksiyonu 0x50 (16-bayt) sınırına hizala
 
-0000000000000041 <as12_paket_dogrula>:
-  41: 48 83 ec 28           sub    rsp, 0x28                    #! 40 bayt çerçeve (32B gölge alan + 8B kayıt/hiza)
-  45: 48 89 4c 24 20        mov    qword ptr [rsp + 0x20], rcx  #! 1. argüman paket işaretçisini (rcx) yığına sakla
-  4a: 89 54 24 1c           mov    dword ptr [rsp + 0x1c], edx  #! 2. argüman tohum değerini (edx) yığına sakla
-  4e: e8 ad ff ff ff        call   0x0 <as12_baslik_coz>        #! eax = as12_baslik_coz(paket)
-  53: 85 c0                 test   eax, eax                     #! Dönüş değerini test et
-  55: 78 15                 js     0x6c <as12_paket_dogrula+0x2b> #! Negatifse (SF == 1: -1 veya -2) doğrudan çık!
-  57: 48 8b 4c 24 20        mov    rcx, qword ptr [rsp + 0x20]  #! Saklanan paket adresini rcx'e geri yükle
-  5c: 89 c2                 mov    edx, eax                     #! 2. argüman edx = govde_uzunlugu (eax)
-  5e: 48 83 c1 04           add    rcx, 0x4                     #! 1. argüman rcx = paket + 4 (gövde başlangıcı!)
-  62: 44 8b 44 24 1c        mov    r8d, dword ptr [rsp + 0x1c]  #! 3. argüman r8d = saklanan tohum değeri
-  67: e8 b8 ff ff ff        call   0x24 <as12_imza_uret>        #! eax = as12_imza_uret(paket + 4, uzunluk, tohum)
-  6c: 48 83 c4 28           add    rsp, 0x28                    #! Çerçeveyi kapat
-  70: c3                    ret                                 #! Sonucu (hata kodu veya imza) döndür
+0000000000000050 <as12_paket_dogrula>:
+  50: 56                            push   rsi                          #! Windows x64: kalıcı rsi yazmacını yığına kaydet
+  51: 57                            push   rdi                          #! Windows x64: kalıcı rdi yazmacını yığına kaydet
+  52: 48 83 ec 28                   sub    rsp, 0x28                    #! 40 bayt çerçeve (32B gölge alan + 8B hizalama)
+  56: 89 d6                         mov    esi, edx                     #! 2. argüman tohum (edx) -> kalıcı esi'ye sakla
+  58: 48 89 cf                      mov    rdi, rcx                     #! 1. argüman paket (rcx) -> kalıcı rdi'ye sakla
+  5b: e8 a0 ff ff ff                call   0x0 <as12_baslik_coz>        #! eax = as12_baslik_coz(paket)
+  60: 85 c0                         test   eax, eax                     #! Dönüş değerini test et
+  62: 78 17                         js     0x7b <as12_paket_dogrula+0x2b> #! Negatifse (SF == 1: -1 veya -2) 0x7b'ye sıçra!
+  64: 48 83 c7 04                   add    rdi, 0x4                     #! rdi = paket + 4 (gövde başlangıcı!)
+  68: 48 89 f9                      mov    rcx, rdi                     #! 1. argüman rcx = paket + 4
+  6b: 89 c2                         mov    edx, eax                     #! 2. argüman edx = govde_uzunlugu (eax)
+  6d: 41 89 f0                      mov    r8d, esi                     #! 3. argüman r8d = saklanan tohum (esi)
+  70: 48 83 c4 28                   add    rsp, 0x28                    #! Kuyruk çağrısı öncesi çerçeveyi kapat
+  74: 5f                            pop    rdi                          #! Kalıcı rdi yazmacını geri yükle
+  75: 5e                            pop    rsi                          #! Kalıcı rsi yazmacını geri yükle
+  76: e9 a5 ff ff ff                jmp    0x20 <as12_imza_uret>        #! Tail-call: as12_imza_uret(paket + 4, uzunluk, tohum)
+  7b: 90                            nop
+  7c: 48 83 c4 28                   add    rsp, 0x28                    #! Hata dalı: çerçeveyi kapat
+  80: 5f                            pop    rdi                          #! Kalıcı rdi yazmacını geri yükle
+  81: 5e                            pop    rsi                          #! Kalıcı rsi yazmacını geri yükle
+  82: c3                            ret                                 #! Hata kodunu (eax) döndür
 ```
 
 ### İkili Paket Formatının Özeti
@@ -64,13 +74,13 @@ Disassembly'deki bellek ofsetlerini birleştirdiğimizde paketin bellek şeması
 
 | Ofset | Boyut | Erişim Komutu | Beklenen Değer / Anlam |
 |---|---|---|---|
-| `0..1` | 2 bayt (`WORD`) | `movzx eax, word ptr [rcx]` | `0x5046` → Little-endian bellekte **`0x46, 0x50`** (`b"FP"`) |
-| `2` | 1 bayt (`BYTE`) | `movzx eax, byte ptr [rcx + 2]` | `0x02` → Protokol sürümü (`2`) |
-| `3` | 1 bayt (`BYTE`) | `movzx eax, byte ptr [rcx + 3]` | `N` (`0..255`) → Gövde (payload) bayt uzunluğu |
-| `4 .. 4+N-1` | `N` bayt | `add rcx, 4` → `[rcx + r9]` | İmza döngüsüne giren gövde baytları |
+| `0..1` | 2 bayt (`WORD`) | `cmp WORD PTR [rcx], 0x5046` | `0x5046` → Little-endian bellekte **`0x46, 0x50`** (`b"FP"`) |
+| `2` | 1 bayt (`BYTE`) | `cmp BYTE PTR [rcx+0x2], 0x2` | `0x02` → Protokol sürümü (`2`) |
+| `3` | 1 bayt (`BYTE`) | `movzx eax, BYTE PTR [rcx+0x3]` | `N` (`0..255`) → Gövde (payload) bayt uzunluğu |
+| `4 .. 4+N-1` | `N` bayt | `add rdi, 0x4` → `[rcx+r8*1]` | İmza döngüsüne giren gövde baytları |
 
 > [!TUZAK]
-> `cmp eax, 0x5046` satırına bakıp paketin ilk iki baytına `[0x50, 0x46]` yazmak en klasik tersine mühendislik hatasıdır! x86-64 little-endian olduğu için `word ptr [rcx]` okuması `0x5046` üretsin istiyorsak bellekteki ilk bayt en düşük anlamlı bayt olan **`0x46`** (`'F'`), ikinci bayt **`0x50`** (`'P'`) olmalıdır.
+> `cmp WORD PTR [rcx], 0x5046` satırına bakıp paketin ilk iki baytına `[0x50, 0x46]` yazmak en klasik tersine mühendislik hatasıdır! x86-64 little-endian olduğu için `WORD PTR [rcx]` karşılaştırması `0x5046` ile eşleşsin istiyorsak bellekteki ilk bayt en düşük anlamlı bayt olan **`0x46`** (`'F'`), ikinci bayt **`0x50`** (`'P'`) olmalıdır.
 :::
 
 ::: tahmin
@@ -97,13 +107,13 @@ Yukarıdaki üç paket `tohum = 5` ile `as12_paket_dogrula` fonksiyonuna verildi
 ```
 
 ???
-1. çağrı (`pkt1`): İlk iki bayt `[0x46, 0x50]` little-endian olarak `0x5046` okunur (sihirli sayı doğru). Ofset 2'deki sürüm `2` (doğru), ofset 3'teki gövde uzunluğu `2` döner. `as12_imza_uret(paket + 4, 2, 5)` çağrılır:
+1. çağrı (`pkt1`): İlk iki bayt `[0x46, 0x50]` little-endian olarak `0x5046` okunur (sihirli sayı doğru). Ofset 2'deki sürüm `2` (doğru), ofset 3'teki gövde uzunluğu `2` döner. `as12_imza_uret(paket + 4, 2, 5)` kuyruk çağrısıyla (`jmp 0x20`) çalışır:
 - Başlangıçta `eax = 5`.
-- 1. gövde baytı `10`: `eax = 5 ^ 10 = 15`; `lea eax, [rax + 2*rax + 7]` → `15 * 3 + 7 = 52`.
-- 2. gövde baytı `20`: `eax = 52 ^ 20 = 32`; `lea eax, [rax + 2*rax + 7]` → `32 * 3 + 7 = 103`.
+- 1. gövde baytı `10`: `r9d = 10 ^ 5 = 15`; `lea eax, [r9+r9*2]` + `add eax, 0x7` → `15 * 3 + 7 = 52`.
+- 2. gövde baytı `20`: `r9d = 20 ^ 52 = 32`; `lea eax, [r9+r9*2]` + `add eax, 0x7` → `32 * 3 + 7 = 103`.
 Sonuç `103` döner.
-2. çağrı (`pkt2`): İlk iki bayt `[0x50, 0x46]` little-endian olarak `0x4650 != 0x5046` okunduğu için `as12_baslik_coz` `-1` (`0xffffffff`) döndürür; `test eax, eax` → `js` dallanmasıyla doğrudan `-1` döner.
-3. çağrı (`pkt3`): Sihirli sayı doğru (`0x5046`), ancak ofset 2'deki sürüm `1 != 2` olduğu için `as12_baslik_coz` `-2` (`0xfffffffe`) döndürür; `js` dallanmasıyla doğrudan `-2` döner.
+2. çağrı (`pkt2`): İlk iki bayt `[0x50, 0x46]` little-endian olarak `0x4650 != 0x5046` okunduğu için `as12_baslik_coz` `-1` (`0xffffffff`) döndürür; `test eax, eax` → `js 0x7b` dallanmasıyla doğrudan `-1` döner.
+3. çağrı (`pkt3`): Sihirli sayı doğru (`0x5046`), ancak ofset 2'deki sürüm `1 != 2` olduğu için `as12_baslik_coz` `-2` (`0xfffffffe`) döndürür; `js 0x7b` dallanmasıyla doğrudan `-2` döner.
 :::
 
 ::: gorev Adım 1: `as12_baslik_coz` başlık ayrıştırıcısı
@@ -150,7 +160,7 @@ Little-endian 16-bit okuma için `paket[0] | (paket[1] << 8)` değerini `0x5046`
 - `uzunluk < 0` veya `uzunluk > len(govde)` ise `ValueError` fırlat.
 - `eax = tohum & 0xFFFFFFFF` ile başla; `i = 0 .. uzunluk - 1` aralığındaki her `govde[i]` baytı için sırasıyla:
   - `eax = (eax ^ govde[i]) & 0xFFFFFFFF`
-  - `eax = (eax * 3 + 7) & 0xFFFFFFFF` (`lea eax, [rax + 2*rax + 7]`)
+  - `eax = (eax * 3 + 7) & 0xFFFFFFFF` (`lea eax, [r9+r9*2]` ve `add eax, 0x7`)
 - Sonuçtaki 32-bit değeri **işaretli 32-bit `int`** (`>= 0x80000000` ise `- 0x100000000`) olarak döndür.
 
 ```starter
