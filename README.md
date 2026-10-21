@@ -16,6 +16,7 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 | **PHP** (okuma) | 11 (6 rütbe; metinler ve baytlar, closure'lar, sınıflar, PDO, oturumlar ve parolalar, JSON ve hatalar, uç nokta projesi) | `python`: C ile aynı düzen, PHP 8 kuralları | hazır |
 | **Sigma** | 18 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma ayrıştırıcısı + JSON olaylarında yerel test backend'i | hazır |
 | **YARA** | 18 (6 rütbe; metin/hex, regex, sayım/konum, PE/hash/math, yanlış pozitifler ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
+| **Elastic / Kibana** (okuma) | 18 (6 rütbe; Kibana KQL, Lucene query string, Elastic EQL; mapping, zaman, olay dizileri ve projeler) | `python`: sorgular okunur; tahminler belirtilen sabit örnekler içindir, görevler sınırlı Python yorumlama/istek/yanıt alıştırmalarıdır | hazır |
 
 SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çalışır: [tracks/sql/ornek.sql](tracks/sql/ornek.sql) (küçük bir şirketin BT operasyonu: ekipler, personel, sunucular, biletler, ölçümler). Her çalıştırmada bellekte sıfırdan kurulur. KQL ve SPL çevirileri gerçek Kusto ve Splunk'ın inceliklerine sadık kalır (KQL'de varsayılan `sort` yönü azalan, `join`'in varsayılanı `innerunique`; SPL'de aramada büyük-küçük harf duyarsızlığı, OR'un AND'den önce bağlanması, `!=` ile `NOT` farkı, `join`'in `max=1` davranışı), ama tam bir motor değildir: desteklenmeyen işleç anlaşılır bir hatayla reddedilir. KQL'de "şimdi" sabittir (2026-10-19 12:00), böylece `ago()` her gün aynı sonucu verir. KQL ve SPL yolları bu veritabanının üstüne günlük tablolarını yükler: [tracks/kql/veri.sql](tracks/kql/veri.sql) (`istekler`: web istek günlüğü, `ayrinti` sütunu JSON; `gunluk`: serbest metinli uygulama günlüğü; `dagitimlar`: sürüm dağıtımları); SPL bunlara Splunk'taki gibi bir `_time` alanı da ekler ([tracks/spl/veri.sql](tracks/spl/veri.sql)). SPL'de `eval` bölmesi her zaman ondalıklıdır ve `count(eval(...)) as ad`, `earliest`, `latest`, `stdev` desteklenir. Splunk'ın bilgi nesneleri de [tracks/spl/veri.sql](tracks/spl/veri.sql)'deki tablolardan okunur: makrolar (ters tırnakla çağrılır, ayrıştırmadan önce metin olarak açılır), olay türleri (`eventtype=`), etiketler (`tag=`, `tag::alan=`), alan takma adları ve hesaplanan alanlar (her `sourcetype=` aramasında kendiliğinden, Splunk'ın arama zamanı sırasıyla). Son ikisi varsayılan olarak boştur; dersler kendi hazırlık bloklarında doldurur. Çevirici süre (`timespan`), bool ve dinamik türleri izler ve çıktıyı KQL biçiminde gösterir (`1.02:30:00`, `true`); `datetime_diff` gerçek Kusto gibi birim sınırlarını sayar; `prev`/`next`/`row_cumsum` serileştirilmemiş girdide hata verir.
 
@@ -25,7 +26,7 @@ SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çal
 - Elle: `pythonw Pafta.pyw` (Edge uygulama penceresi açılır; pencere kapanınca sunucu ~40 sn sonra kendini kapatır)
 - Geliştirme: `python server.py --port 8765` (tarayıcıda `http://127.0.0.1:8765/`; `--veri KLASOR` ile ayrı bir ilerleme klasörü)
 
-Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell yolu Windows'la gelen PowerShell 5.1'i, JavaScript yolu Node.js'i kullanır. C ve PHP için derleyici gerekmez. Sigma/YARA dışındaki Python bileşenleri standart kütüphaneyi kullanır.
+Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell yolu Windows'la gelen PowerShell 5.1'i, JavaScript yolu Node.js'i kullanır. C ve PHP için derleyici, Elastic okuma yolu için Elasticsearch/Kibana kurulumu gerekmez. Sigma/YARA dışındaki Python bileşenleri standart kütüphaneyi kullanır.
 
 Sigma ve YARA'nın bağımlılıklarını, **Pafta'yı başlatan Python sürümüyle**, proje klasöründe kur:
 
@@ -55,6 +56,18 @@ python tools/test_detection_integration.py
 
 Resmi dayanaklar: [Sigma şartnamesi](https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html), [pySigma](https://github.com/SigmaHQ/pySigma), [YARA Python API](https://yara.readthedocs.io/en/stable/yarapython.html).
 
+### Elastic / Kibana okuma yolu
+
+Bu yol **KQL (Kusto)** yolundan ayrıdır. Kibana KQL, Lucene query string ve Elastic EQL'nin gerçek sözdizimi okunur; Pafta Elasticsearch sorgusu çalıştırmaz. Her tahminde mapping, örnek veri ve sıralama sözleşmesi verilir; sabit yanıt gizli Python modeliyle çapraz denetlenir. Bu model genel sorgu ayrıştırıcısı veya native motor doğrulaması değildir. Python görevleri verilen koşulu yorumlar, istek sözlüğü hazırlar veya örnek yanıtı okur; sınır ve mantık testleri bu alıştırmalar içindir. Arayüz sorguları **OKUMA**, tezgahı **Python** olarak ayırır. Ayrıntılar ve resmi kaynaklar: [yolun sözleşmesi](tracks/elastic/README.md).
+
+```text
+python tools/validate.py --yol elastic
+python tools/test_elastic_curriculum.py
+python tools/test_elastic_integration.py
+python tools/audit_elastic_mutations.py
+node --test tools/test_elastic_ui.mjs
+```
+
 ## Bir paftanın akışı
 
 Her pafta adımlardan oluşur:
@@ -62,10 +75,10 @@ Her pafta adımlardan oluşur:
 | Adım | Ne olur |
 |---|---|
 | **Anlat** | Kavram, ölçü notlu kod örnekleri (▶ Çalıştır, ⇢ Tezgaha al), Derin su / Tuzak / Güvenlik kutuları |
-| **Tahmin** | Kodun çıktısını tahmin edersin, sonra gerçek çalıştırmayla karşılaştırılır |
+| **Tahmin** | Kodun çıktısını tahmin edersin; çalıştırılabilir yolda gerçek çalıştırmayla, okuma yolunda açıklanan sabit cevapla karşılaştırılır |
 | **Görev** | Kodu sen yazarsın, testler denetler; geçince "ONAYLANDI" mührü basılır |
 
-Tezgah (sağ panel): editör, Çıktı, Kontrol, **Röntgen** ve dile göre bir görünüm (Python'da Bytecode, Regex'te Ağaç, SQL'de Plan, KQL ve SPL'de SQL karşılığı). Röntgen Python'da kodu adım adım yürütüp her satırda değişkenleri gösterir (aynı renk = aynı nesne); Bash ve PowerShell'de yorumlayıcının çalıştırdığı komutları sırasıyla, değişkenler yerine konmuş haliyle gösterir. Regex'te Röntgen yerine eşleşme tablosu, SQL'de her sorgunun sonuç tablosu vardır. Sigma ve YARA'da olay/bayt eşleşmeleri gösterilir. Geçilen görevler **Tekrar** kutularına düşer (1, 3, 7, 16, 35 gün). **Serbest tezgah** on dilde boş bir çalışma alanıdır (`#/tezgah/<dil>`: python, regex, bash, powershell, sql, kql, spl, javascript, sigma, yara). Okuma yollarında (C, PHP) tezgah, görevlerdeki Python içindir.
+Tezgah (sağ panel): editör, Çıktı, Kontrol, **Röntgen** ve dile göre bir görünüm (Python'da Bytecode, Regex'te Ağaç, SQL'de Plan, KQL ve SPL'de SQL karşılığı). Röntgen Python'da kodu adım adım yürütüp her satırda değişkenleri gösterir (aynı renk = aynı nesne); Bash ve PowerShell'de yorumlayıcının çalıştırdığı komutları sırasıyla, değişkenler yerine konmuş haliyle gösterir. Regex'te Röntgen yerine eşleşme tablosu, SQL'de her sorgunun sonuç tablosu vardır. Sigma ve YARA'da olay/bayt eşleşmeleri gösterilir. Geçilen görevler **Tekrar** kutularına düşer (1, 3, 7, 16, 35 gün). **Serbest tezgah** on dilde boş bir çalışma alanıdır (`#/tezgah/<dil>`: python, regex, bash, powershell, sql, kql, spl, javascript, sigma, yara). Okuma yollarında (C, PHP, Elastic / Kibana) tezgah, görevlerdeki Python içindir.
 
 Kısayollar: `Ctrl+Enter` çalıştır · `Ctrl+Shift+Enter` kontrol et · `Ctrl+/` yorum · `Tab`/`Shift+Tab` girinti · Röntgende `←` `→`
 
@@ -142,6 +155,8 @@ SQL çıktısı (`out`, tahmin karşılaştırması) sqlite3 kabuğunun liste bi
 **JavaScript** dersleri Bash/PowerShell gibi süreç olarak koşar (`out`, `run`, `calis`); girdi `require("fs").readFileSync(0, "utf8")` ile okunur.
 
 **Okuma yolları (C, PHP)**: `track.json`'da `"runner": "python"`, `"dil": "python"` ve `"okuma_dili": "c"` (ya da `"php"`). Anlatım ve tahmin kodu ` ``c ` / ` ``php ` bloklarında yazılır ve çalıştırılmaz; tahmin adımına gerçek çıktı bir ` ``gercek ` bloğuyla elle verilir (ön yüze tahmin edilmeden gönderilmez). Görevler, okunan kodun davranışını Python'da kurdurur ve Python testleriyle denetlenir. `gercek` blokları doğrulayıcı tarafından çalıştırılamadığı için C/PHP davranışını iyi bildiğin örneklerle sınırlı tut ve Python karşılığıyla çapraz denetle.
+
+**Elastic okuma yolu** aynı Python koşucusunu `"okuma_dili": "elastic"` ile kullanır. Native kod blokları `kibana`, `lucene`, `eql` olarak etiketlenir; okuyucu tahmindeki dili `code_dil` alanında korur. `gercek` yanında gizli `test` bloğu ve JSON `stdin` verisi bulunur; `test_elastic_curriculum.py` bu sabit tahmin modelini ayrıca çalıştırır. Genel doğrulayıcı `gercek` yanıtını çalıştırmadığı için bu ek kontrol gereklidir.
 
 Yeni ders ekleyince `track.json`'daki ilgili modülün `lessons` listesine id'yi ekle ve doğrula:
 
