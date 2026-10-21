@@ -18,7 +18,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from engine.lessons import Library  # noqa: E402
-from engine.runners import get  # noqa: E402
+from engine.runners import argv_coz, get  # noqa: E402
 
 FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat"}
 
@@ -112,7 +112,7 @@ def run_job(job):
     if kind == "tahmin" and st.get("gercek") is not None:
         return (True, kind, where, "")          # çalıştırılamayan dil: gerçek çıktıyı ders yazarı verdi
     if kind in ("tahmin", "ornek"):
-        r = runner.run(code, st.get("stdin", ""), st.get("setup"))
+        r = runner.run(code, st.get("stdin", ""), st.get("setup"), argv=argv_coz(st.get("meta")))
         if r.get("status") not in ("ok", "error"):
             return (False, f"{kind.upper()} {r.get('status')}", where, str(r.get("error"))[:300])
         if r.get("status") == "error" and kind == "ornek":

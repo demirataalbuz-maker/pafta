@@ -291,7 +291,8 @@ def make_handler(app):
                 # Çalıştırılamayan dil (C, PHP): gerçek çıktıyı ders yazarı vermiştir
                 res = {"status": "ok", "segs": [["out", step["gercek"]]], "error": None}
             else:
-                res = app.runner_for(tid).run(step["code"], step.get("stdin", ""), step.get("setup"))
+                res = app.runner_for(tid).run(step["code"], step.get("stdin", ""), step.get("setup"),
+                                               argv=runners.argv_coz(step.get("meta")))
             actual = "".join(t for k, t in res.get("segs", []) if k == "out")
             guess = normalize(b.get("guess", ""))
             err = res.get("error")
