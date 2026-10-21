@@ -26,19 +26,19 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 ## Planlanan yeni yollar
 
-Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını bitirmek. Bu yollarda karşısına çıkacak ama Pafta'da olmayan diller, kullanıcının çalışma sırasında ne zaman gerekeceğine göre sıralandı. Yazarı Codex; her yol bitince durur, denetçi ölçer, sonra sıradakine geçilir.
+Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını bitirmek. Bu yollarda karşısına çıkacak ama Pafta'da olmayan diller, kullanıcının çalışma sırasında ne zaman gerekeceğine göre sıralandı. Seviye kararı, konunun en üst sertifika ve kurslarda hangi derinlikte istendiğine göre denetçi tarafından verildi (kullanıcının isteği). Yazarı Codex; her yol bitince durur, denetçi ölçer, sonra sıradakine geçilir.
 
-| Sıra | Yol | Gerekeceği aşama |
-|---|---|---|
-| 1 | CMD/batch okuma | 1 |
-| 2 | HTML ve HTTP temeli | 1 |
-| 3 | Wireshark ve tcpdump filtreleri | 1 |
-| 4 | Kibana KQL ve EQL (Elastic; "KQL (Kusto)" yolundan ayrı) | 2 |
-| 5 | Java okuma | 2 |
-| 6 | C# okuma | 2 |
-| 7 | Snort/Suricata kuralları | 3 |
-| 8 | LDAP filtreleri | 3 |
-| 9 | x86/x64 assembly kavramları | 3 |
+| Sıra | Yol | Seviye | Ölçüt | Tezgah | Durum |
+|---|---|---|---|---|---|
+| — | Kibana KQL, Lucene ve EQL | **net** (yazma) | Elastic Certified Analyst, THM SOC L2 / SAL2: sorgular yazılır | şu an okuma; Codex'in gizli Python modelleri yazılan sorguyu değerlendiren bir tezgaha çevrilecek | yapıldı (`6b0d21a`, okuma); **yazmaya yükseltilecek** |
+| 1 | CMD/batch | **net** | Windows olay inceleme kursları ve sertifika sınavlarında komut satırı yazılarak kullanılır | gerçek `cmd.exe` (PowerShell yolu gibi süreç koşucusu) | sıradaki |
+| 2 | HTTP ve HTML | HTTP **net**, HTML **okuma** | Web sertifikalarında (HTB CWES, Burp Suite Certified Practitioner) ham istek yazılır, sayfa kaynağı okunur | Python ile gerçek istek ve yanıt | bekliyor |
+| 3 | Wireshark görüntü filtreleri ve tcpdump/BPF | **net** | Wireshark Certified Network Analyst ve SANS SEC503'te iki filtre dili de yazılır | görüntü filtreleri gerçek `tshark` 4.6.8 ile örnek kayıt dosyalarında; BPF için gerçeğe sadık değerlendirici (tcpdump kurulu değil) | bekliyor |
+| 4 | Java | **okuma** (derin kod okuma) | Beyaz kutu web sertifikalarında (OSWE, HTB CWEE) kaynak kodu okunur, uygulama yazılmaz | okuma yolu (`okuma_dili`), görevler Python'da; JDK kurulmayacak | bekliyor |
+| 5 | C# (.NET) | **okuma** (derin kod okuma) | aynı ölçüt | okuma yolu, ama **.NET 8 SDK kurulu** olduğundan tahmin cevapları gerçek çalıştırmayla üretilsin | bekliyor |
+| 6 | Snort/Suricata kuralları | **net** | SANS SEC503 ve HTB Detection Engineer yolunda kural yazılır | gerçek Suricata (kullanıcı resmi Windows sürümünü kurarsa, kayıt dosyalarında çevrimdışı); kurulmazsa okuma + değerlendirici | bekliyor |
+| 7 | LDAP filtreleri | **net** | AD yönetimi ve AD kurslarında filtre yazılır | standart kütüphaneyle RFC 4515'e sadık değerlendirici | bekliyor |
+| 8 | x86/x64 assembly kavramları | **okuma** | THM Red Teaming ve hedeflenen HTB yolları kavram ve okuma düzeyinde ister | okuma yolu | bekliyor |
 
 Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyaları, KQL `render`, JS `Map`/`Set`, C çok dosyalı programlar, PHP `namespace`/`trait`) kullanıcı birkaç ders bitirdikten sonraya bırakıldı.
 
