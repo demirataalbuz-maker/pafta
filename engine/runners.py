@@ -190,6 +190,17 @@ class SplRunner(KqlRunner):
     ek_veri = KqlRunner.ek_veri + (os.path.join(ROOT, "tracks", "spl", "veri.sql"),)   # + Splunk'ın _time alanı
 
 
+class HttpRunner(PythonRunner):
+    """Python; her çalıştırmadan önce sandbox/http_tezgah.py demo web uygulamasını (127.0.0.1, boş port)
+    başlatır ve kullanıcı koduna `tezgah` modülünü (SUNUCU, gonder, yanit) açar."""
+    name = "http"
+    tezgah = os.path.join(ROOT, "sandbox", "http_tezgah.py")
+
+    def execute(self, job, timeout=None):
+        on = f"import runpy as _r\n_r.run_path({self.tezgah!r}, run_name='__tezgah__')\n"
+        return super().execute(dict(job, setup=on + (job.get("setup") or "")), timeout)
+
+
 def _bash_yolu():
     for aday in (r"C:\Program Files\Git\bin\bash.exe", r"C:\Program Files (x86)\Git\bin\bash.exe"):
         if os.path.isfile(aday):
@@ -231,6 +242,7 @@ PS_SARMAL = (
 
 RUNNERS = {
     "python": PythonRunner(),
+    "http": HttpRunner(),
     "regex": RegexRunner(),
     "sql": SqlRunner(),
     "kql": KqlRunner(),
