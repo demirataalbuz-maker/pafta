@@ -31,11 +31,13 @@ def run_batch(job, stdin="", argv=None):
         names.append('"%' + name + '%"')
     # CHCP can consume a redirected input file while switching code pages.
     # Give the bootstrap command NUL, leaving learner stdin at byte zero.
-    bootstrap = '@echo off\nchcp 65001 >nul <nul\n' + proc["dosya"]
+    bootstrap = '@echo off\nchcp 65001 >nul <nul\n.\\' + proc["dosya"]
     if names:
         bootstrap += " " + " ".join(names)
     Path("_pafta_cmd.cmd").write_text(bootstrap + "\n", encoding="ascii", newline="\r\n")
-    command = list(proc["cmd"]) + ["_pafta_cmd.cmd"]
+    # Explicit relative paths work even when current-directory executable
+    # lookup is disabled by NoDefaultCurrentDirectoryInExePath.
+    command = list(proc["cmd"]) + [r".\_pafta_cmd.cmd"]
     # SET /P can read ahead and discard subsequent lines from a Windows pipe.
     # A redirected input file gives native CMD reliable sequential line reads.
     input_path = Path("_pafta_cmd_stdin.txt")

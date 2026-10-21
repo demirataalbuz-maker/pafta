@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -43,6 +44,14 @@ class CmdRuntimeTests(unittest.TestCase):
         self.assertEqual(result["kod"], 7)
         self.assertEqual(result["error"]["kod"], 7)
         self.assertIn("uyari", "".join(t for k, t in result["segs"] if k == "err"))
+
+    def test_current_directory_search_can_be_disabled(self):
+        with patch.dict(os.environ, {"NoDefaultCurrentDirectoryInExePath": "1"}):
+            self.assertEqual(self.output('@echo off\necho "hazır %~1"\n', argv=["iki öğe & % ! ^"]),
+                             '"hazır iki öğe & % ! ^"\n')
+            step = {"test": 'eq(out, "hazir\\n")\neq(run(argv=["tekrar"]), "tekrar\\n")'}
+            code = '@echo off\nif "%~1"=="" (echo hazir) else (echo %~1)\nexit /b 0\n'
+            self.assertEqual(self.runner.test(code, step)["status"], "pass")
 
     def test_input_file_supports_multiple_native_line_reads(self):
         code = '@echo off\nset "a="\nset "b="\nset /p a=\nset /p b=\necho "%a%"\necho "%b%"\nexit /b 0\n'
