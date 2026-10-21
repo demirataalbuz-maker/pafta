@@ -155,7 +155,8 @@ function sqlTablolar(tablolar, max = 200, kql = false) {
       : `<td${/^-?\d+(\.\d+)?$/.test(v) ? ' class="num"' : ""}>${esc(String(v)).replace(/\x1f/g, "<br>")}</td>`;
     const govde = t.satirlar.slice(0, max).map(r => `<tr>${r.map(hucre).join("")}</tr>`).join("");
     const fazla = n > max ? `<div class="out-meta">ilk ${max} satır gösteriliyor</div>` : "";
-    return `<div class="sql-sonuc"><div class="sql-bas"><span class="ln">s.${t.satir}</span>${n} satır${t.kesildi ? " (ilk 500)" : ""}</div>` +
+    const konum = t.satir !== undefined ? `<span class="ln">s.${t.satir}</span>` : "";
+    return `<div class="sql-sonuc"><div class="sql-bas">${konum}${n} satır${t.kesildi ? " (ilk 500)" : ""}</div>` +
       (n ? `<table class="sql-tablo"><thead><tr>${t.sutunlar.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${govde}</tbody></table>${fazla}`
         : `<div class="out-meta">sonuç boş · hiçbir satır koşulu sağlamadı</div>`) + `</div>`;
   }).join("");

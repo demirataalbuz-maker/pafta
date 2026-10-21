@@ -254,12 +254,20 @@ def run(code, stdin=""):
             protocol = names.get(packet.get("proto"), str(packet.get("proto", "Ethernet")))
             if "sport" in packet and "dport" in packet:
                 protocol += " " + str(packet["sport"]) + " → " + str(packet["dport"])
+            description = packet["note"]
+            if "flags" in packet:
+                description += f"; TCP flags 0x{packet['flags']:02x}"
+            if "vlan" in packet:
+                description += "; VLAN " + "/".join(map(str, packet["vlan"]))
+            if "fragment_offset" in packet:
+                description += f"; fragment offset {packet['fragment_offset']} × 8 bayt"
             inventory.append([packet["id"], packet.get("src", packet.get("eth_src", "")),
                               packet.get("dst", packet.get("eth_dst", "")), protocol,
-                              str(packet["wirelen"]) + " / " + str(packet["caplen"]), packet["note"]])
+                              str(packet["wirelen"]) + " / " + str(packet["caplen"]), description,
+                              packet["time_relative"]])
         result["packet_inventory"] = {
             "baslik": "Sentetik kayıt dökümü · fixture açıklamaları, native ayrıştırma değildir",
-            "sutunlar": ["Paket", "Kaynak", "Hedef", "Protokol / port", "Boy / yakalanan", "Açıklama"],
+            "sutunlar": ["Paket", "Kaynak", "Hedef", "Protokol / port", "Boy / yakalanan", "Açıklama", "Göreli saniye"],
             "satirlar": inventory}
     return result
 
