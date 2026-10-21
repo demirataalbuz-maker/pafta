@@ -1,6 +1,6 @@
 # Pafta · Denetim
 
-Son denetim: 2026-10-21, `2999a42`: 321 ders, 2856 kontrol temiz (HT15 henüz yazılmadı; CMD için bkz. A10). 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
+Son denetim: 2026-10-21, `5e4b604` (GitHub'daki son hâl): 320 ders, 2848 kontrol temiz (normal Windows ortamında; Git Bash'ten çalıştırılınca CMD'de 4 sorun, bkz. A11). 12 yol, 271 ders. Bütün ders kimlikleri **yeni numaralardır** (`dcd8375` ile harita sırasına göre yeniden numaralandı); eski raporlardaki kimlikler için [tools/numara_eslemesi.json](tools/numara_eslemesi.json). Bu dosyanın eski, ayrıntılı sürümleri git geçmişinde: `git log -p DENETIM.md`.
 
 Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koşturulunca kapanmış sayılır.
 
@@ -22,7 +22,8 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A10 | sandbox/cmd_process.py | CMD koşucusu `_pafta_cmd.cmd`'yi yolsuz çağırıyor; `cmd.exe` onu ancak geçerli klasörde arayarak bulabiliyor. `NoDefaultCurrentDirectoryInExePath` tanımlı bir süreçte bu arama kapalı ve CMD'nin bütün çalıştırmaları `'_pafta_cmd.cmd' is not recognized` hatasıyla düşüyor (doğrulamada 70 sorun). Claude Code bu değişkeni kendi komutlarına tanımlıyor; kullanıcı ve makine düzeyinde tanımlı değil, yani uygulama normal açıldığında CMD çalışıyor. Ama Claude ajanları (Yazar 1, denetçi) `validate.py`'yi çalıştırınca CMD'yi bozuk görür. Değişken kaldırılınca 107 kontrol temiz. | betiği tam yoluyla ya da `.\_pafta_cmd.cmd` olarak çağır; değişken tanımlıyken de çalıştığını bir testle doğrula | Codex |
+| A11 | sandbox/cmd_process.py | CMD süreçleri PATH'i olduğu gibi devralıyor. Pafta Git Bash'ten başlatılırsa (README'deki geliştirme komutu gibi) PATH'te Git'in Unix araçları Windows'tan önce gelir; `sort` ve `find` Unix sürümlerine gider ve cm12'nin örneği, tahmini ve iki görevi düşer (`sort: cannot read: /l`, zaman aşımı). Kullanıcının gerçek PATH'inde Windows önde olduğundan uygulama normal açıldığında sorun yok. | cmd.exe süreçlerinde `%SystemRoot%\System32` ve `%SystemRoot%` PATH'in başına konsun; Git Bash ortamında bir testle doğrula | Codex |
+| A12 | http/ht09:4 «Basic başlığını çöz» | Çözümdeki `base64.b64decode(..., validate=True)` `validate=False` yapılsa da test geçiyor: test geçersiz base64 karakteri hiç denemiyor (`validate=False` iken Python bunları sessizce atar). | `Basic eW9u*ZXRp` gibi geçersiz bir girdinin `ValueError` verdiğini test et | Yazar 1 |
 | A9 | PowerShell · Active Directory | Kullanıcının ilk dil listesinde "AD" vardı, hiç yazılmadı (`Get-ADUser`, `Get-ADGroupMember`, DN/OU yapısı, LDAP filtreleri yok). Tezgahta etki alanı olmadığı için ancak dışa aktarılmış veriyle ya da okuma düzeyinde kurulabilir. Not: aynı rapordaki "Başpehlivan boş", "Security günlüğü yok", "Sysmon yok" bilgileri eskiydi; üçü de `f6241cf` ile PS19–PS21'de var. | AZ-040'ın AD yönetimi çerçevesinde bir köprü ders | düşük öncelik; **kullanıcı kararı** |
 
 ## Planlanan yeni yollar
@@ -33,7 +34,7 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 |---|---|---|---|---|---|
 | — | Kibana KQL, Lucene ve EQL | **net** (yazma) | Elastic Certified Analyst, THM SOC L2 / SAL2: sorgular yazılır | şu an okuma; Codex'in gizli Python modelleri yazılan sorguyu değerlendiren bir tezgaha çevrilecek | yapıldı (`6b0d21a`, okuma); **yazmaya yükseltilecek** |
 | 1 | CMD/batch | **net** | Windows olay inceleme kursları ve sertifika sınavlarında komut satırı yazılarak kullanılır | gerçek `cmd.exe` | **yapıldı ve denetlendi** (Codex, `208ec11`): 18 ders, 107 kontrol temiz, 36 görevde zayıf test yok; bkz. A10 |
-| 2 | HTTP ve HTML | HTTP **net**, HTML **okuma** | Web sertifikalarında (HTB CWES, Burp Suite Certified Practitioner) ham istek yazılır, sayfa kaynağı okunur | Python ile gerçek istek ve yanıt | **sürüyor** (Yazar 1): HT01–HT12 commit'li, HT13–HT15 yazılıyor |
+| 2 | HTTP ve HTML | HTTP **net**, HTML **okuma** | Web sertifikalarında (HTB CWES, Burp Suite Certified Practitioner) ham istek yazılır, sayfa kaynağı okunur | Python ile gerçek istek ve yanıt | **yapıldı ve denetlendi** (Yazar 1, `5e4b604`): 13 ders, yapı kusursuz, 13 tahmin doğru, 39 görevde 1 küçük zayıflık (A12). HT14–HT15 projeleri Codex'e devredildi |
 | 3 | Wireshark görüntü filtreleri ve tcpdump/BPF | **net** | Wireshark Certified Network Analyst ve SANS SEC503'te iki filtre dili de yazılır | görüntü filtreleri gerçek `tshark` 4.6.8 ile örnek kayıt dosyalarında; BPF için gerçeğe sadık değerlendirici (tcpdump kurulu değil) | bekliyor |
 | 4 | Java | **okuma** (derin kod okuma) | Beyaz kutu web sertifikalarında (OSWE, HTB CWEE) kaynak kodu okunur, uygulama yazılmaz | okuma yolu (`okuma_dili`), görevler Python'da; JDK kurulmayacak | bekliyor |
 | 5 | C# (.NET) | **okuma** (derin kod okuma) | aynı ölçüt | okuma yolu, ama **.NET 8 SDK kurulu** olduğundan tahmin cevapları gerçek çalıştırmayla üretilsin | bekliyor |
@@ -47,6 +48,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| CMD koşucusu `NoDefaultCurrentDirectoryInExePath` tanımlıyken hiç çalışmıyordu (A10) | `4b0c268` (Codex) | değişken tanımlıyken "not recognized" hatası kalmadı |
 | PS20'de iş yaşam döngüsü yoktu (A6-ek) | `89131c8` (Yazar 1) | `Start-Job` → `Wait-Job` → `Receive-Job` → `Remove-Job` bölümü ve «İşlerle paralel toplam» görevi; `-ge` → `-gt` ve `Remove-Job`'u silmek testte yakalanıyor |
 | 11 proje dersinde tahmin yoktu (A7) | `33ed7f2` (Yazar 1) | p70–p73, bs26, bs27, ps10, ps18, kq11, sp08, sq17: 14 tahmin ve 17 çıktı bloğu gerçek çıktıyla uyuşuyor; değişen derslerdeki 45 görevde zayıf test yok |
 | A3 P17'de yanlış adresli atıf, A4 RX19 yazım hatası, A5 SPL motorunun zincirleme hesaplanan alana izin vermesi | `21f370f` (Yazar 1) | P17 artık P19'u gösteriyor; "RX15'teki"; `iki = cpu*2`, `dort = iki*2` tanımlanınca `dort` Splunk'taki gibi boş; tanım sırası sonucu değiştirmiyor, `cpu = cpu+1` gibi kendini değiştiren tanımda öteki tanımlar ham değeri görüyor |
