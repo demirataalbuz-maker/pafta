@@ -35,6 +35,45 @@ SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çal
 
 Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java, C# ve Assembly okuma yolları için derleyici gerekmez. Elastic tezgahı JDK 17+ ve `python tools/install_elastic_runtime.py` ile kurulan pinli Lucene JAR'larını kullanır; son gerçek ortam dersi dışında Elasticsearch/Kibana kurulumu gerekmez. Python bileşenleri Sigma/YARA bağımlılıkları dışında standart kütüphaneyi kullanır.
 
+### Kali WSL Linux koşucusu
+
+Python ve Bash dersleri/adımları `backend: wsl` seçtiğinde **gerçek Linux** üzerinde çalışır. Varsayılan yollar mevcut Windows Python/Git Bash koşucularını kullanır. Linux seçimi Çalıştır, Kontrol, tahmin, Röntgen, Python Bytecode, tekrar, sınav puanlama ve `tools/validate.py` için aynıdır; Linux ortamı eksikse Windows'a sessiz geçiş yapılmaz.
+
+**Gereksinimler:** Windows üzerinde WSL 2, kurulmuş ve ilk kullanıcı kurulumu tamamlanmış bir Linux dağıtımı, o dağıtımda `/usr/bin/python3` (3.11+, bu teslimde 3.14.7 ile doğrulandı) ve `/bin/bash`. Linux çekirdeği `pidfd_open`/`pidfd_send_signal` ve `PR_SET_CHILD_SUBREAPER` desteklemeli (güncel WSL 2); koşucu bu olanaklar yoksa açık hata verir. Kurulum için [Microsoft WSL yönergesi](https://learn.microsoft.com/en-us/windows/wsl/install) ve [Kali WSL belgesi](https://www.kali.org/docs/wsl/wsl-preparations/) kullanılabilir. `wsl.exe -l -v` kurulu dağıtımların adını gösterir.
+
+Dağıtım adı **`PAFTA_WSL_DISTRO` ortam ayarından** her çalıştırmada okunur; verilmezse `kali-linux`. Pafta'yı başlatmadan önce PowerShell'de `$env:PAFTA_WSL_DISTRO = 'kali-linux'`, Git Bash'te `export PAFTA_WSL_DISTRO=kali-linux` ayarlanabilir. Dağıtım adı komut satırına ayrı argüman olarak geçirilir; WSL'nin varsayılan dağıtımı ve Windows'un `bash.exe` araması kullanılmaz.
+
+Koşucunun kendisi Python standart kütüphanesiyle çalışır. **Ekosistem görevleri** için seçilen Linux ortamında pip, venv/ensurepip, setuptools, wheel; Requests, aiohttp, Beautiful Soup, Scapy, pwntools ve gerektiğinde Impacket bulunmalıdır. Bash'in ilgili ekleri ShellCheck/Bats gerektirir. Kali paket adları: `python3-pip`, `python3-venv`, `python3-setuptools`, `python3-wheel`, `python3-requests`, `python3-aiohttp`, `python3-bs4`, `python3-scapy`, `python3-pwntools`, `python3-impacket`, `shellcheck`, `bats`. Bunlar **Windows Python'a veya Windows `.deps` klasörüne kurulmuş olmakla sağlanmaz**. Koşucu paket yüklemez; eksik modül/komut gerçek yorumlayıcının hatası olarak görünür. Bu bilgisayarda paketler önceden kurulu olduğundan bu teslimde paket indirilmedi.
+
+**Ders yazarı için seçim:** dersin ön bilgisindeki `backend: wsl` bütün adımlara miras kalır; tek adımdaki `meta` bloğu bunu geçersiz kılabilir. Yalnız bir adımı seçmek için:
+
+````text
+```meta
+backend: wsl
+timeout: 120
+```
+````
+
+Yukarıdaki iç `meta` bloğu ders dosyasına yazılır; `backend: native` yerel koşucuyu seçer. Kod dili yine `python` veya `bash`; yeni bir yol açmak gerekmez. Python API'sinde `runners.get("python-wsl")` / `runners.get("bash-wsl")` veya `runners.for_step(runner, step)`; serbest API çalıştırmasında `{"track":"python","backend":"wsl", ...}` kullanılabilir. Geçersiz backend veya desteklenmeyen dil açıkça reddedilir.
+
+Her iş Linux dosya sisteminde **`/tmp/pafta_wsl_*/calisma`** oluşturur; kod ve JSON UTF-8/LF olarak taşınır, depo veya `/mnt/c` üzerinde çalışılmaz. Girdi ve argümanlar veri olarak aktarılır; stdout/stderr ayrı döner, süreç çalıştırmalarında `kod` gerçek çıkış kodudur. Python'da Çalıştır gerçek `kod.py` sürecini çalıştırır; görev testleri aynı Linux yorumlayıcısında mevcut `eq/ok/run` ve ad alanı yardımcılarını, Bash testleri `calis/run` yardımcılarını kullanır. Python testinde sıfır dışı `sys.exit` başarı sayılmaz. Röntgen/Bytecode mevcut öğretim düzeneğini kullanır. `runtime` sonucunda dağıtım, Python sürümü/yolu, çalışma dizini, süre ve temizlik sonucu bulunur. Regresyon testi paketlerin gerçek `__file__`/sürümlerini de denetler.
+
+Hazırlık (`setup`), öğrenci kodu ve görev testi **aynı Linux çalışma dizininde** çalışır; Windows yolu içeren hazırlıklar taşınabilir değildir. API laboratuvarında sunucu da istemci de bu işin içinde başlatılmalıdır; Windows/WSL `127.0.0.1` eşdeğerliği varsayılmaz. Her işin sonunda geçici dosyalar silinir. Venv görevi temiz venv'i açıkça oluşturmalı; varsayılan Linux yorumlayıcısı sistem paketlerini görür, temiz venv sistem paketlerini kendiliğinden devralmaz. Ortama `PIP_NO_INDEX=1` verilir; örnek wheel yerelde, `--no-index --no-build-isolation --no-deps` ile üretilip geçici venv'e kurulabilir. Bu ayar ağ yalıtımı değildir.
+
+Linux işinin varsayılan sınırı **Çalıştır/Röntgen/Bytecode için 60 sn, görev testi için toplam 120 sn**; yazar `timeout` ile 0'dan büyük ve **en fazla 300 sn** seçebilir. Süre hazırlığı ve testlerin bütün tekrarlarını kapsar; her `run()` için yeniden başlamaz. WSL başlatması için ayrıca 30 sn, bağlantı kesilmesi sonrası temizliği beklemek için 12 sn pay vardır. Bu makinede iki ölçümde venv yaklaşık 2,5 sn, yerel wheel kurulumu 0,5 sn; wheel üretimi dahil yaklaşık 6,2 sn sürdü. Bunlar başka makineler için garanti değil, varsayılan süreyi seçmek için ölçümlerdir.
+
+Linux gözeticisi zaman aşımı, iptal, normal bitiş ve üst sürecin bağlantıyı kapatmasında kendi alt süreçlerini sonlandırıp toplar; `setsid` ile ayrılan çocuk/torunlar da dahildir. Eşzamanlı işler birbirinin süreçlerini kapatmaz. Python çağırıcısı `WslRunner.execute(job, timeout=..., cancel_event=threading.Event())` ile iptal isteyebilir; mevcut arayüzde ayrı bir iptal düğmesi yoktur. **Bu yaşam döngüsü denetimi bir güvenlik sandbox'ı değildir:** öğrenci programı dağıtımdaki kullanıcının yetkileriyle çalışır. WSL yanıt vermez ve temizlik doğrulanamazsa sonuç bunu açık hata olarak bildirir; bütün dağıtım kapatılmaz.
+
+Gerçek Linux regresyonları (kurulu paketleri kullanır; yalnız geçici venv'e yerel test wheel'i kurulur):
+
+```text
+python tools/test_wsl_runtime.py
+python tools/test_wsl_integration.py
+python tools/validate.py
+```
+
+İlk test UTF-8/LF, stdin/argv, çıkış kodu/stderr, gerçek import yolları, çevrimdışı wheel/venv, zaman aşımı, iptal, Windows çağırıcısının kapanması ve Linux çocuk/torun temizliğini; ikincisi geçici derslerle API/tahmin/sınav/validate yönlendirmesini sınar. Koşucu tasarımının dayanakları: [WSL komutları](https://learn.microsoft.com/en-us/windows/wsl/basic-commands), [Python subprocess](https://docs.python.org/3.14/library/subprocess.html), [Linux subreaper](https://man7.org/linux/man-pages/man2/PR_SET_CHILD_SUBREAPER.2const.html).
+
 ### Ağ filtreleri tezgahı
 
 Wireshark / tcpdump yolunda öğrenci gerçek filtre yazar. Wireshark görüntü filtreleri `tshark -n -r - -Y FILTRE` ile, BPF ise libpcap'in `pcap_compile` ve `pcap_offline_filter` işlevleriyle çalışır. Canlı arayüz açılmaz. TShark'ın `-f` seçeneği kayıtlı dosyada BPF uygulamaz; iki dil birbirine çevrilmez.

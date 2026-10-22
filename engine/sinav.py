@@ -12,7 +12,7 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from engine.runners import argv_coz
+from engine.runners import argv_coz, for_step
 
 SURE = {"tahmin": 120, "gorev": 360}     # soru başına saniye
 VARSAYILAN_GECME = 70
@@ -35,6 +35,7 @@ def tahmin_calistir(runner, step):
         # Çalıştırılamayan dil (C, PHP): gerçek çıktıyı ders yazarı vermiştir
         res = {"status": "ok", "segs": [["out", step["gercek"]]], "error": None}
     else:
+        runner = for_step(runner, step)
         res = runner.run(step["code"], step.get("stdin", ""), step.get("setup"), argv=argv_coz(step.get("meta")))
     return res, "".join(t for k, t in res.get("segs", []) if k == "out")
 
@@ -209,7 +210,7 @@ def puanla(lib, runner_for, sinav, simdi=None):
         elif not cevap.strip() or cevap == st.get("starter", ""):
             satir.update(dogru=False, durum="bos", kontroller=[])
         else:
-            res = runner.test(cevap, st)
+            res = for_step(runner, st).test(cevap, st)
             satir["dogru"] = res.get("status") == "pass"
             satir["durum"] = res.get("status")
             satir["kontroller"] = [{"ok": bool(c.get("ok")), "msg": str(c.get("msg", ""))[:400]}

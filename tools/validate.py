@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from engine.lessons import Library  # noqa: E402
-from engine.runners import argv_coz, get  # noqa: E402
+from engine.runners import argv_coz, for_step, get  # noqa: E402
 
 FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat", "packets": "wireshark|bpf|packets", "ad": "ad|ldap", "elastic": "kibana|lucene|eql"}
 
@@ -141,6 +141,10 @@ def run_job(job):
     runner = get(RUNNER_ADI[tid])
     if st is None:
         return (False, kind, where, "")
+    try:
+        runner = for_step(runner, st)
+    except ValueError as e:
+        return (False, "KOŞUCU AYARI", where, str(e))
     if kind == "solution":
         r = runner.test(code, st)
         if r.get("status") != "pass":

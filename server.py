@@ -346,9 +346,13 @@ def make_handler(app):
             setup = argv = None
             if b.get("lesson") is not None:
                 _, step = app.step(b["track"], b["lesson"], int(b["step"]))
-                if step:
-                    setup = step.get("setup")
-                    argv = runners.argv_coz(step.get("meta"))   # görev argüman bekliyorsa Çalıştır da onlarla koşsun
+                if step is None:
+                    return self._send(404, {"error": "adım yok"})
+                setup = step.get("setup")
+                argv = runners.argv_coz(step.get("meta"))   # görev argüman bekliyorsa Çalıştır da onlarla koşsun
+                runner = runners.for_step(runner, step)
+            elif "backend" in b:
+                runner = runners.for_step(runner, {"meta": {"backend": b["backend"]}})
             if mode == "trace":
                 res = runner.trace(code, stdin, setup, argv)
             elif mode == "dis":
@@ -366,7 +370,7 @@ def make_handler(app):
             les, step = app.step(tid, lid, idx)
             if step is None or step["kind"] != "gorev":
                 return self._send(404, {"error": "görev yok"})
-            res = app.runner_for(tid).test(b["code"], step)
+            res = runners.for_step(app.runner_for(tid), step).test(b["code"], step)
             key = f"{lid}:{idx}"
             passed = res.get("status") == "pass"
             if b.get("review"):

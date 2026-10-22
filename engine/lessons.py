@@ -9,6 +9,8 @@ dosyalarıdır. Ders biçimi:
     title: Merhaba Python
     summary: tek satırlık özet
     kazanim: PCEP 1.5, PCAP 5.4        (isteğe bağlı: tracks/<id>/kazanim.json'daki maddeler)
+    backend: wsl                     (isteğe bağlı: Python/Bash için gerçek Linux)
+    timeout: 120                     (isteğe bağlı: saniye; adım meta'sı öncelikli)
     ---
     ::: anlat Adımın başlığı
     markdown...
@@ -133,6 +135,11 @@ def parse_lesson(text):
             j += 1
         steps.append(_parse_step(kind, title, buf))
         i = j + 1
+    # A lesson can opt in without changing its whole language track. Explicit
+    # step metadata wins, including backend: native for a comparison example.
+    defaults = _parse_meta([f"{key}: {meta[key]}" for key in ("backend", "timeout") if key in meta])
+    for step in steps:
+        step["meta"] = dict(defaults, **step["meta"])
     return {
         "id": meta.get("id", ""),
         "title": meta.get("title", "Adsız ders"),

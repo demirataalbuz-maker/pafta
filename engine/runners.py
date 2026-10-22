@@ -14,6 +14,7 @@ fark, düzeneğe hangi modla ve hangi ek bilgilerle gidildiğidir:
 Yeni dil = yeni bir Runner nesnesi + RUNNERS'a kayıt.
 """
 import json
+import copy
 import glob
 import os
 import shlex
@@ -135,6 +136,83 @@ class PythonRunner(HarnessRunner):
     name = "python"
     ozellik = {"roentgen": True, "dis": "Bytecode"}
     modlar = {"run": "run", "test": "test", "trace": "trace", "dis": "dis"}
+
+
+class WslRunner(HarnessRunner):
+    """Opt-in Linux Python/Bash, with the guardian owning timeout and cleanup."""
+    default_timeout = 60
+    test_timeout = 120
+
+    def __init__(self, language):
+        if language not in ("python", "bash"):
+            raise ValueError("WSL backend yalnız Python ve Bash için tanımlı.")
+        self.language = language
+        self.name = language + "-wsl"
+        if language == "python":
+            self.modlar = dict(PythonRunner.modlar)
+            self.ozellik = dict(PythonRunner.ozellik)
+            self.ek = {}
+        else:
+            self.modlar = {"run": "proc_run", "test": "proc_test", "trace": "proc_trace"}
+            self.ozellik = {"roentgen": True, "dis": None}
+            self.ek = {"proc": {
+                "cmd": ["/bin/bash", "--noprofile", "--norc"],
+                "iz_cmd": ["/bin/bash", "--noprofile", "--norc", "-x"],
+                "dosya": "betik.sh", "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"},
+                "satir_deseni": r"betik\.sh: (?:line|satır) (\d+)",
+                "iz_deseni": r"^(?P<derinlik>\++) (?P<satir>\d+): (?P<komut>.*)$",
+            }}
+
+    def available(self):
+        from sandbox.wsl_process import available
+        return available()
+
+    def execute(self, job, timeout=None, cancel_event=None):
+        from sandbox.wsl_process import execute, seconds
+        timeout = seconds(timeout, self.default_timeout)
+        job = dict(self.ek, **job)
+        if "proc" in job:
+            # The outside Linux guardian must expire first, including during
+            # setup/tests and repeated calis()/run() invocations.
+            job["proc"] = dict(job["proc"], sure=timeout + 2)
+        return execute(job, timeout, cancel_event)
+
+    def dis(self, code, setup=None):
+        if "dis" not in self.modlar:
+            return None
+        return self.execute({"mode": "dis", "code": code, "setup": setup})
+
+    def trace(self, code, stdin="", setup=None, argv=None):
+        return self.execute({"mode": self.modlar["trace"], "code": code,
+                             "stdin": stdin, "setup": setup, "argv": argv})
+
+    def test(self, code, step):
+        meta = step.get("meta", {})
+        return self.execute({"mode": self.modlar["test"], "code": code,
+                             "stdin": step.get("stdin", ""), "setup": step.get("setup"),
+                             "argv": argv_coz(meta),
+                             "test": step.get("test", "ok(False, 'Bu görevin testi yazılmamış')")},
+                            meta.get("timeout", self.test_timeout))
+
+
+def for_step(runner, step):
+    """Resolve authoritative lesson/step metadata identically in every caller."""
+    meta = (step or {}).get("meta", {})
+    backend = meta.get("backend")
+    if backend not in (None, "native", "wsl"):
+        raise ValueError(f"Bilinmeyen backend: {backend!r}; native veya wsl kullanın.")
+    if backend == "wsl":
+        name = getattr(runner, "language", getattr(runner, "name", None))
+        runner = WslRunner(name)
+    elif backend == "native" and isinstance(runner, WslRunner):
+        runner = RUNNERS[runner.language]
+    if "timeout" in meta:
+        from sandbox.wsl_process import seconds
+        timeout = seconds(meta["timeout"])
+        runner = copy.copy(runner)
+        runner.default_timeout = timeout
+        runner.test_timeout = timeout
+    return runner
 
 
 class RegexRunner(HarnessRunner):
@@ -272,6 +350,8 @@ PS_SARMAL = (
 
 RUNNERS = {
     "python": PythonRunner(),
+    "python-wsl": WslRunner("python"),
+    "bash-wsl": WslRunner("bash"),
     "http": HttpRunner(),
     "regex": RegexRunner(),
     "sql": SqlRunner(),
