@@ -2,6 +2,7 @@
 id: sq13
 title: Tablo Kurmak ve Veriyi Değiştirmek
 summary: CREATE TABLE ve kısıtlar, INSERT/UPDATE/DELETE, işlemler (BEGIN/COMMIT/ROLLBACK), indeksler ve sorgu planı, uygulamadan güvenli sorgu.
+kazanim: 1Z0071 2.1, 1Z0071 2.2, 1Z0071 2.3, 1Z0071 8.1, 1Z0071 8.2, 1Z0071 8.3, 1Z0071 8.4, 1Z0071 10.1, 1Z0071 10.2, 1Z0071 11.1, 1Z0071 11.2, 1Z0071 17.1, 1Z0071 17.2, 1Z0071 17.3, 1Z0071 17.4
 ---
 
 ::: anlat Tablo kurmak

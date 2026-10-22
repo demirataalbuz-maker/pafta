@@ -2,6 +2,7 @@
 id: bs22
 title: getopts ile Komut Satırı Aracı
 summary: Seçenekleri getopts ile ayrıştırmak, OPTARG ve OPTIND, kalan argümanlar, sessiz hata kipi, kullanım mesajı ve doğru çıkış kodları.
+kazanim: LPIC1 105.2
 ---
 
 ::: anlat Gerçek bir araç gibi davranmak

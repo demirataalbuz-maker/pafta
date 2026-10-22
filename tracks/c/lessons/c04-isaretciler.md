@@ -2,6 +2,7 @@
 id: c04
 title: İşaretçiler ve Bellek
 summary: Adres (&) ve içerik (*), işaretçi aritmetiği, dizi ile işaretçi ilişkisi, işaretçiyle değiştirme, malloc/free ve sınırlı kopyalama.
+kazanim: CLA 2.3, CLA 2.4, CLA 2.5, CLA 2.6, CLA 3.6
 ---
 
 ::: anlat Adres ve içerik

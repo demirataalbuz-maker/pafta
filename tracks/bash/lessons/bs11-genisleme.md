@@ -2,6 +2,7 @@
 id: bs11
 title: Genişleme Sırası ve Tırnaklama
 summary: Kabuğun bir satırı çalıştırmadan önce yaptığı yedi genişleme adımı, kelime bölme ve IFS, "$@" ile "$*" farkı, printf ve glob.
+kazanim: LPIC1 103.1, LPIC1 103.3
 ---
 
 ::: anlat Kabuk satırı önce dönüştürür, sonra çalıştırır

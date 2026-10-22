@@ -2,6 +2,7 @@
 id: p62
 title: Her Şey Nesnedir
 summary: type ve object ilişkisi, sınıflar da nesne, type() ile çalışma anında sınıf üretmek, iç gözlem.
+kazanim: PCAP 4.4, PCPP1 1.1, PCPP1 1.12
 ---
 
 ::: anlat Python'da her şey bir nesnedir

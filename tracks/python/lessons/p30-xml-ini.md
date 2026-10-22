@@ -2,6 +2,7 @@
 id: p30
 title: XML ve INI Dosyaları
 summary: xml.etree.ElementTree ile XML okumak (parse, fromstring, find, findall, iter, öznitelikler ve metin, XPath alt kümesi) ve üretmek (Element, SubElement, tostring, indent), güvenilmeyen XML için uyarı; configparser ile .ini dosyaları, DEFAULT bölümü, getint/getboolean/fallback, değer ara değerlendirmesi ve yazmak.
+kazanim: PCPP1 4.3, PCPP1 5.2
 ---
 
 ::: anlat XML: etiketlerden ağaç

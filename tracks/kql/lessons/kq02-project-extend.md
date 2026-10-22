@@ -2,6 +2,7 @@
 id: kq02
 title: project, extend ve Hesaplanan Sütunlar
 summary: Sütun seçmek, atmak ve yeniden adlandırmak; extend ile yeni sütun; iff, case, strcat ve print.
+kazanim: SC200 1.5, SC200 1.7
 ---
 
 ::: anlat Sütunlarla çalışmak

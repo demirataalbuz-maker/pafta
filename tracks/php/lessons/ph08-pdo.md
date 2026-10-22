@@ -2,6 +2,7 @@
 id: ph08
 title: Veritabanı ve PDO
 summary: PDO ile bağlantı ve hata kipi, prepare/execute ile parametreli sorgular, soru işareti ve adlı yer tutucular, IN listesi için yer tutucu üretmek, fetch kipleri, işlemler (beginTransaction, commit, rollBack) ve sorguya metin eklemenin neden yanlış olduğu.
+kazanim: ZCPE 6.2, ZCPE 9.1, ZCPE 9.2
 ---
 
 ::: anlat PDO ile sorgu

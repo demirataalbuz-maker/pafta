@@ -2,6 +2,7 @@
 id: ps19
 title: Keşif ve Sağlayıcılar
 summary: Get-Command ve Get-Member ile kendi kendine keşif; PSProvider ve PSDrive mimarisi (Variable:, Env:, Function:, HKLM:).
+kazanim: AZ040 1.3, AZ040 4.1, AZ040 4.2
 ---
 
 ::: anlat Ezberleme, kabuğa sor

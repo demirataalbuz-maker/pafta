@@ -2,6 +2,7 @@
 id: p11
 title: İç İçe Döngüler ve Döngü-else
 summary: Döngü içinde döngü, break'in kapsamı ve Python'a özgü for/while ... else.
+kazanim: PCEP 2.2
 ---
 
 ::: anlat Döngü içinde döngü

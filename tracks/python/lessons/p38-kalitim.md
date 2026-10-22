@@ -2,6 +2,7 @@
 id: p38
 title: Kalıtım ve MRO
 summary: Alt sınıflar, override, super(), çok biçimlilik, çoklu kalıtım ve C3 metot çözüm sırası.
+kazanim: PCAP 4.5, PCPP1 1.3
 ---
 
 ::: anlat Bir sınıftan türetmek

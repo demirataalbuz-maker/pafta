@@ -2,6 +2,7 @@
 id: p37
 title: Sınıf Nitelikleri ve Özel Metotlar
 summary: Sınıfa ait veri, paylaşılan değiştirilebilir nitelik tuzağı, @classmethod ve @staticmethod.
+kazanim: PCAP 4.2, PCPP1 1.5
 ---
 
 ::: anlat Sınıfın kendi verisi

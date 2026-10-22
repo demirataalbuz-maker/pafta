@@ -2,6 +2,7 @@
 id: kq14
 title: İleri Toplama
 summary: arg_max ve arg_min ile her varlığın en son ya da en uç kaydını bütün sütunlarıyla almak, percentile ve percentiles ile gecikme dağılımı, ortalamanın neden yanılttığı, oranlar, dcount, make_set ve take_any.
+kazanim: SC200 2.2, SC200 2.3
 ---
 
 ::: anlat Her varlığın son durumu: arg_max

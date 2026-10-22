@@ -2,6 +2,7 @@
 id: p42
 title: Soyut Sınıflar, Protokoller, Ördek Tipleme
 summary: Ördek tipleme, abc ile sözleşme, typing.Protocol ve collections.abc hazır arayüzleri.
+kazanim: PCPP1 1.3, PCPP1 1.6
 ---
 
 ::: anlat Ördek gibi yürüyorsa...

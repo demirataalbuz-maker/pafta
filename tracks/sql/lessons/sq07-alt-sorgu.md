@@ -2,6 +2,7 @@
 id: sq07
 title: Alt Sorgular ve CTE
 summary: Sorgunun içinde sorgu; skaler alt sorgu, IN ve EXISTS, FROM'da türetilmiş tablo, WITH ile okunabilir adımlar ve özyinelemeli CTE.
+kazanim: 1Z0071 16.1, 1Z0071 16.2, 1Z0071 16.3, 1Z0071 16.4, 1Z0071 16.6, 1Z0071 16.7, 1Z0071 16.8
 ---
 
 ::: anlat Sorgunun içinde sorgu

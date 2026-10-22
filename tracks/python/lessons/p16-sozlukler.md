@@ -2,6 +2,7 @@
 id: p16
 title: Sözlükler
 summary: Anahtar → değer eşlemesi; get, sayma ve gruplama kalıpları, iç içe yapılar.
+kazanim: PCEP 3.3
 ---
 
 ::: anlat Anahtar → değer

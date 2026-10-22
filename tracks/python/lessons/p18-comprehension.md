@@ -2,6 +2,7 @@
 id: p18
 title: Liste, Sözlük ve Küme Üreteçleri
 summary: comprehension sözdizimi; filtre, dönüşüm, iç içe yapılar, any/all ve okunabilirlik sınırı.
+kazanim: PCEP 3.1, PCAP 5.1
 ---
 
 ::: anlat Döngüyü tek ifadeye sıkıştırmak

@@ -2,6 +2,7 @@
 id: kq12
 title: Metinden Alan Çıkarmak
 summary: parse ile sabit biçimli mesajları sütunlara bölmek, türlü sütunlar ve * joker, parse-where ile uymayanları elemek, kind=regex, extract ile tek alan, extract_all ve split ile diziler, replace_regex ile günlük kalıplarını bulmak.
+kazanim: SC200 4.1
 ---
 
 ::: anlat parse: mesajı sütunlara böl

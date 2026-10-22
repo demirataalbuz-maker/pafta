@@ -2,6 +2,7 @@
 id: p55
 title: Soketler · TCP'nin Temeli
 summary: Yerel bir sunucu ve istemci; bind, listen, accept, connect, sendall, recv ve mesaj çerçeveleme.
+kazanim: PCPP1 4.1, PCPP1 4.2
 ---
 
 ::: anlat İki uç, bir akış

@@ -2,6 +2,7 @@
 id: js06
 title: Sınıflar ve Prototipler
 summary: class, constructor, metot ve get; extends ve super; sınıfların altındaki prototip zinciri, instanceof, kendi özellikleri ile kalıtılanlar (Object.keys, for...in, Object.hasOwn) ve sözlük olarak Object.create(null) ya da Map.
+kazanim: JSA 1.3.1, JSA 1.4.1, JSA 1.7.1, JSA 1.8.1, JSA 1.10.1, JSA 1.11.1, JSA 2.1.1, JSA 2.2.1, JSA 2.3.1, JSA 2.4.1, JSA 2.5.1, JSA 2.6.1, JSA 2.7.1, JSA 3.7.1, JSA 3.8.1
 ---
 
 ::: anlat Sınıflar

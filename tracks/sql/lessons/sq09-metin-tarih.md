@@ -2,6 +2,7 @@
 id: sq09
 title: Metin ve Tarih Fonksiyonları
 summary: substr, instr, replace, trim ve printf; LIKE ile GLOB farkı; date, datetime, strftime ve değiştiriciler; julianday ve unixepoch ile süre hesabı; CAST.
+kazanim: 1Z0071 5.1, 1Z0071 14.1, 1Z0071 14.2, 1Z0071 14.3
 ---
 
 ::: anlat Metinle çalışmak

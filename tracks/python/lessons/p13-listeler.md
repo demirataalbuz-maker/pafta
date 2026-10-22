@@ -2,6 +2,7 @@
 id: p13
 title: Listeler
 summary: Sıralı, değiştirilebilir koleksiyon; ekleme, çıkarma, sıralama ve sort/sorted farkı.
+kazanim: PCEP 3.1
 ---
 
 ::: anlat Değiştirilebilir sıralı koleksiyon

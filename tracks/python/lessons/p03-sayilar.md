@@ -2,6 +2,7 @@
 id: p03
 title: Sayılar
 summary: int, float, yedi aritmetik işleç, kayan nokta tuzağı ve onaltılık sayılar.
+kazanim: PCEP 1.3, PCEP 1.4
 ---
 
 ::: anlat İki sayı türü, yedi işleç

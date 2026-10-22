@@ -2,6 +2,7 @@
 id: p01
 title: Merhaba Python
 summary: Program yukarıdan aşağı okunan bir tariftir; print, yorumlar ve hata okumak.
+kazanim: PCEP 1.1, PCEP 1.2, PCEP 1.5
 ---
 
 ::: anlat Program bir tariftir

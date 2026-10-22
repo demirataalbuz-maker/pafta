@@ -2,6 +2,7 @@
 id: c06
 title: Tam Sayılar ve Taşma
 summary: stdint.h türleri ve aralıkları, işaretsiz sayılarda sarma (mod 2ⁿ), işaretli taşmanın tanımsız olması, küçük türe atamada kesilme, char'ın işaret uzatması, işaretli ile işaretsiz karşılaştırma tuzağı ve size_t ile uzunluk denetimlerindeki alttan taşma.
+kazanim: CLA 2.2
 ---
 
 ::: anlat Kaç bit, hangi aralık?

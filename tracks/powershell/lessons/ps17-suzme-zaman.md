@@ -2,6 +2,7 @@
 id: ps17
 title: Süzmek, Zaman Aralıkları ve Mesajlar
 summary: FilterHashtable ile kaynağında süzmek, yarı açık zaman aralıkları, olay mesajından -match ile bilgi çıkarmak ve parametreli günlük araçları.
+kazanim: AZ040 2.3, AZ040 3.3
 ---
 
 ::: anlat Kaynağında süzmek

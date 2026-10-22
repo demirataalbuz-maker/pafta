@@ -2,6 +2,7 @@
 id: p08
 title: Koşullar · if / elif / else
 summary: Program yol ayrımına gelir; girinti blokları, elif zinciri ve koşullu ifade.
+kazanim: PCEP 1.2, PCEP 2.1
 ---
 
 ::: anlat Yol ayrımı ve girinti

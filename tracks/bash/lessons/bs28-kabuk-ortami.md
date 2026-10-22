@@ -2,6 +2,7 @@
 id: bs28
 title: Kabuk Ortamı · Başlangıç Dosyaları, alias, sha256sum ve nice
 summary: Login, etkileşimli ve etkileşimsiz kabukların okuduğu dosyalar (.bash_profile, .bashrc), source ile çocuk kabuk farkı, alias ve betiklerde expand_aliases, type, sha256sum ile özet çıkarmak ve -c ile doğrulamak, nice ve renice ile süreç önceliği.
+kazanim: LPIC1 103.1, LPIC1 103.2, LPIC1 103.6, LPIC1 104.7, LPIC1 105.1
 ---
 
 ::: anlat Başlangıç dosyaları

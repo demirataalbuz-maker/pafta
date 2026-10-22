@@ -2,6 +2,7 @@
 id: ph09
 title: Oturumlar, Çerezler ve Parolalar
 summary: session_start ve $_SESSION, girişten sonra session_regenerate_id, çerez seçenekleri (Secure, HttpOnly, SameSite, Max-Age), password_hash ile password_verify, sayısal görünen özetlerde == tuzağı, hash_equals ve form belirteci (CSRF) denetimi.
+kazanim: ZCPE 4.2, ZCPE 6.3, ZCPE 6.4
 ---
 
 ::: anlat Oturum: sunucunun hafızası

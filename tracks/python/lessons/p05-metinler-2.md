@@ -2,6 +2,7 @@
 id: p05
 title: Metinler II · Metotlar ve f-string
 summary: strip, split, join, replace ve biçimlendirmenin kralı f-string.
+kazanim: PCEP 3.4, PCAP 3.2, PCAP 3.3
 ---
 
 ::: anlat Metinlerin metotları

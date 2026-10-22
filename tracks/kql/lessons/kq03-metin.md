@@ -2,6 +2,7 @@
 id: kq03
 title: Metin İşleçleri
 summary: contains ile has farkı, startswith/endswith, == ile =~, olumsuz işleçler, matches regex ve extract ile metinden parça çıkarmak.
+kazanim: SC200 1.3, SC200 4.1
 ---
 
 ::: anlat contains mi has mi?

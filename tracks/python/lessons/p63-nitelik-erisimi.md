@@ -2,6 +2,7 @@
 id: p63
 title: Nitelik Erişimi ve __slots__
 summary: nesne.x arkasındaki arama sırası, __getattr__, __getattribute__, __setattr__ ve __slots__ ile bellek.
+kazanim: PCPP1 1.2
 ---
 
 ::: anlat nesne.x yazınca gerçekte ne olur?

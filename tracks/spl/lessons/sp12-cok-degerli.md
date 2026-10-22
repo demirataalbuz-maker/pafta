@@ -2,6 +2,7 @@
 id: sp12
 title: Çok Değerli Alanlar
 summary: Bir alanda birden çok değer; values ve list farkı, split ve makemv ile metinden çok değerli alan, mvcount, mvindex, mvjoin, mvdedup, mvexpand ile değerleri olaylara açmak ve aramada "herhangi bir değer eşleşirse" kuralı.
+kazanim: PU 4.2, APU 1.4, APU 6.1, APU 13.1, APU 13.2, APU 13.3, APU 13.4
 ---
 
 ::: anlat Bir alan, birden çok değer

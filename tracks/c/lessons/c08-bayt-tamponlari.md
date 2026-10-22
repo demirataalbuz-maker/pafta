@@ -2,6 +2,7 @@
 id: c08
 title: Bayt Tamponları
 summary: unsigned char tamponları, memcpy, memset ve memcmp, ofsetten little ve big endian alan okumak, sınır denetimli okuyucu fonksiyonlar, toplam ve XOR sağlama toplamları, imza (magic) baytları ve onaltılık döküm satırı.
+kazanim: CLA 2.4
 ---
 
 ::: anlat Bir tampon, bir bayt dizisi

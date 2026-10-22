@@ -1,0 +1,38 @@
+{
+ "sertifikalar": [
+  {
+   "id": "SC200",
+   "ad": "SC-200 · KQL öğrenme yolu",
+   "tam_ad": "Create queries for Microsoft Sentinel using Kusto Query Language (KQL)",
+   "kurum": "Microsoft Learn",
+   "kaynak": "https://learn.microsoft.com/en-us/training/paths/sc-200-utilize-kql-for-azure-sentinel/",
+   "bolumler": [
+    {"kod": "1", "baslik": "Microsoft Sentinel için KQL ifadeleri kurmak", "maddeler": [
+     {"kod": "1.1", "baslik": "KQL ifadesinin yapısı: tablo ve boru"},
+     {"kod": "1.2", "baslik": "search işleci", "not": "Henüz bir paftada işlenmedi; tezgahın çeviricisinde search yok."},
+     {"kod": "1.3", "baslik": "where işleci: zamana, önem derecesine, alan adına göre süzmek"},
+     {"kod": "1.4", "baslik": "let ifadesi"},
+     {"kod": "1.5", "baslik": "extend işleci"},
+     {"kod": "1.6", "baslik": "order by işleci"},
+     {"kod": "1.7", "baslik": "project işleçleri: project, project-away, project-rename, project-keep"}
+    ]},
+    {"kod": "2", "baslik": "Sorgu sonuçlarını KQL ile çözümlemek", "maddeler": [
+     {"kod": "2.1", "baslik": "summarize işleci"},
+     {"kod": "2.2", "baslik": "summarize ile süzmek: arg_max ve arg_min"},
+     {"kod": "2.3", "baslik": "summarize ile veriyi hazırlamak: make_list ve make_set"},
+     {"kod": "2.4", "baslik": "render ile görselleştirmek"}
+    ]},
+    {"kod": "3", "baslik": "Çok tablolu ifadeler", "maddeler": [
+     {"kod": "3.1", "baslik": "union işleci"},
+     {"kod": "3.2", "baslik": "join işleci"}
+    ]},
+    {"kod": "4", "baslik": "Sentinel'de veriyle çalışmak", "maddeler": [
+     {"kod": "4.1", "baslik": "Yapısız metin alanlarından veri çıkarmak: extract, parse"},
+     {"kod": "4.2", "baslik": "Yapılı metin verisinden veri çıkarmak: dynamic, parse_json, mv-expand"},
+     {"kod": "4.3", "baslik": "Dış veriyi katmak", "not": "externaldata tezgahta yok; aynı işi datatable ve lookup görüyor."},
+     {"kod": "4.4", "baslik": "Fonksiyonlarla ayrıştırıcı kurmak", "not": "Kaydedilmiş fonksiyon ve let ile fonksiyon tanımı henüz işlenmedi."}
+    ]}
+   ]
+  }
+ ]
+}

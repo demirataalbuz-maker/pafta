@@ -2,6 +2,7 @@
 id: ph01
 title: Bir PHP Sayfasını Okumak
 summary: <?php etiketi, echo, $ ile değişkenler, çift ve tek tırnak farkı, . ile birleştirme ve PHP 8'de değişen işleç önceliği.
+kazanim: ZCPE 1.1
 ---
 
 ::: anlat PHP bir HTML üreticisidir

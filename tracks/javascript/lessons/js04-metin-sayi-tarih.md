@@ -2,6 +2,7 @@
 id: js04
 title: Metin, Sayı ve Tarih Tuzakları
 summary: parseInt ile Number farkı, NaN, kayan nokta, varsayılan sort'un metin sıralaması, JavaScript regex'leri (bayraklar, adlı gruplar, matchAll, replace), split ve replace incelikleri, Date'in sıfırdan başlayan ayları ve saat dilimi.
+kazanim: JSA 3.1.1, JSA 3.2.1, JSA 3.3.1, JSA 3.11.1
 ---
 
 ::: anlat Sayılar

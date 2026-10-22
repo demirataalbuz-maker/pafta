@@ -2,6 +2,7 @@
 id: sp11
 title: lookup, inputlookup ve makeresults
 summary: Başvuru tablolarıyla olayları zenginleştirmek; inputlookup ile tabloyu görmek, lookup ... OUTPUT ve OUTPUTNEW, AS ile farklı alan adlarını eşlemek, eşleşmeyen olaylar ve makeresults ile bir ifadeyi veriden bağımsız sınamak.
+kazanim: APU 2.6, APU 3.1, APU 3.2, APU 3.6
 ---
 
 ::: anlat Başvuru tabloları

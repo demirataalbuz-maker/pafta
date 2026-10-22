@@ -2,6 +2,7 @@
 id: p07
 title: Doğru, Yanlış ve Mantık
 summary: bool, karşılaştırma, and/or/not, doğruluk değeri ve kısa devre.
+kazanim: PCEP 1.4
 ---
 
 ::: anlat bool: iki değerli dünya

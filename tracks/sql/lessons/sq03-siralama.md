@@ -2,6 +2,7 @@
 id: sq03
 title: Sıralamak, Sınırlamak, Dönüştürmek
 summary: ORDER BY ve LIMIT/OFFSET, metin ve tarih fonksiyonları, CASE ile koşullu değer.
+kazanim: 1Z0071 5.2, 1Z0071 13.1, 1Z0071 13.2, 1Z0071 13.3, 1Z0071 14.1
 ---
 
 ::: anlat ORDER BY ve LIMIT

@@ -2,6 +2,7 @@
 id: bs05
 title: Döngüler
 summary: for ile liste ve aralık, C tarzı for, while read ile satır satır okuma, break ve continue.
+kazanim: LPIC1 105.2
 ---
 
 ::: anlat for: listenin her elemanı için

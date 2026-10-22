@@ -2,6 +2,7 @@
 id: ph11
 title: Proje · Bir API Uç Noktasını Okumak
 summary: Bilet oluşturan bir PHP uç noktasını satır satır okuyup aynı davranışı Python'da kurmak; ham gövdeyi JSON olarak ayrıştırmak, tür ve uzunluk doğrulaması, izin listesiyle sıkı karşılaştırma, parametreli INSERT ve durum koduyla JSON yanıt.
+kazanim: ZCPE 4.3, ZCPE 6.5
 ---
 
 ::: anlat Proje tanımı

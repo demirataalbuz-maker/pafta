@@ -2,6 +2,7 @@
 id: c01
 title: Bir C Programını Okumak
 summary: main ve #include, türler, printf biçim belirteçleri, tam sayı bölmesinin sıfıra doğru kesmesi ve karakterlerin aslında sayı olması.
+kazanim: CLA 1.1, CLA 1.4, CLA 2.1, CLA 4.4
 ---
 
 ::: anlat C programının iskeleti

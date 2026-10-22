@@ -2,6 +2,7 @@
 id: p35
 title: Zaman, Matematik, İstatistik
 summary: datetime ve timedelta, math, kuruş hassasiyeti için decimal ve statistics ile aykırı değer.
+kazanim: PCAP 1.2
 ---
 
 ::: anlat Zaman damgaları

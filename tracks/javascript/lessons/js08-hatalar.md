@@ -2,6 +2,7 @@
 id: js08
 title: Hatalar ve Hata Yönetimi
 summary: throw, try/catch/finally, Error türleri ve kendi hata sınıfları, asenkron kodda hatalar (await ile try/catch, .catch), işlenmeyen reddedilmeler, Promise.allSettled ve hata yutan kodu okumak.
+kazanim: JSA 3.12.1, JSA 4.8.1, JSA 4.9.1
 ---
 
 ::: anlat throw, try, catch, finally

@@ -2,6 +2,7 @@
 id: c11
 title: Dosya Okuma ve Yazma
 summary: FILE * akışları, fopen kipleri ve NULL denetimi, fread ile parça parça okuma döngüsü, fgets'in satır sonunu tutması ve tampon boyutu, fgetc ile EOF'un int olması, dönüş değerlerini denetlemek ve fclose.
+kazanim: CLA 4.3
 ---
 
 ::: anlat Akışlar

@@ -2,6 +2,7 @@
 id: sq12
 title: Pencere Çerçeveleri ve Dağılım Fonksiyonları
 summary: ROWS ve RANGE çerçeveleri, ORDER BY'lı pencerenin gizli varsayılan çerçevesi, kayan ortalama, FIRST_VALUE ve LAST_VALUE tuzağı, NTILE, PERCENT_RANK, CUME_DIST ve adlandırılmış WINDOW.
+kazanim: 1Z0071 14.3
 ---
 
 ::: anlat Pencerenin çerçevesi

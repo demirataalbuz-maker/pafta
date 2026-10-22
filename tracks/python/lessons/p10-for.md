@@ -2,6 +2,7 @@
 id: p10
 title: for ve range
 summary: Bir dizinin her elemanı için; range, enumerate ve biriktirici kalıbı.
+kazanim: PCEP 2.2
 ---
 
 ::: anlat Her eleman için

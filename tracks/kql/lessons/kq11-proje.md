@@ -2,6 +2,7 @@
 id: kq11
 title: Proje · Haftalık Operasyon Özeti
 summary: SQL yolundaki haftalık raporu KQL ile yeniden kurmak; countif ile koşullu sayım, zincirleme join ve sıralı ilk N.
+kazanim: SC200 3.2
 ---
 
 ::: anlat Proje tanımı

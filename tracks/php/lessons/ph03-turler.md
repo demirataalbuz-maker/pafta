@@ -2,6 +2,7 @@
 id: ph03
 title: Gevşek Türler ve Karşılaştırma
 summary: == ile ===, sayısal metinler, PHP 8'de değişen metin-sayı karşılaştırması, (int) ve intval, ctype_digit ile giriş doğrulama.
+kazanim: ZCPE 1.1, ZCPE 3.1, ZCPE 6.5
 ---
 
 ::: anlat Gevşek karşılaştırma

@@ -2,6 +2,7 @@
 id: ps08
 title: Dosyalar, CSV ve JSON
 summary: Get-Content ve Set-Content, kodlama tuzakları, Import-Csv ve Export-Csv, ConvertFrom-Json ve ConvertTo-Json.
+kazanim: AZ040 3.5, AZ040 4.2
 ---
 
 ::: anlat Dosya okumak ve yazmak

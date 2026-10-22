@@ -2,6 +2,7 @@
 id: ps06
 title: Fonksiyonlar
 summary: Fiil-İsim fonksiyonlar, her çıktının dönüş değeri olması, doğrulama öznitelikleri ve boru hattından girdi.
+kazanim: AZ040 7.5
 ---
 
 ::: anlat Fonksiyon tanımlamak

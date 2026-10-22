@@ -2,6 +2,7 @@
 id: kq05
 title: sort, top ve take
 summary: KQL'de varsayılan sıralama yönünün azalan olması, birden çok anahtarla sıralama, top ile ilk N ve take'in neden rastgele olduğu.
+kazanim: SC200 1.6
 ---
 
 ::: anlat Sıralamak

@@ -2,6 +2,7 @@
 id: bs02
 title: Girdi ve Argümanlar
 summary: read ile satır okumak, $1 $2 $# $@ ile argümanlar, varsayılan değerler ve shift.
+kazanim: LPIC1 105.2
 ---
 
 ::: anlat read: satır oku

@@ -2,6 +2,7 @@
 id: sq05
 title: JOIN ile Birleştirmek
 summary: Tabloları ilişkiden birleştirmek; INNER ve LEFT JOIN, takma adlar, tablonun kendisiyle birleşmesi ve LEFT JOIN'in WHERE tuzağı.
+kazanim: 1Z0071 4.1, 1Z0071 4.2, 1Z0071 4.3, 1Z0071 6.1, 1Z0071 6.2, 1Z0071 6.3, 1Z0071 12.1
 ---
 
 ::: anlat İlişkiler ve JOIN

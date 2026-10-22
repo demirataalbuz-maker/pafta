@@ -2,6 +2,7 @@
 id: sq08
 title: NULL ve Üç Değerli Mantık
 summary: NULL'un "bilinmiyor" demek olması, karşılaştırmalarda üçüncü değer, IS ve COALESCE, toplamalarda NULL ve NOT IN tuzağı.
+kazanim: 1Z0071 5.2, 1Z0071 16.6
 ---
 
 ::: anlat NULL bir değer değildir

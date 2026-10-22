@@ -2,6 +2,7 @@
 id: kq13
 title: Dinamik Veri ve mv-expand
 summary: JSON taşıyan dynamic sütunlar; parse_json, .alan ve ["alan"] erişimi, dizi indeksi, tostring ile gruplamaya hazırlamak, array_length, set_has_element, bag_keys, mv-expand ile diziyi satırlara açmak ve make_set ile geri toplamak.
+kazanim: SC200 2.3, SC200 4.2
 ---
 
 ::: anlat JSON taşıyan sütunlar

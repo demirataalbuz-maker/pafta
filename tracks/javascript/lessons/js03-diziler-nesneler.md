@@ -2,6 +2,7 @@
 id: js03
 title: Diziler, Nesneler ve JSON
 summary: map, filter, reduce, find; nesneler, ayrıştırma (destructuring) ve yayma (spread); JSON.parse ve JSON.stringify; ?. ve ?? işleçleri; Map ve Set.
+kazanim: JSA 1.1.1, JSA 1.2.1, JSA 1.3.1, JSA 1.6.1, JSA 3.4.1, JSA 3.5.1, JSA 3.6.1, JSA 3.7.1, JSA 3.8.1, JSA 3.9.1, JSA 3.10.1
 ---
 
 ::: anlat Dizi metotları

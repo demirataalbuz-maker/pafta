@@ -2,6 +2,7 @@
 id: p53
 title: Serileştirme · pickle ve shelve
 summary: Python nesnelerini olduğu gibi saklamak; pickle.dumps/loads ve dosyaya dump/load, paylaşılan başvuruların korunması, protokoller, nelerin serileştirilemediği, __getstate__/__setstate__, shelve ile kalıcı sözlük ve writeback tuzağı, güvenilmeyen veriyi açmamak, HMAC imzası ve find_class ile kısıtlı okuyucu.
+kazanim: PCPP1 1.11
 ---
 
 ::: anlat pickle: nesneyi olduğu gibi saklamak

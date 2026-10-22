@@ -2,6 +2,7 @@
 id: kq06
 title: join ile Birleştirmek
 summary: join türleri; KQL'in şaşırtıcı varsayılanı innerunique, inner, leftouter, leftanti; anahtarları project ile hazırlamak ve $left/$right.
+kazanim: SC200 3.2
 ---
 
 ::: anlat İki tabloyu birleştirmek

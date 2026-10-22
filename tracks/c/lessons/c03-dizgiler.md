@@ -2,6 +2,7 @@
 id: c03
 title: Diziler ve Dizgiler
 summary: Sabit boyutlu diziler, sizeof, '\0' ile biten karakter dizileri, strlen ile sizeof farkı, karakterler üzerinde döngü ve sınır hataları.
+kazanim: CLA 1.2
 ---
 
 ::: anlat Diziler

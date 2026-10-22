@@ -2,6 +2,7 @@
 id: p06
 title: Girdi ve Tür Dönüşümü
 summary: input() her zaman metin döndürür; int, float, str ile türler arası geçiş.
+kazanim: PCEP 1.4, PCEP 1.5
 ---
 
 ::: anlat input(): kullanıcıdan bir satır

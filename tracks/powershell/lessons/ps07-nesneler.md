@@ -2,6 +2,7 @@
 id: ps07
 title: Nesnelerle Çalışmak
 summary: [pscustomobject], Select-Object ve hesaplanan özellikler, Sort-Object, Group-Object, Measure-Object, Get-Member.
+kazanim: AZ040 1.3, AZ040 3.1, AZ040 3.2, AZ040 3.5
 ---
 
 ::: anlat Kendi nesnelerin

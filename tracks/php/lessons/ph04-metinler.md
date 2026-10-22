@@ -2,6 +2,7 @@
 id: ph04
 title: Metinler ve Baytlar
 summary: PHP metinlerinin bayt dizisi olması; strlen ile mb_strlen, strtoupper ile mb_strtoupper, strpos'un 0 döndürmesi tuzağı ve str_contains, substr, explode/implode, sprintf/printf biçimleri, heredoc ve "{$x}" ara değer yerleştirme.
+kazanim: ZCPE 8.1, ZCPE 8.2, ZCPE 8.3
 ---
 
 ::: anlat Bir metin, bir bayt dizisi

@@ -2,6 +2,7 @@
 id: p39
 title: Dunder Metotlar · Veri Modeli
 summary: __repr__, __eq__, __hash__, __lt__, __len__, __getitem__, __iter__, __add__, __call__.
+kazanim: PCAP 4.5, PCPP1 1.2
 ---
 
 ::: anlat Python'un işleçleri birer metot çağrısıdır

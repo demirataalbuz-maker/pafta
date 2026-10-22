@@ -2,6 +2,7 @@
 id: bs08
 title: Metin Araçları
 summary: grep, cut, sort, uniq, wc, head, tail ve tr; boru hattıyla log analizi.
+kazanim: LPIC1 103.2, LPIC1 103.7
 ---
 
 ::: anlat Küçük araçlar, büyük işler

@@ -2,6 +2,7 @@
 id: sp02
 title: Alanlar, eval ve where
 summary: table, fields, rename; eval ile hesaplanan alanlar, metin birleştirme ve if/case; where ile ifadeyle süzmek ve search'ten farkı.
+kazanim: PU 2.1, PU 2.2, APU 2.3, APU 2.4
 ---
 
 ::: anlat Alanlarla çalışmak

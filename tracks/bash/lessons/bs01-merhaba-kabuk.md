@@ -2,6 +2,7 @@
 id: bs01
 title: Merhaba Kabuk
 summary: echo, değişkenler, tek ve çift tırnak farkı, komut ikamesi ve aritmetik.
+kazanim: LPIC1 103.1
 ---
 
 ::: anlat Kabuk bir programlama dilidir

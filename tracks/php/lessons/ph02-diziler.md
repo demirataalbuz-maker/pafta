@@ -2,6 +2,7 @@
 id: ph02
 title: Diziler ve Döngüler
 summary: Sıralı ve ilişkisel diziler, foreach, sık kullanılan dizi fonksiyonları, explode/implode, isset ile empty farkı ve var_dump.
+kazanim: ZCPE 1.2, ZCPE 10.1, ZCPE 10.2
 ---
 
 ::: anlat PHP'nin tek veri yapısı: dizi

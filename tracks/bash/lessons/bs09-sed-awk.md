@@ -2,6 +2,7 @@
 id: bs09
 title: sed ve awk
 summary: sed ile akış düzenleme ve değiştirme; awk ile alan tabanlı süzme, hesaplama ve raporlama.
+kazanim: LPIC1 103.2
 ---
 
 ::: anlat sed: akış düzenleyici

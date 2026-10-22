@@ -2,6 +2,7 @@
 id: js09
 title: Tarayıcı Kodunu Okumak
 summary: DOM seçicileri, olay işleyicileri, fetch ile istek, textContent ile innerHTML farkı, çıktıyı kaçırmak ve URL parametrelerini okumak.
+kazanim: JSA 4.6.1, JSA 4.10.1
 ---
 
 ::: anlat Bir sayfanın betiğini okumak

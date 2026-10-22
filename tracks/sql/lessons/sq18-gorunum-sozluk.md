@@ -2,6 +2,7 @@
 id: sq18
 title: Görünümler ve Veri Sözlüğü
 summary: CREATE VIEW ile bir sorguya ad vermek, görünümün veriyi değil sorguyu saklaması, DROP VIEW ve IF EXISTS; veritabanının kendi yapısını sorgulamak: sqlite_master, PRAGMA table_info ve pragma_table_info, öteki veritabanlarındaki information_schema.
+kazanim: 1Z0071 8.4, 1Z0071 9.1, 1Z0071 9.2, 1Z0071 11.2, 1Z0071 18.1
 ---
 
 ::: anlat Görünüm: adı olan bir sorgu

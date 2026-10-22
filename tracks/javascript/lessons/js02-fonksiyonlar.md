@@ -2,6 +2,7 @@
 id: js02
 title: Fonksiyonlar ve Kapanışlar
 summary: function bildirimi, ok fonksiyonları, varsayılan parametreler, fonksiyonu değer olarak geçirmek ve kapanışların değişkeni hatırlaması.
+kazanim: JSA 4.1.1, JSA 4.2.1
 ---
 
 ::: anlat Fonksiyonun üç yazımı

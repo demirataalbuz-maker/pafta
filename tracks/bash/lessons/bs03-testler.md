@@ -2,6 +2,7 @@
 id: bs03
 title: Testler ve Çıkış Kodları
 summary: Her komut bir çıkış kodu döndürür; [[ ]] testleri, (( )) karşılaştırmaları, && ve ||.
+kazanim: LPIC1 105.2
 ---
 
 ::: anlat Başarı = 0

@@ -2,6 +2,7 @@
 id: p24
 title: Özyineleme
 summary: Kendini çağıran fonksiyon; temel durum, çağrı yığını, iç içe yapılar ve hafızalama.
+kazanim: PCEP 4.1
 ---
 
 ::: anlat Kendini çağıran fonksiyon

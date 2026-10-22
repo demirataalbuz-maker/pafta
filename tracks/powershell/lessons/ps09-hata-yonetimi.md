@@ -2,6 +2,7 @@
 id: ps09
 title: Hata Yönetimi
 summary: Sonlandıran ve sonlandırmayan hatalar, -ErrorAction, try/catch/finally, throw, TryParse ve çıkış kodları.
+kazanim: AZ040 7.4
 ---
 
 ::: anlat İki tür hata

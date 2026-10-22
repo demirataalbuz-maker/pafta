@@ -2,6 +2,7 @@
 id: p19
 title: Kimlik ve Değiştirilebilirlik
 summary: is ile == farkı, değiştirilebilir/değiştirilemez türler, hash'lenebilirlik ve += tuzağı.
+kazanim: PCAP 4.5, PCPP1 1.10
 ---
 
 ::: anlat Eşit mi, aynı mı?

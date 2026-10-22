@@ -2,6 +2,7 @@
 id: p14
 title: Takma Ad ve Kopya
 summary: İki isim aynı listeyi gösterebilir; sığ kopya, derin kopya ve [[0]*3]*3 tuzağı.
+kazanim: PCEP 3.1, PCPP1 1.10
 ---
 
 ::: anlat İki isim, tek nesne

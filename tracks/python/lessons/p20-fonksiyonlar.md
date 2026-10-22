@@ -2,6 +2,7 @@
 id: p20
 title: Fonksiyonlar · def ve return
 summary: Kodu isimlendirip yeniden kullanmak; parametre, dönüş değeri, None ve print/return farkı.
+kazanim: PCEP 4.1
 ---
 
 ::: anlat Kodu isimlendirmek

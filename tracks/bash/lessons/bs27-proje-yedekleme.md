@@ -2,6 +2,7 @@
 id: bs27
 title: Proje · Yedekleme ve Döndürme Betiği
 summary: tar ile sıkıştırılmış yedek almak, zaman damgalı adlar, son N yedeği tutup eskileri silmek, kuru çalıştırma kipi ve sağlam hata davranışıyla gerçek bir bakım betiği.
+kazanim: LPIC1 103.3
 ---
 
 ::: anlat Proje tanımı

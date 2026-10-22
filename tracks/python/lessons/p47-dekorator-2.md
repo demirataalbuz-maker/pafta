@@ -2,6 +2,7 @@
 id: p47
 title: Dekoratörler II
 summary: Parametreli dekoratörler, kayıt (registry) kalıbı, yeniden deneme, sınıf tabanlı dekoratörler.
+kazanim: PCPP1 1.4
 ---
 
 ::: anlat Parametreli dekoratör: üç kat

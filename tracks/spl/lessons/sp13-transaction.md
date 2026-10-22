@@ -2,6 +2,7 @@
 id: sp13
 title: transaction
 summary: Birbiriyle ilgili olayları tek bir işlemde toplamak; ortak alan, maxpause ve maxspan, startswith ve endswith, duration ve eventcount, yarım kalan işlemleri bulmak ve transaction yerine daha hızlı stats kalıbı.
+kazanim: PU 3.1, PU 3.2, PU 3.3, PU 3.4, PU 3.5, PU 3.6, APU 14.1, APU 14.4, APU 14.5, APU 14.6
 ---
 
 ::: anlat Olaylardan işlemlere

@@ -2,6 +2,7 @@
 id: sq17
 title: Proje · Haftalık Operasyon Raporu
 summary: Öğrendiklerini birleştirerek bir haftanın bilet raporunu çıkarmak; yarı açık tarih aralıkları, koşullu sayım, LEFT JOIN ile eksiksiz liste ve RANK.
+kazanim: 1Z0071 6.1, 1Z0071 6.3
 ---
 
 ::: anlat Proje tanımı

@@ -2,6 +2,7 @@
 id: sp10
 title: eventstats ve streamstats
 summary: Olayları kaybetmeden özet eklemek; eventstats ile toplamdaki pay ve grup ortalamasından sapma, streamstats ile birikimli sayım, kayan ortalama (window), bir önceki olaya bakmak (current=f window=1) ve by ile grup başına akış.
+kazanim: APU 1.5, APU 1.6
 ---
 
 ::: anlat Olayları kaybetmeden özet

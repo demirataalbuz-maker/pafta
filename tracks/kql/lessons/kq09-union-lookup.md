@@ -2,6 +2,7 @@
 id: kq09
 title: union ve lookup
 summary: Farklı tabloları alt alta birleştirip tek bir zaman çizelgesi kurmak (union, withsource), küçük bir başvuru tablosuyla satırları zenginleştirmek (lookup) ve lookup'ın join'den farkı.
+kazanim: SC200 3.1, SC200 4.3
 ---
 
 ::: anlat union: tabloları alt alta koymak

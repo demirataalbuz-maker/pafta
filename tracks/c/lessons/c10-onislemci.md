@@ -2,6 +2,7 @@
 id: c10
 title: Önişlemci ve Makrolar
 summary: Derlemeden önce çalışan metin değiştirici; #define sabitleri, parametreli makrolar ve parantez tuzağı, argümanın iki kez değerlendirilmesi, #if / #ifdef ile platforma göre kod seçimi, include koruyucuları, makro dolu kodu zihinde açmak; çok dosyalı programlar: bildirim ve tanım, extern, static'in iki anlamı ve bağlayıcı hataları.
+kazanim: CLA 1.1, CLA 1.3, CLA 2.7, CLA 4.1, CLA 4.2
 ---
 
 ::: anlat Derleyiciden önce: metin değiştirme

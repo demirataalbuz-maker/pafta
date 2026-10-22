@@ -2,6 +2,7 @@
 id: p27
 title: Dosyalar
 summary: open, with, kipler, kodlama; satır satır okumak, yazmak, eklemek ve log süzmek.
+kazanim: PCAP 5.4, PCAP 5.5
 ---
 
 ::: anlat Aç, kullan, kapat: with

@@ -2,6 +2,7 @@
 id: sp17
 title: Bilgi nesneleri, CIM ve veri modelleri
 summary: Bir kez tanımlanıp herkesin kullandığı arama parçaları; argümanlı makrolar ve metin olarak açılmaları, olay türleri ve etiketler, props.conf'ta alan takma adları ve hesaplanan alanlar, arama zamanı işlem sırası, CIM alan adları, veri modelleri ve tstats.
+kazanim: PU 5.1, PU 5.2, PU 6.1, PU 6.2, PU 6.3, PU 7.1, PU 7.2, PU 7.3, PU 7.4, PU 9.1, PU 9.2, PU 10.1, PU 10.2, PU 10.3, APU 5.1, APU 7.1, APU 7.2, APU 7.3, APU 9.1, APU 9.2, APU 9.5, APU 9.6, APU 19.2
 ---
 
 ::: anlat Bilgi nesnesi nedir?

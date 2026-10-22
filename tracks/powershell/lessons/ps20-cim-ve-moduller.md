@@ -2,6 +2,7 @@
 id: ps20
 title: CIM, Modüller ve Uzaktan Yönetim
 summary: Get-CimInstance ile işletim sistemi sorguları, New-Module ve Export-ModuleMember ile kapsülleme, ScriptBlock ve Invoke-Command kalıbı, Start-Job, Wait-Job, Receive-Job ve Remove-Job ile arka plan işlerinin yaşam döngüsü.
+kazanim: AZ040 5.1, AZ040 5.2, AZ040 7.5, AZ040 8.1, AZ040 11.1
 ---
 
 ::: anlat CIM ile makine röntgeni

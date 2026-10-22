@@ -2,6 +2,7 @@
 id: ph07
 title: İstek, Yanıt ve Güvenli Çıktı
 summary: $_GET ve $_POST, ?? ile varsayılan, htmlspecialchars ile çıktıyı kaçırmak, json_encode'un varsayılanları, hazırlanmış sorgular ve küçük bir uç noktayı okumak.
+kazanim: ZCPE 3.2, ZCPE 4.1, ZCPE 4.3, ZCPE 6.1, ZCPE 6.2
 ---
 
 ::: anlat İstekten yanıta

@@ -2,6 +2,7 @@
 id: bs20
 title: sed Ustalığı
 summary: sed'in satır satır çalışma modeli, adresler ve aralıklar, s komutunun bayrakları, -E ile gruplar ve geri başvuru, a/i/c/y/q komutları ve -i ile yedekli yerinde düzenleme.
+kazanim: LPIC1 103.7
 ---
 
 ::: anlat sed nasıl düşünür

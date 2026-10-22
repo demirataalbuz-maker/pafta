@@ -2,6 +2,7 @@
 id: bs15
 title: Alt Kabuklar, Ortam ve Boru Tuzakları
 summary: ( ) ile { } farkı, boru hattının alt kabukta çalışması ve kaybolan değişkenler, export ve geçici ortam, source, PIPESTATUS.
+kazanim: LPIC1 103.1, LPIC1 105.1
 ---
 
 ::: anlat Alt kabuk ve grup

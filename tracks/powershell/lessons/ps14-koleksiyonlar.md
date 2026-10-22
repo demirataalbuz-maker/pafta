@@ -2,6 +2,7 @@
 id: ps14
 title: Koleksiyonlar ve Performans
 summary: Dizilerin sabit boyutu ve += maliyeti, List, Dictionary ve HashSet, hashtable anahtarlarının büyük-küçük harfe duyarsızlığı, [ordered], Group-Object -AsHashTable, Compare-Object ve Measure-Command.
+kazanim: AZ040 6.2, AZ040 6.3
 ---
 
 ::: anlat Doğru koleksiyonu seçmek

@@ -1,0 +1,65 @@
+{
+ "sertifikalar": [
+  {
+   "id": "AZ040",
+   "ad": "AZ-040 · PowerShell ile yönetimi otomatikleştirmek",
+   "tam_ad": "Microsoft resmî eğitimi (sınavı yok). Bölümler eğitimin 11 modülü; maddeler modüllerin ana başlıkları.",
+   "kurum": "Microsoft Learn",
+   "kaynak": "https://learn.microsoft.com/en-us/training/courses/az-040t00",
+   "bolumler": [
+    {"kod": "1", "baslik": "PowerShell'e başlamak", "maddeler": [
+     {"kod": "1.1", "baslik": "PowerShell'e giriş: konsol, sürümler, ilk komutlar"},
+     {"kod": "1.2", "baslik": "Komut sözdizimi: Fiil-İsim adları, parametreler, argümanlar"},
+     {"kod": "1.3", "baslik": "Yardım ve keşif: Get-Help, Get-Command, Get-Member"}
+    ]},
+    {"kod": "2", "baslik": "Sistem yönetimi görevleri", "maddeler": [
+     {"kod": "2.1", "baslik": "Active Directory yönetim cmdlet'leri", "not": "Get-AD* komutları AD ve LDAP yolunda işleniyor; bu yolda değil."},
+     {"kod": "2.2", "baslik": "Ağ yapılandırması cmdlet'leri", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "2.3", "baslik": "Sunucu yönetimi: hizmetler, süreçler, olay günlükleri"}
+    ]},
+    {"kod": "3", "baslik": "Boru hattı", "maddeler": [
+     {"kod": "3.1", "baslik": "Boru hattında nesneler"},
+     {"kod": "3.2", "baslik": "Nesneleri seçmek, sıralamak ve ölçmek"},
+     {"kod": "3.3", "baslik": "Nesneleri süzmek: Where-Object"},
+     {"kod": "3.4", "baslik": "Nesneleri tek tek işlemek: ForEach-Object"},
+     {"kod": "3.5", "baslik": "Çıktıyı biçimlendirmek ve dışa aktarmak: Format-*, Export-Csv, ConvertTo-*"}
+    ]},
+    {"kod": "4", "baslik": "Sağlayıcılar ve sürücüler", "maddeler": [
+     {"kod": "4.1", "baslik": "PSProvider ve PSDrive"},
+     {"kod": "4.2", "baslik": "Dosya sistemi ve kayıt defteriyle çalışmak"}
+    ]},
+    {"kod": "5", "baslik": "CIM ve WMI ile yönetim bilgisi", "maddeler": [
+     {"kod": "5.1", "baslik": "CIM ve WMI kavramları"},
+     {"kod": "5.2", "baslik": "Get-CimInstance ile sorgulamak"},
+     {"kod": "5.3", "baslik": "CIM yöntemlerini çağırmak", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "6", "baslik": "Değişkenler, diziler ve hashtable'lar", "maddeler": [
+     {"kod": "6.1", "baslik": "Değişkenler ve türler"},
+     {"kod": "6.2", "baslik": "Diziler"},
+     {"kod": "6.3", "baslik": "Hashtable'lar"}
+    ]},
+    {"kod": "7", "baslik": "Betik yazmak", "maddeler": [
+     {"kod": "7.1", "baslik": "Betik güvenliği ve yürütme ilkesi", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "7.2", "baslik": "Betik yapıları: koşullar ve döngüler"},
+     {"kod": "7.3", "baslik": "Betiğe girdi ve betikten çıktı: param, Write-*"},
+     {"kod": "7.4", "baslik": "Hata yönetimi"},
+     {"kod": "7.5", "baslik": "Fonksiyonlar ve modüller"}
+    ]},
+    {"kod": "8", "baslik": "Uzak bilgisayarları yönetmek", "maddeler": [
+     {"kod": "8.1", "baslik": "Uzaktan yönetim ve Invoke-Command"},
+     {"kod": "8.2", "baslik": "PSSession ile kalıcı oturumlar", "not": "Tezgahta WinRM yok; henüz işlenmedi."}
+    ]},
+    {"kod": "9", "baslik": "Bulut kaynaklarını yönetmek", "not": "Az modülü bir Azure aboneliği ister; tezgahta yok.", "maddeler": [
+     {"kod": "9.1", "baslik": "Azure PowerShell ile kaynak yönetimi"}
+    ]},
+    {"kod": "10", "baslik": "Microsoft 365 hizmetlerini yönetmek", "not": "Bir Microsoft 365 kiracısı ister; tezgahta yok.", "maddeler": [
+     {"kod": "10.1", "baslik": "Microsoft 365 hizmetlerini PowerShell ile yönetmek"}
+    ]},
+    {"kod": "11", "baslik": "Arka plan ve zamanlanmış işler", "maddeler": [
+     {"kod": "11.1", "baslik": "Arka plan işleri: Start-Job, Wait-Job, Receive-Job"},
+     {"kod": "11.2", "baslik": "Zamanlanmış işler ve görevler", "not": "Henüz bir paftada işlenmedi."}
+    ]}
+   ]
+  }
+ ]
+}

@@ -2,6 +2,7 @@
 id: p36
 title: Sınıf ve Nesne
 summary: class bir kalıptır, nesne onun örneği; __init__, self, nitelikler ve metotlar.
+kazanim: PCAP 4.1, PCAP 4.3, PCAP 4.6, PCPP1 1.1
 ---
 
 ::: anlat Kalıp ve örnekler

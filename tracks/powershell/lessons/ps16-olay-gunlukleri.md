@@ -2,6 +2,7 @@
 id: ps16
 title: Olay Günlükleri
 summary: Windows olay günlüklerinin yapısı, Get-WinEvent, olay alanları, Level numaraları ve dışa aktarılmış olaylarla çalışmak.
+kazanim: AZ040 2.3
 ---
 
 ::: anlat Makinenin günlüğü

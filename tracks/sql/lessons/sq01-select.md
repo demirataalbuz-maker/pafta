@@ -2,6 +2,7 @@
 id: sq01
 title: SELECT ve FROM
 summary: Tablo, satır, sütun; sütun seçmek, ifadeler ve takma adlar, DISTINCT, metin birleştirme.
+kazanim: 1Z0071 1.1, 1Z0071 3.1, 1Z0071 11.3
 ---
 
 ::: anlat Veritabanı bir tablolar topluluğudur

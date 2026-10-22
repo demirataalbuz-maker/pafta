@@ -2,6 +2,7 @@
 id: p21
 title: Parametreler Derinlemesine
 summary: Konumsal ve anahtar sözcüklü argüman, varsayılan değer, *args, **kwargs, / ve * sınırları.
+kazanim: PCEP 4.2, PCPP1 1.4
 ---
 
 ::: anlat Argüman vermenin yolları

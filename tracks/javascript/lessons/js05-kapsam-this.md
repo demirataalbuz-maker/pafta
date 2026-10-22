@@ -2,6 +2,7 @@
 id: js05
 title: Kapsam, Yukarı Taşıma ve this
 summary: var ile let/const kapsam farkı, yukarı taşıma (hoisting) ve geçici ölü bölge, this'in çağrılış biçimine göre değişmesi, ok fonksiyonlarında this, bind/call/apply, katı kip ve döngülerdeki kapanış tuzağı.
+kazanim: JSA 1.7.1, JSA 4.2.1, JSA 4.3.1
 ---
 
 ::: anlat Kapsam ve yukarı taşıma

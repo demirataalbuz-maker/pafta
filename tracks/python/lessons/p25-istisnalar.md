@@ -2,6 +2,7 @@
 id: p25
 title: İstisnalar · try / except
 summary: Hatayı yakalamak; belirli istisnalar, else, finally, raise ve hata hiyerarşisi.
+kazanim: PCEP 4.3, PCEP 4.4, PCAP 2.1
 ---
 
 ::: anlat Hatayı yakala, programı ayakta tut

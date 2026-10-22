@@ -2,6 +2,7 @@
 id: sp06
 title: join ve Alt Arama
 summary: Köşeli parantez içindeki alt arama, join ile iki kaynağı birleştirmek, type=left, max=1 davranışı ve aynı adlı alanların üzerine yazılması.
+kazanim: APU 16.1, APU 16.2, APU 16.3, APU 16.4
 ---
 
 ::: anlat Alt arama ve join

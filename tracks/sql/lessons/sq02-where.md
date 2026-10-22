@@ -2,6 +2,7 @@
 id: sq02
 title: WHERE ile Süzmek
 summary: Karşılaştırmalar, AND/OR önceliği, IN, BETWEEN, LIKE, IS NULL ve tarihlerin metin olarak karşılaştırılması.
+kazanim: 1Z0071 3.2
 ---
 
 ::: anlat Koşul yazmak

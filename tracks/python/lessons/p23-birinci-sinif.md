@@ -2,6 +2,7 @@
 id: p23
 title: Fonksiyon da Bir Nesnedir
 summary: Fonksiyonu değişkene atamak, argüman vermek, döndürmek; lambda, sorted key, map ve filter.
+kazanim: PCAP 5.2
 ---
 
 ::: anlat Birinci sınıf vatandaş

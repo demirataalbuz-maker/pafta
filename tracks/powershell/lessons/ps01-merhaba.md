@@ -2,6 +2,7 @@
 id: ps01
 title: Merhaba PowerShell
 summary: Fiil-İsim komutlar, Write-Output, değişkenler, tek ve çift tırnak, $( ) ve -f biçimleme.
+kazanim: AZ040 1.1, AZ040 1.2, AZ040 2.3, AZ040 6.1
 ---
 
 ::: anlat Fiil-İsim dünyası

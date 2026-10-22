@@ -2,6 +2,7 @@
 id: p43
 title: Yerleşik Türleri Genişletmek
 summary: dict, list ve str'den türetmek; C ile yazılmış hızlı yolların ezilen metotları atlaması, __missing__ kancası, collections.UserDict, UserList ve UserString, değiştirilemez türleri (int, str, tuple) __new__ ile özelleştirmek ve işlemlerin taban türü döndürmesi.
+kazanim: PCPP1 1.8
 ---
 
 ::: anlat dict'ten türetmek ve sürprizi

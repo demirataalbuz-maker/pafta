@@ -2,6 +2,7 @@
 id: p56
 title: HTTP'yi Elle Kurmak
 summary: İstek ve yanıtın anatomisi, urllib.parse, yerel http.server ile küçük bir API ve urllib istemcisi.
+kazanim: PCPP1 4.1, PCPP1 4.4
 ---
 
 ::: anlat HTTP bir metin protokolüdür

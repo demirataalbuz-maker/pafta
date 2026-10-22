@@ -2,6 +2,7 @@
 id: sp05
 title: rex, Metin Fonksiyonları ve Zaman
 summary: rex ile metinden alan çıkarmak, like/match/replace, len/lower/substr; strptime ve strftime ile zaman, bin ile zaman dilimleri.
+kazanim: PU 2.1, PU 4.1, APU 2.2, APU 2.3, APU 5.1, APU 5.2, APU 5.3, APU 12.1, APU 12.5
 ---
 
 ::: anlat Metinden alan çıkarmak

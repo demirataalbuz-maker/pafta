@@ -2,6 +2,7 @@
 id: p40
 title: Kapsülleme ve @property
 summary: _ ve __ gelenekleri, isim bozma, doğrulayan nitelikler, salt okunur ve hesaplanan alanlar.
+kazanim: PCAP 4.2, PCPP1 1.7
 ---
 
 ::: anlat Python'da "private" yok, gelenek var

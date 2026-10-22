@@ -2,6 +2,7 @@
 id: p04
 title: Metinler I · İndeks ve Dilim
 summary: str bir karakter dizisidir; indeksleme, dilimleme ve değiştirilemezlik.
+kazanim: PCEP 1.3, PCEP 3.4, PCAP 3.2
 ---
 
 ::: anlat Metin bir karakter dizisidir

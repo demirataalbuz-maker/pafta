@@ -2,6 +2,7 @@
 id: sp14
 title: append ve appendpipe
 summary: Sonuçların altına başka bir aramanın sonuçlarını eklemek (append), mevcut sonuç üzerinde çalışan bir alt boru ile toplam ve ara toplam satırları (appendpipe), iki kaynağı append ve stats ile tek satırda birleştirmek ve fillnull.
+kazanim: PU 2.3, APU 1.3, APU 16.6
 ---
 
 ::: anlat Sonuçların altına eklemek

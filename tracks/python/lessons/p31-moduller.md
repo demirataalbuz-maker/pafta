@@ -2,6 +2,7 @@
 id: p31
 title: Modüller ve Paketler
 summary: import nasıl çalışır; sys.path, sys.modules önbelleği, __name__ koruması ve paketler.
+kazanim: PCAP 1.1, PCAP 1.5
 ---
 
 ::: anlat Her .py dosyası bir modüldür

@@ -2,6 +2,7 @@
 id: kq21
 title: Gerçek Ortamda Dene · Azure Data Explorer
 summary: Sorguları ücretsiz gerçek Kusto ortamlarına taşımak (Azure Data Explorer yardım kümesi, ücretsiz küme, Kusto.Explorer); veriyi datatable ile sorgunun içine koymak; tezgahla gerçek Kusto arasındaki farklar (sabit şimdi, tarih gösterimi, sıra garantisi, tablolar) ve iki sonucu karşılaştırmak.
+kazanim: SC200 4.3
 ---
 
 ::: anlat Ücretsiz gerçek Kusto

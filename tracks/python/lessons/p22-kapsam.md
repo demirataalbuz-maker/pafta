@@ -2,6 +2,7 @@
 id: p22
 title: Kapsam · LEGB
 summary: İsimler nerede aranır; yerel, kapsayan, global, yerleşik; global, nonlocal ve gölgeleme.
+kazanim: PCEP 4.2, PCAP 5.3
 ---
 
 ::: anlat Her fonksiyonun kendi isim alanı

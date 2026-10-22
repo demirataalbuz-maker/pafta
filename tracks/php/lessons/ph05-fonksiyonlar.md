@@ -2,6 +2,7 @@
 id: ph05
 title: Fonksiyonlar ve Kapsam
 summary: PHP fonksiyonlarının kendi kapsamı (dışarıdaki değişkeni görmemesi), global ve static, başvuruyla geçirme (&), tür bildirimleri ve strict_types, varsayılan ve adlandırılmış argümanlar, closure'larda use ile ok fonksiyonlarının değeri yakalaması.
+kazanim: ZCPE 2.1, ZCPE 2.2, ZCPE 2.3, ZCPE 2.4
 ---
 
 ::: anlat Her fonksiyon kendi dünyasıdır

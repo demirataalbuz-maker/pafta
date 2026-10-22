@@ -2,6 +2,7 @@
 id: sp01
 title: Aramak
 summary: sourcetype ile kaynak seçmek, alan=değer aramaları, joker karakter, serbest metin, AND/OR/NOT ve Splunk'ın şaşırtan öncelik kuralı.
+kazanim: PU 2.2
 ---
 
 ::: anlat Bir arama, bir boru hattı

@@ -2,6 +2,7 @@
 id: kq20
 title: Proje · Dağıtım Etkisi Analizi
 summary: Bir arızanın kök nedenine üç tablodan yaklaşmak; dağıtım öncesi ve sonrası zaman pencerelerini karşılaştırmak, her dağıtımdan sonraki ilk hata kaydını bulmak ve dağıtım, günlük ve istek kayıtlarını tek bir olay zaman çizelgesinde birleştirmek.
+kazanim: SC200 3.1
 ---
 
 ::: anlat Proje tanımı

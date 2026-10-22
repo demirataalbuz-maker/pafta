@@ -2,6 +2,7 @@
 id: p02
 title: Değişkenler ve İsimler
 summary: Atama bir kutuya koymak değil, bir nesneye etiket yapıştırmaktır.
+kazanim: PCEP 1.3
 ---
 
 ::: anlat İsim = etiket

@@ -2,6 +2,7 @@
 id: ps03
 title: Karşılaştırma ve Koşullar
 summary: -eq, -lt, -like, -match ve $Matches; büyük-küçük harf duyarsızlığı; if/elseif ve switch.
+kazanim: AZ040 7.2
 ---
 
 ::: anlat İşleçler kelimedir

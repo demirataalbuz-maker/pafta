@@ -2,6 +2,7 @@
 id: p65
 title: Metasınıflar ve __init_subclass__
 summary: Sınıfın sınıfı; sınıf oluşturma süreci, kayıt kalıbı, __init_subclass__ ve tekil nesne.
+kazanim: PCPP1 1.12
 ---
 
 ::: anlat Sınıfları üreten şey

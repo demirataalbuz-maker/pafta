@@ -2,6 +2,7 @@
 id: sq16
 title: Özyinelemeli CTE Ustalığı
 summary: WITH RECURSIVE ile sayı ve tarih dizisi üretmek, eksik günleri sıfırla doldurmak, hiyerarşide yol ve derinlik çıkarmak, bütün alt kadroyu saymak ve sonsuz döngüye karşı korunmak.
+kazanim: 1Z0071 16.7
 ---
 
 ::: anlat Özyineleme nasıl ilerler

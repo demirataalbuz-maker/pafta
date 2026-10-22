@@ -2,6 +2,7 @@
 id: bs07
 title: Borular ve Yönlendirme
 summary: |, >, >>, <, 2>, 2>&1, /dev/null, here-doc ve tee; Unix felsefesinin kalbi.
+kazanim: LPIC1 103.4
 ---
 
 ::: anlat Üç akış ve boru

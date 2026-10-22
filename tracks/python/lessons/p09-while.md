@@ -2,6 +2,7 @@
 id: p09
 title: while Döngüsü
 summary: Koşul doğru oldukça tekrarla; sayaçlar, sonsuz döngü, break ve continue.
+kazanim: PCEP 2.2
 ---
 
 ::: anlat Koşul doğru oldukça

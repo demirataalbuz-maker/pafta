@@ -2,6 +2,7 @@
 id: sp07
 title: Zaman Çizelgesi
 summary: Her olayın _time alanı; timechart ile zamanı dilimlere bölmek, by ile seriler, count(eval(...)) as ile koşullu sayım, boş dilimlerin sıfırla dolması, bin _time ile stats ve günün saatine göre özet.
+kazanim: PU 1.2, APU 12.1, APU 12.5, APU 15.1, APU 15.2
 ---
 
 ::: anlat _time ve timechart

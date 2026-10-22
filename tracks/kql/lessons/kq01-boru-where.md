@@ -2,6 +2,7 @@
 id: kq01
 title: Boru Hattı ve where
 summary: KQL'in soldan sağa akan boru mantığı; take, count, where, karşılaştırmalar, and/or, in, between ve boş değerler.
+kazanim: SC200 1.1, SC200 1.3
 ---
 
 ::: anlat Veri soldan sağa akar

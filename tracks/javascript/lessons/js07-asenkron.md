@@ -2,6 +2,7 @@
 id: js07
 title: Asenkron Kod ve Olay Döngüsü
 summary: setTimeout, Promise, async ve await; olay döngüsünün çalışma sırası ve sıralı ya da paralel beklemek.
+kazanim: JSA 4.6.1, JSA 4.7.1, JSA 4.8.1, JSA 4.9.1
 ---
 
 ::: anlat Kod yazıldığı sırada çalışmaz

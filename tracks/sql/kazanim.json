@@ -1,0 +1,114 @@
+{
+ "sertifikalar": [
+  {
+   "id": "1Z0071",
+   "ad": "1Z0-071 · Oracle Database SQL",
+   "tam_ad": "Oracle Database SQL Certified Associate. Konu listesi Oracle'ın sınav sayfasından (databasestar kopyası); Oracle'a özgü maddeler SQLite tezgahında çalışmaz.",
+   "kurum": "Oracle",
+   "kaynak": "https://education.oracle.com/oracle-database-sql/pexam_1Z0-071",
+   "sinav": {"gecme": 63},
+   "bolumler": [
+    {"kod": "1", "baslik": "SQL kullanmak", "maddeler": [
+     {"kod": "1.1", "baslik": "Veritabanı ile SQL arasındaki ilişki"}
+    ]},
+    {"kod": "2", "baslik": "DML ve TCL", "maddeler": [
+     {"kod": "2.1", "baslik": "DML'in amacı"},
+     {"kod": "2.2", "baslik": "DML ile tablolardaki veriyi yönetmek"},
+     {"kod": "2.3", "baslik": "TCL ile işlemleri yönetmek"}
+    ]},
+    {"kod": "3", "baslik": "Temel SELECT ifadeleri", "maddeler": [
+     {"kod": "3.1", "baslik": "Tablodan veri getiren SELECT kurmak"},
+     {"kod": "3.2", "baslik": "WHERE ile sonuçları süzmek"}
+    ]},
+    {"kod": "4", "baslik": "Tablo birleştirmeleri", "maddeler": [
+     {"kod": "4.1", "baslik": "Birleştirme türleri ve özellikleri"},
+     {"kod": "4.2", "baslik": "Birden çok tablodan veri getirmek"},
+     {"kod": "4.3", "baslik": "Tabloyu kendisiyle birleştirmek (self join)"}
+    ]},
+    {"kod": "5", "baslik": "Dönüşüm fonksiyonları ve koşullu ifadeler", "maddeler": [
+     {"kod": "5.1", "baslik": "TO_CHAR, TO_NUMBER ve TO_DATE", "not": "Oracle'ın TO_ fonksiyonları yerine SQLite'ın CAST ve strftime'ı işleniyor."},
+     {"kod": "5.2", "baslik": "SELECT içinde genel fonksiyonlar ve koşullu ifadeler: NVL/COALESCE, NULLIF, CASE"}
+    ]},
+    {"kod": "6", "baslik": "Birden çok tablodan veri göstermek", "maddeler": [
+     {"kod": "6.1", "baslik": "Eşit ve eşit olmayan birleştirmeler"},
+     {"kod": "6.2", "baslik": "Tabloyu kendisiyle birleştirmek"},
+     {"kod": "6.3", "baslik": "Dış birleştirmeyle eşleşmeyen satırları görmek"}
+    ]},
+    {"kod": "7", "baslik": "Küme işleçleri", "maddeler": [
+     {"kod": "7.1", "baslik": "Sorguları küme işleciyle tek sorguda birleştirmek: UNION, UNION ALL, INTERSECT, MINUS"},
+     {"kod": "7.2", "baslik": "Birleşik sonucun satır sırasını denetlemek"}
+    ]},
+    {"kod": "8", "baslik": "DDL ile tablo kurmak ve yönetmek", "maddeler": [
+     {"kod": "8.1", "baslik": "Sütun veri türleri"},
+     {"kod": "8.2", "baslik": "Basit bir tablo kurmak"},
+     {"kod": "8.3", "baslik": "Tablo kısıtları"},
+     {"kod": "8.4", "baslik": "Şema nesneleri nasıl çalışır"}
+    ]},
+    {"kod": "9", "baslik": "Veri sözlüğü görünümleri", "maddeler": [
+     {"kod": "9.1", "baslik": "Nesneler hakkında bilgiyi veri sözlüğünden araştırmak"},
+     {"kod": "9.2", "baslik": "Veri sözlüğü görünümlerini sorgulamak"}
+    ]},
+    {"kod": "10", "baslik": "Şema nesnelerini yönetmek", "maddeler": [
+     {"kod": "10.1", "baslik": "Kısıtları yönetmek"},
+     {"kod": "10.2", "baslik": "İndeks kurmak ve bakımı", "not": "Görünmez indeks ve aynı sütunlarda çoklu indeks Oracle'a özgü."},
+     {"kod": "10.3", "baslik": "Sütun düşürmek ve UNUSED yapmak", "not": "Oracle'a özgü; tezgahta yok."},
+     {"kod": "10.4", "baslik": "Flashback işlemleri", "not": "Oracle'a özgü; tezgahta yok."},
+     {"kod": "10.5", "baslik": "Dış tablolar (external tables)", "not": "Oracle'a özgü; tezgahta yok."}
+    ]},
+    {"kod": "11", "baslik": "DDL", "maddeler": [
+     {"kod": "11.1", "baslik": "DDL'in amacı"},
+     {"kod": "11.2", "baslik": "DDL ile tabloları ve ilişkilerini yönetmek"},
+     {"kod": "11.3", "baslik": "İlişkisel veritabanının kuramsal ve fiziksel yönleri"}
+    ]},
+    {"kod": "12", "baslik": "SELECT tanımlamak", "maddeler": [
+     {"kod": "12.1", "baslik": "Varlık-ilişki çizimi (ERD) ile SELECT arasındaki bağ"}
+    ]},
+    {"kod": "13", "baslik": "Kısıtlamak ve sıralamak", "maddeler": [
+     {"kod": "13.1", "baslik": "ORDER BY ile sıralamak"},
+     {"kod": "13.2", "baslik": "Getirilen satırları sınırlamak"},
+     {"kod": "13.3", "baslik": "Getirilen satırları sıralamak"},
+     {"kod": "13.4", "baslik": "& ile çalışma anında yerine koyma", "not": "SQL*Plus'a özgü; tezgahta yok."}
+    ]},
+    {"kod": "14", "baslik": "Tek satırlık fonksiyonlar", "maddeler": [
+     {"kod": "14.1", "baslik": "SQL'deki fonksiyon türleri"},
+     {"kod": "14.2", "baslik": "Dönüşüm fonksiyonları"},
+     {"kod": "14.3", "baslik": "Karakter, sayı, tarih ve analitik fonksiyonlar (PERCENTILE_CONT, STDDEV, LAG, LEAD)", "not": "LAG ve LEAD var; PERCENTILE_CONT ve STDDEV SQLite'ta yok."}
+    ]},
+    {"kod": "15", "baslik": "Grup fonksiyonlarıyla rapor", "maddeler": [
+     {"kod": "15.1", "baslik": "Grup fonksiyonları"},
+     {"kod": "15.2", "baslik": "GROUP BY ile gruplamak"},
+     {"kod": "15.3", "baslik": "HAVING ile grupları dahil etmek ya da dışlamak"}
+    ]},
+    {"kod": "16", "baslik": "Alt sorgular", "maddeler": [
+     {"kod": "16.1", "baslik": "Alt sorgu nedir"},
+     {"kod": "16.2", "baslik": "Alt sorguların çözdüğü sorunlar"},
+     {"kod": "16.3", "baslik": "Alt sorgu türleri"},
+     {"kod": "16.4", "baslik": "İlişkili (correlated) alt sorgular"},
+     {"kod": "16.5", "baslik": "İlişkili alt sorguyla UPDATE ve DELETE", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "16.6", "baslik": "EXISTS ve NOT EXISTS"},
+     {"kod": "16.7", "baslik": "WITH yan tümcesi"},
+     {"kod": "16.8", "baslik": "Tek satırlık ve çok satırlı alt sorgular"}
+    ]},
+    {"kod": "17", "baslik": "Veriyi değiştirmek", "maddeler": [
+     {"kod": "17.1", "baslik": "Satır eklemek"},
+     {"kod": "17.2", "baslik": "Satır güncellemek"},
+     {"kod": "17.3", "baslik": "Satır silmek"},
+     {"kod": "17.4", "baslik": "İşlemleri denetlemek"}
+    ]},
+    {"kod": "18", "baslik": "Diğer şema nesneleri", "maddeler": [
+     {"kod": "18.1", "baslik": "Basit ve karmaşık görünümler", "not": "Görünür/görünmez sütun Oracle'a özgü."},
+     {"kod": "18.2", "baslik": "Sequence kurmak ve kullanmak", "not": "SQLite'ta sequence yok."}
+    ]},
+    {"kod": "19", "baslik": "Kullanıcı erişimini denetlemek", "not": "SQLite'ta kullanıcı ve yetki yok; GRANT ve REVOKE tezgahta çalışmaz.", "maddeler": [
+     {"kod": "19.1", "baslik": "Sistem ve nesne yetkileri farkı"},
+     {"kod": "19.2", "baslik": "Tablolar ve kullanıcılar üzerinde yetki vermek"},
+     {"kod": "19.3", "baslik": "Yetki ile rol farkı"}
+    ]},
+    {"kod": "20", "baslik": "Büyük veri kümelerini işlemek", "maddeler": [
+     {"kod": "20.1", "baslik": "Çok tablolu INSERT", "not": "Oracle'a özgü; tezgahta yok."},
+     {"kod": "20.2", "baslik": "MERGE ile satır birleştirmek", "not": "MERGE SQLite'ta yok; INSERT ... ON CONFLICT henüz işlenmedi."}
+    ]}
+   ]
+  }
+ ]
+}

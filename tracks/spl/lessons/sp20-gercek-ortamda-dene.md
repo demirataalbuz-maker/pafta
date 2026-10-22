@@ -2,6 +2,7 @@
 id: sp20
 title: Gerçek Ortamda Dene · Splunk
 summary: Aramaları ücretsiz gerçek bir Splunk'a taşımak (Splunk Enterprise denemesi ve Free lisansı, Splunk Cloud denemesi, BOTS veri kümeleri); tezgahın verisini CSV ve arama tablosu olarak yüklemek, makeresults ile küçük veri kurmak; tezgahla Splunk arasındaki farklar (olay sırası, zaman seçici, alan adlarında büyük-küçük harf, saat dilimi) ve iki sonucu karşılaştırmak.
+kazanim: APU 2.6, APU 15.1
 ---
 
 ::: anlat Ücretsiz gerçek Splunk

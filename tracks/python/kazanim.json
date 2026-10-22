@@ -1,0 +1,122 @@
+{
+ "sertifikalar": [
+  {
+   "id": "PCEP",
+   "ad": "PCEP-30-02",
+   "tam_ad": "Certified Entry-Level Python Programmer",
+   "kurum": "Python Institute",
+   "kaynak": "https://pythoninstitute.org/pcep-exam-syllabus",
+   "sinav": {"soru": 30, "dakika": 40, "gecme": 70},
+   "bolumler": [
+    {"kod": "1", "baslik": "Programlama ve Python'un temelleri", "agirlik": 18, "maddeler": [
+     {"kod": "1.1", "baslik": "Temel terimler: yorumlayıcı ve derleyici; sözcük yapısı, sözdizimi ve anlam"},
+     {"kod": "1.2", "baslik": "Python'un mantığı ve yapısı: anahtar sözcükler, deyimler, girinti, yorumlar"},
+     {"kod": "1.3", "baslik": "Değişmezler ve değişkenler: bool, int, float, bilimsel gösterim, metin; ikilik, sekizlik, onaltılık sayılar; adlandırma ve PEP 8"},
+     {"kod": "1.4", "baslik": "İşleçler ve türler: aritmetik, metin, atama, bit, mantık ve karşılaştırma işleçleri; öncelik; kayan nokta doğruluğu; tür dönüşümü"},
+     {"kod": "1.5", "baslik": "Konsolda girdi ve çıktı: print() ve input(), sep= ve end=, int() ve float()"}
+    ]},
+    {"kod": "2", "baslik": "Akış kontrolü: koşullar ve döngüler", "agirlik": 29, "maddeler": [
+     {"kod": "2.1", "baslik": "if ile karar: if, if-else, if-elif-else; çoklu ve iç içe koşullar"},
+     {"kod": "2.2", "baslik": "Döngüler: pass, while, for, range() ve in; while-else ve for-else; iç içe döngüler; break ve continue"}
+    ]},
+    {"kod": "3", "baslik": "Veri koleksiyonları: demet, sözlük, liste ve metin", "agirlik": 25, "maddeler": [
+     {"kod": "3.1", "baslik": "Listeler: indeks ve dilim, len(), metotlar, sorted(), del, in ve not in, liste üreteçleri, kopyalama, iç içe listeler"},
+     {"kod": "3.2", "baslik": "Demetler: indeks, dilim, değiştirilemezlik; demet ile liste farkı"},
+     {"kod": "3.3", "baslik": "Sözlükler: kurmak, anahtar eklemek ve silmek, gezmek, anahtar sınamak; keys(), items(), values()"},
+     {"kod": "3.4", "baslik": "Metinler: kurmak, indeks ve dilim, değiştirilemezlik, \\ ile kaçış, tırnaklar, çok satırlı metin, temel metotlar"}
+    ]},
+    {"kod": "4", "baslik": "Fonksiyonlar ve istisnalar", "agirlik": 28, "maddeler": [
+     {"kod": "4.1", "baslik": "Fonksiyon ve üreteç tanımlamak; return, None; özyineleme"},
+     {"kod": "4.2", "baslik": "Fonksiyon ile çevresi: parametre ve argüman, konumsal ve anahtar sözcüklü argüman, varsayılan değer, kapsam, gölgeleme, global"},
+     {"kod": "4.3", "baslik": "Yerleşik istisna hiyerarşisi: BaseException, Exception, SystemExit, KeyboardInterrupt, ArithmeticError, LookupError, IndexError, KeyError, TypeError, ValueError"},
+     {"kod": "4.4", "baslik": "İstisna yönetiminin temelleri: try-except, except dallarının sırası, istisnanın fonksiyonlar arasında yayılması"}
+    ]}
+   ]
+  },
+  {
+   "id": "PCAP",
+   "ad": "PCAP-31-03",
+   "tam_ad": "Certified Associate Python Programmer",
+   "kurum": "Python Institute",
+   "kaynak": "https://pythoninstitute.org/pcap-exam-syllabus",
+   "sinav": {"soru": 40, "dakika": 65, "gecme": 70},
+   "bolumler": [
+    {"kod": "1", "baslik": "Modüller ve paketler", "agirlik": 12, "maddeler": [
+     {"kod": "1.1", "baslik": "Modül ve paket içe aktarmak: import, from … import, import as, from … import *; iç içe modüller, dir(), sys.path"},
+     {"kod": "1.2", "baslik": "math modülü: ceil(), floor(), trunc(), factorial(), hypot(), sqrt()"},
+     {"kod": "1.3", "baslik": "random modülü: random(), seed(), choice(), sample()", "not": "random yalnızca P68'de örnek veri üretmek için kullanılıyor; anlatan bir pafta yok."},
+     {"kod": "1.4", "baslik": "platform modülü: platform(), machine(), processor(), system(), version(), python_implementation(), python_version_tuple()", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "1.5", "baslik": "Kendi modül ve paketlerin: __pycache__, __name__, genel ve özel adlar, __init__.py, iç içe paketler"}
+    ]},
+    {"kod": "2", "baslik": "İstisnalar", "agirlik": 14, "maddeler": [
+     {"kod": "2.1", "baslik": "Python'un istisnaları: try/except, dalların sırası, except … as, gruplu istisnalar, hiyerarşi, raise, assert, args, else ve finally"},
+     {"kod": "2.2", "baslik": "Kendi istisnalarını tanımlamak ve hiyerarşiye katmak"}
+    ]},
+    {"kod": "3", "baslik": "Metinler", "agirlik": 18, "maddeler": [
+     {"kod": "3.1", "baslik": "Karakterlerin makinedeki karşılığı: ASCII, Unicode, UTF-8, kod noktaları, kaçış dizileri"},
+     {"kod": "3.2", "baslik": "Metin işlemleri: ord() ve chr(); indeks, dilim, değiştirilemezlik; gezmek, birleştirmek, tekrarlamak, karşılaştırmak; in ve not in", "not": "ord() ve chr() henüz bir paftada işlenmedi."},
+     {"kod": "3.3", "baslik": "Metin metotları: .isxxx(), .join(), .split(), .strip(), .index(), .find(), .rfind(); sorted() ile metin sıralamak"}
+    ]},
+    {"kod": "4", "baslik": "Nesne yönelimli programlama", "agirlik": 34, "maddeler": [
+     {"kod": "4.1", "baslik": "Nesne yönelimli yaklaşım: sınıf, nesne, nitelik, metot, kapsülleme, kalıtım, üst ve alt sınıf"},
+     {"kod": "4.2", "baslik": "Sınıf ve nesne nitelikleri: örnek ve sınıf değişkenleri, __dict__, özel bileşenler ve isim bozma"},
+     {"kod": "4.3", "baslik": "Sınıfa metot eklemek; self parametresi"},
+     {"kod": "4.4", "baslik": "Sınıfın yapısını keşfetmek: iç gözlem, hasattr(), __name__, __module__, __bases__"},
+     {"kod": "4.5", "baslik": "Kalıtımla sınıf hiyerarşisi: tekli ve çoklu kalıtım, isinstance(), ezme, is ve is not, çok biçimlilik, __str__(), elmas sorunu"},
+     {"kod": "4.6", "baslik": "Nesne kurmak ve ilklendirmek: kurucular"}
+    ]},
+    {"kod": "5", "baslik": "Çeşitli: üreteçler, lambda, closure, girdi/çıktı", "agirlik": 22, "maddeler": [
+     {"kod": "5.1", "baslik": "Liste üreteçleri: if koşulu, iç içe üreteçler"},
+     {"kod": "5.2", "baslik": "lambda: tanımlamak, lambda alan fonksiyonlar, map() ve filter()"},
+     {"kod": "5.3", "baslik": "Closure: anlamı, tanımlamak ve kullanmak"},
+     {"kod": "5.4", "baslik": "Girdi/çıktı kavramları: kipler, hazır akışlar, tutamak ve akış, metin ve ikili kip"},
+     {"kod": "5.5", "baslik": "Girdi/çıktı işlemleri: open(), close(), read(), write(), readline(), readlines(); errno; bytearray tampon", "not": "errno henüz bir paftada işlenmedi."}
+    ]}
+   ]
+  },
+  {
+   "id": "PCPP1",
+   "ad": "PCPP-32-101",
+   "tam_ad": "Certified Professional Python Programmer Level 1",
+   "kurum": "Python Institute",
+   "kaynak": "https://pythoninstitute.org/pcpp1-exam-syllabus",
+   "sinav": {"soru": 45, "dakika": 65, "gecme": 70},
+   "bolumler": [
+    {"kod": "1", "baslik": "İleri nesne yönelimli programlama", "agirlik": 35, "maddeler": [
+     {"kod": "1.1", "baslik": "Temel kavramlar: sınıf, örnek, nitelik, metot; isinstance() ve issubclass() ile iç gözlem; __init__()"},
+     {"kod": "1.2", "baslik": "Çekirdek sözdizimi: karşılaştırma, sayısal, dönüşüm, iç gözlem, nitelik ve kap erişimi sihirli metotları"},
+     {"kod": "1.3", "baslik": "Kalıtım, çok biçimlilik ve bileşim: tekli ve çoklu kalıtım, MRO, ördek tipleme"},
+     {"kod": "1.4", "baslik": "Genişletilmiş argüman sözdizimi ve dekoratörler: *args, **kwargs, closure, fonksiyon ve sınıf dekoratörleri, __call__"},
+     {"kod": "1.5", "baslik": "Statik ve sınıf metotları: @staticmethod, @classmethod, cls"},
+     {"kod": "1.6", "baslik": "Soyut sınıflar ve soyut metotlar"},
+     {"kod": "1.7", "baslik": "Nitelik kapsüllemesi: getter, setter, deleter"},
+     {"kod": "1.8", "baslik": "Yerleşik sınıflardan türetmek ve onları değiştirmek"},
+     {"kod": "1.9", "baslik": "İleri istisna teknikleri: nesne olarak istisnalar, zincirleme, traceback çözümlemek"},
+     {"kod": "1.10", "baslik": "Sığ ve derin kopya: kimlik ve değer, id(), is, copy(), deepcopy()"},
+     {"kod": "1.11", "baslik": "Nesneleri serileştirmek: pickle (dumps, loads) ve shelve"},
+     {"kod": "1.12", "baslik": "Metaprogramlama: metasınıflar, type(), __name__, __class__, __bases__, __dict__"}
+    ]},
+    {"kod": "2", "baslik": "Kod standartları ve iyi uygulamalar", "agirlik": 12, "maddeler": [
+     {"kod": "2.1", "baslik": "PEP'ler ve Python felsefesi: PEP 1, 8, 20, 257; import this"},
+     {"kod": "2.2", "baslik": "PEP 8: düzen, içe aktarmalar, tırnaklar, boşluklar, yorumlar, adlandırma; denetleyiciler"},
+     {"kod": "2.3", "baslik": "PEP 257 ve ilgili standartlar: docstring, yorum ile docstring farkı, PEP 484 tip ipuçları, linter"}
+    ]},
+    {"kod": "3", "baslik": "Grafik arayüz programlama (tkinter)", "agirlik": 20, "maddeler": [
+     {"kod": "3.1", "baslik": "GUI kavramları: pencere öğeleri, olay güdümlü programlama, GUI araç takımları", "not": "Bilerek dışarıda: tezgah pencere açamıyor, hedefe katkısı düşük."},
+     {"kod": "3.2", "baslik": "tkinter ile basit arayüz: pencere öğeleri, place() ve grid(), olay işleyicileri, girdi doğrulama, Canvas, bind()", "not": "Bilerek dışarıda: tezgah pencere açamıyor."},
+     {"kod": "3.3", "baslik": "Yerleşim yöneticileri, renkler, olay geri çağırmaları, gözlenebilir değişkenler", "not": "Bilerek dışarıda: tezgah pencere açamıyor."}
+    ]},
+    {"kod": "4", "baslik": "Ağ programlama", "agirlik": 18, "maddeler": [
+     {"kod": "4.1", "baslik": "Ağ kavramları: REST, soket, alan adı, port, protokol; bağlantılı ve bağlantısız iletişim; istemci ve sunucu"},
+     {"kod": "4.2", "baslik": "socket modülü: bağlanmak, veri göndermek ve almak, hataları yönetmek"},
+     {"kod": "4.3", "baslik": "Veri aktarımı: json; XML yapısı, DTD, XML işlemek"},
+     {"kod": "4.4", "baslik": "Basit bir REST istemcisi: requests, HTTP metotları, CRUD, durum kodları", "not": "P56 istemciyi urllib ile kuruyor; requests ve PUT/DELETE ile tam CRUD yok."}
+    ]},
+    {"kod": "5", "baslik": "Dosya işleme ve programın ortamıyla iletişim", "agirlik": 15, "maddeler": [
+     {"kod": "5.1", "baslik": "Python'da veritabanı: sqlite3, bağlantı, tablo, CRUD, işlemler, imleç"},
+     {"kod": "5.2", "baslik": "Dosya biçimleri: XML okumak ve üretmek, CSV, logging, ConfigParser"}
+    ]}
+   ]
+  }
+ ]
+}

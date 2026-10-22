@@ -2,6 +2,7 @@
 id: p61
 title: asyncio II · Zaman Aşımı, Sınırlar, Akışlar
 summary: wait_for ve timeout, iptal, Semaphore ile eşzamanlılık sınırı, to_thread ve yerel asenkron TCP sunucusu.
+kazanim: PCPP1 4.2
 ---
 
 ::: anlat Zaman aşımı ve iptal

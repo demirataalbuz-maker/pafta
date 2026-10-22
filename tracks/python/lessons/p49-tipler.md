@@ -2,6 +2,7 @@
 id: p49
 title: Tip İpuçları
 summary: Açıklamalı imzalar, list[int] ve X | None, TypeVar, TypedDict, Literal, Callable ve çalışma anı ipuçları.
+kazanim: PCPP1 2.3
 ---
 
 ::: anlat Kod için belgeler, makine için sözleşme

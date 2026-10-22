@@ -2,6 +2,7 @@
 id: c07
 title: Yapıların Bellek Düzeni
 summary: struct alanlarının hizalanması ve dolgu baytları, sizeof ve offsetof, alan sırasının boyutu değiştirmesi, dosya biçimleri için #pragma pack, yapı dizileri ve ok işleci, union ile aynı belleği farklı türde okumak.
+kazanim: CLA 1.2, CLA 2.6
 ---
 
 ::: anlat Hizalama ve dolgu

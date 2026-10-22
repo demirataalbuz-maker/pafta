@@ -2,6 +2,7 @@
 id: p15
 title: Demetler ve Paketten Çıkarma
 summary: tuple değiştirilemez kayıttır; unpacking, *geri kalan, zip ve enumerate.
+kazanim: PCEP 3.2
 ---
 
 ::: anlat Değiştirilemez sıralı kayıt

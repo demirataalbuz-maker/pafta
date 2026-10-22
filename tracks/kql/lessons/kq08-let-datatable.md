@@ -2,6 +2,7 @@
 id: kq08
 title: let, datatable ve toscalar
 summary: Değerleri ve ara sonuçları let ile adlandırmak, sorguyu ; ile bağlamak, toscalar ile tek bir sayıyı sorguda kullanmak ve datatable ile sorgunun içinde küçük tablolar kurmak.
+kazanim: SC200 1.4, SC200 4.3
 ---
 
 ::: anlat let: adlandır, tekrar kullan

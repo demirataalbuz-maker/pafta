@@ -2,6 +2,7 @@
 id: sp09
 title: Pivot Tablolar
 summary: chart ile iki boyutlu özet (over ... by ...), boş hücreler ve fillnull, limit ve useother ile OTHER sütunu, stats sonucunu genişleten xyseries ve geniş tabloyu uzun biçime çeviren untable.
+kazanim: PU 1.1, PU 2.3, APU 12.2, APU 12.3
 ---
 
 ::: anlat chart: satırlar ve sütunlar

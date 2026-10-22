@@ -2,6 +2,7 @@
 id: sp15
 title: Koşullu Toplama ve Aykırı Değerler
 summary: count(eval(...)) ve sum(eval(if(...))) ile tek stats'ta birden çok koşul, earliest ve latest ile zamana göre ilk ve son değer, range ve dc, eventstats ile ortalama ve standart sapmayı her olaya yazıp z-puanıyla aykırı değer bulmak.
+kazanim: APU 1.1, APU 1.5
 ---
 
 ::: anlat Tek stats, birçok soru

@@ -2,6 +2,7 @@
 id: p57
 title: Araç Gibi Yazmak · argparse ve logging
 summary: Komut satırı argümanları, yardım metni, alt komutlar; seviyeli loglama, biçim ve gizli veri süzgeci.
+kazanim: PCPP1 5.2
 ---
 
 ::: anlat argparse: komut satırı arayüzü

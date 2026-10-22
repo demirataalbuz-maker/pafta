@@ -2,6 +2,7 @@
 id: p50
 title: Kod Standartları · PEP 8, 20, 257
 summary: Python'un yazım kılavuzu PEP 8 (girinti, satır uzunluğu, adlandırma, boşluklar, içe aktarma sırası, None ve tür karşılaştırmaları), Python'un ilkeleri PEP 20, docstring kuralları PEP 257 ve docstring biçimleri, inspect.getdoc, linter ve biçimlendiriciler.
+kazanim: PCEP 1.3, PCPP1 2.1, PCPP1 2.2, PCPP1 2.3
 ---
 
 ::: anlat PEP 8: herkesin okuyabildiği Python

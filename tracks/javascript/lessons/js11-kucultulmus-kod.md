@@ -2,6 +2,7 @@
 id: js11
 title: Küçültülmüş Kodu Okumak
 summary: Üretimdeki JavaScript'in küçültülmüş (minified) hâli; !0 ve void 0, virgül işleci, && ve || ile koşul yazımı, iç içe üçlü işleç, hemen çağrılan fonksiyonlar (IIFE), paketleyici sarmalayıcıları ve kodu açıp yeniden adlandırma yöntemi.
+kazanim: JSA 4.2.1
 ---
 
 ::: anlat Neden böyle görünüyor?

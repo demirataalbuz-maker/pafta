@@ -2,6 +2,7 @@
 id: sp19
 title: Proje · Web Erişim Panosu
 summary: Web istek günlüğünden bir Splunk panosu kurmak; saatlik hacim, hata oranı ve ortalama süre, kimlikleri kalıba indirip en sorunlu uç noktaları bulmak ve append ile streamstats kullanarak her isteği kendisinden önceki son dağıtıma bağlamak.
+kazanim: APU 1.6
 ---
 
 ::: anlat Proje tanımı

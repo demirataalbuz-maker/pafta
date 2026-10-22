@@ -2,6 +2,7 @@
 id: ps05
 title: Boru Hattı ve Döngüler
 summary: Nesne akan boru hattı, ForEach-Object, Where-Object, $_, Measure-Object; foreach, for ve while.
+kazanim: AZ040 3.1, AZ040 3.3, AZ040 3.4, AZ040 7.2
 ---
 
 ::: anlat Boruda nesne akar

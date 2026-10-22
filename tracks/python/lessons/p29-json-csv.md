@@ -2,6 +2,7 @@
 id: p29
 title: Veri Biçimleri · JSON, CSV, SQLite
 summary: json ile serileştirme, csv okuma-yazma ve parametreli SQL sorgusuyla injection'dan korunma.
+kazanim: PCPP1 4.3, PCPP1 5.1, PCPP1 5.2
 ---
 
 ::: anlat JSON: makinelerin ortak dili

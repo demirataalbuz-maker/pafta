@@ -1,0 +1,224 @@
+{
+ "sertifikalar": [
+  {
+   "id": "PU",
+   "ad": "SPLK-1002 · Power User",
+   "tam_ad": "Splunk Core Certified Power User",
+   "kurum": "Splunk",
+   "kaynak": "https://www.splunk.com/en_us/pdfs/training/splunk-test-blueprint-power-user.pdf",
+   "sinav": {"soru": 65, "dakika": 60},
+   "bolumler": [
+    {"kod": "1", "baslik": "Görselleştirme için dönüştürücü komutlar", "agirlik": 5, "maddeler": [
+     {"kod": "1.1", "baslik": "chart komutu"},
+     {"kod": "1.2", "baslik": "timechart komutu"}
+    ]},
+    {"kod": "2", "baslik": "Sonuçları süzmek ve biçimlendirmek", "agirlik": 10, "maddeler": [
+     {"kod": "2.1", "baslik": "eval komutu"},
+     {"kod": "2.2", "baslik": "search ve where ile sonuçları süzmek"},
+     {"kod": "2.3", "baslik": "fillnull komutu"}
+    ]},
+    {"kod": "3", "baslik": "Olayları ilişkilendirmek", "agirlik": 15, "maddeler": [
+     {"kod": "3.1", "baslik": "İşlemleri (transaction) tanımak"},
+     {"kod": "3.2", "baslik": "Olayları alanlara göre gruplamak"},
+     {"kod": "3.3", "baslik": "Olayları alanlara ve zamana göre gruplamak"},
+     {"kod": "3.4", "baslik": "transaction ile aramak"},
+     {"kod": "3.5", "baslik": "İşlemler üzerine rapor: duration, eventcount"},
+     {"kod": "3.6", "baslik": "Ne zaman transaction, ne zaman stats"}
+    ]},
+    {"kod": "4", "baslik": "Alan oluşturmak ve yönetmek", "agirlik": 10, "maddeler": [
+     {"kod": "4.1", "baslik": "Alan Çıkarıcı (FX) ile regex'le alan çıkarmak", "not": "FX bir arayüz aracı; SP05 aynı çıkarmayı aramada rex ile yaptırır."},
+     {"kod": "4.2", "baslik": "Alan Çıkarıcı (FX) ile ayraçla alan çıkarmak", "not": "FX bir arayüz aracı; SP12 ayraçla bölmeyi split ve makemv ile yaptırır."}
+    ]},
+    {"kod": "5", "baslik": "Alan takma adları ve hesaplanan alanlar", "agirlik": 10, "maddeler": [
+     {"kod": "5.1", "baslik": "Alan takma adı: tanımı, kurulması, kullanımı"},
+     {"kod": "5.2", "baslik": "Hesaplanan alan: tanımı, kurulması, kullanımı"}
+    ]},
+    {"kod": "6", "baslik": "Etiketler ve olay türleri", "agirlik": 10, "maddeler": [
+     {"kod": "6.1", "baslik": "Etiket kurmak ve kullanmak"},
+     {"kod": "6.2", "baslik": "Olay türleri ve kullanım yerleri"},
+     {"kod": "6.3", "baslik": "Olay türü kurmak"}
+    ]},
+    {"kod": "7", "baslik": "Makrolar", "agirlik": 10, "maddeler": [
+     {"kod": "7.1", "baslik": "Makro nedir"},
+     {"kod": "7.2", "baslik": "Basit bir makro kurmak ve kullanmak"},
+     {"kod": "7.3", "baslik": "Makro için argüman ve değişken tanımlamak"},
+     {"kod": "7.4", "baslik": "Argümanlı makro kullanmak"}
+    ]},
+    {"kod": "8", "baslik": "İş akışı eylemleri", "agirlik": 10, "not": "İş akışı eylemleri Splunk arayüzünde kurulur; SP17'de yalnızca adıyla geçiyor.", "maddeler": [
+     {"kod": "8.1", "baslik": "GET, POST ve Search iş akışı eylemlerinin işlevi"},
+     {"kod": "8.2", "baslik": "GET iş akışı eylemi kurmak"},
+     {"kod": "8.3", "baslik": "POST iş akışı eylemi kurmak"},
+     {"kod": "8.4", "baslik": "Search iş akışı eylemi kurmak"}
+    ]},
+    {"kod": "9", "baslik": "Veri modelleri", "agirlik": 10, "maddeler": [
+     {"kod": "9.1", "baslik": "Veri modeli ile pivot ilişkisi"},
+     {"kod": "9.2", "baslik": "Veri modelinin nitelikleri"},
+     {"kod": "9.3", "baslik": "Veri modeli kurmak", "not": "Arayüz işi; tezgahta veri modeli kurulmuyor."}
+    ]},
+    {"kod": "10", "baslik": "Common Information Model (CIM) eklentisi", "agirlik": 10, "maddeler": [
+     {"kod": "10.1", "baslik": "Splunk CIM nedir"},
+     {"kod": "10.2", "baslik": "CIM eklentisindeki bilgi nesneleri"},
+     {"kod": "10.3", "baslik": "CIM eklentisiyle veriyi normalleştirmek"}
+    ]}
+   ]
+  },
+  {
+   "id": "APU",
+   "ad": "SPLK-1004 · Advanced Power User",
+   "tam_ad": "Splunk Core Certified Advanced Power User",
+   "kurum": "Splunk",
+   "kaynak": "https://www.splunk.com/en_us/pdfs/training/splunk-test-blueprint-advanced-power-user.pdf",
+   "sinav": {"soru": 70, "dakika": 60},
+   "bolumler": [
+    {"kod": "1", "baslik": "İstatistik komutları", "agirlik": 4, "maddeler": [
+     {"kod": "1.1", "baslik": "stats fonksiyonlarıyla istatistiksel çözümleme"},
+     {"kod": "1.2", "baslik": "fieldsummary"},
+     {"kod": "1.3", "baslik": "appendpipe"},
+     {"kod": "1.4", "baslik": "count ve list fonksiyonları"},
+     {"kod": "1.5", "baslik": "eventstats"},
+     {"kod": "1.6", "baslik": "streamstats"}
+    ]},
+    {"kod": "2", "baslik": "eval fonksiyonları", "agirlik": 4, "maddeler": [
+     {"kod": "2.1", "baslik": "Dönüşüm fonksiyonları: tonumber, tostring, printf", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "2.2", "baslik": "Metin fonksiyonları"},
+     {"kod": "2.3", "baslik": "Karşılaştırma ve koşul fonksiyonları"},
+     {"kod": "2.4", "baslik": "Bilgi fonksiyonları: isnull, isnotnull, typeof"},
+     {"kod": "2.5", "baslik": "eval'in istatistik fonksiyonları: min, max, random", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "2.6", "baslik": "makeresults komutu"}
+    ]},
+    {"kod": "3", "baslik": "Lookup'lar", "agirlik": 4, "maddeler": [
+     {"kod": "3.1", "baslik": "İleri lookup seçenekleri: OUTPUT, OUTPUTNEW, AS"},
+     {"kod": "3.2", "baslik": "Lookup değerlerine göre olayları dahil etmek ya da dışlamak"},
+     {"kod": "3.3", "baslik": "KV Store lookup'ları", "not": "Sunucu tarafı bir depo; tezgahta yok."},
+     {"kod": "3.4", "baslik": "Dış (betikli) lookup'lar", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "3.5", "baslik": "Coğrafi lookup'lar", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "3.6", "baslik": "Lookup'larda iyi uygulamalar"}
+    ]},
+    {"kod": "4", "baslik": "Uyarılar", "agirlik": 4, "not": "Uyarılar Splunk arayüzünde kurulur; tezgahta zamanlanmış arama yok.", "maddeler": [
+     {"kod": "4.1", "baslik": "Uyarı olaylarını aranabilir biçimde kaydetmek ve indekslemek"},
+     {"kod": "4.2", "baslik": "Uyarılarda lookup'a başvurmak"},
+     {"kod": "4.3", "baslik": "Uyarı sonuçlarını lookup'a yazmak (outputlookup)"},
+     {"kod": "4.4", "baslik": "Webhook uyarı eylemi"},
+     {"kod": "4.5", "baslik": "Günlük olayı yazan uyarı eylemi"}
+    ]},
+    {"kod": "5", "baslik": "İleri alan oluşturma ve yönetimi", "agirlik": 4, "maddeler": [
+     {"kod": "5.1", "baslik": "Alan çıkarma yöntemleri"},
+     {"kod": "5.2", "baslik": "Alan Çıkarıcı'ya regex vermek", "not": "FX bir arayüz aracı; regex'i SP05'te rex ile yazıyorsun."},
+     {"kod": "5.3", "baslik": "Arama zamanında erex ve rex ile alan çıkarmak", "not": "rex var; erex işlenmedi."},
+     {"kod": "5.4", "baslik": "Splunk'ta regex başarımını iyileştirmek", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "6", "baslik": "Kendini tanımlayan veri ve dosyalar", "agirlik": 3, "maddeler": [
+     {"kod": "6.1", "baslik": "Kendini tanımlayan veri (JSON, XML)"},
+     {"kod": "6.2", "baslik": "spath komutu", "not": "SP12'de yalnızca adıyla geçiyor; tezgahta spath yok."},
+     {"kod": "6.3", "baslik": "eval ile spath fonksiyonu", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "6.4", "baslik": "multikv komutu", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "7", "baslik": "İleri arama makroları", "agirlik": 3, "maddeler": [
+     {"kod": "7.1", "baslik": "İç içe makrolar"},
+     {"kod": "7.2", "baslik": "Makroyu çalıştırmadan önce açılmış hâliyle görmek"},
+     {"kod": "7.3", "baslik": "Makrolarla başka bilgi nesnelerini kullanmak"}
+    ]},
+    {"kod": "8", "baslik": "Hızlandırma: raporlar ve özet indeksleme", "agirlik": 4, "not": "Rapor hızlandırma ve özet indeksleme sunucu tarafı ayarlar; tezgahta yok.", "maddeler": [
+     {"kod": "8.1", "baslik": "Hızlandırma nedir"},
+     {"kod": "8.2", "baslik": "Hangi raporlar hızlandırılabilir"},
+     {"kod": "8.3", "baslik": "Splunk'ın hızlandırma özeti kurmadığı durumlar"},
+     {"kod": "8.4", "baslik": "Bir raporu hızlandırmak"},
+     {"kod": "8.5", "baslik": "Report Acceleration Summaries ve Summary Detail sayfaları"},
+     {"kod": "8.6", "baslik": "Özet indeksleme"},
+     {"kod": "8.7", "baslik": "Özet indeksleme komutları (si-)"},
+     {"kod": "8.8", "baslik": "Özet üzerinde arama"},
+     {"kod": "8.9", "baslik": "Özet indekslerde boşluk ve çakışmalar"}
+    ]},
+    {"kod": "9", "baslik": "Hızlandırma: veri modelleri ve tsidx", "agirlik": 4, "maddeler": [
+     {"kod": "9.1", "baslik": "datamodel komutuyla veri modellerini incelemek"},
+     {"kod": "9.2", "baslik": "Veri modeli hızlandırması nedir"},
+     {"kod": "9.3", "baslik": "Veri modelini hızlandırmak", "not": "Arayüz işi; tezgahta yok."},
+     {"kod": "9.4", "baslik": "tsidx dosyaları"},
+     {"kod": "9.5", "baslik": "tstats ile tsidx dosyalarında çalışmak"},
+     {"kod": "9.6", "baslik": "tstats ile hızlandırılmış veri modellerini aramak"},
+     {"kod": "9.7", "baslik": "Hangi hızlandırma seçeneği ne zaman", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "10", "baslik": "Aramayı verimli kullanmak", "agirlik": 4, "maddeler": [
+     {"kod": "10.1", "baslik": "Splunk mimarisinin bileşenleri", "not": "SP16 bucket ve terim dizinini anlatıyor; indexer ve search head henüz işlenmedi."},
+     {"kod": "10.2", "baslik": "Aramanın akışı"},
+     {"kod": "10.3", "baslik": "Akış (streaming) komutları", "not": "Komut türleri henüz adıyla anlatılmadı."},
+     {"kod": "10.4", "baslik": "Dönüştürücü (transforming) komutlar", "not": "Komut türleri henüz adıyla anlatılmadı."},
+     {"kod": "10.5", "baslik": "Komutların sırası"},
+     {"kod": "10.6", "baslik": "Job Inspector"}
+    ]},
+    {"kod": "11", "baslik": "Arama ayarı", "agirlik": 3, "maddeler": [
+     {"kod": "11.1", "baslik": "Veriyi önceden süzmek"},
+     {"kod": "11.2", "baslik": "Lispy ve mantık işleçleri", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "11.3", "baslik": "Lispy ve joker karakterler"},
+     {"kod": "11.4", "baslik": "TERM yönergesi", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "12", "baslik": "Veriyi işlemek ve süzmek", "agirlik": 6, "maddeler": [
+     {"kod": "12.1", "baslik": "bin komutu"},
+     {"kod": "12.2", "baslik": "xyseries komutu"},
+     {"kod": "12.3", "baslik": "untable komutu"},
+     {"kod": "12.4", "baslik": "foreach komutu", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "12.5", "baslik": "strftime fonksiyonu"}
+    ]},
+    {"kod": "13", "baslik": "Çok değerli alanlar", "agirlik": 7, "maddeler": [
+     {"kod": "13.1", "baslik": "Çok değerli alanlar"},
+     {"kod": "13.2", "baslik": "Çok değerli eval fonksiyonları"},
+     {"kod": "13.3", "baslik": "makemv komutu"},
+     {"kod": "13.4", "baslik": "mvexpand komutu"}
+    ]},
+    {"kod": "14", "baslik": "İleri transaction", "agirlik": 5, "maddeler": [
+     {"kod": "14.1", "baslik": "Olayları değerlendirip işlem kurmak"},
+     {"kod": "14.2", "baslik": "Ortak değerler ve farklı alan adları", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "14.3", "baslik": "coalesce'e bir seçenek", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "14.4", "baslik": "Tam ve yarım kalan işlemler"},
+     {"kod": "14.5", "baslik": "İşlemleri hızlandırmak"},
+     {"kod": "14.6", "baslik": "stats ve transaction"}
+    ]},
+    {"kod": "15", "baslik": "Zamanla çalışmak", "agirlik": 2, "maddeler": [
+     {"kod": "15.1", "baslik": "Zamanı etkili kullanmak"},
+     {"kod": "15.2", "baslik": "Varsayılan zaman alanları"}
+    ]},
+    {"kod": "16", "baslik": "Alt aramalar", "agirlik": 6, "maddeler": [
+     {"kod": "16.1", "baslik": "Çok sayıda sonucu alt aramayla süzmek"},
+     {"kod": "16.2", "baslik": "Alt aramanın tuzakları: satır ve süre sınırları"},
+     {"kod": "16.3", "baslik": "Alt arama ne zaman kullanılır"},
+     {"kod": "16.4", "baslik": "Alt arama ne zaman kullanılmaz"},
+     {"kod": "16.5", "baslik": "Alt aramalarda sorun gidermek", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "16.6", "baslik": "append komutu"}
+    ]},
+    {"kod": "17", "baslik": "Pano taslağı", "agirlik": 4, "not": "17–22 panolar: Simple XML Splunk arayüzünde yazılır; tezgah pano çizmez. SP19 pano sorgularını kurar, XML'ini değil.", "maddeler": [
+     {"kod": "17.1", "baslik": "Görünümler için Simple XML sözdizimi"},
+     {"kod": "17.2", "baslik": "Görünüm kurmada iyi uygulamalar"},
+     {"kod": "17.3", "baslik": "Görünümlerde sorun gidermek"}
+    ]},
+    {"kod": "18", "baslik": "Formlar", "agirlik": 5, "maddeler": [
+     {"kod": "18.1", "baslik": "Jetonlar (token) nasıl çalışır"},
+     {"kod": "18.2", "baslik": "Form girdileriyle jeton kullanmak"},
+     {"kod": "18.3", "baslik": "Ardışık (cascading) girdiler"},
+     {"kod": "18.4", "baslik": "Jeton süzgeci türleri"}
+    ]},
+    {"kod": "19", "baslik": "Başarımı iyileştirmek", "agirlik": 6, "maddeler": [
+     {"kod": "19.1", "baslik": "Pano başarımını iyileştirmenin yolları"},
+     {"kod": "19.2", "baslik": "tstats komutu"},
+     {"kod": "19.3", "baslik": "Temel ve son işlem (post-process) aramaları"}
+    ]},
+    {"kod": "20", "baslik": "Panoları özelleştirmek", "agirlik": 6, "maddeler": [
+     {"kod": "20.1", "baslik": "Grafik ve panel özellikleri"},
+     {"kod": "20.2", "baslik": "Panel yenileme ve gecikme süreleri"},
+     {"kod": "20.3", "baslik": "Arama erişim özelliklerini kapatmak"},
+     {"kod": "20.4", "baslik": "Olay açıklamaları (annotation)"}
+    ]},
+    {"kod": "21", "baslik": "Ayrıntıya inme (drilldown)", "agirlik": 7, "maddeler": [
+     {"kod": "21.1", "baslik": "Drilldown türleri"},
+     {"kod": "21.2", "baslik": "Hazır jetonlar"},
+     {"kod": "21.3", "baslik": "Dinamik drilldown kurmak"}
+    ]},
+    {"kod": "22", "baslik": "İleri davranışlar ve görselleştirmeler", "agirlik": 5, "maddeler": [
+     {"kod": "22.1", "baslik": "Olay işleyici türleri"},
+     {"kod": "22.2", "baslik": "Olay eylemleri"},
+     {"kod": "22.3", "baslik": "Bağlamsal drilldown kurmak"},
+     {"kod": "22.4", "baslik": "Simple XML uzantıları"}
+    ]}
+   ]
+  }
+ ]
+}

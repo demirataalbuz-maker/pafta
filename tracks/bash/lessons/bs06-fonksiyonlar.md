@@ -2,6 +2,7 @@
 id: bs06
 title: Fonksiyonlar
 summary: Bash fonksiyonları, $1 argümanları, local değişkenler, echo ile değer döndürmek ve return ile durum kodu.
+kazanim: LPIC1 105.1
 ---
 
 ::: anlat Fonksiyon = isimli komut

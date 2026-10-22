@@ -2,6 +2,7 @@
 id: p45
 title: Üreteçler · yield
 summary: Durumunu hatırlayan fonksiyonlar, tembel değerlendirme, işlem hatları ve yield from.
+kazanim: PCEP 4.1
 ---
 
 ::: anlat Duraklatılabilen fonksiyon

@@ -1,0 +1,45 @@
+{
+ "sertifikalar": [
+  {
+   "id": "CLA",
+   "ad": "CLA-11-03",
+   "tam_ad": "C Certified Associate Programmer (bu yol okuma düzeyinde). Bloklar ve ağırlıklar resmî; madde numaraları Pafta'nın, blok konularından.",
+   "kurum": "C++ Institute",
+   "kaynak": "https://cppinstitute.org/cla",
+   "sinav": {"soru": 40, "dakika": 65, "gecme": 70},
+   "bolumler": [
+    {"kod": "1", "baslik": "Dil ve yapılar: bildirimler, tanımlar, sözcük yapısı", "agirlik": 29, "maddeler": [
+     {"kod": "1.1", "baslik": "Geçerli değişken bildirimleri; bildirim ile tanım farkı"},
+     {"kod": "1.2", "baslik": "Diziler ve yapılar, ilklendirmeleri"},
+     {"kod": "1.3", "baslik": "Saklama sınıfları: auto, static, extern"},
+     {"kod": "1.4", "baslik": "Tanıtıcılar, anahtar sözcükler ve sabitler"},
+     {"kod": "1.5", "baslik": "Sözcük öğeleri: jetonlar ve ayırıcılar", "not": "Henüz ayrı işlenmedi."},
+     {"kod": "1.6", "baslik": "Tanıtıcı adlandırma kuralları", "not": "Henüz ayrı işlenmedi."}
+    ]},
+    {"kod": "2", "baslik": "Veri işlemleri: ifadeler, işaretçiler, bellek", "agirlik": 38, "maddeler": [
+     {"kod": "2.1", "baslik": "Aritmetik, ilişkisel, mantıksal ve bit işleçleriyle ifadeler"},
+     {"kod": "2.2", "baslik": "Tür dönüşümleri, işleç önceliği ve birleşme"},
+     {"kod": "2.3", "baslik": "İşaretçi bildirmek, ilklendirmek ve kullanmak"},
+     {"kod": "2.4", "baslik": "İşaretçi aritmetiği ve dolaylama"},
+     {"kod": "2.5", "baslik": "Dizi ile işaretçi ilişkisi"},
+     {"kod": "2.6", "baslik": "Bellek düzeni ve saklama süresi"},
+     {"kod": "2.7", "baslik": "Değişkenlerin kapsamı, bağlantısı ve ömrü"}
+    ]},
+    {"kod": "3", "baslik": "Akış denetimi: koşullar, döngüler, fonksiyonlar", "agirlik": 25, "maddeler": [
+     {"kod": "3.1", "baslik": "if, else ve switch"},
+     {"kod": "3.2", "baslik": "while, do-while ve for döngüleri", "not": "do-while ayrıca işlenmedi."},
+     {"kod": "3.3", "baslik": "break, continue ve goto", "not": "goto işlenmedi."},
+     {"kod": "3.4", "baslik": "Fonksiyon bildirmek, tanımlamak ve çağırmak"},
+     {"kod": "3.5", "baslik": "Parametreler ve dönüş değerleri"},
+     {"kod": "3.6", "baslik": "Değerle çağırma ve işaretçiyle çağırma"}
+    ]},
+    {"kod": "4", "baslik": "Ortam: önişlemci ve akış G/Ç", "agirlik": 8, "maddeler": [
+     {"kod": "4.1", "baslik": "Önişlemci yönergeleri: #define, #include, #ifdef, #undef"},
+     {"kod": "4.2", "baslik": "Makrolar ve koşullu derleme"},
+     {"kod": "4.3", "baslik": "Dosya G/Ç: fopen, fclose, fscanf, fprintf", "not": "C11 dosyayı fread ve fgets ile okuyor; fscanf ve fprintf işlenmedi."},
+     {"kod": "4.4", "baslik": "printf ve biçim belirteçleri (%d, %x, %o, %s)"}
+    ]}
+   ]
+  }
+ ]
+}

@@ -2,6 +2,7 @@
 id: sq06
 title: Küme İşlemleri
 summary: UNION ile UNION ALL farkı, INTERSECT ve EXCEPT, sütun uyumu, birleşik sonucun sıralanması ve farklı kaynakları tek zaman çizelgesinde toplamak.
+kazanim: 1Z0071 7.1, 1Z0071 7.2
 ---
 
 ::: anlat Sorguları üst üste koymak

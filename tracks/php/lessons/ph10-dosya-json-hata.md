@@ -2,6 +2,7 @@
 id: ph10
 title: Dosyalar, JSON ve Hatalar
 summary: include ve require farkı ve __DIR__, file_get_contents ve file_put_contents, json_decode'un dizi ve nesne kipleri ve hatada null döndürmesi, JSON_THROW_ON_ERROR, array_merge ile + işlecinin farkı, istisnalar ve üretimde hata göstermemek.
+kazanim: ZCPE 3.2, ZCPE 7.1, ZCPE 10.2, ZCPE 11.1, ZCPE 11.2
 ---
 
 ::: anlat Dosyalar ve içe alma

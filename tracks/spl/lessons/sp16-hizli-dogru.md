@@ -2,6 +2,7 @@
 id: sp16
 title: Hızlı ve Doğru Arama
 summary: Splunk'ın indeksi nasıl kullandığı; süzgeçleri ilk | işaretinden önce yazmak, where ile search farkı ve büyük-küçük harf, fields ile erken daraltmak, baştaki joker karakterin maliyeti, stats'ı transaction ve join'e tercih etmek ve olay sırasına güvenmemek.
+kazanim: PU 2.2, PU 3.6, APU 9.4, APU 10.2, APU 10.5, APU 10.6, APU 11.1, APU 11.3, APU 14.5, APU 16.4
 ---
 
 ::: anlat Splunk veriyi nasıl okur?

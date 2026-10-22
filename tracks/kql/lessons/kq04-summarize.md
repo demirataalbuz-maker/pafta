@@ -2,6 +2,7 @@
 id: kq04
 title: summarize ile Özetlemek
 summary: count, countif, dcount, avg, sum, min, max; by ile gruplamak, varsayılan sütun adları ve bin ile aralıklara bölmek.
+kazanim: SC200 2.1
 ---
 
 ::: anlat summarize

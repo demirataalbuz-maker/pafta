@@ -2,6 +2,7 @@
 id: c02
 title: Akış ve Fonksiyonlar
 summary: if, for, while; switch ve break'siz düşme; i++ ile ++i; fonksiyonlar, değerle geçirme ve kapsam.
+kazanim: CLA 2.7, CLA 3.1, CLA 3.2, CLA 3.3, CLA 3.4, CLA 3.5, CLA 3.6
 ---
 
 ::: anlat Akış denetimi

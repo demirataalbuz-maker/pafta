@@ -2,6 +2,7 @@
 id: ps11
 title: Gelişmiş Fonksiyonlar II
 summary: SupportsShouldProcess ile -WhatIf ve -Confirm, Write-Verbose ve -Verbose, parametre setleri, özelliğe göre boru hattı bağlama, [switch] ve doğrulama öznitelikleri.
+kazanim: AZ040 7.3, AZ040 7.5
 ---
 
 ::: anlat Fonksiyonu cmdlet gibi davrandırmak

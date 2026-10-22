@@ -2,6 +2,7 @@
 id: bs17
 title: find, xargs ve Dosya Sistemi
 summary: find ile ada, türe, boyuta ve zamana göre aramak, -exec ile + farkı, boşluklu adlar için -print0 ve xargs -0, stat, du ve dosya izinleri.
+kazanim: LPIC1 103.3, LPIC1 103.4, LPIC1 104.5, LPIC1 104.7
 ---
 
 ::: anlat find: dosya sisteminde sorgu

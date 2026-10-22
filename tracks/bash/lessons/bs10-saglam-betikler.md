@@ -2,6 +2,7 @@
 id: bs10
 title: Sağlam Betikler
 summary: set -euo pipefail, doğru tırnaklama, trap ile temizlik, mktemp, kullanım mesajı ve çıkış kodları.
+kazanim: LPIC1 105.2
 ---
 
 ::: anlat Hata olunca durmayan betik tehlikelidir

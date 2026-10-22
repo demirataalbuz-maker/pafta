@@ -2,6 +2,7 @@
 id: kq07
 title: Zamanla Çalışmak
 summary: datetime ve ago, zaman aralıkları, bin ile saatlik ve günlük dilimler, datetime_diff ile süre hesabı, hourofday ve sonucu render ile görselleştirmek.
+kazanim: SC200 1.3, SC200 2.4
 ---
 
 ::: anlat Zaman her kaydın omurgasıdır

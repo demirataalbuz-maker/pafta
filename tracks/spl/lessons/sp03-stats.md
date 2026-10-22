@@ -2,6 +2,7 @@
 id: sp03
 title: stats ile Saymak
 summary: count, dc, sum, avg, min, max, values; by ile gruplamak, as ile adlandırmak ve by alanı olmayan olayların sessizce düşmesi.
+kazanim: APU 1.1, APU 1.4
 ---
 
 ::: anlat stats

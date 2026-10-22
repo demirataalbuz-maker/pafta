@@ -2,6 +2,7 @@
 id: p26
 title: Kendi İstisnaların ve EAFP
 summary: Özel istisna sınıfları, raise from zinciri, EAFP ve LBYL, assert'in doğru yeri.
+kazanim: PCEP 4.4, PCAP 2.1, PCAP 2.2, PCPP1 1.9
 ---
 
 ::: anlat Kendi hata türlerin

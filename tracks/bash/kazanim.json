@@ -1,0 +1,32 @@
+{
+ "sertifikalar": [
+  {
+   "id": "LPIC1",
+   "ad": "LPIC-1 · komut satırı ve betik",
+   "tam_ad": "LPIC-1 v5.0 (101-500 ve 102-500) sınavlarının kabuk konuları: 103, 104.5–104.7, 105.1–105.2",
+   "kurum": "Linux Professional Institute",
+   "kaynak": "https://wiki.lpi.org/wiki/LPIC-1_Objectives_V5.0",
+   "bolumler": [
+    {"kod": "103", "baslik": "GNU ve Unix komutları", "agirlik": 26, "maddeler": [
+     {"kod": "103.1", "baslik": "Komut satırında çalışmak: echo, env, export, set, unset, type, which, man, uname, history; tırnaklama", "not": "which, uname ve history işlenmedi."},
+     {"kod": "103.2", "baslik": "Metin akışlarını süzgeçlerle işlemek: cat, cut, head, tail, sort, uniq, wc, tr, paste, sed, sha256sum, nl, od, split, zcat", "not": "nl, od, split ve zcat ailesi işlenmedi."},
+     {"kod": "103.3", "baslik": "Temel dosya yönetimi: cp, mv, rm, mkdir, touch, find, tar, gzip, bzip2, xz, cpio, dd, file; glob", "not": "cpio, dd ve file işlenmedi."},
+     {"kod": "103.4", "baslik": "Akışlar, borular ve yönlendirmeler: tee, xargs"},
+     {"kod": "103.5", "baslik": "Süreç başlatmak, izlemek, sonlandırmak: &, jobs, bg, fg, kill, nohup, ps, top, pgrep, pkill", "not": "jobs, bg, fg, nohup, top, pgrep, screen ve tmux işlenmedi."},
+     {"kod": "103.6", "baslik": "Süreç önceliğini değiştirmek: nice, renice"},
+     {"kod": "103.7", "baslik": "Düzenli ifadelerle metin aramak: grep, egrep, fgrep, sed", "not": "grep -E ve -F ayrı anlatılmadı; ERE farkı BS20'de sed -E ile."},
+     {"kod": "103.8", "baslik": "vi ile temel düzenleme", "not": "Tezgahta etkileşimli editör çalışmaz."}
+    ]},
+    {"kod": "104", "baslik": "Dosya sistemi (seçili maddeler)", "agirlik": 7, "maddeler": [
+     {"kod": "104.5", "baslik": "Dosya izinleri ve sahiplik: chmod, umask, chown, chgrp", "not": "umask, chown ve chgrp işlenmedi."},
+     {"kod": "104.6", "baslik": "Sert ve sembolik bağlar: ln", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "104.7", "baslik": "Sistem dosyalarını bulmak: find, locate, whereis, which, type", "not": "locate ve whereis işlenmedi."}
+    ]},
+    {"kod": "105", "baslik": "Kabuklar ve kabuk betikleri", "agirlik": 8, "maddeler": [
+     {"kod": "105.1", "baslik": "Kabuk ortamını özelleştirmek: source, /etc/profile, ~/.bash_profile, ~/.bashrc, env, export, set, function, alias"},
+     {"kod": "105.2", "baslik": "Basit betikler yazmak: for, while, test, if, read, seq, exec, || ve &&"}
+    ]}
+   ]
+  }
+ ]
+}

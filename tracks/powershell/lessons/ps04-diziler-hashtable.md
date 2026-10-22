@@ -2,6 +2,7 @@
 id: ps04
 title: Diziler ve Hashtable'lar
 summary: @() diziler, aralıklar, -join ve -split; @{} hashtable'lar, [ordered], anahtarlar ve sayma kalıbı.
+kazanim: AZ040 6.2, AZ040 6.3
 ---
 
 ::: anlat Diziler

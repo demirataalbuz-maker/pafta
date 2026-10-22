@@ -2,6 +2,7 @@
 id: ps02
 title: Girdi ve Parametreler
 summary: param() bloğu, türlü ve varsayılan parametreler, isimli argümanlar, [switch] ve tezgahtaki $Girdi.
+kazanim: AZ040 1.2, AZ040 6.1, AZ040 7.3
 ---
 
 ::: anlat param(): betiğin imzası

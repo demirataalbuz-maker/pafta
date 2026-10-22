@@ -2,6 +2,7 @@
 id: sq04
 title: Toplama ve GROUP BY
 summary: COUNT, SUM, AVG, MIN, MAX; GROUP BY ile gruplamak, HAVING ile grupları süzmek ve sorgunun gerçek yürütülme sırası.
+kazanim: 1Z0071 15.1, 1Z0071 15.2, 1Z0071 15.3
 ---
 
 ::: anlat Satırları özetlemek

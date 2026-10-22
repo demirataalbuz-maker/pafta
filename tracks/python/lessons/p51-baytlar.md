@@ -2,6 +2,7 @@
 id: p51
 title: Baytlar, Bitler, Kodlamalar
 summary: str ile bytes farkı, UTF-8, hex ve base64, bit işleçleri, endian ve struct ile ikilik başlıklar.
+kazanim: PCEP 1.4, PCAP 3.1, PCAP 5.5
 ---
 
 ::: anlat Metin ve bayt iki ayrı dünyadır

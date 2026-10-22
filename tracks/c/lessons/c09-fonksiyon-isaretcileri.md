@@ -2,6 +2,7 @@
 id: c09
 title: Fonksiyon İşaretçileri
 summary: Fonksiyonun adresini tutan değişkenler, okunması zor bildirimler ve typedef, işlem kodlarıyla çalışan dağıtım tabloları, geri çağırma (callback) kalıbı ve qsort'un karşılaştırma fonksiyonu.
+kazanim: CLA 3.4
 ---
 
 ::: anlat Fonksiyonun adresi

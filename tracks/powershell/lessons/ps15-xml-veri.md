@@ -2,6 +2,7 @@
 id: ps15
 title: XML ve Veri Biçimleri
 summary: [xml] ile XML okumak, öğe ve öznitelik gezinmesi, Select-Xml ve XPath, XML değiştirip kaydetmek, Export-Clixml ile nesneleri eksiksiz saklamak ve ConvertFrom-StringData.
+kazanim: AZ040 3.5
 ---
 
 ::: anlat XML'i nesne gibi gezmek

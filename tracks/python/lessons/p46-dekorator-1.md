@@ -2,6 +2,7 @@
 id: p46
 title: Closure ve Dekoratörler I
 summary: Fonksiyon döndüren fonksiyon, kapanım hücreleri, @ sözdizimi ve functools.wraps.
+kazanim: PCAP 5.3, PCPP1 1.4
 ---
 
 ::: anlat Kapanım: ortamını hatırlayan fonksiyon

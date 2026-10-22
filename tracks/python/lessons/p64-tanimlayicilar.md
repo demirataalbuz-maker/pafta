@@ -2,6 +2,7 @@
 id: p64
 title: Tanımlayıcılar · Descriptor
 summary: __get__, __set__, __set_name__; property'yi sıfırdan yazmak, metotların bağlanması ve tembel nitelik.
+kazanim: PCPP1 1.7
 ---
 
 ::: anlat property'nin arkasındaki mekanizma

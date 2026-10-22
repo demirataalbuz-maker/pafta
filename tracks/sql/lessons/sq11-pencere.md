@@ -2,6 +2,7 @@
 id: sq11
 title: Pencere Fonksiyonları
 summary: Satırları silmeden hesaplamak; ROW_NUMBER, RANK, PARTITION BY, LAG/LEAD, kümülatif toplam ve kayan ortalama, grup başına ilk N.
+kazanim: 1Z0071 14.3
 ---
 
 ::: anlat Satırı koru, yanına hesap ekle

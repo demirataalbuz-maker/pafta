@@ -2,6 +2,7 @@
 id: bs16
 title: Süreçler, İşler ve Sinyaller
 summary: & ile arka plan, wait ve $!, paralel işler, sinyaller ve trap, EXIT ile temizlik, timeout ve xargs -P.
+kazanim: LPIC1 103.5
 ---
 
 ::: anlat Arka planda çalıştırmak

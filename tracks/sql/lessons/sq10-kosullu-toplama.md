@@ -2,6 +2,7 @@
 id: sq10
 title: Koşullu Toplama ve Pivot
 summary: SUM(CASE ...) ve FILTER ile koşullu sayım, satırları sütuna çeviren pivot tablolar, yüzdeler, sıfıra bölmeye karşı NULLIF ve toplam satırı eklemek.
+kazanim: 1Z0071 5.2
 ---
 
 ::: anlat Bir sorguda birden çok sayım

@@ -2,6 +2,7 @@
 id: ph06
 title: Sınıflar ve Nesneler
 summary: PHP 8 sınıfları; yapıcıda özellik tanıtma (constructor promotion), public/protected/private, $this ve ->, static ve ::, arayüzler ve kalıtım, __toString gibi sihirli metotlar, namespace ve use ile adların çözülmesi, trait'ler ve öncelik sırası, Composer'ın otomatik yüklemesi.
+kazanim: ZCPE 1.3, ZCPE 5.1, ZCPE 5.2, ZCPE 5.3, ZCPE 5.4
 ---
 
 ::: anlat PHP 8 sınıfı

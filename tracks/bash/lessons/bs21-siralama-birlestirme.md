@@ -2,6 +2,7 @@
 id: bs21
 title: Sıralama, Birleştirme ve Tablo Araçları
 summary: sort'un anahtar ve kip seçenekleri, sürüm sıralaması, uniq, join ve comm ile kümeler, paste, column ile hizalı tablo, cut ve tr ileri kullanım.
+kazanim: LPIC1 103.2
 ---
 
 ::: anlat sort'u gerçekten tanımak

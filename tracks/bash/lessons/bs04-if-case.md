@@ -2,6 +2,7 @@
 id: bs04
 title: if ve case
 summary: if/elif/else blokları, case ile desen tabanlı dallanma ve komut dağıtıcı kalıbı.
+kazanim: LPIC1 105.2
 ---
 
 ::: anlat if: komutun başarısına göre dallan

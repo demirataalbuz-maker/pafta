@@ -1,0 +1,72 @@
+{
+ "sertifikalar": [
+  {
+   "id": "ZCPE",
+   "ad": "Zend PHP Certification",
+   "tam_ad": "Zend Certified PHP Engineer, PHP 8.4'e kadar (bu yol okuma düzeyinde). Bölümler Zend'in konu alanları; maddeler Pafta'nın, alanların alt konularından.",
+   "kurum": "Zend",
+   "kaynak": "https://www.zend.com/training/php-certification-exam",
+   "bolumler": [
+    {"kod": "1", "baslik": "PHP temelleri", "maddeler": [
+     {"kod": "1.1", "baslik": "Sözdizimi, işleçler, değişkenler ve sabitler"},
+     {"kod": "1.2", "baslik": "Denetim yapıları"},
+     {"kod": "1.3", "baslik": "Ad alanları (namespace)"}
+    ]},
+    {"kod": "2", "baslik": "Fonksiyonlar", "maddeler": [
+     {"kod": "2.1", "baslik": "Argümanlar, başvuruyla geçirme, dönüş değerleri"},
+     {"kod": "2.2", "baslik": "Değişken kapsamı: global ve static"},
+     {"kod": "2.3", "baslik": "Closure ve ok fonksiyonları"},
+     {"kod": "2.4", "baslik": "Tür bildirimleri ve strict_types"}
+    ]},
+    {"kod": "3", "baslik": "Veri biçimleri ve türler", "maddeler": [
+     {"kod": "3.1", "baslik": "Tür dönüşümleri ve karşılaştırma"},
+     {"kod": "3.2", "baslik": "JSON"},
+     {"kod": "3.3", "baslik": "XML ve DOMDocument", "not": "Henüz bir paftada işlenmedi."},
+     {"kod": "3.4", "baslik": "DateTime", "not": "PH06'da yalnızca ad çözümlemesi örneği; tarih işlemleri işlenmedi."}
+    ]},
+    {"kod": "4", "baslik": "Web özellikleri", "maddeler": [
+     {"kod": "4.1", "baslik": "Formlar, GET ve POST"},
+     {"kod": "4.2", "baslik": "Oturumlar ve çerezler"},
+     {"kod": "4.3", "baslik": "HTTP başlıkları ve durum kodları"}
+    ]},
+    {"kod": "5", "baslik": "Nesne yönelimli programlama", "maddeler": [
+     {"kod": "5.1", "baslik": "Sınıf, örnek, görünürlük ve kalıtım"},
+     {"kod": "5.2", "baslik": "Arayüzler ve soyut sınıflar", "not": "Arayüz var; abstract ayrıca işlenmedi."},
+     {"kod": "5.3", "baslik": "Statik üyeler, sınıf sabitleri, geç statik bağlama"},
+     {"kod": "5.4", "baslik": "Sihirli metotlar, trait'ler ve otomatik yükleme"},
+     {"kod": "5.5", "baslik": "Yansıma (Reflection)", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "6", "baslik": "Güvenlik", "maddeler": [
+     {"kod": "6.1", "baslik": "XSS ve çıktıyı kaçırmak"},
+     {"kod": "6.2", "baslik": "SQL enjeksiyonu ve hazırlanmış sorgular"},
+     {"kod": "6.3", "baslik": "Oturum güvenliği ve CSRF"},
+     {"kod": "6.4", "baslik": "Parola özetleme"},
+     {"kod": "6.5", "baslik": "Girdi doğrulama ve dosya yükleme", "not": "ctype ile doğrulama var; filter_var ve dosya yükleme işlenmedi."}
+    ]},
+    {"kod": "7", "baslik": "Girdi/çıktı", "maddeler": [
+     {"kod": "7.1", "baslik": "Dosya okumak ve yazmak; include ve require"},
+     {"kod": "7.2", "baslik": "Akışlar ve bağlamlar", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "8", "baslik": "Metinler ve desenler", "maddeler": [
+     {"kod": "8.1", "baslik": "Metin fonksiyonları ve biçimlendirme: sprintf, printf"},
+     {"kod": "8.2", "baslik": "heredoc, nowdoc ve ara değer yerleştirme"},
+     {"kod": "8.3", "baslik": "Kodlamalar ve mb_ fonksiyonları"},
+     {"kod": "8.4", "baslik": "PCRE düzenli ifadeleri: preg_", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "9", "baslik": "Veritabanları ve SQL", "maddeler": [
+     {"kod": "9.1", "baslik": "PDO ve hazırlanmış ifadeler"},
+     {"kod": "9.2", "baslik": "İşlemler (transaction)"}
+    ]},
+    {"kod": "10", "baslik": "Diziler", "maddeler": [
+     {"kod": "10.1", "baslik": "Sıralı ve ilişkisel diziler, gezinmek"},
+     {"kod": "10.2", "baslik": "Dizi fonksiyonları"},
+     {"kod": "10.3", "baslik": "SPL ve dizi gibi davranan nesneler", "not": "Henüz bir paftada işlenmedi."}
+    ]},
+    {"kod": "11", "baslik": "Hata yönetimi", "maddeler": [
+     {"kod": "11.1", "baslik": "İstisnalar ve Throwable"},
+     {"kod": "11.2", "baslik": "Hatalar ve hata gösterimi"}
+    ]}
+   ]
+  }
+ ]
+}

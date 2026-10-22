@@ -2,6 +2,7 @@
 id: c05
 title: Yapılar, Bitler ve Onaltılık
 summary: struct ve typedef, bit işleçleri (& | ^ ~ << >>), bayrak maskeleri, onaltılık gösterim ve baytları little endian okumak.
+kazanim: CLA 1.2, CLA 2.1
 ---
 
 ::: anlat Yapılar

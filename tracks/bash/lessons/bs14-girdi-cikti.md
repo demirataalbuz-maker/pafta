@@ -2,6 +2,7 @@
 id: bs14
 title: Girdi ve Çıktı Ustalığı
 summary: printf biçimleri, read seçenekleri, here-doc çeşitleri ve here-string, süreç ikamesi <( ), dosya tanımlayıcıları ve yönlendirme sırasının önemi.
+kazanim: LPIC1 103.4
 ---
 
 ::: anlat printf ve read
