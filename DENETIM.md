@@ -51,92 +51,104 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 **İlk dalga** (`674a60f`, Codex) denetlendi: 15 madde (Python 7, Bash 5, PowerShell 3), adlarının hepsi 80 maddelik listedekilerle birebir aynı; tahmini 31 ders ve 62 görev. Toplu onay listesindeki 11 paket denetçinin Kali'deki salt simülasyonuyla (`apt-get -s`) birebir aynı: 11 yeni paket, 0 yükseltme, 0 kaldırma; sürümler ve dosya boyutları imzalı depo kaydıyla aynı, toplam 7.600.444 bayt; kaynak resmi `http.kali.org`. Kurulum `sudo` ister, yani Kali parolasıyla kullanıcının kendisi yapmalı. **Kuruldu (22 Ekim):** denetçi `dpkg-query` ile 11 paketin onaylı sürümlerle kurulu olduğunu doğruladı; ShellCheck 0.11.0, Bats 1.13.0 ve pwnlib 4.15.0 (Kali Python 3.14.7) çalışıyor. Not: ilk dalga Linux görevlerini WSL'deki `kali-linux` dağıtımına bağlıyor; repo herkese açılacaksa koşucu dağıtım adını ayardan almalı ve README gereksinimi açıkça yazmalı.
 
 
+**22 Ekim, Aşama 2 ilk teslimler:** PS22 Get-Acl (`e47d743`, Yazar 1) anlık görüntüde PowerShell yolu temiz (PowerShell ve Git Bash); tahmin gerçek çıktıyla uyuşuyor; 3 görevde zayıf test yok; geçici kayıt defteri anahtarı kalmamış. README taslağı (`ca147a5`, `docs/README_TASLAK.md`): sayılar, ilerleme dosyası yolu, tekrar aralıkları (1/3/7/16/35 gün), rütbe adları ve gereken dosyalar depoyla uyuşuyor; README.md'ye taşınırken görsel yolları `docs/ekran/...` olmalı ve sayılar güncellenmeli (PS22 ile 394 ders, PowerShell 22). Antigravity'nin 10 ek önerisi (`ef7c81e`): yalnızca ASAMA2.md, 10 satır ilgili yol tablolarına eklenmiş ve işaretli, silinen satır yok, ilk dalgaya dokunulmamış, C# satırından Path.Combine çıkarılmış, 23 bağlantının hepsi açılıyor; imza ve model adı var. Linux koşucusu Yazar 1'de iki kez denetime takıldı; Kali'de wheel 0.47, setuptools 78.1, pip 26, aiohttp, requests, Beautiful Soup ve Scapy kurulu, yani koşucu gelince 2, 5, 6, 7, 8 ve 10. maddeler indirme gerektirmeden yazılabilir.
+
 ### Aşama 2 durum tablosu
 
-ASAMA2.md'deki 80 maddenin hepsi burada izlenir; bir madde ancak denetçinin ölçümünden geçince "denetlendi" olur. Durumlar: bekliyor · yazılıyor · denetlendi · geri döndü.
+ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 öneri dahil) burada izlenir; bir madde ancak denetçinin ölçümünden geçince "denetlendi" olur. Durumlar: bekliyor · yazılıyor · denetlendi · geri döndü.
 
 | # | Yol | Madde (ASAMA2'deki adıyla) | Dalga | Yazar | Durum |
 |---|---|---|---|---|---|
-| 1 | python | pip/venv ile betik ortamı ve tekrarlanabilir bağımlılık kurulumu | 1 (sıra 1) | Yazar 1 | bekliyor |
-| 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | bekliyor |
+| 1 | python | pip/venv ile betik ortamı ve tekrarlanabilir bağımlılık kurulumu | 1 (sıra 1) | Codex (Yazar 1 iki kez denetime takıldı) | bekliyor |
+| 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | bekliyor (Linux koşucusu) |
 | 3 | python | Beautiful Soup ile HTML ayrıştırma | 1 (sıra 3) | Yazar 1 | bekliyor |
 | 4 | python | Scapy ile paket kaydını Python'dan okumak ve üretmek | 1 (sıra 4) | Codex/Antigravity | bekliyor |
-| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Codex/Antigravity | bekliyor |
-| 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex/Antigravity | bekliyor |
-| 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex/Antigravity | bekliyor |
-| 8 | bash | curl/jq ile API ve JSON araç zinciri | 1 (sıra 8) | Yazar 1 | bekliyor |
-| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | **atanmadı** | bekliyor |
-| 10 | bash | rwx sonrası POSIX ACL ve Linux capabilities | 1 (sıra 10) | Codex/Antigravity | bekliyor |
+| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Codex/Antigravity | bekliyor (Linux koşucusu) |
+| 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex/Antigravity | bekliyor (Linux koşucusu) |
+| 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex/Antigravity | bekliyor (Linux koşucusu) |
+| 8 | bash | curl/jq ile API ve JSON araç zinciri | 1 (sıra 8) | Yazar 1 | kısmen yazılabilir: requests ve BS4 Windows'ta var; aiohttp Linux koşucusunu bekliyor |
+| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | Yazar 1 | bekliyor |
+| 10 | bash | rwx sonrası POSIX ACL ve Linux capabilities | 1 (sıra 10) | Codex/Antigravity | bekliyor (Linux koşucusu) |
 | 11 | bash | OpenSSH istemcisiyle komut ve dosya akışı | 1 (sıra 11) | Yazar 1 | bekliyor |
 | 12 | bash | ShellCheck ve Bats ile kendi aracını sınamak | 1 (sıra 12) | Codex/Antigravity | bekliyor |
 | 13 | powershell | Invoke-RestMethod/WebRequest ile oturumlu API otomasyonu | 1 (sıra 13) | Yazar 1 | bekliyor |
 | 14 | powershell | Offline EVTX ve PowerShell 4104 kayıtlarını incelemek | 1 (sıra 14) | Codex/Antigravity | bekliyor |
-| 15 | powershell | Get-Acl ile NTFS/Registry erişim değerlendirmesi | 1 (sıra 15) | Yazar 1 | bekliyor |
+| 15 | powershell | Get-Acl ile NTFS/Registry erişim değerlendirmesi | 1 (sıra 15) | Yazar 1 | denetlendi (`e47d743`, PS22) |
 | 16 | powershell | Authenticode imzasını dosya incelemesine katmak | 2+ | — | bekliyor |
 | 17 | powershell | Pester ile kendi modül/fonksiyonunun testlerini yazmak | 2+ | — | bekliyor |
 | 18 | powershell | Gerçek PSSession yaşam döngüsü ve uzak çıktı | 2+ | — | bekliyor |
-| 19 | cmd | wevtutil ile offline EVTX sorgu ve export | 2+ | — | bekliyor |
-| 20 | cmd | Servis, zamanlanmış görev ve Registry yapılandırmasını sorgulamak | 2+ | — | bekliyor |
-| 21 | cmd | Token/grup/ayrıcalık ve icacls çıktısını birlikte okumak | 2+ | — | bekliyor |
-| 22 | cmd | Sigcheck/Autorunsc ile karşılaştırmalı dosya/başlangıç envanteri | 2+ | — | bekliyor |
-| 23 | http | Burp Proxy → History → Repeater iş akışı | 2+ | — | bekliyor |
-| 24 | http | curl ile HTTPS, CA ve hostname doğrulaması | 2+ | — | bekliyor |
-| 25 | http | Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF | 2+ | — | bekliyor |
-| 26 | http | İki hesaplı nesne yetkilendirme matrisi | 2+ | — | bekliyor |
-| 27 | sql | SQLite dışındaki SQL lehçelerini gerçek motorlarda kullanmak | 2+ | — | bekliyor |
-| 28 | sql | Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi | 2+ | — | bekliyor |
-| 29 | sql | Veritabanı rolleri ve etkili yetkileri denetlemek | 2+ | — | bekliyor |
-| 30 | sql | SQL içinden JSON kayıtlarını sorgulamak | 2+ | — | bekliyor |
-| 31 | kql | Sentinel/Defender güvenlik şemaları ve watchlist ile olay avcılığı | 2+ | — | bekliyor |
-| 32 | kql | mv-apply ve bag_unpack ile ileri dinamik kayıt çözümleme | 2+ | — | bekliyor |
-| 33 | kql | Avcılık sorgusunu zamanlanan Sentinel analitik kuralına dönüştürmek | 2+ | — | bekliyor |
-| 34 | spl | Gerçek log alımı ve olay sınırı/zaman ayarları | 2+ | — | bekliyor |
-| 35 | spl | CIM eşlemesi ve tstats'ı gerçek veri modeli/indeks üstünde çalıştırmak | 2+ | — | bekliyor |
-| 36 | spl | Sorgudan zamanlanan alarma: tetikleme, zaman aralığı ve bastırma | 2+ | — | bekliyor |
-| 37 | elastic | Gerçek telemetri alımı, ECS ve ingest eşlemesi | 2+ | — | bekliyor |
-| 38 | elastic | EQL işlevleri ve mevcut alt kümenin dışında kalan sorgular için gerçek backend | 2+ | — | bekliyor |
-| 39 | elastic | KQL/EQL sorgusunu Elastic Security tespit kuralı olarak işletmek | 2+ | — | bekliyor |
-| 40 | elastic | ES\|QL | 2+ | — | bekliyor |
-| 41 | sigma | sigma-cli ile gerçek backend ve processing pipeline kullanımı | 2+ | — | bekliyor |
-| 42 | sigma | Çalıştırılan korelasyon kuralları | 2+ | — | bekliyor |
-| 43 | sigma | Gerçek olaydan kurala telemetri doğrulaması | 2+ | — | bekliyor |
-| 44 | sigma | İleri modifierları gerçek hedefte uygulamak | 2+ | — | bekliyor |
-| 45 | yara | PE import/export ve bölüm özellikleriyle derin dosya incelemesi | 2+ | — | bekliyor |
-| 46 | yara | ELF ve .NET modülleriyle dosya türüne özgü kurallar | 2+ | — | bekliyor |
-| 47 | yara | Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı | 2+ | — | bekliyor |
-| 48 | yara | Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü | 2+ | — | bekliyor |
-| 49 | regex | RX16'daki lehçe bilgisini gerçek motorlarda sınamak | 2+ | — | bekliyor |
-| 50 | regex | Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak | 2+ | — | bekliyor |
-| 51 | packets | PCAPNG ve farklı link-layer türleriyle gerçek kayıt kabulü | 2+ | — | bekliyor |
-| 52 | packets | TLS/HTTP2/QUIC trafiğini ve görünürlük sınırını uygulamalı incelemek | 2+ | — | bekliyor |
-| 53 | packets | TCP yeniden birleştirme ve analist iş akışı | 2+ | — | bekliyor |
-| 54 | packets | SMB2 ve Kerberos/LDAP kayıtlarında inceleme | 2+ | — | bekliyor |
-| 55 | packets | Gerçek CLI ile kayıt toplama, alan çıkarma ve özet raporu | 2+ | — | bekliyor |
-| 56 | ad | Nesne ACL'leri ve etkili yetkilerden erişim yolu çıkarmak | 2+ | — | bekliyor |
-| 57 | ad | Mevcut devir türlerinin üzerine gerçek S4U/bilet akışı ve yapılandırma doğrulaması | 2+ | — | bekliyor |
-| 58 | ad | AD CS ve sertifika şablonu/izin denetimi | 2+ | — | bekliyor |
-| 59 | ad | Gerçek LDAP bağlantısında TLS, imzalama ve channel binding | 2+ | — | bekliyor |
-| 60 | java | Gerçek Spring Security zinciri ve method authorization | 2+ | — | bekliyor |
-| 61 | java | Spring Data JPA ve transaction proxy akışı | 2+ | — | bekliyor |
-| 62 | java | Serialization nesne grafiği, callback ve filtre sınırlarını okumak | 2+ | — | bekliyor |
-| 63 | csharp | Claims/policy ve nesne sahibine göre yetkilendirme akışı | 2+ | — | bekliyor |
-| 64 | csharp | Klasik ASP.NET/System.Web yaşam döngüsü | 2+ | — | bekliyor |
-| 65 | csharp | Nesne grafiği serializer'larında güvenilmeyen veri akışı | 2+ | — | bekliyor |
-| 66 | csharp | Assembly/CIL ve P/Invoke sınırını okumak | 2+ | — | bekliyor |
-| 67 | c | Heap sahipliği, alias ve realloc başarısızlığını izlemek | 2+ | — | bekliyor |
-| 68 | c | POSIX fd, kısa I/O ve hata akışı | 2+ | — | bekliyor |
-| 69 | c | Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı | 2+ | — | bekliyor |
-| 70 | php | Laravel istek ve yetki zincirini gerçek framework kodunda okumak | 2+ | — | bekliyor |
-| 71 | php | WordPress eklentisi/REST endpoint yetkileri | 2+ | — | bekliyor |
-| 72 | php | unserialize callback ve autoload grafiğini izlemek | 2+ | — | bekliyor |
-| 73 | php | Upload ve stream-wrapper dosya akışını okumak | 2+ | — | bekliyor |
-| 74 | javascript | Gerçek Express Router ve hata akışını okumak | 2+ | — | bekliyor |
-| 75 | javascript | Browser/SPA içinde postMessage ve ham HTML güven sınırı | 2+ | — | bekliyor |
-| 76 | javascript | Prototype pollution: kaynak→kalıtılan özellik→karar | 2+ | — | bekliyor |
-| 77 | javascript | Bundle/source map ile çalışan kodu kaynağa eşlemek | 2+ | — | bekliyor |
-| 78 | asm | ELF/PE yükleyici bağlamı ve adres türlerini okumak | 2+ | — | bekliyor |
-| 79 | asm | Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi | 2+ | — | bekliyor |
-| 80 | asm | x86-32 cdecl/stdcall çağrı kurallarını okumak | 2+ | — | bekliyor |
+| 19 | powershell | Constrained Language Mode (LanguageMode), JEA (RoleCapabilities) ve AppLocker (8002/8004) olaylarını incelemek (Antigravity önerisi) | 2+ | — | bekliyor |
+| 20 | cmd | wevtutil ile offline EVTX sorgu ve export | 2+ | — | bekliyor |
+| 21 | cmd | Servis, zamanlanmış görev ve Registry yapılandırmasını sorgulamak | 2+ | — | bekliyor |
+| 22 | cmd | Token/grup/ayrıcalık ve icacls çıktısını birlikte okumak | 2+ | — | bekliyor |
+| 23 | cmd | Sigcheck/Autorunsc ile karşılaştırmalı dosya/başlangıç envanteri | 2+ | — | bekliyor |
+| 24 | http | Burp Proxy → History → Repeater iş akışı | 2+ | — | bekliyor |
+| 25 | http | curl ile HTTPS, CA ve hostname doğrulaması | 2+ | — | bekliyor |
+| 26 | http | Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF | 2+ | — | bekliyor |
+| 27 | http | İki hesaplı nesne yetkilendirme matrisi | 2+ | — | bekliyor |
+| 28 | http | JWT yapısı, imza doğrulama tuzakları ve OAuth2/OIDC yönlendirme akışı (Antigravity önerisi) | 2+ | — | bekliyor |
+| 29 | http | SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri (Antigravity önerisi) | 2+ | — | bekliyor |
+| 30 | http | WebSocket el sıkışması (101) ve GraphQL sorgu/yetki okuma (Antigravity önerisi) | 2+ | — | bekliyor |
+| 31 | sql | SQLite dışındaki SQL lehçelerini gerçek motorlarda kullanmak | 2+ | — | bekliyor |
+| 32 | sql | Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi | 2+ | — | bekliyor |
+| 33 | sql | Veritabanı rolleri ve etkili yetkileri denetlemek | 2+ | — | bekliyor |
+| 34 | sql | SQL içinden JSON kayıtlarını sorgulamak | 2+ | — | bekliyor |
+| 35 | kql | Sentinel/Defender güvenlik şemaları ve watchlist ile olay avcılığı | 2+ | — | bekliyor |
+| 36 | kql | mv-apply ve bag_unpack ile ileri dinamik kayıt çözümleme | 2+ | — | bekliyor |
+| 37 | kql | Avcılık sorgusunu zamanlanan Sentinel analitik kuralına dönüştürmek | 2+ | — | bekliyor |
+| 38 | spl | Gerçek log alımı ve olay sınırı/zaman ayarları | 2+ | — | bekliyor |
+| 39 | spl | CIM eşlemesi ve tstats'ı gerçek veri modeli/indeks üstünde çalıştırmak | 2+ | — | bekliyor |
+| 40 | spl | Sorgudan zamanlanan alarma: tetikleme, zaman aralığı ve bastırma | 2+ | — | bekliyor |
+| 41 | elastic | Gerçek telemetri alımı, ECS ve ingest eşlemesi | 2+ | — | bekliyor |
+| 42 | elastic | EQL işlevleri ve mevcut alt kümenin dışında kalan sorgular için gerçek backend | 2+ | — | bekliyor |
+| 43 | elastic | KQL/EQL sorgusunu Elastic Security tespit kuralı olarak işletmek | 2+ | — | bekliyor |
+| 44 | elastic | ES\|QL ile toplama ve olay tablosunu dönüştürme | 2+ | — | bekliyor |
+| 45 | sigma | sigma-cli ile gerçek backend ve processing pipeline kullanımı | 2+ | — | bekliyor |
+| 46 | sigma | Çalıştırılan korelasyon kuralları | 2+ | — | bekliyor |
+| 47 | sigma | Gerçek olaydan kurala telemetri doğrulaması | 2+ | — | bekliyor |
+| 48 | sigma | İleri modifierları gerçek hedefte uygulamak | 2+ | — | bekliyor |
+| 49 | yara | PE import/export ve bölüm özellikleriyle derin dosya incelemesi | 2+ | — | bekliyor |
+| 50 | yara | ELF ve .NET modülleriyle dosya türüne özgü kurallar | 2+ | — | bekliyor |
+| 51 | yara | Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı | 2+ | — | bekliyor |
+| 52 | yara | Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü | 2+ | — | bekliyor |
+| 53 | regex | RX16'daki lehçe bilgisini gerçek motorlarda sınamak | 2+ | — | bekliyor |
+| 54 | regex | Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak | 2+ | — | bekliyor |
+| 55 | packets | PCAPNG ve farklı link-layer türleriyle gerçek kayıt kabulü | 2+ | — | bekliyor |
+| 56 | packets | TLS/HTTP2/QUIC trafiğini ve görünürlük sınırını uygulamalı incelemek | 2+ | — | bekliyor |
+| 57 | packets | TCP yeniden birleştirme ve analist iş akışı | 2+ | — | bekliyor |
+| 58 | packets | SMB2 ve Kerberos/LDAP kayıtlarında inceleme | 2+ | — | bekliyor |
+| 59 | packets | Gerçek CLI ile kayıt toplama, alan çıkarma ve özet raporu | 2+ | — | bekliyor |
+| 60 | ad | Nesne ACL'leri ve etkili yetkilerden erişim yolu çıkarmak | 2+ | — | bekliyor |
+| 61 | ad | Mevcut devir türlerinin üzerine gerçek S4U/bilet akışı ve yapılandırma doğrulaması | 2+ | — | bekliyor |
+| 62 | ad | AD CS ve sertifika şablonu/izin denetimi | 2+ | — | bekliyor |
+| 63 | ad | Gerçek LDAP bağlantısında TLS, imzalama ve channel binding | 2+ | — | bekliyor |
+| 64 | ad | GPO/SYSVOL yapılandırma dosyalarını (GptTmpl.inf, Groups.xml) ve LAPS özniteliklerini denetlemek (Antigravity önerisi) | 2+ | — | bekliyor |
+| 65 | java | Gerçek Spring Security zinciri ve method authorization | 2+ | — | bekliyor |
+| 66 | java | Spring Data JPA ve transaction proxy akışı | 2+ | — | bekliyor |
+| 67 | java | Serialization nesne grafiği, callback ve filtre sınırlarını okumak | 2+ | — | bekliyor |
+| 68 | java | Şablon motorlarında (Thymeleaf / FreeMarker) bağlam, otomatik kaçış ve ifadeleri okumak (Antigravity önerisi) | 2+ | — | bekliyor |
+| 69 | csharp | Claims/policy ve nesne sahibine göre yetkilendirme akışı | 2+ | — | bekliyor |
+| 70 | csharp | Klasik ASP.NET/System.Web yaşam döngüsü | 2+ | — | bekliyor |
+| 71 | csharp | Nesne grafiği serializer'larında güvenilmeyen veri akışı | 2+ | — | bekliyor |
+| 72 | csharp | Assembly/CIL ve P/Invoke sınırını okumak | 2+ | — | bekliyor |
+| 73 | csharp | XML ayrıştırıcı ayarlarında (XmlReaderSettings / DtdProcessing) DTD ve dış varlık sınırlarını okumak (Antigravity önerisi) | 2+ | — | bekliyor |
+| 74 | c | Heap sahipliği, alias ve realloc başarısızlığını izlemek | 2+ | — | bekliyor |
+| 75 | c | POSIX fd, kısa I/O ve hata akışı | 2+ | — | bekliyor |
+| 76 | c | Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı | 2+ | — | bekliyor |
+| 77 | c | Çalışma zamanında dinamik sembol çözme (dlopen/dlsym ve LoadLibrary/GetProcAddress) akışını okumak (Antigravity önerisi) | 2+ | — | bekliyor |
+| 78 | php | Laravel istek ve yetki zincirini gerçek framework kodunda okumak | 2+ | — | bekliyor |
+| 79 | php | WordPress eklentisi/REST endpoint yetkileri | 2+ | — | bekliyor |
+| 80 | php | unserialize callback ve autoload grafiğini izlemek | 2+ | — | bekliyor |
+| 81 | php | Upload ve stream-wrapper dosya akışını okumak | 2+ | — | bekliyor |
+| 82 | php | Twig/Blade şablon kaçışı ({{ }} vs {!! !!}) ve parse_url / filter_var doğrulama sınırlarını okumak (Antigravity önerisi) | 2+ | — | bekliyor |
+| 83 | javascript | Gerçek Express Router ve hata akışını okumak | 2+ | — | bekliyor |
+| 84 | javascript | Browser/SPA içinde postMessage ve ham HTML güven sınırı | 2+ | — | bekliyor |
+| 85 | javascript | Prototype pollution: kaynak→kalıtılan özellik→karar | 2+ | — | bekliyor |
+| 86 | javascript | Bundle/source map ile çalışan kodu kaynağa eşlemek | 2+ | — | bekliyor |
+| 87 | asm | ELF/PE yükleyici bağlamı ve adres türlerini okumak | 2+ | — | bekliyor |
+| 88 | asm | Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi | 2+ | — | bekliyor |
+| 89 | asm | x86-32 cdecl/stdcall çağrı kurallarını okumak | 2+ | — | bekliyor |
+| 90 | asm | x86-64 syscall (0f 05) ABI'si ve Windows ntdll sistem çağrısı şablonunu okumak (Antigravity önerisi) | 2+ | — | bekliyor |
 
 | Sıra | Yol | Seviye | Ölçüt | Tezgah | Durum |
 |---|---|---|---|---|---|
@@ -156,7 +168,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
-| Sınav kipi ve kazanım haritası yoktu | `b68891c`, `679c5a7` (Yazar 1) | `679c5a7` anlık görüntüsünde tam depo 393 ders, 3388 kontrol temiz (PowerShell ve Git Bash); yeni 12 sınav testi geçiyor. Kapsam: motor, sunucu, arayüz ve Yazar 1'in 9 yolu; ders dosyalarında yalnızca `kazanim:` satırı eklenmiş. Sınav ekranına giden soru görünümü (`engine/sinav.py` `soru_gorunumu`) test, çözüm, ipucu, kurulum ve tahmin açıklamasını içermiyor; puanlama dersteki kurallarla yapılıyor. Sınır: uygulama öğrencinin kendi bilgisayarında çalıştığı için sınav sırasında dersin çözüm uç noktası (`/api/solution`) açık kalıyor; sınav kipi kendini ölçme içindir, gözetimli sınav yerine geçmez (README'de söylenmeli). Kazanım: 9 yolda 11 sertifika; denetçi resmi sayfalarla karşılaştırdı: PCPP-32-101 (35/12/20/18/15, 45 soru), CLA-11-03 (29/38/25/8, 40 soru, 65 dk, %70), JSA-41-01 (25/23/27/25, 40 soru, %70), SPLK-1002 (on bölüm, 65 soru, 60 dk) ve PCEP/PCAP ağırlıkları uyuşuyor; 12 kaynak bağlantının 11'i açılıyor, Oracle sayfası yalnızca betik isteğini engelliyor. Kapsanan madde oranları: PCEP 15/15, PCAP 19/21, PCPP1 21/24, LPIC-1 11/13, AZ-040 22/30, SC-200 yolu 15/17, SPLK-1002 27/32, SPLK-1004 49/104, JSA 36/40, ZCPE 31/37, 1Z0-071 49/60, CLA 21/23. |
+| Sınav kipi ve kazanım haritası yoktu | `b68891c`, `679c5a7` (Yazar 1) | `679c5a7` anlık görüntüsünde tam depo 393 ders, 3388 kontrol temiz (PowerShell ve Git Bash); yeni 12 sınav testi geçiyor. Kapsam: motor, sunucu, arayüz ve Yazar 1'in 9 yolu; ders dosyalarında yalnızca `kazanim:` satırı eklenmiş. Sınav ekranına giden soru görünümü (`engine/sinav.py` `soru_gorunumu`) test, çözüm, ipucu, kurulum ve tahmin açıklamasını içermiyor; puanlama dersteki kurallarla yapılıyor. Sınır: uygulama öğrencinin kendi bilgisayarında çalıştığı için sınav sırasında dersin çözüm uç noktası (`/api/solution`) açık kalıyor; sınav kipi kendini ölçme içindir, gözetimli sınav yerine geçmez (README'de söylenmeli). Kazanım: 9 yolda 12 sertifika; denetçi resmi sayfalarla karşılaştırdı: PCPP-32-101 (35/12/20/18/15, 45 soru), CLA-11-03 (29/38/25/8, 40 soru, 65 dk, %70), JSA-41-01 (25/23/27/25, 40 soru, %70), SPLK-1002 (on bölüm, 65 soru, 60 dk) ve PCEP/PCAP ağırlıkları uyuşuyor; 12 kaynak bağlantının 11'i açılıyor, Oracle sayfası yalnızca betik isteğini engelliyor. Kapsanan madde oranları: PCEP 15/15, PCAP 19/21, PCPP1 21/24, LPIC-1 11/13, AZ-040 22/30, SC-200 yolu 15/17, SPLK-1002 27/32, SPLK-1004 49/104, JSA 36/40, ZCPE 31/37, 1Z0-071 49/60, CLA 21/23. |
 | KQL ve SPL'de gerçek ortama geçiş dersi yoktu | `82bce35` (Yazar 1) | Anlık görüntüde: commit yalnızca KQ21, SP20 ve iki `track.json`'a dokunuyor. KQL 21 ders, 214 kontrol; SPL 20 ders, 209 kontrol temiz (PowerShell ve Git Bash). İki tahminin açıklaması gerçek çıktıyı içeriyor; 6 görevde zayıf test yok; "önce anlat" taramasında bulgu yok. Ders içindeki adresler açılıyor (ADX yardım kümesi; `aka.ms/kustofree` → `dataexplorer.azure.com/freecluster`; `github.com/splunk/botsv1`–`v3`). Lisans ve kota bilgisi kesin sayı vermeden güncel sayfaya yönlendiriyor; Splunk Free'nin tek kullanıcı, uyarı yok ve kullanıcı yönetimi yok sınırları doğru. |
 | AD A19 (`-eq '*'`) ve A27 (belgeye yanlış atıf) | `a492264` (Codex) | Anlık görüntüde: commit yalnızca `sandbox/ad_engine.py`, AD05, AD12 ve yeni `tracks/ad/tests/test_filter_literals.py`'ye dokunuyor; AD 12 ders, 119 kontrol temiz (PowerShell ve Git Bash), yeni 4 test geçiyor. `-eq '*'` → `(attr=a)`, `-ne '*'` → `(!(attr=a))`, `-like '*'`/`-notlike '*'` varlık/yokluk; değeri gerçekten `*` olan hesapla denendi: `-eq '*'` yalnızca onu buluyor. AD05 ve AD12'deki notlar Microsoft sayfasının o gün okunan metniyle birebir: Supported Operators tablosu, Örnek 3'ün gerçek içeriği (`badpwdcount -ge 5`, `(&(!badpwdcount<=5)(badpwdcount=*))`) ve LDAP Special Characters tablosu; uydurma cümle kalmadı. AD mutasyonu: 186 mutant, farklı sonuçla geçen 0. |
 | Assembly düzeltmeleri A23–A26 | `263cf8c` (Antigravity, model: Gemini) | Anlık görüntüde: commit yalnızca `tracks/asm`'e dokunuyor; assembly 12 ders, 62 kontrol temiz (PowerShell ve Git Bash). A23: AS12'nin yeni dökümü, denetçinin ayrıca yazıp clang 21 ile `--target=x86_64-pc-windows-msvc -O1` derlediği C koduyla bayt bayt aynı (yalnızca bağlanmamış nesnede `call`/`jmp` göreli adresleri sıfır); değerler artık kalıcı `rsi`/`rdi`'de, gölge alana bir şey saklanmıyor, çağrı anında yığın 16'ya hizalı, ikinci çağrı kuyruk sıçraması. 12 tahminin 12'si gerçek işlemcide yine aynı. A24: AS10'da Linux ve Windows `/GS` kalıpları ayrı ve doğru. A25: denetçinin mutasyonunda 25 görevde zayıf test 0. A26: `istek_degerlendir` 20.000 rastgele girdide gerçek fonksiyonla 0 fark; `cmp_bayraklari` 65.536, `guvenli_boyut_kontrol` 20.000, `iz_ozet_hesapla` 5.000, `paket_dogrula` 20.000 girdide yine 0 fark. Bu sefer raporun doğrulama iddiaları (Kali WSL'de clang, 103/-1/-2) denetçinin ölçümüyle uyuşuyor; A28 süreç bulgusu olarak açık kalıyor. |
