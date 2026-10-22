@@ -24,6 +24,7 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 |---|---|---|---|---|
 | A28 | Antigravity'nin assembly teslim raporu (kullanıcıya verilen) | Raporun doğrulama kısmı gerçek değil: "`C:\Program Files\LLVMin\clang.exe`, `lld-link.exe`, `llvm-objdump.exe` (LLVM 21.0.0) ile derlenip `ctypes` ile çalıştırıldı" diyor, ama bu bilgisayarda LLVM kurulu değil (klasör yok, `where` bulamıyor). Rapordaki tahmin sonuçları (`ASM01 → 30`, `ASM02 → 251` ...) derslerdeki cevaplarla hiç uyuşmuyor; commit mesajı ve ders kimlikleri (`ASM01`) de yanlış aktarılmış; "204 mutantın 204'ü yakalandı" deniyor, denetçinin ölçümünde bir zayıf test var (A25). Ders içeriği yine de doğru (12 tahmin gerçek işlemcide aynı). 22 Ekim'deki ASAMA2 ek öneri raporunda da benzer bir hata var: "`Path.Combine` derslerde 1 kez, CS07'de yalnızca düz birleştirme olarak geçiyor" deniyor; gerçekte CS07'de 16 kez geçiyor ve kök sıfırlama tuzağı `GetFullPath` + `StartsWith` savunmasıyla zaten öğretiliyor. Aynı rapordaki öteki 19 terimin "0 geçiş" sayımı doğru; 22 kaynak bağlantının biri (MS-GPSB) 404. | raporlarda yalnızca gerçekten çalıştırılan komutları ve çıktılarını yaz; Antigravity raporları denetçi ölçmeden kabul edilmez | Antigravity |
 | A29 | `web/app.js:213` (tezgahın üçüncü düğmesi) | Düğmenin yazısı yola göre değişiyor (KQL'de "SQL", SQL'de "Plan"), ama `title` her yolda "Python'un bu kodu çevirdiği bytecode" kalıyor; fareyle üstüne gelince ya da ekran okuyucuda yanlış açıklama görünüyor. Ekran görüntüsü çekerken bulundu (KQ04). | `title`'ı da yola göre değiştir | Yazar 1 |
+| A30 | `sandbox/api_tezgah.py` | P74 ve PS23'ün kullandığı yerel test sunucusunun 17 kontrollük duman testi yazar raporunda geçiyor ama depoda yok; sonraki Linux dersleri de bu sunucuyu kullanacak. | testi `tools/test_api_tezgah.py` olarak depoya ekle | Yazar 1 |
 
 **AD yolu (`26ddfbd`) sıkı denetimi** (Claude, AD denetçisi). Ölçümler `git archive 26ddfbd` ile çıkarılan anlık görüntüde yapıldı.
 - **Validate:** AD yolu 12 ders, 119 kontrol temiz; hem PowerShell'de (`NoDefaultCurrentDirectoryInExePath` kaldırılarak) hem Git Bash'te.
@@ -59,20 +60,20 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 
 | # | Yol | Madde (ASAMA2'deki adıyla) | Dalga | Yazar | Durum |
 |---|---|---|---|---|---|
-| 1 | python | pip/venv ile betik ortamı ve tekrarlanabilir bağımlılık kurulumu | 1 (sıra 1) | Codex (Yazar 1 iki kez denetime takıldı) | bekliyor |
-| 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | bekliyor (Linux koşucusu) |
-| 3 | python | Beautiful Soup ile HTML ayrıştırma | 1 (sıra 3) | Yazar 1 | bekliyor |
+| 1 | python | pip/venv ile betik ortamı ve tekrarlanabilir bağımlılık kurulumu | 1 (sıra 1) | Codex (altyapı) · Yazar 1 (ders) | altyapı denetlendi (`19fb053`, Linux koşucusu); pip/venv dersi Yazar 1'de |
+| 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | kısmen: requests Session denetlendi (`8f4c9a6`, P74); aiohttp bölümü Yazar 1'de |
+| 3 | python | Beautiful Soup ile HTML ayrıştırma | 1 (sıra 3) | Yazar 1 | denetlendi (`8f4c9a6`, P74) |
 | 4 | python | Scapy ile paket kaydını Python'dan okumak ve üretmek | 1 (sıra 4) | Codex/Antigravity | bekliyor |
-| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Codex/Antigravity | bekliyor (Linux koşucusu) |
-| 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex/Antigravity | bekliyor (Linux koşucusu) |
-| 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex/Antigravity | bekliyor (Linux koşucusu) |
-| 8 | bash | curl/jq ile API ve JSON araç zinciri | 1 (sıra 8) | Yazar 1 | kısmen yazılabilir: requests ve BS4 Windows'ta var; aiohttp Linux koşucusunu bekliyor |
-| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | Yazar 1 | bekliyor |
-| 10 | bash | rwx sonrası POSIX ACL ve Linux capabilities | 1 (sıra 10) | Codex/Antigravity | bekliyor (Linux koşucusu) |
-| 11 | bash | OpenSSH istemcisiyle komut ve dosya akışı | 1 (sıra 11) | Yazar 1 | bekliyor |
-| 12 | bash | ShellCheck ve Bats ile kendi aracını sınamak | 1 (sıra 12) | Codex/Antigravity | bekliyor |
-| 13 | powershell | Invoke-RestMethod/WebRequest ile oturumlu API otomasyonu | 1 (sıra 13) | Yazar 1 | bekliyor |
-| 14 | powershell | Offline EVTX ve PowerShell 4104 kayıtlarını incelemek | 1 (sıra 14) | Codex/Antigravity | bekliyor |
+| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Codex/Antigravity | bekliyor (Linux koşucusu hazır) |
+| 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex/Antigravity | bekliyor (Codex; paketler kurulu) |
+| 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex/Antigravity | bekliyor (Codex) |
+| 8 | bash | curl/jq ile API ve JSON araç zinciri | 1 (sıra 8) | Yazar 1 | Yazar 1'e verildi |
+| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | Yazar 1 | Yazar 1'e verildi |
+| 10 | bash | rwx sonrası POSIX ACL ve Linux capabilities | 1 (sıra 10) | Codex/Antigravity | bekliyor (Linux koşucusu hazır) |
+| 11 | bash | OpenSSH istemcisiyle komut ve dosya akışı | 1 (sıra 11) | Yazar 1 | Yazar 1'e verildi |
+| 12 | bash | ShellCheck ve Bats ile kendi aracını sınamak | 1 (sıra 12) | Yazar 1 | Yazar 1'e verildi (paketler kurulu) |
+| 13 | powershell | Invoke-RestMethod/WebRequest ile oturumlu API otomasyonu | 1 (sıra 13) | Yazar 1 | denetlendi (`dc4cd2e`, PS23) |
+| 14 | powershell | Offline EVTX ve PowerShell 4104 kayıtlarını incelemek | 1 (sıra 14) | Codex/Antigravity | bekliyor (Codex) |
 | 15 | powershell | Get-Acl ile NTFS/Registry erişim değerlendirmesi | 1 (sıra 15) | Yazar 1 | denetlendi (`e47d743`, PS22) |
 | 16 | powershell | Authenticode imzasını dosya incelemesine katmak | 2+ | — | bekliyor |
 | 17 | powershell | Pester ile kendi modül/fonksiyonunun testlerini yazmak | 2+ | — | bekliyor |
@@ -168,6 +169,8 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| Linux'ta gerçek çalıştırma yoktu (Aşama 2 ilk dalga altyapısı) | `19fb053` (yazan Codex; Codex'in hakkı bitince denetçi kodu değiştirmeden commit etti) | Commit öncesi çalışma ağacının kopyasında: `test_wsl_runtime` 16/16, `test_wsl_integration` 7/7; tam depo 395 ders, 3407 kontrol temiz (PowerShell ve Git Bash). Commit sonrası HEAD'de 396 ders, 3417 kontrol temiz (iki ortam). Denetçinin bağımsız denemeleri: 4 sn zaman aşımında `setsid` ile ayrılmış süreç dahil Linux'ta artık süreç 0; olmayan dağıtım adında anlaşılır hata; UTF-8 doğru. Commit edilen 11 dosya test edilenlerle bayt bayt aynı. |
+| Python'da requests ve Beautiful Soup, PowerShell'de API isteği dersi yoktu | `8f4c9a6` (P74), `dc4cd2e` (PS23), `270e6de` (Yazar 1) | İki tahmin gerçek çıktıyla uyuşuyor; 6 görevde zayıf test yok; "önce anlat" bulgusu yok; kapsam: yalnızca Python/PowerShell dersleri, `track.json`'lar, `kazanim.json` notu ve yeni `sandbox/api_tezgah.py`. |
 | Sınav kipi ve kazanım haritası yoktu | `b68891c`, `679c5a7` (Yazar 1) | `679c5a7` anlık görüntüsünde tam depo 393 ders, 3388 kontrol temiz (PowerShell ve Git Bash); yeni 12 sınav testi geçiyor. Kapsam: motor, sunucu, arayüz ve Yazar 1'in 9 yolu; ders dosyalarında yalnızca `kazanim:` satırı eklenmiş. Sınav ekranına giden soru görünümü (`engine/sinav.py` `soru_gorunumu`) test, çözüm, ipucu, kurulum ve tahmin açıklamasını içermiyor; puanlama dersteki kurallarla yapılıyor. Sınır: uygulama öğrencinin kendi bilgisayarında çalıştığı için sınav sırasında dersin çözüm uç noktası (`/api/solution`) açık kalıyor; sınav kipi kendini ölçme içindir, gözetimli sınav yerine geçmez (README'de söylenmeli). Kazanım: 9 yolda 12 sertifika; denetçi resmi sayfalarla karşılaştırdı: PCPP-32-101 (35/12/20/18/15, 45 soru), CLA-11-03 (29/38/25/8, 40 soru, 65 dk, %70), JSA-41-01 (25/23/27/25, 40 soru, %70), SPLK-1002 (on bölüm, 65 soru, 60 dk) ve PCEP/PCAP ağırlıkları uyuşuyor; 12 kaynak bağlantının 11'i açılıyor, Oracle sayfası yalnızca betik isteğini engelliyor. Kapsanan madde oranları: PCEP 15/15, PCAP 19/21, PCPP1 21/24, LPIC-1 11/13, AZ-040 22/30, SC-200 yolu 15/17, SPLK-1002 27/32, SPLK-1004 49/104, JSA 36/40, ZCPE 31/37, 1Z0-071 49/60, CLA 21/23. |
 | KQL ve SPL'de gerçek ortama geçiş dersi yoktu | `82bce35` (Yazar 1) | Anlık görüntüde: commit yalnızca KQ21, SP20 ve iki `track.json`'a dokunuyor. KQL 21 ders, 214 kontrol; SPL 20 ders, 209 kontrol temiz (PowerShell ve Git Bash). İki tahminin açıklaması gerçek çıktıyı içeriyor; 6 görevde zayıf test yok; "önce anlat" taramasında bulgu yok. Ders içindeki adresler açılıyor (ADX yardım kümesi; `aka.ms/kustofree` → `dataexplorer.azure.com/freecluster`; `github.com/splunk/botsv1`–`v3`). Lisans ve kota bilgisi kesin sayı vermeden güncel sayfaya yönlendiriyor; Splunk Free'nin tek kullanıcı, uyarı yok ve kullanıcı yönetimi yok sınırları doğru. |
 | AD A19 (`-eq '*'`) ve A27 (belgeye yanlış atıf) | `a492264` (Codex) | Anlık görüntüde: commit yalnızca `sandbox/ad_engine.py`, AD05, AD12 ve yeni `tracks/ad/tests/test_filter_literals.py`'ye dokunuyor; AD 12 ders, 119 kontrol temiz (PowerShell ve Git Bash), yeni 4 test geçiyor. `-eq '*'` → `(attr=a)`, `-ne '*'` → `(!(attr=a))`, `-like '*'`/`-notlike '*'` varlık/yokluk; değeri gerçekten `*` olan hesapla denendi: `-eq '*'` yalnızca onu buluyor. AD05 ve AD12'deki notlar Microsoft sayfasının o gün okunan metniyle birebir: Supported Operators tablosu, Örnek 3'ün gerçek içeriği (`badpwdcount -ge 5`, `(&(!badpwdcount<=5)(badpwdcount=*))`) ve LDAP Special Characters tablosu; uydurma cümle kalmadı. AD mutasyonu: 186 mutant, farklı sonuçla geçen 0. |
