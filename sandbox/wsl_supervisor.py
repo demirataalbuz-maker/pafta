@@ -90,7 +90,7 @@ def serve(payload, control):
         root = Path(folder)
         work = root / "calisma"
         work.mkdir()
-        for name in ("py_harness.py", "wsl_job.py"):
+        for name in ("py_harness.py", "wsl_job.py", "api_tezgah.py"):    # wsl_process.SOURCES ile aynı
             (root / name).write_text(payload["sources"][name].replace("\r\n", "\n"),
                                      encoding="utf-8", newline="\n")
         job = payload["job"]

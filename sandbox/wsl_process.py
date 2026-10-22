@@ -16,6 +16,9 @@ MAX_TIMEOUT = 300
 STARTUP_GRACE = 30
 CLEANUP_GRACE = 12
 OUTPUT_LIMIT = 2_000_000
+# Linux işinin klasörüne kopyalanan dosyalar; wsl_supervisor.py aynı listeyi yazar.
+# api_tezgah.py: derslerin hazırlık bloğunun başlattığı yerel API laboratuvarı.
+SOURCES = ("py_harness.py", "wsl_job.py", "api_tezgah.py")
 
 
 def distro_name():
@@ -80,7 +83,7 @@ def execute(job, timeout=None, cancel_event=None):
         return failure("Linux işi başlamadan iptal edildi.", "cancelled")
     request = {"timeout": timeout, "job": dict(job, _timeout=timeout),
                "sources": {name: (HERE / name).read_text(encoding="utf-8")
-                           for name in ("py_harness.py", "wsl_job.py")}}
+                           for name in SOURCES}}
     # No Linux access to the Windows checkout is needed, even with emoji paths.
     data = (json.dumps(request, ensure_ascii=True) + "\n").encode("ascii")
     supervisor = (HERE / "wsl_supervisor.py").read_text(encoding="utf-8")
