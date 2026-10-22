@@ -35,6 +35,7 @@ GET  /yavas?ms=N&no=K       N milisaniye bekler (0-2000), {"no": K, "ms": N} dö
                             aynı anda kaç isteğin beklediğini sayar
 GET  /eszamanli             {"en_cok": M}: /yavas'ta aynı anda bekleyen en çok istek;
                             okununca sıfırlanır
+GET  /bos                   204 No Content: gövdesiz yanıt
 GET  /sayfa/biletler        tablo, bağlantılar ve gizli alanlı form içeren HTML
 GET  /sayfa/bozuk           kapanmamış etiketleri olan bozuk HTML
 """
@@ -192,6 +193,11 @@ class Isleyici(BaseHTTPRequestHandler):
             return self._durum_ucu(yol)
         if yol == "/yavas":
             return self._yavas(parse_qs(u.query))
+        if yol == "/bos":
+            self.send_response(204)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return None
         if yol == "/eszamanli":
             with ESZAMANLI["kilit"]:
                 en_cok, ESZAMANLI["en_cok"] = ESZAMANLI["en_cok"], 0
