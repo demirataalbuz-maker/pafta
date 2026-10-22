@@ -31,12 +31,17 @@ POST /api/bilet             oturum ister; JSON {"baslik", "oncelik"}
                             aynı başlık zaten varsa 409 {"hata": "yinelenen"}
                             doğruysa 201, Location başlığı ve kaydın kendisi
 GET  /durum/<kod>           istenen HTTP durum kodunu döndürür (400-599)
+GET  /yavas?ms=N&no=K       N milisaniye bekler (0-2000), {"no": K, "ms": N} döndürür;
+                            aynı anda kaç isteğin beklediğini sayar
+GET  /eszamanli             {"en_cok": M}: /yavas'ta aynı anda bekleyen en çok istek;
+                            okununca sıfırlanır
 GET  /sayfa/biletler        tablo, bağlantılar ve gizli alanlı form içeren HTML
 GET  /sayfa/bozuk           kapanmamış etiketleri olan bozuk HTML
 """
 import json
 import sys
 import threading
+import time
 import types
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -46,6 +51,8 @@ OTURUM = "pafta-oturum-2026"
 KULLANICI, PAROLA = "analist", "pafta123"
 SAYFA_BOYU = 3
 ONCELIKLER = ("düşük", "orta", "yüksek")
+
+ESZAMANLI = {"simdi": 0, "en_cok": 0, "kilit": threading.Lock()}
 
 BILETLER = [
     {"id": 101, "baslik": "web01 disk doldu", "oncelik": "yüksek", "durum": "açık", "sunucu": "web01"},
@@ -155,6 +162,24 @@ class Isleyici(BaseHTTPRequestHandler):
             return self._yolla(400, {"hata": "kod"})
         return self._yolla(kod, {"hata": "istek", "kod": kod})
 
+    def _yavas(self, sorgu):
+        try:
+            ms = int((sorgu.get("ms") or ["0"])[0])
+            no = int((sorgu.get("no") or ["0"])[0])
+        except ValueError:
+            return self._yolla(400, {"hata": "sayi"})
+        if not 0 <= ms <= 2000:
+            return self._yolla(400, {"hata": "ms"})
+        with ESZAMANLI["kilit"]:
+            ESZAMANLI["simdi"] += 1
+            ESZAMANLI["en_cok"] = max(ESZAMANLI["en_cok"], ESZAMANLI["simdi"])
+        try:
+            time.sleep(ms / 1000)
+        finally:
+            with ESZAMANLI["kilit"]:
+                ESZAMANLI["simdi"] -= 1
+        return self._yolla(200, {"no": no, "ms": ms})
+
     # ── GET ──
     def do_GET(self):
         u = urlparse(self.path)
@@ -165,6 +190,12 @@ class Isleyici(BaseHTTPRequestHandler):
             return self._yolla(200, BOZUK_HTML, "text/html; charset=utf-8")
         if yol.startswith("/durum/"):
             return self._durum_ucu(yol)
+        if yol == "/yavas":
+            return self._yavas(parse_qs(u.query))
+        if yol == "/eszamanli":
+            with ESZAMANLI["kilit"]:
+                en_cok, ESZAMANLI["en_cok"] = ESZAMANLI["en_cok"], 0
+            return self._yolla(200, {"en_cok": en_cok})
         if yol == "/api/biletler":
             if not self._oturum_var():
                 return self._yolla(401, {"hata": "oturum"})

@@ -40,8 +40,8 @@ Tek tek `requests.get(...)` çağırsaydın her istek çerezsiz giderdi ve ikinc
 > `requests` 4xx ve 5xx yanıtlarında istisna fırlatmaz; `y.status_code` 404 olur ve kod akmaya devam eder. Durumu kendin denetle ya da `y.raise_for_status()` çağır — o `HTTPError` fırlatır. İstisna fırlatan şeyler ağ düzeyindedir: bağlanamama, DNS, timeout.
 ```setup
 import os, runpy, sys
-_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
-                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
 runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ```
 :::
@@ -89,8 +89,8 @@ for li in corba.select("li.kayit"):
 Sayfada üç `li` var ama ilkinin `<span class="deger">` etiketi kapanmamış: ayrıştırıcı onu sonraki satırların sonuna kadar uzatır, bu yüzden ilk değer `'72db0191cache01'` çıkar — üç satırın metni birbirine karışmıştır. İkinci satırın `span`'i düzgün kapandığı için `'91'` doğrudur, üçüncüde `span` hiç yoktur ve `None` gelir. Hiçbiri hata vermez; yanlış veri sessizce akar. Bu yüzden bir ayrıştırmanın sonucunu her zaman **bilinen bir örnekle** doğrula.
 ```setup
 import os, runpy, sys
-_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
-                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
 runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ```
 :::
@@ -100,8 +100,8 @@ Bu dersteki `api` modülü, hazırlık bloğunun başlattığı yerel bir uygula
 
 Gerçek bir hedefte eklenen üç şey var: **TLS** (sertifika doğrulaması; `verify=False` yazmak güvenliği kapatır, hata ayıklarken bile alışkanlık yapma), **oran sınırı** (`429` ve `Retry-After`), ve **robots.txt ile kullanım koşulları**. Bir siteyi izinsiz taramak teknik değil hukuki bir sorundur.
 
-> [!NOT] Eşzamanlı istemci sonraki derste
-> Çok sayıda isteği aynı anda yürüten `aiohttp` bölümü bu derse **henüz** eklenmedi; Pafta'nın Linux koşucusu hazır olduğunda buraya gelecek. Bugünkü `requests` kodu sırayla çalışır: yüz istek, yüz gidiş-dönüş demektir. P60 ve P61'deki `asyncio` bilgisi o bölümün temelidir.
+> [!NOT] Eşzamanlı istemci dersin sonunda
+> Bugünkü `requests` kodu sırayla çalışır: yüz istek, yüz gidiş-dönüş demektir. Çok sayıda isteği aynı anda yürüten `aiohttp` bölümü bu dersin **son adımlarındadır** ve gerçek Linux'ta (Kali, WSL) çalışır; aynı tezgah orada da başlatılır. P60 ve P61'deki `asyncio` bilgisi o bölümün temelidir.
 :::
 
 ::: tahmin
@@ -128,8 +128,8 @@ print(o.cookies.get("oturum"))
 İlk istek çerezsizdir: sunucu `401` ve `{"hata": "oturum"}` döner — ama `requests` istisna fırlatmaz, kod akmaya devam eder. Girişten sonra aynı `Session` çerezi taşır, bu yüzden ikinci istek `200` alır. Yedi kaydın sayfa boyu üç olduğu için üçüncü sayfada **bir** kayıt kalır ve son sayfa olduğundan `sonraki` `None`'dır. Çerez `Session` nesnesinde durur; `requests.get(...)` ile atılan bağımsız bir istek onu görmezdi.
 ```setup
 import os, runpy, sys
-_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
-                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
 runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ```
 :::
@@ -145,8 +145,8 @@ Sunucu her sayfada `sonraki` alanını verir: son sayfada `None` olur. Sayfa num
 
 ```setup
 import os, runpy, sys
-_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
-                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
 runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ```
 
@@ -221,8 +221,8 @@ yüksek
 
 ```setup
 import os, runpy, sys
-_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
-                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
 runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ```
 
@@ -295,8 +295,8 @@ tablo
 
 ```setup
 import os, runpy, sys
-_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
-                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
 runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ```
 
@@ -360,5 +360,258 @@ for tr in corba.select("tr.bilet"):
 
 ```hint
 `select` eşleşme bulamazsa **boş liste** döndürür, `None` değil: `if not satirlar` ile sınayabilirsin.
+```
+:::
+
+::: anlat aiohttp: aynı anda birçok istek
+Buradan sonraki adımlar **gerçek Linux'ta** (Kali, WSL) çalışır; aynı tezgah Linux işinin içinde başlatılır.
+
+`requests` her isteği bitirmeden sıradakine geçmez. Ağın beklediği sürede işlemci boş durur. `aiohttp` aynı `asyncio` olay döngüsünde birçok isteği **birlikte** bekler (P60):
+
+```python
+import asyncio, aiohttp, api
+
+async def dene(sinir):
+    kapi = asyncio.Semaphore(sinir)                      #! aynı anda en çok sinir istek
+    async with aiohttp.ClientSession() as oturum:
+        async def bir(no):
+            async with kapi:
+                async with oturum.get(api.SUNUCU + "/yavas", params={"ms": 200, "no": no}) as y:
+                    return (await y.json())["no"]
+        sira = await asyncio.gather(*(bir(i) for i in range(1, 7)))
+        async with oturum.get(api.SUNUCU + "/eszamanli") as y:
+            return sira, (await y.json())["en_cok"]     #! sunucunun gördüğü en çok eşzamanlı istek
+
+print(asyncio.run(dene(1)))                              #! tek tek: yaklaşık 1,2 sn
+print(asyncio.run(dene(6)))                              #! hepsi birden: yaklaşık 0,2 sn
+```
+
+`/yavas` her isteği 200 ms bekletir ve sunucu aynı anda kaç isteğin beklediğini sayar. Sınır 1 iken altı istek sırayla gider; sınır 6 iken hepsi aynı anda. Sonuçların **sırası ikisinde de 1'den 6'ya**: `gather` cevapları bitiş sırasıyla değil, verdiğin sırayla döndürür.
+
+| `requests` | `aiohttp` |
+|---|---|
+| `requests.Session()` | `async with aiohttp.ClientSession() as o:` |
+| `y = o.get(url)` | `async with o.get(url) as y:` |
+| `y.json()`, `y.text` | `await y.json()`, `await y.text()` (gövde ağdan okunurken beklenir) |
+| `y.status_code` | `y.status` |
+| `timeout=5` (bağlanma ve okuma ayrı ayrı) | `aiohttp.ClientTimeout(total=5)`: **gerçekten toplam** süre |
+| `raise_for_status()` → `HTTPError` | `raise_for_status()` → `aiohttp.ClientResponseError` (`.status`) |
+
+> [!TUZAK] Sınırsız eşzamanlılık bir saldırıdır
+> Bin isteği tek seferde `gather` ile göndermek kendi bilgisayarını ve karşı sunucuyu boğar; izinsiz bir hedefte bu bir hizmet engelleme saldırısıdır. Eşzamanlılığı her zaman sınırla: `asyncio.Semaphore(n)` ya da `aiohttp.TCPConnector(limit=n)`. Oran sınırı (`429`) gelirse yavaşla.
+
+> [!TUZAK] Varsayılan çerez kavanozu IP adresinden çerez almaz
+> `aiohttp.ClientSession()`'ın çerez kavanozu, adı alan adı değil **IP adresi** olan sunuculardan gelen çerezleri sessizce reddeder. `127.0.0.1`'e giriş yaparsın, yanıt 200 gelir, ama sonraki istek oturumsuz gider. Yerel laboratuvarda kavanozu `aiohttp.CookieJar(unsafe=True)` ile kur; adı "güvensiz" ama yalnızca bu kuralı gevşetir.
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+```
+
+```meta
+backend: wsl
+timeout: 60
+```
+:::
+
+::: tahmin Çerez kavanozu
+Ne yazar? (Linux'ta çalışır.)
+
+```python
+import asyncio, aiohttp, api
+
+async def dene(guvensiz):
+    kavanoz = aiohttp.CookieJar(unsafe=guvensiz)
+    async with aiohttp.ClientSession(cookie_jar=kavanoz) as o:
+        async with o.post(api.SUNUCU + "/giris", json={"kullanici": "analist", "parola": "pafta123"}) as y:
+            giris = y.status
+        async with o.get(api.SUNUCU + "/api/biletler") as y:
+            print(giris, y.status, len(kavanoz))
+
+asyncio.run(dene(False))
+asyncio.run(dene(True))
+```
+
+???
+
+`200 401 0` ve `200 200 1`.
+
+Giriş iki denemede de başarılıdır: sunucu 200 ve `Set-Cookie` döner. Ama varsayılan kavanoz, adresi `127.0.0.1` gibi bir IP olan sunucunun çerezini **saklamaz**: kavanozda 0 çerez kalır ve liste isteği oturumsuz gider, `401` alır. Hiçbir hata, hiçbir uyarı yoktur. `unsafe=True` ile çerez saklanır, kavanozda 1 çerez olur ve ikinci istek 200 alır. `requests.Session` bu ayrımı yapmaz; bu yüzden P74'ün ilk görevleri aynı sunucuda sorunsuz çalışıyordu.
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+```
+
+```meta
+backend: wsl
+timeout: 60
+```
+:::
+
+::: gorev Sınırlı eşzamanlı istek
+Girdi kutusunun ilk satırı eşzamanlılık sınırıdır. `aiohttp` ile `/yavas` ucuna **altı** istek gönder: `i` 1'den 6'ya, her biri `no=i` ve `ms=300-40*i` parametreleriyle (ilk istek en uzun bekler, sonuncusu en kısa). Aynı anda en çok "sınır" kadar istek uçuşsun.
+
+İki satır yazdır: dönen `no` değerlerini **istek sırasıyla**, aralarında birer boşlukla; sonra `/eszamanli` ucunun verdiği değeri `en_cok <değer>` biçiminde. Sınır 1'den küçükse ya da tam sayı değilse tek satır `HATA` yazdır.
+
+```stdin
+3
+```
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+```
+
+```meta
+backend: wsl
+timeout: 90
+```
+
+```starter
+import asyncio, aiohttp, api
+
+satir = input().strip()
+
+async def calis(sinir):
+    async with aiohttp.ClientSession() as oturum:
+        for i in range(1, 7):
+            async with oturum.get(api.SUNUCU + "/yavas", params={"ms": 300 - 40 * i, "no": i}) as y:
+                print((await y.json())["no"])
+
+asyncio.run(calis(int(satir)))
+```
+
+```test
+eq(out, "1 2 3 4 5 6\nen_cok 3\n", "sınır 3: aynı anda en çok 3 istek, sonuçlar istek sırasıyla")
+eq(run(stdin="1\n"), "1 2 3 4 5 6\nen_cok 1\n", "sınır 1: istekler tek tek")
+eq(run(stdin="6\n"), "1 2 3 4 5 6\nen_cok 6\n", "sınır istek sayısına eşit: hepsi aynı anda")
+eq(run(stdin="10\n"), "1 2 3 4 5 6\nen_cok 6\n", "sınır istek sayısının üstünde: en çok 6 olabilir")
+eq(run(stdin="0\n"), "HATA\n", "sınır 0 olamaz")
+eq(run(stdin="-2\n"), "HATA\n", "eksi sınır HATA")
+eq(run(stdin="üç\n"), "HATA\n", "sayı olmayan girdi HATA")
+eq(run(stdin="\n"), "HATA\n", "boş girdi HATA")
+ok("aiohttp" in src, "istekleri aiohttp ile gönder")
+```
+
+```solution
+import asyncio, aiohttp, api
+
+satir = input().strip()
+
+async def calis(sinir):
+    kapi = asyncio.Semaphore(sinir)
+    async with aiohttp.ClientSession() as oturum:
+        async def bir(no):
+            async with kapi:
+                async with oturum.get(api.SUNUCU + "/yavas", params={"ms": 300 - 40 * no, "no": no}) as y:
+                    return (await y.json())["no"]
+        sira = await asyncio.gather(*(bir(i) for i in range(1, 7)))
+        async with oturum.get(api.SUNUCU + "/eszamanli") as y:
+            en_cok = (await y.json())["en_cok"]
+    print(" ".join(str(n) for n in sira))
+    print("en_cok", en_cok)
+
+if satir.isdigit() and int(satir) >= 1:
+    asyncio.run(calis(int(satir)))
+else:
+    print("HATA")
+```
+
+```hint
+`asyncio.Semaphore(sinir)` bir kapıdır: `async with kapi:` bloğuna aynı anda en çok `sinir` görev girer. İsteği bu bloğun içinde gönder.
+```
+
+```hint
+Son istek ilk biter. Sonuçları bitiş sırasıyla toplarsan sıra `6 5 4 3 2 1` olur; `asyncio.gather` ise verdiğin sırayı korur.
+```
+:::
+
+::: gorev Oturumla eşzamanlı ayrıntı
+Girdi kutusunun ilk satırında boşlukla ayrılmış bilet numaraları var. `aiohttp` ile giriş yap, sonra bütün biletleri `/api/bilet/<no>` ucundan **aynı anda** iste ve girdideki sırayla `<no>|<başlık>` yazdır. Bilet yoksa (`404`) `<no>|YOK` yaz.
+
+Satır boşsa ya da numaralardan biri tam sayı değilse tek satır `HATA` yazdır.
+
+```stdin
+101 104 107
+```
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+```
+
+```meta
+backend: wsl
+timeout: 90
+```
+
+```starter
+import asyncio, aiohttp, api
+
+parcalar = input().split()
+
+async def calis(nolar):
+    async with aiohttp.ClientSession() as oturum:
+        await oturum.post(api.SUNUCU + "/giris", json={"kullanici": api.KULLANICI, "parola": api.PAROLA})
+        # biletleri aynı anda iste
+
+asyncio.run(calis([int(p) for p in parcalar]))
+```
+
+```test
+eq(out, "101|web01 disk doldu\n104|web02 sertifika süresi\n107|yedek01 disk testi\n",
+   "üç bilet, girdideki sırayla")
+eq(run(stdin="107 101\n"), "107|yedek01 disk testi\n101|web01 disk doldu\n", "girdinin sırası korunur")
+eq(run(stdin="999\n"), "999|YOK\n", "olmayan bilet 404: YOK")
+eq(run(stdin="101 999 103\n"), "101|web01 disk doldu\n999|YOK\n103|cache01 yeniden başladı\n",
+   "bulunan ve bulunmayan karışık")
+eq(run(stdin="101 x\n"), "HATA\n", "sayı olmayan numara HATA")
+eq(run(stdin="\n"), "HATA\n", "boş girdi HATA")
+ok("gather" in src or "TaskGroup" in src or "create_task" in src, "biletleri aynı anda iste")
+```
+
+```solution
+import asyncio, aiohttp, api
+
+parcalar = input().split()
+
+async def calis(nolar):
+    kavanoz = aiohttp.CookieJar(unsafe=True)
+    async with aiohttp.ClientSession(cookie_jar=kavanoz) as oturum:
+        async with oturum.post(api.SUNUCU + "/giris",
+                               json={"kullanici": api.KULLANICI, "parola": api.PAROLA}) as y:
+            y.raise_for_status()
+
+        async def bir(no):
+            async with oturum.get(f"{api.SUNUCU}/api/bilet/{no}") as y:
+                if y.status == 404:
+                    return f"{no}|YOK"
+                y.raise_for_status()
+                return f"{no}|{(await y.json())['baslik']}"
+
+        for satir in await asyncio.gather(*(bir(n) for n in nolar)):
+            print(satir)
+
+if parcalar and all(p.isdigit() for p in parcalar):
+    asyncio.run(calis([int(p) for p in parcalar]))
+else:
+    print("HATA")
+```
+
+```hint
+Girişten sonra liste istekleri `401` alıyorsa sebep çerez kavanozudur: `aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar(unsafe=True))`.
+```
+
+```hint
+`404` bir istisna değildir; `y.status`'a bak. Beklenmedik başka bir kod için `y.raise_for_status()` çağır ki sessizce yanlış veri yazmasın.
 ```
 :::
