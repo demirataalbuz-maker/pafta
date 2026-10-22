@@ -4,6 +4,7 @@
 Her görev için: örnek çözüm testleri GEÇMELİ, başlangıç kodu GEÇMEMELİ.
 Her tahmin için: kod çalışmalı ve ??? sonrası bir açıklama olmalı.
 Anlatımdaki çalıştırılabilir örnekler hatasız çalışmalı (norun işaretliler hariç).
+Derslerin `kazanim:` etiketleri yolun kazanim.json'unda olmalı; dosyanın biçimi denetlenir.
 
     python tools/validate.py                 # bütün aktif yollar
     python tools/validate.py --yol regex     # tek yol
@@ -93,6 +94,45 @@ def jobs_for(lib, tid, dil, lid):
     return jobs
 
 
+def kazanim_denetle(lib, tid):
+    """kazanim.json'un biçimi ve derslerdeki `kazanim:` etiketleri: (sorunlar, özet satırı)."""
+    try:
+        k = lib.kazanim(tid)
+    except (ValueError, KeyError, TypeError) as e:
+        return [(False, "KAZANIM DOSYASI BOZUK", f"{tid}/kazanim.json", str(e))], ""
+    sorun = []
+
+    def bildir(neden):
+        sorun.append((False, "KAZANIM ŞEMASI", f"{tid}/kazanim.json", neden))
+
+    kimlikler = set()
+    for s in k["sertifikalar"]:
+        sid = s.get("id", "")
+        if not sid or " " in sid or sid in kimlikler:
+            bildir(f"sertifika kimliği boş, boşluklu ya da yinelenmiş: {sid!r}")
+        kimlikler.add(sid)
+        if not s.get("ad") or not s.get("bolumler"):
+            bildir(f"{sid}: ad ya da bolumler yok")
+        kodlar = set()
+        for b in s.get("bolumler", []):
+            if not b.get("kod") or not b.get("baslik"):
+                bildir(f"{sid}: kodu ya da başlığı olmayan bölüm")
+            if "agirlik" in b and (not isinstance(b["agirlik"], (int, float)) or b["agirlik"] <= 0):
+                bildir(f"{sid} {b.get('kod')}: ağırlık pozitif bir sayı olmalı")
+            for m in b.get("maddeler", []):
+                kod = m.get("kod", "")
+                if not kod or " " in kod or kod in kodlar or not m.get("baslik"):
+                    bildir(f"{sid}: madde kodu boş, boşluklu, yinelenmiş ya da başlıksız: {kod!r}")
+                kodlar.add(kod)
+    for b in k["bilinmeyen"]:
+        sorun.append((False, "BİLİNMEYEN KAZANIM", f"{tid}/{b['ders']}", f"{b['etiket']!r} {tid}/kazanim.json'da yok"))
+    parcalar = []
+    for s in k["sertifikalar"]:
+        maddeler = [m for b in s.get("bolumler", []) for m in b.get("maddeler", [])]
+        parcalar.append(f"{s.get('id')} {sum(1 for m in maddeler if m.get('dersler'))}/{len(maddeler)}")
+    return sorun, (f"{tid}: " + " · ".join(parcalar)) if parcalar else ""
+
+
 RUNNER_ADI = {}
 
 
@@ -159,12 +199,22 @@ def main():
     with ThreadPoolExecutor(max_workers=8) as ex:
         results = list(ex.map(run_job, jobs))
     bad = [r for r in results if not r[0]]
+    kz_ozet = []
+    if not wanted:
+        for track in lib.tracks():
+            if track.get("status") == "active" and (not sadece_yol or track["id"] == sadece_yol):
+                sorun, satir = kazanim_denetle(lib, track["id"])
+                bad += sorun
+                if satir:
+                    kz_ozet.append(satir)
     counts = {}
     for _, kind, _, _ in [r for r in results if r[0]]:
         counts[kind] = counts.get(kind, 0) + 1
     print(f"{toplam_ders} ders, {len(jobs)} kontrol · geçen: {counts}")
     if eksikler and not wanted:
         print(f"Yazılmamış dersler ({len(eksikler)}): {' '.join(eksikler)}")
+    if kz_ozet:
+        print("Kazanım (dersi olan madde / bütün maddeler): " + " | ".join(kz_ozet))
     for _, kind, where, detail in bad:
         print(f"  ✗ {kind:<22} {where}  {detail}")
     print("TEMİZ" if not bad else f"{len(bad)} SORUN")

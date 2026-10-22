@@ -8,6 +8,7 @@ dosyalarıdır. Ders biçimi:
     id: p01
     title: Merhaba Python
     summary: tek satırlık özet
+    kazanim: PCEP 1.5, PCAP 5.4        (isteğe bağlı: tracks/<id>/kazanim.json'daki maddeler)
     ---
     ::: anlat Adımın başlığı
     markdown...
@@ -105,6 +106,11 @@ def _parse_step(kind, title, lines):
     return step
 
 
+def kazanim_ayir(metin):
+    """'PCAP 1.1, PCAP  3.2' → ['PCAP 1.1', 'PCAP 3.2']: sertifika kimliği + madde kodu."""
+    return [" ".join(p.split()) for p in (metin or "").split(",") if p.strip()]
+
+
 def parse_lesson(text):
     meta, body = _front_matter(text.replace("\r\n", "\n"))
     lines = body.split("\n")
@@ -131,6 +137,7 @@ def parse_lesson(text):
         "id": meta.get("id", ""),
         "title": meta.get("title", "Adsız ders"),
         "summary": meta.get("summary", ""),
+        "kazanim": kazanim_ayir(meta.get("kazanim")),
         "steps": steps,
     }
 
@@ -205,7 +212,7 @@ class Library:
                     continue
                 mod_out["lessons"].append({
                     "id": lid, "title": les["title"], "summary": les["summary"],
-                    "kinds": [s["kind"] for s in les["steps"]],
+                    "kinds": [s["kind"] for s in les["steps"]], "kazanim": les["kazanim"],
                 })
                 order.append(lid)
             track["modules"][mi] = mod_out
@@ -225,6 +232,39 @@ class Library:
             "next": order[i + 1] if 0 <= i < len(order) - 1 else None,
             "number": i + 1, "total": len(order),
         }
+
+    def kazanim(self, tid, outline=None):
+        """Yolun sertifika konu listeleri ve her maddeyi karşılayan dersler.
+
+        tracks/<id>/kazanim.json:
+            {"sertifikalar": [{"id": "PCAP", "ad": "PCAP-31-03", "tam_ad": ..., "kurum": ..., "kaynak": url,
+              "sinav": {"soru": 40, "dakika": 65, "gecme": 70},
+              "bolumler": [{"kod": "1", "baslik": ..., "agirlik": 12,
+                            "maddeler": [{"kod": "1.1", "baslik": ..., "not": "isteğe bağlı"}]}]}]}
+        Dersler maddeyi ön bilgideki `kazanim: PCAP 1.1, ...` satırıyla karşılar. Listede olmayan
+        etiketler "bilinmeyen"e düşer (validate bunları hata sayar).
+        """
+        path = os.path.join(self.root, tid, "kazanim.json")
+        data = {"sertifikalar": []}
+        if os.path.isfile(path):
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+        maddeler = {}
+        for s in data.get("sertifikalar", []):
+            for b in s.get("bolumler", []):
+                for m in b.get("maddeler", []):
+                    m["dersler"] = []
+                    maddeler[f"{s['id']} {m['kod']}"] = m
+        bilinmeyen = []
+        outline = outline or self.outline(tid)
+        for lid in outline["order"]:
+            for etiket in self.lesson(tid, lid)["kazanim"]:
+                m = maddeler.get(etiket)
+                if m is None:
+                    bilinmeyen.append({"ders": lid, "etiket": etiket})
+                elif lid not in m["dersler"]:
+                    m["dersler"].append(lid)
+        return {"sertifikalar": data.get("sertifikalar", []), "bilinmeyen": bilinmeyen}
 
 
 def public_step(step):

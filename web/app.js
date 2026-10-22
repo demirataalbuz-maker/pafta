@@ -83,6 +83,7 @@ function debounce(fn, ms) {
   let t;
   const d = (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
   d.flush = (...a) => { clearTimeout(t); fn(...a); };
+  d.cancel = () => clearTimeout(t);
   return d;
 }
 
@@ -645,6 +646,61 @@ function lessonStats(lesson, steps) {
   return { total, done };
 }
 
+const at = s => esc(String(s ?? "")).replace(/"/g, "&quot;");
+
+// Kazanım paftası: sertifikanın bölümleri sınav ağırlığı kadar geniş bir ölçü çizgisi;
+// her madde, onu karşılayan paftalarla. Boş madde = henüz çizilmedi.
+function kazanimHtml(serts, tid, track, steps) {
+  if (!serts?.length) return "";
+  const dersler = Object.fromEntries(track.modules.flatMap(m => m.lessons).map(l => [l.id, l]));
+  const bitti = lid => {
+    const l = dersler[lid];
+    if (!l || l.missing) return false;
+    const s = lessonStats(l, steps);
+    return !!s.total && s.done === s.total;
+  };
+  const kartlar = serts.map(s => {
+    const bolumler = s.bolumler.map(b => {
+      const m = b.maddeler || [];
+      return { b, n: m.length, kap: m.filter(x => x.dersler.length).length,
+        cal: m.filter(x => x.dersler.length && x.dersler.every(bitti)).length, w: b.agirlik || 1 };
+    });
+    const W = bolumler.reduce((t, x) => t + x.w, 0) || 1;
+    const agirlikli = f => Math.round(bolumler.reduce((t, x) => t + x.w * (x.n ? f(x) / x.n : 0), 0) / W * 100);
+    const toplamM = bolumler.reduce((t, x) => t + x.n, 0), toplamK = bolumler.reduce((t, x) => t + x.kap, 0);
+    const sv = s.sinav || {};
+    const kunye = [sv.soru && `${sv.soru} soru`, sv.dakika && `${sv.dakika} dk`, sv.gecme && `geçme %${sv.gecme}`].filter(Boolean).join(" · ");
+    const sid = encodeURIComponent(s.id);
+    const olcu = bolumler.map(x => `<a class="kz-dilim" style="flex:${x.w}" href="#/sinav/${tid}/${sid}/${encodeURIComponent(x.b.kod)}" title="${at(`${x.b.kod} · ${x.b.baslik} · ${x.kap}/${x.n} madde karşılanıyor, ${x.cal} madde çalışıldı`)}">` +
+      `<i class="kap" style="width:${x.n ? x.kap / x.n * 100 : 0}%"></i><i class="cal" style="width:${x.n ? x.cal / x.n * 100 : 0}%"></i>` +
+      `<em>${esc(String(x.b.kod))}${x.b.agirlik ? `<small>%${x.b.agirlik}</small>` : ""}</em></a>`).join("");
+    const govde = bolumler.map(x => `<div class="kz-bolum"><div class="kz-bh"><span class="kz-kod">${esc(String(x.b.kod))}</span><b>${esc(x.b.baslik)}</b>` +
+      (x.b.agirlik ? `<span class="label">ağırlık %${x.b.agirlik}</span>` : "") + `<span class="label">${x.kap}/${x.n} madde</span>` +
+      `<a class="linkish" href="#/sinav/${tid}/${sid}/${encodeURIComponent(x.b.kod)}">bölüm sınavı →</a></div>` +
+      (x.b.not ? `<p class="kz-bnot">${esc(x.b.not)}</p>` : "") + `<div class="kz-maddeler">` +
+      (x.b.maddeler || []).map(m => {
+        const durum = !m.dersler.length ? "bos" : m.dersler.every(bitti) ? "tam" : "var";
+        const cips = m.dersler.length
+          ? m.dersler.map(l => `<a class="kz-ders ${bitti(l) ? "bitti" : ""}" href="#/ders/${tid}/${l}/0" title="${at(dersler[l]?.title || l)}">${esc(l.toUpperCase())}</a>`).join("")
+          : `<span class="kz-yok">çizilmedi</span>`;
+        return `<div class="kz-m ${durum}"><span class="kz-kod">${esc(String(m.kod))}</span><span class="kz-mb">${esc(m.baslik)}${m.not ? `<small>${esc(m.not)}</small>` : ""}</span><span class="kz-dersler">${cips}</span></div>`;
+      }).join("") + `</div></div>`).join("");
+    return `<section class="kz">
+      <header class="kz-head">
+        <div class="kz-ad"><span class="label">${esc(s.kurum || "Sertifika")}</span><h3>${esc(s.ad)}</h3>${s.tam_ad ? `<small>${esc(s.tam_ad)}</small>` : ""}</div>
+        <div class="kz-sayi"><span class="label">Kapsam</span><b>${toplamK}<small>/ ${toplamM} madde</small></b></div>
+        <div class="kz-sayi"><span class="label">Hazırlık</span><b>%${agirlikli(x => x.cal)}<small>ağırlıklı</small></b></div>
+        <div class="kz-eylem">${kunye ? `<span class="label">Gerçek sınav · ${esc(kunye)}</span>` : ""}<a class="btn small primary" href="#/sinav/${tid}/${sid}">Deneme sınavı →</a>` +
+          (s.kaynak ? `<a class="linkish" href="${at(s.kaynak)}" target="_blank" rel="noopener">resmî konu listesi ↗</a>` : "") + `</div>
+      </header>
+      <div class="kz-olcu" aria-label="Bölümler sınav ağırlığına göre">${olcu}</div>
+      <details class="kz-detay"><summary><span class="label">${toplamM} maddeyi aç · ağırlıklı kapsam %${agirlikli(x => x.kap)}</span></summary>${govde}</details>
+    </section>`;
+  }).join("");
+  return `<div class="sec-head"><h2>Kazanımlar</h2><span class="dimline"></span><span class="label">sertifikanın konu listesi · her madde hangi paftada</span></div>` +
+    `<div class="kz-lejant"><span><i class="kap"></i>paftası var</span><span><i class="cal"></i>paftası bitti</span><span class="label">dilim genişliği = sınavdaki ağırlık · dilime tıkla, o bölümden sınava gir</span></div>${kartlar}`;
+}
+
 async function renderMap(tid) {
   S.mode = "map";
   const st = await refreshHeader();
@@ -719,7 +775,7 @@ async function renderMap(tid) {
         <div class="hero-kicker"><span class="label">Yol ${pad(sira)} · ${esc(track.name)}</span><span class="dim"></span><span class="label">Rütbe: ${esc(curRank.name)}</span></div>
         <h1 class="hero-title">${esc(kahraman1)}<br><em>${esc(kahraman2)}</em>${esc(kahraman3 || "")}</h1>
         <p class="hero-sub">${esc(track.tagline || "")}</p>
-        <div class="hero-cta">${cta}${st.due_count ? `<a class="btn" href="#/tekrar">Tekrar · ${st.due_count} görev</a>` : ""}<a class="btn" href="#/tezgah/${track.dil || tid}">Serbest tezgah</a></div>
+        <div class="hero-cta">${cta}${st.due_count ? `<a class="btn" href="#/tekrar">Tekrar · ${st.due_count} görev</a>` : ""}<a class="btn" href="#/tezgah/${track.dil || tid}">Serbest tezgah</a><a class="btn" href="#/sinav/${tid}">Sınav</a></div>
       </div>
       <div class="hero-cells">
         <div class="cell"><span class="label">Seri</span><span class="cell-val">${st.streak}<small>gün</small></span></div>
@@ -731,6 +787,7 @@ async function renderMap(tid) {
     ${track.hazir === false ? `<div class="callout tuzak" style="margin-top:16px"><div class="ct">Kurulum gerekiyor</div><p>Bu yolun yorumlayıcısı bu bilgisayarda bulunamadı. ${track.dil === "bash" ? "Git for Windows (Git Bash) kurulunca" : "Yorumlayıcı kurulunca"} paftalar çalışır.</p></div>` : ""}
     <div class="sec-head"><h2>Paftalar</h2><span class="dimline"></span><span class="label">${track.order.length} pafta · ${ranks.length} rütbe · her pafta: anlat → tahmin → görev</span></div>
     ${rankHtml}
+    ${kazanimHtml(tv.kazanim, tid, track, steps)}
     <div class="sec-head"><h2>Yol haritası</h2><span class="dimline"></span><span class="label">purple team dilleri · aynı motor, yeni yol</span></div>
     <div class="roads">${roads}</div>
   </div>`;
@@ -761,7 +818,7 @@ async function renderLesson(tid, lid, idx, opts = {}) {
     view.innerHTML = `<div class="lesson">
       <div class="sheet-wrap"><article class="sheet" id="sheet">
         <div class="sheet-head">
-          <div class="crumbs"><a class="label" href="#/yol/${tid}">← ${esc(S.yol.name || "Harita")}</a><span class="label">M${pad(mod.index)} · ${esc(mod.title)}</span><span class="label">${esc(L.id.toUpperCase())} / ${loc.total}</span></div>
+          <div class="crumbs"><a class="label" href="#/yol/${tid}">← ${esc(S.yol.name || "Harita")}</a><span class="label">M${pad(mod.index)} · ${esc(mod.title)}</span><span class="label">${esc(L.id.toUpperCase())} / ${loc.total}</span>${L.kazanim?.length ? `<span class="label kz-etiket" title="Bu paftanın karşıladığı sertifika maddeleri">${esc(L.kazanim.join(" · "))}</span>` : ""}</div>
           <h1 class="sheet-title">${esc(L.title)}</h1>
           <p class="sheet-summary">${esc(L.summary)}</p>
           <div class="dims" id="dims"></div>
@@ -1136,6 +1193,401 @@ async function renderReviewSolve(tid, lid, idx) {
   S.bench.load({ code: st.starter || "", stdin: lessonInput(st, v.lesson, dil), resetCode: st.starter || "", checkable: true });
 }
 
+// ── SINAV · ER MEYDANI ───────────────────────────────────────────────────────
+// Süreli deneme: sorular yolun tahmin ve görev adımlarından; ipucu, Kontrol ve çözüm kapalı,
+// hiçbir cevabın doğru olup olmadığı sınav bitmeden söylenmez.
+const TUR_ADI = { karisik: "Karışık", tahmin: "Yalnızca tahmin", gorev: "Yalnızca görev" };
+const HAVUZ_ADI = { hepsi: "Bütün paftalar", biten: "Bitirdiğim paftalar" };
+
+function sureYaz(sn) {
+  sn = Math.max(0, Math.round(sn || 0));
+  const s = Math.floor(sn / 3600), d = Math.floor((sn % 3600) / 60), n = sn % 60;
+  return s ? `${s}:${pad(d)}:${pad(n)}` : `${pad(d)}:${pad(n)}`;
+}
+
+function sinavTemizle() {
+  clearInterval(S.sinavSaat);
+  S.sinavSaat = null;
+}
+
+const cevapli = (q, v) => !!(v && v.trim() && (q.kind !== "gorev" || v !== (q.starter || "")));
+
+async function renderExamSetup(onYol, onSert, onBolum) {
+  S.mode = "sinav";
+  view.onclick = null;
+  let d;
+  try { d = await api("/api/sinav"); }
+  catch (e) { view.innerHTML = `<div class="page"><div class="empty-state">Sunucuya ulaşılamadı: ${esc(e.message)}</div></div>`; return; }
+  refreshHeader();
+  const yollar = d.yollar || [];
+  if (!yollar.length) { view.innerHTML = `<div class="page"><div class="empty-state">Henüz aktif bir yol yok.</div></div>`; return; }
+  const sonYol = S.state?.last?.track;
+  const sec = {
+    yol: yollar.some(y => y.id === onYol) ? onYol : yollar.some(y => y.id === sonYol) ? sonYol : yollar[0].id,
+    kapsam: onSert ? onSert + (onBolum ? "|" + onBolum : "") : "", adet: 20, tur: "karisik", havuz: "hepsi",
+  };
+  const a = d.aktif;
+  const aktifHtml = a ? `<div class="callout derin meydan-suren"><div class="ct">Süren sınav · ${esc(a.kapsam)}</div>` +
+    `<p>${a.cevaplanan}/${a.adet} soru cevaplı · ${a.kalan_sn ? `kalan ${sureYaz(a.kalan_sn)}` : "süre doldu, puanlanmayı bekliyor"}</p>` +
+    `<p class="guess-row"><a class="btn primary small" href="#/sinav/aktif">${a.kalan_sn ? "Meydana dön →" : "Gör"}</a>` +
+    `<button type="button" class="btn small" data-act="bitir" data-no="${a.no}">Bitir ve puanla</button>` +
+    `<button type="button" class="linkish" data-act="vazgec" data-no="${a.no}">vazgeç · bu sınav kaydedilmez</button></p></div>` : "";
+  const gecmis = d.gecmis || [];
+  const gecmisHtml = gecmis.length ? `<div class="rev-list">${gecmis.map(g =>
+    `<a class="rev gecmis" href="#/sinav/sonuc/${g.no}"><span class="rid">SINAV ${g.no}<br>${esc(g.tarih || "")}</span>` +
+    `<span><b>${esc(g.kapsam || "")}</b><small>${g.adet} soru · ${esc(TUR_ADI[g.tur] || g.tur || "")} · ${sureYaz(g.gecen_sn)} / ${sureYaz(g.sure_sn)}</small></span>` +
+    `<span class="mini-muhur ${g.gecti ? "kabul" : "ret"}">${g.gecti ? "KABUL" : "RET"} · %${g.yuzde}</span></a>`).join("")}</div>`
+    : `<div class="empty-state">Henüz meydana çıkmadın. İlk sınavın burada görünecek.</div>`;
+  view.innerHTML = `<div class="page meydan">
+    <span class="label">Süreli deneme · ipucu yok · Kontrol yok · çözüm yok</span>
+    <h1 class="page-title">Er Meydanı</h1>
+    <p class="page-sub">Paftalarda öğrendiğini sertifika sınavı gibi ölç. Sorular yolun tahmin ve görev adımlarından seçilir; sertifika kapsamında bölümlerin sınavdaki ağırlığına göre dağıtılır. Sınav bitene kadar hiçbir cevabın doğru olup olmadığını söylemez: tahminler gerçek çıktıyla, görevler görev testleriyle sonda puanlanır.</p>
+    ${aktifHtml}
+    <section class="kunye" id="kunye"></section>
+    <div class="sec-head"><h2>Geçmiş</h2><span class="dimline"></span><span class="label">son ${gecmis.length} sınav</span></div>
+    ${gecmisHtml}
+  </div>`;
+  const kunye = $("#kunye");
+  const ciz = () => {
+    const y = yollar.find(x => x.id === sec.yol);
+    const [sid, bkod] = sec.kapsam.split("|");
+    const sert = y.sertifikalar.find(s => s.id === sid);
+    if (sec.kapsam && !sert) sec.kapsam = "";
+    const secenek = [`<option value="">Bütün yol · bütün paftalar</option>`].concat((y.sertifikalar || []).flatMap(s => [
+      `<option value="${at(s.id)}" ${sec.kapsam === s.id ? "selected" : ""}>${esc(s.ad)} · bütün sınav</option>`,
+      ...s.bolumler.map(b => `<option value="${at(s.id + "|" + b.kod)}" ${sec.kapsam === s.id + "|" + b.kod ? "selected" : ""}>${esc(s.ad)} › ${esc(String(b.kod))} · ${esc(b.baslik)}${b.agirlik ? ` (%${b.agirlik})` : ""}</option>`)]));
+    const hap = (alan, degerler, adlar) => `<div class="hap" data-alan="${alan}">${degerler.map(v =>
+      `<button type="button" data-deger="${at(v)}" class="${String(sec[alan]) === String(v) ? "on" : ""}">${esc(String(adlar ? adlar[v] : v))}</button>`).join("")}</div>`;
+    const sv = sert?.sinav || {};
+    const adetler = [5, 10, 20, 40];
+    if (sv.soru && !adetler.includes(sv.soru) && !bkod) adetler.push(sv.soru);
+    kunye.innerHTML = `<div class="kunye-form">
+        <label class="kf genis"><span class="label">Yol</span><select data-alan="yol">${yollar.map(x => `<option value="${at(x.id)}" ${x.id === sec.yol ? "selected" : ""}>${esc(x.name)}${x.sertifikalar.length ? " · " + esc(x.sertifikalar.map(s => s.ad).join(", ")) : ""}</option>`).join("")}</select></label>
+        <label class="kf genis"><span class="label">Kapsam</span><select data-alan="kapsam">${secenek.join("")}</select>
+          ${sert ? `<small>${esc(sert.tam_ad || sert.ad)}${sv.soru ? ` · gerçek sınav ${sv.soru} soru, ${sv.dakika} dk, geçme %${sv.gecme}` : ""}</small>` : `<small>${y.sertifikalar.length ? "Bir sertifika seçersen sorular onun bölüm ağırlıklarına göre dağılır." : "Bu yol henüz bir sertifikanın konu listesine eşlenmedi; sorular modüllere yayılır."}</small>`}</label>
+        <div class="kf"><span class="label">Soru</span>${hap("adet", adetler)}</div>
+        <div class="kf"><span class="label">Tür</span>${hap("tur", ["karisik", "tahmin", "gorev"], TUR_ADI)}</div>
+        <div class="kf"><span class="label">Havuz</span>${hap("havuz", ["hepsi", "biten"], HAVUZ_ADI)}</div>
+      </div>
+      <div class="kunye-ozet">
+        <div class="ko-sure"><span class="label">Süre</span><b id="koSure">—</b></div>
+        <div class="ko-satir" id="koHavuz">havuz hesaplanıyor…</div>
+        <div class="ko-satir">tahmin 2 dk · görev 6 dk · geçme %${sv.gecme || 70}</div>
+        <button type="button" class="btn primary" id="meydanaCik" ${a ? "disabled title=\"Önce süren sınavı bitir\"" : ""}>Meydana çık →</button>
+      </div>`;
+    onizle();
+  };
+  let istek = 0;
+  const onizle = async () => {
+    const [sid, bkod] = sec.kapsam.split("|");
+    const n = ++istek;
+    try {
+      const h = await api("/api/sinav/havuz", { yol: sec.yol, sertifika: sid || null, bolum: bkod || null, adet: sec.adet, tur: sec.tur, havuz: sec.havuz });
+      if (n !== istek) return;
+      $("#koSure").textContent = h.adet ? sureYaz(h.sure_sn) : "—";
+      const az = h.adet < sec.adet ? ` · havuzda yalnızca <b>${h.adet}</b> soru var` : "";
+      $("#koHavuz").innerHTML = `havuzda ${h.tahmin} tahmin · ${h.gorev} görev${az}`;
+      $("#meydanaCik").disabled = !!a || !h.adet;
+    } catch (e) { if (n === istek) $("#koHavuz").textContent = e.message; }
+  };
+  kunye.addEventListener("change", e => {
+    const s = e.target.closest("select[data-alan]");
+    if (!s) return;
+    sec[s.dataset.alan] = s.value;
+    if (s.dataset.alan === "yol") sec.kapsam = "";
+    ciz();
+  });
+  kunye.addEventListener("click", async e => {
+    const h = e.target.closest(".hap button");
+    if (h) {
+      const alan = h.closest(".hap").dataset.alan;
+      sec[alan] = alan === "adet" ? +h.dataset.deger : h.dataset.deger;
+      ciz();
+      return;
+    }
+    if (e.target.closest("#meydanaCik")) {
+      const [sid, bkod] = sec.kapsam.split("|");
+      e.target.disabled = true;
+      try {
+        await api("/api/sinav/basla", { yol: sec.yol, sertifika: sid || null, bolum: bkod || null, adet: sec.adet, tur: sec.tur, havuz: sec.havuz });
+        location.hash = "#/sinav/aktif";
+      } catch (err) { toast(err.message); e.target.disabled = false; }
+    }
+  });
+  view.onclick = async e => {
+    const b = e.target.closest(".meydan-suren [data-act]");
+    if (!b) return;
+    const no = +b.dataset.no;
+    if (b.dataset.act === "vazgec") {
+      if (!confirm("Süren sınav silinecek, sonucu kaydedilmeyecek. Vazgeçmek istiyor musun?")) return;
+      try { await api("/api/sinav/vazgec", { no }); route(); } catch (err) { toast(err.message); }
+    } else if (b.dataset.act === "bitir") {
+      b.disabled = true;
+      b.textContent = "puanlanıyor…";
+      try { const r = await api("/api/sinav/bitir", { no }); location.hash = `#/sinav/sonuc/${r.no}`; }
+      catch (err) { toast(err.message); b.disabled = false; }
+    }
+  };
+  ciz();
+}
+
+async function renderExam() {
+  S.mode = "sinav-aktif";
+  view.onclick = null;
+  let a;
+  try { a = await api("/api/sinav/aktif"); }
+  catch (e) { location.hash = "#/sinav"; return; }
+  const ilkBos = a.sorular.findIndex((q, j) => !cevapli(q, a.cevaplar[j]));
+  S.sinav = { a, i: Math.max(0, ilkBos), bitis: Date.now() + a.kalan_sn * 1000, bitiyor: false,
+    yaz: debounce((i, v) => cevapKaydet(i, v), 600) };
+  S.yol = a.track;
+  view.innerHTML = `<div class="lesson meydan-kip">
+    <div class="sheet-wrap"><article class="sheet" id="sheet">
+      <div class="sheet-head">
+        <div class="crumbs"><a class="label" href="#/sinav">← Er meydanı</a><span class="label">${esc(a.kapsam)}</span><span class="label">Sınav ${a.no} · ${esc(TUR_ADI[a.tur] || a.tur)}</span></div>
+        <div class="meydan-ust"><h1 class="sheet-title" id="soruBaslik"></h1>
+          <div class="saat" id="saat" title="Süre bitince sınav kendiliğinden puanlanır"><span class="label">kalan</span><b>--:--</b><span class="saat-serit"><i></i></span></div></div>
+        <div class="serit" id="serit" role="navigation" aria-label="Sorular"></div>
+      </div>
+      <div class="sheet-body" id="soruBody"></div>
+      <div class="sheet-foot" id="soruFoot"></div>
+    </article></div>
+    <section class="bench" id="bench"></section>
+    <section class="kagit" id="kagit" hidden></section>
+  </div>`;
+  S.bench = new Bench($("#bench"), {
+    track: a.yol,
+    dil: a.track.dil,
+    ozellik: a.track.ozellik,
+    checkable: () => false,
+    lessonRef: () => { const q = S.sinav?.a.sorular[S.sinav.i]; return q ? { lesson: q.lesson, step: q.step } : {}; },
+    saveDraft: code => (S.sinav ? cevapKaydet(S.sinav.i, code) : null),
+  });
+  $("#sheet").addEventListener("click", sinavClick);
+  $("#kagit").addEventListener("click", sinavClick);
+  soruGoster(S.sinav.i);
+  sinavSaat();
+}
+
+function cevapKaydet(i, cevap) {
+  const s = S.sinav;
+  if (!s || s.bitiyor) return null;
+  s.a.cevaplar[i] = cevap;
+  if ($("#serit")) paintSerit();
+  const kagit = $("#kagit");
+  if (kagit && !kagit.hidden) paintKagit();
+  return api("/api/sinav/cevap", { no: s.a.no, soru: i, cevap })
+    .then(r => { if (!r.ok) toast("Süre doldu; bu cevap kaydedilmedi"); return r; });
+}
+
+// Açık sorunun bekleyen cevabını hemen yaz (soru değişirken, sınav biterken, sayfadan çıkarken)
+function cevapBosalt() {
+  const s = S.sinav;
+  if (!s) return Promise.resolve();
+  const q = s.a.sorular[s.i];
+  let v;
+  if (q.kind === "gorev") { S.bench.draft.cancel(); v = S.bench.ed.value; }
+  else { s.yaz.cancel(); v = $("#cevapKutu")?.value ?? ""; }
+  const eski = s.a.cevaplar[s.i] ?? (q.kind === "gorev" ? q.starter || "" : "");
+  if (eski === v) return Promise.resolve();
+  return cevapKaydet(s.i, v) || Promise.resolve();
+}
+
+function paintSerit() {
+  const s = S.sinav, a = s.a;
+  $("#serit").innerHTML = a.sorular.map((q, j) => {
+    const cls = [cevapli(q, a.cevaplar[j]) ? "dolu" : "", j === s.i ? "cur" : "", a.isaretli.includes(j) ? "isaret" : ""].join(" ");
+    return `<button type="button" class="${cls}" data-soru="${j}" title="Soru ${j + 1} · ${KIND_LABEL[q.kind]}${a.isaretli.includes(j) ? " · işaretli" : ""}"><b>${j + 1}</b><span>${q.kind === "tahmin" ? "T" : "G"}</span></button>`;
+  }).join("");
+}
+
+// Tahmin sorularında sağdaki panel: optik cevap kâğıdı
+function paintKagit() {
+  const s = S.sinav, a = s.a;
+  const n = a.sorular.filter((q, j) => cevapli(q, a.cevaplar[j])).length;
+  $("#kagit").innerHTML = `<div class="kagit-ic">
+    <div class="kagit-bas"><span class="label">Cevap kâğıdı</span><b>${n}<small>/ ${a.sorular.length}</small></b><span class="label">cevaplı</span></div>
+    <ol class="optik">${a.sorular.map((q, j) => `<li class="${j === s.i ? "cur" : ""}" data-soru="${j}"><span class="on">${pad(j + 1)}</span>` +
+      `<span class="tur">${q.kind === "tahmin" ? "TAHMİN" : "GÖREV"}</span><i class="kabarcik ${cevapli(q, a.cevaplar[j]) ? "dolu" : ""}"></i>` +
+      `<i class="bayrak">${a.isaretli.includes(j) ? "⚑" : ""}</i></li>`).join("")}</ol>
+    <p class="out-meta">dolu daire = cevaplı · ⚑ = sonra bakacağın soru · cevaplar kendiliğinden kaydedilir</p>
+    <button type="button" class="btn primary" data-act="bitir">Sınavı bitir ve puanla</button>
+  </div>`;
+}
+
+function paintSinavFoot() {
+  const s = S.sinav, a = s.a, i = s.i, isaret = a.isaretli.includes(i), son = i === a.sorular.length - 1;
+  $("#soruFoot").innerHTML = `<button type="button" class="btn" data-act="onceki" ${i === 0 ? "disabled" : ""}>← Önceki</button>` +
+    `<button type="button" class="btn small ${isaret ? "ok" : ""}" data-act="isaretle">⚑ ${isaret ? "İşareti kaldır" : "İşaretle"}</button><span class="grow"></span>` +
+    (son ? "" : `<button type="button" class="btn primary" data-act="sonraki">Sonraki →</button>`) +
+    `<button type="button" class="btn ${son ? "primary" : ""}" data-act="bitir">Sınavı bitir</button>`;
+}
+
+function soruGoster(i) {
+  const s = S.sinav, a = s.a;
+  if (s.gosterildi) cevapBosalt();
+  s.gosterildi = true;
+  s.i = i;
+  const q = a.sorular[i];
+  const ders = { steps: [{ meta: q.ders_dil ? { dil: q.ders_dil } : {}, stdin: q.ders_stdin || "" }] };
+  const dil = lessonLanguage(a.track, ders, q), stdin = lessonInput(q, ders, dil);
+  const okuma = a.track.okuma_dili;
+  $("#soruBaslik").textContent = `Soru ${i + 1} / ${a.sorular.length}`;
+  paintSerit();
+  let body = `<div class="step-kind"><span class="tag ${q.kind}">${KIND_LABEL[q.kind].toLocaleUpperCase("tr")}</span><span class="label" id="isaretEtiket">${a.isaretli.includes(i) ? "⚑ işaretli" : ""}</span></div>`;
+  if (q.kind === "tahmin") {
+    const td = TAHMIN_DIL[okuma || dil] || {};
+    body += `<h2 class="step-title">${esc(q.title || td.baslik || "Bu kod ne yazdırır?")}</h2><div class="md">${render(q.body || "", { dil, runnable: false, bench: false })}</div>` +
+      codeBlock(q.code, q.code_dil || okuma || dil, { runnable: false, bench: false }) +
+      (stdin ? `<div class="md"><p>${td.girdi || "Girdi kutusunda şu satırlar var:"}</p></div>${codeBlock(stdin, "cikti")}` : "") +
+      `<div class="guess"><span class="label">${td.etiket || "Cevabın — çıktıyı satır satır yaz (hata bekliyorsan hatanın adını yaz)"}</span>` +
+      `<textarea id="cevapKutu" rows="5" spellcheck="false" placeholder="${at(td.ornek || "ör. 42")}"></textarea>` +
+      `<div class="out-meta">cevap kendiliğinden kaydedilir · doğru mu, sınav bitince görürsün</div></div>`;
+  } else {
+    body += `<h2 class="step-title">${esc(q.title || "Görev")}</h2><div class="md">${render(q.body || "", { dil, stdin, runnable: false, bench: false })}</div>` +
+      `<div class="callout not"><div class="ct">Sınav kuralı</div><p>Tezgahta ▶ Çalıştır serbest. Kontrol, ipucu ve çözüm sınav bitene kadar kapalı; kodun her değişiklikte kaydedilir.</p></div>`;
+  }
+  $("#soruBody").innerHTML = body;
+  const gorev = q.kind === "gorev";
+  $("#bench").hidden = !gorev;
+  $("#kagit").hidden = gorev;
+  if (gorev) {
+    S.bench.ayarla(dil, a.track.ozellik || {});
+    S.bench.load({ code: a.cevaplar[i] ?? q.starter ?? "", stdin, resetCode: q.starter || "", checkable: false });
+  } else {
+    const kutu = $("#cevapKutu");
+    kutu.value = a.cevaplar[i] || "";
+    kutu.addEventListener("input", () => s.yaz(i, kutu.value));
+    paintKagit();
+  }
+  paintSinavFoot();
+  $(".sheet-wrap").scrollTop = 0;
+}
+
+async function sinavClick(e) {
+  const q = e.target.closest("[data-soru]");
+  if (q) { soruGoster(+q.dataset.soru); return; }
+  const b = e.target.closest("[data-act]");
+  const s = S.sinav;
+  if (!b || !s) return;
+  const act = b.dataset.act;
+  if (act === "onceki" && s.i > 0) soruGoster(s.i - 1);
+  else if (act === "sonraki" && s.i < s.a.sorular.length - 1) soruGoster(s.i + 1);
+  else if (act === "isaretle") {
+    const on = !s.a.isaretli.includes(s.i);
+    s.a.isaretli = on ? [...s.a.isaretli, s.i] : s.a.isaretli.filter(j => j !== s.i);
+    api("/api/sinav/cevap", { no: s.a.no, soru: s.i, isaretli: on }).catch(() => {});
+    $("#isaretEtiket").textContent = on ? "⚑ işaretli" : "";
+    paintSerit();
+    paintSinavFoot();
+    if (!$("#kagit").hidden) paintKagit();
+  } else if (act === "bitir") sinavBitir(false);
+}
+
+async function sinavBitir(otomatik) {
+  const s = S.sinav;
+  if (!s || s.bitiyor) return;
+  await cevapBosalt();
+  const a = s.a;
+  const bos = a.sorular.filter((q, j) => !cevapli(q, a.cevaplar[j])).length;
+  if (!otomatik && !confirm(bos ? `${bos} soru boş. Sınavı bitirip puanlamak istiyor musun?` : "Sınavı bitirip puanlamak istiyor musun?")) return;
+  s.bitiyor = true;
+  sinavTemizle();
+  $("#soruFoot").innerHTML = `<span class="label">puanlanıyor · görev testleri koşuyor…</span>`;
+  try {
+    const r = await api("/api/sinav/bitir", { no: a.no });
+    S.sinav = null;
+    location.hash = `#/sinav/sonuc/${r.no}`;
+  } catch (err) {
+    s.bitiyor = false;
+    toast(err.message);
+    paintSinavFoot();
+  }
+}
+
+function sinavSaat() {
+  sinavTemizle();
+  const toplam = S.sinav.a.sure_sn || 1;
+  const tik = () => {
+    const s = S.sinav;
+    if (!s || S.mode !== "sinav-aktif") { sinavTemizle(); return; }
+    const kalan = Math.round((s.bitis - Date.now()) / 1000);
+    const saat = $("#saat");
+    if (!saat) return;
+    $("b", saat).textContent = sureYaz(kalan);
+    $(".saat-serit i", saat).style.width = `${Math.max(0, Math.min(100, kalan / toplam * 100))}%`;
+    saat.classList.toggle("az", kalan <= 300);
+    if (kalan <= 300 && kalan > 0 && !s.uyari) { s.uyari = true; toast("Son 5 dakika"); }
+    if (kalan <= 0) { sinavTemizle(); toast("Süre doldu; sınav puanlanıyor"); sinavBitir(true); }
+  };
+  tik();
+  S.sinavSaat = setInterval(tik, 1000);
+}
+
+function soruSonucu(r, q, j) {
+  let ic;
+  if (q.kind === "tahmin") {
+    ic = `<div class="verdict"><div class="${q.dogru ? "good" : "badc"}"><span class="label">senin cevabın</span><pre>${esc(q.cevap || "— boş —")}</pre></div>` +
+      `<div class="good"><span class="label">gerçek çıktı</span><pre>${esc(q.beklenen || "")}</pre></div></div>`;
+  } else if (q.durum === "bos") {
+    ic = `<p class="out-meta">bu görevi boş bıraktın (başlangıç kodu değişmedi)</p>`;
+  } else {
+    ic = `<ul class="checks">${(q.kontroller || []).map(c => `<li class="${c.ok ? "ok" : "no"}"><span class="ic">${c.ok ? "✓" : "✗"}</span><span>${render(c.msg).replace(/^<p>|<\/p>$/g, "")}</span></li>`).join("")}</ul>` +
+      (q.hata ? `<div class="errcard"><div class="raw">${esc(q.hata)}</div></div>` : "") +
+      `<details class="kodun"><summary><span class="label">gönderdiğin kod</span></summary><pre class="out">${esc(q.cevap || "")}</pre></details>`;
+  }
+  const kz = (q.kazanim || []).filter(k => !r.sertifika || k.startsWith(r.sertifika + " "));
+  return `<details class="sr ${q.dogru ? "ok" : "no"}"><summary><span class="sr-no">${pad(j + 1)}</span><span class="ic">${q.dogru ? "✓" : "✗"}</span>` +
+    `<span class="tag ${q.kind}">${KIND_LABEL[q.kind]}</span><span class="sr-t"><b>${esc(q.title || "")}</b>` +
+    `<small>${esc(q.lesson.toUpperCase())} · ${esc(q.lesson_title || "")}${kz.length ? " · " + esc(kz.join(", ")) : ""}</small></span>` +
+    `${q.isaretli ? '<span class="label">⚑</span>' : ""}</summary><div class="sr-ic">${ic}<a class="btn small" href="#/ders/${r.yol}/${q.lesson}/${q.step}">Paftada aç →</a></div></details>`;
+}
+
+async function renderExamResult(no) {
+  S.mode = "sinav-sonuc";
+  view.onclick = null;
+  let r;
+  try { r = await api(`/api/sinav/sonuc/${no}`); }
+  catch (e) { view.innerHTML = `<div class="page"><div class="empty-state">Bu sınav bulunamadı.<br><br><a class="btn" href="#/sinav">Er meydanına dön</a></div></div>`; return; }
+  refreshHeader();
+  const tahmin = r.sorular.filter(q => q.kind === "tahmin"), gorev = r.sorular.filter(q => q.kind === "gorev");
+  const say = arr => arr.length ? `${arr.filter(q => q.dogru).length}<small>/ ${arr.length}</small>` : "—";
+  const yanlisGorev = gorev.filter(q => !q.dogru).length;
+  const tekrar = `#/sinav/${r.yol}${r.sertifika ? "/" + encodeURIComponent(r.sertifika) + (r.bolum ? "/" + encodeURIComponent(r.bolum) : "") : ""}`;
+  view.innerHTML = `<div class="page meydan-sonuc">
+    <span class="label">Sınav ${r.no} · ${esc(r.tarih || "")} · ${esc(TUR_ADI[r.tur] || r.tur || "")} · ${esc(HAVUZ_ADI[r.havuz] || "")}</span>
+    <h1 class="page-title">${esc(r.kapsam || "")}</h1>
+    <section class="karar ${r.gecti ? "kabul" : "ret"}">
+      <div class="karar-muhur"><div class="muhur"><b>${r.gecti ? "KABUL" : "RET"}</b><span>%${r.yuzde}</span><small>geçme %${r.gecme}</small></div></div>
+      <div class="karar-hucre"><span class="label">Doğru</span><span class="cell-val">${r.dogru}<small>/ ${r.adet}</small></span><span class="bar"><i style="width:${r.yuzde}%"></i><b style="left:${r.gecme}%"></b></span></div>
+      <div class="karar-hucre"><span class="label">Tahmin</span><span class="cell-val">${say(tahmin)}</span></div>
+      <div class="karar-hucre"><span class="label">Görev</span><span class="cell-val">${say(gorev)}</span></div>
+      <div class="karar-hucre"><span class="label">Süre</span><span class="cell-val">${sureYaz(r.gecen_sn)}<small>/ ${sureYaz(r.sure_sn)}</small></span></div>
+    </section>
+    <div class="sec-head"><h2>${r.sertifika ? "Bölümler" : "Modüller"}</h2><span class="dimline"></span><span class="label">nerede güçlüsün, nereye dönmelisin</span></div>
+    <div class="dokum">${(r.gruplar || []).map(g => {
+      const p = g.toplam ? Math.round(g.dogru / g.toplam * 100) : 0;
+      return `<div class="dk ${p >= r.gecme ? "iyi" : "zayif"}"><span class="dk-kod">${esc(String(g.anahtar))}</span><span class="dk-ad">${esc(g.baslik)}${r.sertifika && g.agirlik ? `<small>sınavdaki ağırlık %${g.agirlik}</small>` : ""}</span>` +
+        `<span class="dk-bar"><i style="width:${p}%"></i><b style="left:${r.gecme}%"></b></span><span class="dk-n">${g.dogru}/${g.toplam}</span></div>`;
+    }).join("")}</div>
+    <div class="sec-head"><h2>Sorular</h2><span class="dimline"></span><span class="label">tıkla: cevabın, gerçek sonuç ve testler</span></div>
+    <div class="sr-liste">${r.sorular.map((q, j) => soruSonucu(r, q, j)).join("")}</div>
+    <div class="sonuc-eylem">${yanlisGorev ? `<button type="button" class="btn" data-act="tekrara">Yanlış ${yanlisGorev} görevi bugünkü tekrara ekle</button>` : ""}` +
+      `<span class="grow"></span><a class="btn" href="#/yol/${r.yol}">Haritaya dön</a><a class="btn primary" href="${tekrar}">Yeniden meydana çık →</a></div>
+  </div>`;
+  view.onclick = async e => {
+    const b = e.target.closest('[data-act="tekrara"]');
+    if (!b) return;
+    b.disabled = true;
+    try {
+      const x = await api("/api/sinav/tekrar", { no: r.no });
+      b.textContent = `${x.eklenen} görev tekrar kutusunda`;
+      toast(`${x.eklenen} görev bugünkü tekrara eklendi`);
+      refreshHeader();
+    } catch (err) { toast(err.message); b.disabled = false; }
+  };
+}
+
 // ── SERBEST TEZGAH ────────────────────────────────────────────────────────────
 const TEZGAH_DILLER = [
   ["python", "Python", { roentgen: true, dis: "Bytecode" }],
@@ -1236,6 +1688,11 @@ function route() {
   const p = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean).map(decodeURIComponent);
   const key = !p[0] || p[0] === "ders" || p[0] === "yol" ? "harita" : p[0];
   $$(".nav a").forEach(a => a.classList.toggle("on", a.dataset.nav === key));
+  if (S.mode === "sinav-aktif" && S.sinav) cevapBosalt();   // sınavdan çıkarken açık cevabı kaybetme
+  sinavTemizle();
+  if (p[0] === "sinav" && p[1] === "aktif") return renderExam();
+  if (p[0] === "sinav" && p[1] === "sonuc" && p[2]) return renderExamResult(+p[2]);
+  if (p[0] === "sinav") return renderExamSetup(p[1], p[2], p[3]);
   if (p[0] === "ders" && p[2]) return renderLesson(p[1], p[2], +(p[3] || 0));
   if (p[0] === "tekrar" && p[3] !== undefined) return renderReviewSolve(p[1], p[2], +p[3]);
   if (p[0] === "tekrar") return renderReview();

@@ -181,6 +181,73 @@ class Progress:
                 self.data.setdefault("playground_diller", {})[dil] = code[:200_000]
             self._save()
 
+    # ── sınav ──
+    def _sinav(self):
+        s = self.data.setdefault("sinav", {})
+        s.setdefault("aktif", None)
+        s.setdefault("gecmis", [])
+        s.setdefault("sayac", 0)
+        return s
+
+    def sinav_durumu(self):
+        with self._lock:
+            return json.loads(json.dumps(self._sinav()))
+
+    def sinav_basla(self, sinav):
+        with self._lock:
+            s = self._sinav()
+            if s["aktif"]:
+                raise ValueError("süren bir sınav var: önce onu bitir ya da vazgeç")
+            s["sayac"] += 1
+            sinav["no"] = s["sayac"]
+            s["aktif"] = sinav
+            self._save()
+            return json.loads(json.dumps(sinav))
+
+    def sinav_cevap(self, no, soru, cevap=None, isaretli=None, son=None):
+        """Süren sınava bir cevap ya da işaret yazar; süre (son) geçtiyse yazmaz."""
+        with self._lock:
+            a = self._sinav()["aktif"]
+            if not a or a["no"] != no or not (0 <= soru < len(a["sorular"])):
+                raise ValueError("böyle süren bir sınav ya da soru yok")
+            if son is not None and son > a["bitis"]:
+                return False
+            if cevap is not None:
+                a.setdefault("cevaplar", {})[str(soru)] = str(cevap)[:20_000]
+            if isaretli is not None:
+                isaret = set(a.setdefault("isaretli", []))
+                (isaret.add if isaretli else isaret.discard)(soru)
+                a["isaretli"] = sorted(isaret)
+            self._save()
+            return True
+
+    def sinav_kapat(self, no, sonuc=None):
+        """Süren sınavı kapatır; sonuç verilirse geçmişin başına yazar (son 30 sınav tutulur)."""
+        with self._lock:
+            s = self._sinav()
+            if not s["aktif"] or s["aktif"]["no"] != no:
+                raise ValueError("böyle süren bir sınav yok")
+            s["aktif"] = None
+            if sonuc is not None:
+                s["gecmis"].insert(0, sonuc)
+                del s["gecmis"][30:]
+                self._mark_day()
+            self._save()
+
+    def sinav_sonucu(self, no):
+        with self._lock:
+            r = next((g for g in self._sinav()["gecmis"] if g.get("no") == no), None)
+            return json.loads(json.dumps(r)) if r else None
+
+    def tekrara_ekle(self, tid, keys):
+        """Sınavda yanlış yapılan görevler bugün tekrar listesine kutu 1'den girer."""
+        with self._lock:
+            tr = self._track(tid)
+            for key in keys:
+                tr["review"][key] = {"box": 1, "due": today()}
+            self._save()
+            return len(keys)
+
     def set_setting(self, key, value):
         with self._lock:
             self.data["settings"][key] = value
