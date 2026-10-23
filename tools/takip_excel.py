@@ -87,7 +87,7 @@ def parse_denetim(path):
             if line.startswith("## ") or line.startswith("**"):
                 break
             if line.startswith("|") and not line.startswith("| #") and not line.startswith("|---"):
-                parts = [p.strip() for p in line.split("|")[1:-1]]
+                parts = [p.strip().replace(r"\|", "|") for p in re.split(r"(?<!\\)\|", line)[1:-1]]
                 if len(parts) >= 5 and parts[0].startswith("A"):
                     acik_bulgular.append({
                         "no": parts[0],
@@ -107,7 +107,7 @@ def parse_denetim(path):
             if line.startswith("| Sıra | Yol |"):
                 break
             if line.startswith("|") and not line.startswith("| #") and not line.startswith("|---"):
-                parts = [p.strip() for p in line.split("|")[1:-1]]
+                parts = [p.strip().replace(r"\|", "|") for p in re.split(r"(?<!\\)\|", line)[1:-1]]
                 if len(parts) >= 6 and parts[0].isdigit():
                     durum_maddeleri.append({
                         "no": int(parts[0]),
