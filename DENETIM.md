@@ -22,8 +22,6 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A32 | `tracks/php/lessons/ph02` (tahmin, `gercek` çiti) | Gerçek PHP çıktısının ilk satırı `web01 db01 ` (sonda boşluk), `gercek` çitinde boşluk yok; dersin açıklaması "sonunda bir boşluk" diyor. Tahmin karşılaştırması satır sonu boşluklarını kırptığı için puanlama etkilenmiyor (bulut denetçi ve denetçi PHP 8.3/8.4 ile ölçtü). | çite boşluğu ekle; ders kendi açıklamasıyla tutarlı olsun | Yazar 1 |
-| A33 | `tracks/c/lessons/c13` (tahmin) | `uint8_t` dizisini `(const Baslik *)` ile okumak katı takma ad kuralını çiğner (C11 6.5p7): tanımsız davranış. Ölçülen çıktı altı derleme biçiminde aynı (`1 2 12`), ama dersin NOT kutusu bunu yalnızca "tartışmalı" diye anıyor. | NOT'ta açıkça "tanımsız davranış" de ve doğru yolu (`memcpy` ile yapıya kopyalamak) göster | Yazar 1 |
 
 **AD yolu (`26ddfbd`) sıkı denetimi** (Claude, AD denetçisi). Ölçümler `git archive 26ddfbd` ile çıkarılan anlık görüntüde yapıldı.
 - **Validate:** AD yolu 12 ders, 119 kontrol temiz; hem PowerShell'de (`NoDefaultCurrentDirectoryInExePath` kaldırılarak) hem Git Bash'te.
@@ -67,10 +65,10 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex | bekliyor (Codex; paketler kurulu) |
 | 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex | bekliyor (Codex) |
 | 8 | bash | curl/jq ile API ve JSON araç zinciri | 1 (sıra 8) | Yazar 1 | denetlendi (`0362d53`, BS29) |
-| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | Yazar 1 | Yazar 1'e verildi |
+| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | Yazar 1 | Yazar 1'de; systemd-journal-remote kurulum kararı bekliyor |
 | 10 | bash | rwx sonrası POSIX ACL ve Linux capabilities | 1 (sıra 10) | Antigravity | bekliyor (Linux koşucusu hazır) |
-| 11 | bash | OpenSSH istemcisiyle komut ve dosya akışı | 1 (sıra 11) | Yazar 1 | Yazar 1'e verildi |
-| 12 | bash | ShellCheck ve Bats ile kendi aracını sınamak | 1 (sıra 12) | Yazar 1 | Yazar 1'e verildi (paketler kurulu) |
+| 11 | bash | OpenSSH istemcisiyle komut ve dosya akışı | 1 (sıra 11) | Codex | bekliyor (Yazar 1 denetime takıldı) |
+| 12 | bash | ShellCheck ve Bats ile kendi aracını sınamak | 1 (sıra 12) | Yazar 1 | denetlendi (`6b53bd0`, BS30) |
 | 13 | powershell | Invoke-RestMethod/WebRequest ile oturumlu API otomasyonu | 1 (sıra 13) | Yazar 1 | denetlendi (`dc4cd2e`, PS23) |
 | 14 | powershell | Offline EVTX ve PowerShell 4104 kayıtlarını incelemek | 1 (sıra 14) | Yazar 1 | bekliyor (Codex) |
 | 15 | powershell | Get-Acl ile NTFS/Registry erişim değerlendirmesi | 1 (sıra 15) | Yazar 1 | denetlendi (`e47d743`, PS22) |
@@ -168,6 +166,8 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| ph02 `gercek` boşluğu (A32) ve c13 tanımsız davranış notu (A33) | `9cfc5c2` (bulut yazar, dal `duzeltme/a32-a33`, main'e birleştirildi) | Dal `6b53bd0`'dan açılmış, yalnızca iki ders dosyası; PHP 11 ders 64 kontrol ve C 13 ders 76 kontrol temiz; ph02 Kali PHP 8.4.24 ile bayt bayt aynı; c13 NOT'u katı takma adı tanımsız davranış diye açıkça söylüyor ve `memcpy` örneği veriyor, tahmin değişmedi. |
+| Bash'te ShellCheck ve Bats dersi yoktu | `6b53bd0` (BS30, Yazar 1) | Kapsam: BS30 ve `track.json`. Bash yolu 30 ders, 294 kontrol temiz (Linux adımları Kali'de); tahmin gerçek çıktıyla uyuşuyor; 3 görevde zayıf test yok. |
 | C ve PHP tahminleri yalnızca elle doğrulanmıştı | `d5832ba`, dal `denetim/c-php-tahmin` (bulut denetçi; rapor `docs/denetim/c-php-tahmin.md`, yalnızca o dosya) | 24 ders, 26 tahmin adımı; gcc 13.3 (-O0, -O2, UBSan+ASan), mingw-w64 + wine 9.0 (Windows x64) ve PHP 8.3.6 ile: 25 adım bayt bayt aynı; ph02 yalnızca satır sonu boşluğu (A32); c12 Linux'ta `6 24`, Windows x64'te `6 12` = ders cevabı (ders farkı anlatıyor); c13 tanımsız davranış içeriyor, çıktı yine aynı (A33). Denetçi ph02'yi PHP 8.4.24 ve c12'yi Linux gcc ile Kali'de yeniden ölçtü: ikisi de raporla aynı. |
 | Antigravity'nin raporlarında gerçek dışı doğrulama ve sayım iddiaları (A28) | süreç kuralı (kod değişikliği yok) | Uydurma iddialar yalnızca sohbet raporlarındaydı; depodaki ders içerikleri ayrıca ölçülüp doğru bulundu. Bulgu, "Ajanlar ve kurallar" bölümüne kalıcı kural olarak taşındı: Antigravity'nin raporu denetçi ölçmeden kabul edilmez. 23 Ekim'deki son raporları (Npcap/Suricata kurulumu, ASAMA2 eklemeleri, takip betiği) ölçümle uyuştu; CS13 raporundaki bozuk commit numarası ve eksik mutasyon kapsamı bu kurala göre ölçümde yakalandı. |
 | Tezgahın üçüncü düğmesinin açıklaması her yolda "Python bytecode" kalıyordu (A29) | `4c56bf8` (Yazar 1) | `title` artık yola göre (Python, Regex, SQL, KQL, SPL, AD); yazıyla aynı mantık, yolu olmayan dillerde boş. |
