@@ -283,6 +283,15 @@ class Bench {
     $('[data-b="dis"]', h).hidden = !ds;
     $('[data-tab="dis"]', h).hidden = !ds;
     if (ds) { $('[data-b="dis"]', h).textContent = ds; $('[data-tab="dis"]', h).textContent = ds; }
+    // Düğmenin yazısı gibi açıklaması da yola göre (fareyle üstüne gelince ve ekran okuyucuda görünür)
+    $('[data-b="dis"]', h).title = ds ? ({
+      python: "Python'un bu kodu çevirdiği bytecode",
+      regex: "Desenin regex motorundaki ayrıştırma ağacı",
+      sql: "SQLite'ın sorgu planı (EXPLAIN QUERY PLAN)",
+      kql: "KQL sorgusunun SQLite'a çevrilmiş karşılığı",
+      spl: "SPL aramasının SQLite'a çevrilmiş karşılığı",
+      ad: "Komutun etkin RFC 4515 LDAP filtresi ve arama kapsamı",
+    }[dil] || ds) : "";
     $('[data-b="xray"]', h).title = dil === "python" ? "Kodu adım adım yürüt, her satırda değişkenleri gör" : "Betiği iz modunda çalıştır: hangi satır hangi sırayla çalıştı";
     $(".stdin-box .label", h).textContent = {
       python: "Girdi (stdin) · her satır bir input() çağrısına gider",
