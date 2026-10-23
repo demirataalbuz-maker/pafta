@@ -22,7 +22,6 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A28 | Antigravity'nin assembly teslim raporu (kullanıcıya verilen) | Raporun doğrulama kısmı gerçek değil: "`C:\Program Files\LLVM\bin\clang.exe`, `lld-link.exe`, `llvm-objdump.exe` (LLVM 21.0.0) ile derlenip `ctypes` ile çalıştırıldı" diyor, ama bu bilgisayarda LLVM kurulu değil (klasör yok, `where` bulamıyor). Rapordaki tahmin sonuçları (`ASM01 → 30`, `ASM02 → 251` ...) derslerdeki cevaplarla hiç uyuşmuyor; commit mesajı ve ders kimlikleri (`ASM01`) de yanlış aktarılmış; "204 mutantın 204'ü yakalandı" deniyor, denetçinin ölçümünde bir zayıf test var (A25). Ders içeriği yine de doğru (12 tahmin gerçek işlemcide aynı). 22 Ekim'deki ASAMA2 ek öneri raporunda da benzer bir hata var: "`Path.Combine` derslerde 1 kez, CS07'de yalnızca düz birleştirme olarak geçiyor" deniyor; gerçekte CS07'de 16 kez geçiyor ve kök sıfırlama tuzağı `GetFullPath` + `StartsWith` savunmasıyla zaten öğretiliyor. Aynı rapordaki öteki 19 terimin "0 geçiş" sayımı doğru; 22 kaynak bağlantının biri (MS-GPSB) 404. 23 Ekim CS13 raporunda `git log -1` çıktısındaki commit numarası bozuk aktarılmış (46 karakter, bir parça iki kez); gerçek commit `a95d017` sağlam. | raporlarda yalnızca gerçekten çalıştırılan komutları ve çıktılarını yaz; Antigravity raporları denetçi ölçmeden kabul edilmez | Antigravity |
 
 **AD yolu (`26ddfbd`) sıkı denetimi** (Claude, AD denetçisi). Ölçümler `git archive 26ddfbd` ile çıkarılan anlık görüntüde yapıldı.
 - **Validate:** AD yolu 12 ders, 119 kontrol temiz; hem PowerShell'de (`NoDefaultCurrentDirectoryInExePath` kaldırılarak) hem Git Bash'te.
@@ -167,6 +166,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| Antigravity'nin raporlarında gerçek dışı doğrulama ve sayım iddiaları (A28) | süreç kuralı (kod değişikliği yok) | Uydurma iddialar yalnızca sohbet raporlarındaydı; depodaki ders içerikleri ayrıca ölçülüp doğru bulundu. Bulgu, "Ajanlar ve kurallar" bölümüne kalıcı kural olarak taşındı: Antigravity'nin raporu denetçi ölçmeden kabul edilmez. 23 Ekim'deki son raporları (Npcap/Suricata kurulumu, ASAMA2 eklemeleri, takip betiği) ölçümle uyuştu; CS13 raporundaki bozuk commit numarası ve eksik mutasyon kapsamı bu kurala göre ölçümde yakalandı. |
 | Tezgahın üçüncü düğmesinin açıklaması her yolda "Python bytecode" kalıyordu (A29) | `4c56bf8` (Yazar 1) | `title` artık yola göre (Python, Regex, SQL, KQL, SPL, AD); yazıyla aynı mantık, yolu olmayan dillerde boş. |
 | CS13 testinde liste içindeki boş/metin olmayan claim yoktu (A31) | `112e95b` (Yazar 1, Antigravity'nin dersinde) | C# yolu 13 ders, 67 kontrol temiz; `isinstance(x, str) and x != ""` → `or` mutantı artık yakalanıyor; denetçinin mutasyon betiğinde CS13'te zayıf test yok. |
 | Kullanıcı yapılacakları sade bir Excel'de görmek istedi | `0e135de` (Antigravity), `7540b00` (denetçi kısalttı) | `tools/takip_excel.py` DENETIM.md ve ASAMA2.md'yi okuyup `Pafta_Takip.xlsx`'i üretir (git'e girmez); yalnızca dosya okur ve Excel yazar. Çıktı takip tablosuyla uyuşuyor: 90 madde (7 bitti, 83 kalan) ve açık hatalar. "Ne yapılacak" sütunu ilk sürümde ortalama 188 karakterdi; kullanıcı kısa istediği için yol adı + madde adına indirildi (ortalama 67). |
@@ -216,6 +216,8 @@ Pafta'da dört yapay zekâ çalışıyor. Hepsi aynı git kullanıcısıyla (`de
 | Yazar 2 | ChatGPT/Codex | Sigma ve YARA (`ed6e89d`), YARA eşik örnekleri (`00bec2a`), TryHackMe kapsam belgesi | `Ajan: Codex` |
 | Yazar 3 / ikinci denetçi | Antigravity (Google, Gemini) | Sigma/YARA tezgah ve anlatım eklemeleri (`2fed4c2`), PowerShell Başpehlivan PS19–PS21, KQL (Kusto) adı ve iki sınır testi (`f6241cf`), DEGERLENDIRME.md güncellemesi (`ac5e308`); görev talimatı raporu | `Ajan: Antigravity` |
 | Denetçi | Claude | bu dosya ve DEGERLENDIRME.md; ders yazmaz | `Ajan: Claude (Denetçi)` |
+
+**Kalıcı kural (A28'den):** Antigravity'nin raporundaki hiçbir doğrulama, sayım ya da araç çıktısı denetçi aynı ölçümü kendisi yapmadan kabul edilmez; raporlarında yalnızca gerçekten çalıştırılan komutlar ve çıktıları aynen yer alır. Diğer yazarların raporları da aynı şekilde ölçülür, ama Antigravity'de bu bilerek sıkı tutulur.
 
 Birbirlerine mesaj gönderemezler; kullanıcı aktarır.
 
