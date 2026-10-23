@@ -22,6 +22,8 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
+| A32 | `tracks/php/lessons/ph02` (tahmin, `gercek` çiti) | Gerçek PHP çıktısının ilk satırı `web01 db01 ` (sonda boşluk), `gercek` çitinde boşluk yok; dersin açıklaması "sonunda bir boşluk" diyor. Tahmin karşılaştırması satır sonu boşluklarını kırptığı için puanlama etkilenmiyor (bulut denetçi ve denetçi PHP 8.3/8.4 ile ölçtü). | çite boşluğu ekle; ders kendi açıklamasıyla tutarlı olsun | Yazar 1 |
+| A33 | `tracks/c/lessons/c13` (tahmin) | `uint8_t` dizisini `(const Baslik *)` ile okumak katı takma ad kuralını çiğner (C11 6.5p7): tanımsız davranış. Ölçülen çıktı altı derleme biçiminde aynı (`1 2 12`), ama dersin NOT kutusu bunu yalnızca "tartışmalı" diye anıyor. | NOT'ta açıkça "tanımsız davranış" de ve doğru yolu (`memcpy` ile yapıya kopyalamak) göster | Yazar 1 |
 
 **AD yolu (`26ddfbd`) sıkı denetimi** (Claude, AD denetçisi). Ölçümler `git archive 26ddfbd` ile çıkarılan anlık görüntüde yapıldı.
 - **Validate:** AD yolu 12 ders, 119 kontrol temiz; hem PowerShell'de (`NoDefaultCurrentDirectoryInExePath` kaldırılarak) hem Git Bash'te.
@@ -166,6 +168,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| C ve PHP tahminleri yalnızca elle doğrulanmıştı | `d5832ba`, dal `denetim/c-php-tahmin` (bulut denetçi; rapor `docs/denetim/c-php-tahmin.md`, yalnızca o dosya) | 24 ders, 26 tahmin adımı; gcc 13.3 (-O0, -O2, UBSan+ASan), mingw-w64 + wine 9.0 (Windows x64) ve PHP 8.3.6 ile: 25 adım bayt bayt aynı; ph02 yalnızca satır sonu boşluğu (A32); c12 Linux'ta `6 24`, Windows x64'te `6 12` = ders cevabı (ders farkı anlatıyor); c13 tanımsız davranış içeriyor, çıktı yine aynı (A33). Denetçi ph02'yi PHP 8.4.24 ve c12'yi Linux gcc ile Kali'de yeniden ölçtü: ikisi de raporla aynı. |
 | Antigravity'nin raporlarında gerçek dışı doğrulama ve sayım iddiaları (A28) | süreç kuralı (kod değişikliği yok) | Uydurma iddialar yalnızca sohbet raporlarındaydı; depodaki ders içerikleri ayrıca ölçülüp doğru bulundu. Bulgu, "Ajanlar ve kurallar" bölümüne kalıcı kural olarak taşındı: Antigravity'nin raporu denetçi ölçmeden kabul edilmez. 23 Ekim'deki son raporları (Npcap/Suricata kurulumu, ASAMA2 eklemeleri, takip betiği) ölçümle uyuştu; CS13 raporundaki bozuk commit numarası ve eksik mutasyon kapsamı bu kurala göre ölçümde yakalandı. |
 | Tezgahın üçüncü düğmesinin açıklaması her yolda "Python bytecode" kalıyordu (A29) | `4c56bf8` (Yazar 1) | `title` artık yola göre (Python, Regex, SQL, KQL, SPL, AD); yazıyla aynı mantık, yolu olmayan dillerde boş. |
 | CS13 testinde liste içindeki boş/metin olmayan claim yoktu (A31) | `112e95b` (Yazar 1, Antigravity'nin dersinde) | C# yolu 13 ders, 67 kontrol temiz; `isinstance(x, str) and x != ""` → `or` mutantı artık yakalanıyor; denetçinin mutasyon betiğinde CS13'te zayıf test yok. |
