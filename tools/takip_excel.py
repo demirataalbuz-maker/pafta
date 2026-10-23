@@ -131,13 +131,16 @@ def normalize_durum(raw_durum):
     return "Bekliyor"
 
 
-def build_ne_yapilacak(madde, neden):
-    """Madde adı ve neden gerekli sütununu birleştirerek tek ve sade bir Türkçe cümle oluşturur."""
-    m = madde.strip()
-    n = neden.strip()
-    if not n.endswith("."):
-        n += "."
-    return f"{m}: {n}"
+YOL_ADI = {"python": "Python", "bash": "Bash", "powershell": "PowerShell", "cmd": "CMD", "http": "HTTP ve HTML",
+           "sql": "SQL", "kql": "KQL", "spl": "SPL", "elastic": "Elastic", "sigma": "Sigma", "yara": "YARA",
+           "regex": "Regex", "packets": "Wireshark/tcpdump", "ad": "Active Directory", "java": "Java",
+           "csharp": "C#", "c": "C", "php": "PHP", "javascript": "JavaScript", "asm": "Assembly"}
+
+
+def build_ne_yapilacak(madde, neden, yol=""):
+    """Kısa satır: hangi yola, hangi madde. Ayrıntı (neden) ASAMA2.md'de kalır; kullanıcı kısa liste istedi."""
+    m = madde.replace("(Antigravity önerisi)", "").strip()
+    return f"{YOL_ADI.get(yol, yol)}: {m}" if yol else m
 
 
 def style_sheet(ws, title, is_bitenler=False):
@@ -178,7 +181,7 @@ def main():
         if kim == "—" and info and info.get("oneri_yazar"):
             kim = info["oneri_yazar"]
 
-        ne_yapilacak = build_ne_yapilacak(item["madde"], neden)
+        ne_yapilacak = build_ne_yapilacak(item["madde"], neden, item["yol"])
         kayit = {
             "kaynak_id": item["no"],
             "ne_yapilacak": ne_yapilacak,
@@ -242,7 +245,7 @@ def main():
         # Ne yapılacak
         c_is = ws_yapilacak.cell(row=r, column=2, value=item["ne_yapilacak"])
         c_is.font = FONT_DATA
-        c_is.alignment = Alignment(horizontal="left", vertical="center", wrap_text=False)
+        c_is.alignment = Alignment(horizontal="left", vertical="center", wrap_text=True)
         c_is.border = THIN_BORDER
 
         # Kim yapacak
@@ -300,7 +303,7 @@ def main():
 
         c_is = ws_biten.cell(row=r, column=2, value=item["ne_yapilacak"])
         c_is.font = FONT_DATA
-        c_is.alignment = Alignment(horizontal="left", vertical="center", wrap_text=False)
+        c_is.alignment = Alignment(horizontal="left", vertical="center", wrap_text=True)
         c_is.border = THIN_BORDER
 
         c_kim = ws_biten.cell(row=r, column=3, value=item["kim_yapacak"])
