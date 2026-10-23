@@ -61,7 +61,16 @@ Python'un `struct` modülü C yapılarını biçim dizgileriyle okur:
 `struct.unpack_from("<4sHHI", veri, 0)` başlığın dört alanını bir demet olarak verir; `struct.calcsize("<4sHHI")` 12'dir.
 
 > [!NOT]
-> C kodundaki `(const Baslik *)veri` dönüşümü kısa ama tartışmalıdır: hizalanmamış bir adresten okuma bazı işlemcilerde hata verir ve C'nin "katı takma ad" kurallarını zorlar. Özenli kod alanları `memcpy` ile yerel bir yapıya kopyalar ya da bayt bayt okur. Python'da `struct.unpack_from` zaten ikincisini yapar.
+> C kodundaki `(const Baslik *)veri` dönüşümü kısa ama **tanımsız davranıştır**. `veri` bir `uint8_t` dizisidir; C, bir nesneyi kendi türüyle uyuşmayan bir türden (burada `uint16_t` ve `uint32_t` alanlı `Baslik`) okumayı yasaklar. Buna katı takma ad kuralı denir (C11 6.5p7). Derleyici kurala uyulduğunu varsayarak kodu iyileştirir: x86-64'te bugün doğru çıkan sonuç (aşağıdaki tahmindeki gibi) dilin garantisi değildir, başka bir derleyicide ya da `-O` düzeyinde bozulabilir. `pack(1)` olmayan bir yapıda bir de hizalanmamış adresten okuma sorunu çıkar; bazı işlemciler bunda hata verir. Doğru yol, boyut denetiminden sonra baytları `memcpy` ile yerel bir yapıya kopyalamaktır:
+>
+> ```c
+> Baslik b;
+> memcpy(&b, veri, sizeof b);                    // boyut >= sizeof b denetlendikten sonra
+> if (memcmp(b.imza, "PFTA", 4) != 0) return -2;
+> if (b.surum != 1) return -3;
+> ```
+>
+> `memcpy` baytları olduğu gibi taşır, hiçbir nesne yanlış türle okunmaz; derleyici bunu genellikle tek bir okuma komutuna çevirir. Kayıtlar da aynı yolla tek tek kopyalanır. Python'da `struct.unpack_from` baytları zaten bu şekilde okur.
 :::
 
 ::: tahmin

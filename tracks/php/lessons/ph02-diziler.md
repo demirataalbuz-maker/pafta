@@ -60,7 +60,7 @@ var_dump(isset($s["db02"]), empty($s["web03"]));
 ```
 
 ```gercek
-web01 db01
+web01 db01 
 3 181
 web01,db01,web03
 bool(false)
