@@ -75,7 +75,7 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 16 | powershell | Authenticode imzasını dosya incelemesine katmak | 2+ | Yazar 1 | bekliyor |
 | 17 | powershell | Pester ile kendi modül/fonksiyonunun testlerini yazmak | 2+ | Yazar 1 | bekliyor |
 | 18 | powershell | Gerçek PSSession yaşam döngüsü ve uzak çıktı | 2+ | Yazar 1 | bekliyor |
-| 19 | powershell | Constrained Language Mode (LanguageMode), JEA (RoleCapabilities) ve AppLocker (8002/8004) olaylarını incelemek (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
+| 19 | powershell | Constrained Language Mode (LanguageMode), JEA (RoleCapabilities) ve AppLocker (8002/8004) olaylarını incelemek (Antigravity önerisi) | 2+ | Antigravity | denetlendi (`1f608b9`, PS24) |
 | 20 | cmd | wevtutil ile offline EVTX sorgu ve export | 2+ | Codex | bekliyor |
 | 21 | cmd | Servis, zamanlanmış görev ve Registry yapılandırmasını sorgulamak | 2+ | Yazar 1 | bekliyor |
 | 22 | cmd | Token/grup/ayrıcalık ve icacls çıktısını birlikte okumak | 2+ | Yazar 1 | bekliyor |
@@ -166,6 +166,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| PowerShell'de dil kipleri, JEA rol yetenekleri ve uygulama denetimi olayları dersi yoktu | `1f608b9` (PS24, Antigravity, model: Gemini) | Kapsam: PS24 ve `track.json`. PowerShell yolu 24 ders, 237 kontrol temiz (normal Windows ve Git Bash); tahmin gerçek çıktıyla uyuşuyor; denetçinin mutasyon betiğinde 3 görevde zayıf test yok. |
 | ph02 `gercek` boşluğu (A32) ve c13 tanımsız davranış notu (A33) | `9cfc5c2` (bulut yazar, dal `duzeltme/a32-a33`, main'e birleştirildi) | Dal `6b53bd0`'dan açılmış, yalnızca iki ders dosyası; PHP 11 ders 64 kontrol ve C 13 ders 76 kontrol temiz; ph02 Kali PHP 8.4.24 ile bayt bayt aynı; c13 NOT'u katı takma adı tanımsız davranış diye açıkça söylüyor ve `memcpy` örneği veriyor, tahmin değişmedi. |
 | Bash'te ShellCheck ve Bats dersi yoktu | `6b53bd0` (BS30, Yazar 1) | Kapsam: BS30 ve `track.json`. Bash yolu 30 ders, 294 kontrol temiz (Linux adımları Kali'de); tahmin gerçek çıktıyla uyuşuyor; 3 görevde zayıf test yok. |
 | C ve PHP tahminleri yalnızca elle doğrulanmıştı | `d5832ba`, dal `denetim/c-php-tahmin` (bulut denetçi; rapor `docs/denetim/c-php-tahmin.md`, yalnızca o dosya) | 24 ders, 26 tahmin adımı; gcc 13.3 (-O0, -O2, UBSan+ASan), mingw-w64 + wine 9.0 (Windows x64) ve PHP 8.3.6 ile: 25 adım bayt bayt aynı; ph02 yalnızca satır sonu boşluğu (A32); c12 Linux'ta `6 24`, Windows x64'te `6 12` = ders cevabı (ders farkı anlatıyor); c13 tanımsız davranış içeriyor, çıktı yine aynı (A33). Denetçi ph02'yi PHP 8.4.24 ve c12'yi Linux gcc ile Kali'de yeniden ölçtü: ikisi de raporla aynı. |
