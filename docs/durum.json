@@ -86,15 +86,14 @@
    "not": "PCRE2 motoru + RX23"
   },
   "Python: Scapy ile paket kaydını Python'dan okumak ve üretmek": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "commit": "9128368 (P80, okuma)",
-   "not": "P80 okuma dersi Yazar 2'de denetime hazır. Kalan: Scapy ile paket ÜRETME ve wrpcap + TShark doğrulaması dersi (1 ders/2 görev); Yazar 2'de güvenlik filtresine takıldı. Ölçümler: Kali Scapy 2.7.0, TShark 4.6.6; MAC/IP açıkça verilmeli (yoksa uyarı ve makineye bağlı adres)"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: P80 okuma dersi Yazar 2'de denetime hazır. Kalan: Scapy ile paket ÜRETME ve wrpcap + TShark doğrulaması dersi (1 ders/2 görev); Yazar 2'de güvenlik filtresine takıldı. Ölçümler: Kali Scapy 2.7.0, TShark 4.6.6; MAC/IP açıkça verilmeli (yoksa uyarı ve makineye bağlı adres)"
   },
   "Python: ctypes ile native API/ABI okuma ve küçük çağrılar": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; 2 ders/4 görev hiç yazılmadı. Ölçümler: Win64 Python 3.11 c_long 4, c_void_p 8, c_wchar 2; FileTimeToSystemTime 0x7FFFFFFFFFFFFFFF → 30828-09-14, 0x8000... → hata 87; get_last_error başarıdan sonra sıfırlanmaz; Kali gcc 16.2 long 8; struct {char,int32,double,uint16} 24 bayt (0/4/8/16); restype verilmeyen int64 dönüşü 32 bite kırpılır; c_int32(2**31) sessizce -2**31; Python 3.14'te _pack_ uyarı verir"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Yazar 2'de güvenlik filtresine takıldı; 2 ders/4 görev hiç yazılmadı. Ölçümler: Win64 Python 3.11 c_long 4, c_void_p 8, c_wchar 2; FileTimeToSystemTime 0x7FFFFFFFFFFFFFFF → 30828-09-14, 0x8000... → hata 87; get_last_error başarıdan sonra sıfırlanmaz; Kali gcc 16.2 long 8; struct {char,int32,double,uint16} 24 bayt (0/4/8/16); restype verilmeyen int64 dönüşü 32 bite kırpılır; c_int32(2**31) sessizce -2**31; Python 3.14'te _pack_ uyarı verir"
   },
   "Bash: rwx sonrası POSIX ACL ve Linux capabilities": {
    "durum": "denetime-hazir",
@@ -126,39 +125,39 @@
    "not": "Yazar 2'de; WinRM için bir kez yönetici onayı (UAC) bekliyor; yalnız localhost dinleyici"
   },
   "HTTP ve HTML: SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Excel'de Antigravity (10-24 03:33'te HT16 commit etti, aktif olabilir)"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Excel'de Antigravity (10-24 03:33'te HT16 commit etti, aktif olabilir)"
   },
   "C: Heap sahipliği, alias ve realloc başarısızlığını izlemek": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı (heap/ASan konusu); ders yazılmadı. Excel'de zaten Codex"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Yazar 2'de güvenlik filtresine takıldı (heap/ASan konusu); ders yazılmadı. Excel'de zaten Codex"
   },
   "C: POSIX fd, kısa I/O ve hata akışı": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Ölçümler (Kali gcc 16.2): pipe'ta 7 bayta 64 istenince read 7; yazan uç kapanınca 0; okuyucusuz pipe'a write -1 EPIPE (SIGPIPE yok sayılınca); kapalı fd'de read -1 EBADF; engellemeyen socketpair'e 1 MB write kısa, ikincisi -1 EAGAIN"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Ölçümler (Kali gcc 16.2): pipe'ta 7 bayta 64 istenince read 7; yazan uç kapanınca 0; okuyucusuz pipe'a write -1 EPIPE (SIGPIPE yok sayılınca); kapalı fd'de read -1 EBADF; engellemeyen socketpair'e 1 MB write kısa, ikincisi -1 EAGAIN"
   },
   "C: Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
   },
   "Assembly: ELF/PE yükleyici bağlamı ve adres türlerini okumak": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
   },
   "Assembly: x86-32 cdecl/stdcall çağrı kurallarını okumak": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
   },
   "Assembly: x86-64 syscall (0f 05) ABI'si ve Windows ntdll sistem çağrısı şablonunu okumak": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
   },
   "Java: Spring Data JPA ve transaction proxy akışı": {
    "durum": "denetime-hazir",
@@ -179,64 +178,64 @@
    "not": "JS13; Express 5.3.0 .deps/npm'e (tools/js_bagimlilik_kur.py, kilit dosyası tools/js_bagimliliklar, npm ci --ignore-scripts); javascript koşucusuna NODE_PATH"
   },
   "Java: Serialization nesne grafiği, callback ve filtre sınırlarını okumak": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "C#: Nesne grafiği serializer'larında güvenilmeyen veri akışı": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "PHP: unserialize callback ve autoload grafiğini izlemek": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "JavaScript: Prototype pollution: kaynak→kalıtılan özellik→karar": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "Active Directory: Nesne ACL'leri ve etkili yetkilerden erişim yolu çıkarmak": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "Active Directory: Mevcut devir türlerinin üzerine gerçek S4U/bilet akışı ve yapılandırma doğrulaması": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "Active Directory: AD CS ve sertifika şablonu/izin denetimi": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "HTTP ve HTML: Burp Proxy → History → Repeater iş akışı": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "HTTP ve HTML: curl ile HTTPS, CA ve hostname doğrulaması": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "HTTP ve HTML: Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "HTTP ve HTML: İki hesaplı nesne yetkilendirme matrisi": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "HTTP ve HTML: WebSocket el sıkışması (101) ve GraphQL sorgu/yetki okuma": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "PowerShell: Offline EVTX ve PowerShell 4104 kayıtlarını incelemek": {
    "durum": "denetime-hazir",
@@ -317,24 +316,24 @@
    "not": "SP22; girdi: alarm (savedsearches.conf), çalıştırma anları cron'dan, dispatch.now + trigger_actions; tetikleme _audit alert_fired, bastırma zamanlayıcı günlüğünden; sabah tam gün yarına kaydırılır (geçmiş tarihli bastırma kayıtları temizleniyordu); özet modu tahmininde ~1/8 açıklanamayan sapma görüldü, notlanan testler 10/10"
   },
   "purple: Rakip öykünmesi: Atomic Red Team / Caldera ile kontrollü teknik çalıştırıp tespiti ölçmek (purple team karşılaştırması, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "codex-opus",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
   },
   "purple: Web uygulama güvenliği uygulaması: IDOR, XSS, SQLi, komut enjeksiyonu, API (purple team karşılaştırması, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "codex-opus",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
   },
   "purple: Saldırı tarafı laboratuvarı: Windows/Linux yetki yükseltme, AD kimlik doğrulama saldırıları, yatay hareket (purple team karşılaştırması, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "codex-opus",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
   },
   "bitirme: Bitirme tatbikatı (saldırı zinciri): laboratuvarda zinciri canlandırıp kayıtlarını üretmek (Aşama 3, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "codex-opus",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı zincirinin uygulanması Claude'un güvenlik filtresine takılıyor; Codex/Opus 4.8'e önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı zincirinin uygulanması Claude'un güvenlik filtresine takılıyor; Codex/Opus 4.8'e önerildi (10-24)"
   },
   "purple: Ağ tespit sistemleri: Suricata kuralları, Zeek günlükleri ve C2 işaretleşmesini tespit (purple team karşılaştırması, 10-24)": {
    "durum": "denetime-hazir",
@@ -389,6 +388,136 @@
    "kim": "Codex",
    "commit": "ebfe74c",
    "not": "Madde 44: Excel satırının adı ES|QL içindeki ayraç nedeniyle Elastic: ES diye kesilmiş; Excel değiştirilmedi. EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+  },
+  "Active Directory: Gerçek LDAP bağlantısında TLS, imzalama ve channel binding": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "Java: Şablon motorlarında (Thymeleaf / FreeMarker) bağlam, otomatik kaçış ve ifadeleri okumak": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "C#: XML ayrıştırıcı ayarlarında (XmlReaderSettings / DtdProcessing) DTD ve dış varlık sınırlarını okumak": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "C: Çalışma zamanında dinamik sembol çözme (dlopen/dlsym ve LoadLibrary/GetProcAddress) akışını okumak": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "PHP: Twig/Blade şablon kaçışı ({{ }} vs {!! !!}) ve parse_url / filter_var doğrulama sınırlarını okumak": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "JavaScript: Browser/SPA içinde postMessage ve ham HTML güven sınırı": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "Assembly: Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "purple: Bellek analizi: Volatility 3 / MemProcFS ile süreç, ağ bağlantısı ve enjeksiyon izleri (purple team karşılaştırması, 10-24)": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "Sigma: sigma-cli ile gerçek backend ve processing pipeline kullanımı": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "Sigma: Çalıştırılan korelasyon kuralları": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "Sigma: Gerçek olaydan kurala telemetri doğrulaması": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "Sigma: İleri modifierları gerçek hedefte uygulamak": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "YARA: Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "YARA: Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "Active Directory: GPO/SYSVOL yapılandırma dosyalarını (GptTmpl.inf, Groups.xml) ve LAPS özniteliklerini denetlemek": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+  },
+  "Java: Gerçek Spring Security zinciri ve method authorization": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+  },
+  "C#: Assembly/CIL ve P/Invoke sınırını okumak": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+  },
+  "PHP: Laravel istek ve yetki zincirini gerçek framework kodunda okumak": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+  },
+  "PHP: WordPress eklentisi/REST endpoint yetkileri": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+  },
+  "JavaScript: Bundle/source map ile çalışan kodu kaynağa eşlemek": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "purple: Tehdit istihbaratı: MISP, IOC yaşam döngüsü, istihbarattan avcılık sorgusuna (purple team karşılaştırması, 10-24)": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "purple: Sertleştirme ve önleme: LAPS, ASR kuralları, Exploit Guard, AppLocker politika tasarımı (purple team karşılaştırması, 10-24)": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "purple: Bulut güvenlik günlükleri: AWS CloudTrail ile Entra ID oturum ve denetim kayıtları (purple team karşılaştırması, 10-24)": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "bitirme: Bitirme tatbikatı (savunma): hazır kayıtlarla uçtan uca olay incelemesi; KQL, SPL, Sigma, paket kaydı ve zaman çizelgesi (Aşama 3, 10-24)": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "bitirme: Olay raporu ve purple team bulgu yazımı: yönetici özeti, zaman çizelgesi, kanıt, tespit boşluğu ve öneri (Aşama 3, 10-24)": {
+   "durum": "claude-alabilir",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+  },
+  "PHP: Upload ve stream-wrapper dosya akışını okumak": {
+   "durum": "codex-opus",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
   }
  }
 }

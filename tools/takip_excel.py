@@ -4,6 +4,7 @@
 Kullanım:
     python -X utf8 tools/takip_excel.py
 """
+import json
 import os
 import re
 import openpyxl
@@ -23,6 +24,10 @@ FILL_BITTI_SATIR = PatternFill(start_color="E6F4EA", end_color="E6F4EA", fill_ty
 FILL_CALISILIYOR = PatternFill(start_color="FFF3CD", end_color="FFF3CD", fill_type="solid")
 FONT_CALISILIYOR = Font(name="Segoe UI", size=10, bold=True, color="856404")
 
+# Kullanıcı isteği (25 Ekim): Codex / Opus 4.8'in alacağı maddeler kırmızı, Claude'un alabilecekleri mavi
+# (docs/durum.json'daki codex-opus ve claude-alabilir durumları)
+FILL_KIRMIZI = PatternFill(start_color="F8D0CC", end_color="F8D0CC", fill_type="solid")
+FILL_MAVI = PatternFill(start_color="CFE0FA", end_color="CFE0FA", fill_type="solid")
 FILL_BEKLIYOR = PatternFill(start_color="F8F9FA", end_color="F8F9FA", fill_type="solid")
 FONT_BEKLIYOR = Font(name="Segoe UI", size=10, bold=False, color="495057")
 
@@ -153,7 +158,17 @@ def style_sheet(ws, title, is_bitenler=False):
     ws.column_dimensions["D"].width = 20
 
 
+def durum_renkleri():
+    """docs/durum.json: madde adı → durum (yalnız renklendirme için)."""
+    yol = os.path.join(ROOT, "docs", "durum.json")
+    if not os.path.isfile(yol):
+        return {}
+    with open(yol, encoding="utf-8") as f:
+        return {ad: d.get("durum", "") for ad, d in json.load(f).get("maddeler", {}).items()}
+
+
 def main():
+    renkler = durum_renkleri()
     asama2_dict = parse_asama2(ASAMA2_PATH)
     acik_bulgular, durum_maddeleri = parse_denetim(DENETIM_PATH)
 
@@ -264,6 +279,11 @@ def main():
         if bitti:
             for c in (c_sira, c_is, c_kim):
                 c.fill = FILL_BITTI_SATIR
+        elif renkler.get(item["ne_yapilacak"]) in ("codex-opus", "claude-alabilir"):
+            kirmizi = renkler[item["ne_yapilacak"]] == "codex-opus"
+            c_kim.value = "Codex / Opus 4.8" if kirmizi else "Claude"
+            for c in (c_sira, c_is, c_kim):
+                c.fill = FILL_KIRMIZI if kirmizi else FILL_MAVI
         if item["durum"] == "Bitti":
             c_durum.fill = FILL_BITTI
             c_durum.font = FONT_BITTI
