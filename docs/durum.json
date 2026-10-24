@@ -77,10 +77,10 @@
    "not": "SQ20; PostgreSQL jsonb görevi açık"
   },
   "Regex: RX16'daki lehçe bilgisini gerçek motorlarda sınamak": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "commit": "6291614",
-   "not": "PCRE2 motoru hazır (6291614); şimdi .NET ve Node adaptörleri (motor: dotnet / javascript) ve dört motorlu lehçe dersi"
+   "commit": "6291614, 94a3b76, (bu commit)",
+   "not": "PCRE2, .NET ve JavaScript motorları (motor: pcre2 / dotnet / javascript) + RX24: dört gerçek motorda ölçülmüş fark tablosu, .NET grup numaraları; 3 görev (JS'te Türkçe kelime, .NET'te ASCII port, bayraksız JS'te satır sonu)"
   },
   "Regex: Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak": {
    "durum": "denetime-hazir",
