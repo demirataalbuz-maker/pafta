@@ -430,9 +430,13 @@ class Bench {
     }
     if (Array.isArray(res.packet_ids)) {
       const inventory = res.packet_inventory;
+      const interfaces = res.capture_interfaces || [];
       this.pane.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 200) +
         (inventory ? `<details class="packet-inventory"><summary>Kaydın tamamı · ${inventory.satirlar.length} paket</summary>` +
           `<div class="out-meta">Eğitim kaydındaki paketlerin adres, port ve içerik açıklamaları.</div>${sqlTablolar([inventory], 200)}</details>` : "") +
+        (interfaces.length ? `<details class="packet-inventory"><summary>Arayüz ve tam zaman bilgisi</summary>` +
+          sqlTablolar([{sutunlar:["Frame", "Section", "Arayüz", "LINKTYPE", "Epoch saniyesi · tam kesir"],
+            satirlar:interfaces.map(f => [f.frame, f.section, f.interface, f.linktype, f.timestamp_fraction])}], 200) + `</details>` : "") +
         `<div class="out-meta">${esc(res.packet_dialect === "bpf" ? "BPF · " + res.packet_backend : "Wireshark · TShark")} · kayıtlı paketler</div>`;
       return;
     }

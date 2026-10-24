@@ -43,3 +43,13 @@ test('CLI stdout and exported-file tables are both visible and escaped',()=>{
     assert.ok(!pane.innerHTML.includes('<tag>'));
   }
 });
+
+test('capture interface identity and exact time fractions remain visible',()=>{
+  const app=appHarness(),pane={innerHTML:''};
+  app.Bench.prototype.paintOut.call({pane},{packet_ids:[1],packet_dialect:'wireshark',
+    segs:[['out','Paketler: 1\n']],tablolar:[],capture_interfaces:[
+      {frame:1,section:0,interface:1,linktype:101,timestamp_fraction:'1700000003000000001/1000000000'}]});
+  assert.ok(pane.innerHTML.includes('Arayüz ve tam zaman bilgisi'));
+  assert.ok(pane.innerHTML.includes('1700000003000000001/1000000000'));
+  assert.ok(pane.innerHTML.includes('LINKTYPE'));
+});
