@@ -213,9 +213,10 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk"):
+    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk",
+                     "suricata", "zeek"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb veya splunk kullanın.")
+                         "mariadb, splunk, suricata veya zeek kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -232,6 +233,10 @@ def for_step(runner, step):
         if type(runner) is not SplRunner:
             raise ValueError("motor: splunk yalnız SPL yolunda tanımlı.")
         runner = SplunkRunner(meta.get("girdi", "arama"))
+    elif motor in ("suricata", "zeek"):
+        if not isinstance(runner, IdsRunner):
+            raise ValueError(f"motor: {motor} yalnız Ağ Tespiti yolunda tanımlı.")
+        runner = IdsRunner(motor)
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -447,6 +452,26 @@ class SplunkRunner(HarnessRunner):
             return super().execute(job, timeout)
 
 
+class IdsRunner(HarnessRunner):
+    """Ağ Tespiti: görevin trafik tarifinden üretilen PCAP üstünde gerçek Suricata (WSL) ya da Zeek (Docker).
+    Adım meta'sında motor: suricata (varsayılan; kod bir kural dosyası) ya da zeek (kod bir Zeek betiği)."""
+    name = "ids"
+    ozellik = {"roentgen": False, "dis": None}
+    modlar = {"run": "ids_run", "test": "ids_test"}
+    default_timeout = 60
+    test_timeout = 180
+    tavan = 300
+
+    def __init__(self, motor="suricata"):
+        if motor not in ("suricata", "zeek"):
+            raise ValueError(f"Bilinmeyen motor: {motor!r}; suricata veya zeek kullanın.")
+        self.ek = {"motor": motor}
+
+    def available(self):
+        from sandbox.ids_lab import durum
+        return not durum()
+
+
 class HttpRunner(PythonRunner):
     """Python; her çalıştırmadan önce sandbox/http_tezgah.py demo web uygulamasını (127.0.0.1, boş port)
     başlatır ve kullanıcı koduna `tezgah` modülünü (SUNUCU, gonder, yanit) açar."""
@@ -509,6 +534,7 @@ RUNNERS = {
     "sigma": DetectionRunner("sigma", "sigma"),
     "yara": DetectionRunner("yara", "yara"),
     "packets": PacketRunner(),
+    "ids": IdsRunner(),
     "elastic": ElasticRunner(),
     "ad": AdRunner(),
     "bash": ProcRunner("bash", {

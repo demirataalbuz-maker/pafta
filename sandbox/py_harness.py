@@ -2037,6 +2037,119 @@ def do_spk_test(job):
         return {"status": "error", "error": _spk_hata(str(e), "test", "SplunkYok"), "checks": [], "segs": []}
 
 
+# ── Ağ Tespiti (runner: ids; meta motor: suricata | zeek): sandbox/ids_lab.py ──
+# Görevin hazırlığı Python'dur: akis(tur=..., zaman=..., ...) ile trafik tarifine akış ekler
+# (biçim: sandbox/ids_trafik.py). Kod, motor suricata ise kural dosyası, zeek ise Zeek betiğidir.
+
+def _ids_lab():
+    import importlib.util
+    yol = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ids_lab.py")
+    spec = importlib.util.spec_from_file_location("pafta_ids_lab", yol)
+    modul = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modul)
+    return modul
+
+
+def _ids_hata(e, tur):
+    return {"type": tur, "msg": getattr(e, "msg", str(e)), "line": getattr(e, "satir", None),
+            "frames": [], "where": "kod"}
+
+
+def _ids_tarif(job, ek=""):
+    tarif = []
+    ns = {"__name__": "__setup__", "akis": lambda **a: tarif.append(a)}
+    for kod in (job.get("setup") or "", ek or ""):
+        if kod.strip():
+            exec(compile(kod, "<setup>", "exec"), ns)
+    if not tarif:
+        raise ValueError("görevin hazırlığı trafik tarif etmedi (akis(...))")
+    return tarif
+
+
+def _ids_utc(ts):
+    # Suricata: 2026-10-19T09:00:00.006000+0000 → 2026-10-19 09:00:00
+    return (ts or "")[:19].replace("T", " ")
+
+
+def _ids_kos(L, is_, job, ek=""):
+    """→ (alanlar, satırlar, yardımcılar)"""
+    is_.pcap(_ids_tarif(job, ek))
+    if job.get("motor", "suricata") == "suricata":
+        alarmlar, olaylar = is_.suricata(job["code"])
+        satirlar = sorted((_ids_utc(a.get("timestamp")), a["alert"]["signature_id"], a["alert"]["signature"],
+                           a.get("src_ip"), a.get("dest_ip"), a.get("dest_port")) for a in alarmlar)
+        return (["zaman", "sid", "mesaj", "kaynak", "hedef", "hedef_port"], satirlar,
+                {"alarmlar": alarmlar, "olaylar": olaylar})
+    cikti, kayitlar = is_.zeek(job["code"])
+    satirlar = [(s,) for s in cikti.splitlines() if s.strip()]
+    return ["cikti"], satirlar, {"cikti": cikti, "kayitlar": kayitlar}
+
+
+def do_ids_run(job):
+    L = _ids_lab()
+    tur = "SuricataHatası" if job.get("motor", "suricata") == "suricata" else "ZeekHatası"
+    try:
+        with L.Is() as is_:
+            alanlar, satirlar, _ = _ids_kos(L, is_, job)
+    except L.IdsHatasi as e:
+        return {"status": "error", "error": _ids_hata(e, tur), "segs": [], "tablolar": []}
+    except ValueError as e:
+        return {"status": "error", "error": dict(_ids_hata(e, tur), where="test"), "segs": [], "tablolar": []}
+    tablo = {"satir": 1, "sutunlar": alanlar, "kesildi": False,
+             "satirlar": [[None if v is None else str(v) for v in r] for r in satirlar]}
+    cikti = _ceviri_metin([tablo])
+    return {"status": "ok", "segs": [["out", cikti]] if cikti else [], "tablolar": [tablo], "kql": True, "error": None}
+
+
+class IdsTester(Tester):
+    def __init__(self, job, L, is_, cikti):
+        super().__init__("", {}, Capture(), "", job)
+        self.cap.add("out", cikti)
+        self.code = job.get("code", "")
+        self.L, self.is_ = L, is_
+
+    def dene(self, hazirlik=""):
+        """Görevin trafiğine `hazirlik`taki (Python, akis(...)) akışları ekleyip kodu yeniden çalıştır → satırlar.
+        Testin alarmlar / olaylar / kayitlar adları da bu çalıştırmanın sonucunu gösterir."""
+        try:
+            _, satirlar, yardim = _ids_kos(self.L, self.is_, self.job, hazirlik)
+        except self.L.IdsHatasi as e:
+            raise UserRunError(_ids_hata(e, "IdsHatası"), hazirlik)
+        for ad, deger in yardim.items():
+            eski = self.yardim.get(ad)
+            if isinstance(eski, dict):
+                eski.clear()
+                eski.update(deger)
+            elif isinstance(eski, list):
+                eski[:] = deger
+        return satirlar
+
+    def kullanir(self, kelime):
+        temiz = re.sub(r"#[^\n]*", " ", self.code)
+        return re.search(r"(?<![\w.-])" + re.escape(kelime) + r"(?![\w-])", temiz) is not None
+
+
+def do_ids_test(job):
+    L = _ids_lab()
+    tur = "SuricataHatası" if job.get("motor", "suricata") == "suricata" else "ZeekHatası"
+    with L.Is() as is_:
+        try:
+            alanlar, satirlar, yardim = _ids_kos(L, is_, job)
+        except L.IdsHatasi as e:
+            return {"status": "error", "error": _ids_hata(e, tur), "checks": [], "segs": []}
+        except ValueError as e:
+            return {"status": "error", "error": dict(_ids_hata(e, tur), where="test"), "checks": [], "segs": []}
+        tablo = {"sutunlar": alanlar, "satirlar": [[None if v is None else str(v) for v in r] for r in satirlar]}
+        cikti = _ceviri_metin([tablo])
+        segs = [["out", cikti]] if cikti else []
+        tester = IdsTester(job, L, is_, cikti)
+        tester.yardim = yardim
+        tns = tester.namespace()
+        tns.update(src=job.get("code", ""), sonuc=satirlar, sutunlar=alanlar, dene=tester.dene,
+                   kullanir=tester.kullanir, **yardim)
+        return _test_kos(tester, tns, job, segs)
+
+
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "ad_run": do_ad_run, "ad_test": do_ad_test, "ad_dis": do_ad_dis,
          "packet_run": do_packet_run, "packet_test": do_packet_test,
@@ -2052,7 +2165,8 @@ MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "sql_run": do_sql_run, "sql_test": do_sql_test, "sql_dis": do_sql_dis,
          "pg_run": do_pg_run, "pg_test": do_pg_test,
          "my_run": do_my_run, "my_test": do_my_test,
-         "spk_run": do_spk_run, "spk_test": do_spk_test}
+         "spk_run": do_spk_run, "spk_test": do_spk_test,
+         "ids_run": do_ids_run, "ids_test": do_ids_test}
 
 
 def main():

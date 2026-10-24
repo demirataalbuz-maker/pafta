@@ -337,9 +337,10 @@
    "not": "Saldırı zincirinin uygulanması Claude'un güvenlik filtresine takılıyor; Codex/Opus 4.8'e önerildi (10-24)"
   },
   "purple: Ağ tespit sistemleri: Suricata kuralları, Zeek günlükleri ve C2 işaretleşmesini tespit (purple team karşılaştırması, 10-24)": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Kullanıcı 10-24'te 'yapabileceğin her şeyi yap' dedi; Suricata ve Zeek WSL'de kurulacak, açılışta başlamayacak"
+   "commit": "(bu commit)",
+   "not": "Yeni yol tracks/ids (5 pafta, runner ids): Suricata 8.0.6 WSL Kali paketi (servis devre dışı, yalnız -r), Zeek 9.0.0 resmi imaj (özetle sabit, --network none); trafik Scapy ile sentetik (sandbox/ids_trafik.py). Ölçülen tuzaklar: nocase/endswith, dotprefix, content:! + endswith, NXDOMAIN yanıtında track by_dst, detection_filter/threshold, Zeek'te ?$ olmadan reporter.log hatası, == ile tek NOTICE. Gerçek olay PCAP'leri yok; C2 işaretleşmesi ve Suricata SSH kuralı yazılmadı (SSH uygulama katmanı alarmı aynı akışta tekrarlıyordu)"
   },
   "Elastic: Gerçek telemetri alımı, ECS ve ingest eşlemesi": {
    "durum": "calisiliyor",
