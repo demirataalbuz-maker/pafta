@@ -12,7 +12,8 @@ PK19–PK29 eklendi. Yol: **29 ders, 6 rütbe, 59 görev, 29 gerçek tahmin**.
 | SMB2 ve Kerberos/LDAP kayıtlarında inceleme | PK25–PK27 | `2c313ec` |
 | Gerçek CLI ile kayıt toplama, alan çıkarma ve özet raporu | PK28–PK29 | `2690a1e` |
 
-Arayüz/zaman tablosu: `6dfe939`. Başlama kaydı: `22f507f`.
+Arayüz/zaman tablosu: `6dfe939`; ders içi CLI çıktısı: `7b30eb4`.
+Pano/teslim kaydı: `7ca400e`. Başlama kaydı: `22f507f`.
 
 ## Gerçek araç davranışı
 
@@ -78,7 +79,29 @@ manifestidir; yükleyici dosya özetlerini doğrular.
   HTML kaçışı ve tahmin öncesi çalıştırma düğmesinin gizlenmesi sınanır.
 - Değişen kaynaklar UTF-8/LF; git diff --check temiz.
 
-Tam uygulama Windows/Git Bash günlükleri sonuçlanınca aşağıya eklenir.
+### Tam uygulama sonuçları · 24 Ekim 2026
+
+İki tam tarama da tamamlandı; sonuç **uygulama genelinde temiz değil**.
+Her ikisi 450 ders / 3808 kontrol çalıştırdı. Paket yolunda başarısız kontrol
+yoktur. Diğer yollardaki bulgular aşağıdadır; bu teslimde o dosyalara dokunulmadı.
+
+| Ortam | Geçen kontrol | Başarısız kontrol | Günlük |
+|---|---:|---:|---|
+| Windows | 3803 | 5 | [Windows](codex-packets-full-windows.log) |
+| Git Bash | 3802 | 6 | [Git Bash](codex-packets-full-gitbash.log) |
+
+- İki ortam: `powershell/ps22:6` ACL raporunda beklenen klasör/anahtar
+  satırları yok; `ps25:3` imza alanları boş; `ps25:4` güven kararı beklenenden
+  farklı; `ps26:3` 60 saniye zaman aşımı.
+- Yalnız Windows: `powershell/ps26:4` 60 saniye zaman aşımı.
+- Yalnız Git Bash: `python/p74:6` 6 saniye zaman aşımı ve
+  `bash/bs28:6` test betiği zaman aşımı.
+
+Taramalar eşzamanlı yürütüldü; ortak çalışma ağacında başka ajanın devam eden
+Splunk değişiklikleri vardı. Zaman aşımlarının nedeni bu raporda teşhis edilmiş
+sayılmaz. Günlükler ilk tam taramanın çıktısıdır; başarısız kontroller gizlenmedi.
+Bu sonuçlar Paket tesliminin bağımsız denetimi yerine geçmez; beş madde panoda
+**denetime-hazir** durumundadır.
 
 ## Denetçi için kanıt dosyaları
 
