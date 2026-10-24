@@ -18,6 +18,7 @@ OUTPUT_PATH = os.path.join(ROOT, "Pafta_Takip.xlsx")
 # Renkler (açık pastel dolgular ve koyu okunabilir metinler)
 FILL_BITTI = PatternFill(start_color="D4EDDA", end_color="D4EDDA", fill_type="solid")
 FONT_BITTI = Font(name="Segoe UI", size=10, bold=True, color="155724")
+FILL_BITTI_SATIR = PatternFill(start_color="E6F4EA", end_color="E6F4EA", fill_type="solid")
 
 FILL_CALISILIYOR = PatternFill(start_color="FFF3CD", end_color="FFF3CD", fill_type="solid")
 FONT_CALISILIYOR = Font(name="Segoe UI", size=10, bold=True, color="856404")
@@ -149,7 +150,7 @@ def style_sheet(ws, title, is_bitenler=False):
     ws.column_dimensions["A"].width = 10
     ws.column_dimensions["B"].width = 110
     ws.column_dimensions["C"].width = 24
-    ws.column_dimensions["D"].width = 16
+    ws.column_dimensions["D"].width = 20
 
 
 def main():
@@ -198,21 +199,24 @@ def main():
             else:
                 yapilacak_kalanlar.append(kayit)
 
-    # Sıralama: önce açık hatalar (A numaraları), sonra ilk dalganın bitmemişleri, sonra kalanlar
-    tum_yapilacaklar = yapilacak_acik_hatalar + yapilacak_ilk_dalga + yapilacak_kalanlar
+    # Kullanıcı isteği (24 Ekim): biten maddeler listeden düşmez; ilk sayfada açık hatalar ve
+    # ardından bütün maddeler kendi sırasıyla görünür, bitenlerin satırı yeşildir.
+    tum_maddeler = sorted(bitenler + yapilacak_ilk_dalga + yapilacak_kalanlar, key=lambda k: k["kaynak_id"])
+    tum_yapilacaklar = yapilacak_acik_hatalar + tum_maddeler
 
     toplam_bitti = len(bitenler)
-    toplam_kaldi = len(tum_yapilacaklar)
+    toplam_kaldi = len(yapilacak_acik_hatalar) + len(yapilacak_ilk_dalga) + len(yapilacak_kalanlar)
 
     wb = openpyxl.Workbook()
 
     # --- 1. SAYFA: Yapılacaklar ---
     ws_yapilacak = wb.active
-    ws_yapilacak.title = "Yapılacaklar"
+    ws_yapilacak.title = "Yapılacaklar"   # ad korunur: tools/durum_listesi.py bu sayfayı okur
     style_sheet(ws_yapilacak, "Yapılacaklar")
 
     # En başta tek satırlık özet
-    ozet_metin = f"Özet: {toplam_bitti} bitti, {toplam_kaldi} kaldı (Açık hatalar: {len(yapilacak_acik_hatalar)}, İlk dalga: {len(yapilacak_ilk_dalga)}, Kalan maddeler: {len(yapilacak_kalanlar)})"
+    ozet_metin = (f"Özet: {toplam_bitti} bitti (yeşil), {toplam_kaldi} kaldı (Açık hatalar: {len(yapilacak_acik_hatalar)}, "
+                  f"İlk dalga: {len(yapilacak_ilk_dalga)}, Kalan maddeler: {len(yapilacak_kalanlar)})")
     ws_yapilacak.merge_cells("A1:D1")
     cell_ozet1 = ws_yapilacak["A1"]
     cell_ozet1.value = ozet_metin
@@ -235,6 +239,7 @@ def main():
     for idx, item in enumerate(tum_yapilacaklar, 1):
         r = idx + 2
         ws_yapilacak.row_dimensions[r].height = 26
+        bitti = item["durum"] == "Bitti"
 
         # Sıra
         c_sira = ws_yapilacak.cell(row=r, column=1, value=idx)
@@ -255,7 +260,10 @@ def main():
         c_kim.border = THIN_BORDER
 
         # Durum
-        c_durum = ws_yapilacak.cell(row=r, column=4, value=item["durum"])
+        c_durum = ws_yapilacak.cell(row=r, column=4, value="Bitti (denetlendi)" if bitti else item["durum"])
+        if bitti:
+            for c in (c_sira, c_is, c_kim):
+                c.fill = FILL_BITTI_SATIR
         if item["durum"] == "Bitti":
             c_durum.fill = FILL_BITTI
             c_durum.font = FONT_BITTI

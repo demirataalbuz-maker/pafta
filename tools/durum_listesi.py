@@ -88,7 +88,7 @@ def uret():
 
     for m in maddeler:
         d = dj.get(m["ad"], {})
-        if m["excel"].lower() == "bitti":
+        if m["excel"].lower().startswith("bitti"):
             m["durum"] = "bitti"
         else:
             m["durum"] = d.get("durum", "")
@@ -268,7 +268,7 @@ let suzgec=sessionStorage.getItem("suzgec");
 function lejant(){document.getElementById("lejant").innerHTML=sira.map(k=>`<button data-k="${k}" aria-pressed="${suzgec===k}"><i class="parsel ${D[k][0]}" style="aspect-ratio:auto;padding:0"></i>${D[k][1]} · ${say[k]||0}</button>`).join("");
  document.querySelectorAll(".lejant button").forEach(b=>b.onclick=()=>{suzgec=suzgec===b.dataset.k?null:b.dataset.k;
   suzgec===null?sessionStorage.removeItem("suzgec"):sessionStorage.setItem("suzgec",suzgec);lejant();ciz()})}
-function bolgeAdi(ad){const i=ad.indexOf(":");return i>0?ad.slice(0,i):"Diğer"}
+function bolgeAdi(ad){const i=ad.indexOf(":");const b=i>0?ad.slice(0,i):"Diğer";return /^A\d+$/.test(b)?"Açık bulgular":b}
 function ciz(){const gr=new Map();V.maddeler.forEach(m=>{const b=bolgeAdi(m.ad);if(!gr.has(b))gr.set(b,[]);gr.get(b).push(m)});
  document.getElementById("bolgeler").innerHTML=[...gr].map(([b,ms])=>{const tamam=ms.filter(m=>m.durum==="bitti"||m.durum==="denetime-hazir").length;
   return `<section class="bolge"><h2>${esc(b)}</h2><span class="say">${tamam}/${ms.length}</span><div class="parseller">${ms.map(m=>
