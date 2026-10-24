@@ -125,8 +125,8 @@
   },
   "PowerShell: Gerçek PSSession yaşam döngüsü ve uzak çıktı": {
    "durum": "atlandi",
-   "kim": "Claude (Yazar 2)",
-   "not": "Bekliyor: WinRM için bir kez yönetici onayı (UAC) gerekiyor; oturum yönetici değil. Plan: yalnız localhost'a bağlı dinleyici (Tailscale 'Private' ağı yüzünden genel dinleyici açılmamalı), ASAMA2 yeni PowerShell istemiyor"
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Yazar 2'de; WinRM için bir kez yönetici onayı (UAC) bekliyor; yalnız localhost dinleyici"
   },
   "HTTP ve HTML: SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri": {
    "durum": "codex-onerildi",
@@ -166,17 +166,18 @@
   "Java: Spring Data JPA ve transaction proxy akışı": {
    "durum": "",
    "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "not": "Kullanıcı Yazar 2'ye verdi (10-24); ağır kurulum: JDK 17/21 + Maven + Spring/Hibernate/H2"
   },
   "C#: Klasik ASP.NET/System.Web yaşam döngüsü": {
    "durum": "",
    "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "not": "Kullanıcı Yazar 2'ye verdi (10-24); ağır kurulum: ASP.NET (System.Web) çalıştırma ortamı"
   },
   "JavaScript: Gerçek Express Router ve hata akışını okumak": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Kullanıcı onayıyla (10-24); Express npm ile proje kapsamına (.deps) sabitlenecek"
+   "commit": "(bu commit)",
+   "not": "JS13; Express 5.3.0 .deps/npm'e (tools/js_bagimlilik_kur.py, kilit dosyası tools/js_bagimliliklar, npm ci --ignore-scripts); javascript koşucusuna NODE_PATH"
   },
   "Java: Serialization nesne grafiği, callback ve filtre sınırlarını okumak": {
    "durum": "codex-onerildi",

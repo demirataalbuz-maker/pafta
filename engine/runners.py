@@ -487,6 +487,8 @@ RUNNERS = {
         kopyala=[os.path.join(ROOT, "tracks", "powershell", "veri", "olaylar.json")]),
     "javascript": ProcRunner("javascript", {
         "cmd": [NODE or ""], "dosya": "betik.js", "sure": 10,
+        # Proje kapsamında sabitlenen npm paketleri (Express 5.3.0): tools/js_bagimlilik_kur.py
+        "env": {"NODE_PATH": os.path.join(ROOT, ".deps", "npm", "node_modules")},
         "satir_deseni": r"betik\.js:(\d+)",
     }, default_timeout=15, test_timeout=30, iz=False),
     "cmd": ProcRunner("cmd", {
