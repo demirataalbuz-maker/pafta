@@ -23,9 +23,17 @@ ES = 'http://127.0.0.1:19200'
 KB = 'http://127.0.0.1:15601'
 
 def docker(*args, check=True):
-    return subprocess.run(['docker', *args], check=check, capture_output=True,
-                          encoding='utf-8', timeout=600,
-                          creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+    try:
+        result = subprocess.run(['docker', *args], check=False, capture_output=True,
+                                encoding='utf-8', timeout=600,
+                                creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+    except (OSError, subprocess.TimeoutExpired):
+        # run arguments include generated credentials; never render them via
+        # CalledProcessError/TimeoutExpired in a public installation traceback.
+        raise RuntimeError('Docker '+str(args[0])+' çağrısı tamamlanamadı; Docker Desktop durumunu kontrol edin.') from None
+    if check and result.returncode:
+        raise RuntimeError('Docker '+str(args[0])+' başarısız; daemon, imaj ve port durumunu kontrol edin.')
+    return result
 
 def secret(name):
     STATE.mkdir(parents=True, exist_ok=True)
