@@ -298,13 +298,13 @@
    "commit": "(bu commit)",
    "not": "KQ24; SigninLogs, DeviceProcessEvents, DeviceNetworkEvents alt kümeleri ders hazırlığında; _GetWatchlist('ad') → watchlist_<ad> tablosu (let içinde de); gerçek Sentinel için Azure çalışma alanı gerekir"
   },
-  "SPL: Gerçek log alımı, olay sınırı ve zaman ayarları (props.conf)": {
+  "SPL: Gerçek log alımı ve olay sınırı/zaman ayarları": {
    "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "commit": "(bu commit)",
+   "commit": "9c5f418",
    "not": "SP21; gerçek Splunk Enterprise 10.6.1 Docker'da (splunk/splunk özetle sabit, yalnız 127.0.0.1, --restart no, deneme lisansı 60 gün), sandbox/splunk_lab.py; adım meta'sı motor: splunk + girdi: props|arama; tools/test_splunk_lab.py"
   },
-  "SPL: CIM eşlemesi ve tstats'ı gerçek veri modeli üstünde çalıştırmak": {
+  "SPL: CIM eşlemesi ve tstats'ı gerçek veri modeli/indeks üstünde çalıştırmak": {
    "durum": "kismen",
    "kim": "Claude (Yazar 2)",
    "not": "Splunk laboratuvarı hazır (SP21-22); resmi Splunk Common Information Model eklentisi Splunkbase hesabıyla indirilmeli (kullanıcı); dosya gelince yazılacak"
@@ -312,7 +312,7 @@
   "SPL: Sorgudan zamanlanan alarma: tetikleme, zaman aralığı ve bastırma": {
    "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "commit": "(bu commit)",
+   "commit": "5593098",
    "not": "SP22; girdi: alarm (savedsearches.conf), çalıştırma anları cron'dan, dispatch.now + trigger_actions; tetikleme _audit alert_fired, bastırma zamanlayıcı günlüğünden; sabah tam gün yarına kaydırılır (geçmiş tarihli bastırma kayıtları temizleniyordu); özet modu tahmininde ~1/8 açıklanamayan sapma görüldü, notlanan testler 10/10"
   }
  }
