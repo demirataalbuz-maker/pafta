@@ -1,0 +1,82 @@
+{
+ "_aciklama": "Ajanların madde durumları. Anahtar: Pafta_Takip.xlsx 'Ne yapılacak' metni (birebir). durum: calisiliyor | taslak | denetime-hazir | kismen | atlandi. Bir işe başlarken 'calisiliyor' yaz ve commit et; bitince 'denetime-hazir' + commit. 'Bitti' kararı denetçinin (Excel). docs/DURUM.md bu dosyadan her commit'te otomatik üretilir (tools/durum_listesi.py).",
+ "maddeler": {
+  "Python: pwntools kullanan hazır betiği okumak ve uyarlamak": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "312e90b",
+   "not": "git geçmişinden tespit"
+  },
+  "Python: Impacket kullanan Windows/AD protokol betiğini okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "b645c80",
+   "not": "git geçmişinden tespit"
+  },
+  "Bash: Linux süreç ve olay verisini kaynağından toplamak": {
+   "durum": "taslak",
+   "kim": "Claude (Yazar 1)",
+   "dosyalar": [
+    "tracks/bash/lessons/bs31-proc-ps-journalctl.md",
+    "tracks/bash/track.json"
+   ],
+   "not": "BS31 commit edilmemiş"
+  },
+  "CMD: wevtutil ile offline EVTX sorgu ve export": {
+   "durum": "taslak",
+   "kim": "Claude (Yazar 1)",
+   "dosyalar": [
+    "tracks/cmd/lessons/cm19-evtx-sorgu.md",
+    "tracks/cmd/lessons/cm20-evtx-aktarim.md",
+    "sandbox/evtx_fixtures.py",
+    "engine/runners.py",
+    "tools/test_cmd_curriculum.py",
+    "tools/test_cmd_integration.py",
+    "tracks/cmd/track.json"
+   ],
+   "not": "CM19, CM20 commit edilmemiş; Excel'de Codex'e atanmış"
+  },
+  "HTTP ve HTML: JWT yapısı, imza doğrulama tuzakları ve OAuth2/OIDC yönlendirme akışı": {
+   "durum": "denetime-hazir",
+   "kim": "Antigravity",
+   "commit": "7ee458e",
+   "not": "HT16; git geçmişinden tespit"
+  },
+  "SQL: SQLite dışındaki SQL lehçelerini gerçek motorlarda kullanmak": {
+   "durum": "kismen",
+   "kim": "Claude (Yazar 2)",
+   "commit": "05b1a4e",
+   "not": "PostgreSQL motoru hazır (motor: postgres); MySQL/SQL Server ayakları ve lehçe dersi açık"
+  },
+  "SQL: Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "3234635",
+   "not": "SQ19"
+  },
+  "SQL: Veritabanı rolleri ve etkili yetkileri denetlemek": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "05b1a4e, c48f84a",
+   "not": "PostgreSQL laboratuvarı + SQ21"
+  },
+  "SQL: SQL içinden JSON kayıtlarını sorgulamak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "a0290ad",
+   "not": "SQ20; PostgreSQL jsonb görevi açık"
+  },
+  "Regex: RX16'daki lehçe bilgisini gerçek motorlarda sınamak": {
+   "durum": "kismen",
+   "kim": "Claude (Yazar 2)",
+   "commit": "6291614",
+   "not": "PCRE2 motoru hazır (motor: pcre2); .NET/Node ayakları ve karşılaştırma dersi açık"
+  },
+  "Regex: Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "6291614, 9000f66",
+   "not": "PCRE2 motoru + RX23"
+  }
+ }
+}

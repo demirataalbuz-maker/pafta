@@ -1,27 +1,15 @@
 # Çalışma panosu
 
-Kim şu an neyle uğraşıyor, kim neyi bitirdi. Amaç: iki ajan aynı işi yapmasın, kimse "bu ne zaman oldu" demesin.
+İki ajan aynı işi yapmasın, kimse "bu ne zaman oldu" demesin.
 
-- Bir işe **başlamadan önce** buraya bir satır ekle (ya da kendi satırını güncelle) ve commit et.
-- Ortak bir dosyaya (`engine/`, `sandbox/`, `server.py`, `web/`, `tools/validate.py`) dokunacaksan hangi dosya ve neden, onu da yaz.
-- İş bitince durumu "denetime hazır" yap ve commit kimliğini ekle. "Bitti" kararı denetçinindir (`DENETIM.md`).
-- `Pafta_Takip.xlsx` ve `DENETIM.md` denetçinindir; bu pano onların yerine geçmez, aradaki boşluğu doldurur.
+**Canlı liste:** `docs/DURUM.html` (tarayıcıda aç; 20 saniyede bir kendini yeniler) ve `docs/DURUM.md`. İkisi de her commit'ten sonra `.git/hooks/post-commit` → `tools/durum_listesi.py` ile kendiliğinden üretilir; git'e girmez, elle düzenlenmez. Elle yenilemek için: `python -X utf8 tools/durum_listesi.py`.
 
-## Şu an
+## Kurallar
 
-| Ajan | İş | Takip no | Dokunduğu dosyalar | Durum |
-|---|---|---|---|---|
-| — | (Yazar 2'nin şu an açık işi yok) | | | |
+- Bir maddeye **başlamadan önce** `docs/durum.json`'a o maddenin satırını `"durum": "calisiliyor"` ve `"kim"` ile ekle ve commit et. Anahtar, `Pafta_Takip.xlsx`'teki "Ne yapılacak" metninin birebir aynısıdır.
+- Commit etmeden bırakacağın dosyalar varsa `"durum": "taslak"` ve `"dosyalar": [...]` yaz; panel onları sahibinin adıyla gösterir.
+- İş bitince `"denetime-hazir"` ve `"commit"` yaz. "Bitti" kararı denetçinindir (`DENETIM.md` → Excel); Excel'de "Bitti" olan madde panelde kendiliğinden bitti görünür.
+- Ortak bir dosyaya (`engine/`, `sandbox/`, `server.py`, `web/`, `tools/validate.py`) dokunacaksan `"not"` alanına hangi dosya ve neden, onu da yaz. Başkasının commit edilmemiş değişikliği olan dosyada yalnız kendi parçanı sahneye al.
+- `Pafta_Takip.xlsx`, `DENETIM.md` ve `ASAMA2.md` denetçinindir.
 
-> **Codex'e not:** 45 numaralı maddenin (RX16 lehçelerini gerçek motorlarda sınamak) PCRE2 ayağı ve 23 numaralı maddenin PostgreSQL bağlantısı Yazar 2'nin işiyle aynı altyapıyı kullanır. Yeniden yazma; bu panodaki dosyaları kullan ya da genişlet. .NET, Node ve MySQL/SQL Server ayakları sende.
-
-## Denetime hazır
-
-| Ajan | İş | Takip no | Commit |
-|---|---|---|---|
-| Claude (Yazar 2) | SQ19 uygulama girdisinden SQL'e veri akışı, parametre bağlama, izinli alanlar | 24 | `3234635` |
-| Claude (Yazar 2) | SQ20 JSON kayıtlarını sorgulamak (SQLite; PostgreSQL jsonb yalnız karşılık tablosu) | 26 | `a0290ad` |
-| Claude (Yazar 2) | Regex yoluna gerçek PCRE2 motoru (`sandbox/pcre2_engine.py`, adım meta'sında `motor: pcre2`, `tools/test_pcre2_engine.py`) | 46 (45'in PCRE2 ayağı) | `6291614` |
-| Claude (Yazar 2) | RX23 PCRE2 özyineleme, alt yordamlar, branch reset, kontrol fiilleri | 46 | `9000f66` |
-| Claude (Yazar 2) | SQL yoluna gerçek PostgreSQL laboratuvarı (`sandbox/pg_lab.py`, adım meta'sında `motor: postgres`, `tools/test_pg_lab.py`) | 25 (23'ün PostgreSQL ayağı) | `05b1a4e` |
-| Claude (Yazar 2) | SQ21 roller ve etkili yetkiler (PostgreSQL 18) | 25 | bu commit |
+> **Codex'e not:** 45 (regex lehçeleri) maddesinin PCRE2 ayağı (`sandbox/pcre2_engine.py`, `motor: pcre2`) ve 23 (SQL lehçeleri) maddesinin PostgreSQL ayağı (`sandbox/pg_lab.py`, `motor: postgres`) hazır. Yeniden yazma; kullan ya da genişlet.
