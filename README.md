@@ -20,7 +20,7 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 | **Assembly (x86/x64)** (okuma) | 12 (6 rütbe; 64/32/16/8-bit yazmaç dilimleri ve mov, aritmetik/bit/lea, little-endian bellek ve movzx/movsx, RFLAGS ve cmp/test, işaretsiz ja/jb ile işaretli jg/jl dallanmaları ve cmovcc, yığın/push-pop ve prolog/epilog, Windows x64 ve System V ABI çağrı kuralları, diziler/dizgiler/struct hizalaması, C kontrol kalıpları, yığın kanaryası ve jo taşma denetimi, objdump/RIP-göreli adresleme ve rol/ror, ikili paket doğrulayıcı projesi) | `python`: C ile aynı düzen, x86-64 Intel sözdizimi kuralları | hazır |
 | **Sigma** | 18 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma ayrıştırıcısı + JSON olaylarında yerel test backend'i | hazır |
 | **YARA** | 22 (6 rütbe; metin/hex, regex, sayım/konum, PE import/export ve bölümler, ELF/.NET metadata, hash/math ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
-| **Elastic / Kibana** | 19 (6 rütbe; Kibana KQL, Lucene query string, Elastic EQL; sorgu yazma, mapping, zaman, olay dizileri ve gerçek ortam dersi) | `elastic`: KQL/Lucene gerçek Apache Lucene 9.12.3 üzerinde; EQL açık sınırları olan yerel yorumlayıcı | hazır |
+| **Elastic / Kibana** | 27 (6 rütbe; KQL/Lucene/EQL, gerçek ingest/ECS, Security kuralları ve ES\|QL) | `elastic`: temel dersler Lucene/yerel EQL; EL20–EL27 gerçek Elasticsearch/Kibana 9.5.5 Basic API | hazır |
 | **CMD / Batch** | 24 (6 rütbe; parametreler, değişken açılımı, for/for /f, dosya ve metin akışı, EVTX, yapılandırma, token ve DACL sorguları) | `cmd`: gerçek Windows cmd.exe; run/test, UTF-8 girdi/çıktı | hazır |
 | **Wireshark / tcpdump** | 29 (6 rütbe; filtreler, PCAPNG, TLS/HTTP2/QUIC, TCP iş akışı, SMB2/Kerberos/LDAP, CLI raporu ve kontrollü yakalama) | `packets`: gerçek TShark 4.6.8 + libpcap 1.10.6; PK29 için Kali WSL tcpdump loopback laboratuvarı | hazır |
 | **Active Directory ve LDAP** | 12 (6 rütbe; DN/OU/CN ağacı, RFC 4515 LDAP filtreleri, joker/varlık/kaçış dizileri, userAccountControl bit eşleşmesi 803/804, Get-ADUser/Get-ADComputer/Get-ADGroup/Get-ADGroupMember -Recursive ve 1941 zincir kuralı, SPN/temsil/hesap denetimi, AD güvenlik günlükleri, GPO/Kerberos/AdminSDHolder/çoğaltma okuma ve Windows Server AD laboratuvar kurulumu) | `ad`: [sandbox/ad_engine.py](sandbox/ad_engine.py) `DC=pafta,DC=local` dizini üzerinde RFC 4515 LDAP ve `Get-AD*` değerlendiricisi; LDAP düğmesi etkin filtreyi gösterir | hazır |
@@ -33,7 +33,7 @@ SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çal
 - Elle: `pythonw Pafta.pyw` (Edge uygulama penceresi açılır; pencere kapanınca sunucu ~40 sn sonra kendini kapatır)
 - Geliştirme: `python server.py --port 8765` (tarayıcıda `http://127.0.0.1:8765/`; `--veri KLASOR` ile ayrı bir ilerleme klasörü)
 
-Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java, C# ve Assembly okuma yolları için derleyici gerekmez. Elastic tezgahı JDK 17+ ve `python tools/install_elastic_runtime.py` ile kurulan pinli Lucene JAR'larını kullanır; son gerçek ortam dersi dışında Elasticsearch/Kibana kurulumu gerekmez. Python bileşenleri Sigma/YARA bağımlılıkları dışında standart kütüphaneyi kullanır.
+Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java, C# ve Assembly okuma yolları için derleyici gerekmez. Elastic tezgahı JDK 17+ ve `python tools/install_elastic_runtime.py` ile kurulan pinli Lucene JAR'larını kullanır; EL01–EL19 görevleri için Elasticsearch/Kibana kurulumu gerekmez; EL20–EL27 gerçek Docker laboratuvarını ister. Python bileşenleri Sigma/YARA bağımlılıkları dışında standart kütüphaneyi kullanır.
 
 ### Kali WSL Linux koşucusu
 
@@ -116,7 +116,7 @@ Resmi dayanaklar: [Sigma şartnamesi](https://sigmahq.io/sigma-specification/spe
 
 ### Elastic / Kibana sorgu tezgahı
 
-Bu yol **KQL (Kusto)** yolundan ayrıdır. Öğrenci Kibana KQL, Lucene ve EQL sorgusu yazar; sorgu JSON girdisindeki mapping ve sentetik belgeler üzerinde değerlendirilir. Tahmin yanıtı da aynı motorla hesaplanır. KQL gerçek Lucene sorgularına ayrılır; Lucene yolu gerçek Classic QueryParser, analyzer, phrase/slop/fuzzy/regex kullanır. EQL sınırlı yerel yorumlayıcıdır; sequence anahtarları, maxspan ve until sınırları test edilir. Desteklenmeyen özellikler açık hatadır. Gerçek Elasticsearch sunucusu başlatılmaz; EL19 ücretsiz yerel Elasticsearch/Kibana üzerinde aynı sorguları denemeyi öğretir. JDK 17+ gerekir (Android Studio JBR kullanılabilir); JAR'lar SHA-512 ile doğrulanır. Ayrıntılar, destek sınırları ve resmi kaynaklar: [yolun sözleşmesi](tracks/elastic/README.md).
+Bu yol **KQL (Kusto)** yolundan ayrıdır. Öğrenci Kibana KQL, Lucene ve EQL sorgusu yazar; sorgu JSON girdisindeki mapping ve sentetik belgeler üzerinde değerlendirilir. Tahmin yanıtı da aynı motorla hesaplanır. KQL gerçek Lucene sorgularına ayrılır; Lucene yolu gerçek Classic QueryParser, analyzer, phrase/slop/fuzzy/regex kullanır. EQL sınırlı yerel yorumlayıcıdır; sequence anahtarları, maxspan ve until sınırları test edilir. Desteklenmeyen özellikler açık hatadır. Temel motor sunucu başlatmaz; EL19 karşılaştırma yönergesidir. EL20–EL27 için aşağıdaki gerçek laboratuvar gerekir. JDK 17+ gerekir (Android Studio JBR kullanılabilir); JAR'lar SHA-512 ile doğrulanır. Ayrıntılar, destek sınırları ve resmi kaynaklar: [yolun sözleşmesi](tracks/elastic/README.md).
 
 ```text
 python tools/install_elastic_runtime.py
@@ -126,6 +126,39 @@ python tools/test_elastic_integration.py
 python tools/audit_elastic_mutations.py
 node --test tools/test_elastic_ui.mjs
 ```
+
+#### Elastic 41–44: gerçek yerel laboratuvar
+
+Docker Desktop açık olmalı; iki resmi imaj sürüm ve SHA-256 digest ile
+`tools/elastic_lab_setup.py` içinde sabitlenir. İndirme yalnız açık kurulum
+komutuyla yapılır; ders çalıştırmak paket indirmez veya Docker başlatmaz:
+
+```powershell
+python tools/elastic_lab_setup.py --pull --start
+# Sonraki açılışlar (indirme yapmadan):
+python tools/elastic_lab_setup.py --start
+# Çalışmayı bitirince:
+python tools/elastic_lab_setup.py --stop
+```
+
+Elasticsearch 9.5.5: `http://127.0.0.1:19200`; Kibana aynı sürüm:
+`http://127.0.0.1:15601`. Basic lisans, kimlik doğrulama ve API anahtarları
+etkindir; trial açılmaz. Her konteynere 2 GiB sınır ayrılır; Docker'a diğer
+çalışan laboratuvarlarla birlikte yeterli RAM verin. Otomatik açılış yoktur.
+Parola ve şifreleme anahtarları Git dışında `.deps/elastic-lab/` içinde
+üretilir; Kibana kullanıcı adı `elastic`, parola `password` dosyasındadır.
+Bu **yalnız localhost HTTP öğretim ortamıdır**: konteynerler arasındaki HTTP
+TLS kullanmaz. EL19'un gerçek dağıtım TLS yönergesini karşılamaz; internete
+veya yerel ağa port açmayın. Üretimde TLS ve en az yetki gerekir.
+
+Gerçek pipeline + bulk alımı, EQL, Security create/preview ve ES|QL API'leri
+kullanılır. Her işin rastgele indeksi/kuralı/pipeline'ı temizlenir. Security
+önizlemesi operational alarm diye gösterilmez; gerçek zamanlayıcı kabulü ayrı
+betikle sınanır. ES|QL için okuma anahtarı yalnız işin indeksine yetkilidir.
+İleri dersler `stdin.backend: elastic` ile seçilir; yerel motora fallback yoktur.
+Elastic Agent kurulmaz: EL20 gerçek üst süreç gözlemini NDJSON dosyasından
+pipeline'a alır; bu gözlem Sysmon/EVTX/Agent olayı olarak sunulmaz.
+
 
 ### CMD / Batch tezgahı
 

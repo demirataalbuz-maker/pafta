@@ -38,6 +38,12 @@ def evaluate(query, config):
 
 
 def run(code, stdin=""):
+    if _native(stdin):
+        try:
+            from .elastic_lab import run as native_run
+        except ImportError:
+            from elastic_lab import run as native_run
+        return native_run(code, stdin)
     config = options(stdin)
     matches = evaluate(code, config)
     lines = [" -> ".join(row) if isinstance(row, list) else row for row in matches]
@@ -49,6 +55,12 @@ def run(code, stdin=""):
 
 
 def test_helpers(code, stdin=""):
+    if _native(stdin):
+        try:
+            from .elastic_lab import test_helpers as native_helpers
+        except ImportError:
+            from elastic_lab import test_helpers as native_helpers
+        return native_helpers(code, stdin)
     config = options(stdin)
     initial = evaluate(code, config)  # Even empty assertion suites cannot accept an invalid query.
     def merged(value, dialect=None):
@@ -67,3 +79,11 @@ def test_helpers(code, stdin=""):
             "eslesenler": lambda veri=None: list(initial) if veri is None else evaluate(code, merged(veri)),
             "referans": lambda sorgu, veri=None, dil=None: evaluate(sorgu, merged(veri, dil)),
             "korpus": copy.deepcopy(config)}
+
+
+def _native(stdin):
+    try:
+        value = json.loads(stdin) if isinstance(stdin, str) else stdin
+    except (ValueError, TypeError):
+        return False
+    return isinstance(value, dict) and value.get("backend") == "elastic"

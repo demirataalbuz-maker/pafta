@@ -210,7 +210,7 @@ const tokYara = kural(
    w => YARA_KEYS.has(w) ? "kw" : /^(?:uint|int)\d+(?:be)?$/.test(w) ? "bi" : "", () => "", () => "op"]);
 
 // These are display lexers only: no Elastic query is evaluated in the browser.
-const ELASTIC_WORDS = new Set("and or not AND OR NOT TO where sequence by with maxspan until any true false null in like regex head tail sample join runs of missing".split(" "));
+const ELASTIC_WORDS = new Set("FROM WHERE EVAL STATS COUNT SUM COALESCE SORT ASC DESC NULLS FIRST LAST KEEP BY and or not AND OR NOT TO where sequence by with maxspan until any true false null in like regex head tail sample join runs of missing".split(" "));
 const tokElastic = kural(
   /(\/\/[^\n]*)|("(?:\\.|[^"\\])*"?|`(?:``|[^`])*`?)|(\/(?:\\.|[^\/\\\n])*\/)|(\b\d+(?:\.\d+)?(?:ms|s|m|h|d)?\b)|([?@]?[A-Za-z_][\w.~-]*)|(\s+)|([^\s\w])/gy,
   [() => "com", () => "str", () => "str", () => "num",
@@ -244,7 +244,7 @@ const tokAsm = kural(
   [() => "com", () => "str", () => "fn", () => "num",
    w => { const l = w.toLowerCase(); return ASM_OP.has(l) ? "kw" : ASM_REG.has(l) ? "self" : ASM_DIR.has(l) ? "bi" : ""; },
    () => "", () => "op"]);
-const TOKENIZERS = { tshark: tokBash, "tcpdump-lab": tokBash, asm: tokAsm, x86: tokAsm, ad: tokAd, ldap: tokAd, packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, csharp: tokCsharp, cs: tokCsharp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
+const TOKENIZERS = { tshark: tokBash, "tcpdump-lab": tokBash, asm: tokAsm, x86: tokAsm, ad: tokAd, ldap: tokAd, packets: tokPacket, wireshark: tokPacket, bpf: tokPacket, cmd: tokCmd, batch: tokCmd, bat: tokCmd, kibana: tokElastic, lucene: tokElastic, eql: tokElastic, esql: tokElastic, ingest: tokJs, rule: tokJs, elastic: tokElastic, sigma: tokSigma, yaml: tokSigma, yara: tokYara, javascript: tokJs, js: tokJs, c: tokC, php: tokPhp, java: tokJava, csharp: tokCsharp, cs: tokCsharp, spl: tokSpl, splunk: tokSpl, kql: tokKql, kusto: tokKql, sql: tokSql, python: tokenize, py: tokenize, bash: tokBash, sh: tokBash, powershell: tokPs, ps: tokPs, regex: tokRegex };
 
 // Satır satır HTML (editör ve kod blokları için): her satır ayrı dizi elemanı.
 export function highlightLines(src, dil = "python") {

@@ -164,8 +164,8 @@ function sqlTablolar(tablolar, max = 200, kql = false) {
   }).join("");
 }
 
-const ELASTIC_DIALECTS = ["kibana", "lucene", "eql"];
-const ELASTIC_LABELS = { kibana: "Kibana KQL", lucene: "Lucene", eql: "Elastic EQL" };
+const ELASTIC_DIALECTS = ["kibana", "lucene", "eql", "esql", "ingest", "rule"];
+const ELASTIC_LABELS = { kibana: "Kibana KQL", lucene: "Lucene", eql: "Elastic EQL", esql: "ES|QL", ingest: "Ingest pipeline", rule: "Security rule" };
 
 function lessonLanguage(track, lesson, step) {
   const language = track?.dil || "python";
@@ -310,6 +310,9 @@ class Bench {
       kibana: "Kibana KQL korpusu · JSON: dil, mapping, documents, context",
       lucene: "Lucene korpusu · JSON: dil, mapping, documents, context",
       eql: "EQL korpusu · JSON: dil, mapping, documents, context",
+      esql: "ES|QL korpusu · JSON backend: elastic, dil, mapping, documents",
+      ingest: "Ingest korpusu · JSON backend: elastic, dil, mapping, documents",
+      rule: "Security kuralı korpusu · JSON backend: elastic, dil, mapping, documents, context",
       elastic: 'Elastic korpusu · JSON dil: "kibana", "lucene" veya "eql"; mapping, documents, context',
     }[dil] || "Girdi";
     this.stdin.rows = ["elastic", ...ELASTIC_DIALECTS].includes(dil) ? 10 : dil === "regex" ? 4 : 3;
@@ -912,6 +915,9 @@ const BOS_KOD = {
 // Okuma yolları (C, PHP, Java, C#): kod çalıştırılmaz; görevlerde okunan kodun Python karşılığı yazılır
 const OKUMA_BOS = "# Bu yolda okuduğun kod bu bilgisayarda çalıştırılamıyor.\n# Görevlerde onun yaptığını Python ile yazacaksın; tezgah o görevler içindir.\n";
 const TAHMIN_DIL = {
+  esql: { girdi: "Gerçek Elasticsearch korpusu:", etiket: "Çıktı JSON nesnesini sütun ve değerleriyle yaz", baslik: "ES|QL hangi tabloyu üretir?", ornek: '{"columns":["adet"],"values":[[2]]}', kod: "" },
+  ingest: { girdi: "Gerçek ingest girdisi:", etiket: "Çıktı JSON nesnesini yaz", baslik: "Pipeline ve bulk sonucu ne olur?", ornek: "", kod: "" },
+  rule: { girdi: "Gerçek Security kuralı korpusu:", etiket: "Çıktı JSON nesnesini yaz", baslik: "Kural önizlemesi ne üretir?", ornek: "", kod: "" },
   tshark: { girdi: "Komutun eğitim kaydı:", etiket: "Komutun çıktısını satır satır yaz; sütun aralarını sekmeyle ayır", baslik: "TShark komutu ne yazar?", kod: "" },
   "tcpdump-lab": { girdi: "Kontrollü yakalama laboratuvarı:", etiket: "Laboratuvarın paket, dosya ve boyut çıktısını satır satır yaz", baslik: "Yakalama hangi boyutları üretir?", kod: "" },
   wireshark: { girdi: "Filtrenin kayıt seçimi:", etiket: "Paketler: önekinden sonra eşleşen paket numaralarını virgülle yaz", baslik: "Görüntü filtresi hangi paketleri seçer?", ornek: "Paketler: 1, 2", kod: "" },
