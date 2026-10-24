@@ -533,7 +533,23 @@ def _desen(code):
     return (code or "").rstrip("\r\n")
 
 
-def _regex_derle(desen):
+def _pcre2():
+    # Adımın meta'sında motor: pcre2 → sandbox/pcre2_engine.py (gerçek PCRE2 kitaplığı)
+    return _cevirici("pcre2_engine")
+
+
+def _regex_derle(desen, motor=None):
+    if motor == "pcre2":
+        try:
+            p2 = _pcre2()
+            return p2.compile(desen), None
+        except Exception as e:
+            konum = getattr(e, "pos", None)
+            satir = desen.count("\n", 0, konum) + 1 if konum is not None else 1
+            col = konum - (desen.rfind("\n", 0, konum) + 1) if konum is not None else None
+            return None, {"type": "DesenHatası", "msg": "PCRE2: " + getattr(e, "msg", str(e)), "line": satir,
+                          "col": col, "frames": [], "where": "kod",
+                          "text": (desen.splitlines() or [""])[min(satir, max(1, len(desen.splitlines()))) - 1]}
     try:
         return re.compile(desen), None
     except re.error as e:
@@ -544,16 +560,22 @@ def _regex_derle(desen):
 
 
 def do_regex_run(job):
-    rx, err = _regex_derle(_desen(job["code"]))
+    rx, err = _regex_derle(_desen(job["code"]), job.get("motor"))
     if err:
         return {"status": "error", "error": err, "segs": []}
     metin = job.get("stdin", "")
     es = []
-    for m in rx.finditer(metin):
-        es.append({"bas": m.start(), "son": m.end(), "metin": m.group(0),
-                   "gruplar": list(m.groups()), "adli": m.groupdict()})
-        if len(es) >= 500:
-            break
+    try:
+        for m in rx.finditer(metin):
+            es.append({"bas": m.start(), "son": m.end(), "metin": m.group(0),
+                       "gruplar": list(m.groups()), "adli": m.groupdict()})
+            if len(es) >= 500:
+                break
+    except Exception as e:                    # PCRE2 eşleşme/derinlik sınırı: felaket geri izleme
+        if job.get("motor") != "pcre2":
+            raise
+        return {"status": "error", "segs": [], "error": {"type": "EşleşmeHatası", "msg": getattr(e, "msg", str(e)),
+                                                          "line": None, "frames": [], "where": "kod"}}
     cikti = "".join(e["metin"] + "\n" for e in es)
     return {"status": "ok", "segs": [["out", cikti]] if cikti else [], "eslesmeler": es,
             "metin": metin[:50_000], "error": None}
@@ -561,7 +583,7 @@ def do_regex_run(job):
 
 def do_regex_test(job):
     desen = _desen(job["code"])
-    rx, err = _regex_derle(desen)
+    rx, err = _regex_derle(desen, job.get("motor"))
     if err:
         return {"status": "error", "error": err, "checks": [], "segs": []}
     tester = Tester("", {}, Capture(), job.get("stdin", ""), job)
@@ -587,6 +609,11 @@ def do_regex_test(job):
 
 def do_regex_dis(job):
     desen = _desen(job["code"])
+    if job.get("motor") == "pcre2":
+        rx, err = _regex_derle(desen, "pcre2")
+        if err:
+            return {"status": "error", "error": err, "text": ""}
+        return {"status": "ok", "text": _pcre2().bilgi(desen)}
     buf = io.StringIO()
     try:
         with contextlib.redirect_stdout(buf):

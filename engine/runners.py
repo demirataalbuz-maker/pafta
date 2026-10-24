@@ -6,7 +6,8 @@ koşucular aynı düzeneği (sandbox/py_harness.py) ayrı bir süreçte çalış
 fark, düzeneğe hangi modla ve hangi ek bilgilerle gidildiğidir:
 
     python      → run / test / trace (Röntgen) / dis (Bytecode)
-    regex       → kod = desen, girdi = metin; regex_run / regex_test / regex_dis (ağaç)
+    regex       → kod = desen, girdi = metin; regex_run / regex_test / regex_dis (ağaç);
+                  adım meta'sında motor: pcre2 → aynı modlar gerçek PCRE2'de (sandbox/pcre2_engine.py)
     bash, powershell → kod bir betik dosyasına yazılır; proc_run / proc_test / proc_trace
     sql         → bellek içi SQLite; örnek veritabanı (tracks/sql/ornek.sql) + görev hazırlığı;
                   sql_run / sql_test / sql_dis (sorgu planı)
@@ -206,6 +207,13 @@ def for_step(runner, step):
         runner = WslRunner(name)
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
+    motor = meta.get("motor")
+    if motor not in (None, "python", "pcre2"):
+        raise ValueError(f"Bilinmeyen motor: {motor!r}; python veya pcre2 kullanın.")
+    if motor == "pcre2":
+        if not isinstance(runner, RegexRunner):
+            raise ValueError("motor: pcre2 yalnız regex yolunda tanımlı.")
+        runner = Pcre2Runner()
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -219,6 +227,20 @@ class RegexRunner(HarnessRunner):
     name = "regex"
     ozellik = {"roentgen": False, "dis": "Ağaç"}
     modlar = {"run": "regex_run", "test": "regex_test", "dis": "regex_dis"}
+
+
+class Pcre2Runner(RegexRunner):
+    """Adım meta'sında motor: pcre2 → aynı regex modları, gerçek PCRE2 kitaplığında (sandbox/pcre2_engine.py)."""
+    name = "regex-pcre2"
+    ozellik = {"roentgen": False, "dis": "PCRE2"}
+    ek = {"motor": "pcre2"}
+
+    def available(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("pafta_pcre2_engine", os.path.join(ROOT, "sandbox", "pcre2_engine.py"))
+        modul = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(modul)
+        return modul.available()
 
 
 class DetectionRunner(HarnessRunner):
