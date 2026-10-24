@@ -346,25 +346,25 @@
    "durum": "denetime-hazir",
    "kim": "Codex",
    "commit": "bd44e96",
-   "not": "EL20–EL21: gerçek alt süreç gözlemi NDJSON, native ingest/simulate/bulk; strict mapping, 32/64 bit ve tarih sınırları. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+   "not": "EL20–EL21: gerçek alt süreç gözlemi NDJSON, native ingest/simulate/bulk; strict mapping, 32/64 bit ve tarih sınırları. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "Elastic: EQL işlevleri ve mevcut alt kümenin dışında kalan sorgular için gerçek backend": {
    "durum": "denetime-hazir",
    "kim": "Codex",
    "commit": "e3dab5e",
-   "not": "EL22–EL23: gerçek EQL API; functions, baştaki eksik olay, by/maxspan/until. Altı eski tahmin gerçek üründe aynı. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+   "not": "EL22–EL23: gerçek EQL API; functions, baştaki eksik olay, by/maxspan/until. Altı eski tahmin gerçek üründe aynı. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "Elastic: KQL/EQL sorgusunu Elastic Security tespit kuralı olarak işletmek": {
    "durum": "denetime-hazir",
    "kim": "Codex",
    "commit": "c923b11",
-   "not": "EL24–EL25: gerçek query/EQL/threshold ve exception list; preview ayrımı. Task Manager üç türde operational alarm verdi; ikinci pencerede query/EQL yinelenmedi. Öğrenci kendi JSON dosyasını canlı araçla çalıştırabilir. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+   "not": "EL24–EL25: gerçek query/EQL/threshold ve exception list; preview ayrımı. Task Manager üç türde operational alarm verdi; ikinci pencerede query/EQL yinelenmedi. Öğrenci kendi JSON dosyasını canlı araçla çalıştırabilir. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "Elastic: ES|QL ile toplama ve olay tablosunu dönüştürme": {
    "durum": "denetime-hazir",
    "kim": "Codex",
    "commit": "ebfe74c",
-   "not": "EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+   "not": "EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "purple: MITRE ATT&CK ile tespit kapsamı haritası: tekniği kurala eşlemek, Navigator katmanı, boşluk listesi (purple team karşılaştırması, 10-24)": {
    "durum": "denetime-hazir",
@@ -388,7 +388,7 @@
    "durum": "denetime-hazir",
    "kim": "Codex",
    "commit": "ebfe74c",
-   "not": "Madde 44: Excel satırının adı ES|QL içindeki ayraç nedeniyle Elastic: ES diye kesilmiş; Excel değiştirilmedi. EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+   "not": "Madde 44: Excel satırının adı ES|QL içindeki ayraç nedeniyle Elastic: ES diye kesilmiş; Excel değiştirilmedi. EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   }
  }
 }
