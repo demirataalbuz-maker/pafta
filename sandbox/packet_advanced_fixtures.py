@@ -59,6 +59,18 @@ def captures():
     return result
 
 
+def shifted_capture(name):
+    """Prefix one unrelated ARP frame: filters must not hardcode frame IDs."""
+    try:
+        from . import packet_fixtures as pf
+        from .capture_formats import parse_capture
+    except ImportError:
+        import packet_fixtures as pf
+        from capture_formats import parse_capture
+    first=pf.ethernet(pf.arp(),0x0806)
+    return pf.pcap([(first,len(first))]+[(f.data,f.wirelen) for f in parse_capture(captures()[name])])
+
+
 def describe(name):
     try:
         from .capture_formats import parse_capture

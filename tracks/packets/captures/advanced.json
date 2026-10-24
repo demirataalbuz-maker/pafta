@@ -1,0 +1,12 @@
+{
+  "tls-h2": {
+    "file": "tls-h2.pcap",
+    "sha256": "5b372e3d129b6c7155ca4f337904c2e362b7323e380701597b20ac40671c429b",
+    "generator": "tools/build_packet_protocol_corpus.py; Python ssl TLS1.3 / aioquic 1.3.0; in-memory"
+  },
+  "quic-lab": {
+    "file": "quic-lab.pcap",
+    "sha256": "5c2799ca13772d0fba6e0aff77492c521a29b8f1182ed41374a7c0dd282282f3",
+    "generator": "tools/build_packet_protocol_corpus.py; Python ssl TLS1.3 / aioquic 1.3.0; in-memory"
+  }
+}

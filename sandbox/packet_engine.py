@@ -15,6 +15,7 @@ import shutil
 import struct
 import subprocess
 import tempfile
+from pathlib import Path
 
 try:
     from . import bpf_native, packet_fixtures, capture_formats
@@ -58,8 +59,10 @@ def options(text=""):
         value = json.loads(text)
     except (ValueError, TypeError) as exc:
         raise PacketError('Girdi JSON olmalı: {"dil":"wireshark","kayit":"temel"}') from exc
-    if not isinstance(value, dict) or set(value) - {"dil", "kayit", "pcap_base64"}:
-        raise PacketError("Girdi yalnız dil, kayit veya pcap_base64 alanlarını kabul eder.")
+    if not isinstance(value, dict) or set(value) - {"dil", "kayit", "pcap_base64", "anahtar"}:
+        raise PacketError("Girdi yalnız dil, kayit, pcap_base64 ve anahtar alanlarını kabul eder.")
+    if value.get('anahtar','yok') not in ('yok','yanlis','tls-h2','quic-lab'):
+        raise PacketError('anahtar: yok, yanlis, tls-h2 veya quic-lab olmalı; dosya yolu kabul edilmez.')
     if "kayit" in value and "pcap_base64" in value:
         raise PacketError("kayit ile pcap_base64 birlikte verilmez.")
     if value.get("dil", "wireshark") not in ("wireshark", "bpf"):
@@ -154,7 +157,7 @@ def _display_numeric_addresses(code):
 
 
 @functools.lru_cache(maxsize=32)
-def _display(code, raw):
+def _display(code, raw, key='yok'):
     _display_numeric_addresses(code)
     exe = tshark_path()
     if not exe:
@@ -166,7 +169,9 @@ def _display(code, raw):
         # own protocol data and an empty personal configuration/plugin folder.
         env.pop("WIRESHARK_RUN_FROM_BUILD_DIRECTORY", None)
         env.pop("WIRESHARK_DATA_DIR", None)
+        keyfile=_key_file(key,config)
         command = [exe, "-n", "-o", "nameres.use_external_name_resolver:FALSE",
+                   '-o','tls.keylog_file:'+keyfile,
                    "-r", "-", "-Y", code, "-T", "fields", "-e", "frame.number"]
         try:
             result = subprocess.run(command, input=raw, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -194,13 +199,30 @@ def _bpf(code, raw):
     return tuple(bpf_native.evaluate(code, raw))
 
 
-def evaluate(code, capture="temel", dialect="wireshark"):
+def _key_file(key,directory):
+    if key not in ('yok','yanlis','tls-h2','quic-lab'):
+        raise PacketError('Bilinmeyen eğitim anahtarı; dosya yolu kabul edilmez.')
+    if key=='yok':return ''
+    root=Path(__file__).resolve().parent.parent/'tracks/packets/captures'
+    if key=='yanlis':
+        lines=(root/'tls-h2.keys').read_text(encoding='ascii').splitlines()
+        content='\n'.join(' '.join(line.split()[:-1]+['0'*len(line.split()[-1])])
+                          for line in lines if line and not line.startswith('#'))+'\n'
+    else:
+        content=(root/(key+'.keys')).read_text(encoding='ascii')
+    path=Path(directory)/'training.keys';path.write_text(content,encoding='ascii')
+    return str(path)
+
+
+def evaluate(code, capture="temel", dialect="wireshark", key='yok'):
     if not isinstance(code, str) or len(code.encode("utf-8")) > MAX_FILTER or "\0" in code:
         raise PacketError("Filtre en fazla 16 kB, NUL içermeyen metin olmalı.")
     raw = capture_bytes(capture)
     if dialect == "wireshark":
-        return list(_display(code, raw))
+        return list(_display(code, raw) if key=='yok' else _display(code,raw,key))
     if dialect == "bpf":
+        if key!='yok':
+            raise PacketError('BPF TLS oturum anahtarlarını kullanmaz.')
         return list(_bpf(code, raw))
     raise PacketError("Bilinmeyen filtre dili: " + str(dialect))
 
@@ -216,7 +238,7 @@ def pcap_lengths(raw):
 def run(code, stdin=""):
     config = options(stdin)
     raw = input_capture(config)
-    ids = evaluate(code, raw, config["dil"])
+    ids = evaluate(code, raw, config["dil"],config.get('anahtar','yok'))
     out = "Paketler: " + (", ".join(map(str, ids)) if ids else "(yok)") + "\n"
     lengths = pcap_lengths(raw)
     rows = [[i, *lengths.get(i, ("?", "?"))] for i in ids]
@@ -257,9 +279,10 @@ def test_helpers(code, stdin=""):
     config = options(stdin)
     selected = input_capture(config)
     dialect = config["dil"]
-    evaluate(code, selected, dialect)  # Invalid filters cannot pass a vacuous test.
+    key=config.get('anahtar','yok')
+    evaluate(code, selected, dialect,key)  # Invalid filters cannot pass a vacuous test.
     return {"src": code,
-            "eslesenler": lambda kayit=None: evaluate(code, selected if kayit is None else kayit, dialect),
-            "referans": lambda filtre, kayit=None, dil=None: evaluate(filtre, selected if kayit is None else kayit, dil or dialect),
+            "eslesenler": lambda kayit=None,anahtar=None: evaluate(code, selected if kayit is None else kayit, dialect,key if anahtar is None else anahtar),
+            "referans": lambda filtre, kayit=None, dil=None,anahtar=None: evaluate(filtre, selected if kayit is None else kayit, dil or dialect,key if anahtar is None else anahtar),
             "korpuslar": tuple(packet_fixtures.captures()),
             "paketler": packet_fixtures.describe}

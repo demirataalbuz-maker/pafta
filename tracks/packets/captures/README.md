@@ -1,5 +1,18 @@
 # Eğitim PCAP kayıtları
 
+## TLS / HTTP2 / QUIC korpusu
+
+`tools/build_packet_protocol_corpus.py` kurulu Kali ssl/cryptography/hpack ve
+aioquic ile bellekte TLS 1.3–h2 ve QUIC oturumları üretir; soket açmaz.
+`tls-h2.pcap` içinde HTTP/2 yanıtları 200/201/202; `quic-lab.pcap` içinde
+ALPN pafta-lab ve PAFTA-QUIC-LAB stream verisi vardır (HTTP/3 değildir).
+`*.keys` yalnız bu eğitim oturumlarının sırlarıdır; kullanıcının sırrı yoktur.
+JSON `anahtar`: yok / yanlis / tls-h2 / quic-lab. Dosya yolu alınmaz.
+Doğru sır, sır yokluğu ve yanlış sır testlerle ayrılır. Anahtar profili
+TShark'ın geçici kişisel yapılandırmasına uygulanır. Kriptografik üretim
+rastlantısaldır; üreticiyi yeniden çalıştırınca kayıt ve anahtar dosyaları
+birlikte güncellenmeli, tahminler ve testler gerçek motorda doğrulanmalıdır.
+
 ## PCAPNG ve link-layer uzantısı
 
 `arayuzler` kaydı `sandbox/packet_advanced_fixtures.py` tarafından üretilir:

@@ -7,7 +7,7 @@
  "runner": "packets",
  "dil": "packets",
  "role": "Paket kayıtlarında görüntü filtresi ve yakalama filtresi yazmak: gerçek TShark ve native libpcap BPF ile çevrimdışı inceleme.",
- "tagline": "20 pafta, 6 rütbe: gerçek TShark/libpcap ile PCAP ve çok arayüzlü PCAPNG incelemesi.",
+ "tagline": "22 pafta, 6 rütbe: PCAPNG, gerçek TLS/HTTP2 ve QUIC görünürlüğü; TShark/libpcap ile testli inceleme.",
  "kahraman": [
   "Paketten",
   "Bulgulara",
@@ -101,6 +101,14 @@
    "lessons": [
     "pk19",
     "pk20"
+   ]
+  },
+  {
+   "title": "Şifreli Trafik ve Görünürlük",
+   "rank": "baspehlivan",
+   "lessons": [
+    "pk21",
+    "pk22"
    ]
   }
  ]

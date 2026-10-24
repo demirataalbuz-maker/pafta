@@ -1,0 +1,288 @@
+{
+  "lessons": 2,
+  "tasks": 4,
+  "predictions": 2,
+  "mutations": 7,
+  "equivalent": 0,
+  "failures": [],
+  "records": [
+    {
+      "lesson": "pk21",
+      "step": 2,
+      "change": "solution",
+      "code": "tls.handshake.extensions_server_name == \"pafta.lab.test\"",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk21",
+      "step": 2,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "anahtarsız açık ClientHello",
+          "got": "[]",
+          "exp": "[4]"
+        },
+        {
+          "ok": false,
+          "msg": "anahtar SNI seçimini değiştirmez",
+          "got": "[]",
+          "exp": "[4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk21",
+      "step": 2,
+      "change": "==→!= at 37",
+      "code": "tls.handshake.extensions_server_name != \"pafta.lab.test\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "anahtarsız açık ClientHello",
+          "got": "[]",
+          "exp": "[4]"
+        },
+        {
+          "ok": false,
+          "msg": "anahtar SNI seçimini değiştirmez",
+          "got": "[]",
+          "exp": "[4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk21",
+      "step": 3,
+      "change": "solution",
+      "code": "http2.headers.status == 201",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk21",
+      "step": 3,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "200/201/202 yanıt komşuları",
+          "got": "[]",
+          "exp": "[18]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası kaydı",
+          "got": "[]",
+          "exp": "[19]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk21",
+      "step": 3,
+      "change": "==→!= at 21",
+      "code": "http2.headers.status != 201",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "200/201/202 yanıt komşuları",
+          "got": "[14, 22]",
+          "exp": "[18]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası kaydı",
+          "got": "[15, 23]",
+          "exp": "[19]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk21",
+      "step": 3,
+      "change": "201→200 at 24",
+      "code": "http2.headers.status == 200",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "200/201/202 yanıt komşuları",
+          "got": "[14]",
+          "exp": "[18]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası kaydı",
+          "got": "[15]",
+          "exp": "[19]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk21",
+      "step": 3,
+      "change": "201→202 at 24",
+      "code": "http2.headers.status == 202",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "200/201/202 yanıt komşuları",
+          "got": "[22]",
+          "exp": "[18]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası kaydı",
+          "got": "[23]",
+          "exp": "[19]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk22",
+      "step": 2,
+      "change": "solution",
+      "code": "quic.long.packet_type == 0",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk22",
+      "step": 2,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Initial ile Handshake/short header farklı",
+          "got": "[]",
+          "exp": "[1, 2, 4]"
+        },
+        {
+          "ok": false,
+          "msg": "sırlar paket türünü değiştirmez",
+          "got": "[]",
+          "exp": "[1, 2, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk22",
+      "step": 2,
+      "change": "==→!= at 22",
+      "code": "quic.long.packet_type != 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Initial ile Handshake/short header farklı",
+          "got": "[3]",
+          "exp": "[1, 2, 4]"
+        },
+        {
+          "ok": false,
+          "msg": "sırlar paket türünü değiştirmez",
+          "got": "[3]",
+          "exp": "[1, 2, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk22",
+      "step": 2,
+      "change": "0→1 at 25",
+      "code": "quic.long.packet_type == 1",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Initial ile Handshake/short header farklı",
+          "got": "[]",
+          "exp": "[1, 2, 4]"
+        },
+        {
+          "ok": false,
+          "msg": "sırlar paket türünü değiştirmez",
+          "got": "[]",
+          "exp": "[1, 2, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk22",
+      "step": 3,
+      "change": "solution",
+      "code": "quic.stream_data == 50:41:46:54:41:2d:51:55:49:43:2d:4c:41:42",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk22",
+      "step": 3,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "doğru sırlarla gerçek stream verisi",
+          "got": "[]",
+          "exp": "[8]"
+        },
+        {
+          "ok": false,
+          "msg": "başka başlangıç frame'i",
+          "got": "[]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk22",
+      "step": 3,
+      "change": "==→!= at 17",
+      "code": "quic.stream_data != 50:41:46:54:41:2d:51:55:49:43:2d:4c:41:42",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "doğru sırlarla gerçek stream verisi",
+          "got": "[]",
+          "exp": "[8]"
+        },
+        {
+          "ok": false,
+          "msg": "başka başlangıç frame'i",
+          "got": "[]",
+          "exp": "[9]"
+        }
+      ]
+    }
+  ]
+}
