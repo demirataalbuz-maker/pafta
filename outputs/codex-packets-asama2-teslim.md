@@ -73,7 +73,7 @@ manifestidir; yükleyici dosya özetlerini doğrular.
   tools.test_packet_capture_lab tools.test_packet_app`: **35 test temiz**.
 - API testinde PK03/PK13 yanında PK24/PK29 tahmin, görev, ilerleme ve tekrar
   akışı; gerçek CLI export ve gerçek loopback yakalaması doğrulandı.
-- Node arayüz testleri (packet/Elastic/CMD): **18 test temiz**; komutların
+- Node arayüz testleri (packet/Elastic/CMD): **19 test temiz**; komutların
   editöre yüklenmesi, stdout + dosya tablosu, tam zaman/arayüz alanları,
   HTML kaçışı ve tahmin öncesi çalıştırma düğmesinin gizlenmesi sınanır.
 - Değişen kaynaklar UTF-8/LF; git diff --check temiz.

@@ -6,13 +6,15 @@ import {codeBlock,render,stripAnno,regexParcala,dilAdi} from '../web/md.js';
 import {highlightLines,esc} from '../web/hl.js';
 
 function appHarness() {
+  const reply={};
   const element=()=>({content:'token',innerHTML:'',classList:{add(){},toggle(){}},
     querySelector(){return element();},querySelectorAll(){return [];}});
   const document={querySelector(){return element();},querySelectorAll(){return [];}};
   let source=readFileSync(new URL('../web/app.js',import.meta.url),'utf8');
   source=source.replace(/^import .*;\r?\n/gm,'').replace(/\bboot\(\);\s*$/,'');
-  return runInNewContext(source+'\n({Bench,firstCode,lessonLanguage,TAHMIN_DIL});',
-    {document,render,codeBlock,stripAnno,regexParcala,dilAdi,esc,console,setTimeout,clearTimeout});
+  const app=runInNewContext(source+'\napi=async()=>packetApiResult;\n({Bench,firstCode,lessonLanguage,TAHMIN_DIL,S,sheetClick});',
+    {document,render,codeBlock,stripAnno,regexParcala,dilAdi,esc,console,setTimeout,clearTimeout,packetApiResult:reply});
+  return {...app,reply};
 }
 
 test('real packet CLI fences are runnable and populate the editor',()=>{
@@ -52,4 +54,19 @@ test('capture interface identity and exact time fractions remain visible',()=>{
   assert.ok(pane.innerHTML.includes('Arayüz ve tam zaman bilgisi'));
   assert.ok(pane.innerHTML.includes('1700000003000000001/1000000000'));
   assert.ok(pane.innerHTML.includes('LINKTYPE'));
+});
+
+test('inline narration CLI run preserves stdout alongside exported files',async()=>{
+  const app=appHarness();
+  app.S.yol={dil:'packets'};app.S.tid='packets';app.S.idx=0;
+  app.S.lesson={lesson:{id:'pk28',steps:[{stdin:'{"dil":"tshark","kayit":"olay"}'}]}};
+  app.S.bench={stdin:{value:'{"dil":"tshark","kayit":"olay"}'}};
+  Object.assign(app.reply,{packet_backend:'TShark CLI',packet_dialect:'tshark',
+    segs:[['out','native hierarchy output']],tablolar:[{sutunlar:['Dosya'],satirlar:[['download']]}]});
+  const out={innerHTML:'',classList:{add(){}}};
+  const block={dataset:{src:'tshark -r secili -q -z io,phs'},querySelector(){return out;}};
+  const button={dataset:{act:'run'},closest(){return block;}};
+  await app.sheetClick({target:{closest(selector){return selector==='[data-act]'?button:null;}}});
+  assert.ok(out.innerHTML.includes('native hierarchy output'));
+  assert.ok(out.innerHTML.includes('download'));
 });
