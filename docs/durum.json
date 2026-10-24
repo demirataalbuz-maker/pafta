@@ -23,18 +23,10 @@
    "not": "BS31 commit edilmemiş"
   },
   "CMD: wevtutil ile offline EVTX sorgu ve export": {
-   "durum": "taslak",
-   "kim": "Claude (Yazar 1)",
-   "dosyalar": [
-    "tracks/cmd/lessons/cm19-evtx-sorgu.md",
-    "tracks/cmd/lessons/cm20-evtx-aktarim.md",
-    "sandbox/evtx_fixtures.py",
-    "engine/runners.py",
-    "tools/test_cmd_curriculum.py",
-    "tools/test_cmd_integration.py",
-    "tracks/cmd/track.json"
-   ],
-   "not": "CM19, CM20 commit edilmemiş; Excel'de Codex'e atanmış"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "def85ee",
+   "not": "CM19–CM20: 2 ders, 4 görev, 2 gerçek tahmin. CMD yolu Windows ve Git Bash'te 20 ders/117 kontrol temiz; 25 mutasyon reddedildi. sandbox/evtx_fixtures.py sentetik EVTX üretir; engine/runners.py bu dosyayı geçici CMD klasörüne kopyalar. Rapor: outputs/codex-14-evtx-teslim.md."
   },
   "HTTP ve HTML: JWT yapısı, imza doğrulama tuzakları ve OAuth2/OIDC yönlendirme akışı": {
    "durum": "denetime-hazir",
