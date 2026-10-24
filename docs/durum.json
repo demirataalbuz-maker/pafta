@@ -53,10 +53,10 @@
    "not": "HT16; git geçmişinden tespit"
   },
   "SQL: SQLite dışındaki SQL lehçelerini gerçek motorlarda kullanmak": {
-   "durum": "kismen",
+   "durum": "calisiliyor",
    "kim": "Claude (Yazar 2)",
    "commit": "05b1a4e",
-   "not": "PostgreSQL motoru hazır (motor: postgres); MySQL/SQL Server ayakları ve lehçe dersi açık"
+   "not": "PostgreSQL motoru hazır (05b1a4e); şimdi MariaDB motoru (Kali) ve SQLite/PostgreSQL/MariaDB lehçe dersi. Kullanıcı onayıyla (10-24)"
   },
   "SQL: Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi": {
    "durum": "denetime-hazir",
@@ -78,9 +78,9 @@
   },
   "Regex: RX16'daki lehçe bilgisini gerçek motorlarda sınamak": {
    "durum": "kismen",
-   "kim": "Claude (Yazar 2)",
+   "kim": "Claude (Yazar 2) · sırada",
    "commit": "6291614",
-   "not": "PCRE2 motoru hazır (motor: pcre2); .NET/Node ayakları ve karşılaştırma dersi açık"
+   "not": "PCRE2 motoru hazır (motor: pcre2); .NET/Node ayakları ve karşılaştırma dersi açık · Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
   },
   "Regex: Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak": {
    "durum": "denetime-hazir",
@@ -132,6 +132,111 @@
    "durum": "codex-onerildi",
    "kim": "Codex (önerildi)",
    "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Excel'de Antigravity (10-24 03:33'te HT16 commit etti, aktif olabilir)"
+  },
+  "C: Heap sahipliği, alias ve realloc başarısızlığını izlemek": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "C: POSIX fd, kısa I/O ve hata akışı": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "C: Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "Assembly: ELF/PE yükleyici bağlamı ve adres türlerini okumak": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "Assembly: x86-32 cdecl/stdcall çağrı kurallarını okumak": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "Assembly: x86-64 syscall (0f 05) ABI'si ve Windows ntdll sistem çağrısı şablonunu okumak": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "Java: Spring Data JPA ve transaction proxy akışı": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "C#: Klasik ASP.NET/System.Web yaşam döngüsü": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "JavaScript: Gerçek Express Router ve hata akışını okumak": {
+   "durum": "",
+   "kim": "Claude (Yazar 2) · sırada",
+   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+  },
+  "Java: Serialization nesne grafiği, callback ve filtre sınırlarını okumak": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "C#: Nesne grafiği serializer'larında güvenilmeyen veri akışı": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "PHP: unserialize callback ve autoload grafiğini izlemek": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "JavaScript: Prototype pollution: kaynak→kalıtılan özellik→karar": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "Active Directory: Nesne ACL'leri ve etkili yetkilerden erişim yolu çıkarmak": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "Active Directory: Mevcut devir türlerinin üzerine gerçek S4U/bilet akışı ve yapılandırma doğrulaması": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "Active Directory: AD CS ve sertifika şablonu/izin denetimi": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "HTTP ve HTML: Burp Proxy → History → Repeater iş akışı": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "HTTP ve HTML: curl ile HTTPS, CA ve hostname doğrulaması": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "HTTP ve HTML: Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "HTTP ve HTML: İki hesaplı nesne yetkilendirme matrisi": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+  },
+  "HTTP ve HTML: WebSocket el sıkışması (101) ve GraphQL sorgu/yetki okuma": {
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   }
  }
 }
