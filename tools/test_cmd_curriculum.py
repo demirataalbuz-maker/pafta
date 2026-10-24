@@ -20,7 +20,7 @@ class CmdCurriculumTests(unittest.TestCase):
         self.assertEqual(self.outline["runner"], "cmd")
         self.assertEqual(self.outline["dil"], "cmd")
         self.assertFalse(self.outline.get("okuma_dili"))
-        self.assertEqual(self.outline["order"], [f"cm{i:02}" for i in range(1, 23)])
+        self.assertEqual(self.outline["order"], [f"cm{i:02}" for i in range(1, 25)])
         self.assertEqual(len(self.outline["ranks"]), 6)
         self.assertEqual({m["rank"] for m in self.outline["modules"]},
                          {r["id"] for r in self.outline["ranks"]})

@@ -21,7 +21,7 @@ Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygu
 | **Sigma** | 18 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma ayrıştırıcısı + JSON olaylarında yerel test backend'i | hazır |
 | **YARA** | 18 (6 rütbe; metin/hex, regex, sayım/konum, PE/hash/math, yanlış pozitifler ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
 | **Elastic / Kibana** | 19 (6 rütbe; Kibana KQL, Lucene query string, Elastic EQL; sorgu yazma, mapping, zaman, olay dizileri ve gerçek ortam dersi) | `elastic`: KQL/Lucene gerçek Apache Lucene 9.12.3 üzerinde; EQL açık sınırları olan yerel yorumlayıcı | hazır |
-| **CMD / Batch** | 22 (6 rütbe; parametreler, değişken açılımı, for/for /f, dosya ve metin akışı, hata kodları, EVTX ve yapılandırma sorguları) | `cmd`: gerçek Windows cmd.exe; run/test, UTF-8 girdi/çıktı | hazır |
+| **CMD / Batch** | 24 (6 rütbe; parametreler, değişken açılımı, for/for /f, dosya ve metin akışı, EVTX, yapılandırma, token ve DACL sorguları) | `cmd`: gerçek Windows cmd.exe; run/test, UTF-8 girdi/çıktı | hazır |
 | **Wireshark / tcpdump** | 18 (6 rütbe; görüntü filtreleri, adres/port/alanlar, DNS/HTTP, BPF byte/uzunluk/bayrak koşulları, fragment/VLAN ve projeler) | `packets`: gerçek TShark 4.6.8 + libpcap 1.10.6 BPF, offline PCAP üzerinde filtre yazma ve test | hazır |
 | **Active Directory ve LDAP** | 12 (6 rütbe; DN/OU/CN ağacı, RFC 4515 LDAP filtreleri, joker/varlık/kaçış dizileri, userAccountControl bit eşleşmesi 803/804, Get-ADUser/Get-ADComputer/Get-ADGroup/Get-ADGroupMember -Recursive ve 1941 zincir kuralı, SPN/temsil/hesap denetimi, AD güvenlik günlükleri, GPO/Kerberos/AdminSDHolder/çoğaltma okuma ve Windows Server AD laboratuvar kurulumu) | `ad`: [sandbox/ad_engine.py](sandbox/ad_engine.py) `DC=pafta,DC=local` dizini üzerinde RFC 4515 LDAP ve `Get-AD*` değerlendiricisi; LDAP düğmesi etkin filtreyi gösterir | hazır |
 
@@ -138,6 +138,7 @@ python tools/test_cmd_curriculum.py
 python tools/test_cmd_integration.py
 python tools/audit_cmd_mutations.py
 python tools/test_cmd_config_mutations.py
+python tools/test_cmd_token_mutations.py
 node --test tools/test_cmd_ui.mjs
 ```
 
@@ -259,3 +260,5 @@ Sunucu kod çalıştırdığı için üç kilit var: yalnızca `127.0.0.1`'e ba�
 CMD CM19–CM20: yerleşik wevtutil ile çevrimdışı EVTX sorgu ve aktarımı. Sentetik kayıtlar geçici EVT dosyasından Windows tarafından gerçek EVTX’e dönüştürülür; ek paket veya yönetici kurulumu gerekmez. Unicode XML çıktısı /uni:true ile UTF-16LE olarak saklanır.
 
 CMD CM21–CM22: yerleşik `sc.exe`, `schtasks.exe` ve `reg.exe` ile salt okunur servis, görev ve kayıt defteri sorguları. Sonuçlar canlı makineye göre değişir; testler sabit hizmet adlarını ve başarısız sorgu sınırlarını denetler.
+
+CMD CM23–CM24: `whoami.exe` ile canlı tokenın kullanıcı, grup ve ayrıcalık CSV'si; `icacls.exe` ile yalnız geçici dosyaların DACL görünümü ve ayrıca gerçek dosya okuma tanığı. ACL değiştirilmez.
