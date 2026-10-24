@@ -1264,6 +1264,245 @@ def do_ad_dis(job):
         return {"status": "error", "error": {"type": "ADHatası", "msg": str(exc), "line": line, "frames": [], "where": "kod"}, "text": ""}
 
 
+# ── PostgreSQL (SQL yolu, adım meta'sında motor: postgres): WSL'deki gerçek küme ──
+# Her iş kendi veritabanını (pafta_lab) ve yönetici rolünü (pafta_yonetici: CREATEROLE,
+# süper kullanıcı değil) kurar; kullanıcının betiği ve görevin hazırlığı bu rolle çalışır.
+# Dersin oluşturduğu roller pafta_yonetici'nin yönettiği rollerdir; iş bitince (ya da
+# önceki iş yarıda kaldıysa sonraki iş başlarken) hepsi silinir. Roller kümede ortak
+# olduğu için işler danışma kilidiyle sıraya girer.
+
+PG_DB = "pafta_lab"
+PG_YONETICI = "pafta_yonetici"
+PG_KILIT = 7_342_001
+
+
+def _pg_temizle(admin):
+    cur = admin.cursor()
+    cur.execute("SELECT pid FROM pg_stat_activity WHERE datname = %s AND pid <> pg_backend_pid()", (PG_DB,))
+    for (pid,) in cur.fetchall():
+        cur.execute("SELECT pg_terminate_backend(%s)", (pid,))
+    cur.execute(f"DROP DATABASE IF EXISTS {PG_DB} WITH (FORCE)")
+    cur.execute("""SELECT r.rolname FROM pg_auth_members m
+                   JOIN pg_roles r ON r.oid = m.roleid
+                   JOIN pg_roles y ON y.oid = m.member
+                   WHERE y.rolname = %s AND m.admin_option AND r.rolname <> %s""", (PG_YONETICI, PG_YONETICI))
+    for (rol,) in cur.fetchall():
+        cur.execute("DROP OWNED BY " + _pg_ad(rol))      # başka veritabanlarındaki izinler
+        cur.execute("DROP ROLE IF EXISTS " + _pg_ad(rol))
+    cur.execute("SELECT 1 FROM pg_roles WHERE rolname = %s", (PG_YONETICI,))
+    if cur.fetchone():
+        cur.execute(f"DROP OWNED BY {PG_YONETICI}")
+        cur.execute(f"DROP ROLE {PG_YONETICI}")
+
+
+def _pg_ad(ad):
+    return '"' + ad.replace('"', '""') + '"'
+
+
+class _PgLab:
+    """Bir işin PostgreSQL ortamı: süper kullanıcı (admin) ve yönetici bağlantıları."""
+
+    def __init__(self, job):
+        import psycopg2
+        import secrets
+        self.pg = psycopg2
+        self.job = job
+        self.kontrol = psycopg2.connect(dbname="postgres")
+        self.kontrol.autocommit = True
+        self.kontrol.cursor().execute("SELECT pg_advisory_lock(%s)", (PG_KILIT,))
+        self.yonetici = self.admin = None
+        self.parola = secrets.token_hex(16)
+        try:
+            self.kur()
+        except Exception:
+            self.kapat()
+            raise
+
+    def kur(self, ek=""):
+        cur = self.kontrol.cursor()
+        _pg_temizle(self.kontrol)
+        cur.execute(f"CREATE ROLE {PG_YONETICI} LOGIN CREATEROLE PASSWORD %s", (self.parola,))
+        cur.execute(f"CREATE DATABASE {PG_DB} OWNER {PG_YONETICI}")
+        self.yonetici = self.pg.connect(dbname=PG_DB, user=PG_YONETICI, password=self.parola, host="127.0.0.1")
+        self.yonetici.autocommit = True
+        self.admin = self.pg.connect(dbname=PG_DB)          # testlerin kataloğu ve SET ROLE denemeleri için
+        self.admin.autocommit = True
+        for parca in (self.job.get("setup"), ek):
+            if parca:
+                self.yonetici.cursor().execute(parca)
+
+    def kapat(self):
+        for c in (self.yonetici, self.admin):
+            if c is not None:
+                try:
+                    c.close()
+                except Exception:
+                    pass
+        try:
+            _pg_temizle(self.kontrol)
+            self.kontrol.cursor().execute("SELECT pg_advisory_unlock(%s)", (PG_KILIT,))
+        finally:
+            self.kontrol.close()
+
+
+def _pg_hatasi(e, satir=None, ifade=""):
+    kod = getattr(e, "pgcode", None) or ""
+    ham = (getattr(e, "pgerror", None) or str(e)).strip()
+    ilk = ham.splitlines()[0] if ham else str(e)
+    ilk = re.sub(r"^ERROR:\s*", "", ilk)
+    tr = {"42501": "yetki yok", "42P01": "böyle bir tablo yok", "42703": "böyle bir sütun yok",
+          "42601": "sözdizimi hatası", "42704": "böyle bir nesne yok", "42710": "nesne zaten var",
+          "2BP01": "nesneye bağlı başka nesneler var", "0LP01": "geçersiz yetki verme"}.get(kod)
+    msg = (tr + "  ·  " if tr else "") + f"({kod}) {ilk}" if kod else ilk
+    return {"type": "SQLHatası", "msg": msg, "line": satir, "frames": [], "where": "kod",
+            "text": (ifade.split("\n") or [""])[0], "pgcode": kod}
+
+
+def _pg_deger(v):
+    if v is None:
+        return None
+    if isinstance(v, bool):
+        return "t" if v else "f"                  # psql'in yazdığı gibi
+    if isinstance(v, (bytes, memoryview)):
+        return "\\x" + bytes(v).hex()
+    if isinstance(v, (list, tuple)):
+        return "{" + ",".join("NULL" if x is None else str(x) for x in v) + "}"
+    return str(v)
+
+
+def _pg_kos(baglanti, kod):
+    tablolar, hamlar = [], []
+    cur = baglanti.cursor()
+    for ifade, satir in _sql_parcala(kod):
+        try:
+            cur.execute(ifade)
+        except baglanti_hatasi() as e:
+            return tablolar, hamlar, _pg_hatasi(e, satir, ifade)
+        if cur.description:
+            sutunlar = [d[0] for d in cur.description]
+            satirlar = cur.fetchmany(SQL_SATIR_LIMIT + 1)
+            kesildi = len(satirlar) > SQL_SATIR_LIMIT
+            satirlar = [tuple(r) for r in satirlar[:SQL_SATIR_LIMIT]]
+            hamlar.append(satirlar)
+            tablolar.append({"satir": satir, "sutunlar": sutunlar, "kesildi": kesildi,
+                             "satirlar": [[_pg_deger(v) for v in r] for r in satirlar]})
+        else:
+            komut = cur.statusmessage.split()[0] if cur.statusmessage else ifade.split(None, 1)[0].upper()
+            if komut in ("INSERT", "UPDATE", "DELETE", "MERGE"):
+                tablolar.append({"satir": satir, "komut": komut, "degisen": cur.rowcount})
+            else:
+                tablolar.append({"satir": satir, "komut": cur.statusmessage or komut})
+    return tablolar, hamlar, None
+
+
+def baglanti_hatasi():
+    import psycopg2
+    return psycopg2.Error
+
+
+def _pg_ac(job):
+    try:
+        return _PgLab(job), None
+    except ImportError:
+        return None, {"type": "PostgreSQLYok", "msg": "WSL'de psycopg2 yok (Kali: sudo apt install python3-psycopg2).",
+                      "line": None, "frames": [], "where": "test"}
+    except baglanti_hatasi() as e:
+        if not getattr(e, "pgcode", None) and "connect" in str(e).lower():
+            # Küme kapalı: Windows tarafı (PostgresRunner) kümeyi başlatıp bir kez yeniden dener
+            return None, {"type": "PostgreSQLKapalı", "msg": "PostgreSQL kümesine bağlanılamadı: " + str(e).strip()[:300],
+                          "line": None, "frames": [], "where": "test"}
+        hata = _pg_hatasi(e)
+        hata.update(where="test", msg="Görevin PostgreSQL hazırlığı kurulamadı: " + hata["msg"])
+        return None, hata
+
+
+def do_pg_run(job):
+    lab, err = _pg_ac(job)
+    if err:
+        return {"status": "error", "error": err, "segs": [], "tablolar": []}
+    try:
+        tablolar, _, err = _pg_kos(lab.yonetici, job["code"])
+    finally:
+        lab.kapat()
+    cikti = _sql_metin(tablolar)
+    return {"status": "error" if err else "ok", "segs": [["out", cikti]] if cikti else [],
+            "tablolar": tablolar, "error": err}
+
+
+class PgTester(Tester):
+    def __init__(self, job, lab, hamlar, cikti):
+        super().__init__("", {}, Capture(), "", job)
+        self.cap.add("out", cikti)
+        self.code = job.get("code", "")
+        self.lab = lab
+
+    def sorgu(self, sql, *params):
+        """Kullanıcının betiğinden SONRAKİ veritabanında, süper kullanıcı olarak (katalog her şeyi görür)."""
+        cur = self.lab.admin.cursor()
+        cur.execute(sql, params or None)
+        return [tuple(r) for r in cur.fetchall()] if cur.description else []
+
+    def rol_olarak(self, rol, sql, *params):
+        """`rol` olarak çalıştır → ('ok', satırlar) ya da ('hata', SQLSTATE). Değişiklik geri alınır."""
+        c = self.lab.admin
+        c.autocommit = False
+        cur = c.cursor()
+        try:
+            cur.execute("SET LOCAL ROLE " + _pg_ad(rol))
+            cur.execute(sql, params or None)
+            return ("ok", [tuple(r) for r in cur.fetchall()] if cur.description else [])
+        except baglanti_hatasi() as e:
+            return ("hata", e.pgcode)
+        finally:
+            c.rollback()
+            c.autocommit = True
+
+    def yapabilir(self, rol, sql, *params):
+        """`rol` bu ifadeyi çalıştırabiliyor mu? Yalnızca yetki hatası (42501) False'tur; başka hata testi bozar."""
+        durum, deger = self.rol_olarak(rol, sql, *params)
+        if durum == "ok":
+            return True
+        if deger == "42501":
+            return False
+        raise AssertionError(f"{rol} için beklenmeyen hata ({deger}): {sql}")
+
+    def dene(self, hazirlik=""):
+        """Temiz bir veritabanına hazırlığı ve `hazirlik`ı kurup betiği yeniden çalıştır → son sorgunun satırları."""
+        for c in (self.lab.yonetici, self.lab.admin):
+            c.close()
+        self.lab.kur(hazirlik)
+        _, hamlar, err = _pg_kos(self.lab.yonetici, self.code)
+        if err:
+            raise UserRunError(err, hazirlik)
+        return hamlar[-1] if hamlar else []
+
+    def kullanir(self, kelime):
+        temiz = re.sub(r"--[^\n]*|/\*.*?\*/|'(?:[^']|'')*'", " ", self.code, flags=re.S)
+        desen = r"\b" + r"\s+".join(map(re.escape, kelime.split())) + r"\b"
+        return re.search(desen, temiz, re.I) is not None
+
+
+def do_pg_test(job):
+    lab, err = _pg_ac(job)
+    if err:
+        return {"status": "error", "error": err, "checks": [], "segs": []}
+    try:
+        tablolar, hamlar, err = _pg_kos(lab.yonetici, job["code"])
+        cikti = _sql_metin(tablolar)
+        segs = [["out", cikti]] if cikti else []
+        if err:
+            return {"status": "error", "checks": [], "segs": segs, "error": err}
+        tester = PgTester(job, lab, hamlar, cikti)
+        tns = tester.namespace()
+        son = next((t for t in reversed(tablolar) if "sutunlar" in t), None)
+        tns.update(src=job.get("code", ""), sonuc=hamlar[-1] if hamlar else [], sonuclar=hamlar,
+                   sutunlar=son["sutunlar"] if son else [], sorgu=tester.sorgu, dene=tester.dene,
+                   kullanir=tester.kullanir, rol_olarak=tester.rol_olarak, yapabilir=tester.yapabilir)
+        return _test_kos(tester, tns, job, segs)
+    finally:
+        lab.kapat()
+
+
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "ad_run": do_ad_run, "ad_test": do_ad_test, "ad_dis": do_ad_dis,
          "packet_run": do_packet_run, "packet_test": do_packet_test,
@@ -1276,7 +1515,8 @@ MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "spl_dis": lambda j: do_ceviri_dis(j, "spl"),
          "regex_run": do_regex_run, "regex_test": do_regex_test, "regex_dis": do_regex_dis,
          "proc_run": do_proc_run, "proc_test": do_proc_test, "proc_trace": do_proc_trace,
-         "sql_run": do_sql_run, "sql_test": do_sql_test, "sql_dis": do_sql_dis}
+         "sql_run": do_sql_run, "sql_test": do_sql_test, "sql_dis": do_sql_dis,
+         "pg_run": do_pg_run, "pg_test": do_pg_test}
 
 
 def main():

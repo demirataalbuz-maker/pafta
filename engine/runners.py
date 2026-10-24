@@ -10,7 +10,8 @@ fark, düzeneğe hangi modla ve hangi ek bilgilerle gidildiğidir:
                   adım meta'sında motor: pcre2 → aynı modlar gerçek PCRE2'de (sandbox/pcre2_engine.py)
     bash, powershell → kod bir betik dosyasına yazılır; proc_run / proc_test / proc_trace
     sql         → bellek içi SQLite; örnek veritabanı (tracks/sql/ornek.sql) + görev hazırlığı;
-                  sql_run / sql_test / sql_dis (sorgu planı)
+                  sql_run / sql_test / sql_dis (sorgu planı); adım meta'sında motor: postgres →
+                  WSL'deki gerçek PostgreSQL (sandbox/pg_lab.py), pg_run / pg_test
 
 Yeni dil = yeni bir Runner nesnesi + RUNNERS'a kayıt.
 """
@@ -208,12 +209,16 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2"):
-        raise ValueError(f"Bilinmeyen motor: {motor!r}; python veya pcre2 kullanın.")
+    if motor not in (None, "python", "pcre2", "sqlite", "postgres"):
+        raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, sqlite veya postgres kullanın.")
     if motor == "pcre2":
         if not isinstance(runner, RegexRunner):
             raise ValueError("motor: pcre2 yalnız regex yolunda tanımlı.")
         runner = Pcre2Runner()
+    elif motor == "postgres":
+        if type(runner) is not SqlRunner:
+            raise ValueError("motor: postgres yalnız SQL yolunda tanımlı.")
+        runner = PostgresRunner()
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -296,6 +301,37 @@ class SqlRunner(HarnessRunner):
     ozellik = {"roentgen": False, "dis": "Plan"}
     modlar = {"run": "sql_run", "test": "sql_test", "dis": "sql_dis"}
     ek = {"tohum": os.path.join(ROOT, "tracks", "sql", "ornek.sql")}
+
+
+class PostgresRunner(HarnessRunner):
+    """Adım meta'sında motor: postgres → WSL'deki gerçek PostgreSQL kümesi (sandbox/pg_lab.py, py_harness pg_*).
+
+    Her iş geçici bir veritabanı ve rollerle başlar, iş bitince hepsi silinir; SQLite'ın
+    örnek veritabanı yüklenmez, tabloları görevin hazırlığı kurar."""
+    name = "sql-postgres"
+    ozellik = {"roentgen": False, "dis": None}
+    modlar = {"run": "pg_run", "test": "pg_test"}
+    default_timeout = 45
+    test_timeout = 90
+
+    def available(self):
+        from sandbox.pg_lab import available
+        return available()
+
+    def execute(self, job, timeout=None, cancel_event=None):
+        from sandbox import pg_lab
+        from sandbox.wsl_process import execute, seconds
+        timeout = seconds(timeout, self.default_timeout)
+        job = dict(self.ek, **job)
+        for deneme in range(2):
+            sorun = pg_lab.hazirla()
+            if sorun:
+                return {"status": "error", "segs": [], "error": {
+                    "type": "PostgreSQLYok", "msg": sorun, "line": None, "frames": [], "where": "kod"}}
+            res = execute(job, timeout, cancel_event)
+            if (res.get("error") or {}).get("type") != "PostgreSQLKapalı":
+                return res
+        return res
 
 
 class KqlRunner(SqlRunner):
