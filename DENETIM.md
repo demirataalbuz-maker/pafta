@@ -53,7 +53,7 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 
 ### Aşama 2 durum tablosu
 
-ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 öneri dahil) burada izlenir; bir madde ancak denetçinin ölçümünden geçince "denetlendi" olur. Durumlar: bekliyor · yazılıyor · denetlendi · geri döndü.
+ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 öneri dahil) ve 24 Ekim'de kullanıcının purple team hedefi için SANS SEC504/SEC599/SEC699 ile OffSec PEN-200/SOC-200 konu listeleriyle karşılaştırmadan çıkan 11 madde (91–101, dalga 3) burada izlenir; bir madde ancak denetçinin ölçümünden geçince "denetlendi" olur. Durumlar: bekliyor · yazılıyor · denetlendi · geri döndü.
 
 | # | Yol | Madde (ASAMA2'deki adıyla) | Dalga | Yazar | Durum |
 |---|---|---|---|---|---|
@@ -147,6 +147,17 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 88 | asm | Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi | 2+ | Antigravity | bekliyor |
 | 89 | asm | x86-32 cdecl/stdcall çağrı kurallarını okumak | 2+ | Antigravity | bekliyor |
 | 90 | asm | x86-64 syscall (0f 05) ABI'si ve Windows ntdll sistem çağrısı şablonunu okumak (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
+| 91 | purple | MITRE ATT&CK ile tespit kapsamı haritası: tekniği kurala eşlemek, Navigator katmanı, boşluk listesi (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 92 | purple | Rakip öykünmesi: Atomic Red Team / Caldera ile kontrollü teknik çalıştırıp tespiti ölçmek (purple team karşılaştırması, 10-24) | 3 | Codex | bekliyor |
+| 93 | purple | Olay müdahale süreci: doğrula, kapsamla, sınırla, temizle; playbook ve olay zaman çizelgesi (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 94 | purple | Uç nokta avcılığı: Velociraptor ve osquery ile canlı sorgu ve kalıcılık taraması (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 95 | purple | Bellek analizi: Volatility 3 / MemProcFS ile süreç, ağ bağlantısı ve enjeksiyon izleri (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 96 | purple | Ağ tespit sistemleri: Suricata kuralları, Zeek günlükleri ve C2 işaretleşmesini tespit (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 97 | purple | Tehdit istihbaratı: MISP, IOC yaşam döngüsü, istihbarattan avcılık sorgusuna (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 98 | purple | Sertleştirme ve önleme: LAPS, ASR kuralları, Exploit Guard, AppLocker politika tasarımı (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 99 | purple | Bulut güvenlik günlükleri: AWS CloudTrail ile Entra ID oturum ve denetim kayıtları (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
+| 100 | purple | Web uygulama güvenliği uygulaması: IDOR, XSS, SQLi, komut enjeksiyonu, API (purple team karşılaştırması, 10-24) | 3 | Codex | bekliyor |
+| 101 | purple | Saldırı tarafı laboratuvarı: Windows/Linux yetki yükseltme, AD kimlik doğrulama saldırıları, yatay hareket (purple team karşılaştırması, 10-24) | 3 | Codex | bekliyor |
 
 | Sıra | Yol | Seviye | Ölçüt | Tezgah | Durum |
 |---|---|---|---|---|---|
