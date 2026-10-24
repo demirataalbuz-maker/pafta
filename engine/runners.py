@@ -416,7 +416,8 @@ class SplunkRunner(HarnessRunner):
     """Adım meta'sında motor: splunk → Docker'daki gerçek Splunk Enterprise (sandbox/splunk_lab.py, py_harness spk_*).
 
     girdi: arama (kod bir SPL araması), props (kod props.conf kıtaları; hazırlığın verisi bu ayarlarla
-    dizine alınır) ya da alarm (kod savedsearches.conf kıtaları). Görevin hazırlığı Python'dur:
+    dizine alınır), alarm (kod savedsearches.conf kıtaları) ya da bilgi (kod '# props.conf', '# eventtypes.conf',
+    '# tags.conf' bölümleri; sonuç hazırlığın goster(...) aramasıdır). Görevin hazırlığı Python'dur:
     props(...), veri(...) ve kayit(...) ile laboratuvarı kurar."""
     name = "spl-splunk"
     ozellik = {"roentgen": False, "dis": None}
@@ -426,8 +427,8 @@ class SplunkRunner(HarnessRunner):
     tavan = 600
 
     def __init__(self, girdi="arama"):
-        if girdi not in ("arama", "props", "alarm"):
-            raise ValueError(f"Bilinmeyen girdi: {girdi!r}; arama, props veya alarm kullanın.")
+        if girdi not in ("arama", "props", "alarm", "bilgi"):
+            raise ValueError(f"Bilinmeyen girdi: {girdi!r}; arama, props, alarm veya bilgi kullanın.")
         self.ek = {"girdi": girdi}
 
     def available(self):

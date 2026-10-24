@@ -132,6 +132,17 @@ def hazirla(bekle=600):
     return f"Splunk API'si {bekle} saniyede açılmadı ({API}); docker logs {KONTEYNER} ile bak."
 
 
+CIM_MODELLER = ("Authentication", "Web", "Network_Traffic", "Endpoint", "Change")
+
+
+def cim_kurulu():
+    try:
+        istek("/services/apps/local/Splunk_SA_CIM")
+        return True
+    except SplunkHatasi:
+        return False
+
+
 def _dizin_kur():
     try:
         icerik = istek(f"/services/data/indexes/{DIZIN}")["entry"][0]["content"]
@@ -141,6 +152,11 @@ def _dizin_kur():
         if not str(e).startswith("404"):
             raise
         istek("/services/data/indexes", {"name": DIZIN, "datatype": "event"})
+    if cim_kurulu():
+        # CIM veri modelleri olayları `cim_<model>_indexes` makrosundaki dizinlerde arar; laboratuvarın dizini
+        for model in CIM_MODELLER:
+            istek(f"/servicesNS/nobody/Splunk_SA_CIM/configs/conf-macros/cim_{model}_indexes",
+                  {"definition": f"(index={DIZIN})"})
     roller = istek("/services/authentication/users/admin")["entry"][0]["content"]["roles"]
     if "can_delete" not in roller:
         istek("/services/authentication/users/admin", {"roles": roller + ["can_delete"]})
@@ -256,10 +272,19 @@ class Lab:
     def _temizle(self):
         for ad in self._kayitli("/servicesNS/nobody/search/saved/searches"):
             istek(f"/servicesNS/nobody/search/saved/searches/{urllib.parse.quote(ad, safe='')}", yontem="DELETE")
-        for ad in self._kayitli("/servicesNS/nobody/search/configs/conf-props"):
-            istek(f"/servicesNS/nobody/search/configs/conf-props/{urllib.parse.quote(ad, safe='')}", yontem="DELETE")
-        if self.say():
+        for dosya in ("props", "eventtypes"):
+            for ad in self._kayitli(f"/servicesNS/nobody/search/configs/conf-{dosya}"):
+                istek(f"/servicesNS/nobody/search/configs/conf-{dosya}/{urllib.parse.quote(ad, safe='')}", yontem="DELETE")
+        etiketler = istek("/servicesNS/nobody/search/configs/conf-tags?count=0").get("entry", [])
+        for e in etiketler:                      # tags.conf kıtası "alan=değer"; değer laboratuvarınsa sil
+            if ONEK in e["name"] and e.get("acl", {}).get("app") == "search":
+                istek(f"/servicesNS/nobody/search/configs/conf-tags/{urllib.parse.quote(e['name'], safe='')}", yontem="DELETE")
+        son = time.time() + 60
+        while self.say():                        # geç ulaşan olay kalmasın: dizin gerçekten boşalana kadar
+            if time.time() > son:
+                raise SplunkHatasi(f"{DIZIN} dizini boşaltılamadı")
             _ara(f"search index={DIZIN} | delete")
+            time.sleep(1)
 
     def bosalt(self):
         """Olayları, pafta_ önekli props kıtalarını ve kayıtlı aramaları sil (testin dene()'si için)."""
@@ -285,6 +310,41 @@ class Lab:
         istek("/servicesNS/nobody/search/configs/conf-props/_reload")
         self.sourcetypelar.add(sourcetype)
 
+    def props_ekle(self, sourcetype, ayarlar):
+        """Var olan [sourcetype] kıtasına ayar ekle ya da değiştir (yoksa kur); hazırlığın ayarları korunur."""
+        if not sourcetype.startswith(ONEK):
+            raise SplunkHatasi(f"laboratuvarın sourcetype adları {ONEK} ile başlamalı: {sourcetype}")
+        yol = "/servicesNS/nobody/search/configs/conf-props"
+        try:
+            istek(f"{yol}/{urllib.parse.quote(sourcetype, safe='')}", ayarlar)
+        except SplunkHatasi as e:
+            if not str(e).startswith("404"):
+                raise
+            istek(yol, dict({"name": sourcetype}, **ayarlar))
+        istek(f"{yol}/_reload")
+
+    def olay_turu(self, ad, arama, **ek):
+        """eventtypes.conf'ta [ad] kıtası."""
+        if not ad.startswith(ONEK):
+            raise SplunkHatasi(f"laboratuvarın olay türü adları {ONEK} ile başlamalı: {ad}")
+        yol = "/servicesNS/nobody/search/configs/conf-eventtypes"
+        try:
+            istek(f"{yol}/{urllib.parse.quote(ad, safe='')}", yontem="DELETE")
+        except SplunkHatasi:
+            pass
+        istek(yol, dict(ek, name=ad, search=arama))
+
+    def etiket(self, alan_deger, ayarlar):
+        """tags.conf'ta [alan=değer] kıtası; ayarlar {etiket: enabled|disabled}. Değer pafta_ önekli olmalı."""
+        if ONEK not in alan_deger.split("=", 1)[-1]:
+            raise SplunkHatasi(f"laboratuvarın etiket kıtası pafta_ önekli bir değere bağlanmalı: [{alan_deger}]")
+        yol = "/servicesNS/nobody/search/configs/conf-tags"
+        try:
+            istek(f"{yol}/{urllib.parse.quote(alan_deger, safe='')}", yontem="DELETE")
+        except SplunkHatasi:
+            pass
+        istek(yol, dict(ayarlar, name=alan_deger))
+
     def yukle(self, metin, sourcetype, kaynak="ders.log"):
         """Ham metni bir dosya olarak konteynere koyup tek seferlik girişle (oneshot) dizine al;
         olaylar aranabilir olana kadar bekle → alınan olay sayısı."""
@@ -306,6 +366,11 @@ class Lab:
         once = self.say()
         istek("/services/data/inputs/oneshot", {"name": hedef, "index": DIZIN, "sourcetype": sourcetype,
                                                 "rename-source": kaynak})
+        son = time.time() + 120                 # tek seferlik giriş dosyayı bitirince listeden düşer
+        while any(e["name"] == hedef for e in istek("/services/data/inputs/oneshot?count=0").get("entry", [])):
+            if time.time() > son:
+                raise SplunkHatasi(f"{kaynak} 120 saniyede dizine alınamadı")
+            time.sleep(0.5)
         return self._bekle_dizin(once) - once
 
     def _bekle_dizin(self, once, timeout=90):

@@ -1822,6 +1822,7 @@ class _SplunkIs:
         self.bekleyen = []
         self.takvim = None
         self.kayma = 0
+        self.gosterim = None
 
     def _hazirlik(self, ek=""):
         def calistir(*anlar, ara=0):
@@ -1832,7 +1833,8 @@ class _SplunkIs:
 
         ns = {"__name__": "__setup__", "props": self.lab.props, "DIZIN": self.S.DIZIN,
               "veri": lambda metin, sourcetype, kaynak="ders.log": self.bekleyen.append((metin, sourcetype, kaynak)),
-              "calistir": calistir, "aralik": aralik}
+              "calistir": calistir, "aralik": aralik, "olay_turu": self.lab.olay_turu, "etiket": self.lab.etiket,
+              "goster": lambda arama: setattr(self, "gosterim", arama)}
         for kod in (self.job.get("setup") or "", ek or ""):
             if kod.strip():
                 exec(compile(kod, "<setup>", "exec"), ns)
@@ -1846,6 +1848,36 @@ class _SplunkIs:
                 raise UserRunError(_spk_hata(f"kıta adı görevin sourcetype'ı olmalı ({self.S.ONEK} ile başlar): [{ad}]",
                                              line=satir), "")
             self.lab.props(ad, ayarlar)
+
+    def _bilgi_uygula(self, kod):
+        """girdi: bilgi → '# props.conf', '# eventtypes.conf', '# tags.conf' başlıklı bölümler. props kıtaları
+        hazırlığın kurduğu kıtaya eklenir (arama zamanı ayarları); olay türleri ve etiketler kurulur."""
+        parcalar = re.split(r"(?m)^#+[ \t]*(props|eventtypes|tags)\.conf[ \t]*$", kod or "")
+        once = parcalar[0]
+        if any(s.strip() and not s.strip().startswith("#") for s in once.splitlines()):
+            raise UserRunError(_spk_hata("bölümler '# props.conf', '# eventtypes.conf' ya da '# tags.conf' "
+                                         "başlığıyla başlamalı", line=1), "")
+        satir = once.count("\n") + 1
+        kuruldu = False
+        for dosya, metin in zip(parcalar[1::2], parcalar[2::2]):
+            for ad, ayarlar, n in _conf_coz(metin, dosya + ".conf"):
+                yer = satir + n
+                try:
+                    if dosya == "props":
+                        self.lab.props_ekle(ad, ayarlar)
+                    elif dosya == "eventtypes":
+                        if "search" not in ayarlar:
+                            raise UserRunError(_spk_hata(f"eventtypes.conf [{ad}] kıtasında search yok", line=yer), "")
+                        ayarlar = dict(ayarlar)
+                        self.lab.olay_turu(ad, ayarlar.pop("search"), **ayarlar)
+                    else:
+                        self.lab.etiket(ad, ayarlar)
+                except self.S.SplunkHatasi as e:
+                    raise UserRunError(_spk_hata(f"{dosya}.conf [{ad}]: {e}", line=yer), "")
+                kuruldu = True
+            satir += 1 + metin.count("\n")
+        if not kuruldu:
+            raise UserRunError(_spk_hata("hiç kıta yazılmadı"), "")
 
     def _alarm_kos(self, kod):
         """Her kıtayı bir kayıtlı arama olarak kur, takvimdeki anlarda alarm eylemleriyle çalıştır →
@@ -1896,6 +1928,8 @@ class _SplunkIs:
         self._hazirlik(ek)
         if self.girdi == "props":
             self._props_uygula(kod)
+        elif self.girdi == "bilgi":
+            self._bilgi_uygula(kod)
         elif self.girdi not in ("arama", "alarm"):
             raise UserRunError(_spk_hata(f"bu girdi desteklenmiyor: {self.girdi}"), "")
         self.kayma = 0
@@ -1911,6 +1945,10 @@ class _SplunkIs:
             self.lab.yukle(_gun_kaydir(metin, self.kayma) if self.kayma else metin, sourcetype, kaynak)
         if self.girdi == "alarm":
             return self._alarm_kos(kod)
+        if self.girdi == "bilgi":
+            if not self.gosterim:
+                raise UserRunError(_spk_hata("görevin hazırlığı gösterilecek aramayı vermedi (goster)", "test"), "")
+            return self.ara(self.gosterim)
         return self.ara(OLAY_ARAMASI.format(dizin=self.S.DIZIN) if self.girdi == "props" else kod)
 
     def ara(self, spl):
