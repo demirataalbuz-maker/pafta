@@ -305,9 +305,10 @@
    "not": "SP21; gerçek Splunk Enterprise 10.6.1 Docker'da (splunk/splunk özetle sabit, yalnız 127.0.0.1, --restart no, deneme lisansı 60 gün), sandbox/splunk_lab.py; adım meta'sı motor: splunk + girdi: props|arama; tools/test_splunk_lab.py"
   },
   "SPL: CIM eşlemesi ve tstats'ı gerçek veri modeli/indeks üstünde çalıştırmak": {
-   "durum": "kismen",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Splunk laboratuvarı hazır (SP21-22); resmi Splunk Common Information Model eklentisi (splunk-common-information-model-cim_850.tgz, SHA-256 doğrulandı) Pafta klasörüne indirildi; kurulum ve ders yazımı bekleniyor"
+   "commit": "(bu commit)",
+   "not": "SP23; resmi Splunk CIM 8.5.0 (kullanıcı Splunkbase'den indirdi) gerçek Splunk'ta; Web veri modeli: FIELDALIAS + eventtype + tag=web zinciri (girdi: bilgi), eşlenmemiş alanın 'unknown' olması, tstats ve summariesonly'nin hızlandırılmamış modelde boş dönmesi. Authentication modeliyle senaryo güvenlik filtresine takıldı, Web modeliyle yazıldı; hızlandırılmış özetle kapsam karşılaştırması yazılmadı"
   },
   "SPL: Sorgudan zamanlanan alarma: tetikleme, zaman aralığı ve bastırma": {
    "durum": "denetime-hazir",
