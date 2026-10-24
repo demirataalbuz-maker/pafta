@@ -343,24 +343,28 @@
    "not": "Yeni yol tracks/ids (5 pafta, runner ids): Suricata 8.0.6 WSL Kali paketi (servis devre dışı, yalnız -r), Zeek 9.0.0 resmi imaj (özetle sabit, --network none); trafik Scapy ile sentetik (sandbox/ids_trafik.py). Ölçülen tuzaklar: nocase/endswith, dotprefix, content:! + endswith, NXDOMAIN yanıtında track by_dst, detection_filter/threshold, Zeek'te ?$ olmadan reporter.log hatası, == ile tek NOTICE. Gerçek olay PCAP'leri yok; C2 işaretleşmesi ve Suricata SSH kuralı yazılmadı (SSH uygulama katmanı alarmı aynı akışta tekrarlıyordu)"
   },
   "Elastic: Gerçek telemetri alımı, ECS ve ingest eşlemesi": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı 41–44 tamamını verdi; resmi Elasticsearch/Kibana 9.5.5 imajlarının indirilmesine onay verdi. Ortak gerçek API tezgahı hazırlanıyor; diğer ajanın IDS dosyalarına dokunulmuyor."
+   "commit": "bd44e96",
+   "not": "EL20–EL21: gerçek alt süreç gözlemi NDJSON, native ingest/simulate/bulk; strict mapping, 32/64 bit ve tarih sınırları. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "Elastic: EQL işlevleri ve mevcut alt kümenin dışında kalan sorgular için gerçek backend": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı 41–44 tamamını verdi; resmi Elasticsearch/Kibana 9.5.5 imajlarının indirilmesine onay verdi. Ortak gerçek API tezgahı hazırlanıyor; diğer ajanın IDS dosyalarına dokunulmuyor."
+   "commit": "e3dab5e",
+   "not": "EL22–EL23: gerçek EQL API; functions, baştaki eksik olay, by/maxspan/until. Altı eski tahmin gerçek üründe aynı. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "Elastic: KQL/EQL sorgusunu Elastic Security tespit kuralı olarak işletmek": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı 41–44 tamamını verdi; resmi Elasticsearch/Kibana 9.5.5 imajlarının indirilmesine onay verdi. Ortak gerçek API tezgahı hazırlanıyor; diğer ajanın IDS dosyalarına dokunulmuyor."
+   "commit": "c923b11",
+   "not": "EL24–EL25: gerçek query/EQL/threshold ve exception list; preview ayrımı. Task Manager üç türde operational alarm verdi; ikinci pencerede query/EQL yinelenmedi. Öğrenci kendi JSON dosyasını canlı araçla çalıştırabilir. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "Elastic: ES|QL ile toplama ve olay tablosunu dönüştürme": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı 41–44 tamamını verdi; resmi Elasticsearch/Kibana 9.5.5 imajlarının indirilmesine onay verdi. Ortak gerçek API tezgahı hazırlanıyor; diğer ajanın IDS dosyalarına dokunulmuyor."
+   "commit": "ebfe74c",
+   "not": "EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "purple: MITRE ATT&CK ile tespit kapsamı haritası: tekniği kurala eşlemek, Navigator katmanı, boşluk listesi (purple team karşılaştırması, 10-24)": {
    "durum": "denetime-hazir",
@@ -379,6 +383,12 @@
    "kim": "Claude (Yazar 2)",
    "commit": "(bu commit)",
    "not": "PU03: Velociraptor 0.77.3 resmi Linux ikilisi (sha256 c2c4eb58..., .deps/velociraptor, WSL'de velociraptor query) ile laboratuvar disk kopyasında VQL avcılığı: başlangıç klasörleri, olay penceresi ve SHA256. Ölçülen: glob ve =~ büyük-küçük harfe duyarsız. osquery ve canlı uç nokta sorgusu yazılmadı (canlı tablolar tekrarlanabilir değil)"
+  },
+  "Elastic: ES": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "ebfe74c",
+   "not": "Madde 44: Excel satırının adı ES|QL içindeki ayraç nedeniyle Elastic: ES diye kesilmiş; Excel değiştirilmedi. EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam uygulama taraması sürüyor; nihai rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   }
  }
 }
