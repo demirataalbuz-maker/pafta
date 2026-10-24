@@ -19,6 +19,25 @@ Uygulamanın **bu API için** politikası: oturum açan iki kullanıcı da publi
 
 Burp Repeater'da aynı POST'u yakala. Önce yalnız variables.id'yi değiştir; sonra secret alanını çıkar/ekle; son olarak bir alias ve fragment kullan. Yanıttaki errors.path alias'ı gösterebilir. Query ve mutation'ı birbirinden ayır. Gerçek motor dilin validation kurallarını uygular; HTTP batching, subscription taşıması, yük sınırı/depth bütçesi ve üretim rate limiting bu küçük uygulamada yoktur.
 
+Şema adlarını okumak için JSON zarfının query alanına şunu koy:
+
+```text
+{ __schema { queryType { name } mutationType { name } } }
+```
+
+`Query` ve `Mutation` adlarını görürsün. Sonraki belge `x` alias'ı ve
+`Alanlar` fragment'ını kullanır; variables yine `{"id":2}` olur:
+
+```text
+query Oku($id:Int!) { x:item(id:$id) { ...Alanlar } }
+fragment Alanlar on Item { id title secret }
+```
+
+Ayşe'nin oturumuyla bu sorguda public id/title kalır; secret null ve
+`errors[0].path` değeri `["x","secret"]` olur. Alanı başka adla istemek yetkiyi
+değiştirmez. `{ item(id:"2") { id } }` ise doğrulama hatasıdır: Int beklenen
+yere metin verdin. Sorgu hatasında resolver yazma işlemi yapılmaz.
+
 Kaynaklar: [GraphQL sorgular](https://graphql.org/learn/queries/), [yetkilendirme](https://graphql.org/learn/authorization/), [introspection](https://graphql.org/learn/introspection/), [graphql-core](https://graphql-core-3.readthedocs.io/).
 :::
 
