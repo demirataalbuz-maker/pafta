@@ -1,0 +1,19 @@
+{
+  "source": "Parent-observed real benign Python child exits; not EVTX/Sysmon/Elastic Agent",
+  "producer": "tools/capture_elastic_telemetry.py",
+  "file": "process.ndjson",
+  "sha256": "e381b51cb67fd5e6f50584eda207f4d3f911d3d1c46bb490629ef05a7f6aac91",
+  "records": 3,
+  "captured_fields": [
+    "id",
+    "at",
+    "exe",
+    "pid",
+    "rc"
+  ],
+  "exit_codes": [
+    0,
+    1,
+    2
+  ]
+}

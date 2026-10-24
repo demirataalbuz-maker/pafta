@@ -15,9 +15,9 @@ import urllib.request
 import uuid
 
 try:
-    from .elastic_common import ElasticError, corpus, selected_documents
+    from .elastic_common import ElasticError, corpus, selected_documents, field_value
 except ImportError:
-    from elastic_common import ElasticError, corpus, selected_documents
+    from elastic_common import ElasticError, corpus, selected_documents, field_value
 
 VERSION = '9.5.5'
 ROOT = Path(__file__).resolve().parents[1]
@@ -131,6 +131,23 @@ def ensure_complete(response):
     if response.get('timed_out') or response.get('is_partial') or response.get('is_running') or response.get('_shards',{}).get('failed',0):
         raise ElasticError('Gerçek Elastic kısmi/zaman aşımı yanıtı döndürdü; sonuç kesin eşleşme sayılmaz.')
 
+def check_processors(processors):
+    if not isinstance(processors,list) or len(processors)>32:
+        raise ElasticError('En çok 32 ingest işlemcisi kabul edilir.')
+    for processor in processors:
+        if not isinstance(processor,dict) or len(processor)!=1 or next(iter(processor)) not in PROCESSORS:
+            raise ElasticError('Bu tezgahta desteklenmeyen ingest işlemcisi; script/pipeline/network işlemleri açılmaz.')
+        args=next(iter(processor.values()))
+        if not isinstance(args,dict):
+            raise ElasticError('İşlemci ayarları nesne olmalı.')
+        for name in ('field','target_field'):
+            fields=args.get(name,[])
+            fields=fields if isinstance(fields,list) else [fields]
+            if any(not isinstance(f,str) or not re.fullmatch(r'[A-Za-z@][\w.@-]*',f) for f in fields):
+                raise ElasticError('İşlemci alanı sabit veri alanı olmalı; _index/_id gibi metadata ve dinamik alan adı kabul edilmez.')
+        if 'on_failure' in args:
+            check_processors(args['on_failure'])
+
 def evaluate(code,config):
     config=options(config)
     if not isinstance(code,str) or not code.strip() or len(code.encode())>16000 or '\0' in code:
@@ -151,16 +168,16 @@ def evaluate(code,config):
                 raise ElasticError('Ingest kodu processors içeren JSON olmalı.') from None
             if not isinstance(body,dict) or set(body)-{'description','processors','on_failure'} or not isinstance(body.get('processors'),list):
                 raise ElasticError('Pipeline yalnız description/processors/on_failure kabul eder.')
-            for processor in body['processors']+body.get('on_failure',[]):
-                if not isinstance(processor,dict) or len(processor)!=1 or next(iter(processor)) not in PROCESSORS:
-                    raise ElasticError('Bu tezgahta desteklenmeyen ingest işlemcisi; script/pipeline/network işlemleri açılmaz.')
+            check_processors(body['processors'])
+            check_processors(body.get('on_failure',[]))
             api('/_ingest/pipeline/'+pipeline,body,'PUT')
             simulated=api('/_ingest/pipeline/'+pipeline+'/_simulate',{'docs':[{'_source':d} for d in config['documents']]})
             items=bulk(index,config['documents'],pipeline)
             hits=api('/'+index+'/_search',{'size':100,'sort':[{'id':'asc'}]})
             ensure_complete(hits)
             return {'documents':[h['_source'] for h in hits['hits']['hits']],
-                    'items':items,'simulation':[{'source':d['doc']['_source']} if 'doc' in d else
+                    'items':items,'simulation':[{'dropped':True} if d is None or d.get('doc','missing') is None else
+                    {'source':d['doc']['_source']} if 'doc' in d else
                     {'error':d.get('error',{}).get('type')} for d in simulated['docs']]}
         # Existing corpus validation gives native EQL identical typed source documents.
         docs=config['documents']
@@ -258,7 +275,7 @@ def rule(code,index,config):
             alerts.append({'ids':[] if threshold else sorted({a['id'] for a in source.get('kibana.alert.ancestors',[]) if a.get('type')=='event'}),
                            'count':threshold.get('count'), 'groups':threshold.get('terms',[])})
         api('/'+preview_index+'/_delete_by_query?refresh=true',{'query':query})
-        alerts.sort(key=lambda a:json.dumps(a,sort_keys=True))
+        alerts.sort(key=lambda a:(json.dumps(a['groups'],sort_keys=True),a['ids'],a['count'] or 0))
         return {'rule':{k:saved.get(k) for k in ('type','language','query','interval','from','to','threshold','enabled') if k in saved},
                 'preview_alerts':alerts,'preview_count':len(alerts)}
     finally:
@@ -294,4 +311,5 @@ def test_helpers(code,stdin):
     def ids(value=None):
         return result(value)['ids']
     return {'src':code,'korpus':copy.deepcopy(config),'sonuc':result,'eslesenler':ids,
+            'alan':field_value,
             'referans':lambda query,veri=None,dil=None:evaluate(query,dict(merged(veri),**({'dil':dil} if dil else {})))}

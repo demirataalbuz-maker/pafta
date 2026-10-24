@@ -6,8 +6,8 @@
   "order": 15,
   "runner": "elastic",
   "dil": "elastic",
-  "role": "SOC için Kibana KQL, Lucene ve Elastic EQL sorgularını yazmak; mapping, zaman, metin ve olay dizilerini sınamak.",
-  "tagline": "19 pafta, 6 rütbe: gerçek Lucene üzerinde KQL ve Lucene sorguları, sınırlı EQL tezgahında olay dizileri; son derste ücretsiz yerel Elastic laboratuvarı.",
+  "role": "SOC sorgularını yazmak, gerçek telemetriyi ECS ile almak, EQL olay dizilerini ve Security kurallarını doğrulamak; ES|QL raporları üretmek.",
+  "tagline": "21 pafta, 6 rütbe: KQL/Lucene/EQL temeli ve gerçek Elasticsearch üzerinde ECS ingest/mapping.",
   "kahraman": [
     "Sorgudan",
     "Kanıta",
@@ -86,13 +86,15 @@
       ]
     },
     {
-      "title": "EQL Zamanı ve Tespit Projesi",
+      "title": "EQL, Gerçek Veri ve Tespit Projeleri",
       "rank": "baspehlivan",
       "lessons": [
         "el16",
         "el17",
         "el18",
-        "el19"
+        "el19",
+        "el20",
+        "el21"
       ]
     }
   ]
