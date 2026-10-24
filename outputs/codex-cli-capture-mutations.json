@@ -1,0 +1,569 @@
+{
+  "lessons": 2,
+  "tasks": 5,
+  "predictions": 2,
+  "mutations": 23,
+  "equivalent": 0,
+  "failures": [],
+  "records": [
+    {
+      "lesson": "pk28",
+      "step": 2,
+      "change": "solution",
+      "code": "tshark -r secili -Y \"http.response.code == 401\" -T fields -e frame.number -e http.response.code",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk28",
+      "step": 2,
+      "change": "starter",
+      "code": "tshark -r secili -q",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "olay kaydı",
+          "got": "[]",
+          "exp": "['7\\t401', '13\\t401', '24\\t401']"
+        },
+        {
+          "ok": false,
+          "msg": "400/401/402 durum komşuları",
+          "got": "[]",
+          "exp": "['43\\t401']"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 2,
+      "change": "==→!= at 40",
+      "code": "tshark -r secili -Y \"http.response.code != 401\" -T fields -e frame.number -e http.response.code",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "olay kaydı",
+          "got": "['9\\t200', '15\\t500', '22\\t402']",
+          "exp": "['7\\t401', '13\\t401', '24\\t401']"
+        },
+        {
+          "ok": false,
+          "msg": "400/401/402 durum komşuları",
+          "got": "['42\\t400', '44\\t402', '45\\t499', '46\\t500', '47\\t501']",
+          "exp": "['43\\t401']"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 2,
+      "change": "401→400 at 43",
+      "code": "tshark -r secili -Y \"http.response.code == 400\" -T fields -e frame.number -e http.response.code",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "olay kaydı",
+          "got": "[]",
+          "exp": "['7\\t401', '13\\t401', '24\\t401']"
+        },
+        {
+          "ok": false,
+          "msg": "400/401/402 durum komşuları",
+          "got": "['42\\t400']",
+          "exp": "['43\\t401']"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 2,
+      "change": "401→402 at 43",
+      "code": "tshark -r secili -Y \"http.response.code == 402\" -T fields -e frame.number -e http.response.code",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "olay kaydı",
+          "got": "['22\\t402']",
+          "exp": "['7\\t401', '13\\t401', '24\\t401']"
+        },
+        {
+          "ok": false,
+          "msg": "400/401/402 durum komşuları",
+          "got": "['44\\t402']",
+          "exp": "['43\\t401']"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 3,
+      "change": "solution",
+      "code": "tshark -r secili -q -z io,phs",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk28",
+      "step": 3,
+      "change": "starter",
+      "code": "tshark -r secili -q",
+      "status": "fail",
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "solution",
+      "code": "tshark -r secili -Y \"http.response.code >= 400 and http.response.code <= 499\" -w sonuc.pcapng -F pcapng",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "starter",
+      "code": "tshark -r secili -q",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tek çıktı kaydı",
+          "got": "0",
+          "exp": "1"
+        },
+        {
+          "ok": false,
+          "msg": "tek çıktı kaydı",
+          "got": "0",
+          "exp": "1"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": ">=→> at 40",
+      "code": "tshark -r secili -Y \"http.response.code > 400 and http.response.code <= 499\" -w sonuc.pcapng -F pcapng",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "3",
+          "exp": "4"
+        },
+        {
+          "ok": false,
+          "msg": "bütün çıktı frame'leri doğru aralıkta",
+          "got": "[1, 2, 3]",
+          "exp": "[1, 2, 3, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "and→or at 47",
+      "code": "tshark -r secili -Y \"http.response.code >= 400 or http.response.code <= 499\" -w sonuc.pcapng -F pcapng",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "6",
+          "exp": "4"
+        },
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "6",
+          "exp": "4"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "<=→< at 70",
+      "code": "tshark -r secili -Y \"http.response.code >= 400 and http.response.code < 499\" -w sonuc.pcapng -F pcapng",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "3",
+          "exp": "4"
+        },
+        {
+          "ok": false,
+          "msg": "bütün çıktı frame'leri doğru aralıkta",
+          "got": "[1, 2, 3]",
+          "exp": "[1, 2, 3, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "400→399 at 43",
+      "code": "tshark -r secili -Y \"http.response.code >= 399 and http.response.code <= 499\" -w sonuc.pcapng -F pcapng",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "399/400/401 ve 498/499/500 komşuları",
+          "got": "5",
+          "exp": "4"
+        },
+        {
+          "ok": false,
+          "msg": "tam 4xx sınırları",
+          "got": "[2, 3, 4, 5]",
+          "exp": "[1, 2, 3, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "400→401 at 43",
+      "code": "tshark -r secili -Y \"http.response.code >= 401 and http.response.code <= 499\" -w sonuc.pcapng -F pcapng",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "3",
+          "exp": "4"
+        },
+        {
+          "ok": false,
+          "msg": "bütün çıktı frame'leri doğru aralıkta",
+          "got": "[1, 2, 3]",
+          "exp": "[1, 2, 3, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "499→498 at 73",
+      "code": "tshark -r secili -Y \"http.response.code >= 400 and http.response.code <= 498\" -w sonuc.pcapng -F pcapng",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "3",
+          "exp": "4"
+        },
+        {
+          "ok": false,
+          "msg": "bütün çıktı frame'leri doğru aralıkta",
+          "got": "[1, 2, 3]",
+          "exp": "[1, 2, 3, 4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk28",
+      "step": 4,
+      "change": "499→500 at 73",
+      "code": "tshark -r secili -Y \"http.response.code >= 400 and http.response.code <= 500\" -w sonuc.pcapng -F pcapng",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "5",
+          "exp": "4"
+        },
+        {
+          "ok": false,
+          "msg": "seçili 4xx sayısı",
+          "got": "5",
+          "exp": "4"
+        }
+      ]
+    },
+    {
+      "lesson": "pk29",
+      "step": 2,
+      "change": "solution",
+      "code": "tcpdump -i lo -nn -s 64 -c 3 -w sonuc.pcap udp",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 2,
+      "change": "starter",
+      "code": "tcpdump -i lo -nn -s 63 -c 3 -w sonuc.pcap udp",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "63/64/65 sınırında snaplen 64",
+          "got": "[63, 63, 63]",
+          "exp": "[63, 64, 64]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk29",
+      "step": 2,
+      "change": "64→63 at 21",
+      "code": "tcpdump -i lo -nn -s 63 -c 3 -w sonuc.pcap udp",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "63/64/65 sınırında snaplen 64",
+          "got": "[63, 63, 63]",
+          "exp": "[63, 64, 64]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk29",
+      "step": 2,
+      "change": "64→65 at 21",
+      "code": "tcpdump -i lo -nn -s 65 -c 3 -w sonuc.pcap udp",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "63/64/65 sınırında snaplen 64",
+          "got": "[63, 64, 65]",
+          "exp": "[63, 64, 64]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk29",
+      "step": 2,
+      "change": "3→2 at 27",
+      "code": "tcpdump -i lo -nn -s 64 -c 2 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Bu laboratuvar -c 3 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 2,
+      "change": "3→4 at 27",
+      "code": "tcpdump -i lo -nn -s 64 -c 4 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Bu laboratuvar -c 3 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 2,
+      "change": "udp→tcp at 43",
+      "code": "tcpdump -i lo -nn -s 64 -c 3 -w sonuc.pcap tcp",
+      "status": "fail",
+      "error": {
+        "type": "PacketError",
+        "msg": "Traceback (most recent call last):\n  File \"<string>\", line 27, in <module>\n    raise RuntimeError('tcpdump loopback capture could not start: '+b''.join(startup).decode('utf-8','replace'))\nRuntimeError: tcpdump loopback capture could not start: tcpdump: expression rejects all packets\n\n",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "solution",
+      "code": "tcpdump -i lo -nn -s 0 -c 20 -C 1 -W 2 -w sonuc.pcap udp",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "starter",
+      "code": "tcpdump -i lo -nn -s 96 -c 20 -C 1 -W 2 -w sonuc.pcap udp",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "gerçek döndürme iki dosya oluşturdu",
+          "got": "1",
+          "exp": "2"
+        },
+        {
+          "ok": false,
+          "msg": "20 tam datagram eşiği aşarak 17+3 ayrıldı",
+          "got": "[20]",
+          "exp": "[17, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "0→1 at 21",
+      "code": "tcpdump -i lo -nn -s 1 -c 20 -C 1 -W 2 -w sonuc.pcap udp",
+      "status": "fail",
+      "error": {
+        "type": "PacketError",
+        "msg": "Traceback (most recent call last):\n  File \"<string>\", line 37, in <module>\n    try:out,err=proc.communicate(timeout=3)\n                ~~~~~~~~~~~~~~~~^^^^^^^^^^^\n  File \"/usr/lib/python3.14/subprocess.py\", line 1221, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/subprocess.py\", line 2154, in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/subprocess.py\", line 1268, in _check_timeout\n    raise TimeoutExpired(\n    ...<2 lines>...\n            stderr=b''.join(stderr_seq) if stderr_seq else None)\nsubprocess.TimeoutExpired: Command '['tcpdump', '-i', 'lo', '-nn', '-U', '-B', '4096', '-Z', 'root', '-s', '1', '-c', '20', '-w', '/tmp/pafta-own-loopback-r18b50gh/sonuc.pcap', '-C', '1', '-W', '2', 'udp and src host 127.0.0.1 and dst host 127.0.0.1 and src port 36063 and dst port 37341 and (udp)']' timed out after 3 seconds\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"<string>\", line 38, in <module>\n    except subprocess.TimeoutExpired:raise RuntimeError('bounded tcpdump did not finish; filter may reject the training datagrams')\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: bounded tcpdump did not finish; filter may reject the training datagrams\n",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "20→19 at 26",
+      "code": "tcpdump -i lo -nn -s 0 -c 19 -C 1 -W 2 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Bu laboratuvar -c 20 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "20→21 at 26",
+      "code": "tcpdump -i lo -nn -s 0 -c 21 -C 1 -W 2 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Bu laboratuvar -c 20 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "1→0 at 32",
+      "code": "tcpdump -i lo -nn -s 0 -c 20 -C 0 -W 2 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Döndürme laboratuvarı -C 1 -W 2 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "1→2 at 32",
+      "code": "tcpdump -i lo -nn -s 0 -c 20 -C 2 -W 2 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Döndürme laboratuvarı -C 1 -W 2 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "2→1 at 37",
+      "code": "tcpdump -i lo -nn -s 0 -c 20 -C 1 -W 1 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Döndürme laboratuvarı -C 1 -W 2 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "2→3 at 37",
+      "code": "tcpdump -i lo -nn -s 0 -c 20 -C 1 -W 3 -w sonuc.pcap udp",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Döndürme laboratuvarı -C 1 -W 2 ister.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk29",
+      "step": 3,
+      "change": "udp→tcp at 53",
+      "code": "tcpdump -i lo -nn -s 0 -c 20 -C 1 -W 2 -w sonuc.pcap tcp",
+      "status": "fail",
+      "error": {
+        "type": "PacketError",
+        "msg": "Traceback (most recent call last):\n  File \"<string>\", line 27, in <module>\n    raise RuntimeError('tcpdump loopback capture could not start: '+b''.join(startup).decode('utf-8','replace'))\nRuntimeError: tcpdump loopback capture could not start: tcpdump: expression rejects all packets\n\n",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "failed_checks": []
+    }
+  ]
+}

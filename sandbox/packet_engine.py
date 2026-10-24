@@ -4,6 +4,7 @@ Student text is passed as one argument, never through a shell. Only supplied
 capture bytes are read; neither backend opens a capture interface.
 Both backends accept bounded PCAP/PCAPNG with per-interface link types. Display
 address operands are numeric; DNS/HTTP string fields still accept text.
+The separate tcpdump-lab mode captures only its generated loopback UDP pair.
 """
 import base64
 import functools
@@ -12,7 +13,6 @@ import json
 import os
 import re
 import shutil
-import struct
 import subprocess
 import tempfile
 from pathlib import Path
@@ -27,8 +27,6 @@ except ImportError:
 MAX_CAPTURE = 8 * 1024 * 1024
 MAX_FILTER = 16000
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
-_PCAP_MAGIC = {b"\xd4\xc3\xb2\xa1": ("<", False), b"\xa1\xb2\xc3\xd4": (">", False),
-               b"\x4d\x3c\xb2\xa1": ("<", True), b"\xa1\xb2\x3c\x4d": (">", True)}
 _IP_FIELD = re.compile(r"(?:(?:ip|ipv6)\.(?:addr|src|dst)|arp\.(?:src|dst)\.proto_ipv4|dns\.(?:a|aaaa))(?:#[0-9]+)?\Z")
 _DISPLAY_TOKEN = re.compile(r'r?"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|===|!==|==|!=|<=|>=|&&|\|\||\^\^|[A-Za-z0-9_.:/]+(?:#[0-9]+)?|[^\s]')
 _COMPARISON = frozenset(("==", "!=", "===", "!==", "<", ">", "<=", ">=", "eq", "ne",
@@ -59,14 +57,20 @@ def options(text=""):
         value = json.loads(text)
     except (ValueError, TypeError) as exc:
         raise PacketError('Girdi JSON olmalı: {"dil":"wireshark","kayit":"temel"}') from exc
-    if not isinstance(value, dict) or set(value) - {"dil", "kayit", "pcap_base64", "anahtar"}:
-        raise PacketError("Girdi yalnız dil, kayit, pcap_base64 ve anahtar alanlarını kabul eder.")
+    if not isinstance(value, dict) or set(value) - {"dil", "kayit", "pcap_base64", "anahtar", "laboratuvar"}:
+        raise PacketError("Girdi yalnız dil, kayit, pcap_base64, anahtar ve laboratuvar alanlarını kabul eder.")
     if value.get('anahtar','yok') not in ('yok','yanlis','tls-h2','quic-lab'):
         raise PacketError('anahtar: yok, yanlis, tls-h2 veya quic-lab olmalı; dosya yolu kabul edilmez.')
     if "kayit" in value and "pcap_base64" in value:
         raise PacketError("kayit ile pcap_base64 birlikte verilmez.")
-    if value.get("dil", "wireshark") not in ("wireshark", "bpf", "tshark"):
-        raise PacketError("dil wireshark, bpf veya tshark olmalı; sözdizimleri farklıdır.")
+    if value.get('laboratuvar','kisa') not in ('kisa','donusum'):
+        raise PacketError('laboratuvar kisa veya donusum olmalı.')
+    if value.get('dil')=='tcpdump-lab' and set(value)&{'kayit','pcap_base64','anahtar'}:
+        raise PacketError('tcpdump-lab yalnız kendi ürettiği loopback trafiğini toplar; dış kayıt veya anahtar almaz.')
+    if 'laboratuvar' in value and value.get('dil')!='tcpdump-lab':
+        raise PacketError('laboratuvar seçimi yalnız tcpdump-lab için geçerlidir.')
+    if value.get("dil", "wireshark") not in ("wireshark", "bpf", "tshark", "tcpdump-lab"):
+        raise PacketError("dil wireshark, bpf, tshark veya tcpdump-lab olmalı; sözdizimleri farklıdır.")
     return dict({"dil": "wireshark", "kayit": "temel"} if "pcap_base64" not in value
                 else {"dil": "wireshark"}, **value)
 
@@ -237,6 +241,10 @@ def pcap_lengths(raw):
 
 def run(code, stdin=""):
     config = options(stdin)
+    if config['dil']=='tcpdump-lab':
+        try:from . import packet_capture_lab
+        except ImportError:import packet_capture_lab
+        return packet_capture_lab.run(code,config.get('laboratuvar','kisa'))
     raw = input_capture(config)
     if config['dil']=='tshark':
         try:from . import packet_cli
@@ -281,6 +289,10 @@ def run(code, stdin=""):
 
 def test_helpers(code, stdin=""):
     config = options(stdin)
+    if config['dil']=='tcpdump-lab':
+        try:from . import packet_capture_lab
+        except ImportError:import packet_capture_lab
+        return packet_capture_lab.test_helpers(code,config.get('laboratuvar','kisa'))
     selected = input_capture(config)
     dialect = config["dil"]
     key=config.get('anahtar','yok')

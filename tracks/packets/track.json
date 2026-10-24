@@ -7,7 +7,7 @@
  "runner": "packets",
  "dil": "packets",
  "role": "Paket kayıtlarında görüntü filtresi ve yakalama filtresi yazmak: gerçek TShark ve native libpcap BPF ile çevrimdışı inceleme.",
- "tagline": "27 pafta, 6 rütbe: gerçek filtreler, PCAPNG, TLS/QUIC, TCP iş akışı ve SMB2/Kerberos/LDAP.",
+ "tagline": "29 pafta, 6 rütbe: filtrelerden şifreli trafik ve dizin protokollerine; gerçek CLI raporu ve kontrollü loopback yakalama.",
  "kahraman": [
   "Paketten",
   "Bulgulara",
@@ -126,6 +126,14 @@
     "pk25",
     "pk26",
     "pk27"
+   ]
+  },
+  {
+   "title": "CLI Raporu ve Kontrollü Yakalama",
+   "rank": "baspehlivan",
+   "lessons": [
+    "pk28",
+    "pk29"
    ]
   }
  ]

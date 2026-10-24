@@ -77,7 +77,7 @@ def run(code,raw,key='yok'):
         stderr=result.stderr.decode('utf-8','replace')
         if result.returncode:raise e.PacketError(stderr.strip() or f'TShark CLI hata {result.returncode}')
         if len(result.stdout)>2_000_000 or len(result.stderr)>2_000_000:raise e.PacketError('CLI çıktı sınırı 2 MB aşıldı.')
-        out=result.stdout.decode('utf-8','replace')
+        out=result.stdout.decode('utf-8','replace').replace('\r\n','\n')
         exports=[]
         candidates=list((p/'sonuc').glob('*')) if (p/'sonuc').is_dir() else []
         candidates += [p/n for n in ('sonuc.pcap','sonuc.pcapng') if (p/n).is_file()]

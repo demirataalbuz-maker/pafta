@@ -31,7 +31,7 @@ class PacketAppTests(unittest.TestCase):
                     outline = api("/api/track/packets")["track"]
                     self.assertEqual(len(outline["ranks"]), 6)
                     self.assertEqual([l["id"] for m in outline["modules"] for l in m["lessons"]],
-                                     [f"pk{i:02}" for i in range(1, 28)])
+                                     [f"pk{i:02}" for i in range(1, 30)])
                     self.assertTrue(all(not l.get("missing") for m in outline["modules"] for l in m["lessons"]))
                     for dialect, code, expected in [("wireshark", "udp.port == 53", [3, 4, 14]),
                                                      ("bpf", "tcp dst port 443", [10, 12, 13, 15])]:
@@ -41,7 +41,7 @@ class PacketAppTests(unittest.TestCase):
                         self.assertEqual(result["packet_ids"], expected)
                         self.assertEqual(len(result["packet_inventory"]["satirlar"]), 24)
                     lib = Library()
-                    for lid in ("pk03", "pk13"):
+                    for lid in ("pk03", "pk13", "pk24", "pk29"):
                         lesson = lib.lesson("packets", lid)
                         public = api("/api/lesson/packets/" + lid)
                         self.assertTrue(all("solution" not in s and "test" not in s for s in public["lesson"]["steps"]))
@@ -58,7 +58,19 @@ class PacketAppTests(unittest.TestCase):
                         progress = api("/api/lesson/packets/" + lid)["progress"]
                         self.assertTrue(progress["steps"][str(task_i)]["done"])
                         self.assertTrue(progress["steps"][str(guess_i)]["guess_ok"])
-                    self.assertEqual(sum(api("/api/review")["kutular"]), 2)
+                    self.assertEqual(sum(api("/api/review")["kutular"]), 4)
+                    cli_result = api('/api/run', {'track':'packets',
+                        'code':'tshark -r secili -2 -o tcp.reassemble_out_of_order:TRUE -q --export-objects http,sonuc',
+                        'stdin':json.dumps({'dil':'tshark','kayit':'tcp-sirasiz'})})
+                    self.assertEqual(cli_result['status'],'ok',cli_result)
+                    self.assertEqual(cli_result['exports'][0]['text'],'PAFTA-TCP-LAB')
+                    self.assertTrue(cli_result['tablolar'])
+                    capture_result = api('/api/run', {'track':'packets',
+                        'code':'tcpdump -i lo -nn -s 64 -c 3 -w sonuc.pcap udp',
+                        'stdin':json.dumps({'dil':'tcpdump-lab','laboratuvar':'kisa'})})
+                    self.assertEqual(capture_result['status'],'ok',capture_result)
+                    self.assertEqual(capture_result['exports'][0]['caplens'],[63,64,64])
+                    self.assertTrue(capture_result['runtime']['reaped'])
                     api("/api/draft", {"dil": "packets", "playground": "tcp dst port 443"})
                     self.assertEqual(api("/api/playground?dil=packets")["code"], "tcp dst port 443")
                     disk = json.loads(Path(folder, "progress.json").read_text(encoding="utf-8"))

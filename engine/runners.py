@@ -292,8 +292,8 @@ class DetectionRunner(HarnessRunner):
 
 class PacketRunner(HarnessRunner):
     name = "packets"
-    default_timeout = 12
-    test_timeout = 40
+    default_timeout = 30  # Cold WSL startup + bounded loopback capture (inner limit 20 s).
+    test_timeout = 60
     modlar = {"run": "packet_run", "test": "packet_test"}
 
     def available(self):

@@ -104,7 +104,7 @@ def main():
     ranks = track.get("ranks", [])
     ids = [lid for module in track["modules"] for lid in module["lessons"]]
     assert len(ranks) == 6 and len({r["id"] for r in ranks}) == 6
-    assert ids == [f"pk{i:02}" for i in range(1, 28)], ids
+    assert ids == [f"pk{i:02}" for i in range(1, 30)], ids
     assert all(module.get("lessons") for module in track["modules"])
     records, failures, tasks, predictions = [], [], 0, 0
     jobs = []

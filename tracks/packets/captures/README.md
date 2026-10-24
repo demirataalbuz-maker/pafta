@@ -1,5 +1,28 @@
 # Eğitim PCAP kayıtları
 
+## PK28–PK29: CLI raporu ve gerçek kontrollü yakalama
+
+PK28 `-T fields/-e` ile gerçek alan sütunları, `-q -z io,phs` ile
+protokol hiyerarşisi ve `-w/-F` ile filtrelenmiş PCAPNG üretir. 4xx aralığı
+399/400/401 ve 498/499/500 komşularıyla sınanır. CLI çıktısında Windows
+CRLF satır sonları LF'ye normalize edilir; alan değerleri değiştirilmez.
+
+PK29 `sandbox/packet_capture_lab.py` üzerinden Kali WSL root kullanıcısı
+ile gerçek tcpdump çalıştırır. Yalnız lo, kendi rastgele localhost UDP uç
+çifti, üç küçük / yirmi büyük eğitim datagramı. Aynı göndericiden başka bir
+UDP porta eş boyutlu gürültü gönderilir ve bu trafik zorunlu filtreyle
+dışlanır. Komut `-i lo -nn -s ... -c ... -w sonuc.pcap` biçimindedir;
+döndürmede yalnız `-C 1 -W 2` profili vardır. Yanlış arayüz/yol/program
+ve hostname açık hatadır. Kullanıcı filtresi tcpdump tarafından gerçekten
+derlenir; uyumsuz filtre en fazla üç saniyelik yakalama süresinde hataya
+dönüşür. İş sonunda tcpdump kill/wait ve Linux geçici klasör temizliği
+uygulanır. Windows çağrısının ek üst sınırı 20 saniyedir.
+
+Girdi `{"dil":"tcpdump-lab","laboratuvar":"kisa"}` veya `donusum`.
+Kali Python3/tcpdump ve root çağrısı gerekir; dağıtım PAFTA_WSL_DISTRO'dan
+okunur. Döndürme için lo MTU ≥60028 gerekir; ayar değiştirilmez.
+Bu mod dış kayıt/keylog almaz. Diğer filtre/CLI modları canlı yakalama açmaz.
+
 ## SMB2, Kerberos ve LDAP
 
 `tools/build_packet_directory_corpus.py` kurulu Kali Scapy kodlayıcısı ve

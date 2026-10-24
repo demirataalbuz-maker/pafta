@@ -305,6 +305,8 @@ class Bench {
       packets: 'Kayıt seçimi · {"dil":"wireshark" veya "bpf","kayit":"temel", "sinirlar" veya "olay"}',
       wireshark: 'Wireshark · JSON: {"dil":"wireshark","kayit":"temel"}',
       bpf: 'tcpdump/BPF · JSON: {"dil":"bpf","kayit":"temel"}',
+      tshark: 'TShark komutu · JSON: {"dil":"tshark","kayit":"tcp-tam"}',
+      "tcpdump-lab": 'Kontrollü loopback · JSON: {"dil":"tcpdump-lab","laboratuvar":"kisa"}',
       kibana: "Kibana KQL korpusu · JSON: dil, mapping, documents, context",
       lucene: "Lucene korpusu · JSON: dil, mapping, documents, context",
       eql: "EQL korpusu · JSON: dil, mapping, documents, context",
@@ -314,7 +316,7 @@ class Bench {
     this.girdiAdi = dil === "regex" ? "Metin" : dil === "sigma" ? "Olaylar" : dil === "yara" ? "Örnek veri" : ["elastic", ...ELASTIC_DIALECTS].includes(dil) ? "Korpus JSON" : "Girdi";
     const vt = ["sql", "kql", "spl", "ad"].includes(dil);        // bu dillerin girdisi örnek veritabanıdır / dizindir
     $('[data-b="stdin"]', h).hidden = vt;
-    this.toggleStdin(["regex", "sigma", "yara", "packets", "wireshark", "bpf", "elastic", ...ELASTIC_DIALECTS].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
+    this.toggleStdin(["regex", "sigma", "yara", "packets", "wireshark", "bpf", "tshark", "tcpdump-lab", "elastic", ...ELASTIC_DIALECTS].includes(dil) ? true : vt ? false : !this.stdinBox.hidden);
   }
 
   setStdin(t) {
@@ -416,6 +418,11 @@ class Bench {
 
   paintOut(res) {
     if (res.eslesmeler) return this.paintEslesme(res);
+    if (res.packet_backend && ["tshark", "tcpdump-lab"].includes(res.packet_dialect)) {
+      this.pane.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 200) +
+        `<div class="out-meta">${esc(res.packet_backend)}</div>` + errCard(res.error);
+      return;
+    }
     if (Array.isArray(res.elastic_ids)) {
       this.pane.innerHTML = elasticOutput(res);
       if (res.error?.line) this.ed.mark(res.error.line, "err");
@@ -901,6 +908,8 @@ const BOS_KOD = {
 // Okuma yolları (C, PHP, Java, C#): kod çalıştırılmaz; görevlerde okunan kodun Python karşılığı yazılır
 const OKUMA_BOS = "# Bu yolda okuduğun kod bu bilgisayarda çalıştırılamıyor.\n# Görevlerde onun yaptığını Python ile yazacaksın; tezgah o görevler içindir.\n";
 const TAHMIN_DIL = {
+  tshark: { girdi: "Komutun eğitim kaydı:", etiket: "Komutun çıktısını satır satır yaz; sütun aralarını sekmeyle ayır", baslik: "TShark komutu ne yazar?", kod: "" },
+  "tcpdump-lab": { girdi: "Kontrollü yakalama laboratuvarı:", etiket: "Laboratuvarın paket, dosya ve boyut çıktısını satır satır yaz", baslik: "Yakalama hangi boyutları üretir?", kod: "" },
   wireshark: { girdi: "Filtrenin kayıt seçimi:", etiket: "Paketler: önekinden sonra eşleşen paket numaralarını virgülle yaz", baslik: "Görüntü filtresi hangi paketleri seçer?", ornek: "Paketler: 1, 2", kod: "" },
   bpf: { girdi: "Filtrenin kayıt seçimi:", etiket: "Paketler: önekinden sonra eşleşen paket numaralarını virgülle yaz", baslik: "BPF hangi paketleri seçer?", ornek: "Paketler: 1, 2", kod: "" },
   kibana: { girdi: "Sorgunun korpusu (mapping, belgeler ve context):", etiket: "Eşleşen belge kimliklerini her satıra bir tane, sonuç sırasıyla yaz", baslik: "KQL sorgusu hangi belgeleri seçer?", ornek: "e1\ne2", kod: "" },

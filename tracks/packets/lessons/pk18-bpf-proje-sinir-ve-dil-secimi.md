@@ -25,7 +25,7 @@ dil: bpf
 ::: anlat Aynı görünen soru iki dilde aynı kapsamda olmayabilir
 Doğrudan IPv6/TCP başlığında `ip6 and tcp dst port 443` BPF ifadesi ile `ipv6 and tcp.dstport == 443` görüntü filtresi aynı paketi seçebilir. IPv6 Hop-by-Hop uzantısı eklenince TShark TCP'ye kadar çözümleyebilir; bu native BPF port erişimi o uzantıyı izlemez. Önceki `ip6 protochain 6` zincirde TCP numarasını arasa da hedef port 443 koşulunun yerine geçmez.
 
-Dolayısıyla bir dilden diğerine yalnız alan adını değiştirerek genel eşdeğerlik iddia etme. Hangi katmanı çözdüğünü, fragment ve etiket sınırını belirt. Bu yol yerel Ethernet PCAP üzerinde filtre yazmayı öğretir; canlı yakalama veya bütün protokol incelemelerini tamamlamış sayılmaz. Kaynaklar: [pcap-filter](https://www.tcpdump.org/manpages/pcap-filter.7.html), [Wireshark görüntü filtreleri](https://www.wireshark.org/docs/man-pages/wireshark-filter.html).
+Dolayısıyla bir dilden diğerine yalnız alan adını değiştirerek genel eşdeğerlik iddia etme. Hangi katmanı çözdüğünü, fragment ve etiket sınırını belirt. Buraya kadarki dersler yerel Ethernet PCAP üzerinde filtre yazmayı öğretti; sonraki dersler PCAPNG/link-layer, şifreli trafik, TCP/dizin protokolleri ve kontrollü CLI yakalama iş akışını ekler. Kaynaklar: [pcap-filter](https://www.tcpdump.org/manpages/pcap-filter.7.html), [Wireshark görüntü filtreleri](https://www.wireshark.org/docs/man-pages/wireshark-filter.html).
 
 ```bpf
 ip6 and tcp dst port 443

@@ -7,7 +7,7 @@ summary: İki geçişli gerçek TShark komutuyla sırasız veriyi birleştir ve 
 ::: anlat Filtre editöründen gerçek CLI komutuna
 Bu derste editöre bir TShark komutu yazılır; girdi `dil:tshark`tır. `-r secili`, JSON'da seçilen eğitim kaydının geçici kopyasıdır. `-2` iki geçişli analiz, `-q -z follow,tcp,ascii,0` akış 0'ın iki yönünü gösterir. Akış kimliği yalnız bu kayıt için anlamlıdır; iki yön Follow Stream çıktısında farklı girintilerle ayrılır.
 
-```packets
+```tshark
 tshark -r secili -2 -q -z follow,tcp,ascii,0
 ```
 
@@ -24,7 +24,7 @@ dil: tshark
 
 ::: tahmin
 Sırasız kayıt doğru tercihle yeniden birleştirilince HTTP yanıtı hangi frame'de tamamlanır?
-```packets
+```tshark
 tshark -r secili -2 -o tcp.reassemble_out_of_order:TRUE -Y http.response -T fields -e frame.number
 ```
 ```meta

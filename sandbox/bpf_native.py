@@ -10,7 +10,6 @@ import ipaddress
 import os
 from pathlib import Path
 import re
-import struct
 import threading
 try:
     from .capture_formats import parse_capture, CaptureError, LINKTYPES
@@ -51,10 +50,6 @@ _DLL = None
 _LOCK = threading.Lock()
 _DLL_FOLDER = (Path(__file__).resolve().parent.parent / ".deps" / "libpcap" /
                "_platform" / "windows" / "x86_64" / "tcpdump")
-_MAGIC = {b"\xd4\xc3\xb2\xa1": ("<", False),
-          b"\xa1\xb2\xc3\xd4": (">", False),
-          b"\x4d\x3c\xb2\xa1": ("<", True),
-          b"\xa1\xb2\x3c\x4d": (">", True)}
 _WORDS = frozenset("""
 and or not src dst host net mask port portrange ether link ip ip6 arp rarp
 tcp udp sctp icmp icmp6 igmp ah esp pim proto protochain broadcast multicast
@@ -158,7 +153,7 @@ def _numeric_filter(text):
 def evaluate(filter_text, pcap_bytes):
     """Return matching 1-based frame numbers; never open a capture interface.
 
-    Native errors are BpfFilterError, invalid classic PCAP is PcapFormatError,
+    Native errors are BpfFilterError, invalid PCAP/PCAPNG is PcapFormatError,
     missing local runtime is BpfUnavailableError. IPv4 broadcast tests have no
     assumed interface mask (PCAP_NETMASK_UNKNOWN), so libpcap rejects them.
     """
