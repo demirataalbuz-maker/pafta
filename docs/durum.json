@@ -245,9 +245,10 @@
    "not": "PS27–PS28; git geçmişinden tespit"
   },
   "YARA: ELF ve .NET modülleriyle dosya türüne özgü kurallar": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "YR21–YR22: gerçek libyara ELF/.NET; Kali gcc ve .NET 8 ile derlenen zararsız korpus. sandbox/yara_format_fixtures.py, tools/test_yara_formats.py ve README.md yalnız bu madde için değişecek."
+   "commit": "89b0fd1",
+   "not": "YR21–YR22: 2 ders/4 görev/2 gerçek libyara tahmini. 13 gcc/.NET derleme tanığı; 17 semantik mutasyon reddedildi, 15 motor testi temiz. YARA Windows ve Git Bash: 22 ders/134 kontrol temiz. Genel uygulama taramaları denetçinin paralel tam taraması nedeniyle tamamlanmadan durduruldu; genel temiz sonucu iddia edilmedi. Rapor: outputs/codex-42-yara-elf-dotnet.md. Paket kurulmadı. README ders sayısı dışında ortak koşucu değişmedi."
   }
  }
 }
