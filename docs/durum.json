@@ -106,9 +106,10 @@
    "not": "BS34 ssh -G/known_hosts + BS35 uzak komut/scp/sftp; lab sshd -i ProxyCommand, port ve arka plan süreci yok; BS35 2. görev /tmp/pafta-bs35'i paylaşır (silinmez)"
   },
   "PowerShell: Authenticode imzasını dosya incelemesine katmak": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Yazar 1 boşta; kullanıcı onayıyla. Sertifika deposuna yazılmaz, sistemdeki imzalı dosyaların kopyaları kullanılır"
+   "commit": "(bu commit)",
+   "not": "PS25; sertifika deposuna yazılmadı, sistemdeki imzalı dosyaların kopyaları (notepad katalog, MpSigStub gömülü, git.exe üçüncü taraf)"
   }
  }
 }
