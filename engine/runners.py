@@ -251,9 +251,12 @@ def for_step(runner, step):
             raise ValueError("motor: mariadb yalnız SQL yolunda tanımlı.")
         runner = MariadbRunner()
     elif motor == "splunk":
-        if type(runner) is not SplRunner:
-            raise ValueError("motor: splunk yalnız SPL yolunda tanımlı.")
-        runner = SplunkRunner(meta.get("girdi", "arama"))
+        if isinstance(runner, DetectionRunner) and runner.name == "sigma":
+            runner = SigmaSplunkRunner(meta.get("girdi", "kural"), meta.get("pipeline", ""))
+        elif type(runner) is SplRunner:
+            runner = SplunkRunner(meta.get("girdi", "arama"))
+        else:
+            raise ValueError("motor: splunk yalnız SPL ve Sigma yollarında tanımlı.")
     elif motor in ("suricata", "zeek"):
         if not isinstance(runner, IdsRunner):
             raise ValueError(f"motor: {motor} yalnız Ağ Tespiti yolunda tanımlı.")
@@ -499,6 +502,20 @@ class IdsRunner(HarnessRunner):
     def available(self):
         from sandbox.ids_lab import durum
         return not durum()
+
+
+class SigmaSplunkRunner(SplunkRunner):
+    """Sigma yolu, adım meta'sında motor: splunk → kural gerçek pySigma Splunk backend'iyle çevrilir ve gerçek
+    Splunk laboratuvarında çalışır (py_harness sgs_*). girdi: kural (kod bir Sigma kuralı ya da korelasyonlu
+    koleksiyon) ya da pipeline (kod bir processing pipeline YAML'ı; kural hazırlıkta). pipeline: hazır
+    pipeline adları, virgülle (sysmon, windows, splunk_windows)."""
+    name = "sigma-splunk"
+    modlar = {"run": "sgs_run", "test": "sgs_test"}
+
+    def __init__(self, girdi="kural", pipeline=""):
+        if girdi not in ("kural", "pipeline"):
+            raise ValueError(f"Bilinmeyen girdi: {girdi!r}; kural veya pipeline kullanın.")
+        self.ek = {"girdi": girdi, "pipeline": pipeline}
 
 
 class HttpRunner(PythonRunner):

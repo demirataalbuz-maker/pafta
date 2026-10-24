@@ -439,24 +439,27 @@
    "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
   },
   "Sigma: sigma-cli ile gerçek backend ve processing pipeline kullanımı": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SG19: processing pipeline (girdi: pipeline); gerçek pySigma 1.5.1 + Splunk backend 2.1.0 (.deps), gerçek Splunk laboratuvarı; motor: splunk"
   },
   "Sigma: Çalıştırılan korelasyon kuralları": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SG20: event_count/value_count; backend korelasyonu sabit bin _time kutusuyla çeviriyor (ölçüldü); gerçek pySigma 1.5.1 + Splunk backend 2.1.0 (.deps), gerçek Splunk laboratuvarı; motor: splunk"
   },
   "Sigma: Gerçek olaydan kurala telemetri doğrulaması": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SG21: source::WinEventLog KV_MODE=none tuzağı, 4688 alanları, exists:false tanık kuralı; gerçek pySigma 1.5.1 + Splunk backend 2.1.0 (.deps), gerçek Splunk laboratuvarı; motor: splunk"
   },
   "Sigma: İleri modifierları gerçek hedefte uygulamak": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+   "durum": "calisiliyor",
+   "kim": "Claude (Yazar 2)",
+   "not": "SG22 yarım: modifier dönüşümleri ölçüldü (base64offset, wide, windash, re, cidr, fieldref; cased desteklenmiyor), ders yazılmadı"
   },
   "YARA: Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı": {
    "durum": "claude-alabilir",

@@ -1834,7 +1834,8 @@ class _SplunkIs:
         ns = {"__name__": "__setup__", "props": self.lab.props, "DIZIN": self.S.DIZIN,
               "veri": lambda metin, sourcetype, kaynak="ders.log": self.bekleyen.append((metin, sourcetype, kaynak)),
               "calistir": calistir, "aralik": aralik, "olay_turu": self.lab.olay_turu, "etiket": self.lab.etiket,
-              "goster": lambda arama: setattr(self, "gosterim", arama)}
+              "goster": lambda arama: setattr(self, "gosterim", arama),
+              "kural": lambda yaml: setattr(self, "kural_yaml", yaml)}
         for kod in (self.job.get("setup") or "", ek or ""):
             if kod.strip():
                 exec(compile(kod, "<setup>", "exec"), ns)
@@ -2232,6 +2233,116 @@ def do_vql_test(job):
     return _test_kos(tester, tns, job, [["out", cikti]] if cikti else [])
 
 
+# ── Sigma → gerçek Splunk (Sigma yolu, adım meta'sında motor: splunk) ──
+# Kural (ya da girdi: pipeline ise kullanıcının processing pipeline'ı) gerçek pySigma Splunk backend'iyle
+# SPL'e çevrilir ve sandbox/splunk_lab.py'nin gerçek Splunk'ında, hazırlığın dizine aldığı olaylarda
+# çalıştırılır. Meta'daki pipeline: virgülle ayrılmış hazır pipeline adları (sysmon, windows, splunk_windows).
+# Hazırlık Python'dur: props, veri, olay_turu, etiket ve girdi pipeline ise kural("YAML").
+
+_SGS_HAZIR = {"sysmon": ("sigma.pipelines.sysmon", "sysmon_pipeline"),
+              "windows": ("sigma.pipelines.windows", "windows_logsource_pipeline"),
+              "splunk_windows": ("sigma.pipelines.splunk", "splunk_windows_pipeline")}
+
+
+def _sgs_hata(e, where="kod"):
+    msg = str(e).split("\n")[0]
+    return {"type": "SigmaHatası", "msg": msg[:400], "line": None, "frames": [], "where": where}
+
+
+def _sgs_cevir(job, kural_yaml):
+    """→ SPL sorguları listesi. Çeviri hatası UserRunError olur."""
+    deps = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".deps")
+    if deps not in sys.path:
+        sys.path.insert(0, deps)
+    import importlib
+    from sigma.collection import SigmaCollection
+    from sigma.backends.splunk import SplunkBackend
+    from sigma.processing.pipeline import ProcessingPipeline
+    hat = ProcessingPipeline()
+    for ad in [a.strip() for a in (job.get("pipeline") or "").split(",") if a.strip()]:
+        modul, fn = _SGS_HAZIR[ad]
+        hat = hat + getattr(importlib.import_module(modul), fn)()
+    try:
+        if job.get("girdi") == "pipeline":
+            hat = hat + ProcessingPipeline.from_yaml(job["code"])
+        sorgular = SplunkBackend(hat).convert(SigmaCollection.from_yaml(kural_yaml))
+    except Exception as e:                       # pySigma'nın bütün hata sınıfları
+        raise UserRunError(_sgs_hata(e), "")
+    if not sorgular:
+        raise UserRunError(_sgs_hata("çeviri sorgu üretmedi"), "")
+    return sorgular
+
+
+def _sgs_kos(is_, job, ek=""):
+    """Hazırlığı kur, kuralı çevir, son sorguyu Splunk'ta çalıştır → (spl listesi, alanlar, satırlar)."""
+    is_.bekleyen = []
+    is_.kural_yaml = None
+    is_._hazirlik(ek)
+    kural = job["code"] if job.get("girdi", "kural") == "kural" else is_.kural_yaml
+    if not kural:
+        raise UserRunError(_sgs_hata("görevin hazırlığı kuralı vermedi (kural(...))", "test"), "")
+    sorgular = _sgs_cevir(job, kural)
+    for metin, sourcetype, kaynak in is_.bekleyen:
+        is_.lab.yukle(metin, sourcetype, kaynak)
+    alanlar, satirlar = is_.ara(f"search index={is_.S.DIZIN} " + sorgular[-1])
+    return sorgular, alanlar, satirlar
+
+
+def do_sgs_run(job):
+    S, lab, err = _spk_ac()
+    if err:
+        return {"status": "error", "error": err, "segs": [], "tablolar": []}
+    try:
+        with lab:
+            sorgular, alanlar, satirlar = _sgs_kos(_SplunkIs(job, lab, S), job)
+    except UserRunError as e:
+        return {"status": "error", "error": e.info, "segs": [], "tablolar": []}
+    except S.SplunkHatasi as e:
+        return {"status": "error", "error": _spk_hata(str(e), "test", "SplunkYok"), "segs": [], "tablolar": []}
+    tablo = _spk_tablo(alanlar, satirlar)
+    cikti = _ceviri_metin([tablo])
+    segs = [["raw", "Üretilen SPL:\n" + "\n---\n".join(sorgular) + "\n\n"]] + ([["out", cikti]] if cikti else [])
+    return {"status": "ok", "segs": segs, "tablolar": [tablo], "kql": True, "error": None}
+
+
+class SgsTester(SplunkTester):
+    def dene(self, hazirlik=""):
+        """Laboratuvarı boşaltıp hazırlığı + `hazirlik`ı yeniden kur, aynı kuralı yeniden çalıştır → satırlar."""
+        self.is_.lab.bosalt()
+        try:
+            return _sgs_kos(self.is_, self.job, hazirlik)[2]
+        except UserRunError as e:
+            raise UserRunError(e.info, hazirlik)
+
+    def cevir(self, kural_yaml):
+        """Başka bir kuralı aynı pipeline'la çevir → SPL listesi (çalıştırmaz)."""
+        return _sgs_cevir(self.job, kural_yaml)
+
+
+def do_sgs_test(job):
+    S, lab, err = _spk_ac()
+    if err:
+        return {"status": "error", "error": err, "checks": [], "segs": []}
+    try:
+        with lab:
+            is_ = _SplunkIs(job, lab, S)
+            try:
+                sorgular, alanlar, satirlar = _sgs_kos(is_, job)
+            except UserRunError as e:
+                return {"status": "error", "error": e.info, "checks": [], "segs": []}
+            cikti = _ceviri_metin([_spk_tablo(alanlar, satirlar)])
+            segs = [["raw", "Üretilen SPL:\n" + "\n---\n".join(sorgular) + "\n\n"]] + ([["out", cikti]] if cikti else [])
+            tester = SgsTester(job, is_, cikti)
+            tns = tester.namespace()
+            tns.update(src=job.get("code", ""), sonuc=satirlar, sutunlar=alanlar, spl=sorgular, dene=tester.dene,
+                       ara=tester.ara, cevir=tester.cevir, kullanir=tester.kullanir, DIZIN=S.DIZIN,
+                       alan=lambda ad, satirlar=satirlar, alanlar=alanlar:
+                           [r[alanlar.index(ad)] if ad in alanlar else None for r in satirlar])
+            return _test_kos(tester, tns, job, segs)
+    except S.SplunkHatasi as e:
+        return {"status": "error", "error": _spk_hata(str(e), "test", "SplunkYok"), "checks": [], "segs": []}
+
+
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "ad_run": do_ad_run, "ad_test": do_ad_test, "ad_dis": do_ad_dis,
          "packet_run": do_packet_run, "packet_test": do_packet_test,
@@ -2249,7 +2360,8 @@ MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "my_run": do_my_run, "my_test": do_my_test,
          "spk_run": do_spk_run, "spk_test": do_spk_test,
          "ids_run": do_ids_run, "ids_test": do_ids_test,
-         "vql_run": do_vql_run, "vql_test": do_vql_test}
+         "vql_run": do_vql_run, "vql_test": do_vql_test,
+         "sgs_run": do_sgs_run, "sgs_test": do_sgs_test}
 
 
 def main():

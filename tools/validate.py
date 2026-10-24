@@ -63,7 +63,7 @@ def jobs_for(lib, tid, dil, lid):
             if not st.get("test"):
                 jobs.append(("TESTSİZ", tid, where, None, None))
                 continue
-            if dil in ("sigma", "yara", "elastic") and not st.get("stdin", "").strip():
+            if dil in ("sigma", "yara", "elastic") and not st.get("stdin", "").strip()                     and not (st.get("meta") or {}).get("motor"):        # gerçek hedef adımı: veri hazırlıkta
                 jobs.append(("GİRDİSİZ", tid, where, None, None))
             if not st.get("solution"):
                 jobs.append(("ÇÖZÜMSÜZ", tid, where, None, None))
