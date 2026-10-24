@@ -1,6 +1,6 @@
 # CMD / Batch · yazma yolu
 
-Bu yol Windows'un gerçek `cmd.exe` yorumlayıcısıyla **komut ve batch betiği yazdırır**. PowerShell'den ayrı bir dildir. Altı rütbeye dağıtılan `cm01`–`cm24` derslerinin her birinde gerçek çalıştırmayla karşılaştırılan bir tahmin ve iki görev vardır. EVTX, yapılandırma ve token/DACL dersleri gerçek yerel araçları çağırır; kişisel günlükler ve ayarlar değiştirilmez.
+Bu yol Windows'un gerçek `cmd.exe` yorumlayıcısıyla **komut ve batch betiği yazdırır**. PowerShell'den ayrı bir dildir. Altı rütbeye dağıtılan `cm01`–`cm25` derslerinin her birinde gerçek çalıştırmayla karşılaştırılan bir tahmin ve iki görev vardır. EVTX, yapılandırma ve token/DACL dersleri gerçek yerel araçları çağırır; kişisel günlükler ve ayarlar değiştirilmez.
 
 ## Tezgah sözleşmesi
 
@@ -26,6 +26,7 @@ Kaynak, `_pafta_cmd.cmd`, `_pafta_cmd_stdin.txt` ve `__PAFTA_CMD_ARG_*` adları 
 | cm19–cm20 | Sentetik kayıtla üretilmiş gerçek EVTX dosyasında çevrimdışı sorgu, dışa aktarma ve yeniden açma |
 | cm21–cm22 | Gerçek `sc.exe`, `schtasks.exe` ve `reg.exe` ile salt okunur yapılandırma sorguları |
 | cm23–cm24 | Gerçek `whoami.exe` token CSV'si, geçici dosyada `icacls.exe` ve ayrıca okuma tanığı |
+| cm25 | Sysinternals `sigcheck64` ve `autorunsc64` (sürüm ve imza `tools/sysinternals_kur.ps1` ile doğrulanır); canlı başlangıç kaydı eklenmez |
 
 Windows inceleme dersinde `where`, `tasklist`, `whoami`, `ipconfig`, `netstat` ve `wevtutil` seçenekleri anlatılır. Tahminler ve görevler kullanıcının canlı süreçlerini/ağını sorgulamaz; açık şemalı örnek çıktıları işler. Bu, yerelleştirilmiş her araç çıktısı için genel ayrıştırıcı değildir.
 

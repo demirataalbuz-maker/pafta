@@ -1,123 +1,31 @@
 {
- "id": "cmd",
- "name": "CMD / Batch",
- "status": "active",
- "group": "her-iki",
- "order": 16,
- "runner": "cmd",
- "dil": "cmd",
- "role": "Windows komut satırında komut ve batch betiği yazmak; dosya, metin, parametre ve hata akışını yönetmek.",
- "tagline": "24 pafta, 6 rütbe: batch temellerinden EVTX, Windows yapılandırması ve token/DACL incelemesine. Yazdığın betikler gerçek cmd.exe ile çalışır.",
- "kahraman": [
-  "Komuttan",
-  "Betiğe",
-  ""
- ],
- "ranks": [
-  {
-   "id": "minik",
-   "name": "Minik"
-  },
-  {
-   "id": "tesviye",
-   "name": "Tesviye"
-  },
-  {
-   "id": "kucuk-orta",
-   "name": "Küçük Orta"
-  },
-  {
-   "id": "buyuk-orta",
-   "name": "Büyük Orta"
-  },
-  {
-   "id": "basalti",
-   "name": "Başaltı"
-  },
-  {
-   "id": "baspehlivan",
-   "name": "Başpehlivan"
-  }
- ],
- "modules": [
-  {
-   "title": "Komut, Değişken ve Argüman",
-   "rank": "minik",
-   "lessons": [
-    "cm01",
-    "cm02",
-    "cm03"
-   ]
-  },
-  {
-   "title": "Girdi ve Kararlar",
-   "rank": "tesviye",
-   "lessons": [
-    "cm04",
-    "cm05",
-    "cm06"
-   ]
-  },
-  {
-   "title": "Açılım ve Döngüler",
-   "rank": "kucuk-orta",
-   "lessons": [
-    "cm07",
-    "cm08",
-    "cm09"
-   ]
-  },
-  {
-   "title": "Yol, Akış ve Metin",
-   "rank": "buyuk-orta",
-   "lessons": [
-    "cm10",
-    "cm11",
-    "cm12"
-   ]
-  },
-  {
-   "title": "Hata ve Alt Yordamlar",
-   "rank": "basalti",
-   "lessons": [
-    "cm13",
-    "cm14",
-    "cm15"
-   ]
-  },
-  {
-   "title": "Windows İncelemesi ve Proje",
-   "rank": "baspehlivan",
-   "lessons": [
-    "cm16",
-    "cm17",
-    "cm18"
-   ]
-  },
-  {
-   "title": "Gerçek Olay Dosyaları",
-   "rank": "baspehlivan",
-   "lessons": [
-    "cm19",
-    "cm20"
-   ]
-  },
-  {
-   "title": "Servis, Görev ve Registry",
-   "rank": "baspehlivan",
-   "lessons": [
-    "cm21",
-    "cm22"
-   ]
-  },
-  {
-   "title": "Token ve Dosya İzni",
-   "rank": "baspehlivan",
-   "lessons": [
-    "cm23",
-    "cm24",
-    "cm25"
-   ]
-  }
- ]
+  "id": "cmd",
+  "name": "CMD / Batch",
+  "status": "active",
+  "group": "her-iki",
+  "order": 16,
+  "runner": "cmd",
+  "dil": "cmd",
+  "role": "Windows komut satırında komut ve batch betiği yazmak; dosya, metin, parametre ve hata akışını yönetmek.",
+  "tagline": "25 pafta, 6 rütbe: batch temellerinden EVTX, Windows yapılandırması, token/DACL incelemesi ve Sysinternals imza/başlangıç envanterine. Yazdığın betikler gerçek cmd.exe ile çalışır.",
+  "kahraman": ["Komuttan", "Betiğe", ""],
+  "ranks": [
+    {"id": "minik", "name": "Minik"},
+    {"id": "tesviye", "name": "Tesviye"},
+    {"id": "kucuk-orta", "name": "Küçük Orta"},
+    {"id": "buyuk-orta", "name": "Büyük Orta"},
+    {"id": "basalti", "name": "Başaltı"},
+    {"id": "baspehlivan", "name": "Başpehlivan"}
+  ],
+  "modules": [
+    {"title": "Komut, Değişken ve Argüman", "rank": "minik", "lessons": ["cm01", "cm02", "cm03"]},
+    {"title": "Girdi ve Kararlar", "rank": "tesviye", "lessons": ["cm04", "cm05", "cm06"]},
+    {"title": "Açılım ve Döngüler", "rank": "kucuk-orta", "lessons": ["cm07", "cm08", "cm09"]},
+    {"title": "Yol, Akış ve Metin", "rank": "buyuk-orta", "lessons": ["cm10", "cm11", "cm12"]},
+    {"title": "Hata ve Alt Yordamlar", "rank": "basalti", "lessons": ["cm13", "cm14", "cm15"]},
+    {"title": "Windows İncelemesi ve Proje", "rank": "baspehlivan", "lessons": ["cm16", "cm17", "cm18"]},
+    {"title": "Gerçek Olay Dosyaları", "rank": "baspehlivan", "lessons": ["cm19", "cm20"]},
+    {"title": "Servis, Görev ve Registry", "rank": "baspehlivan", "lessons": ["cm21", "cm22"]},
+    {"title": "Token ve Dosya İzni", "rank": "baspehlivan", "lessons": ["cm23", "cm24", "cm25"]}
+  ]
 }
