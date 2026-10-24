@@ -297,6 +297,22 @@
    "kim": "Claude (Yazar 2)",
    "commit": "(bu commit)",
    "not": "KQ24; SigninLogs, DeviceProcessEvents, DeviceNetworkEvents alt kümeleri ders hazırlığında; _GetWatchlist('ad') → watchlist_<ad> tablosu (let içinde de); gerçek Sentinel için Azure çalışma alanı gerekir"
+  },
+  "SPL: Gerçek log alımı, olay sınırı ve zaman ayarları (props.conf)": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SP21; gerçek Splunk Enterprise 10.6.1 Docker'da (splunk/splunk özetle sabit, yalnız 127.0.0.1, --restart no, deneme lisansı 60 gün), sandbox/splunk_lab.py; adım meta'sı motor: splunk + girdi: props|arama; tools/test_splunk_lab.py"
+  },
+  "SPL: CIM eşlemesi ve tstats'ı gerçek veri modeli üstünde çalıştırmak": {
+   "durum": "calisiliyor",
+   "kim": "Claude (Yazar 2)",
+   "not": "Kullanıcı Yazar 2'ye verdi (10-24); gerçek Splunk Enterprise 10.6.1 Docker'da (splunk/splunk, yalnız 127.0.0.1, açılışta başlamaz), sandbox/splunk_lab.py"
+  },
+  "SPL: Sorgudan zamanlanan alarma: tetikleme, zaman aralığı ve bastırma": {
+   "durum": "calisiliyor",
+   "kim": "Claude (Yazar 2)",
+   "not": "Kullanıcı Yazar 2'ye verdi (10-24); gerçek Splunk Enterprise 10.6.1 Docker'da (splunk/splunk, yalnız 127.0.0.1, açılışta başlamaz), sandbox/splunk_lab.py"
   }
  }
 }

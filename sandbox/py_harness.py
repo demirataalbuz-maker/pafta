@@ -1677,6 +1677,185 @@ def do_my_test(job):
         lab.kapat()
 
 
+# ── Gerçek Splunk (SPL yolu, adım meta'sında motor: splunk): Docker'daki Splunk Enterprise ──
+# Görevin hazırlığı Python'dur: props(sourcetype, {ayar: değer}) ve veri(metin, sourcetype[, kaynak]).
+# girdi: props ise kullanıcının props.conf'u verinin dizine alınmasından ÖNCE uygulanır; arama ise
+# veri hazırlıktan hemen sonra alınır (sandbox/splunk_lab.py).
+
+def _splunk_lab():
+    import importlib.util
+    yol = os.path.join(os.path.dirname(os.path.abspath(__file__)), "splunk_lab.py")
+    spec = importlib.util.spec_from_file_location("pafta_splunk_lab", yol)
+    modul = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modul)
+    return modul
+
+
+def _spk_hata(msg, where="kod", tur="SplunkHatası", line=None):
+    return {"type": tur, "msg": msg, "line": line, "frames": [], "where": where}
+
+
+def _conf_coz(metin, dosya):
+    """props.conf biçimli metin → [(kıta, {anahtar: değer}, satır)]. Değerler olduğu gibi kalır."""
+    kitalar, simdiki = [], None
+    satirlar = (metin or "").replace("\r\n", "\n").split("\n")
+    n = 0
+    while n < len(satirlar):
+        s = satirlar[n].strip()
+        n += 1
+        if not s or s.startswith("#"):
+            continue
+        m = re.fullmatch(r"\[([^\]]+)\]", s)
+        if m:
+            simdiki = (m.group(1).strip(), {}, n)
+            kitalar.append(simdiki)
+            continue
+        if "=" not in s:
+            raise UserRunError(_spk_hata(f"{dosya}: 'ANAHTAR = değer' ya da [kıta] bekleniyordu: {s[:60]}", line=n), "")
+        if simdiki is None:
+            raise UserRunError(_spk_hata(f"{dosya}: ayarlar bir [kıta] başlığının altında olmalı", line=n), "")
+        anahtar, deger = s.split("=", 1)
+        simdiki[1][anahtar.strip()] = deger.strip()
+    return kitalar
+
+
+def _spk_deger(v):
+    if isinstance(v, list):
+        return tuple(_spk_deger(x) for x in v)
+    if isinstance(v, str) and re.fullmatch(r"-?\d{1,17}", v):
+        return int(v)
+    if isinstance(v, str) and re.fullmatch(r"-?\d+\.\d+", v):
+        return float(v)
+    return v
+
+
+OLAY_ARAMASI = ('search index={dizin} | sort 0 _time | eval zaman=strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") '
+                '| table zaman sourcetype _raw')
+
+
+class _SplunkIs:
+    """Bir işin adımları: hazırlığı kur, (props ise) kullanıcının ayarını uygula, veriyi al, ara."""
+
+    def __init__(self, job, lab, S):
+        self.job, self.lab, self.S = job, lab, S
+        self.girdi = job.get("girdi", "arama")
+        self.bekleyen = []
+
+    def _hazirlik(self, ek=""):
+        ns = {"__name__": "__setup__", "props": self.lab.props, "DIZIN": self.S.DIZIN,
+              "veri": lambda metin, sourcetype, kaynak="ders.log": self.bekleyen.append((metin, sourcetype, kaynak))}
+        for kod in (self.job.get("setup") or "", ek or ""):
+            if kod.strip():
+                exec(compile(kod, "<setup>", "exec"), ns)
+
+    def _props_uygula(self, kod):
+        kitalar = _conf_coz(kod, "props.conf")
+        if not kitalar:
+            raise UserRunError(_spk_hata("props.conf boş: en az bir [sourcetype] kıtası yaz"), "")
+        for ad, ayarlar, satir in kitalar:
+            if not ad.startswith(self.S.ONEK):
+                raise UserRunError(_spk_hata(f"kıta adı görevin sourcetype'ı olmalı ({self.S.ONEK} ile başlar): [{ad}]",
+                                             line=satir), "")
+            self.lab.props(ad, ayarlar)
+
+    def kos(self, kod, ek=""):
+        """→ (alanlar, satırlar)"""
+        self.bekleyen = []
+        self._hazirlik(ek)
+        if self.girdi == "props":
+            self._props_uygula(kod)
+        elif self.girdi != "arama":
+            raise UserRunError(_spk_hata(f"bu girdi henüz desteklenmiyor: {self.girdi}"), "")
+        for metin, sourcetype, kaynak in self.bekleyen:
+            self.lab.yukle(metin, sourcetype, kaynak)
+        return self.ara(OLAY_ARAMASI.format(dizin=self.S.DIZIN) if self.girdi == "props" else kod)
+
+    def ara(self, spl):
+        try:
+            alanlar, satirlar = self.lab.ara(spl)
+        except self.S.SplunkHatasi as e:
+            raise UserRunError(_spk_hata(str(e)), "")
+        alanlar = [a for a in alanlar if not a.startswith("_") or a in ("_time", "_raw")]
+        return alanlar, [tuple(_spk_deger(r.get(a)) for a in alanlar) for r in satirlar]
+
+
+def _spk_tablo(alanlar, satirlar):
+    return {"satir": 1, "sutunlar": alanlar, "kesildi": False,
+            "satirlar": [[None if v is None else "\x1f".join(map(str, v)) if isinstance(v, tuple) else str(v)
+                          for v in r] for r in satirlar]}
+
+
+def _spk_ac():
+    try:
+        S = _splunk_lab()
+        return S, S.Lab(), None
+    except Exception as e:
+        return None, None, _spk_hata(f"Splunk laboratuvarı açılamadı: {e}", "test", "SplunkYok")
+
+
+def do_spk_run(job):
+    S, lab, err = _spk_ac()
+    if err:
+        return {"status": "error", "error": err, "segs": [], "tablolar": []}
+    try:
+        with lab:
+            alanlar, satirlar = _SplunkIs(job, lab, S).kos(job["code"])
+    except UserRunError as e:
+        return {"status": "error", "error": e.info, "segs": [], "tablolar": []}
+    except S.SplunkHatasi as e:
+        return {"status": "error", "error": _spk_hata(str(e), "test", "SplunkYok"), "segs": [], "tablolar": []}
+    tablo = _spk_tablo(alanlar, satirlar)
+    cikti = _ceviri_metin([tablo])
+    return {"status": "ok", "segs": [["out", cikti]] if cikti else [], "tablolar": [tablo], "kql": True, "error": None}
+
+
+class SplunkTester(Tester):
+    def __init__(self, job, is_, cikti):
+        super().__init__("", {}, Capture(), "", job)
+        self.cap.add("out", cikti)
+        self.code = job.get("code", "")
+        self.is_ = is_
+
+    def dene(self, hazirlik=""):
+        """Laboratuvarı boşaltıp hazırlığı + `hazirlik`ı (Python) yeniden kur, kodu yeniden uygula → satırlar."""
+        self.is_.lab.bosalt()
+        try:
+            return self.is_.kos(self.code, hazirlik)[1]
+        except UserRunError as e:
+            raise UserRunError(e.info, hazirlik)
+
+    def ara(self, spl):
+        """Laboratuvarın şu anki hâlinde bir arama → satırlar."""
+        return self.is_.ara(spl)[1]
+
+    def kullanir(self, kelime):
+        temiz = re.sub(r"#[^\n]*|\"(?:\\.|[^\"\\])*\"", " ", self.code)
+        desen = r"(?<![\w-])" + r"\s+".join(map(re.escape, kelime.split())) + r"(?![\w-])"
+        return re.search(desen, temiz, re.I) is not None
+
+
+def do_spk_test(job):
+    S, lab, err = _spk_ac()
+    if err:
+        return {"status": "error", "error": err, "checks": [], "segs": []}
+    try:
+        with lab:
+            is_ = _SplunkIs(job, lab, S)
+            try:
+                alanlar, satirlar = is_.kos(job["code"])
+            except UserRunError as e:
+                return {"status": "error", "error": e.info, "checks": [], "segs": []}
+            cikti = _ceviri_metin([_spk_tablo(alanlar, satirlar)])
+            segs = [["out", cikti]] if cikti else []
+            tester = SplunkTester(job, is_, cikti)
+            tns = tester.namespace()
+            tns.update(src=job.get("code", ""), sonuc=satirlar, sutunlar=alanlar, dene=tester.dene,
+                       ara=tester.ara, kullanir=tester.kullanir, DIZIN=S.DIZIN)
+            return _test_kos(tester, tns, job, segs)
+    except S.SplunkHatasi as e:
+        return {"status": "error", "error": _spk_hata(str(e), "test", "SplunkYok"), "checks": [], "segs": []}
+
+
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "ad_run": do_ad_run, "ad_test": do_ad_test, "ad_dis": do_ad_dis,
          "packet_run": do_packet_run, "packet_test": do_packet_test,
@@ -1691,7 +1870,8 @@ MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "proc_run": do_proc_run, "proc_test": do_proc_test, "proc_trace": do_proc_trace,
          "sql_run": do_sql_run, "sql_test": do_sql_test, "sql_dis": do_sql_dis,
          "pg_run": do_pg_run, "pg_test": do_pg_test,
-         "my_run": do_my_run, "my_test": do_my_test}
+         "my_run": do_my_run, "my_test": do_my_test,
+         "spk_run": do_spk_run, "spk_test": do_spk_test}
 
 
 def main():

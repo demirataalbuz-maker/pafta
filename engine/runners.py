@@ -68,12 +68,13 @@ class HarnessRunner:
     ozellik = {"roentgen": False, "dis": None}
     modlar = {}            # run/test/trace/dis → düzenek modu
     ek = {}                # her işe eklenecek alanlar
+    tavan = MAX_TIMEOUT    # süre sınırının üst sınırı
 
     def available(self):
         return True
 
     def execute(self, job, timeout=None):
-        timeout = min(int(timeout or self.default_timeout), MAX_TIMEOUT)
+        timeout = min(int(timeout or self.default_timeout), self.tavan)
         job = dict(self.ek, **job)
         tmp = tempfile.mkdtemp(prefix="pafta_")
         work = os.path.join(tmp, "calisma")
@@ -211,8 +212,9 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb"):
-        raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres veya mariadb kullanın.")
+    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk"):
+        raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
+                         "mariadb veya splunk kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -225,6 +227,10 @@ def for_step(runner, step):
         if type(runner) is not SqlRunner:
             raise ValueError("motor: mariadb yalnız SQL yolunda tanımlı.")
         runner = MariadbRunner()
+    elif motor == "splunk":
+        if type(runner) is not SplRunner:
+            raise ValueError("motor: splunk yalnız SPL yolunda tanımlı.")
+        runner = SplunkRunner(meta.get("girdi", "arama"))
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -403,6 +409,37 @@ class SplRunner(KqlRunner):
     ozellik = {"roentgen": False, "dis": "SQL"}
     modlar = {"run": "spl_run", "test": "spl_test", "dis": "spl_dis"}
     ek_veri = KqlRunner.ek_veri + (os.path.join(ROOT, "tracks", "spl", "veri.sql"),)   # + Splunk'ın _time alanı
+
+
+class SplunkRunner(HarnessRunner):
+    """Adım meta'sında motor: splunk → Docker'daki gerçek Splunk Enterprise (sandbox/splunk_lab.py, py_harness spk_*).
+
+    girdi: arama (kod bir SPL araması), props (kod props.conf kıtaları; hazırlığın verisi bu ayarlarla
+    dizine alınır) ya da alarm (kod savedsearches.conf kıtaları). Görevin hazırlığı Python'dur:
+    props(...), veri(...) ve kayit(...) ile laboratuvarı kurar."""
+    name = "spl-splunk"
+    ozellik = {"roentgen": False, "dis": None}
+    modlar = {"run": "spk_run", "test": "spk_test"}
+    default_timeout = 150
+    test_timeout = 300
+    tavan = 600
+
+    def __init__(self, girdi="arama"):
+        if girdi not in ("arama", "props", "alarm"):
+            raise ValueError(f"Bilinmeyen girdi: {girdi!r}; arama, props veya alarm kullanın.")
+        self.ek = {"girdi": girdi}
+
+    def available(self):
+        from sandbox.splunk_lab import available
+        return available()
+
+    def execute(self, job, timeout=None):
+        from sandbox import splunk_lab
+        sorun = splunk_lab.hazirla()      # konteynerin açılışı işin süresine sayılmaz
+        if sorun:
+            return {"status": "error", "segs": [], "error": {
+                "type": "SplunkYok", "msg": sorun, "line": None, "frames": [], "where": "kod"}}
+        return super().execute(job, timeout)
 
 
 class HttpRunner(PythonRunner):

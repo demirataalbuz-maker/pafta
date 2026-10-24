@@ -1,0 +1,319 @@
+# -*- coding: utf-8 -*-
+"""SPL yolunun gerçek Splunk laboratuvarı (adım meta'sında motor: splunk).
+
+Splunk Enterprise, Splunk'ın resmi Docker imajıyla (IMAJ, özetiyle sabit) pafta-splunk
+konteynerinde çalışır. Web arayüzü ve yönetim API'si yalnız 127.0.0.1'e açılır; konteyner
+--restart no ile kurulur, açılışta başlamaz. Docker Desktop'ın kendisi kullanıcı tarafından
+açılmalıdır. Yönetici parolası ilk kurulumda üretilir ve .deps/splunk/parola dosyasında durur.
+
+Bütün işler aynı laboratuvar dizinini (pafta_ders) kullanır: dizin bir kez kurulur, her işin
+başında ve sonunda içindeki olaylar `| delete` ile silinir (admin'e can_delete rolü verilir;
+Splunk'ta dizin silmek arka planda biter ve hemen yeniden kurulamaz). İki işin birbirinin
+verisini görmemesi için işler bir dosya kilidiyle sıraya girer.
+
+Elle hazırlamak ya da durumu görmek için:  python sandbox/splunk_lab.py
+"""
+import base64
+import json
+import os
+import secrets
+import ssl
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+KONTEYNER = "pafta-splunk"
+IMAJ = "splunk/splunk:10.6.1@sha256:2a7cf9d2e8a2226773a9fac95b5e0e2cc8752496abfb134a21bdf8f67c9ee44d"
+API = "https://127.0.0.1:8089"
+WEB = "http://127.0.0.1:8000"
+DIZIN = "pafta_ders"
+ONEK = "pafta_"                   # laboratuvarın kurduğu her nesnenin (sourcetype, kayıtlı arama) adı
+KLASOR = os.path.join(ROOT, ".deps", "splunk")
+NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+
+_ssl = ssl.create_default_context()
+_ssl.check_hostname = False
+_ssl.verify_mode = ssl.CERT_NONE          # konteynerin kendi imzalı sertifikası; yalnız 127.0.0.1
+
+
+class SplunkHatasi(Exception):
+    pass
+
+
+def _docker(*args, timeout=60):
+    p = subprocess.run(["docker", *args], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE, timeout=timeout, creationflags=NO_WINDOW)
+    return p.returncode, p.stdout.decode("utf-8", "replace"), p.stderr.decode("utf-8", "replace")
+
+
+def parola():
+    yol = os.path.join(KLASOR, "parola")
+    if not os.path.exists(yol):
+        os.makedirs(KLASOR, exist_ok=True)
+        with open(yol, "w", encoding="ascii") as f:
+            f.write("Pafta-" + secrets.token_urlsafe(18))
+    with open(yol, encoding="ascii") as f:
+        return f.read().strip()
+
+
+def istek(yol, veri=None, yontem=None, timeout=30):
+    """Yönetim API'sine istek → JSON. veri bir sözlükse form olarak gönderilir."""
+    url = API + yol + ("&" if "?" in yol else "?") + "output_mode=json"
+    govde = urllib.parse.urlencode(veri, doseq=True).encode() if veri is not None else None
+    r = urllib.request.Request(url, data=govde, method=yontem or ("POST" if govde is not None else "GET"))
+    r.add_header("Authorization", "Basic " + base64.b64encode(f"admin:{parola()}".encode()).decode())
+    try:
+        with urllib.request.urlopen(r, context=_ssl, timeout=timeout) as y:
+            icerik = y.read()
+    except urllib.error.HTTPError as e:
+        icerik = e.read()
+        try:
+            mesaj = "; ".join(m.get("text", "") for m in json.loads(icerik).get("messages", []))
+        except ValueError:
+            mesaj = icerik.decode("utf-8", "replace")[:300]
+        raise SplunkHatasi(f"{e.code} {yol}: {mesaj}") from None
+    return json.loads(icerik) if icerik.strip() else {}
+
+
+def _api_acik():
+    try:
+        istek("/services/server/info", timeout=5)
+        return True
+    except (OSError, SplunkHatasi):
+        return False
+
+
+def durum():
+    """'docker-yok' | 'yok' | 'durdu' | 'calisiyor'"""
+    try:
+        kod, out, _ = _docker("inspect", "-f", "{{.State.Running}}", KONTEYNER, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        return "docker-yok"
+    if kod != 0:
+        kod, _, _ = _docker("info", "--format", "{{.ServerVersion}}", timeout=20)
+        return "yok" if kod == 0 else "docker-yok"
+    return "calisiyor" if out.strip() == "true" else "durdu"
+
+
+def available():
+    return durum() in ("yok", "durdu", "calisiyor")
+
+
+def hazirla(bekle=600):
+    """Konteyneri gerekirse kur ya da başlat, API açılana kadar bekle. Sorun yoksa None, varsa açıklama."""
+    d = durum()
+    if d == "docker-yok":
+        return "Docker çalışmıyor: Docker Desktop'ı aç, sonra yeniden dene."
+    if d == "yok":
+        kod, _, err = _docker(
+            "run", "-d", "--name", KONTEYNER, "--restart", "no", "--hostname", "pafta-splunk",
+            "-p", "127.0.0.1:8000:8000", "-p", "127.0.0.1:8089:8089",
+            "-e", "SPLUNK_START_ARGS=--accept-license",
+            "-e", "SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com",
+            "-e", "SPLUNK_PASSWORD=" + parola(), "-e", "TZ=UTC",
+            "-v", "pafta-splunk-etc:/opt/splunk/etc", "-v", "pafta-splunk-var:/opt/splunk/var",
+            IMAJ, timeout=300)
+        if kod != 0:
+            return f"Splunk konteyneri kurulamadı: {err.strip()[-400:]}"
+    elif d == "durdu":
+        kod, _, err = _docker("start", KONTEYNER, timeout=120)
+        if kod != 0:
+            return f"Splunk konteyneri başlatılamadı: {err.strip()[-400:]}"
+    son = time.time() + bekle
+    while time.time() < son:
+        if _api_acik():
+            return None
+        time.sleep(3)
+    return f"Splunk API'si {bekle} saniyede açılmadı ({API}); docker logs {KONTEYNER} ile bak."
+
+
+def _dizin_kur():
+    try:
+        icerik = istek(f"/services/data/indexes/{DIZIN}")["entry"][0]["content"]
+        if icerik.get("disabled"):
+            istek(f"/services/data/indexes/{DIZIN}/enable", {})
+    except SplunkHatasi as e:
+        if not str(e).startswith("404"):
+            raise
+        istek("/services/data/indexes", {"name": DIZIN, "datatype": "event"})
+    roller = istek("/services/authentication/users/admin")["entry"][0]["content"]["roles"]
+    if "can_delete" not in roller:
+        istek("/services/authentication/users/admin", {"roles": roller + ["can_delete"]})
+
+
+# ── iş başına laboratuvar ──
+
+class _Kilit:
+    """İşleri süreçler arasında sıraya sokar (validate aynı anda birçok iş çalıştırabilir)."""
+
+    def __init__(self, timeout=900):
+        self.yol = os.path.join(KLASOR, "kilit")
+        self.timeout = timeout
+
+    def __enter__(self):
+        os.makedirs(KLASOR, exist_ok=True)
+        son = time.time() + self.timeout
+        while True:
+            try:
+                self.fd = os.open(self.yol, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                os.write(self.fd, str(os.getpid()).encode())
+                return self
+            except FileExistsError:
+                try:
+                    if time.time() - os.path.getmtime(self.yol) > self.timeout:
+                        os.remove(self.yol)            # çökmüş bir işten kalan kilit
+                        continue
+                except OSError:
+                    pass
+                if time.time() > son:
+                    raise SplunkHatasi("Splunk laboratuvarı başka bir işle meşgul (kilit zaman aşımı)")
+                time.sleep(0.5)
+
+    def __exit__(self, *a):
+        os.close(self.fd)
+        try:
+            os.remove(self.yol)
+        except OSError:
+            pass
+
+
+def _ara(spl, en_cok=10000, timeout=120):
+    """Aramayı bitene kadar çalıştır → (alanlar, satırlar[dict]). Arama hatası SplunkHatasi olur."""
+    arama = spl.strip()
+    if not arama.startswith("|") and not arama.lower().startswith("search "):
+        arama = "search " + arama
+    is_ = istek("/services/search/jobs", {"search": arama, "exec_mode": "blocking",
+                                          "earliest_time": "0", "latest_time": "+10y", "timeout": "60"},
+                timeout=timeout)
+    sid = is_["sid"]
+    try:
+        bilgi = istek(f"/services/search/jobs/{sid}")["entry"][0]["content"]
+        hatalar = [m["text"] for m in bilgi.get("messages", []) if m.get("type") in ("FATAL", "ERROR")]
+        if bilgi.get("isFailed") or hatalar:
+            raise SplunkHatasi("; ".join(hatalar) or "arama başarısız")
+        sonuc = istek(f"/services/search/jobs/{sid}/results?count={en_cok}", timeout=timeout)
+        alanlar = [a["name"] if isinstance(a, dict) else a for a in sonuc.get("fields", [])]
+        return alanlar, sonuc.get("results", [])
+    finally:
+        try:
+            istek(f"/services/search/jobs/{sid}", yontem="DELETE")
+        except (OSError, SplunkHatasi):
+            pass
+
+
+class Lab:
+    """Bir işin Splunk ortamı: temiz pafta_ders dizini, pafta_ önekli sourcetype ve kayıtlı aramalar.
+    with bloğu bitince hepsi silinir."""
+
+    def __init__(self):
+        self._kilit = _Kilit()
+        self.sourcetypelar = set()
+        self.aramalar = set()
+
+    def __enter__(self):
+        self._kilit.__enter__()
+        try:
+            _dizin_kur()
+            self._temizle()
+        except Exception:
+            self._kilit.__exit__()
+            raise
+        return self
+
+    def __exit__(self, *a):
+        try:
+            self._temizle()
+        finally:
+            self._kilit.__exit__()
+
+    def _temizle(self):
+        for ad in self._kayitli("/servicesNS/nobody/search/saved/searches"):
+            istek(f"/servicesNS/nobody/search/saved/searches/{urllib.parse.quote(ad, safe='')}", yontem="DELETE")
+        for ad in self._kayitli("/servicesNS/nobody/search/configs/conf-props"):
+            istek(f"/servicesNS/nobody/search/configs/conf-props/{urllib.parse.quote(ad, safe='')}", yontem="DELETE")
+        if self.say():
+            _ara(f"search index={DIZIN} | delete")
+
+    def bosalt(self):
+        """Olayları, pafta_ önekli props kıtalarını ve kayıtlı aramaları sil (testin dene()'si için)."""
+        self._temizle()
+
+    def _kayitli(self, yol):
+        veri = istek(yol + "?count=0&search=" + urllib.parse.quote(f"name={ONEK}*"))
+        return [e["name"] for e in veri.get("entry", []) if e["name"].startswith(ONEK)
+                and e.get("acl", {}).get("app") == "search"]
+
+    # — görev hazırlığının ve testlerin kullandığı işlemler —
+
+    def props(self, sourcetype, ayarlar):
+        """props.conf'ta [sourcetype] kıtası (search uygulamasında)."""
+        if not sourcetype.startswith(ONEK):
+            raise SplunkHatasi(f"laboratuvarın sourcetype adları {ONEK} ile başlamalı: {sourcetype}")
+        yol = "/servicesNS/nobody/search/configs/conf-props"
+        try:
+            istek(f"{yol}/{urllib.parse.quote(sourcetype, safe='')}", yontem="DELETE")
+        except SplunkHatasi:
+            pass
+        istek(yol, dict({"name": sourcetype}, **ayarlar))
+        istek("/servicesNS/nobody/search/configs/conf-props/_reload")
+        self.sourcetypelar.add(sourcetype)
+
+    def yukle(self, metin, sourcetype, kaynak="ders.log"):
+        """Ham metni bir dosya olarak konteynere koyup tek seferlik girişle (oneshot) dizine al;
+        olaylar aranabilir olana kadar bekle → alınan olay sayısı."""
+        if not sourcetype.startswith(ONEK):
+            raise SplunkHatasi(f"laboratuvarın sourcetype adları {ONEK} ile başlamalı: {sourcetype}")
+        ad = f"{secrets.token_hex(4)}_{os.path.basename(kaynak)}"
+        hedef = f"/tmp/pafta/{ad}"
+        yerel = os.path.join(KLASOR, "aktar_" + ad)
+        with open(yerel, "w", encoding="utf-8", newline="") as f:
+            f.write(metin)
+        try:
+            _docker("exec", "-u", "root", KONTEYNER, "mkdir", "-p", "/tmp/pafta", timeout=60)
+            kod, _, err = _docker("cp", yerel, f"{KONTEYNER}:{hedef}", timeout=120)
+            if kod != 0:
+                raise SplunkHatasi("dosya konteynere kopyalanamadı: " + err.strip()[-300:])
+            _docker("exec", "-u", "root", KONTEYNER, "chmod", "644", hedef, timeout=60)
+        finally:
+            os.remove(yerel)
+        once = self.say()
+        istek("/services/data/inputs/oneshot", {"name": hedef, "index": DIZIN, "sourcetype": sourcetype,
+                                                "rename-source": kaynak})
+        return self._bekle_dizin(once) - once
+
+    def _bekle_dizin(self, once, timeout=90):
+        """Olay sayısı değişip 3 saniye durağan kalana kadar bekle."""
+        son, onceki, sabit = time.time() + timeout, -1, 0
+        while time.time() < son:
+            n = self.say()
+            if n == onceki and n != once:
+                sabit += 1
+                if sabit >= 3:
+                    return n
+            else:
+                sabit = 0
+            onceki = n
+            time.sleep(1)
+        return onceki
+
+    def say(self):
+        _, satirlar = _ara(f"search index={DIZIN} | stats count")
+        return int(satirlar[0]["count"]) if satirlar else 0
+
+    def ara(self, spl, en_cok=10000):
+        return _ara(spl, en_cok)
+
+
+if __name__ == "__main__":
+    print("durum:", durum())
+    sorun = hazirla()
+    if sorun:
+        print(sorun)
+        sys.exit(1)
+    bilgi = istek("/services/server/info")["entry"][0]["content"]
+    print(f"Splunk {bilgi['version']} hazır · {WEB} (kullanıcı admin, parola {os.path.join(KLASOR, 'parola')})")
+    print("lisans:", bilgi.get("activeLicenseGroup"))
