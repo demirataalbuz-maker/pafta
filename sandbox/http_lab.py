@@ -87,6 +87,14 @@ class Handler(BaseHTTPRequestHandler):
     protocol_version = 'HTTP/1.1'
     server_version = 'PaftaLab/1'
 
+    def handle(self):
+        try:
+            super().handle()
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            # Expected when curl rejects the TLS peer or a client leaves early.
+            # Other application exceptions still reach the server error log.
+            self.close_connection = True
+
     def log_message(self, *args):
         pass
 
