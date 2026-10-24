@@ -128,9 +128,10 @@
    "not": "PS29; WinRM'siz çözüldü: PowerShell 7.6.8 taşınabilir paketi (.deps/pwsh, sha256 b9f074f9..., tools/pwsh7_kur.ps1) ve New-PSSession -UseWindowsPowerShell ile gerçek oturum, ayrı süreç ve gerçek serileştirme; yönetici, servis, ağ dinleyicisi ve başlangıç girdisi yok. Uzak makineye bağlanma ve Disconnect/Reconnect WinRM gerektirdiği için dersin dışında (anlatımda belirtildi)"
   },
   "HTTP ve HTML: SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "24-27, 29-30: Codex, 2026-10-25. HTTP/TLS/browser/GraphQL lab and boundary tests in progress."
+   "not": "HT22; iki yerel hizmet, her hopta origin kontrolu, 301/302/307 sinirlari. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "4f6ad7d"
   },
   "C: Heap sahipliği, alias ve realloc başarısızlığını izlemek": {
    "durum": "codex-opus",
@@ -216,29 +217,34 @@
    "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "HTTP ve HTML: Burp Proxy → History → Repeater iş akışı": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "24-27, 29-30: Codex, 2026-10-25. HTTP/TLS/browser/GraphQL lab and boundary tests in progress."
+   "not": "HT17; kalici/resetlenebilir gercek HTTP hedefi. Burp GUI kabul listesi denetimde elle uygulanacak. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "a18fda3"
   },
   "HTTP ve HTML: curl ile HTTPS, CA ve hostname doğrulaması": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "24-27, 29-30: Codex, 2026-10-25. HTTP/TLS/browser/GraphQL lab and boundary tests in progress."
+   "not": "HT18; gercek curl CA/hostname ve HTTP hata ayrimi. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "943e502"
   },
   "HTTP ve HTML: Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "24-27, 29-30: Codex, 2026-10-25. HTTP/TLS/browser/GraphQL lab and boundary tests in progress."
+   "not": "HT19-HT20; gercek Edge CORS/preflight, farkli site SameSite, oturuma bagli CSRF. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "029ad94"
   },
   "HTTP ve HTML: İki hesaplı nesne yetkilendirme matrisi": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "24-27, 29-30: Codex, 2026-10-25. HTTP/TLS/browser/GraphQL lab and boundary tests in progress."
+   "not": "HT21; 12 hucreli okuma/yazma matrisi, yanit ve durum degisimi taniklari. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "dd73bae"
   },
   "HTTP ve HTML: WebSocket el sıkışması (101) ve GraphQL sorgu/yetki okuma": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "24-27, 29-30: Codex, 2026-10-25. HTTP/TLS/browser/GraphQL lab and boundary tests in progress."
+   "not": "HT23-HT24; gercek TCP/Edge WebSocket, graphql-core 3.3.0 sorgu ve alan yetkisi. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "62639c8"
   },
   "PowerShell: Offline EVTX ve PowerShell 4104 kayıtlarını incelemek": {
    "durum": "denetime-hazir",
