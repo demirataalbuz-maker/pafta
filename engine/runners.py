@@ -504,7 +504,10 @@ class HttpRunner(PythonRunner):
     tezgah = os.path.join(ROOT, "sandbox", "http_tezgah.py")
 
     def execute(self, job, timeout=None):
-        on = f"import runpy as _r\n_r.run_path({self.tezgah!r}, run_name='__tezgah__')\n"
+        on = (f"import runpy as _r, sys as _sys\n"
+              f"_sys.path.insert(0, {os.path.join(ROOT, 'sandbox')!r})\n"
+              f"_sys.path.insert(0, {os.path.join(ROOT, '.deps')!r})\n"
+              f"_r.run_path({self.tezgah!r}, run_name='__tezgah__')\n")
         return super().execute(dict(job, setup=on + (job.get("setup") or "")), timeout)
 
 
