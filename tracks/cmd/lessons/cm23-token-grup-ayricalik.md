@@ -150,6 +150,8 @@ Birinci satır, SID'i **tam olarak** `S-1-5-32-544` (BUILTIN\Administrators) ola
 - `yonetici-diger`: satır var ama ikisi de yok
 - `yonetici-yok`: böyle bir satır yok
 
+Bir satırda ikisi birden geçerse `yonetici-reddet` kazanır: deny-only işaretli bir SID olumlu izin için kullanılmaz.
+
 İkinci satır, `S-1-16-` ile başlayan zorunlu etiket SID'ine göre `butunluk=<seviye>`: `S-1-16-4096` `Low`, `S-1-16-8192` `Medium`, `S-1-16-12288` `High`, `S-1-16-16384` `System`. Bu tablodaki dört değerden biri değilse `butunluk=bilinmiyor`, hiç etiket satırı yoksa `butunluk=yok`.
 
 Dosya yoksa stdout boş, stderr `dosya-yok`, çıkış 1; gerçek sorgu başarısızsa stderr `token-hatasi`, çıkış 1. Öznitelik alanı virgül içerdiği için `delims=,` ile alan alan ayırma: SID'i tırnaklı tam alan olarak (`,"S-1-5-32-544",`) ara. Adında ya da SID'inde `544` geçen başka satırlar seni yanıltmasın.
@@ -181,7 +183,7 @@ def beklenen(ad):
     return f'{yon}\nbutunluk={seviye}\n'
 
 eq(out, beklenen('gruplar.csv'), 'gerçek token: bu oturumun yönetici durumu ve bütünlük seviyesi')
-ETIKET = '"Mandatory Label\{0} Mandatory Level","Label","S-1-16-{1}",""\n'
+ETIKET = '"Mandatory Label\\{0} Mandatory Level","Label","S-1-16-{1}",""\n'
 EVERYONE = '"Everyone","Well-known group","S-1-1-0","Mandatory group, Enabled by default, Enabled group"\n'
 def yaz(ad, metin):
     Path(ad).write_text(metin, encoding='utf-8')
@@ -200,6 +202,10 @@ yaz('guvenilmez.csv', ETIKET.format('Untrusted', 0) + EVERYONE)
 yaz('sahte.csv', ETIKET.format('Medium', 8192) +
     '"S-1-5-32-544","Alias","S-1-5-21-1-1001","Mandatory group, Enabled by default, Enabled group"\n'
     '"Kopya Yoneticiler","Alias","S-1-5-32-5440","Mandatory group, Enabled by default, Enabled group"\n')
+yaz('sistem.csv', ETIKET.format('System', 16384) + EVERYONE +
+    '"BUILTIN\\Administrators","Alias","S-1-5-32-544","Mandatory group, Enabled by default, Enabled group"\n')
+yaz('ikisi.csv', ETIKET.format('Medium', 8192) + EVERYONE +
+    '"BUILTIN\\Administrators","Alias","S-1-5-32-544","Mandatory group, Enabled group, Group used for deny only"\n')
 for ad, cevap, neden in (
         ('suzulmus.csv', 'yonetici-reddet\nbutunluk=Medium\n', 'UAC süzgeci: grup var ama yalnız reddetmek için'),
         ('yukseltilmis.csv', 'yonetici-etkin\nbutunluk=High\n', 'yükseltilmiş token'),
@@ -207,7 +213,9 @@ for ad, cevap, neden in (
         ('tuzak.csv', 'yonetici-reddet\nbutunluk=Medium\n', 'adı S-1-5-32-544 olan grup ve S-1-5-32-5440 yanıltmamalı'),
         ('etiketsiz.csv', 'yonetici-diger\nbutunluk=yok\n', 'ne etkin ne reddet; etiket yok'),
         ('guvenilmez.csv', 'yonetici-yok\nbutunluk=bilinmiyor\n', 'tablodaki dört seviyenin dışındaki etiket'),
-        ('sahte.csv', 'yonetici-yok\nbutunluk=Medium\n', 'gerçek yönetici satırı yok: yalnız adında ya da önekinde 544 geçenler')):
+        ('sahte.csv', 'yonetici-yok\nbutunluk=Medium\n', 'gerçek yönetici satırı yok: yalnız adında ya da önekinde 544 geçenler'),
+        ('sistem.csv', 'yonetici-etkin\nbutunluk=System\n', 'dördüncü seviye: S-1-16-16384 System'),
+        ('ikisi.csv', 'yonetici-reddet\nbutunluk=Medium\n', 'aynı satırda Enabled group ve deny only: reddet kazanır')):
     r = calis(argv=[ad])
     eq((r['kod'], r['cikti'], r['hata']), (0, cevap, ''), neden)
 yaz('bos.csv', '')
