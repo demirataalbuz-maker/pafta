@@ -29,7 +29,7 @@ SIMDI = "2026-10-19 12:00"     # now() ve ago() için sabit "şimdi": sonuçlar 
 
 ISLECLER = ("where", "project", "project-away", "project-rename", "project-reorder", "extend", "summarize",
             "sort", "order", "take", "limit", "top", "count", "distinct", "join", "lookup", "union", "parse",
-            "parse-where", "mv-expand", "serialize", "getschema", "render")
+            "parse-where", "mv-expand", "mv-apply", "evaluate", "serialize", "getschema", "render")
 GRAFIKLER = {"anomalychart", "areachart", "barchart", "card", "columnchart", "ladderchart", "linechart",
              "piechart", "pivotchart", "scatterchart", "stackedareachart", "table", "timechart", "timepivot",
              "treemap"}
@@ -50,7 +50,7 @@ _TOKEN = re.compile(r"""
   | (?P<metin>@"[^"\n]*"|@'[^'\n]*'|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')
   | (?P<sure>\d+(?:\.\d+)?(?:ms|d|h|m|s)(?!\w))
   | (?P<sayi>\d+(?:\.\d+)?(?!\w))
-  | (?P<ad>in~(?!\w)|\$?[^\W\d]\w*(?:-(?:away|rename|reorder|expand|where))?)
+  | (?P<ad>in~(?!\w)|\$?[^\W\d]\w*(?:-(?:away|rename|reorder|expand|apply|where))?)
   | (?P<isl>==|!=|<=|>=|=~|!~|\.\.|[<>=+\-*/%(),.|!;\[\]:])
 """, re.X)
 _TURLER = ("bosluk", "tarih", "metin", "sure", "sayi", "ad", "isl")
@@ -339,6 +339,20 @@ class _Cevirici:
         elif self.kelime_mi("union"):
             self.i += 1
             ad, sira = self.union_sql([], kaynak_bicimi=True), False
+        elif t[0] == "ad" and t[1] == "_GetWatchlist" and self.isl_mi("(", 1):
+            # Sentinel watchlist'i: görevin hazırlığı onu watchlist_<takma ad> tablosu olarak kurar
+            self.i += 2
+            m = self.bak()
+            if m[0] != "metin":
+                raise KqlHatasi("_GetWatchlist('takma ad') bekleniyordu", m[2])
+            self.i += 1
+            self.bekle(")")
+            tablo = "watchlist_" + _metin_coz(m[1])
+            try:
+                self.sutun_bul(f"SELECT * FROM {q(tablo)} LIMIT 0")
+            except Exception:
+                raise KqlHatasi(f"watchlist bulunamadı: {_metin_coz(m[1])}", m[2])
+            ad, sira = self.yeni(f"SELECT * FROM {q(tablo)}"), False
         elif t[0] == "ad":
             self.i += 1
             if t[1] in self.letler:
@@ -356,7 +370,7 @@ class _Cevirici:
             if op[0] != "ad":
                 raise KqlHatasi("| işaretinden sonra bir işleç bekleniyordu", op[2])
             if op[1] not in ISLECLER:
-                if op[1] in ("make-series", "top-nested", "mv-apply", "evaluate", "as", "invoke", "search"):
+                if op[1] in ("make-series", "top-nested", "as", "invoke", "search"):
                     raise KqlHatasi(f"{op[1]} bu tezgahta desteklenmiyor", op[2])
                 raise KqlHatasi(f"bu işleç desteklenmiyor: {op[1]} (desteklenenler: {', '.join(ISLECLER)})", op[2])
             self.i += 1
@@ -377,7 +391,8 @@ class _Cevirici:
             konum, n_cte, ozy = self.i, len(self.ctes), self.ozyineli
             tablo = None
             if self.bak()[0] in ("ad", "isl") and not self.isl_mi("-") and not (
-                    self.bak()[0] == "ad" and self.isl_mi("(", 1) and not self.kelime_mi("datatable")):
+                    self.bak()[0] == "ad" and self.isl_mi("(", 1)
+                    and not (self.kelime_mi("datatable") or self.kelime_mi("_GetWatchlist"))):
                 try:
                     tablo = self.sorgu()
                     if not self.isl_mi(";"):
@@ -1065,6 +1080,161 @@ class _Cevirici:
             tipler[hedef] = "dynamic"
         return self.yeni(f"SELECT {', '.join(secim)} FROM {onceki} AS t, json_each({dizi}) AS je", tipler), sira
 
+    # — mv-apply ve evaluate bag_unpack —
+    def _alt_son(self):
+        """Şu anki konumdan, parantez derinliği 0'da gelen ilk | ya da ) jetonunun indeksi."""
+        derinlik, k = 0, self.i
+        while k < len(self.j):
+            t = self.j[k]
+            if t[0] == "isl" and t[1] in ("(", "["):
+                derinlik += 1
+            elif t[0] == "isl" and t[1] in (")", "]"):
+                if derinlik == 0:
+                    return k
+                derinlik -= 1
+            elif t[0] == "isl" and t[1] == "|" and derinlik == 0:
+                return k
+            k += 1
+        raise KqlHatasi("mv-apply alt sorgusu ')' ile kapanmalı", len(self.kaynak))
+
+    def _enjekte(self, jetonlar):
+        son = self._alt_son()
+        konum = self.j[son][2]
+        self.j[son:son] = [(tur, deger, konum) for tur, deger in jetonlar]
+
+    def op_mv_apply(self, onceki, sira):
+        """mv-apply [x =] dizi [to typeof(T)] on ( alt sorgu ): her satırın dizisine alt sorgu uygulanır.
+        Alt sorguda where, extend, project, summarize, top ve take desteklenir; her işleç satır başına çalışır
+        (gizli __mvr kimliğiyle; __mv önekli sütunlar sonuca girmez). Alt sorgu satır üretmeyen dış satırlar sonuçtan düşer;
+        by'sız summarize ise her dış satıra bir satır verir (boş dizide count() = 0)."""
+        self.baglam(onceki, sira)
+        t = self.bak()
+        if t[0] == "ad" and self.isl_mi("=", 1):
+            self.i += 2
+            hedef = t[1]
+            kaynak = self.ifade()
+        else:
+            hedef = self.ad_al()
+            kaynak = q(hedef)
+        donustur = None
+        if self.kelime_mi("to"):
+            self.i += 1
+            self.bekle("typeof")
+            self.bekle("(")
+            tt = self.bak()
+            donustur = _TIP_ADI.get(self.ad_al())
+            if donustur is None:
+                raise KqlHatasi(f"bilinmeyen tür: {tt[1]}", tt[2])
+            self.bekle(")")
+        self.bekle("on")
+        self.bekle("(")
+        cols = self.sutunlar(onceki)
+        numarali = self.yeni(f"SELECT t.*, ROW_NUMBER() OVER ({'ORDER BY t.[__sira]' if sira else ''}) AS [__mvr] "
+                             f"FROM {onceki} AS t", self.acik_tasi(onceki))
+        dizi = f"kql_dizi(t.{kaynak})" if kaynak == q(hedef) else f"kql_dizi({kaynak})"
+        deger = {"int": "CAST(je.value AS INTEGER)", "long": "CAST(je.value AS INTEGER)",
+                 "real": "CAST(je.value AS REAL)", "string": "CAST(je.value AS TEXT)"}.get(donustur, "je.value")
+        alt = self.yeni(f"SELECT t.[__mvr], {deger} AS {q(hedef)} FROM {numarali} AS t, json_each({dizi}) AS je",
+                        {hedef: "dynamic"} if donustur in (None, "dynamic") else None)
+        ilk = True
+        while True:
+            if not ilk:
+                if self.isl_mi(")"):
+                    break
+                self.bekle("|")
+            ilk = False
+            op = self.bak()
+            if op[0] != "ad":
+                raise KqlHatasi("mv-apply alt sorgusunda bir işleç bekleniyordu", op[2])
+            self.i += 1
+            if op[1] in ("where", "extend"):
+                alt, _ = getattr(self, "op_" + op[1])(alt, False)
+            elif op[1] == "project":
+                self._enjekte([("isl", ","), ("ad", "__mvr")])
+                alt, _ = self.op_project(alt, False)
+            elif op[1] == "summarize":
+                son = self._alt_son()
+                by_var = any(self.j[k][0] == "ad" and self.j[k][1] == "by" for k in range(self.i, son))
+                if by_var:
+                    self._enjekte([("isl", ","), ("ad", "__mvr")])
+                    alt, _ = self.op_summarize(alt, False)
+                    continue
+                # by'sız summarize boş girdide de tek satır verir (count() = 0): elemanı kalmayan satırlara
+                # aynı toplamaların boş tablodaki sonucu eklenir
+                bas = self.i
+                bos, _ = self.op_summarize(self.yeni(f"SELECT * FROM {alt} WHERE 0", self.acik.get(alt)), False)
+                self.i = bas
+                self._enjekte([("ad", "by"), ("ad", "__mvr")])
+                grup, _ = self.op_summarize(alt, False)
+                ozet = [c for c in self.sutunlar(bos)]
+                liste = ", ".join(q(c) for c in ozet)
+                alt = self.yeni(f"SELECT [__mvr], {liste} FROM {grup} UNION ALL "
+                                f"SELECT n.[__mvr], {', '.join('e.' + q(c) for c in ozet)} FROM {numarali} AS n, {bos} AS e "
+                                f"WHERE n.[__mvr] NOT IN (SELECT [__mvr] FROM {grup})", self.acik.get(grup))
+            elif op[1] in ("top", "take", "limit"):
+                n = self._sayi()
+                if op[1] == "top":
+                    self.bekle("by")
+                    self.baglam(alt, False)
+                    e = self.ifade()
+                    yon = "DESC"
+                    if self.kelime_mi("asc") or self.kelime_mi("desc"):
+                        yon = self.bak()[1].upper()
+                        self.i += 1
+                    sirala = f"{e} {yon} NULLS {'LAST' if yon == 'DESC' else 'FIRST'}"
+                else:
+                    sirala = "(SELECT NULL)"
+                alt = self.yeni(f"SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY [__mvr] ORDER BY {sirala}) "
+                                f"AS [__mvrn] FROM {alt}) WHERE [__mvrn] <= {n}", self.acik.get(alt))
+            else:
+                raise KqlHatasi(f"mv-apply alt sorgusunda bu işleç desteklenmiyor: {op[1]} "
+                                "(desteklenenler: where, extend, project, summarize, top, take)", op[2])
+        self.bekle(")")
+        alt_cols = [c for c in self.sutunlar(alt) if not c.startswith("__mv")]
+        dis = [c for c in cols if c not in alt_cols]
+        secim = [f"t.{q(c)}" for c in dis] + [f"s.{q(c)}" for c in alt_cols]
+        if sira:
+            secim.append("t.[__sira]")
+        tipler = {c: v for c, v in self.acik_tasi(onceki).items() if c in dis}
+        tipler.update({c: v for c, v in self.acik.get(alt, {}).items() if c in alt_cols})
+        return self.yeni(f"SELECT {', '.join(secim)} FROM {numarali} AS t JOIN {alt} AS s ON t.[__mvr] = s.[__mvr]"
+                         + (" ORDER BY t.[__sira]" if sira else ""), tipler), sira
+
+    def op_evaluate(self, onceki, sira):
+        t = self.bak()
+        if not (t[0] == "ad" and t[1] == "bag_unpack" and self.isl_mi("(", 1)):
+            raise KqlHatasi("bu tezgahta evaluate ile yalnız bag_unpack(sütun[, 'önek']) desteklenir", t[2])
+        self.i += 2
+        sutun = self.ad_al()
+        onek = ""
+        if self.virgul():
+            m = self.bak()
+            if m[0] != "metin":
+                raise KqlHatasi("bag_unpack'in ikinci argümanı bir önek metni olmalı", m[2])
+            self.i += 1
+            onek = _metin_coz(m[1])
+        self.bekle(")")
+        cols = self.sutunlar(onceki)
+        if sutun not in cols:
+            raise KqlHatasi(f"böyle bir sütun yok: {sutun}", t[2])
+        nesne = f"json_valid(t.{q(sutun)}) AND json_type(t.{q(sutun)}) = 'object'"
+        anahtar_sql = self.with_sql(f"SELECT DISTINCT je.key FROM {onceki} AS t, json_each(t.{q(sutun)}) AS je WHERE {nesne}")
+        anahtarlar = sorted(r[0] for r in self.sutun_bul.satirlar(anahtar_sql))
+        kalan = [c for c in cols if c != sutun]
+        cakisan = sorted({onek + a for a in anahtarlar} & set(kalan))
+        if cakisan:
+            raise KqlHatasi(f"bag_unpack: açılan anahtar var olan sütunla çakışıyor: {', '.join(cakisan)}", t[2])
+
+        def yol(a):
+            return "'$.\"" + a.replace("'", "''").replace('"', '\\"') + "\"'"
+        secim = [f"t.{q(c)}" for c in kalan] + [
+            f"(CASE WHEN {nesne} THEN json_extract(t.{q(sutun)}, {yol(a)}) END) AS {q(onek + a)}" for a in anahtarlar]
+        if sira:
+            secim.append("t.[__sira]")
+        tipler = {c: v for c, v in self.acik_tasi(onceki).items() if c in kalan}
+        tipler.update({onek + a: "dynamic" for a in anahtarlar})
+        return self.yeni(f"SELECT {', '.join(secim)} FROM {onceki} AS t", tipler), sira
+
     # — ifadeler —
     def ifade(self):
         s = self.ve()
@@ -1332,7 +1502,7 @@ class _Cevirici:
                                 "(ör. 1h, 15m)", konum)
             return self._sirali(ad, f"kql_rws({a[0]}, {a[1]}, {a[2]}, {a[3] if len(a) == 4 else 0}) {_PENCERE}",
                                 "datetime", konum)
-        toplama = {"countif": ("SUM(CASE WHEN {0} THEN 1 ELSE 0 END)", "long"),
+        toplama = {"countif": ("COUNT(CASE WHEN {0} THEN 1 END)", "long"),   # boş girdide 0
                    "dcount": ("COUNT(DISTINCT {0})", "long"),
                    "sum": ("SUM({0})", None), "avg": ("AVG({0})", None), "min": ("MIN({0})", None),
                    "max": ("MAX({0})", None), "take_any": ("MIN({0})", None),

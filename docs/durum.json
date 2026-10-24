@@ -284,14 +284,16 @@
    "not": "CM25; sigcheck64 2.93 ve autorunsc64 14.3 .deps\\sysinternals'ta (tools/sysinternals_kur.ps1: Microsoft imzacı parmak izi + sürüm); cmd koşucusu PATH"
   },
   "KQL: mv-apply ve bag_unpack ile ileri dinamik kayıt çözümleme": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Kullanıcı Yazar 2'ye verdi (10-24), indirme onayı verildi"
+   "commit": "(bu commit)",
+   "not": "KQ23; sandbox/kql.py: mv-apply (alt sorguda where/extend/project/summarize/top/take; by'sız summarize boş dizide satır verir), evaluate bag_unpack(sütun[, önek]); countif boş girdide 0; yerel öykünme, gerçek Kusto'da doğrulanmadı; tools/test_kql_ek.py"
   },
   "KQL: Sentinel/Defender güvenlik şemaları ve watchlist ile olay avcılığı": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Kullanıcı Yazar 2'ye verdi (10-24), indirme onayı verildi"
+   "commit": "(bu commit)",
+   "not": "KQ24; SigninLogs, DeviceProcessEvents, DeviceNetworkEvents alt kümeleri ders hazırlığında; _GetWatchlist('ad') → watchlist_<ad> tablosu (let içinde de); gerçek Sentinel için Azure çalışma alanı gerekir"
   }
  }
 }
