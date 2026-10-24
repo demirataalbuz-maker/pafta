@@ -539,15 +539,18 @@ def _pcre2():
 
 
 def _regex_derle(desen, motor=None):
-    if motor == "pcre2":
+    if motor in ("pcre2", "dotnet", "javascript"):
         try:
-            p2 = _pcre2()
-            return p2.compile(desen), None
+            if motor == "pcre2":
+                return _pcre2().compile(desen), None
+            # Adımın meta'sında motor: dotnet / javascript → sandbox/regex_motorlar.py (gerçek motor ayrı süreçte)
+            return _cevirici("regex_motorlar").compile(desen, motor), None
         except Exception as e:
             konum = getattr(e, "pos", None)
             satir = desen.count("\n", 0, konum) + 1 if konum is not None else 1
             col = konum - (desen.rfind("\n", 0, konum) + 1) if konum is not None else None
-            return None, {"type": "DesenHatası", "msg": "PCRE2: " + getattr(e, "msg", str(e)), "line": satir,
+            ad = {"pcre2": "PCRE2", "dotnet": ".NET", "javascript": "JavaScript"}[motor]
+            return None, {"type": "DesenHatası", "msg": ad + ": " + getattr(e, "msg", str(e)), "line": satir,
                           "col": col, "frames": [], "where": "kod",
                           "text": (desen.splitlines() or [""])[min(satir, max(1, len(desen.splitlines()))) - 1]}
     try:
@@ -571,8 +574,8 @@ def do_regex_run(job):
                        "gruplar": list(m.groups()), "adli": m.groupdict()})
             if len(es) >= 500:
                 break
-    except Exception as e:                    # PCRE2 eşleşme/derinlik sınırı: felaket geri izleme
-        if job.get("motor") != "pcre2":
+    except Exception as e:                    # PCRE2/.NET eşleşme sınırı ya da zaman aşımı: felaket geri izleme
+        if job.get("motor") not in ("pcre2", "dotnet", "javascript"):
             raise
         return {"status": "error", "segs": [], "error": {"type": "EşleşmeHatası", "msg": getattr(e, "msg", str(e)),
                                                           "line": None, "frames": [], "where": "kod"}}
@@ -609,11 +612,14 @@ def do_regex_test(job):
 
 def do_regex_dis(job):
     desen = _desen(job["code"])
-    if job.get("motor") == "pcre2":
-        rx, err = _regex_derle(desen, "pcre2")
+    if job.get("motor") in ("pcre2", "dotnet", "javascript"):
+        motor = job["motor"]
+        rx, err = _regex_derle(desen, motor)
         if err:
             return {"status": "error", "error": err, "text": ""}
-        return {"status": "ok", "text": _pcre2().bilgi(desen)}
+        if motor == "pcre2":
+            return {"status": "ok", "text": _pcre2().bilgi(desen)}
+        return {"status": "ok", "text": _cevirici("regex_motorlar").bilgi(desen, motor)}
     buf = io.StringIO()
     try:
         with contextlib.redirect_stdout(buf):

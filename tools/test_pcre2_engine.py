@@ -103,7 +103,7 @@ class Kosucu(unittest.TestCase):
         self.assertIsInstance(self.kos({"motor": "pcre2"}), runners.Pcre2Runner)
         self.assertNotIsInstance(self.kos({}), runners.Pcre2Runner)
         with self.assertRaises(ValueError):
-            self.kos({"motor": "dotnet"})
+            self.kos({"motor": "perl"})
         with self.assertRaises(ValueError):
             runners.for_step(runners.get("sql"), {"meta": {"motor": "pcre2"}})
 

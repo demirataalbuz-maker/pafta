@@ -7,7 +7,8 @@ fark, düzeneğe hangi modla ve hangi ek bilgilerle gidildiğidir:
 
     python      → run / test / trace (Röntgen) / dis (Bytecode)
     regex       → kod = desen, girdi = metin; regex_run / regex_test / regex_dis (ağaç);
-                  adım meta'sında motor: pcre2 → aynı modlar gerçek PCRE2'de (sandbox/pcre2_engine.py)
+                  adım meta'sında motor: pcre2 → aynı modlar gerçek PCRE2'de (sandbox/pcre2_engine.py);
+                  motor: dotnet / javascript → .NET ya da Node motorunda (sandbox/regex_motorlar.py)
     bash, powershell → kod bir betik dosyasına yazılır; proc_run / proc_test / proc_trace
     sql         → bellek içi SQLite; örnek veritabanı (tracks/sql/ornek.sql) + görev hazırlığı;
                   sql_run / sql_test / sql_dis (sorgu planı); adım meta'sında motor: postgres →
@@ -210,12 +211,12 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2", "sqlite", "postgres", "mariadb"):
-        raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, sqlite, postgres veya mariadb kullanın.")
-    if motor == "pcre2":
+    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb"):
+        raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres veya mariadb kullanın.")
+    if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
-            raise ValueError("motor: pcre2 yalnız regex yolunda tanımlı.")
-        runner = Pcre2Runner()
+            raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
+        runner = Pcre2Runner() if motor == "pcre2" else RegexMotorRunner(motor)
     elif motor == "postgres":
         if type(runner) is not SqlRunner:
             raise ValueError("motor: postgres yalnız SQL yolunda tanımlı.")
@@ -251,6 +252,24 @@ class Pcre2Runner(RegexRunner):
         modul = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(modul)
         return modul.available()
+
+
+class RegexMotorRunner(RegexRunner):
+    """Adım meta'sında motor: dotnet / javascript → aynı regex modları, gerçek .NET ya da Node motorunda
+    (sandbox/regex_motorlar.py; motor ayrı bir süreçte iş başına bir kez açılır)."""
+    test_timeout = 30
+    default_timeout = 20
+
+    def __init__(self, motor):
+        self.motor = motor
+        self.name = "regex-" + motor
+        self.ozellik = {"roentgen": False, "dis": {"dotnet": ".NET", "javascript": "JavaScript"}[motor]}
+        self.ek = {"motor": motor}
+
+    def available(self):
+        if self.motor == "javascript":
+            return bool(NODE)
+        return shutil.which("powershell.exe") is not None
 
 
 class DetectionRunner(HarnessRunner):
