@@ -263,19 +263,22 @@
    "not": "PK21–PK22; gerçek ssl TLS1.3/h2 ve aioquic korpusu, eğitim keylog profilleri; doğru/yanlış/yok sırlarla native TShark. 22 ders/146 kontrol, 7 mutasyon ve 3 crypto testi temiz."
   },
   "Wireshark/tcpdump: TCP yeniden birleştirme ve analist iş akışı": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı Wireshark/tcpdump bölümünün tamamını Codex’e verdi. Mevcut 18 ders korunarak gerçek TShark/libpcap, PCAPNG ve protokol/CLI korpusu eklenecek. Ortak sandbox/packet_engine.py, sandbox/bpf_native.py, sandbox/packet_fixtures.py ve gerekirse engine/runners.py yalnız paket tezgahı için; README ders sayısı ve kurulum açıklaması. tools/durum_listesi.py ve tools/takip_excel.py başka ajanın işi, dokunulmayacak."
+   "commit": "fa24b35",
+   "not": "PK23–PK24; gerçek iki geçişli TShark, tam/tekrarlı/sırasız/kayıp korpusu, Follow Stream ve 13 bayt HTTP export. 4 CLI testi temiz; eksik gövde uydurulmuyor. Bütün paket yolu Windows/Git Bash 29 ders/185 kontrol, 59 görev/29 tahmin/313 mutasyon (5 belgeli eşdeğer), 35 Python ve 18 UI testi temiz. Rapor: outputs/codex-packets-asama2-teslim.md."
   },
   "Wireshark/tcpdump: SMB2 ve Kerberos/LDAP kayıtlarında inceleme": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı Wireshark/tcpdump bölümünün tamamını Codex’e verdi. Mevcut 18 ders korunarak gerçek TShark/libpcap, PCAPNG ve protokol/CLI korpusu eklenecek. Ortak sandbox/packet_engine.py, sandbox/bpf_native.py, sandbox/packet_fixtures.py ve gerekirse engine/runners.py yalnız paket tezgahı için; README ders sayısı ve kurulum açıklaması. tools/durum_listesi.py ve tools/takip_excel.py başka ajanın işi, dokunulmayacak."
+   "commit": "2c313ec",
+   "not": "PK25–PK27; Scapy/BER pasif korpusları, SMB3 AES-CCM zarfı; native SMB2 yön/NTSTATUS, Kerberos 23/24/25 ve LDAP 48/49/50. 6 görev, 3 tahmin ve 23 madde mutasyonu temiz; canlı AD oturumu iddiası yok. Bütün paket yolu Windows/Git Bash 29 ders/185 kontrol, 59 görev/29 tahmin/313 mutasyon (5 belgeli eşdeğer), 35 Python ve 18 UI testi temiz. Rapor: outputs/codex-packets-asama2-teslim.md."
   },
   "Wireshark/tcpdump: Gerçek CLI ile kayıt toplama, alan çıkarma ve özet raporu": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı Wireshark/tcpdump bölümünün tamamını Codex’e verdi. Mevcut 18 ders korunarak gerçek TShark/libpcap, PCAPNG ve protokol/CLI korpusu eklenecek. Ortak sandbox/packet_engine.py, sandbox/bpf_native.py, sandbox/packet_fixtures.py ve gerekirse engine/runners.py yalnız paket tezgahı için; README ders sayısı ve kurulum açıklaması. tools/durum_listesi.py ve tools/takip_excel.py başka ajanın işi, dokunulmayacak."
+   "commit": "2690a1e, 6dfe939",
+   "not": "PK28–PK29; TShark alan/hiyerarşi/PCAPNG raporu ve kendi localhost UDP uç çiftinde gerçek Kali tcpdump. Snaplen ve 1 MB/iki dosya döndürme, ilgisiz UDP gürültüsü dışlama, süre/paket/boyut sınırı. WSL dağıtım ayarı ve root gereksinimi README’de. Ortak engine/lessons.py, engine/runners.py, tools/validate.py ve web/* komut dili/görünür çıktı için değişti. Paket kurulmadı. Bütün paket yolu Windows/Git Bash 29 ders/185 kontrol, 59 görev/29 tahmin/313 mutasyon (5 belgeli eşdeğer), 35 Python ve 18 UI testi temiz. Rapor: outputs/codex-packets-asama2-teslim.md."
   },
   "CMD: Sigcheck/Autorunsc ile karşılaştırmalı dosya/başlangıç envanteri": {
    "durum": "denetime-hazir",
