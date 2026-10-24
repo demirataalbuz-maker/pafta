@@ -31,7 +31,7 @@ class PacketAppTests(unittest.TestCase):
                     outline = api("/api/track/packets")["track"]
                     self.assertEqual(len(outline["ranks"]), 6)
                     self.assertEqual([l["id"] for m in outline["modules"] for l in m["lessons"]],
-                                     [f"pk{i:02}" for i in range(1, 23)])
+                                     [f"pk{i:02}" for i in range(1, 25)])
                     self.assertTrue(all(not l.get("missing") for m in outline["modules"] for l in m["lessons"]))
                     for dialect, code, expected in [("wireshark", "udp.port == 53", [3, 4, 14]),
                                                      ("bpf", "tcp dst port 443", [10, 12, 13, 15])]:

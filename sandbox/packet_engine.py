@@ -65,8 +65,8 @@ def options(text=""):
         raise PacketError('anahtar: yok, yanlis, tls-h2 veya quic-lab olmalı; dosya yolu kabul edilmez.')
     if "kayit" in value and "pcap_base64" in value:
         raise PacketError("kayit ile pcap_base64 birlikte verilmez.")
-    if value.get("dil", "wireshark") not in ("wireshark", "bpf"):
-        raise PacketError("dil wireshark ya da bpf olmalı; iki dilin sözdizimi farklıdır.")
+    if value.get("dil", "wireshark") not in ("wireshark", "bpf", "tshark"):
+        raise PacketError("dil wireshark, bpf veya tshark olmalı; sözdizimleri farklıdır.")
     return dict({"dil": "wireshark", "kayit": "temel"} if "pcap_base64" not in value
                 else {"dil": "wireshark"}, **value)
 
@@ -238,6 +238,10 @@ def pcap_lengths(raw):
 def run(code, stdin=""):
     config = options(stdin)
     raw = input_capture(config)
+    if config['dil']=='tshark':
+        try:from . import packet_cli
+        except ImportError:import packet_cli
+        return packet_cli.run(code,raw,config.get('anahtar','yok'))
     ids = evaluate(code, raw, config["dil"],config.get('anahtar','yok'))
     out = "Paketler: " + (", ".join(map(str, ids)) if ids else "(yok)") + "\n"
     lengths = pcap_lengths(raw)
@@ -280,6 +284,10 @@ def test_helpers(code, stdin=""):
     selected = input_capture(config)
     dialect = config["dil"]
     key=config.get('anahtar','yok')
+    if dialect=='tshark':
+        try:from . import packet_cli
+        except ImportError:import packet_cli
+        return packet_cli.test_helpers(code,selected,key)
     evaluate(code, selected, dialect,key)  # Invalid filters cannot pass a vacuous test.
     return {"src": code,
             "eslesenler": lambda kayit=None,anahtar=None: evaluate(code, selected if kayit is None else kayit, dialect,key if anahtar is None else anahtar),

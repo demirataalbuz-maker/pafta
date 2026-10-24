@@ -251,14 +251,16 @@
    "not": "YR21–YR22: 2 ders/4 görev/2 gerçek libyara tahmini. 13 gcc/.NET derleme tanığı; 17 semantik mutasyon reddedildi, 15 motor testi temiz. YARA Windows ve Git Bash: 22 ders/134 kontrol temiz. Genel uygulama taramaları denetçinin paralel tam taraması nedeniyle tamamlanmadan durduruldu; genel temiz sonucu iddia edilmedi. Rapor: outputs/codex-42-yara-elf-dotnet.md. Paket kurulmadı. README ders sayısı dışında ortak koşucu değişmedi."
   },
   "Wireshark/tcpdump: PCAPNG ve farklı link-layer türleriyle gerçek kayıt kabulü": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı Wireshark/tcpdump bölümünün tamamını Codex’e verdi. Mevcut 18 ders korunarak gerçek TShark/libpcap, PCAPNG ve protokol/CLI korpusu eklenecek. Ortak sandbox/packet_engine.py, sandbox/bpf_native.py, sandbox/packet_fixtures.py ve gerekirse engine/runners.py yalnız paket tezgahı için; README ders sayısı ve kurulum açıklaması. tools/durum_listesi.py ve tools/takip_excel.py başka ajanın işi, dokunulmayacak."
+   "commit": "d5288a5",
+   "not": "PK19–PK20; Ethernet/RAW/SLL/SLL2 için gerçek DLT; tam zaman kesirleri, multi-section/endian ve bozuk kayıt testleri. 20 ders/136 kontrol; 18 mutasyon temiz."
   },
   "Wireshark/tcpdump: TLS/HTTP2/QUIC trafiğini ve görünürlük sınırını uygulamalı incelemek": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Kullanıcı Wireshark/tcpdump bölümünün tamamını Codex’e verdi. Mevcut 18 ders korunarak gerçek TShark/libpcap, PCAPNG ve protokol/CLI korpusu eklenecek. Ortak sandbox/packet_engine.py, sandbox/bpf_native.py, sandbox/packet_fixtures.py ve gerekirse engine/runners.py yalnız paket tezgahı için; README ders sayısı ve kurulum açıklaması. tools/durum_listesi.py ve tools/takip_excel.py başka ajanın işi, dokunulmayacak."
+   "commit": "ed6daba",
+   "not": "PK21–PK22; gerçek ssl TLS1.3/h2 ve aioquic korpusu, eğitim keylog profilleri; doğru/yanlış/yok sırlarla native TShark. 22 ders/146 kontrol, 7 mutasyon ve 3 crypto testi temiz."
   },
   "Wireshark/tcpdump: TCP yeniden birleştirme ve analist iş akışı": {
    "durum": "calisiliyor",

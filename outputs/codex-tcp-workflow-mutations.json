@@ -1,0 +1,238 @@
+{
+  "lessons": 2,
+  "tasks": 4,
+  "predictions": 2,
+  "mutations": 6,
+  "equivalent": 0,
+  "failures": [],
+  "records": [
+    {
+      "lesson": "pk23",
+      "step": 2,
+      "change": "solution",
+      "code": "tcp.analysis.retransmission",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk23",
+      "step": 2,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kasıtlı tekrar",
+          "got": "[]",
+          "exp": "[8]"
+        },
+        {
+          "ok": false,
+          "msg": "frame numarası değişti",
+          "got": "[]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk23",
+      "step": 3,
+      "change": "solution",
+      "code": "http.request and http.request.uri == \"/download\"",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk23",
+      "step": 3,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki segmentli istek son segmentte çözülür",
+          "got": "[]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "yanıt eksik olsa da istek tam",
+          "got": "[]",
+          "exp": "[5]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk23",
+      "step": 3,
+      "change": "and→or at 13",
+      "code": "http.request or http.request.uri == \"/download\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki segmentli istek son segmentte çözülür",
+          "got": "[5, 7]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "başka HTTP yolları",
+          "got": "[6, 8, 12, 14, 21, 23]",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk23",
+      "step": 3,
+      "change": "==→!= at 34",
+      "code": "http.request and http.request.uri != \"/download\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki segmentli istek son segmentte çözülür",
+          "got": "[]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "yanıt eksik olsa da istek tam",
+          "got": "[]",
+          "exp": "[5]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk24",
+      "step": 2,
+      "change": "solution",
+      "code": "tshark -r secili -2 -o tcp.reassemble_out_of_order:TRUE -Y http.response -T fields -e frame.number",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk24",
+      "step": 2,
+      "change": "starter",
+      "code": "tshark -r secili -Y frame.number==0 -T fields -e frame.number",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sırasız orta segment",
+          "got": "[]",
+          "exp": "['8']"
+        },
+        {
+          "ok": false,
+          "msg": "normal sıra",
+          "got": "[]",
+          "exp": "['7']"
+        }
+      ]
+    },
+    {
+      "lesson": "pk24",
+      "step": 2,
+      "change": "2→1 at 18",
+      "code": "tshark -r secili -1 -o tcp.reassemble_out_of_order:TRUE -Y http.response -T fields -e frame.number",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Desteklenmeyen/eksik CLI seçeneği: -1",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk24",
+      "step": 2,
+      "change": "2→3 at 18",
+      "code": "tshark -r secili -3 -o tcp.reassemble_out_of_order:TRUE -Y http.response -T fields -e frame.number",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Desteklenmeyen/eksik CLI seçeneği: -3",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk24",
+      "step": 3,
+      "change": "solution",
+      "code": "tshark -r secili -2 -o tcp.reassemble_out_of_order:TRUE -q --export-objects http,sonuc",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk24",
+      "step": 3,
+      "change": "starter",
+      "code": "tshark -r secili -q",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tek nesne: tcp-sirasiz",
+          "got": "0",
+          "exp": "1"
+        },
+        {
+          "ok": false,
+          "msg": "tek nesne: tcp-tam",
+          "got": "0",
+          "exp": "1"
+        }
+      ]
+    },
+    {
+      "lesson": "pk24",
+      "step": 3,
+      "change": "2→1 at 18",
+      "code": "tshark -r secili -1 -o tcp.reassemble_out_of_order:TRUE -q --export-objects http,sonuc",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Desteklenmeyen/eksik CLI seçeneği: -1",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk24",
+      "step": 3,
+      "change": "2→3 at 18",
+      "code": "tshark -r secili -3 -o tcp.reassemble_out_of_order:TRUE -q --export-objects http,sonuc",
+      "status": "error",
+      "error": {
+        "type": "PAKETHatası",
+        "msg": "Desteklenmeyen/eksik CLI seçeneği: -3",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "failed_checks": []
+    }
+  ]
+}

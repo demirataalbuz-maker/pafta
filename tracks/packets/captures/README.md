@@ -1,5 +1,24 @@
 # Eğitim PCAP kayıtları
 
+## TCP analist korpusu ve CLI
+
+`tools/build_packet_analysis_corpus.py` dört sentetik TCP kaydı oluşturur:
+`tcp-tam`, `tcp-tekrar`, `tcp-sirasiz`, `tcp-kayip`. HTTP istek/yanıtı
+segmentlere ayrılır; çıkarılacak tam gövde PAFTA-TCP-LAB (13 bayt).
+Native TShark etiketleri kaydın zaman/sequence bağlamına bağlıdır;
+sırasız korpustaki geç orta segment bu sürümde retransmission etiketi alır.
+Sırasız yeniden birleştirme tercihi açılınca tam gövde çıkar, eksik korpusta
+eksik baytlar tamamlanmaz. TCP/HTTP baytları ağda gönderilmez.
+
+Girdi `{"dil":"tshark","kayit":"tcp-sirasiz"}` olduğunda editör gerçek
+TShark komutunu alır. `-r secili` dışında giriş yolu, geçici `sonuc` dışında
+çıktı yolu verilmez; keylog profili JSON'dan seçilir. Desteklenen kapsam:
+`-2`, `-Y`, `-T fields/-e/-E`, belirli TCP/HTTP `-o` tercihleri,
+Follow TCP ascii/raw, protocol hierarchy/conversation/io istatistikleri,
+HTTP nesne çıkarma ve `sonuc.pcap[ng]` dosyasına offline kayıt yazma.
+Canlı `-i` bu editörde kabul edilmez. Çıkarılan dosyalar geçici klasörden
+okunup `exports` ve sonuç tablosunda gösterilir; kalıcı dosyaya yazılmaz.
+
 ## TLS / HTTP2 / QUIC korpusu
 
 `tools/build_packet_protocol_corpus.py` kurulu Kali ssl/cryptography/hpack ve
