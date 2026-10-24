@@ -1,6 +1,6 @@
 # Pafta · Denetim
 
-Son denetim: 2026-10-21, `44dd8d8`: 391 ders, 3372 kontrol temiz, hem normal Windows ortamında hem Git Bash'ten. Elastic yazma yolu (`777a9b9`, `0d9dbc9`) denetlendi, bulgu yok. AD'nin bütün bulguları kapandı (`44dd8d8`, `a492264`). Assembly düzeltmeleri (`263cf8c`) ölçüldü, A23–A26 kapandı; Antigravity'nin rapor güvenilirliği A28 açık.
+Son denetim: 2026-10-24, `13fd071` (denetçi: Claude, Yazar 2'den denetçi rolüne geçti; kullanıcı kararı): 434 ders, 3710 kontrol temiz (normal Windows); Git Bash'te yalnız PS26'nın iki görevi yük altında zaman aşımı (A39). Denetlenen: BS31 (`572363f`), PS27–PS28 (`403bd7a`), KQ22 (`13fd071`), A34/A35 düzeltmeleri (`36fd155`). Açık: A36–A39.
 
 Bir madde yazarın raporuyla değil, denetçinin kendi betikleri yeniden koşturulunca kapanmış sayılır.
 
@@ -22,8 +22,10 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
-| A34 | `tracks/java/jv13`:2 ve `tracks/csharp/cs14`:2 (tahmin) | Tahmin cevabı (gercek) doğru ama açıklama metni çıktının satırlarını birebir içermiyor; öğrenci tahminini açıklamayla karşılaştıramıyor. Cevaplar denetçi tarafından doğru bulundu (Spring @Transactional rollback davranışı; ASP.NET Web Forms yaşam döngüsü sırası). | açıklamaya çıktı satırlarını ekle | Yazar 2 |
-| A35 | `tracks/http/ht16`:6 ve `tracks/java/jv13`:4 (test) | İki küçük test boşluğu: ht16'da `keep_blank_values=True` savunma ayarı testlerce zorlanmıyor (True→False mutantı geçiyor); jv13'te `len(parca) > len(ek)` iç sınırı testlerce ayrıştırılmıyor (>→>= mutantı geçiyor). İkisi de düşük önem; ders çıktıları doğru. | sınır girdisi ekleyen birer test | Yazar 2 |
+| A36 | `tracks/kql/kq22`:2 ve :3 (test) | Dersin konusu olan pencere sınırı ve alarm eşiği testlerce zorlanmıyor: verideki hiçbir hata tam bir çalıştırma anına ya da `calisma - 30m`'ye düşmüyor, hiçbir çalıştırmada tam 2 hata yok. Denetçinin mutasyon betiğinde `zaman <= calisma` → `<`, `zaman > calisma - 30m` → `>=`, `hata >= 2` → `> 2` (ve `2` → `3`) mutantları geçiyor. Tahmin ve çözüm çıktıları doğru. | `dene()` ile pencere sınırına tam oturan ve tam iki hatalı çalıştırma üreten birer olay ekle | Yazar 1 |
+| A37 | `tracks/powershell/ps28`:3 ve `tracks/bash/bs31`:8 (test) | İki düşük önemli test boşluğu: ps28:3'teki tek EKSIK örneğinde toplam (2) ile eksik liste ("2") aynı, biçim dizgisindeki `{1}` → `{2}` mutantı fark edilmiyor; bs31:8'de öncelik adı → sayı eşlemesi çıktıda görünmüyor (`short-iso`), `alert` 1→2 ve `debug` 7→8 mutantları geçiyor. | toplamı eksik listeden farklı bir EKSIK örneği; önceliği gösteren bir çıktı (`-o json` PRIORITY ya da `-p` süzgeci) | Yazar 1 |
+| A38 | `tracks/java/jv13`:4 (test) | Üç koşullu yöntem adı sınanmıyor: `i % 2 == 1` → `i % 3 == 1` mutantı geçiyor (iki koşulda ayırt edilemiyor). Düşük önem. Not: dersin yazarı Yazar 2, bu denetimi yapan da Yazar 2; düzeltme bağımsız ölçülmeli. | `findByAAndBOrC` gibi üç koşullu bir test | Yazar 2 |
+| A39 | `tracks/powershell/ps26`:3 ve :4 (zamanlama) | Her görev testi Pester'ı 7 ve 12 kez ayrı PowerShell süreçlerinde başlatıyor: boşta 22,3 ve 22,8 sn, sınır 50 sn. `tools/validate.py` işleri paralel koştuğundan yük altında (Git Bash koşusu, eşzamanlı mutasyon betiği) iki görev zaman aşımına düştü; tek başına yeniden koşuda temiz (ders 31,9 sn). Doğrulamanın tekrarlanabilirliği bozuluyor. | adım meta'sında daha geniş `timeout` ya da mutantları tek Pester oturumunda koşmak | Yazar 2 |
 
 **AD yolu (`26ddfbd`) sıkı denetimi** (Claude, AD denetçisi). Ölçümler `git archive 26ddfbd` ile çıkarılan anlık görüntüde yapıldı.
 - **Validate:** AD yolu 12 ders, 119 kontrol temiz; hem PowerShell'de (`NoDefaultCurrentDirectoryInExePath` kaldırılarak) hem Git Bash'te.
@@ -62,40 +64,40 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 1 | python | pip/venv ile betik ortamı ve tekrarlanabilir bağımlılık kurulumu | 1 (sıra 1) | Codex (altyapı) · Yazar 1 (ders) | denetlendi (`19fb053` altyapı, `ebd4157` P75) |
 | 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | denetlendi (`8f4c9a6`, `5fb8da0`, P74) |
 | 3 | python | Beautiful Soup ile HTML ayrıştırma | 1 (sıra 3) | Yazar 1 | denetlendi (`8f4c9a6`, P74) |
-| 4 | python | Scapy ile paket kaydını Python'dan okumak ve üretmek | 1 (sıra 4) | Antigravity | bekliyor |
-| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Antigravity | bekliyor (Linux koşucusu hazır) |
-| 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex | bekliyor (Codex; paketler kurulu) |
-| 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex | bekliyor (Codex) |
+| 4 | python | Scapy ile paket kaydını Python'dan okumak ve üretmek | 1 (sıra 4) | Yazar 2 (okuma) · Codex'e önerildi (üretme) | kısmen: okuma P80 denetlendi (`9128368`); üretme ayağı Yazar 2'de güvenlik filtresine takıldı, Codex'e önerildi |
+| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Codex'e önerildi | bekliyor: Yazar 2'de güvenlik filtresine takıldı; ölçümler docs/durum.json'da |
+| 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex | denetlendi (`312e90b`, P76–P77) |
+| 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex | denetlendi (`b645c80`, P78–P79) |
 | 8 | bash | curl/jq ile API ve JSON araç zinciri | 1 (sıra 8) | Yazar 1 | denetlendi (`0362d53`, BS29) |
-| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | Yazar 1 | Yazar 1'de; systemd-journal-remote kurulum kararı bekliyor |
-| 10 | bash | rwx sonrası POSIX ACL ve Linux capabilities | 1 (sıra 10) | Antigravity | bekliyor (Linux koşucusu hazır) |
-| 11 | bash | OpenSSH istemcisiyle komut ve dosya akışı | 1 (sıra 11) | Codex | bekliyor (Yazar 1 denetime takıldı) |
+| 9 | bash | Linux süreç ve olay verisini kaynağından toplamak | 1 (sıra 9) | Yazar 1 | denetlendi (`572363f`, BS31); A37 |
+| 10 | bash | rwx sonrası POSIX ACL ve Linux capabilities | 1 (sıra 10) | Yazar 2 | denetlendi (`0348358`, BS32–BS33) |
+| 11 | bash | OpenSSH istemcisiyle komut ve dosya akışı | 1 (sıra 11) | Yazar 2 | denetlendi (`698d81e`, `a99aaa9`, BS34–BS35) |
 | 12 | bash | ShellCheck ve Bats ile kendi aracını sınamak | 1 (sıra 12) | Yazar 1 | denetlendi (`6b53bd0`, BS30) |
 | 13 | powershell | Invoke-RestMethod/WebRequest ile oturumlu API otomasyonu | 1 (sıra 13) | Yazar 1 | denetlendi (`dc4cd2e`, PS23) |
-| 14 | powershell | Offline EVTX ve PowerShell 4104 kayıtlarını incelemek | 1 (sıra 14) | Yazar 1 | bekliyor (Codex) |
+| 14 | powershell | Offline EVTX ve PowerShell 4104 kayıtlarını incelemek | 1 (sıra 14) | Yazar 1 | denetlendi (`403bd7a`, PS27–PS28); A37 |
 | 15 | powershell | Get-Acl ile NTFS/Registry erişim değerlendirmesi | 1 (sıra 15) | Yazar 1 | denetlendi (`e47d743`, PS22) |
-| 16 | powershell | Authenticode imzasını dosya incelemesine katmak | 2+ | Yazar 1 | bekliyor |
-| 17 | powershell | Pester ile kendi modül/fonksiyonunun testlerini yazmak | 2+ | Yazar 1 | bekliyor |
-| 18 | powershell | Gerçek PSSession yaşam döngüsü ve uzak çıktı | 2+ | Yazar 1 | bekliyor |
+| 16 | powershell | Authenticode imzasını dosya incelemesine katmak | 2+ | Yazar 2 | denetlendi (`c0cdadb`, PS25) |
+| 17 | powershell | Pester ile kendi modül/fonksiyonunun testlerini yazmak | 2+ | Yazar 2 | denetlendi (`2af3515`, PS26); A39 |
+| 18 | powershell | Gerçek PSSession yaşam döngüsü ve uzak çıktı | 2+ | Yazar 2 | bekliyor: WinRM için kullanıcının bir kez yönetici onayı (yalnız localhost dinleyici) |
 | 19 | powershell | Constrained Language Mode (LanguageMode), JEA (RoleCapabilities) ve AppLocker (8002/8004) olaylarını incelemek (Antigravity önerisi) | 2+ | Antigravity | denetlendi (`1f608b9`, PS24) |
-| 20 | cmd | wevtutil ile offline EVTX sorgu ve export | 2+ | Codex | bekliyor |
-| 21 | cmd | Servis, zamanlanmış görev ve Registry yapılandırmasını sorgulamak | 2+ | Yazar 1 | bekliyor |
-| 22 | cmd | Token/grup/ayrıcalık ve icacls çıktısını birlikte okumak | 2+ | Yazar 1 | bekliyor |
+| 20 | cmd | wevtutil ile offline EVTX sorgu ve export | 2+ | Codex | denetlendi (`def85ee`, CM19–CM20) |
+| 21 | cmd | Servis, zamanlanmış görev ve Registry yapılandırmasını sorgulamak | 2+ | Codex | denetlendi (`8a64430`, CM21–CM22) |
+| 22 | cmd | Token/grup/ayrıcalık ve icacls çıktısını birlikte okumak | 2+ | Codex | denetlendi (`9ca6432`, CM23–CM24) |
 | 23 | cmd | Sigcheck/Autorunsc ile karşılaştırmalı dosya/başlangıç envanteri | 2+ | Codex | bekliyor |
 | 24 | http | Burp Proxy → History → Repeater iş akışı | 2+ | Codex | bekliyor |
 | 25 | http | curl ile HTTPS, CA ve hostname doğrulaması | 2+ | Codex | bekliyor |
 | 26 | http | Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF | 2+ | Codex | bekliyor |
 | 27 | http | İki hesaplı nesne yetkilendirme matrisi | 2+ | Codex | bekliyor |
-| 28 | http | JWT yapısı, imza doğrulama tuzakları ve OAuth2/OIDC yönlendirme akışı (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
-| 29 | http | SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
+| 28 | http | JWT yapısı, imza doğrulama tuzakları ve OAuth2/OIDC yönlendirme akışı (Antigravity önerisi) | 2+ | Antigravity | denetlendi (`7ee458e`, HT16) |
+| 29 | http | SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri (Antigravity önerisi) | 2+ | Codex'e önerildi | bekliyor: Yazar 2'de güvenlik filtresine takıldı |
 | 30 | http | WebSocket el sıkışması (101) ve GraphQL sorgu/yetki okuma (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
-| 31 | sql | SQLite dışındaki SQL lehçelerini gerçek motorlarda kullanmak | 2+ | Codex | bekliyor |
-| 32 | sql | Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi | 2+ | Yazar 2 | Yazar 2'ye verildi |
-| 33 | sql | Veritabanı rolleri ve etkili yetkileri denetlemek | 2+ | Yazar 2 | Yazar 2'ye verildi |
-| 34 | sql | SQL içinden JSON kayıtlarını sorgulamak | 2+ | Yazar 2 | Yazar 2'ye verildi |
+| 31 | sql | SQLite dışındaki SQL lehçelerini gerçek motorlarda kullanmak | 2+ | Yazar 2 | denetlendi (`05b1a4e`, `aef27d3`, `99b8b97`; PostgreSQL ve MariaDB motorları, SQ22) |
+| 32 | sql | Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi | 2+ | Yazar 2 | denetlendi (`3234635`, SQ19) |
+| 33 | sql | Veritabanı rolleri ve etkili yetkileri denetlemek | 2+ | Yazar 2 | denetlendi (`05b1a4e`, `c48f84a`, SQ21) |
+| 34 | sql | SQL içinden JSON kayıtlarını sorgulamak | 2+ | Yazar 2 | denetlendi (`a0290ad`, SQ20) |
 | 35 | kql | Sentinel/Defender güvenlik şemaları ve watchlist ile olay avcılığı | 2+ | Yazar 1 | bekliyor |
 | 36 | kql | mv-apply ve bag_unpack ile ileri dinamik kayıt çözümleme | 2+ | Codex | bekliyor |
-| 37 | kql | Avcılık sorgusunu zamanlanan Sentinel analitik kuralına dönüştürmek | 2+ | Yazar 1 | bekliyor |
+| 37 | kql | Avcılık sorgusunu zamanlanan Sentinel analitik kuralına dönüştürmek | 2+ | Yazar 1 | geri döndü (A36): KQ22 (`13fd071`) yerel benzetim; gerçek Sentinel kuralı abonelik ister |
 | 38 | spl | Gerçek log alımı ve olay sınırı/zaman ayarları | 2+ | Codex | bekliyor |
 | 39 | spl | CIM eşlemesi ve tstats'ı gerçek veri modeli/indeks üstünde çalıştırmak | 2+ | Yazar 1 | bekliyor |
 | 40 | spl | Sorgudan zamanlanan alarma: tetikleme, zaman aralığı ve bastırma | 2+ | Yazar 1 | bekliyor |
@@ -107,12 +109,12 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 46 | sigma | Çalıştırılan korelasyon kuralları | 2+ | Codex | bekliyor |
 | 47 | sigma | Gerçek olaydan kurala telemetri doğrulaması | 2+ | Yazar 1 | bekliyor |
 | 48 | sigma | İleri modifierları gerçek hedefte uygulamak | 2+ | Codex | bekliyor |
-| 49 | yara | PE import/export ve bölüm özellikleriyle derin dosya incelemesi | 2+ | Codex | bekliyor |
+| 49 | yara | PE import/export ve bölüm özellikleriyle derin dosya incelemesi | 2+ | Codex | denetlendi (`b4b7432`, YR19–YR20) |
 | 50 | yara | ELF ve .NET modülleriyle dosya türüne özgü kurallar | 2+ | Codex | bekliyor |
 | 51 | yara | Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı | 2+ | Codex | bekliyor |
 | 52 | yara | Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü | 2+ | Codex | bekliyor |
-| 53 | regex | RX16'daki lehçe bilgisini gerçek motorlarda sınamak | 2+ | Codex | bekliyor |
-| 54 | regex | Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak | 2+ | Yazar 2 | Yazar 2'ye verildi |
+| 53 | regex | RX16'daki lehçe bilgisini gerçek motorlarda sınamak | 2+ | Yazar 2 | denetlendi (`6291614`, `94a3b76`, `97ef3e8`; PCRE2/.NET/JS motorları, RX24) |
+| 54 | regex | Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak | 2+ | Yazar 2 | denetlendi (`6291614`, `9000f66`, RX23) |
 | 55 | packets | PCAPNG ve farklı link-layer türleriyle gerçek kayıt kabulü | 2+ | Codex | bekliyor |
 | 56 | packets | TLS/HTTP2/QUIC trafiğini ve görünürlük sınırını uygulamalı incelemek | 2+ | Codex | bekliyor |
 | 57 | packets | TCP yeniden birleştirme ve analist iş akışı | 2+ | Yazar 1 | bekliyor |
@@ -124,16 +126,16 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 63 | ad | Gerçek LDAP bağlantısında TLS, imzalama ve channel binding | 2+ | Codex | bekliyor |
 | 64 | ad | GPO/SYSVOL yapılandırma dosyalarını (GptTmpl.inf, Groups.xml) ve LAPS özniteliklerini denetlemek (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
 | 65 | java | Gerçek Spring Security zinciri ve method authorization | 2+ | Antigravity | bekliyor |
-| 66 | java | Spring Data JPA ve transaction proxy akışı | 2+ | Antigravity | bekliyor |
+| 66 | java | Spring Data JPA ve transaction proxy akışı | 2+ | Yazar 2 | denetlendi (`f487992`, `36fd155`, JV13); A38 |
 | 67 | java | Serialization nesne grafiği, callback ve filtre sınırlarını okumak | 2+ | Antigravity | bekliyor |
 | 68 | java | Şablon motorlarında (Thymeleaf / FreeMarker) bağlam, otomatik kaçış ve ifadeleri okumak (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
 | 69 | csharp | Claims/policy ve nesne sahibine göre yetkilendirme akışı | 2+ | Antigravity | denetlendi (`a95d017`, CS13); A31 açık |
-| 70 | csharp | Klasik ASP.NET/System.Web yaşam döngüsü | 2+ | Antigravity | bekliyor |
+| 70 | csharp | Klasik ASP.NET/System.Web yaşam döngüsü | 2+ | Yazar 2 | denetlendi (`379bcbf`, `36fd155`, CS14) |
 | 71 | csharp | Nesne grafiği serializer'larında güvenilmeyen veri akışı | 2+ | Antigravity | bekliyor |
 | 72 | csharp | Assembly/CIL ve P/Invoke sınırını okumak | 2+ | Antigravity | bekliyor |
 | 73 | csharp | XML ayrıştırıcı ayarlarında (XmlReaderSettings / DtdProcessing) DTD ve dış varlık sınırlarını okumak (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
-| 74 | c | Heap sahipliği, alias ve realloc başarısızlığını izlemek | 2+ | Codex | bekliyor |
-| 75 | c | POSIX fd, kısa I/O ve hata akışı | 2+ | Codex | bekliyor |
+| 74 | c | Heap sahipliği, alias ve realloc başarısızlığını izlemek | 2+ | Codex'e önerildi | bekliyor: Yazar 2'de güvenlik filtresine takıldı |
+| 75 | c | POSIX fd, kısa I/O ve hata akışı | 2+ | Codex'e önerildi | bekliyor: Yazar 2'de güvenlik filtresine takıldı; ölçümler docs/durum.json'da |
 | 76 | c | Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı | 2+ | Codex | bekliyor |
 | 77 | c | Çalışma zamanında dinamik sembol çözme (dlopen/dlsym ve LoadLibrary/GetProcAddress) akışını okumak (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
 | 78 | php | Laravel istek ve yetki zincirini gerçek framework kodunda okumak | 2+ | Codex | bekliyor |
@@ -141,7 +143,7 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 80 | php | unserialize callback ve autoload grafiğini izlemek | 2+ | Codex | bekliyor |
 | 81 | php | Upload ve stream-wrapper dosya akışını okumak | 2+ | Codex | bekliyor |
 | 82 | php | Twig/Blade şablon kaçışı ({{ }} vs {!! !!}) ve parse_url / filter_var doğrulama sınırlarını okumak (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
-| 83 | javascript | Gerçek Express Router ve hata akışını okumak | 2+ | Codex | bekliyor |
+| 83 | javascript | Gerçek Express Router ve hata akışını okumak | 2+ | Yazar 2 | denetlendi (`9db1900`, JS13) |
 | 84 | javascript | Browser/SPA içinde postMessage ve ham HTML güven sınırı | 2+ | Codex | bekliyor |
 | 85 | javascript | Prototype pollution: kaynak→kalıtılan özellik→karar | 2+ | Codex | bekliyor |
 | 86 | javascript | Bundle/source map ile çalışan kodu kaynağa eşlemek | 2+ | Codex | bekliyor |
@@ -168,6 +170,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| 24 Ekim ikinci denetim: BS31, PS27–PS28, KQ22 ve A34/A35 düzeltmeleri | `572363f`, `403bd7a`, `13fd071` (Yazar 1), `36fd155` (Yazar 2) | Anlık görüntü `git archive 13fd071` (ASCII yol, `.deps` bağlantısı). Tam depo **434 ders, 3710 kontrol temiz (normal Windows)**; Git Bash'te 432/434: yalnız PS26'nın iki görevi yük altında zaman aşımı (A39), tek başına yeniden koşuda temiz. Kapsam: her commit yalnız kendi ders dosyaları ve `track.json`; `403bd7a` ayrıca yeni `sandbox/ps_evtx_fixtures.py` (kodda tek dış komut `wevtutil epl <dosya> <dosya> /lf:true /ow:false`, geçici klasörde; canlı kanal ve kayıt defterine yazmıyor, iddia doğrulandı). Tahminler: 7/7 gerçek çıktıyla uyuşuyor (her adım kendi koşucusunda; KQ22'nin "hiç satır" cevabı ve 09:01/09:02/09:12 gerekçesi veriyle ayrıca doğrulandı). Mutasyon (denetçinin betiği, 13 görev, 141 mutant): 120 yakalandı; geçen 21'in 11'i eşdeğer (`-Oldest` silme: çıktı sonradan sıralanıyor; `2>`→`3>`: stdout değişmiyor; aralık sonu 09:50→09:51: aynı çalıştırmalar), 10'u A36–A38. **A34 kapandı:** jv13:2 ve cs14:2 açıklamaları çıktı satırlarını birebir içeriyor. **A35 kapandı:** jv13:4'te `>`→`>=` mutantı artık `findByIn` ile kırılıyor (ölçüldü); ht16:6'daki `keep_blank_values=True`→`False` mutantı **eşdeğer**: aralarında boş, `&`, `=`, `%26`, `&state=&state=` olan 20 zorlayıcı `state` değerinde iki sürümün sonuçları birebir aynı (ölçüldü), test yazılamaz. Yan gözlem (bulgu değil): ht16 tezgahının sahte kimlik sağlayıcısı `state`'i kodlamadan `Location`'a yazıyor; `&` ya da `%26` içeren meşru bir state istemcide `state_hatasi` olur (güvenli yöne düşüyor). Not: bu denetimi yapan Yazar 2'dir; Yazar 2'nin kendi düzeltmesi (`36fd155`) ve A38/A39 bağımsız bir denetçi tarafından yeniden ölçülmeli. |
 | Python pwntools p76/p77 (`312e90b`, menzil dışıydı) de denetlendi | `312e90b` (Codex) | Tahmin 2/2 doğru; mutasyon 4 görevde zayıf test yok; önce-anlat temiz. Tam depo zaten temizdi (p76/p77 track'te). |
 | Aşama 2 birikmiş teslimler (27 yeni ders, c5bdacc..`f487992`) denetlendi | Yazar 2 (36 ders commit'i), Codex (pwntools/Impacket), Antigravity (ht16 başlangıcı) | `f487992` anlık görüntüsünde tam depo **430 ders, 3672 kontrol temiz; hem normal Windows hem Git Bash**. 27 yeni dersin tahminleri gerçek çıktıyla uyuşuyor (yalnızca A34 biçim notu). Denetçinin mutasyon betiği 55 görevde yalnızca 3 belirsiz işaret buldu: biri yanlış alarm (bs32:4 stderr yönlendirmesi), ikisi düşük önemli test boşluğu (A35). Bozuk ders ve yanlış cevap yok. Not: Yazar 2 kendi şeridi (SQL/regex) dışına çıkıp çoğu yola yazdı; çapraz dosya çakışması yok (işi tek başına yaptı). Yazar 2 ayrıca `docs/durum.json` + `docs/DURUM.html` ile ikinci bir takip sistemi kurdu — tek kaynağa indirilmeli (kullanıcı kararı). |
 | PowerShell'de dil kipleri, JEA rol yetenekleri ve uygulama denetimi olayları dersi yoktu | `1f608b9` (PS24, Antigravity, model: Gemini) | Kapsam: PS24 ve `track.json`. PowerShell yolu 24 ders, 237 kontrol temiz (normal Windows ve Git Bash); tahmin gerçek çıktıyla uyuşuyor; denetçinin mutasyon betiğinde 3 görevde zayıf test yok. |
