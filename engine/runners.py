@@ -11,7 +11,8 @@ fark, düzeneğe hangi modla ve hangi ek bilgilerle gidildiğidir:
     bash, powershell → kod bir betik dosyasına yazılır; proc_run / proc_test / proc_trace
     sql         → bellek içi SQLite; örnek veritabanı (tracks/sql/ornek.sql) + görev hazırlığı;
                   sql_run / sql_test / sql_dis (sorgu planı); adım meta'sında motor: postgres →
-                  WSL'deki gerçek PostgreSQL (sandbox/pg_lab.py), pg_run / pg_test
+                  WSL'deki gerçek PostgreSQL (sandbox/pg_lab.py), pg_run / pg_test; motor: mariadb →
+                  WSL'deki gerçek MariaDB (sandbox/mariadb_lab.py), my_run / my_test
 
 Yeni dil = yeni bir Runner nesnesi + RUNNERS'a kayıt.
 """
@@ -209,8 +210,8 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2", "sqlite", "postgres"):
-        raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, sqlite veya postgres kullanın.")
+    if motor not in (None, "python", "pcre2", "sqlite", "postgres", "mariadb"):
+        raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, sqlite, postgres veya mariadb kullanın.")
     if motor == "pcre2":
         if not isinstance(runner, RegexRunner):
             raise ValueError("motor: pcre2 yalnız regex yolunda tanımlı.")
@@ -219,6 +220,10 @@ def for_step(runner, step):
         if type(runner) is not SqlRunner:
             raise ValueError("motor: postgres yalnız SQL yolunda tanımlı.")
         runner = PostgresRunner()
+    elif motor == "mariadb":
+        if type(runner) is not SqlRunner:
+            raise ValueError("motor: mariadb yalnız SQL yolunda tanımlı.")
+        runner = MariadbRunner()
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -318,20 +323,45 @@ class PostgresRunner(HarnessRunner):
         from sandbox.pg_lab import available
         return available()
 
-    def execute(self, job, timeout=None, cancel_event=None):
+    kapali_hatasi = "PostgreSQLKapalı"
+    yok_hatasi = "PostgreSQLYok"
+
+    def lab(self):
         from sandbox import pg_lab
+        return pg_lab
+
+    def execute(self, job, timeout=None, cancel_event=None):
         from sandbox.wsl_process import execute, seconds
         timeout = seconds(timeout, self.default_timeout)
         job = dict(self.ek, **job)
         for deneme in range(2):
-            sorun = pg_lab.hazirla()
+            sorun = self.lab().hazirla()
             if sorun:
                 return {"status": "error", "segs": [], "error": {
-                    "type": "PostgreSQLYok", "msg": sorun, "line": None, "frames": [], "where": "kod"}}
+                    "type": self.yok_hatasi, "msg": sorun, "line": None, "frames": [], "where": "kod"}}
             res = execute(job, timeout, cancel_event)
-            if (res.get("error") or {}).get("type") != "PostgreSQLKapalı":
+            if (res.get("error") or {}).get("type") != self.kapali_hatasi:
                 return res
         return res
+
+
+class MariadbRunner(PostgresRunner):
+    """Adım meta'sında motor: mariadb → WSL'deki gerçek MariaDB (sandbox/mariadb_lab.py, py_harness my_*).
+
+    Her iş adı pafta_lab_ ile başlayan geçici bir veritabanıyla başlar, iş bitince silinir;
+    SQLite'ın örnek veritabanı yüklenmez, tabloları görevin hazırlığı kurar."""
+    name = "sql-mariadb"
+    modlar = {"run": "my_run", "test": "my_test"}
+    kapali_hatasi = "MariaDBKapalı"
+    yok_hatasi = "MariaDBYok"
+
+    def available(self):
+        from sandbox.mariadb_lab import available
+        return available()
+
+    def lab(self):
+        from sandbox import mariadb_lab
+        return mariadb_lab
 
 
 class KqlRunner(SqlRunner):

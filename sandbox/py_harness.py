@@ -1503,6 +1503,174 @@ def do_pg_test(job):
         lab.kapat()
 
 
+# ── MariaDB (SQL yolu, adım meta'sında motor: mariadb): WSL'deki gerçek sunucu ──
+# Her iş adı pafta_lab_ ile başlayan kendi veritabanını kurar ve iş bitince siler; WSL
+# kullanıcısının hesabı yalnız pafta_% veritabanlarında yetkilidir (sandbox/mariadb_lab.py).
+
+MY_SOKET = "/run/mysqld/mysqld.sock"
+
+
+def _my_deger(v):
+    if v is None:
+        return None
+    if isinstance(v, float):
+        return repr(v)[:-2] if repr(v).endswith(".0") else repr(v)   # mariadb istemcisi gibi: 8.0 → 8
+    if isinstance(v, (bytes, bytearray)):
+        try:
+            return bytes(v).decode("utf-8")
+        except UnicodeDecodeError:
+            return "0x" + bytes(v).hex().upper()
+    return str(v)
+
+
+def _my_hatasi(e, satir=None, ifade=""):
+    kod = e.args[0] if e.args and isinstance(e.args[0], int) else None
+    ileti = e.args[1] if len(e.args) > 1 else str(e)
+    return {"type": "SQLHatası", "msg": f"({kod}) {ileti}" if kod else ileti, "line": satir, "frames": [],
+            "where": "kod", "text": (ifade.split("\n") or [""])[0], "mycode": kod}
+
+
+class _MyLab:
+    def __init__(self, job):
+        import pymysql
+        import secrets
+        self.my = pymysql
+        self.job = job
+        self.ad = "pafta_lab_" + secrets.token_hex(6)
+        self.uyarilar = []
+        self.baglanti = None
+        try:
+            self.kur()
+        except Exception:
+            if self.baglanti is not None:
+                self.kapat()
+            raise
+
+    def kur(self, ek=""):
+        if self.baglanti is not None:
+            self.kapat()
+        import getpass
+        self.baglanti = self.my.connect(unix_socket=MY_SOKET, user=getpass.getuser(), autocommit=True, charset="utf8mb4")
+        cur = self.baglanti.cursor()
+        cur.execute(f"CREATE DATABASE `{self.ad}` CHARACTER SET utf8mb4")
+        cur.execute(f"USE `{self.ad}`")
+        for parca in (self.job.get("setup"), ek):
+            for ifade, _ in _sql_parcala(parca or ""):
+                cur.execute(ifade)
+
+    def kapat(self):
+        try:
+            self.baglanti.cursor().execute(f"DROP DATABASE IF EXISTS `{self.ad}`")
+        finally:
+            self.baglanti.close()
+            self.baglanti = None
+
+
+def _my_kos(lab, kod):
+    tablolar, hamlar = [], []
+    cur = lab.baglanti.cursor()
+    for ifade, satir in _sql_parcala(kod):
+        try:
+            cur.execute(ifade)
+        except lab.my.Error as e:
+            return tablolar, hamlar, _my_hatasi(e, satir, ifade)
+        sonuc = cur.fetchall() if cur.description else None
+        uyari = cur.connection.cursor()
+        uyari.execute("SHOW WARNINGS")
+        for seviye, no, ileti in uyari.fetchall():
+            lab.uyarilar.append((satir, seviye, no, ileti))
+        if sonuc is not None:
+            sutunlar = [d[0] for d in cur.description]
+            satirlar = [tuple(r) for r in sonuc[:SQL_SATIR_LIMIT]]
+            hamlar.append(satirlar)
+            tablolar.append({"satir": satir, "sutunlar": sutunlar, "kesildi": len(sonuc) > SQL_SATIR_LIMIT,
+                             "satirlar": [[_my_deger(v) for v in r] for r in satirlar]})
+        else:
+            komut = ifade.split(None, 1)[0].upper()
+            if komut in ("INSERT", "UPDATE", "DELETE", "REPLACE"):
+                tablolar.append({"satir": satir, "komut": komut, "degisen": cur.rowcount})
+            else:
+                tablolar.append({"satir": satir, "komut": komut})
+    return tablolar, hamlar, None
+
+
+def _my_ac(job):
+    try:
+        return _MyLab(job), None
+    except ImportError:
+        return None, {"type": "MariaDBYok", "msg": "WSL'de pymysql yok (Kali: sudo apt install python3-pymysql).",
+                      "line": None, "frames": [], "where": "test"}
+    except Exception as e:
+        if isinstance(e, OSError) or "2002" in str(e) or "Can't connect" in str(e):
+            return None, {"type": "MariaDBKapalı", "msg": "MariaDB'ye bağlanılamadı: " + str(e)[:300],
+                          "line": None, "frames": [], "where": "test"}
+        hata = _my_hatasi(e)
+        hata.update(where="test", msg="Görevin MariaDB hazırlığı kurulamadı: " + hata["msg"])
+        return None, hata
+
+
+def do_my_run(job):
+    lab, err = _my_ac(job)
+    if err:
+        return {"status": "error", "error": err, "segs": [], "tablolar": []}
+    try:
+        tablolar, _, err = _my_kos(lab, job["code"])
+    finally:
+        lab.kapat()
+    cikti = _sql_metin(tablolar)
+    return {"status": "error" if err else "ok", "segs": [["out", cikti]] if cikti else [],
+            "tablolar": tablolar, "error": err}
+
+
+class MyTester(Tester):
+    def __init__(self, job, lab, cikti):
+        super().__init__("", {}, Capture(), "", job)
+        self.cap.add("out", cikti)
+        self.code = job.get("code", "")
+        self.lab = lab
+
+    def sorgu(self, sql, *params):
+        """Kullanıcının betiğinden SONRAKİ veritabanında bir sorgu."""
+        cur = self.lab.baglanti.cursor()
+        cur.execute(sql, params or None)
+        return [tuple(r) for r in cur.fetchall()] if cur.description else []
+
+    def dene(self, hazirlik=""):
+        """Temiz bir veritabanına hazırlığı ve `hazirlik`ı kurup betiği yeniden çalıştır → son sorgunun satırları."""
+        self.lab.uyarilar.clear()
+        self.lab.kur(hazirlik)
+        _, hamlar, err = _my_kos(self.lab, self.code)
+        if err:
+            raise UserRunError(err, hazirlik)
+        return hamlar[-1] if hamlar else []
+
+    def kullanir(self, kelime):
+        temiz = re.sub(r"--[^\n]*|#[^\n]*|/\*.*?\*/|'(?:[^'\]|\.|'')*'", " ", self.code, flags=re.S)
+        desen = r"\b" + r"\s+".join(map(re.escape, kelime.split())) + r"\b"
+        return re.search(desen, temiz, re.I) is not None
+
+
+def do_my_test(job):
+    lab, err = _my_ac(job)
+    if err:
+        return {"status": "error", "error": err, "checks": [], "segs": []}
+    try:
+        tablolar, hamlar, err = _my_kos(lab, job["code"])
+        cikti = _sql_metin(tablolar)
+        segs = [["out", cikti]] if cikti else []
+        if err:
+            return {"status": "error", "checks": [], "segs": segs, "error": err}
+        tester = MyTester(job, lab, cikti)
+        tns = tester.namespace()
+        son = next((t for t in reversed(tablolar) if "sutunlar" in t), None)
+        tns.update(src=job.get("code", ""), sonuc=hamlar[-1] if hamlar else [], sonuclar=hamlar,
+                   sutunlar=son["sutunlar"] if son else [], sorgu=tester.sorgu, dene=tester.dene,
+                   kullanir=tester.kullanir, uyarilar=lab.uyarilar)
+        return _test_kos(tester, tns, job, segs)
+    finally:
+        lab.kapat()
+
+
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "ad_run": do_ad_run, "ad_test": do_ad_test, "ad_dis": do_ad_dis,
          "packet_run": do_packet_run, "packet_test": do_packet_test,
@@ -1516,7 +1684,8 @@ MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "regex_run": do_regex_run, "regex_test": do_regex_test, "regex_dis": do_regex_dis,
          "proc_run": do_proc_run, "proc_test": do_proc_test, "proc_trace": do_proc_trace,
          "sql_run": do_sql_run, "sql_test": do_sql_test, "sql_dis": do_sql_dis,
-         "pg_run": do_pg_run, "pg_test": do_pg_test}
+         "pg_run": do_pg_run, "pg_test": do_pg_test,
+         "my_run": do_my_run, "my_test": do_my_test}
 
 
 def main():
