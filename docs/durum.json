@@ -80,6 +80,12 @@
    "durum": "atlandi",
    "kim": "Claude (Yazar 2)",
    "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı, başka yazara kalır. Ölçümler: Win64 Python 3.11'de c_long 4, c_void_p 8; Kali gcc 16.2'de long 8; struct {char,int32,double,uint16} iki ABI'de 24 bayt (0/4/8/16)"
+  },
+  "Bash: rwx sonrası POSIX ACL ve Linux capabilities": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "BS32 ACL + BS33 capabilities, 4 görev, backend: wsl; gerçek erişim root'suz kullanıcı ad alanında 1000/1001 kimlikleriyle. Kali'ye uidmap paketi kuruldu (newuidmap için)"
   }
  }
 }
