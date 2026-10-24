@@ -45,7 +45,7 @@ class CmdIntegrationTests(unittest.TestCase):
         info = next(t for t in state["tracks"] if t["id"] == "cmd")
         self.assertTrue(info["hazir"])
         self.assertEqual(info["dil"], "cmd")
-        self.assertEqual(info["lessons_total"], 18)
+        self.assertEqual(info["lessons_total"], 20)
         self.assertFalse(info["okuma_dili"])
         self.assertFalse(info["ozellik"]["roentgen"])
         run = self.request("/api/run", {"track": "cmd", "code": '@echo off\nset /a "n=7*6"\necho %n%\n'})

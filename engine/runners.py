@@ -441,7 +441,8 @@ RUNNERS = {
     "cmd": ProcRunner("cmd", {
         "cmd": [CMD or "", "/d", "/q", "/e:on", "/v:off", "/c"],
         "dosya": "betik.cmd", "batch": True, "sure": 10,
-    }, default_timeout=15, test_timeout=35, iz=False),
+    }, default_timeout=15, test_timeout=35, iz=False,
+        kopyala=[os.path.join(ROOT, "sandbox", "evtx_fixtures.py")]),
 }
 
 
