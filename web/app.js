@@ -421,6 +421,11 @@ class Bench {
 
   paintOut(res) {
     if (res.eslesmeler) return this.paintEslesme(res);
+    if (res.elastic_native) {
+      this.pane.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 200) +
+        `<div class="out-meta">${esc(res.elastic_backend)}</div>` + errCard(res.error);
+      return;
+    }
     if (res.packet_backend && ["tshark", "tcpdump-lab"].includes(res.packet_dialect)) {
       this.pane.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 200) +
         `<div class="out-meta">${esc(res.packet_backend)}</div>` + errCard(res.error);
@@ -1092,6 +1097,12 @@ async function sheetClick(e) {
       if (Array.isArray(res.elastic_ids)) {
         out.classList.add("sql");
         out.innerHTML = elasticOutput(res, 25);
+        return;
+      }
+      if (res.elastic_native) {
+        out.classList.add("sql");
+        out.innerHTML = `<pre class="out">${segsHtml(res.segs)}</pre>` + sqlTablolar(res.tablolar, 25) +
+          `<div class="out-meta">${esc(res.elastic_backend)}</div>` + errCard(res.error);
         return;
       }
       if (res.packet_backend && ["tshark", "tcpdump-lab"].includes(res.packet_dialect)) {
