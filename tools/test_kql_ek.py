@@ -97,6 +97,17 @@ class Watchlist(unittest.TestCase):
         hata, _ = kos("_GetWatchlist('yok')")
         self.assertIn("watchlist bulunamadı", hata["msg"])
 
+    def test_watchlist_parantezsiz_sag_taraf(self):
+        kur = "CREATE TABLE watchlist_vip (SearchKey TEXT, Rol TEXT); INSERT INTO watchlist_vip VALUES ('ayse','admin'),('can','muhasebe');"
+        for isl in ("join kind=inner", "lookup kind=inner"):
+            hata, out = kos(f"istekler | {isl} _GetWatchlist('vip') on $left.kullanici == $right.SearchKey "
+                            "| summarize n = count() by Rol | sort by Rol asc", kur)
+            self.assertIsNone(hata, isl)
+            self.assertEqual(out, "admin|5\nmuhasebe|5\n", isl)
+        hata, out = kos("union _GetWatchlist('vip'), _GetWatchlist('vip') | count", kur)
+        self.assertIsNone(hata)
+        self.assertEqual(out, "4\n")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

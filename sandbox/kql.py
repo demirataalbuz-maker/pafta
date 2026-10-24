@@ -339,20 +339,8 @@ class _Cevirici:
         elif self.kelime_mi("union"):
             self.i += 1
             ad, sira = self.union_sql([], kaynak_bicimi=True), False
-        elif t[0] == "ad" and t[1] == "_GetWatchlist" and self.isl_mi("(", 1):
-            # Sentinel watchlist'i: görevin hazırlığı onu watchlist_<takma ad> tablosu olarak kurar
-            self.i += 2
-            m = self.bak()
-            if m[0] != "metin":
-                raise KqlHatasi("_GetWatchlist('takma ad') bekleniyordu", m[2])
-            self.i += 1
-            self.bekle(")")
-            tablo = "watchlist_" + _metin_coz(m[1])
-            try:
-                self.sutun_bul(f"SELECT * FROM {q(tablo)} LIMIT 0")
-            except Exception:
-                raise KqlHatasi(f"watchlist bulunamadı: {_metin_coz(m[1])}", m[2])
-            ad, sira = self.yeni(f"SELECT * FROM {q(tablo)}"), False
+        elif self.watchlist_mi():
+            ad, sira = self.kaynak_watchlist(), False
         elif t[0] == "ad":
             self.i += 1
             if t[1] in self.letler:
@@ -565,6 +553,8 @@ class _Cevirici:
                 ad, _ = self.sorgu()
                 self.bekle(")")
                 parcalar.append((ad, f"union_arg{len(parcalar)}"))
+            elif self.watchlist_mi():
+                parcalar.append((self.kaynak_watchlist(), f"union_arg{len(parcalar)}"))
             else:
                 isim = self.ad_al()
                 if isim in self.letler and self.letler[isim][0] == "tablo":
@@ -874,12 +864,32 @@ class _Cevirici:
             if not self.virgul():
                 return kosullar
 
+    def watchlist_mi(self):
+        return self.kelime_mi("_GetWatchlist") and self.isl_mi("(", 1)
+
+    def kaynak_watchlist(self):
+        # Sentinel watchlist'i: görevin hazırlığı onu watchlist_<takma ad> tablosu olarak kurar
+        self.i += 2
+        m = self.bak()
+        if m[0] != "metin":
+            raise KqlHatasi("_GetWatchlist('takma ad') bekleniyordu", m[2])
+        self.i += 1
+        self.bekle(")")
+        tablo = "watchlist_" + _metin_coz(m[1])
+        try:
+            self.sutun_bul(f"SELECT * FROM {q(tablo)} LIMIT 0")
+        except Exception:
+            raise KqlHatasi(f"watchlist bulunamadı: {_metin_coz(m[1])}", m[2])
+        return self.yeni(f"SELECT * FROM {q(tablo)}")
+
     def _sag_taraf(self):
         if self.isl_mi("("):
             self.i += 1
             sag, _ = self.sorgu()
             self.bekle(")")
             return sag
+        if self.watchlist_mi():                            # join/lookup _GetWatchlist('ad') on ... (parantezsiz)
+            return self.kaynak_watchlist()
         isim = self.ad_al()
         if isim in self.letler and self.letler[isim][0] == "tablo":
             return self.yeni(f"SELECT * FROM {self.letler[isim][1]}", self.acik.get(self.letler[isim][1]))

@@ -156,6 +156,10 @@ eq(dene("INSERT INTO watchlist_YoneticiHesaplar VALUES ('mert@pafta.example','Ya
    [("ayse@pafta.example", "Global Admin", 3, 2), ("zeynep@pafta.example", "Güvenlik Yöneticisi", 2, 1),
     ("mert@pafta.example", "Yardım Masası", 1, 1)],
    "watchlist'e eklenen hesap sorgu değişmeden sonuca girer; başarılı giriş (\"0\") sayılmaz")
+eq([r for r in dene("INSERT INTO watchlist_YoneticiHesaplar VALUES ('Can@Pafta.example','Yardım Masası');")
+    if str(r[0]).lower().startswith("can@")],
+   [("can@pafta.example", "Yardım Masası", 1, 1)],
+   "watchlist'teki anahtar da büyük harfli olabilir: iki tarafı da küçük harfe çevir")
 ```
 
 ```solution
