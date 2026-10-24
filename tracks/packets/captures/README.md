@@ -1,5 +1,15 @@
 # Eğitim PCAP kayıtları
 
+## PCAPNG ve link-layer uzantısı
+
+`arayuzler` kaydı `sandbox/packet_advanced_fixtures.py` tarafından üretilir:
+Ethernet, RAW IP, Linux SLL ve SLL2; her arayüzde port 79/80/81 tanıkları
+ve sonda kesilmiş paket. BPF her arayüzün gerçek DLT'siyle derlenir.
+Ondalık/ikilik zaman çözünürlükleri tam kesir olarak korunur. Yeni girdi
+kapsamı classic PCAP 2.4 veya PCAPNG 1.0 Enhanced Packet Block'tur;
+PCAPNG eski Packet Block/Simple Packet Block açıkça reddedilir.
+Aşağıdaki üç eski korpusun baytları ve tanımları değişmedi.
+
 Bütün paketler `sandbox/packet_fixtures.py` tarafından baytlardan üretilir; kullanıcı trafiği kaydedilmez. `get_capture(ad)` dosyayla aynı baytları döndürür, `describe(ad)` bu dökümü verir. Classic Ethernet PCAP 2.4, FCS yok; dolgu dahildir. IPv4/TCP/UDP ve SCTP başlıkları gerçek uzunluk/checksum alanlarıyla kurulur. Kasıtlı kesilmiş paket, yakalanan bayt ile hat uzunluğu farkını öğretir.
 
 Frame numaraları 1 tabanlı kayıt sırasıdır; IP kimliği veya başka kayda taşınan global kimlik değildir. Zaman başlangıcı Unix 1700000000 saniye, adım tam 1 saniye; göreli zaman `id-1`. Alanlar manifestte veri üreticisinin açıklamasıdır; Wireshark alanlarının varlığı ve akış/reassembly etkileri gerçek TShark'tan gelir. Özellikle sonraki fragment'te port alanı bulunmaz; TLS ClientHello bir anahtar veya şifre çözme verisi değildir.

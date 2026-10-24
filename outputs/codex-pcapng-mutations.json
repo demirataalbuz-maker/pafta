@@ -1,0 +1,524 @@
+{
+  "lessons": 2,
+  "tasks": 4,
+  "predictions": 2,
+  "mutations": 18,
+  "equivalent": 0,
+  "failures": [],
+  "records": [
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "solution",
+      "code": "frame.interface_id == 1 and tcp.dstport == 80",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "==→!= at 19",
+      "code": "frame.interface_id != 1 and tcp.dstport == 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[2, 8, 11]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[3, 6, 12]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "and→or at 24",
+      "code": "frame.interface_id == 1 or tcp.dstport == 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[2, 4, 5, 6, 8, 11]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[3, 6, 8, 9, 10, 12]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "==→!= at 40",
+      "code": "frame.interface_id == 1 and tcp.dstport != 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[4, 6]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[8, 10]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "1→0 at 22",
+      "code": "frame.interface_id == 0 and tcp.dstport == 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[2]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[12]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "1→2 at 22",
+      "code": "frame.interface_id == 2 and tcp.dstport == 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[8]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[6]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "80→79 at 43",
+      "code": "frame.interface_id == 1 and tcp.dstport == 79",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[4]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[10]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "80→81 at 43",
+      "code": "frame.interface_id == 1 and tcp.dstport == 81",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[6]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[8]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 2,
+      "change": "tcp.dstport→tcp.srcport at 28",
+      "code": "frame.interface_id == 1 and tcp.srcport == 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüzde 79/80/81 komşuları",
+          "got": "[]",
+          "exp": "[5]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[]",
+          "exp": "[9]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 3,
+      "change": "solution",
+      "code": "frame.cap_len < frame.len",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk19",
+      "step": 3,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kasıtlı snaplen kaybı",
+          "got": "[]",
+          "exp": "[13]"
+        },
+        {
+          "ok": false,
+          "msg": "eşitlik ve iki kesilmiş komşu",
+          "got": "[]",
+          "exp": "[1, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 3,
+      "change": "<→<= at 14",
+      "code": "frame.cap_len <= frame.len",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kasıtlı snaplen kaybı",
+          "got": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]",
+          "exp": "[13]"
+        },
+        {
+          "ok": false,
+          "msg": "eşitlik ve iki kesilmiş komşu",
+          "got": "[1, 2, 3]",
+          "exp": "[1, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 3,
+      "change": "frame.cap_len→frame.len at 0",
+      "code": "frame.len < frame.len",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kasıtlı snaplen kaybı",
+          "got": "[]",
+          "exp": "[13]"
+        },
+        {
+          "ok": false,
+          "msg": "eşitlik ve iki kesilmiş komşu",
+          "got": "[]",
+          "exp": "[1, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk19",
+      "step": 3,
+      "change": "frame.len→frame.cap_len at 16",
+      "code": "frame.cap_len < frame.cap_len",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kasıtlı snaplen kaybı",
+          "got": "[]",
+          "exp": "[13]"
+        },
+        {
+          "ok": false,
+          "msg": "eşitlik ve iki kesilmiş komşu",
+          "got": "[]",
+          "exp": "[1, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 2,
+      "change": "solution",
+      "code": "tcp dst port 80",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk20",
+      "step": 2,
+      "change": "starter",
+      "code": "tcp dst port 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüz ve komşu portlar",
+          "got": "[]",
+          "exp": "[2, 5, 8, 11]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak/hedef ve RAW",
+          "got": "[]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 2,
+      "change": "80→79 at 13",
+      "code": "tcp dst port 79",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüz ve komşu portlar",
+          "got": "[1, 4, 7, 10]",
+          "exp": "[2, 5, 8, 11]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak/hedef ve RAW",
+          "got": "[4]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 2,
+      "change": "80→81 at 13",
+      "code": "tcp dst port 81",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüz ve komşu portlar",
+          "got": "[3, 6, 9, 12]",
+          "exp": "[2, 5, 8, 11]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak/hedef ve RAW",
+          "got": "[1]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 2,
+      "change": "tcp→udp at 0",
+      "code": "udp dst port 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüz ve komşu portlar",
+          "got": "[]",
+          "exp": "[2, 5, 8, 11]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak/hedef ve RAW",
+          "got": "[]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 2,
+      "change": "dst→src at 4",
+      "code": "tcp src port 80",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört arayüz ve komşu portlar",
+          "got": "[]",
+          "exp": "[2, 5, 8, 11]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak/hedef ve RAW",
+          "got": "[1, 3]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 3,
+      "change": "solution",
+      "code": "len >= 128",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk20",
+      "step": 3,
+      "change": "starter",
+      "code": "len < 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "30 bayt yakalandı ama hat uzunluğu 128",
+          "got": "[]",
+          "exp": "[13]"
+        },
+        {
+          "ok": false,
+          "msg": "127/128/129 sınır komşuları",
+          "got": "[]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 3,
+      "change": ">=→> at 4",
+      "code": "len > 128",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "30 bayt yakalandı ama hat uzunluğu 128",
+          "got": "[]",
+          "exp": "[13]"
+        },
+        {
+          "ok": false,
+          "msg": "127/128/129 sınır komşuları",
+          "got": "[3]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 3,
+      "change": "128→127 at 7",
+      "code": "len >= 127",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "127/128/129 sınır komşuları",
+          "got": "[1, 2, 3]",
+          "exp": "[2, 3]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk20",
+      "step": 3,
+      "change": "128→129 at 7",
+      "code": "len >= 129",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "30 bayt yakalandı ama hat uzunluğu 128",
+          "got": "[]",
+          "exp": "[13]"
+        },
+        {
+          "ok": false,
+          "msg": "127/128/129 sınır komşuları",
+          "got": "[3]",
+          "exp": "[2, 3]"
+        }
+      ]
+    }
+  ]
+}

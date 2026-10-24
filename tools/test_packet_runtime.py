@@ -45,8 +45,7 @@ def one_frame(packet, wirelen=None, order="<", nano=False):
 
 
 def pcapng():
-    # Valid PCAPNG must be rejected by our explicit shared format contract,
-    # rather than misread as a big-endian classic record in the result table.
+    # Independent PCAPNG byte fixture, not the production generator.
     raw = corpus()
     packet = raw[40:40 + struct.unpack_from("<I", raw, 32)[0]]
     padded = packet + b"\0" * (-len(packet) % 4)
@@ -155,11 +154,11 @@ class PacketRuntimeTests(unittest.TestCase):
     def test_malformed_and_unsupported_captures_fail_before_native(self):
         good = corpus()
         bad_headers = []
-        for offset, number in ((4, 3), (16, 0), (20, 101), (28, 1000000), (32, 65536), (36, 1)):
+        for offset, number in ((4, 3), (16, 0), (20, 147), (28, 1000000), (32, 65536), (36, 1)):
             raw = bytearray(good)
             struct.pack_into("<H" if offset == 4 else "<I", raw, offset, number)
             bad_headers.append(bytes(raw))
-        malformed = [b"", good[:23], good[:-1], good + b"x", pcapng(), *bad_headers]
+        malformed = [b"", good[:23], good[:-1], good + b"x", pcapng()[:-1], *bad_headers]
         with patch.object(engine, "_display") as display, patch.object(engine, "_bpf") as bpf:
             for raw in malformed:
                 for dialect in ("wireshark", "bpf"):
@@ -173,7 +172,7 @@ class PacketRuntimeTests(unittest.TestCase):
     def test_base64_format_error_is_not_misreported_as_encoding_error(self):
         with self.assertRaisesRegex(engine.PacketError, "Base64"):
             engine.input_capture(engine.options('{"pcap_base64":"not base64!"}'))
-        with self.assertRaisesRegex(engine.PacketError, "classic Ethernet"):
+        with self.assertRaisesRegex(engine.PacketError, "PCAP"):
             engine.input_capture(engine.options(encoded(b"not a pcap")))
         with self.assertRaisesRegex(engine.PacketError, "8 MiB"):
             engine.capture_bytes(b"X" * (engine.MAX_CAPTURE + 1))

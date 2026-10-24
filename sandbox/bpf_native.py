@@ -2,7 +2,7 @@
 
 Only pcap_open_dead, compile, offline_filter, freecode and close are called.
 No adapter, capture service, live handle or packet transmission is involved.
-Input is classic Ethernet PCAP (micro/nanoseconds, either byte order).
+Input is bounded PCAP/PCAPNG; every interface uses its actual link type.
 Name/service lookups are deliberately disabled: use numeric addresses/ports.
 """
 import ctypes as ct
@@ -12,6 +12,10 @@ from pathlib import Path
 import re
 import struct
 import threading
+try:
+    from .capture_formats import parse_capture, CaptureError, LINKTYPES
+except ImportError:
+    from capture_formats import parse_capture, CaptureError, LINKTYPES
 
 
 class BpfUnavailableError(RuntimeError):
@@ -151,39 +155,6 @@ def _numeric_filter(text):
     return text.encode("ascii")
 
 
-def _records(raw):
-    if not isinstance(raw, (bytes, bytearray, memoryview)):
-        raise TypeError("PCAP girdisi bayt olmalı.")
-    raw = bytes(raw)
-    if len(raw) < 24 or raw[:4] not in _MAGIC:
-        raise PcapFormatError("Classic PCAP bekleniyor; pcapng veya eksik başlık desteklenmiyor.")
-    order, nano = _MAGIC[raw[:4]]
-    major, minor, _, _, snaplen, linktype = struct.unpack_from(order + "HHiIII", raw, 4)
-    if (major, minor) != (2, 4):
-        raise PcapFormatError("Yalnız classic PCAP 2.4 destekleniyor.")
-    if linktype != 1:
-        raise PcapFormatError("Yalnız LINKTYPE_ETHERNET=1 destekleniyor.")
-    if not 1 <= snaplen <= 0x7fffffff:
-        raise PcapFormatError("PCAP snaplen 1..2147483647 aralığında olmalı.")
-    records = []
-    at = 24
-    while at < len(raw):
-        if len(raw) - at < 16:
-            raise PcapFormatError("PCAP paket başlığı eksik.")
-        sec, subsec, caplen, wirelen = struct.unpack_from(order + "IIII", raw, at)
-        at += 16
-        if subsec >= (1000000000 if nano else 1000000):
-            raise PcapFormatError("PCAP paket zamanının kesir alanı geçersiz.")
-        if caplen > snaplen or caplen > wirelen:
-            raise PcapFormatError("PCAP caplen, snaplen veya wirelen değerini aşamaz.")
-        if caplen > len(raw) - at:
-            raise PcapFormatError("PCAP paket baytları eksik.")
-        records.append((sec, subsec // 1000 if nano else subsec,
-                        caplen, wirelen, raw[at:at + caplen]))
-        at += caplen
-    return snaplen, records
-
-
 def evaluate(filter_text, pcap_bytes):
     """Return matching 1-based frame numbers; never open a capture interface.
 
@@ -192,26 +163,38 @@ def evaluate(filter_text, pcap_bytes):
     assumed interface mask (PCAP_NETMASK_UNKNOWN), so libpcap rejects them.
     """
     expression = _numeric_filter(filter_text)
-    snaplen, packets = _records(pcap_bytes)
-    dll = _library()
-    handle = dll.pcap_open_dead(1, snaplen)
-    if not handle:
-        raise BpfUnavailableError("BPF: pcap_open_dead Ethernet handle oluşturamadı.")
-    program = _BpfProgram()
-    compiled = False
+    contexts=[]
     try:
-        if dll.pcap_compile(handle, ct.byref(program), expression, 1, 0xffffffff):
-            message = (dll.pcap_geterr(handle) or b"unknown compile error").decode("utf-8", "replace")
-            raise BpfFilterError("BPF derleme hatası: " + message)
-        compiled = True
+        packets = parse_capture(pcap_bytes,contexts=contexts)
+    except CaptureError as exc:
+        raise PcapFormatError(str(exc)) from exc
+    dll = _library()
+    programs={}
+    try:
         matched = []
-        for number, (sec, usec, caplen, wirelen, packet) in enumerate(packets, 1):
-            header = _PcapHeader(_Timeval(sec, usec), caplen, wirelen)
-            buffer = ct.create_string_buffer(packet)
+        # Empty captures still compile: an invalid filter must not pass vacuously.
+        if not contexts:
+            raise BpfFilterError('BPF: kayıtta tanımlı arayüz yok.')
+        for link,snap in sorted(set(contexts)):
+            handle=dll.pcap_open_dead(LINKTYPES[link],snap)
+            if not handle:
+                raise BpfUnavailableError(f'BPF: LINKTYPE {link} handle oluşturulamadı.')
+            program=_BpfProgram()
+            if dll.pcap_compile(handle,ct.byref(program),expression,1,0xffffffff):
+                message=(dll.pcap_geterr(handle) or b'unknown').decode('utf-8','replace')
+                dll.pcap_close(handle)
+                raise BpfFilterError(f'BPF derleme hatası (LINKTYPE {link}): {message}')
+            programs[(link,snap)]=(handle,program)
+        for number, frame in enumerate(packets, 1):
+            program=programs[(frame.linktype,frame.snaplen)][1]
+            # offline_filter ignores timestamps; don't truncate exact fractions
+            # to a platform timeval merely to supply unused fields.
+            header = _PcapHeader(_Timeval(0,0),len(frame.data),frame.wirelen)
+            buffer = ct.create_string_buffer(frame.data)
             if dll.pcap_offline_filter(ct.byref(program), ct.byref(header), buffer):
                 matched.append(number)
         return matched
     finally:
-        if compiled:
+        for handle,program in programs.values():
             dll.pcap_freecode(ct.byref(program))
-        dll.pcap_close(handle)
+            dll.pcap_close(handle)

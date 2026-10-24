@@ -370,7 +370,11 @@ def _corpora():
 
 def captures() -> dict[str, bytes]:
     """Return a fresh mapping from stable corpus names to immutable PCAP bytes."""
-    return {name: pcap(corpus.frames) for name, corpus in _corpora().items()}
+    try:
+        from . import packet_advanced_fixtures as advanced
+    except ImportError:
+        import packet_advanced_fixtures as advanced
+    return {**{name: pcap(corpus.frames) for name, corpus in _corpora().items()}, **advanced.captures()}
 
 
 def get_capture(name: str) -> bytes:
@@ -386,6 +390,12 @@ def describe(name: str) -> list[dict]:
     """Independent metadata copy; id equals TShark frame.number."""
     if name.endswith(".pcap"):
         name = name[:-5]
+    if name not in _corpora():
+        try:
+            from . import packet_advanced_fixtures as advanced
+        except ImportError:
+            import packet_advanced_fixtures as advanced
+        return advanced.describe(name)
     try:
         return copy.deepcopy(_corpora()[name].manifest)
     except KeyError:

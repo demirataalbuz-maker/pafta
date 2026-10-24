@@ -2,7 +2,7 @@
 
 Student text is passed as one argument, never through a shell. Only supplied
 capture bytes are read; neither backend opens a capture interface.
-Both backends accept classic Ethernet PCAP 2.4 only (not pcapng). Display
+Both backends accept bounded PCAP/PCAPNG with per-interface link types. Display
 address operands are numeric; DNS/HTTP string fields still accept text.
 """
 import base64
@@ -17,10 +17,11 @@ import subprocess
 import tempfile
 
 try:
-    from . import bpf_native, packet_fixtures
+    from . import bpf_native, packet_fixtures, capture_formats
 except ImportError:
     import bpf_native
     import packet_fixtures
+    import capture_formats
 
 MAX_CAPTURE = 8 * 1024 * 1024
 MAX_FILTER = 16000
@@ -205,35 +206,11 @@ def evaluate(code, capture="temel", dialect="wireshark"):
 
 
 def pcap_lengths(raw):
-    """Validate the shared classic-Ethernet format and retain honest lengths.
-
-    Microsecond/nanosecond PCAP, either byte order, supports explicit snapshot
-    truncation: caplen may be less than wirelen, but never the reverse.
-    This inventory does not dissect packets; native backends decide matches.
-    """
-    if not isinstance(raw, bytes) or len(raw) < 24 or raw[:4] not in _PCAP_MAGIC:
-        raise PacketError("Yalnız classic Ethernet PCAP 2.4 desteklenir; PCAPNG veya eksik başlık kabul edilmez.")
-    endian, nano = _PCAP_MAGIC[raw[:4]]
-    major, minor, _, _, snaplen, linktype = struct.unpack_from(endian + "HHiIII", raw, 4)
-    if (major, minor) != (2, 4) or linktype != 1:
-        raise PacketError("Kayıt classic PCAP 2.4 ve LINKTYPE_ETHERNET=1 olmalı.")
-    if not 1 <= snaplen <= 0x7fffffff:
-        raise PacketError("PCAP snaplen 1..2147483647 aralığında olmalı.")
-    rows, pos, index = {}, 24, 1
-    while pos < len(raw):
-        if pos + 16 > len(raw):
-            raise PacketError("PCAP paket başlığı eksik.")
-        _, subsec, caplen, wirelen = struct.unpack_from(endian + "IIII", raw, pos)
-        if subsec >= (1000000000 if nano else 1000000):
-            raise PacketError("PCAP paket zamanı kesir alanı geçersiz.")
-        if caplen > snaplen or caplen > wirelen:
-            raise PacketError("PCAP caplen, snaplen veya wirelen değerini aşamaz.")
-        if pos + 16 + caplen > len(raw):
-            raise PacketError("PCAP paket baytları eksik.")
-        rows[index] = (caplen, wirelen)
-        pos += 16 + caplen
-        index += 1
-    return rows
+    """Validate framing while retaining captured and original lengths."""
+    try:
+        return {i:(len(frame.data),frame.wirelen) for i,frame in enumerate(capture_formats.parse_capture(raw),1)}
+    except capture_formats.CaptureError as exc:
+        raise PacketError(str(exc)) from exc
 
 
 def run(code, stdin=""):
@@ -247,6 +224,10 @@ def run(code, stdin=""):
     result = {"status": "ok", "error": None, "segs": [["out", out]],
             "tablolar": [{"satir": 1, "sutunlar": ["Paket", "Yakalanan bayt", "Hat uzunluğu"], "satirlar": rows}],
             "packet_ids": ids, "packet_backend": backend, "packet_dialect": config["dil"]}
+    result["capture_interfaces"] = [
+        {"frame":i,"section":f.section,"interface":f.interface,"linktype":f.linktype,
+         "timestamp_fraction":str(f.timestamp) if f.timestamp is not None else None}
+        for i,f in enumerate(capture_formats.parse_capture(raw),1)]
     if "pcap_base64" not in config:
         names = {1: "ICMP", 6: "TCP", 17: "UDP", 58: "ICMPv6", 132: "SCTP"}
         inventory = []
