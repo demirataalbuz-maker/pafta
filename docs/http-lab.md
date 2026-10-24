@@ -129,9 +129,12 @@ Secure/None ve üçüncü taraf cookie politikalarının tamamı kapsanmaz.
 
 ```text
 python -X utf8 tools/test_http_advanced.py
+python -X utf8 tools/test_http_kali.py
 python -X utf8 tools/validate.py --yol http
 ```
 
 Testler gerçek yanıtlar, durum değişimi, olay sırası, 0/1/80/81 ve 125/126 bayt
 sınırları, yanlış oturum/Origin, native GraphQL validation ve bozulmuş öğrenci
 çözümlerini ölçer. Tahminlerin cevapları tam stdout ile ayrıca karşılaştırılır.
+Kali testi isteğe bağlıdır: ayarlı WSL dağıtımındaki mevcut Python/cryptography/curl
+ile dosyaları Linux `/tmp` altında çalıştırır; paket kurmaz.
