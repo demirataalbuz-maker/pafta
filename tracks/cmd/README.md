@@ -1,6 +1,6 @@
 # CMD / Batch · yazma yolu
 
-Bu yol Windows'un gerçek `cmd.exe` yorumlayıcısıyla **komut ve batch betiği yazdırır**. PowerShell'den ayrı bir dildir. Altı rütbeye dağıtılan `cm01`–`cm18` derslerinin her birinde gerçek çalıştırmayla karşılaştırılan bir tahmin ve iki görev vardır. Kaynaklar, dosya hazırlıkları ve görevler sentetik eğitim verisi kullanır.
+Bu yol Windows'un gerçek `cmd.exe` yorumlayıcısıyla **komut ve batch betiği yazdırır**. PowerShell'den ayrı bir dildir. Altı rütbeye dağıtılan `cm01`–`cm22` derslerinin her birinde gerçek çalıştırmayla karşılaştırılan bir tahmin ve iki görev vardır. EVTX ve Windows yapılandırma dersleri gerçek yerel araçları çağırır; kişisel günlükler ve ayarlar değiştirilmez.
 
 ## Tezgah sözleşmesi
 
@@ -23,6 +23,8 @@ Kaynak, `_pafta_cmd.cmd`, `_pafta_cmd_stdin.txt` ve `__PAFTA_CMD_ARG_*` adları 
 | cm10–cm12 | Tam/göreli yol, pushd/popd, stdout/stderr yönlendirme, findstr/find/sort ve metin projesi |
 | cm13–cm15 | Çıkış kodları ve errorlevel, koşullu komutlar, alt yordamlar, call/shift, setlocal/endlocal |
 | cm16–cm18 | Dosya envanteri ve kopya, Windows inceleme komutları ve sentetik çıktıları, parametreli rapor projesi |
+| cm19–cm20 | Sentetik kayıtla üretilmiş gerçek EVTX dosyasında çevrimdışı sorgu, dışa aktarma ve yeniden açma |
+| cm21–cm22 | Gerçek `sc.exe`, `schtasks.exe` ve `reg.exe` ile salt okunur yapılandırma sorguları |
 
 Windows inceleme dersinde `where`, `tasklist`, `whoami`, `ipconfig`, `netstat` ve `wevtutil` seçenekleri anlatılır. Tahminler ve görevler kullanıcının canlı süreçlerini/ağını sorgulamaz; açık şemalı örnek çıktıları işler. Bu, yerelleştirilmiş her araç çıktısı için genel ayrıştırıcı değildir.
 
