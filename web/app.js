@@ -173,7 +173,7 @@ function lessonLanguage(track, lesson, step) {
     return dilAdi(step?.meta?.dil || lesson?.steps?.find(s => s.meta?.dil)?.meta.dil ||
       (language === "packets" ? "wireshark" : "kibana"));
   }
-  return dilAdi(language);
+  return dilAdi(step?.meta?.dil || language);
 }
 
 function lessonInput(step, lesson, language) {

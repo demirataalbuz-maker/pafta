@@ -1,0 +1,39 @@
+{
+  "aciklama": "Eğitim için sentetik DACL kesiti; canlı AD'den toplanmadı.",
+  "gruplar": {
+    "ali.kaya": ["SOC-Analistleri"],
+    "mehmet.yilmaz": ["SOC-Analistleri"],
+    "ayse.demir": ["SOC-Liderleri", "SOC-Analistleri"],
+    "svc_sql": ["Sunucu-Operatorleri"],
+    "Sunucu-Operatorleri": ["Altyapi-Yoneticileri"],
+    "Altyapi-Yoneticileri": ["Domain Admins"],
+    "SOC-Liderleri": ["Domain Admins"]
+  },
+  "nesneler": {
+    "svc_sql": {
+      "owner": "Administrator",
+      "sinif": "user",
+      "aces": [
+        {"tur": "deny", "kim": "mehmet.yilmaz", "haklar": ["WriteDacl"], "inherited": false},
+        {"tur": "allow", "kim": "SOC-Analistleri", "haklar": ["WriteDacl"], "inherited": false},
+        {"tur": "allow", "kim": "Yedekleme-Operatorleri", "haklar": ["ReadProperty"], "inherited": true}
+      ]
+    },
+    "svc_rapor": {
+      "owner": "ayse.demir",
+      "sinif": "user",
+      "aces": [
+        {"tur": "allow", "kim": "SOC-Analistleri", "haklar": ["ReadProperty"], "inherited": true},
+        {"tur": "allow", "kim": "ali.kaya", "haklar": ["GenericAll"], "inherited": false, "inherit_only": true}
+      ]
+    },
+    "SRV-SQL01$": {
+      "owner": "Administrator",
+      "sinif": "computer",
+      "aces": [
+        {"tur": "allow", "kim": "SOC-Analistleri", "haklar": ["ReadProperty"], "inherited": true},
+        {"tur": "allow", "kim": "SOC-Liderleri", "haklar": ["WriteProperty"], "inherited": false}
+      ]
+    }
+  }
+}

@@ -269,6 +269,8 @@ def for_step(runner, step):
         if getattr(runner, "name", None) != "powershell":
             raise ValueError("motor: pwsh yalnız PowerShell yolunda tanımlı.")
         runner = RUNNERS["powershell-7"]
+    elif motor == "python" and isinstance(runner, AdRunner):
+        runner = AdAuditRunner()
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -362,6 +364,13 @@ class AdRunner(HarnessRunner):
     name = "ad"
     ozellik = {"roentgen": False, "dis": "LDAP"}
     modlar = {"run": "ad_run", "test": "ad_test", "dis": "ad_dis"}
+
+
+class AdAuditRunner(PythonRunner):
+    """AD güvenlik denetimi eklerinde çevrimdışı kanıtları yorumlayan Python tezgahı."""
+    name = "ad-audit"
+    ozellik = {"roentgen": True, "dis": None}
+    ek = {"kopyala": [os.path.join(ROOT, "tracks", "ad", "veri", "acl.json")]}
 
 
 class SqlRunner(HarnessRunner):
