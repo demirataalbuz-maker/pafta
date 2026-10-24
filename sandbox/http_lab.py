@@ -1,6 +1,6 @@
 """Opt-in advanced HTTP lab. Loopback only; no changes to the HT01–HT16 lab.
 
-python sandbox/http_lab.py --port 8765
+python sandbox/http_lab.py --port 8769
 The process survives individual lesson jobs. Ctrl+C closes it; /_control/reset
 requires the printed control token. This is a teaching application, not Burp.
 """
@@ -247,9 +247,9 @@ def main():
     if local_deps.is_dir():
         sys.path.insert(0,str(local_deps))
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--port', type=int, default=8765)
+    parser.add_argument('--port', type=int, default=8769)
     parser.add_argument('--tls', action='store_true', help='ephemeral private CA; does not change system trust')
-    parser.add_argument('--allow-origin', help='CORS exact allowed origin, e.g. http://127.0.0.1:8765')
+    parser.add_argument('--allow-origin', help='CORS exact allowed origin, e.g. http://127.0.0.1:8769')
     parser.add_argument('--cors-wildcard', action='store_true', help='deliberate wildcard/credential teaching case')
     args = parser.parse_args()
     if args.tls:

@@ -40,7 +40,7 @@ zaman aşımında süreç ağacı sonlandırılır.
 Repo kökünde ayrı terminal:
 
 ```text
-python sandbox/http_lab.py --port 8765
+python sandbox/http_lab.py --port 8769
 ```
 
 Yalnız 127.0.0.1'e bağlanır. Program URL'yi ve rastgele reset kontrol başlığını
@@ -72,13 +72,13 @@ tıklamalarının yapıldığını kanıtlamaz**. Teslim raporunda bu ayrım kor
 ## TLS'yi elle tekrar
 
 ```text
-python sandbox/http_lab.py --tls --port 8766
+python sandbox/http_lab.py --tls --port 8770
 ```
 
 Yazdırılan CA dosyasını yalnız bu çağrıda kullan:
 
 ```text
-curl.exe --noproxy "*" --cacert CA_DOSYASI --resolve app.pafta.test:8766:127.0.0.1 https://app.pafta.test:8766/
+curl.exe --noproxy "*" --cacert CA_DOSYASI --resolve app.pafta.test:8770:127.0.0.1 https://app.pafta.test:8770/
 ```
 
 Windows Schannel geçici CA'nın CRL hizmetini bulamazsa yalnız bu deneme için
@@ -95,13 +95,13 @@ sürümünü de içerir; test sürüme göre sonucu uydurmaz. DevTools Network't
 aynı vakaları incelemek için iki ayrı terminalde kalıcı hedef başlat:
 
 ```text
-python sandbox/http_lab.py --port 8765
-python sandbox/http_lab.py --port 8767 --allow-origin http://127.0.0.1:8765
+python sandbox/http_lab.py --port 8769
+python sandbox/http_lab.py --port 8771 --allow-origin http://127.0.0.1:8769
 ```
 
-İlk adreste DevTools Console'dan `fetch('http://127.0.0.1:8767/cors')` ve
-`fetch('http://127.0.0.1:8767/cors',{method:'POST',headers:{'X-Pafta':'yes'},body:'{}'})`
-çalıştır; Network'te OPTIONS/POST'u incele. 8767'yi izinli origin olmadan
+İlk adreste DevTools Console'dan `fetch('http://127.0.0.1:8771/cors')` ve
+`fetch('http://127.0.0.1:8771/cors',{method:'POST',headers:{'X-Pafta':'yes'},body:'{}'})`
+çalıştır; Network'te OPTIONS/POST'u incele. 8771'yi izinli origin olmadan
 yeniden başlatıp aynı deneyi tekrarla: OPTIONS reddinde POST yok, basit GET'te
 GET var ama JS okuması reddedilir. `--cors-wildcard` ile ayrı hedef açıp
 `credentials:'include'` eklemek wildcard/credential reddini üretir.

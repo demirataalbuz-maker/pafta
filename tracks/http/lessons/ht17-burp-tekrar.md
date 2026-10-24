@@ -8,12 +8,12 @@ summary: Kalıcı yerel laboratuvarda oturumlu isteği yakala, tek değişkeni d
 HT14–HT15'te istemciyi yazdın. Şimdi isteği bir tarayıcıdan alıp aynı oturumla tekrar göndereceksin. **Burp gerçek uygulamadır; Pafta onu taklit etmez.** Kalıcı laboratuvarı ayrı terminalde başlat:
 
 ```text
-python sandbox/http_lab.py --port 8765
+python sandbox/http_lab.py --port 8769
 ```
 
 Terminal açıkken laboratuvar açık kalır. Yazdırılan `url` adresini kullan; kontrol anahtarı her başlatmada değişir. `Ctrl+C` kapatır. `POST /_control/reset` isteğine terminaldeki `X-Lab-Control` değerini eklemek kayıtları ve oturumları sıfırlar. Anahtarsız reset 403 döner.
 
-Kali'deki Burp'u kullanıyorsan sunucuyu **aynı Kali dağıtımında** çalıştır: dosyayı `/tmp/pafta-http-lab.py` konumuna kopyalayıp `python3 /tmp/pafta-http-lab.py --port 8765` çalıştır. Böylece her iki uygulama aynı loopback adresini kullanır. Windows'taki ayrı bir sunucunun Kali'den erişilebilir olduğunu varsayma. Bu dersin sunucusu standart kütüphaneyle çalışır; paket kurulumu gerekmez.
+Kali'deki Burp'u kullanıyorsan sunucuyu **aynı Kali dağıtımında** çalıştır: dosyayı `/tmp/pafta-http-lab.py` konumuna kopyalayıp `python3 /tmp/pafta-http-lab.py --port 8769` çalıştır. Böylece her iki uygulama aynı loopback adresini kullanır. Windows'taki ayrı bir sunucunun Kali'den erişilebilir olduğunu varsayma. Bu dersin sunucusu standart kütüphaneyle çalışır; paket kurulumu gerekmez.
 
 1. Burp'ta geçici proje aç. Proxy → Intercept altında **Open browser** seç. Intercept'i kapat; HTTP history istekleri toplamaya devam eder.
 2. Adresi aç, `ayse / pafta-demo` ile oturum aç; **1 numaralı kaydı oku** düğmesine bas.
