@@ -28,5 +28,20 @@
     "file": "tcp-kayip.pcap",
     "sha256": "ac53693fa07142f245c06c10dd139cbd48a96f456b66a909388e1134d7d3a57d",
     "generator": "tools/build_packet_analysis_corpus.py; authored TCP sequence/HTTP bytes, no network"
+  },
+  "smb-lab": {
+    "file": "smb-lab.pcap",
+    "sha256": "00d8720d400100d0e00837fc28c61162b57ef28116ac409921785a1711d7ada4",
+    "generator": "tools/build_packet_directory_corpus.py; Scapy encoders / LDAP BER; AES-CCM transform witness, no live AD/authentication"
+  },
+  "kerberos-lab": {
+    "file": "kerberos-lab.pcap",
+    "sha256": "98b31cfbdaa1da4f3eb60780c1ec804a113ff22d821e9a17c620a42caf3b0357",
+    "generator": "tools/build_packet_directory_corpus.py; Scapy encoders / LDAP BER; AES-CCM transform witness, no live AD/authentication"
+  },
+  "ldap-lab": {
+    "file": "ldap-lab.pcap",
+    "sha256": "7ada52ceeac025c60f2dfd774e0597aac9f45326cc9a7e8f68533eb2f7d24910",
+    "generator": "tools/build_packet_directory_corpus.py; Scapy encoders / LDAP BER; AES-CCM transform witness, no live AD/authentication"
   }
 }

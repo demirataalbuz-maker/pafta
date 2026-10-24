@@ -1,5 +1,19 @@
 # Eğitim PCAP kayıtları
 
+## SMB2, Kerberos ve LDAP
+
+`tools/build_packet_directory_corpus.py` kurulu Kali Scapy kodlayıcısı ve
+yerel BER üreticisiyle `smb-lab`, `kerberos-lab`, `ldap-lab` oluşturur.
+Sunucuya bağlantı veya gerçek domaine giriş yoktur. Bunlar pasif tel-biçimi
+tanıklarıdır; tam doğrulanmış AD oturumu yerine geçmezler. SMB2 komut/yön,
+başarı ve farklı NTSTATUS; Kerberos alice/bob AS-REQ ve 23/24/25 hata;
+LDAP Bind sonuçları 0/48/49/50 ve iki SearchRequest kökü içerirler.
+SMB3 Transform tanığı gerçek AES-CCM ile üretilir ve üreticide decrypt
+assertion'ı ile doğrulanır; TShark'ta iç SMB2 komutu görünmez.
+`advanced.json` sabit dosya adları, üretici ve SHA256 özetlerini tutar;
+korpus yükleyici dosya özetlerini denetler. Testler gerçek native alanları
+seçer; manifest açıklaması ayrıştırılmış alan yerine kullanılmaz.
+
 ## TCP analist korpusu ve CLI
 
 `tools/build_packet_analysis_corpus.py` dört sentetik TCP kaydı oluşturur:

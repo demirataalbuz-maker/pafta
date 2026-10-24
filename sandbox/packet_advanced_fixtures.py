@@ -1,6 +1,7 @@
 """Deterministic offline framing witnesses and authored protocol corpus loader."""
 from fractions import Fraction
 import json
+import hashlib
 from pathlib import Path
 import struct
 
@@ -55,7 +56,10 @@ def captures():
             filename=entry['file']
             if Path(filename).name!=filename:
                 raise ValueError('Invalid authored capture filename')
-            result[name]=(HERE/filename).read_bytes()
+            data=(HERE/filename).read_bytes()
+            if hashlib.sha256(data).hexdigest()!=entry['sha256']:
+                raise ValueError('Eğitim korpusu SHA256 uyuşmazlığı: '+name)
+            result[name]=data
     return result
 
 

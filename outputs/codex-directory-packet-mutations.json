@@ -1,0 +1,702 @@
+{
+  "lessons": 3,
+  "tasks": 6,
+  "predictions": 3,
+  "mutations": 23,
+  "equivalent": 0,
+  "failures": [],
+  "records": [
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "solution",
+      "code": "smb2.cmd == 3 and smb2.flags.response == 0",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "komut 3 istek; Negotiate ve yanıtlar hariç",
+          "got": "[]",
+          "exp": "[6, 8, 10]"
+        },
+        {
+          "ok": false,
+          "msg": "frame başlangıcı değişti",
+          "got": "[]",
+          "exp": "[7, 9, 11]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "==→!= at 9",
+      "code": "smb2.cmd != 3 and smb2.flags.response == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "komut 3 istek; Negotiate ve yanıtlar hariç",
+          "got": "[4]",
+          "exp": "[6, 8, 10]"
+        },
+        {
+          "ok": false,
+          "msg": "frame başlangıcı değişti",
+          "got": "[5]",
+          "exp": "[7, 9, 11]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "and→or at 14",
+      "code": "smb2.cmd == 3 or smb2.flags.response == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "komut 3 istek; Negotiate ve yanıtlar hariç",
+          "got": "[4, 6, 7, 8, 9, 10, 11]",
+          "exp": "[6, 8, 10]"
+        },
+        {
+          "ok": false,
+          "msg": "frame başlangıcı değişti",
+          "got": "[5, 7, 8, 9, 10, 11, 12]",
+          "exp": "[7, 9, 11]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "==→!= at 38",
+      "code": "smb2.cmd == 3 and smb2.flags.response != 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "komut 3 istek; Negotiate ve yanıtlar hariç",
+          "got": "[7, 9, 11]",
+          "exp": "[6, 8, 10]"
+        },
+        {
+          "ok": false,
+          "msg": "frame başlangıcı değişti",
+          "got": "[8, 10, 12]",
+          "exp": "[7, 9, 11]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "3→2 at 12",
+      "code": "smb2.cmd == 2 and smb2.flags.response == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "komut 3 istek; Negotiate ve yanıtlar hariç",
+          "got": "[]",
+          "exp": "[6, 8, 10]"
+        },
+        {
+          "ok": false,
+          "msg": "frame başlangıcı değişti",
+          "got": "[]",
+          "exp": "[7, 9, 11]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "3→4 at 12",
+      "code": "smb2.cmd == 4 and smb2.flags.response == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "komut 3 istek; Negotiate ve yanıtlar hariç",
+          "got": "[]",
+          "exp": "[6, 8, 10]"
+        },
+        {
+          "ok": false,
+          "msg": "frame başlangıcı değişti",
+          "got": "[]",
+          "exp": "[7, 9, 11]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 2,
+      "change": "0→1 at 41",
+      "code": "smb2.cmd == 3 and smb2.flags.response == 1",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "komut 3 istek; Negotiate ve yanıtlar hariç",
+          "got": "[7, 9, 11]",
+          "exp": "[6, 8, 10]"
+        },
+        {
+          "ok": false,
+          "msg": "frame başlangıcı değişti",
+          "got": "[8, 10, 12]",
+          "exp": "[7, 9, 11]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 3,
+      "change": "solution",
+      "code": "smb2.nt_status == 0xc0000022",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk25",
+      "step": 3,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başarı ve başka hata farklı",
+          "got": "[]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame ezberi değil",
+          "got": "[]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 3,
+      "change": "==→!= at 15",
+      "code": "smb2.nt_status != 0xc0000022",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başarı ve başka hata farklı",
+          "got": "[5, 7, 11]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame ezberi değil",
+          "got": "[6, 8, 12]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 3,
+      "change": "0xc0000022→3221225505 at 18",
+      "code": "smb2.nt_status == 3221225505",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başarı ve başka hata farklı",
+          "got": "[]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame ezberi değil",
+          "got": "[]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk25",
+      "step": 3,
+      "change": "0xc0000022→3221225507 at 18",
+      "code": "smb2.nt_status == 3221225507",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başarı ve başka hata farklı",
+          "got": "[]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame ezberi değil",
+          "got": "[]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 2,
+      "change": "solution",
+      "code": "kerberos.msg_type == 10 and kerberos.CNameString == \"alice\"",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk26",
+      "step": 2,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bob AS-REQ ve alice hataları hariç",
+          "got": "[]",
+          "exp": "[1]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[]",
+          "exp": "[2]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 2,
+      "change": "==→!= at 18",
+      "code": "kerberos.msg_type != 10 and kerberos.CNameString == \"alice\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bob AS-REQ ve alice hataları hariç",
+          "got": "[2, 3, 4]",
+          "exp": "[1]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[3, 4, 5]",
+          "exp": "[2]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 2,
+      "change": "and→or at 24",
+      "code": "kerberos.msg_type == 10 or kerberos.CNameString == \"alice\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bob AS-REQ ve alice hataları hariç",
+          "got": "[1, 2, 3, 4, 5]",
+          "exp": "[1]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[2, 3, 4, 5, 6]",
+          "exp": "[2]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 2,
+      "change": "==→!= at 49",
+      "code": "kerberos.msg_type == 10 and kerberos.CNameString != \"alice\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bob AS-REQ ve alice hataları hariç",
+          "got": "[5]",
+          "exp": "[1]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[6]",
+          "exp": "[2]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 2,
+      "change": "10→9 at 21",
+      "code": "kerberos.msg_type == 9 and kerberos.CNameString == \"alice\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bob AS-REQ ve alice hataları hariç",
+          "got": "[]",
+          "exp": "[1]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[]",
+          "exp": "[2]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 2,
+      "change": "10→11 at 21",
+      "code": "kerberos.msg_type == 11 and kerberos.CNameString == \"alice\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bob AS-REQ ve alice hataları hariç",
+          "got": "[]",
+          "exp": "[1]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası değişti",
+          "got": "[]",
+          "exp": "[2]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 3,
+      "change": "solution",
+      "code": "kerberos.error_code == 24",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk26",
+      "step": 3,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "23/24/25 hata komşuları",
+          "got": "[]",
+          "exp": "[3]"
+        },
+        {
+          "ok": false,
+          "msg": "sabit frame yok",
+          "got": "[]",
+          "exp": "[4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 3,
+      "change": "==→!= at 20",
+      "code": "kerberos.error_code != 24",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "23/24/25 hata komşuları",
+          "got": "[2, 4]",
+          "exp": "[3]"
+        },
+        {
+          "ok": false,
+          "msg": "sabit frame yok",
+          "got": "[3, 5]",
+          "exp": "[4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 3,
+      "change": "24→23 at 23",
+      "code": "kerberos.error_code == 23",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "23/24/25 hata komşuları",
+          "got": "[2]",
+          "exp": "[3]"
+        },
+        {
+          "ok": false,
+          "msg": "sabit frame yok",
+          "got": "[3]",
+          "exp": "[4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk26",
+      "step": 3,
+      "change": "24→25 at 23",
+      "code": "kerberos.error_code == 25",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "23/24/25 hata komşuları",
+          "got": "[4]",
+          "exp": "[3]"
+        },
+        {
+          "ok": false,
+          "msg": "sabit frame yok",
+          "got": "[5]",
+          "exp": "[4]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 2,
+      "change": "solution",
+      "code": "ldap.bindResponse_resultCode == 49",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk27",
+      "step": 2,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0/48/49/50 sonuç tanıkları",
+          "got": "[]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame numarası sabit değil",
+          "got": "[]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 2,
+      "change": "==→!= at 29",
+      "code": "ldap.bindResponse_resultCode != 49",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0/48/49/50 sonuç tanıkları",
+          "got": "[5, 7, 11]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame numarası sabit değil",
+          "got": "[6, 8, 12]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 2,
+      "change": "49→48 at 32",
+      "code": "ldap.bindResponse_resultCode == 48",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0/48/49/50 sonuç tanıkları",
+          "got": "[7]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame numarası sabit değil",
+          "got": "[8]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 2,
+      "change": "49→50 at 32",
+      "code": "ldap.bindResponse_resultCode == 50",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0/48/49/50 sonuç tanıkları",
+          "got": "[11]",
+          "exp": "[9]"
+        },
+        {
+          "ok": false,
+          "msg": "frame numarası sabit değil",
+          "got": "[12]",
+          "exp": "[10]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 3,
+      "change": "solution",
+      "code": "ldap.baseObject == \"DC=lab,DC=test\"",
+      "status": "pass",
+      "error": null,
+      "failed_checks": []
+    },
+    {
+      "lesson": "pk27",
+      "step": 3,
+      "change": "starter",
+      "code": "frame.number == 0",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki farklı arama kökü",
+          "got": "[]",
+          "exp": "[12]"
+        },
+        {
+          "ok": false,
+          "msg": "sıra değişti",
+          "got": "[]",
+          "exp": "[13]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 3,
+      "change": "==→!= at 16",
+      "code": "ldap.baseObject != \"DC=lab,DC=test\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki farklı arama kökü",
+          "got": "[14]",
+          "exp": "[12]"
+        },
+        {
+          "ok": false,
+          "msg": "sıra değişti",
+          "got": "[15]",
+          "exp": "[13]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 3,
+      "change": "=→!= at 22",
+      "code": "ldap.baseObject == \"DC!=lab,DC=test\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki farklı arama kökü",
+          "got": "[]",
+          "exp": "[12]"
+        },
+        {
+          "ok": false,
+          "msg": "sıra değişti",
+          "got": "[]",
+          "exp": "[13]"
+        }
+      ]
+    },
+    {
+      "lesson": "pk27",
+      "step": 3,
+      "change": "=→!= at 29",
+      "code": "ldap.baseObject == \"DC=lab,DC!=test\"",
+      "status": "fail",
+      "error": null,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki farklı arama kökü",
+          "got": "[]",
+          "exp": "[12]"
+        },
+        {
+          "ok": false,
+          "msg": "sıra değişti",
+          "got": "[]",
+          "exp": "[13]"
+        }
+      ]
+    }
+  ]
+}
