@@ -151,6 +151,20 @@ class PurpleRunner(PythonRunner):
     ek = {"kopyala": [os.path.join(ROOT, "tracks", "purple", "veri", "attack.json")]}
 
 
+class VqlRunner(HarnessRunner):
+    """Purple yolu, adım meta'sında motor: velociraptor → WSL'de gerçek Velociraptor (sandbox/vql_lab.py,
+    py_harness vql_*). Hazırlık disk/ altında dosya ağacı kurar; kod bir VQL sorgusudur (Kok değişkeni)."""
+    name = "vql"
+    ozellik = {"roentgen": False, "dis": None}
+    modlar = {"run": "vql_run", "test": "vql_test"}
+    default_timeout = 60
+    test_timeout = 180
+
+    def available(self):
+        from sandbox.vql_lab import durum
+        return durum() is None
+
+
 class WslRunner(HarnessRunner):
     """Opt-in Linux Python/Bash, with the guardian owning timeout and cleanup."""
     default_timeout = 60
@@ -221,9 +235,9 @@ def for_step(runner, step):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
     if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk",
-                     "suricata", "zeek"):
+                     "suricata", "zeek", "velociraptor"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb, splunk, suricata veya zeek kullanın.")
+                         "mariadb, splunk, suricata, zeek veya velociraptor kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -244,6 +258,10 @@ def for_step(runner, step):
         if not isinstance(runner, IdsRunner):
             raise ValueError(f"motor: {motor} yalnız Ağ Tespiti yolunda tanımlı.")
         runner = IdsRunner(motor)
+    elif motor == "velociraptor":
+        if not isinstance(runner, PurpleRunner):
+            raise ValueError("motor: velociraptor yalnız Purple yolunda tanımlı.")
+        runner = VqlRunner()
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])

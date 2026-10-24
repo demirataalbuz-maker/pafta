@@ -2150,6 +2150,88 @@ def do_ids_test(job):
         return _test_kos(tester, tns, job, segs)
 
 
+# ── Velociraptor (purple yolu, adım meta'sında motor: velociraptor): sandbox/vql_lab.py ──
+# Görevin hazırlığı Python'dur ve çalışma klasöründe disk/ altında bir dosya ağacı kurar; kullanıcının
+# VQL sorgusu o ağaca Kok değişkeniyle erişir.
+
+def _vql_lab():
+    import importlib.util
+    yol = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vql_lab.py")
+    spec = importlib.util.spec_from_file_location("pafta_vql_lab", yol)
+    modul = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modul)
+    return modul
+
+
+def _vql_deger(v):
+    if isinstance(v, (dict, list)):
+        return json.dumps(v, ensure_ascii=False, sort_keys=True)
+    return v
+
+
+def _vql_kos(V, job, ek=""):
+    """Hazırlığı (ve ek hazırlığı) çalıştır, sorguyu disk/ üzerinde koş → (alanlar, satırlar, ham)."""
+    for kod in (job.get("setup") or "", ek or ""):
+        if kod.strip():
+            exec(compile(kod, "<setup>", "exec"), {"__name__": "__setup__"})
+    os.makedirs("disk", exist_ok=True)
+    ham = V.sorgu(job["code"], os.path.abspath("disk"))
+    alanlar = []
+    for r in ham:
+        for k in r:
+            if k not in alanlar:
+                alanlar.append(k)
+    return alanlar, [tuple(_vql_deger(r.get(a)) for a in alanlar) for r in ham], ham
+
+
+def _vql_hata(e):
+    return {"type": "VQLHatası", "msg": getattr(e, "msg", str(e)), "line": None, "frames": [], "where": "kod"}
+
+
+def do_vql_run(job):
+    V = _vql_lab()
+    try:
+        alanlar, satirlar, _ = _vql_kos(V, job)
+    except V.VqlHatasi as e:
+        return {"status": "error", "error": _vql_hata(e), "segs": [], "tablolar": []}
+    tablo = {"satir": 1, "sutunlar": alanlar, "kesildi": False,
+             "satirlar": [[None if v is None else str(v) for v in r] for r in satirlar]}
+    cikti = _ceviri_metin([tablo])
+    return {"status": "ok", "segs": [["out", cikti]] if cikti else [], "tablolar": [tablo], "kql": True, "error": None}
+
+
+class VqlTester(Tester):
+    def __init__(self, job, V, cikti):
+        super().__init__("", {}, Capture(), "", job)
+        self.cap.add("out", cikti)
+        self.code = job.get("code", "")
+        self.V = V
+
+    def dene(self, hazirlik=""):
+        """Hazırlığın üstüne `hazirlik`ı (Python; disk/ altına dosya ekler) çalıştırıp sorguyu yeniden koş → satırlar."""
+        try:
+            return _vql_kos(self.V, {"setup": "", "code": self.code}, hazirlik)[1]
+        except self.V.VqlHatasi as e:
+            raise UserRunError(_vql_hata(e), hazirlik)
+
+    def kullanir(self, kelime):
+        return re.search(r"(?<![\w])" + re.escape(kelime) + r"(?![\w])", self.code, re.I) is not None
+
+
+def do_vql_test(job):
+    V = _vql_lab()
+    try:
+        alanlar, satirlar, ham = _vql_kos(V, job)
+    except V.VqlHatasi as e:
+        return {"status": "error", "error": _vql_hata(e), "checks": [], "segs": []}
+    cikti = _ceviri_metin([{"sutunlar": alanlar, "satirlar": [[None if v is None else str(v) for v in r] for r in satirlar]}])
+    tester = VqlTester(job, V, cikti)
+    tns = tester.namespace()
+    tns.update(src=job.get("code", ""), sonuc=satirlar, sutunlar=alanlar, kayitlar=ham, dene=tester.dene,
+               kullanir=tester.kullanir)
+    return _test_kos(tester, tns, job, [["out", cikti]] if cikti else [])
+
+
 MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "ad_run": do_ad_run, "ad_test": do_ad_test, "ad_dis": do_ad_dis,
          "packet_run": do_packet_run, "packet_test": do_packet_test,
@@ -2166,7 +2248,8 @@ MODES = {"run": do_run, "test": do_test, "trace": do_trace, "dis": do_dis,
          "pg_run": do_pg_run, "pg_test": do_pg_test,
          "my_run": do_my_run, "my_test": do_my_test,
          "spk_run": do_spk_run, "spk_test": do_spk_test,
-         "ids_run": do_ids_run, "ids_test": do_ids_test}
+         "ids_run": do_ids_run, "ids_test": do_ids_test,
+         "vql_run": do_vql_run, "vql_test": do_vql_test}
 
 
 def main():
