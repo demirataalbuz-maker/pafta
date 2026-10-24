@@ -103,6 +103,10 @@ Bu fonksiyonun **Pester 5 testlerini** yaz. Betiğin bir Pester test dosyasıdı
 
 Gizli test senin testlerini doğru modüle ve altı bozuk sürüme karşı çalıştırır. Doğru modülde **hepsi geçmeli**, her bozuk sürümde **en az biri kırılmalı**. Bozuk sürümlerin her biri yukarıdaki kuraldan tek bir noktada sapar; hangi noktalar olduğunu kuralı sınırlarıyla okuyarak bul.
 
+```meta
+timeout: 120
+```
+
 ```setup
 open("Parola.psm1", "w", encoding="utf-8-sig").write(r'''function Get-ParolaGucu {
     param([Parameter(Mandatory)][AllowEmptyString()][string]$Parola)
@@ -196,6 +200,10 @@ Bir sınıfın sayılıp sayılmadığını, **o sınıf olmadan** sonucun deği
 "Şimdi"yi `Get-Date` ile öğrenir. Bu fonksiyonun Pester 5 testlerini yaz. Testlerin saatten bağımsız olmalı: `Get-Date`'i **Mock** ile sabitle (fonksiyon bir modülde olduğu için `-ModuleName Yedek`) ve dosyaları **`TestDrive:`** içinde kurup zamanlarını kendin ayarla.
 
 Gizli test, testlerini doğru modüle ve beş bozuk sürüme karşı çalıştırır. Bozuk sürümlerden biri "şimdi"yi `Get-Date` yerine başka bir yoldan okur; taklidin işe yaradığını da testlerin göstermeli.
+
+```meta
+timeout: 120
+```
 
 ```setup
 open("Yedek.psm1", "w", encoding="utf-8-sig").write(r'''function Get-YedekDurumu {

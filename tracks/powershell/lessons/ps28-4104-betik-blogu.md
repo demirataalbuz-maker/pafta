@@ -141,6 +141,15 @@ eq(run(stdin="{6f1e0c2a-0009-4b5c-9d00-5afe00000009}\n"), "YOK\n", "böyle bir b
 eq(run(stdin="{6f1e0c2a-0002-4b5c-9d00-5afe00000002}' or '1'='1\n"), "HATA\n", "biçime uymayan, XPath parçası içeren girdi")
 eq(run(stdin="6f1e0c2a-0002-4b5c-9d00-5afe00000002\n"), "HATA\n", "süslü parantezsiz")
 eq(run(stdin=""), "HATA\n", "boş girdi")
+import os, runpy, sys
+_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
+                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+fx = runpy.run_path(os.path.join(_s, "ps_evtx_fixtures.py"))
+H = "{6f1e0c2a-0010-4b5c-9d00-5afe00000010}"
+os.remove("betik.evtx")
+fx["evtx"]("betik.evtx", fx["BETIK"] + [(4104, fx["BILGI"], 400, fx["PS"], ["1", "4", "a", H, ""]),
+                                       (4104, fx["BILGI"], 401, fx["PS"], ["3", "4", "c", H, ""])])
+eq(run(stdin=H + "\n"), "EKSIK 2/4: 2,4\n", "dört parçanın ikisi var: toplam ve eksik liste ayrı ayrı doğru")
 ```
 
 ```solution

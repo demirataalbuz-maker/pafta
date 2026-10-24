@@ -77,6 +77,15 @@ eq([(r[0], r[1]) for r in sonuc],
    "pencere (calisma − 30m, calisma]; 10:42'deki tek hata 11:00 çalıştırmasında")
 eq([str(r[2]).lower() for r in sonuc], ["false", "true", "false", "false", "false", "false", "false"],
    "eşik 2: yalnız 09:30 alarm üretir")
+SINIR = ("INSERT INTO istekler VALUES ('2026-10-19 10:00','10.0.9.9','GET','/a',500,10,'web03',NULL,'{}'),"
+         "('2026-10-19 10:30','10.0.9.9','GET','/a',503,10,'web03',NULL,'{}'),"
+         "('2026-10-19 11:40','10.0.9.9','GET','/a',500,10,'web03',NULL,'{}'),"
+         "('2026-10-19 11:50','10.0.9.9','GET','/a',502,10,'web03',NULL,'{}');")
+eq([(r[0], r[1], str(r[2]).lower()) for r in dene(SINIR)],
+   [("2026-10-19 09:00", 0, "false"), ("2026-10-19 09:30", 3, "true"), ("2026-10-19 10:00", 1, "false"),
+    ("2026-10-19 10:30", 1, "false"), ("2026-10-19 11:00", 1, "false"), ("2026-10-19 11:30", 0, "false"),
+    ("2026-10-19 12:00", 2, "true")],
+   "tam 10:00 ve 10:30'daki hata yalnız o anın çalıştırmasında sayılır (pencere sonu dahil, başı hariç); tam 2 hata alarm")
 ```
 
 ```solution
@@ -109,6 +118,10 @@ eq(sutunlar, ["zaman", "sunucu", "gorulme_20dk", "gorulme_60dk"], "sütunlar")
 eq(sonuc, [("2026-10-19 09:01", "web01", 0, 2), ("2026-10-19 09:02", "web01", 0, 2),
            ("2026-10-19 09:12", "web01", 1, 2), ("2026-10-19 10:42", "web02", 1, 2)],
    "20 dk'da 09:01 ve 09:02 hiçbir pencereye düşmez; 60 dk'da her olay iki kez sayılır")
+eq(dene("INSERT INTO istekler VALUES ('2026-10-19 10:10','10.0.9.9','GET','/a',500,10,'web03',NULL,'{}'),"
+        "('2026-10-19 10:30','10.0.9.9','GET','/a',503,10,'web03',NULL,'{}');")[3:5],
+   [("2026-10-19 10:10", "web03", 0, 2), ("2026-10-19 10:30", "web03", 1, 2)],
+   "pencere sınırları: 10:10 olayı 10:30'un 20 dk penceresinin başında (hariç), 10:30 olayı kendi çalıştırmasında (dahil)")
 ```
 
 ```solution

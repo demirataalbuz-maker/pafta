@@ -166,6 +166,8 @@ f = need("jpql")
 eq(f("findByDurumOrderByIdAsc"), "select b from Bilet b where b.durum = ?1 order by b.id asc", "düzenekteki ilk yöntem")
 eq(f("countByOncelik"), "select count(b) from Bilet b where b.oncelik = ?1", "sayma")
 eq(f("findByOncelikInAndDurumNot"), "select b from Bilet b where b.oncelik in ?1 and b.durum <> ?2", "In ve Not, iki parametre")
+eq(f("findByDurumAndOncelikNotOrSunucu"), "select b from Bilet b where b.durum = ?1 and b.oncelik <> ?2 or b.sunucu = ?3",
+   "üç koşul: bağlaçlar ve parametre numaraları sırayla")
 eq(f("findByAtananIsNullOrOncelik"), "select b from Bilet b where b.atanan is null or b.oncelik = ?1", "IsNull parametre almaz; sıradaki ?1 olur")
 eq(f("findByAcilisGreaterThanAndAcilisLessThanOrderByAcilisDesc"),
    "select b from Bilet b where b.acilis > ?1 and b.acilis < ?2 order by b.acilis desc", "aralık ve azalan sıra")

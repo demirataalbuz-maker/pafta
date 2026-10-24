@@ -676,6 +676,10 @@ eq(kayitlar(), [("1767261600000000", "5", "son", "satir sonu yok")], "tek kayıt
 eq(run(stdin="bozuk\n"), "yazilan 0, atlanan 1\n", "hiç geçerli satır yok")
 eq(kayitlar(), [], "geçerli satır yoksa dosyada kayıt olmamalı")
 eq(run(stdin=""), "yazilan 0, atlanan 0\n", "boş girdi")
+eq(run(stdin="2026-01-01T11:00:00Z alert a: x\n2026-01-01T11:01:00Z debug b: y\n2026-01-01T11:02:00Z emerg c: z\n"),
+   "2026-01-01T11:00:00+00:00 a: x\n2026-01-01T11:01:00+00:00 b: y\n2026-01-01T11:02:00+00:00 c: z\nyazilan 3, atlanan 0\n",
+   "alert, debug ve emerg geçerli öncelikler")
+eq([k[1] for k in kayitlar()], ["1", "7", "0"], "öncelik sayıları: alert 1, debug 7, emerg 0")
 ```
 
 ```solution
