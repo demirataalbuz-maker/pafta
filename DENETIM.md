@@ -81,7 +81,7 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 15 | powershell | Get-Acl ile NTFS/Registry erişim değerlendirmesi | 1 (sıra 15) | Yazar 1 | denetlendi (`e47d743`, PS22) |
 | 16 | powershell | Authenticode imzasını dosya incelemesine katmak | 2+ | Yazar 2 | denetlendi (`c0cdadb`, PS25) |
 | 17 | powershell | Pester ile kendi modül/fonksiyonunun testlerini yazmak | 2+ | Yazar 2 | denetlendi (`2af3515`, PS26); A39 |
-| 18 | powershell | Gerçek PSSession yaşam döngüsü ve uzak çıktı | 2+ | Yazar 2 | bekliyor: WinRM için kullanıcının bir kez yönetici onayı (yalnız localhost dinleyici) |
+| 18 | powershell | Gerçek PSSession yaşam döngüsü ve uzak çıktı | 2+ | Yazar 2 | denetime hazır: PS29, WinRM'siz çözüldü (PowerShell 7 taşınabilir paketi + `-UseWindowsPowerShell`); uzak bağlanma ve Disconnect/Reconnect kapsam dışı |
 | 19 | powershell | Constrained Language Mode (LanguageMode), JEA (RoleCapabilities) ve AppLocker (8002/8004) olaylarını incelemek (Antigravity önerisi) | 2+ | Antigravity | denetlendi (`1f608b9`, PS24) |
 | 20 | cmd | wevtutil ile offline EVTX sorgu ve export | 2+ | Codex | denetlendi (`def85ee`, CM19–CM20) |
 | 21 | cmd | Servis, zamanlanmış görev ve Registry yapılandırmasını sorgulamak | 2+ | Codex | denetlendi (`8a64430`, CM21–CM22) |

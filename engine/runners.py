@@ -235,9 +235,9 @@ def for_step(runner, step):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
     if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk",
-                     "suricata", "zeek", "velociraptor"):
+                     "suricata", "zeek", "velociraptor", "pwsh"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb, splunk, suricata, zeek veya velociraptor kullanın.")
+                         "mariadb, splunk, suricata, zeek, velociraptor veya pwsh kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -262,6 +262,10 @@ def for_step(runner, step):
         if not isinstance(runner, PurpleRunner):
             raise ValueError("motor: velociraptor yalnız Purple yolunda tanımlı.")
         runner = VqlRunner()
+    elif motor == "pwsh":
+        if getattr(runner, "name", None) != "powershell":
+            raise ValueError("motor: pwsh yalnız PowerShell yolunda tanımlı.")
+        runner = RUNNERS["powershell-7"]
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -536,9 +540,17 @@ class ProcRunner(HarnessRunner):
         return bool(self.ek["proc"]["cmd"][0])
 
 
+def _pwsh7_yolu():
+    """PowerShell 7: .deps\pwsh\<sürüm>\pwsh.exe (taşınabilir paket; yönetici gerektirmez), yoksa PATH."""
+    yerel = os.path.join(ROOT, ".deps", "pwsh", PWSH7_SURUM, "pwsh.exe")
+    return yerel if os.path.isfile(yerel) else (shutil.which("pwsh") or "")
+
+
+PWSH7_SURUM = "7.6.8"
 BASH = _bash_yolu()
 NODE = shutil.which("node") or (r"C:\Program Files\nodejs\node.exe" if os.path.isfile(r"C:\Program Files\nodejs\node.exe") else None)
 CMD = shutil.which("cmd.exe") if os.name == "nt" else None
+PWSH7 = _pwsh7_yolu()
 # Sarmalayıcı: UTF-8 çıktı, Girdi kutusunu $Girdi dizisine okur, betiği argümanlarıyla çağırır.
 PS_SARMAL = (
     "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n"
@@ -582,6 +594,15 @@ RUNNERS = {
         "env": {"PSModulePath": os.path.join(ROOT, ".deps", "psmodules") + os.pathsep + os.environ.get("PSModulePath", "")},
     }, default_timeout=25, test_timeout=50,
         kopyala=[os.path.join(ROOT, "tracks", "powershell", "veri", "olaylar.json")]),
+    # Adım meta'sında motor: pwsh → aynı tezgah, PowerShell 7'nin taşınabilir paketiyle (New-PSSession
+    # -UseWindowsPowerShell gibi yalnız 7'de olan özellikler için). Yönetici, WinRM ve ağ dinleyicisi yok.
+    "powershell-7": ProcRunner("powershell-7", {
+        "cmd": [PWSH7 or "", "-NoLogo", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File"],
+        "dosya": "betik.ps1", "bom": True, "sarmal": PS_SARMAL, "sarmal_dosya": "_pafta.ps1",
+        "iz_satiri": "Set-PSDebug -Trace 1; ", "iz_disla": ["betik.ps1", "LASTEXITCODE"],
+        "sure": 60, "satir_deseni": r"betik\.ps1:(\d+)",
+        "iz_deseni": r"^DEBUG:\s+(?P<satir>\d+)\+\s*(?P<komut>.*)$",
+    }, default_timeout=60, test_timeout=120),
     "javascript": ProcRunner("javascript", {
         "cmd": [NODE or ""], "dosya": "betik.js", "sure": 10,
         # Proje kapsamında sabitlenen npm paketleri (Express 5.3.0): tools/js_bagimlilik_kur.py
