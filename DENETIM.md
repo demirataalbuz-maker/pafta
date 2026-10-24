@@ -88,9 +88,9 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 29 | http | SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
 | 30 | http | WebSocket el sıkışması (101) ve GraphQL sorgu/yetki okuma (Antigravity önerisi) | 2+ | Antigravity | bekliyor |
 | 31 | sql | SQLite dışındaki SQL lehçelerini gerçek motorlarda kullanmak | 2+ | Codex | bekliyor |
-| 32 | sql | Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi | 2+ | Yazar 1 | bekliyor |
-| 33 | sql | Veritabanı rolleri ve etkili yetkileri denetlemek | 2+ | Yazar 1 | bekliyor |
-| 34 | sql | SQL içinden JSON kayıtlarını sorgulamak | 2+ | Yazar 1 | bekliyor |
+| 32 | sql | Uygulama girdisinden SQL'e veri akışı ve parametre bağlamanın gerçek deneyi | 2+ | Yazar 2 | Yazar 2'ye verildi |
+| 33 | sql | Veritabanı rolleri ve etkili yetkileri denetlemek | 2+ | Yazar 2 | Yazar 2'ye verildi |
+| 34 | sql | SQL içinden JSON kayıtlarını sorgulamak | 2+ | Yazar 2 | Yazar 2'ye verildi |
 | 35 | kql | Sentinel/Defender güvenlik şemaları ve watchlist ile olay avcılığı | 2+ | Yazar 1 | bekliyor |
 | 36 | kql | mv-apply ve bag_unpack ile ileri dinamik kayıt çözümleme | 2+ | Codex | bekliyor |
 | 37 | kql | Avcılık sorgusunu zamanlanan Sentinel analitik kuralına dönüştürmek | 2+ | Yazar 1 | bekliyor |
@@ -100,7 +100,7 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 41 | elastic | Gerçek telemetri alımı, ECS ve ingest eşlemesi | 2+ | Codex | bekliyor |
 | 42 | elastic | EQL işlevleri ve mevcut alt kümenin dışında kalan sorgular için gerçek backend | 2+ | Codex | bekliyor |
 | 43 | elastic | KQL/EQL sorgusunu Elastic Security tespit kuralı olarak işletmek | 2+ | Yazar 1 | bekliyor |
-| 44 | elastic | ES\|QL ile toplama ve olay tablosunu dönüştürme | 2+ | Codex | bekliyor |
+| 44 | elastic | ES|QL ile toplama ve olay tablosunu dönüştürme | 2+ | Codex | bekliyor |
 | 45 | sigma | sigma-cli ile gerçek backend ve processing pipeline kullanımı | 2+ | Codex | bekliyor |
 | 46 | sigma | Çalıştırılan korelasyon kuralları | 2+ | Codex | bekliyor |
 | 47 | sigma | Gerçek olaydan kurala telemetri doğrulaması | 2+ | Yazar 1 | bekliyor |
@@ -110,7 +110,7 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 51 | yara | Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı | 2+ | Codex | bekliyor |
 | 52 | yara | Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü | 2+ | Codex | bekliyor |
 | 53 | regex | RX16'daki lehçe bilgisini gerçek motorlarda sınamak | 2+ | Codex | bekliyor |
-| 54 | regex | Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak | 2+ | Yazar 1 | bekliyor |
+| 54 | regex | Hazır PCRE2 desenlerinde subroutine/recursion ve kontrol fiillerini okumak | 2+ | Yazar 2 | Yazar 2'ye verildi |
 | 55 | packets | PCAPNG ve farklı link-layer türleriyle gerçek kayıt kabulü | 2+ | Codex | bekliyor |
 | 56 | packets | TLS/HTTP2/QUIC trafiğini ve görünürlük sınırını uygulamalı incelemek | 2+ | Codex | bekliyor |
 | 57 | packets | TCP yeniden birleştirme ve analist iş akışı | 2+ | Yazar 1 | bekliyor |
