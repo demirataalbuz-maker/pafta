@@ -1,0 +1,52 @@
+{
+ "id": "purple",
+ "name": "Purple Team",
+ "status": "active",
+ "group": "her-iki",
+ "order": 28,
+ "runner": "purple",
+ "dil": "python",
+ "role": "Saldırı ile savunmanın buluştuğu yer: tespitleri ATT&CK'e eşlemek, kapsamı ölçmek, olay müdahalesi ve raporlama.",
+ "tagline": "Tespit kurallarını MITRE ATT&CK'in gerçek verisine (Enterprise 19.2) eşleyip kapsamı ölçmek, boşlukları bulmak ve Navigator katmanı üretmek. Python ile, resmi ATT&CK verisinin özetiyle.",
+ "kahraman": [
+  "Kuraldan",
+  "Kapsam",
+  "a"
+ ],
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ],
+ "modules": [
+  {
+   "title": "Kapsamı Ölçmek",
+   "rank": "minik",
+   "zen": "Ne yakaladığını bilmeyen, neyi kaçırdığını da bilmez.",
+   "lessons": [
+    "pu01"
+   ]
+  }
+ ]
+}

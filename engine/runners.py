@@ -144,6 +144,13 @@ class PythonRunner(HarnessRunner):
     modlar = {"run": "run", "test": "test", "trace": "trace", "dis": "dis"}
 
 
+class PurpleRunner(PythonRunner):
+    """Purple Team yolu: Python; her çalıştırmada MITRE ATT&CK özeti (tracks/purple/veri/attack.json,
+    tools/attack_ozet.py) çalışma klasörüne attack.json olarak kopyalanır."""
+    name = "purple"
+    ek = {"kopyala": [os.path.join(ROOT, "tracks", "purple", "veri", "attack.json")]}
+
+
 class WslRunner(HarnessRunner):
     """Opt-in Linux Python/Bash, with the guardian owning timeout and cleanup."""
     default_timeout = 60
@@ -535,6 +542,7 @@ RUNNERS = {
     "yara": DetectionRunner("yara", "yara"),
     "packets": PacketRunner(),
     "ids": IdsRunner(),
+    "purple": PurpleRunner(),
     "elastic": ElasticRunner(),
     "ad": AdRunner(),
     "bash": ProcRunner("bash", {

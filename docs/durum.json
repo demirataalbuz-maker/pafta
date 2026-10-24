@@ -361,6 +361,12 @@
    "durum": "calisiliyor",
    "kim": "Codex",
    "not": "Kullanıcı 41–44 tamamını verdi; resmi Elasticsearch/Kibana 9.5.5 imajlarının indirilmesine onay verdi. Ortak gerçek API tezgahı hazırlanıyor; diğer ajanın IDS dosyalarına dokunulmuyor."
+  },
+  "purple: MITRE ATT&CK ile tespit kapsamı haritası: tekniği kurala eşlemek, Navigator katmanı, boşluk listesi (purple team karşılaştırması, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "Yeni yol tracks/purple (runner purple = Python + attack.json). PU01: resmi MITRE ATT&CK Enterprise 19.2 (attack-stix-data, sha256 dc1639ca...) özetiyle (tools/attack_ozet.py): Sigma etiketinden tekniğe, emekli (T1086→T1059.001) / kullanım dışı, taktik başına kapsam, Navigator katmanı, öncelik listesinden boşluk. Navigator'a yükleme denenmedi (versions alanı yok)"
   }
  }
 }
