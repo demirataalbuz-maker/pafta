@@ -266,7 +266,10 @@ def main():
             config.update(ca=lab.ca,verified_name='app.pafta.test')
         print(json.dumps(config, ensure_ascii=False), flush=True)
         try:
-            threading.Event().wait()
+            # Timed waits let older Windows Python versions dispatch Ctrl+C.
+            stop = threading.Event()
+            while not stop.wait(0.25):
+                pass
         except KeyboardInterrupt:
             pass
 

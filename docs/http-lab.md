@@ -32,7 +32,9 @@ değildir: bu üç ayarla kendi mevcut kurulumunu seçebilirsin. Eksik araçta
 gerçek hata alınır; sahte browser raporu üretilmez. Tarayıcı indirmek gerekmez;
 kurulu Edge kullanılır. Yeni makinede Playwright kurulumunu ayrıca onayla:
 [resmî kitaplık](https://playwright.dev/docs/library). Global `NODE_PATH`
-değiştirilmez. Headless browser ayrı geçici profille açılır ve kapatılır;
+değiştirilmez. [Playwright executablePath belgesi](https://playwright.dev/docs/api/class-browsertype#browser-type-launch-option-executable-path)
+kurulu tarayıcı sürümlerinin uyumluluğunu garanti etmez; teslimde ölçülen Edge
+sürümü yukarıda yazılıdır. Headless browser ayrı geçici profille açılır ve kapatılır;
 zaman aşımında süreç ağacı sonlandırılır.
 
 ## Kalıcı hedef ve Burp kabul listesi
@@ -82,7 +84,8 @@ curl.exe --noproxy "*" --cacert CA_DOSYASI --resolve app.pafta.test:8770:127.0.0
 ```
 
 Windows Schannel geçici CA'nın CRL hizmetini bulamazsa yalnız bu deneme için
-`--ssl-no-revoke` ekle; sertifika imzası/hostname doğrulaması kalır. CA'yı
+[`--ssl-no-revoke`](https://curl.se/docs/manpage.html#--ssl-no-revoke) ekle;
+bu seçenek revocation kontrolünü kapatır, sertifika imzası/hostname doğrulaması kalır. CA'yı
 çıkarmak güven hatası, URL/resolve adını `other.pafta.test` yapmak hostname
 hatası üretir. `--insecure` kullanma. `/missing` 404'tür; normal curl çıkış 0,
 `--fail-with-body` ile çıkış 22. TLS hatası HTTP durum kodu değildir.
