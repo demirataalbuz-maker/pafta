@@ -22,6 +22,8 @@ Sigma ve YARA ders metinleri tek tek okunmadı, yalnızca betiklerle denetlendi.
 
 | # | Yer | Bulgu | Düzeltme | Sahibi |
 |---|---|---|---|---|
+| A34 | `tracks/java/jv13`:2 ve `tracks/csharp/cs14`:2 (tahmin) | Tahmin cevabı (gercek) doğru ama açıklama metni çıktının satırlarını birebir içermiyor; öğrenci tahminini açıklamayla karşılaştıramıyor. Cevaplar denetçi tarafından doğru bulundu (Spring @Transactional rollback davranışı; ASP.NET Web Forms yaşam döngüsü sırası). | açıklamaya çıktı satırlarını ekle | Yazar 2 |
+| A35 | `tracks/http/ht16`:6 ve `tracks/java/jv13`:4 (test) | İki küçük test boşluğu: ht16'da `keep_blank_values=True` savunma ayarı testlerce zorlanmıyor (True→False mutantı geçiyor); jv13'te `len(parca) > len(ek)` iç sınırı testlerce ayrıştırılmıyor (>→>= mutantı geçiyor). İkisi de düşük önem; ders çıktıları doğru. | sınır girdisi ekleyen birer test | Yazar 2 |
 
 **AD yolu (`26ddfbd`) sıkı denetimi** (Claude, AD denetçisi). Ölçümler `git archive 26ddfbd` ile çıkarılan anlık görüntüde yapıldı.
 - **Validate:** AD yolu 12 ders, 119 kontrol temiz; hem PowerShell'de (`NoDefaultCurrentDirectoryInExePath` kaldırılarak) hem Git Bash'te.
@@ -166,6 +168,7 @@ Mevcut yollara küçük eklemeler (SQL görünümleri, Bash başlangıç dosyala
 
 | Bulgu | Commit | Denetçinin kanıtı |
 |---|---|---|
+| Aşama 2 birikmiş teslimler (27 yeni ders, c5bdacc..`f487992`) denetlendi | Yazar 2 (36 ders commit'i), Codex (pwntools/Impacket), Antigravity (ht16 başlangıcı) | `f487992` anlık görüntüsünde tam depo **430 ders, 3672 kontrol temiz; hem normal Windows hem Git Bash**. 27 yeni dersin tahminleri gerçek çıktıyla uyuşuyor (yalnızca A34 biçim notu). Denetçinin mutasyon betiği 55 görevde yalnızca 3 belirsiz işaret buldu: biri yanlış alarm (bs32:4 stderr yönlendirmesi), ikisi düşük önemli test boşluğu (A35). Bozuk ders ve yanlış cevap yok. Not: Yazar 2 kendi şeridi (SQL/regex) dışına çıkıp çoğu yola yazdı; çapraz dosya çakışması yok (işi tek başına yaptı). Yazar 2 ayrıca `docs/durum.json` + `docs/DURUM.html` ile ikinci bir takip sistemi kurdu — tek kaynağa indirilmeli (kullanıcı kararı). |
 | PowerShell'de dil kipleri, JEA rol yetenekleri ve uygulama denetimi olayları dersi yoktu | `1f608b9` (PS24, Antigravity, model: Gemini) | Kapsam: PS24 ve `track.json`. PowerShell yolu 24 ders, 237 kontrol temiz (normal Windows ve Git Bash); tahmin gerçek çıktıyla uyuşuyor; denetçinin mutasyon betiğinde 3 görevde zayıf test yok. |
 | ph02 `gercek` boşluğu (A32) ve c13 tanımsız davranış notu (A33) | `9cfc5c2` (bulut yazar, dal `duzeltme/a32-a33`, main'e birleştirildi) | Dal `6b53bd0`'dan açılmış, yalnızca iki ders dosyası; PHP 11 ders 64 kontrol ve C 13 ders 76 kontrol temiz; ph02 Kali PHP 8.4.24 ile bayt bayt aynı; c13 NOT'u katı takma adı tanımsız davranış diye açıkça söylüyor ve `memcpy` örneği veriyor, tahmin değişmedi. |
 | Bash'te ShellCheck ve Bats dersi yoktu | `6b53bd0` (BS30, Yazar 1) | Kapsam: BS30 ve `track.json`. Bash yolu 30 ders, 294 kontrol temiz (Linux adımları Kali'de); tahmin gerçek çıktıyla uyuşuyor; 3 görevde zayıf test yok. |
