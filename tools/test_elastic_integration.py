@@ -43,7 +43,7 @@ class ElasticIntegrationTests(unittest.TestCase):
         state = self.request("/api/state")
         info = next(t for t in state["tracks"] if t["id"] == "elastic")
         self.assertTrue(info["hazir"])
-        self.assertEqual(info["lessons_total"], 19)
+        self.assertEqual(info["lessons_total"], 27)
         self.assertEqual(info["dil"], "elastic")
         self.assertIsNone(info.get("okuma_dili"))
         self.assertIn("Kusto", next(t for t in state["tracks"] if t["id"] == "kql")["name"])
@@ -90,6 +90,29 @@ class ElasticIntegrationTests(unittest.TestCase):
         saved = json.loads(saved_path.read_text(encoding="utf-8"))["tracks"]["elastic"]
         self.assertTrue(saved["steps"][f"el01:{index}"]["done"])
         self.assertIn(f"el01:{index}", saved["review"])
+
+    def test_native_ingest_rule_esql_through_app(self):
+        for lid in ("el20", "el24", "el26"):
+            with self.subTest(lesson=lid):
+                lesson = self.app.lib.lesson("elastic", lid)
+                view = self.request(f"/api/lesson/elastic/{lid}")
+                self.assertFalse(any("solution" in step or "test" in step for step in view["lesson"]["steps"]))
+                index = next(i for i, step in enumerate(lesson["steps"]) if step["kind"] == "tahmin")
+                step = lesson["steps"][index]
+                result = self.app.runner_for("elastic").run(step["code"], step["stdin"])
+                self.assertEqual(result["status"], "ok", result)
+                expected = "".join(t for k, t in result["segs"] if k == "out")
+                guessed = self.request("/api/guess", {"track":"elastic", "lesson":lid, "step":index,
+                                                      "guess":expected, "stdin":"{}"})
+                self.assertTrue(guessed["correct"], guessed)
+                index = next(i for i, step in enumerate(lesson["steps"]) if step["kind"] == "gorev")
+                task = lesson["steps"][index]
+                checked = self.request("/api/check", {"track":"elastic", "lesson":lid, "step":index,
+                                                       "code":task["solution"], "stdin":"{}"})
+                self.assertEqual(checked["status"], "pass", checked)
+                saved = json.loads(Path(self.app.prog.path).read_text(encoding="utf-8"))["tracks"]["elastic"]
+                self.assertTrue(saved["steps"][f"{lid}:{index}"]["done"])
+                self.assertIn(f"{lid}:{index}", saved["review"])
 
 
 if __name__ == "__main__":

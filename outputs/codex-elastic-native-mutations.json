@@ -1,0 +1,2672 @@
+{
+  "version": "9.5.5",
+  "tasks": 16,
+  "baseline_pass": 16,
+  "mutations": 106,
+  "survived": 0,
+  "equivalent": 1,
+  "infrastructure_errors": 0,
+  "results": [
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "convert 2 -> float",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"float\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "pid tamsayı"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[2147483600.0, 2147483600.0, 2147483600.0, 2147483600.0]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "convert 2 -> integer",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"integer\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "convert 3 -> float",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"float\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "exit_code tamsayı olmalı"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[-1.0, 0.0, 1.0, 2147483600.0]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "convert 3 -> integer",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"integer\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[-1, 0, 1]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[2147483648, 2147483649, 2147483650]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "processor removed 0",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "üç gerçek kayıt indekslendi",
+          "got": "[400, 400, 400]",
+          "exp": "[201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "processor removed 1",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "üç gerçek kayıt indekslendi",
+          "got": "[400, 400, 400]",
+          "exp": "[201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "processor removed 2",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "pid tamsayı"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[None, None, None, None]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "processor removed 3",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[None, None, None]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "exit_code tamsayı olmalı"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[None, None, None, None]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 2,
+      "label": "processor removed 4",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "üç gerçek kayıt indekslendi",
+          "got": "[400, 400, 400]",
+          "exp": "[201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "convert 2 -> float",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"float\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "pid tamsayı"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[2147483600.0, 2147483600.0, 2147483600.0, 2147483600.0]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "convert 2 -> integer",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"integer\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "convert 3 -> float",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"float\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "exit_code tamsayı olmalı"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[-1.0, 0.0, 1.0, 2147483600.0]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "convert 3 -> integer",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"integer\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[-1, 0, 1]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[2147483648, 2147483649, 2147483650]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 0",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "üç gerçek kayıt indekslendi",
+          "got": "[400, 400, 400]",
+          "exp": "[201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 1",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "üç gerçek kayıt indekslendi",
+          "got": "[400, 400, 400]",
+          "exp": "[201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 2",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "pid tamsayı"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[None, None, None, None]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 3",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[None, None, None]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "exit_code tamsayı olmalı"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[None, None, None, None]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 4",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "üç gerçek kayıt indekslendi",
+          "got": "[400, 400, 400]",
+          "exp": "[201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek returncode değerleri",
+          "got": "[]",
+          "exp": "[0, 1, 2]"
+        },
+        {
+          "ok": false,
+          "msg": "long; sabit kod veya 32 bit daraltma yok",
+          "got": "[]",
+          "exp": "[-1, 0, 1, 2147483648]"
+        },
+        {
+          "ok": false,
+          "msg": "pid girdiden gelir",
+          "got": "[]",
+          "exp": "[2147483648, 2147483649, 2147483650, 2147483651]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 5",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        },
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 6",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        },
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "processor removed 7",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        },
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "set wrong value 5",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"yanlis\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        },
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "set wrong value 6",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": \"yanlis\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": [\n          \"end\"\n        ]\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        },
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el20",
+      "step": 3,
+      "label": "set wrong value 7",
+      "code": "{\n  \"processors\": [\n    {\n      \"rename\": {\n        \"field\": \"at\",\n        \"target_field\": \"@timestamp\"\n      }\n    },\n    {\n      \"rename\": {\n        \"field\": \"exe\",\n        \"target_field\": \"process.name\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"pid\",\n        \"target_field\": \"process.pid\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"convert\": {\n        \"field\": \"rc\",\n        \"target_field\": \"process.exit_code\",\n        \"type\": \"long\"\n      }\n    },\n    {\n      \"remove\": {\n        \"field\": [\n          \"pid\",\n          \"rc\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.kind\",\n        \"value\": \"event\"\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.category\",\n        \"value\": [\n          \"process\"\n        ]\n      }\n    },\n    {\n      \"set\": {\n        \"field\": \"event.type\",\n        \"value\": \"yanlis\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        },
+        {
+          "ok": false,
+          "msg": "ECS kategori alanları dizi, kind event"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el21",
+      "step": 2,
+      "label": "convert 0 -> float",
+      "code": "{\n  \"processors\": [\n    {\n      \"convert\": {\n        \"field\": \"raw\",\n        \"target_field\": \"n\",\n        \"type\": \"float\"\n      }\n    }\n  ],\n  \"on_failure\": [\n    {\n      \"set\": {\n        \"field\": \"event.outcome\",\n        \"value\": \"failure\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "integer iki ucu, taşma ve sözcük",
+          "got": "[-2147483600.0, 2147483600.0, 2147483600.0, None]",
+          "exp": "[-2147483648, 2147483647, None, None]"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız hatalı girdiye failure",
+          "got": "[None, None, None, 'failure']",
+          "exp": "[None, None, 'failure', 'failure']"
+        },
+        {
+          "ok": false,
+          "msg": "alt taşma ve sıfır sınırı",
+          "got": "[-2147483600.0, -1.0, 0.0, 1.0, 2147483600.0]",
+          "exp": "[None, -1, 0, 1, 2147483646]"
+        },
+        {
+          "ok": false,
+          "msg": "başarı hataya karışmaz",
+          "got": "[None, None, None, None, None]",
+          "exp": "['failure', None, None, None, None]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el21",
+      "step": 2,
+      "label": "convert 0 -> long",
+      "code": "{\n  \"processors\": [\n    {\n      \"convert\": {\n        \"field\": \"raw\",\n        \"target_field\": \"n\",\n        \"type\": \"long\"\n      }\n    }\n  ],\n  \"on_failure\": [\n    {\n      \"set\": {\n        \"field\": \"event.outcome\",\n        \"value\": \"failure\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "on_failure ile bozuk girdi de izlenebilir",
+          "got": "[201, 201, 400, 201]",
+          "exp": "[201, 201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "integer iki ucu, taşma ve sözcük",
+          "got": "[-2147483648, 2147483647, None]",
+          "exp": "[-2147483648, 2147483647, None, None]"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız hatalı girdiye failure",
+          "got": "[None, None, 'failure']",
+          "exp": "[None, None, 'failure', 'failure']"
+        },
+        {
+          "ok": false,
+          "msg": "ham kanıt korunur",
+          "got": "['-2147483648', '2147483647', 'oops']",
+          "exp": "['-2147483648', '2147483647', '2147483648', 'oops']"
+        },
+        {
+          "ok": false,
+          "msg": "alt taşma ve sıfır sınırı",
+          "got": "[-1, 0, 1, 2147483646]",
+          "exp": "[None, -1, 0, 1, 2147483646]"
+        },
+        {
+          "ok": false,
+          "msg": "başarı hataya karışmaz",
+          "got": "[None, None, None, None]",
+          "exp": "['failure', None, None, None, None]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el21",
+      "step": 2,
+      "label": "on_failure removed",
+      "code": "{\n  \"processors\": [\n    {\n      \"convert\": {\n        \"field\": \"raw\",\n        \"target_field\": \"n\",\n        \"type\": \"integer\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "on_failure ile bozuk girdi de izlenebilir",
+          "got": "[201, 201, 400, 400]",
+          "exp": "[201, 201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "integer iki ucu, taşma ve sözcük",
+          "got": "[-2147483648, 2147483647]",
+          "exp": "[-2147483648, 2147483647, None, None]"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız hatalı girdiye failure",
+          "got": "[None, None]",
+          "exp": "[None, None, 'failure', 'failure']"
+        },
+        {
+          "ok": false,
+          "msg": "ham kanıt korunur",
+          "got": "['-2147483648', '2147483647']",
+          "exp": "['-2147483648', '2147483647', '2147483648', 'oops']"
+        },
+        {
+          "ok": false,
+          "msg": "alt taşma ve sıfır sınırı",
+          "got": "[-1, 0, 1, 2147483646]",
+          "exp": "[None, -1, 0, 1, 2147483646]"
+        },
+        {
+          "ok": false,
+          "msg": "başarı hataya karışmaz",
+          "got": "[None, None, None, None]",
+          "exp": "['failure', None, None, None, None]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el21",
+      "step": 2,
+      "label": "processor removed 0",
+      "code": "{\n  \"processors\": [],\n  \"on_failure\": [\n    {\n      \"set\": {\n        \"field\": \"event.outcome\",\n        \"value\": \"failure\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "integer iki ucu, taşma ve sözcük",
+          "got": "[None, None, None, None]",
+          "exp": "[-2147483648, 2147483647, None, None]"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız hatalı girdiye failure",
+          "got": "[None, None, None, None]",
+          "exp": "[None, None, 'failure', 'failure']"
+        },
+        {
+          "ok": false,
+          "msg": "alt taşma ve sıfır sınırı",
+          "got": "[None, None, None, None, None]",
+          "exp": "[None, -1, 0, 1, 2147483646]"
+        },
+        {
+          "ok": false,
+          "msg": "başarı hataya karışmaz",
+          "got": "[None, None, None, None, None]",
+          "exp": "['failure', None, None, None, None]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el21",
+      "step": 3,
+      "label": "date format UNIX",
+      "code": "{\n  \"processors\": [\n    {\n      \"date\": {\n        \"field\": \"raw\",\n        \"target_field\": \"@timestamp\",\n        \"formats\": [\n          \"UNIX\"\n        ],\n        \"output_format\": \"yyyy-MM-dd'T'HH:mm:ss.SSSXXX\"\n      }\n    }\n  ],\n  \"on_failure\": [\n    {\n      \"set\": {\n        \"field\": \"event.outcome\",\n        \"value\": \"failure\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "aynı an, geçersiz gün, alan yokluğu",
+          "got": "[None, None, None, None]",
+          "exp": "['2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z', None, None]"
+        },
+        {
+          "ok": false,
+          "msg": "başarıya yanlış failure verilmez",
+          "got": "['failure', 'failure', 'failure', 'failure']",
+          "exp": "[None, None, 'failure', 'failure']"
+        },
+        {
+          "ok": false,
+          "msg": "artık yıl ve milisaniye",
+          "got": "[None, None, None]",
+          "exp": "['2024-02-29T00:00:00.000Z', None, '2026-01-01T00:00:00.001Z']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el21",
+      "step": 3,
+      "label": "on_failure removed",
+      "code": "{\n  \"processors\": [\n    {\n      \"date\": {\n        \"field\": \"raw\",\n        \"target_field\": \"@timestamp\",\n        \"formats\": [\n          \"ISO8601\"\n        ],\n        \"output_format\": \"yyyy-MM-dd'T'HH:mm:ss.SSSXXX\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "hatalı tarih kaydı kaybolmaz",
+          "got": "[201, 201, 400, 400]",
+          "exp": "[201, 201, 201, 201]"
+        },
+        {
+          "ok": false,
+          "msg": "aynı an, geçersiz gün, alan yokluğu",
+          "got": "['2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z']",
+          "exp": "['2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z', None, None]"
+        },
+        {
+          "ok": false,
+          "msg": "başarıya yanlış failure verilmez",
+          "got": "[None, None]",
+          "exp": "[None, None, 'failure', 'failure']"
+        },
+        {
+          "ok": false,
+          "msg": "artık yıl ve milisaniye",
+          "got": "['2024-02-29T00:00:00.000Z', '2026-01-01T00:00:00.001Z']",
+          "exp": "['2024-02-29T00:00:00.000Z', None, '2026-01-01T00:00:00.001Z']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el21",
+      "step": 3,
+      "label": "processor removed 0",
+      "code": "{\n  \"processors\": [],\n  \"on_failure\": [\n    {\n      \"set\": {\n        \"field\": \"event.outcome\",\n        \"value\": \"failure\"\n      }\n    }\n  ]\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "aynı an, geçersiz gün, alan yokluğu",
+          "got": "[None, None, None, None]",
+          "exp": "['2026-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z', None, None]"
+        },
+        {
+          "ok": false,
+          "msg": "başarıya yanlış failure verilmez",
+          "got": "[None, None, None, None]",
+          "exp": "[None, None, 'failure', 'failure']"
+        },
+        {
+          "ok": false,
+          "msg": "artık yıl ve milisaniye",
+          "got": "[None, None, None]",
+          "exp": "['2024-02-29T00:00:00.000Z', None, '2026-01-01T00:00:00.001Z']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 2,
+      "label": "< -> <= @75",
+      "code": "process where endsWith~(process.name, \".exe\") and status >= 400 and status <= 500",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek endsWith~ ve [400,500)",
+          "got": "['a', 'b', 'd']",
+          "exp": "['a', 'd']"
+        },
+        {
+          "ok": false,
+          "msg": "harf, son ek, iki uç, kategori karşı örnekleri",
+          "got": "['1', '2', '3']",
+          "exp": "['1', '2']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 2,
+      "label": ">= -> > @57",
+      "code": "process where endsWith~(process.name, \".exe\") and status > 400 and status < 500",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek endsWith~ ve [400,500)",
+          "got": "['d']",
+          "exp": "['a', 'd']"
+        },
+        {
+          "ok": false,
+          "msg": "harf, son ek, iki uç, kategori karşı örnekleri",
+          "got": "['2']",
+          "exp": "['1', '2']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 2,
+      "label": "and -> or @46",
+      "code": "process where endsWith~(process.name, \".exe\") or status >= 400 and status < 500",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek endsWith~ ve [400,500)",
+          "got": "['a', 'b', 'c', 'd', 'e']",
+          "exp": "['a', 'd']"
+        },
+        {
+          "ok": false,
+          "msg": "harf, son ek, iki uç, kategori karşı örnekleri",
+          "got": "['0', '1', '2', '3', '4']",
+          "exp": "['1', '2']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 2,
+      "label": "and -> or @64",
+      "code": "process where endsWith~(process.name, \".exe\") and status >= 400 or status < 500",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek endsWith~ ve [400,500)",
+          "got": "['a', 'b', 'c', 'd', 'e']",
+          "exp": "['a', 'd']"
+        },
+        {
+          "ok": false,
+          "msg": "harf, son ek, iki uç, kategori karşı örnekleri",
+          "got": "['0', '1', '2', '3', '4']",
+          "exp": "['1', '2']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 2,
+      "label": "endsWith~ -> endsWith",
+      "code": "process where endsWith(process.name, \".exe\") and status >= 400 and status < 500",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek endsWith~ ve [400,500)",
+          "got": "[]",
+          "exp": "['a', 'd']"
+        },
+        {
+          "ok": false,
+          "msg": "harf, son ek, iki uç, kategori karşı örnekleri",
+          "got": "['1']",
+          "exp": "['1', '2']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 2,
+      "label": "endsWith~ -> stringContains~",
+      "code": "process where stringContains~(process.name, \".exe\") and status >= 400 and status < 500",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek endsWith~ ve [400,500)",
+          "got": "['a', 'c', 'd']",
+          "exp": "['a', 'd']"
+        },
+        {
+          "ok": false,
+          "msg": "harf, son ek, iki uç, kategori karşı örnekleri",
+          "got": "['1', '2', '4']",
+          "exp": "['1', '2']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 3,
+      "label": "and -> or @60",
+      "code": "process where between~(file.path, \"/bin/\", \".exe\") == \"cmd\" or endsWith~(file.path, \".exe\")",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "between~ ayırıcıları harf duyarsız; son ek ayrı koşul",
+          "got": "['a', 'b', 'c', 'd']",
+          "exp": "['a', 'b']"
+        },
+        {
+          "ok": false,
+          "msg": "çıkarılan değer karşılaştırması harf duyarlı; yanlış dizin ve son ek elenir",
+          "got": "['0', '1', '2', '3', '4', '5']",
+          "exp": "['0']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 3,
+      "label": "between~ -> between",
+      "code": "process where between(file.path, \"/bin/\", \".exe\") == \"cmd\" and endsWith~(file.path, \".exe\")",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "between~ ayırıcıları harf duyarsız; son ek ayrı koşul",
+          "got": "['b']",
+          "exp": "['a', 'b']"
+        },
+        {
+          "ok": false,
+          "msg": "çıkarılan değer karşılaştırması harf duyarlı; yanlış dizin ve son ek elenir",
+          "got": "[]",
+          "exp": "['0']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 3,
+      "label": "case operator == -> : @51",
+      "code": "process where between~(file.path, \"/bin/\", \".exe\") : \"cmd\" and endsWith~(file.path, \".exe\")",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "çıkarılan değer karşılaştırması harf duyarlı; yanlış dizin ve son ek elenir",
+          "got": "['0', '1']",
+          "exp": "['0']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 3,
+      "label": "endsWith~ -> endsWith",
+      "code": "process where between~(file.path, \"/bin/\", \".exe\") == \"cmd\" and endsWith(file.path, \".exe\")",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "between~ ayırıcıları harf duyarsız; son ek ayrı koşul",
+          "got": "['b']",
+          "exp": "['a', 'b']"
+        },
+        {
+          "ok": false,
+          "msg": "çıkarılan değer karşılaştırması harf duyarlı; yanlış dizin ve son ek elenir",
+          "got": "[]",
+          "exp": "['0']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el22",
+      "step": 3,
+      "label": "endsWith~ -> stringContains~",
+      "code": "process where between~(file.path, \"/bin/\", \".exe\") == \"cmd\" and stringContains~(file.path, \".exe\")",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "between~ ayırıcıları harf duyarsız; son ek ayrı koşul",
+          "got": "['a', 'b', 'c']",
+          "exp": "['a', 'b']"
+        },
+        {
+          "ok": false,
+          "msg": "çıkarılan değer karşılaştırması harf duyarlı; yanlış dizin ve son ek elenir",
+          "got": "['0', '2']",
+          "exp": "['0']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 2,
+      "label": "case operator == -> : @154",
+      "code": "sequence by host.id with maxspan=1m\n  [process where event.action == \"start\"]\n  [network where destination.port == 443]\nuntil [process where event.action : \"end\"]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "maxspan eşit uç, anahtar ve until",
+          "got": "[['s1', 'n1']]",
+          "exp": "[['s6', 'n6'], ['s1', 'n1']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 2,
+      "label": "case operator == -> : @66",
+      "code": "sequence by host.id with maxspan=1m\n  [process where event.action : \"start\"]\n  [network where destination.port == 443]\nuntil [process where event.action == \"end\"]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "maxspan eşit uç, anahtar ve until",
+          "got": "[['s6', 'n6'], ['s7', 'n7'], ['s1', 'n1']]",
+          "exp": "[['s6', 'n6'], ['s1', 'n1']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 2,
+      "label": "maxspan 60000ms -> 59999ms @33",
+      "code": "sequence by host.id with maxspan=59999ms\n  [process where event.action == \"start\"]\n  [network where destination.port == 443]\nuntil [process where event.action == \"end\"]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "maxspan eşit uç, anahtar ve until",
+          "got": "[['s6', 'n6']]",
+          "exp": "[['s6', 'n6'], ['s1', 'n1']]"
+        },
+        {
+          "ok": false,
+          "msg": "bir milisaniye alt/eşit/üst gerçek backend",
+          "got": "[['s0', 'n0']]",
+          "exp": "[['s0', 'n0'], ['s1', 'n1']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 2,
+      "label": "maxspan 60000ms -> 60001ms @33",
+      "code": "sequence by host.id with maxspan=60001ms\n  [process where event.action == \"start\"]\n  [network where destination.port == 443]\nuntil [process where event.action == \"end\"]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "maxspan eşit uç, anahtar ve until",
+          "got": "[['s6', 'n6'], ['s1', 'n1'], ['s3', 'n3']]",
+          "exp": "[['s6', 'n6'], ['s1', 'n1']]"
+        },
+        {
+          "ok": false,
+          "msg": "bir milisaniye alt/eşit/üst gerçek backend",
+          "got": "[['s0', 'n0'], ['s1', 'n1'], ['s2', 'n2']]",
+          "exp": "[['s0', 'n0'], ['s1', 'n1']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 2,
+      "label": "until removed @120",
+      "code": "sequence by host.id with maxspan=1m\n  [process where event.action == \"start\"]\n  [network where destination.port == 443]\n",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "maxspan eşit uç, anahtar ve until",
+          "got": "[['s5', 'n5'], ['s6', 'n6'], ['s1', 'n1']]",
+          "exp": "[['s6', 'n6'], ['s1', 'n1']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 3,
+      "label": "case operator == -> : @67",
+      "code": "sequence by host.id with maxspan=1m\n  ![process where event.action : \"start\"]\n  [network where destination.port == 443]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "öncesinde pencere içinde start bulunmayan bağlantılar; until burada yok",
+          "got": "[['n2'], ['n3']]",
+          "exp": "[['n7'], ['n2'], ['n3']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 3,
+      "label": "maxspan 60000ms -> 59999ms @33",
+      "code": "sequence by host.id with maxspan=59999ms\n  ![process where event.action == \"start\"]\n  [network where destination.port == 443]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "öncesinde pencere içinde start bulunmayan bağlantılar; until burada yok",
+          "got": "[['n7'], ['n1'], ['n2'], ['n3']]",
+          "exp": "[['n7'], ['n2'], ['n3']]"
+        },
+        {
+          "ok": false,
+          "msg": "tam 60 saniye önceki start eksik olay koşulunu bozar",
+          "got": "[['yalniz']]",
+          "exp": "[]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 3,
+      "label": "maxspan 60000ms -> 60001ms @33",
+      "code": "sequence by host.id with maxspan=60001ms\n  ![process where event.action == \"start\"]\n  [network where destination.port == 443]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "öncesinde pencere içinde start bulunmayan bağlantılar; until burada yok",
+          "got": "[['n7'], ['n2']]",
+          "exp": "[['n7'], ['n2'], ['n3']]"
+        },
+        {
+          "ok": false,
+          "msg": "bir milisaniye dışarıdaki start pencereyi bozmaz",
+          "got": "[]",
+          "exp": "[['yalniz']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el23",
+      "step": 3,
+      "label": "missing stage made positive @38",
+      "code": "sequence by host.id with maxspan=1m\n  [process where event.action == \"start\"]\n  [network where destination.port == 443]",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "öncesinde pencere içinde start bulunmayan bağlantılar; until burada yok",
+          "got": "[['s5', 'n5'], ['s6', 'n6'], ['s1', 'n1']]",
+          "exp": "[['n7'], ['n2'], ['n3']]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek baştaki eksik olay desteklenir",
+          "got": "[]",
+          "exp": "[['yalniz']]"
+        },
+        {
+          "ok": false,
+          "msg": "tam 60 saniye önceki start eksik olay koşulunu bozar",
+          "got": "[['baslangic', 'yalniz']]",
+          "exp": "[]"
+        },
+        {
+          "ok": false,
+          "msg": "bir milisaniye dışarıdaki start pencereyi bozmaz",
+          "got": "[]",
+          "exp": "[['yalniz']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "from changed",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process AND process.name: cmd.exe AND status >= 400 AND status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-1m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek KQL ve iki dakikalık pencere",
+          "got": "[{'ids': ['b'], 'count': None, 'groups': []}]",
+          "exp": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek kaydedilmiş kural sözleşmesi",
+          "got": "['query', 'kuery', '1m', 'now-1m', 'now', False]",
+          "exp": "['query', 'kuery', '1m', 'now-2m', 'now', False]"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik ezberi yok",
+          "got": "[['yeni_b']]",
+          "exp": "[['yeni_a'], ['yeni_b']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "interval changed",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process AND process.name: cmd.exe AND status >= 400 AND status < 500\",\n  \"interval\": \"2m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek kaydedilmiş kural sözleşmesi",
+          "got": "['query', 'kuery', '2m', 'now-2m', 'now', False]",
+          "exp": "['query', 'kuery', '1m', 'now-2m', 'now', False]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "query < -> <= @79",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process AND process.name: cmd.exe AND status >= 400 AND status <= 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek KQL ve iki dakikalık pencere",
+          "got": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}, {'ids': ['c'], 'count': None, 'groups': []}, {'ids': ['ust_ic'], 'count': None, 'groups': []}]",
+          "exp": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}]"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik ezberi yok",
+          "got": "[['yeni_a'], ['yeni_b'], ['yeni_c'], ['yeni_ust_ic']]",
+          "exp": "[['yeni_a'], ['yeni_b']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "query >= -> > @61",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process AND process.name: cmd.exe AND status > 400 AND status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek KQL ve iki dakikalık pencere",
+          "got": "[{'ids': ['b'], 'count': None, 'groups': []}]",
+          "exp": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}]"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik ezberi yok",
+          "got": "[['yeni_b']]",
+          "exp": "[['yeni_a'], ['yeni_b']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "query AND -> OR @24",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process OR process.name: cmd.exe AND status >= 400 AND status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek KQL ve iki dakikalık pencere",
+          "got": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['alt_ic'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}, {'ids': ['c'], 'count': None, 'groups': []}, {'ids': ['diger'], 'count': None, 'groups': []}, {'ids': ['e'], 'count': None, 'groups': []}, {'ids': ['kategori']…",
+          "exp": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}]"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik ezberi yok",
+          "got": "[['yeni_a'], ['yeni_alt_ic'], ['yeni_b'], ['yeni_c'], ['yeni_diger'], ['yeni_e'], ['yeni_kategori'], ['yeni_ust_ic']]",
+          "exp": "[['yeni_a'], ['yeni_b']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "query AND -> OR @50",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process AND process.name: cmd.exe OR status >= 400 AND status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek KQL ve iki dakikalık pencere",
+          "got": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['alt_ic'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}, {'ids': ['c'], 'count': None, 'groups': []}, {'ids': ['diger'], 'count': None, 'groups': []}, {'ids': ['e'], 'count': None, 'groups': []}, {'ids': ['kategori']…",
+          "exp": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}]"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik ezberi yok",
+          "got": "[['yeni_a'], ['yeni_alt_ic'], ['yeni_b'], ['yeni_c'], ['yeni_diger'], ['yeni_e'], ['yeni_kategori'], ['yeni_ust_ic']]",
+          "exp": "[['yeni_a'], ['yeni_b']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "query AND -> OR @68",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process AND process.name: cmd.exe AND status >= 400 OR status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek KQL ve iki dakikalık pencere",
+          "got": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['alt_ic'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}, {'ids': ['c'], 'count': None, 'groups': []}, {'ids': ['diger'], 'count': None, 'groups': []}, {'ids': ['e'], 'count': None, 'groups': []}, {'ids': ['kategori']…",
+          "exp": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}]"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik ezberi yok",
+          "got": "[['yeni_a'], ['yeni_alt_ic'], ['yeni_b'], ['yeni_c'], ['yeni_diger'], ['yeni_e'], ['yeni_kategori'], ['yeni_ust_ic']]",
+          "exp": "[['yeni_a'], ['yeni_b']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 3,
+      "label": "to changed",
+      "code": "{\n  \"type\": \"query\",\n  \"language\": \"kuery\",\n  \"query\": \"event.category: process AND process.name: cmd.exe AND status >= 400 AND status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now-1m\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek KQL ve iki dakikalık pencere",
+          "got": "[{'ids': ['a'], 'count': None, 'groups': []}]",
+          "exp": "[{'ids': ['a'], 'count': None, 'groups': []}, {'ids': ['b'], 'count': None, 'groups': []}]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek kaydedilmiş kural sözleşmesi",
+          "got": "['query', 'kuery', '1m', 'now-2m', 'now-1m', False]",
+          "exp": "['query', 'kuery', '1m', 'now-2m', 'now', False]"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik ezberi yok",
+          "got": "[['yeni_a']]",
+          "exp": "[['yeni_a'], ['yeni_b']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "from changed",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name : \\\"cmd.exe\\\" and status >= 400 and status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-1m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EQL : harf duyarsız; aralık aynı",
+          "got": "[['b'], ['e']]",
+          "exp": "[['a'], ['b'], ['e']]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek event correlation kuralı",
+          "got": "['eql', 'eql', '1m', 'now-1m', 'now', False]",
+          "exp": "['eql', 'eql', '1m', 'now-2m', 'now', False]"
+        },
+        {
+          "ok": false,
+          "msg": "başka olay kimlikleri",
+          "got": "[['yeni_b'], ['yeni_e']]",
+          "exp": "[['yeni_a'], ['yeni_b'], ['yeni_e']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "interval changed",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name : \\\"cmd.exe\\\" and status >= 400 and status < 500\",\n  \"interval\": \"2m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek event correlation kuralı",
+          "got": "['eql', 'eql', '2m', 'now-2m', 'now', False]",
+          "exp": "['eql', 'eql', '1m', 'now-2m', 'now', False]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "query < -> <= @68",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name : \\\"cmd.exe\\\" and status >= 400 and status <= 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EQL : harf duyarsız; aralık aynı",
+          "got": "[['a'], ['b'], ['c'], ['e'], ['ust_ic']]",
+          "exp": "[['a'], ['b'], ['e']]"
+        },
+        {
+          "ok": false,
+          "msg": "başka olay kimlikleri",
+          "got": "[['yeni_a'], ['yeni_b'], ['yeni_c'], ['yeni_e'], ['yeni_ust_ic']]",
+          "exp": "[['yeni_a'], ['yeni_b'], ['yeni_e']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "query >= -> > @50",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name : \\\"cmd.exe\\\" and status > 400 and status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EQL : harf duyarsız; aralık aynı",
+          "got": "[['b']]",
+          "exp": "[['a'], ['b'], ['e']]"
+        },
+        {
+          "ok": false,
+          "msg": "başka olay kimlikleri",
+          "got": "[['yeni_b']]",
+          "exp": "[['yeni_a'], ['yeni_b'], ['yeni_e']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "query and -> or @39",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name : \\\"cmd.exe\\\" or status >= 400 and status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EQL : harf duyarsız; aralık aynı",
+          "got": "[['a'], ['alt_ic'], ['b'], ['c'], ['diger'], ['e'], ['ust_ic']]",
+          "exp": "[['a'], ['b'], ['e']]"
+        },
+        {
+          "ok": false,
+          "msg": "başka olay kimlikleri",
+          "got": "[['yeni_a'], ['yeni_alt_ic'], ['yeni_b'], ['yeni_c'], ['yeni_diger'], ['yeni_e'], ['yeni_ust_ic']]",
+          "exp": "[['yeni_a'], ['yeni_b'], ['yeni_e']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "query and -> or @57",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name : \\\"cmd.exe\\\" and status >= 400 or status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EQL : harf duyarsız; aralık aynı",
+          "got": "[['a'], ['alt_ic'], ['b'], ['c'], ['diger'], ['e'], ['ust_ic']]",
+          "exp": "[['a'], ['b'], ['e']]"
+        },
+        {
+          "ok": false,
+          "msg": "başka olay kimlikleri",
+          "got": "[['yeni_a'], ['yeni_alt_ic'], ['yeni_b'], ['yeni_c'], ['yeni_diger'], ['yeni_e'], ['yeni_ust_ic']]",
+          "exp": "[['yeni_a'], ['yeni_b'], ['yeni_e']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "query case operator : -> == @27",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name == \\\"cmd.exe\\\" and status >= 400 and status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EQL : harf duyarsız; aralık aynı",
+          "got": "[['a'], ['b']]",
+          "exp": "[['a'], ['b'], ['e']]"
+        },
+        {
+          "ok": false,
+          "msg": "başka olay kimlikleri",
+          "got": "[['yeni_a'], ['yeni_b']]",
+          "exp": "[['yeni_a'], ['yeni_b'], ['yeni_e']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el24",
+      "step": 4,
+      "label": "to changed",
+      "code": "{\n  \"type\": \"eql\",\n  \"language\": \"eql\",\n  \"query\": \"process where process.name : \\\"cmd.exe\\\" and status >= 400 and status < 500\",\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now-1m\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EQL : harf duyarsız; aralık aynı",
+          "got": "[['a'], ['e']]",
+          "exp": "[['a'], ['b'], ['e']]"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek event correlation kuralı",
+          "got": "['eql', 'eql', '1m', 'now-2m', 'now-1m', False]",
+          "exp": "['eql', 'eql', '1m', 'now-2m', 'now', False]"
+        },
+        {
+          "ok": false,
+          "msg": "başka olay kimlikleri",
+          "got": "[['yeni_a'], ['yeni_e']]",
+          "exp": "[['yeni_a'], ['yeni_b'], ['yeni_e']]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "from changed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-1m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "kaydedilmiş zamanlama sözleşmesi",
+          "got": "['1m', 'now-1m', 'now']",
+          "exp": "['1m', 'now-2m', 'now']"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[3, 4]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "group removed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([], 12)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "eşik sözleşmesi",
+          "got": "{'field': [], 'value': 3}",
+          "exp": "{'field': ['user.name'], 'value': 3}"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[12]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "interval changed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"2m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "kaydedilmiş zamanlama sözleşmesi",
+          "got": "['2m', 'now-2m', 'now']",
+          "exp": "['1m', 'now-2m', 'now']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "query < -> <= @25",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status <= 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([{'field': 'user.name', 'value': 'alice'}], 3), ([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[3, 3, 3, 4]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "query >= -> > @7",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status > 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[3, 4]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "query AND -> OR @14",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 OR status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([{'field': 'user.name', 'value': 'alice'}], 4), ([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[3, 3, 4, 4]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "threshold 2",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 2\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([{'field': 'user.name', 'value': 'alice'}], 2), ([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "eşik sözleşmesi",
+          "got": "{'field': ['user.name'], 'value': 2}",
+          "exp": "{'field': ['user.name'], 'value': 3}"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[2, 3, 3, 4]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "threshold 4",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 4\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "eşik sözleşmesi",
+          "got": "{'field': ['user.name'], 'value': 4}",
+          "exp": "{'field': ['user.name'], 'value': 3}"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[4]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 2,
+      "label": "to changed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now-1m\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eşik altı/eşit/üst, kullanıcıya göre grup",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4), ([{'field': 'user.name', 'value': 'svc'}], 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "kaydedilmiş zamanlama sözleşmesi",
+          "got": "['1m', 'now-2m', 'now-1m']",
+          "exp": "['1m', 'now-2m', 'now']"
+        },
+        {
+          "ok": false,
+          "msg": "grup adları ezberlenmez",
+          "got": "[3, 4]",
+          "exp": "[3, 3, 4]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "from changed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-1m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "kaydedilmiş zamanlama sözleşmesi",
+          "got": "['1m', 'now-1m', 'now']",
+          "exp": "['1m', 'now-2m', 'now']"
+        },
+        {
+          "ok": false,
+          "msg": "exception match harf duyarlı, Svc ayrı kalır",
+          "got": "['Svc', 'carol']",
+          "exp": "['Svc', 'bob', 'carol']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "group removed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([], 9)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "eşik sözleşmesi",
+          "got": "{'field': [], 'value': 3}",
+          "exp": "{'field': ['user.name'], 'value': 3}"
+        }
+      ],
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      }
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "interval changed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"2m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "kaydedilmiş zamanlama sözleşmesi",
+          "got": "['2m', 'now-2m', 'now']",
+          "exp": "['1m', 'now-2m', 'now']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "query < -> <= @25",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status <= 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([{'field': 'user.name', 'value': 'alice'}], 3), ([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "exception match harf duyarlı, Svc ayrı kalır",
+          "got": "['Svc', 'alice', 'bob', 'carol']",
+          "exp": "['Svc', 'bob', 'carol']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "query >= -> > @7",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status > 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "exception match harf duyarlı, Svc ayrı kalır",
+          "got": "['Svc', 'carol']",
+          "exp": "['Svc', 'bob', 'carol']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "query AND -> OR @14",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 OR status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([{'field': 'user.name', 'value': 'alice'}], 4), ([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "exception match harf duyarlı, Svc ayrı kalır",
+          "got": "['Svc', 'alice', 'bob', 'carol']",
+          "exp": "['Svc', 'bob', 'carol']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "threshold 2",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 2\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([{'field': 'user.name', 'value': 'alice'}], 2), ([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "eşik sözleşmesi",
+          "got": "{'field': ['user.name'], 'value': 2}",
+          "exp": "{'field': ['user.name'], 'value': 3}"
+        },
+        {
+          "ok": false,
+          "msg": "exception match harf duyarlı, Svc ayrı kalır",
+          "got": "['Svc', 'alice', 'bob', 'carol']",
+          "exp": "['Svc', 'bob', 'carol']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "threshold 4",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 4\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "eşik sözleşmesi",
+          "got": "{'field': ['user.name'], 'value': 4}",
+          "exp": "{'field': ['user.name'], 'value': 3}"
+        },
+        {
+          "ok": false,
+          "msg": "exception match harf duyarlı, Svc ayrı kalır",
+          "got": "['carol']",
+          "exp": "['Svc', 'bob', 'carol']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el25",
+      "step": 3,
+      "label": "to changed",
+      "code": "{\n  \"type\": \"threshold\",\n  \"language\": \"kuery\",\n  \"query\": \"status >= 400 AND status < 500\",\n  \"threshold\": {\n    \"field\": [\n      \"user.name\"\n    ],\n    \"value\": 3\n  },\n  \"interval\": \"1m\",\n  \"from\": \"now-2m\",\n  \"to\": \"now-1m\"\n}",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gerçek exception list svc grubunu dışlar",
+          "got": "[([{'field': 'user.name', 'value': 'carol'}], 4)]",
+          "exp": "[([{'field': 'user.name', 'value': 'bob'}], 3), ([{'field': 'user.name', 'value': 'carol'}], 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "kaydedilmiş zamanlama sözleşmesi",
+          "got": "['1m', 'now-2m', 'now-1m']",
+          "exp": "['1m', 'now-2m', 'now']"
+        },
+        {
+          "ok": false,
+          "msg": "exception match harf duyarlı, Svc ayrı kalır",
+          "got": "['Svc', 'carol']",
+          "exp": "['Svc', 'bob', 'carol']"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 2,
+      "label": "< -> <= @44",
+      "code": "FROM pafta | WHERE status >= 400 AND status <= 500 | STATS adet = COUNT(*), toplam = SUM(bytes) BY user.name | SORT user.name | KEEP user.name, adet, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gruplar ve iki uç",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 2, 50], ['bob', 2, 90]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 2, 50], ['bob', 1, 50]]}"
+        },
+        {
+          "ok": false,
+          "msg": "veriden gerçek toplam ve grup",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 2, 100], ['x_bob', 2, 180]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 2, 100], ['x_bob', 1, 100]]}"
+        },
+        {
+          "ok": false,
+          "msg": "COUNT(*) ölçüm yokluğunu atmaz",
+          "got": "[['alice', 3, 50], ['bob', 2, 90]]",
+          "exp": "[['alice', 3, 50], ['bob', 1, 50]]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak sırası sonuç sırası değildir",
+          "got": "[['a_bob', 2, 90], ['z_alice', 2, 50]]",
+          "exp": "[['a_bob', 1, 50], ['z_alice', 2, 50]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 2,
+      "label": ">= -> > @26",
+      "code": "FROM pafta | WHERE status > 400 AND status < 500 | STATS adet = COUNT(*), toplam = SUM(bytes) BY user.name | SORT user.name | KEEP user.name, adet, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gruplar ve iki uç",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 1, 30], ['bob', 1, 50]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 2, 50], ['bob', 1, 50]]}"
+        },
+        {
+          "ok": false,
+          "msg": "veriden gerçek toplam ve grup",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 1, 60], ['x_bob', 1, 100]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 2, 100], ['x_bob', 1, 100]]}"
+        },
+        {
+          "ok": false,
+          "msg": "COUNT(*) ölçüm yokluğunu atmaz",
+          "got": "[['alice', 1, 30], ['bob', 1, 50]]",
+          "exp": "[['alice', 3, 50], ['bob', 1, 50]]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak sırası sonuç sırası değildir",
+          "got": "[['a_bob', 1, 50], ['z_alice', 1, 30]]",
+          "exp": "[['a_bob', 1, 50], ['z_alice', 2, 50]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 2,
+      "label": "AND -> OR @33",
+      "code": "FROM pafta | WHERE status >= 400 OR status < 500 | STATS adet = COUNT(*), toplam = SUM(bytes) BY user.name | SORT user.name | KEEP user.name, adet, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gruplar ve iki uç",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 3, 60], ['bob', 2, 90]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 2, 50], ['bob', 1, 50]]}"
+        },
+        {
+          "ok": false,
+          "msg": "veriden gerçek toplam ve grup",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 3, 120], ['x_bob', 2, 180]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 2, 100], ['x_bob', 1, 100]]}"
+        },
+        {
+          "ok": false,
+          "msg": "COUNT(*) ölçüm yokluğunu atmaz",
+          "got": "[['alice', 4, 60], ['bob', 2, 90]]",
+          "exp": "[['alice', 3, 50], ['bob', 1, 50]]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak sırası sonuç sırası değildir",
+          "got": "[['a_bob', 2, 90], ['z_alice', 3, 60]]",
+          "exp": "[['a_bob', 1, 50], ['z_alice', 2, 50]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 2,
+      "label": "COUNT(*) -> COUNT(bytes)",
+      "code": "FROM pafta | WHERE status >= 400 AND status < 500 | STATS adet = COUNT(bytes), toplam = SUM(bytes) BY user.name | SORT user.name | KEEP user.name, adet, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "COUNT(*) ölçüm yokluğunu atmaz",
+          "got": "[['alice', 2, 50], ['bob', 1, 50]]",
+          "exp": "[['alice', 3, 50], ['bob', 1, 50]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 2,
+      "label": "KEEP removed",
+      "code": "FROM pafta | WHERE status >= 400 AND status < 500 | STATS adet = COUNT(*), toplam = SUM(bytes) BY user.name | SORT user.name ",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gruplar ve iki uç",
+          "got": "{'columns': ['adet', 'toplam', 'user.name'], 'values': [[2, 50, 'alice'], [1, 50, 'bob']]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 2, 50], ['bob', 1, 50]]}"
+        },
+        {
+          "ok": false,
+          "msg": "veriden gerçek toplam ve grup",
+          "got": "{'columns': ['adet', 'toplam', 'user.name'], 'values': [[2, 100, 'x_alice'], [1, 100, 'x_bob']]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 2, 100], ['x_bob', 1, 100]]}"
+        },
+        {
+          "ok": false,
+          "msg": "COUNT(*) ölçüm yokluğunu atmaz",
+          "got": "[[3, 50, 'alice'], [1, 50, 'bob']]",
+          "exp": "[['alice', 3, 50], ['bob', 1, 50]]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak sırası sonuç sırası değildir",
+          "got": "[[1, 50, 'a_bob'], [2, 50, 'z_alice']]",
+          "exp": "[['a_bob', 1, 50], ['z_alice', 2, 50]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 2,
+      "label": "SORT removed",
+      "code": "FROM pafta | WHERE status >= 400 AND status < 500 | STATS adet = COUNT(*), toplam = SUM(bytes) BY user.name | KEEP user.name, adet, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "kaynak sırası sonuç sırası değildir",
+          "got": "[['z_alice', 2, 50], ['a_bob', 1, 50]]",
+          "exp": "[['a_bob', 1, 50], ['z_alice', 2, 50]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 2,
+      "label": "SUM(bytes) -> MAX(bytes)",
+      "code": "FROM pafta | WHERE status >= 400 AND status < 500 | STATS adet = COUNT(*), toplam = MAX(bytes) BY user.name | SORT user.name | KEEP user.name, adet, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "gruplar ve iki uç",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 2, 30], ['bob', 1, 50]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['alice', 2, 50], ['bob', 1, 50]]}"
+        },
+        {
+          "ok": false,
+          "msg": "veriden gerçek toplam ve grup",
+          "got": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 2, 60], ['x_bob', 1, 100]]}",
+          "exp": "{'columns': ['user.name', 'adet', 'toplam'], 'values': [['x_alice', 2, 100], ['x_bob', 1, 100]]}"
+        },
+        {
+          "ok": false,
+          "msg": "COUNT(*) ölçüm yokluğunu atmaz",
+          "got": "[['alice', 3, 30], ['bob', 1, 50]]",
+          "exp": "[['alice', 3, 50], ['bob', 1, 50]]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynak sırası sonuç sırası değildir",
+          "got": "[['a_bob', 1, 50], ['z_alice', 2, 30]]",
+          "exp": "[['a_bob', 1, 50], ['z_alice', 2, 50]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 3,
+      "label": "1024.0 -> 1024",
+      "code": "FROM pafta | EVAL kib = bytes / 1024 | WHERE status >= 400 AND status < 500 | STATS adet = COUNT(*), toplam_kib = SUM(kib) | KEEP adet, toplam_kib",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EVAL ondalıklı bölme ve STATS",
+          "got": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 0]]}",
+          "exp": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 0.09765625]]}"
+        },
+        {
+          "ok": false,
+          "msg": "eksik ölçüm satırı sayılır",
+          "got": "[[4, 0]]",
+          "exp": "[[4, 0.09765625]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 3,
+      "label": "< -> <= @72",
+      "code": "FROM pafta | EVAL kib = bytes / 1024.0 | WHERE status >= 400 AND status <= 500 | STATS adet = COUNT(*), toplam_kib = SUM(kib) | KEEP adet, toplam_kib",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EVAL ondalıklı bölme ve STATS",
+          "got": "{'columns': ['adet', 'toplam_kib'], 'values': [[4, 0.13671875]]}",
+          "exp": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 0.09765625]]}"
+        },
+        {
+          "ok": false,
+          "msg": "sabit çıktı ve tamsayı bölmesi olmaz",
+          "got": "{'columns': ['adet', 'toplam_kib'], 'values': [[4, 4.0]]}",
+          "exp": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 3.0]]}"
+        },
+        {
+          "ok": false,
+          "msg": "eksik ölçüm satırı sayılır",
+          "got": "[[5, 0.13671875]]",
+          "exp": "[[4, 0.09765625]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 3,
+      "label": ">= -> > @54",
+      "code": "FROM pafta | EVAL kib = bytes / 1024.0 | WHERE status > 400 AND status < 500 | STATS adet = COUNT(*), toplam_kib = SUM(kib) | KEEP adet, toplam_kib",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EVAL ondalıklı bölme ve STATS",
+          "got": "{'columns': ['adet', 'toplam_kib'], 'values': [[2, 0.078125]]}",
+          "exp": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 0.09765625]]}"
+        },
+        {
+          "ok": false,
+          "msg": "sabit çıktı ve tamsayı bölmesi olmaz",
+          "got": "{'columns': ['adet', 'toplam_kib'], 'values': [[2, 2.0]]}",
+          "exp": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 3.0]]}"
+        },
+        {
+          "ok": false,
+          "msg": "eksik ölçüm satırı sayılır",
+          "got": "[[2, 0.078125]]",
+          "exp": "[[4, 0.09765625]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 3,
+      "label": "AND -> OR @61",
+      "code": "FROM pafta | EVAL kib = bytes / 1024.0 | WHERE status >= 400 OR status < 500 | STATS adet = COUNT(*), toplam_kib = SUM(kib) | KEEP adet, toplam_kib",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EVAL ondalıklı bölme ve STATS",
+          "got": "{'columns': ['adet', 'toplam_kib'], 'values': [[5, 0.146484375]]}",
+          "exp": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 0.09765625]]}"
+        },
+        {
+          "ok": false,
+          "msg": "sabit çıktı ve tamsayı bölmesi olmaz",
+          "got": "{'columns': ['adet', 'toplam_kib'], 'values': [[5, 5.0]]}",
+          "exp": "{'columns': ['adet', 'toplam_kib'], 'values': [[3, 3.0]]}"
+        },
+        {
+          "ok": false,
+          "msg": "eksik ölçüm satırı sayılır",
+          "got": "[[6, 0.146484375]]",
+          "exp": "[[4, 0.09765625]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 3,
+      "label": "COUNT(*) -> COUNT(bytes)",
+      "code": "FROM pafta | EVAL kib = bytes / 1024.0 | WHERE status >= 400 AND status < 500 | STATS adet = COUNT(bytes), toplam_kib = SUM(kib) | KEEP adet, toplam_kib",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "eksik ölçüm satırı sayılır",
+          "got": "[[3, 0.09765625]]",
+          "exp": "[[4, 0.09765625]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el26",
+      "step": 3,
+      "label": "KEEP removed",
+      "code": "FROM pafta | EVAL kib = bytes / 1024.0 | WHERE status >= 400 AND status < 500 | STATS adet = COUNT(*), toplam_kib = SUM(kib) ",
+      "status": "pass",
+      "equivalence_reason": "STATS without BY already exposes exactly adet, toplam_kib in this order; identity KEEP projection.",
+      "checks": [],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 2,
+      "label": "COUNT(*) -> COUNT(bytes)",
+      "code": "FROM pafta | STATS satir = COUNT(bytes), olcum = COUNT(bytes), toplam = SUM(bytes) BY tags | SORT tags ASC NULLS FIRST | KEEP tags, satir, olcum, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "çok değerli grup, null ve iki sayım",
+          "got": "{'columns': ['tags', 'satir', 'olcum', 'toplam'], 'values': [[None, 1, 1, 0], ['blue', 1, 1, 10], ['red', 2, 2, 30]]}",
+          "exp": "{'columns': ['tags', 'satir', 'olcum', 'toplam'], 'values': [[None, 2, 1, 0], ['blue', 2, 1, 10], ['red', 2, 2, 30]]}"
+        },
+        {
+          "ok": false,
+          "msg": "bir belge iki grubu etkiler",
+          "got": "[[None, 1, 1, 0], ['blue', 1, 1, 11], ['red', 2, 2, 31]]",
+          "exp": "[[None, 2, 1, 0], ['blue', 2, 1, 11], ['red', 2, 2, 31]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 2,
+      "label": "KEEP removed",
+      "code": "FROM pafta | STATS satir = COUNT(*), olcum = COUNT(bytes), toplam = SUM(bytes) BY tags | SORT tags ASC NULLS FIRST ",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "çok değerli grup, null ve iki sayım",
+          "got": "{'columns': ['satir', 'olcum', 'toplam', 'tags'], 'values': [[2, 1, 0, None], [2, 1, 10, 'blue'], [2, 2, 30, 'red']]}",
+          "exp": "{'columns': ['tags', 'satir', 'olcum', 'toplam'], 'values': [[None, 2, 1, 0], ['blue', 2, 1, 10], ['red', 2, 2, 30]]}"
+        },
+        {
+          "ok": false,
+          "msg": "bir belge iki grubu etkiler",
+          "got": "[[2, 1, 0, None], [2, 1, 11, 'blue'], [2, 2, 31, 'red']]",
+          "exp": "[[None, 2, 1, 0], ['blue', 2, 1, 11], ['red', 2, 2, 31]]"
+        },
+        {
+          "ok": false,
+          "msg": "SORT kaldırılırsa girdi sırası yanlış kalır",
+          "got": "[[1, 1, 1, 'a'], [1, 1, 2, 'm'], [1, 1, 0, 'z']]",
+          "exp": "[['a', 1, 1, 1], ['m', 1, 1, 2], ['z', 1, 1, 0]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 2,
+      "label": "SORT removed",
+      "code": "FROM pafta | STATS satir = COUNT(*), olcum = COUNT(bytes), toplam = SUM(bytes) BY tags | KEEP tags, satir, olcum, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "SORT kaldırılırsa girdi sırası yanlış kalır",
+          "got": "[['z', 1, 1, 0], ['a', 1, 1, 1], ['m', 1, 1, 2]]",
+          "exp": "[['a', 1, 1, 1], ['m', 1, 1, 2], ['z', 1, 1, 0]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 2,
+      "label": "SUM(bytes) -> MAX(bytes)",
+      "code": "FROM pafta | STATS satir = COUNT(*), olcum = COUNT(bytes), toplam = MAX(bytes) BY tags | SORT tags ASC NULLS FIRST | KEEP tags, satir, olcum, toplam",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "çok değerli grup, null ve iki sayım",
+          "got": "{'columns': ['tags', 'satir', 'olcum', 'toplam'], 'values': [[None, 2, 1, 0], ['blue', 2, 1, 10], ['red', 2, 2, 20]]}",
+          "exp": "{'columns': ['tags', 'satir', 'olcum', 'toplam'], 'values': [[None, 2, 1, 0], ['blue', 2, 1, 10], ['red', 2, 2, 30]]}"
+        },
+        {
+          "ok": false,
+          "msg": "bir belge iki grubu etkiler",
+          "got": "[[None, 2, 1, 0], ['blue', 2, 1, 11], ['red', 2, 2, 20]]",
+          "exp": "[[None, 2, 1, 0], ['blue', 2, 1, 11], ['red', 2, 2, 31]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 3,
+      "label": "COALESCE(user.name, \"bilinmiyor\") -> user.name",
+      "code": "FROM pafta | EVAL kisi = user.name | STATS adet = COUNT(*), olcum = COUNT(bytes) BY kisi | SORT kisi | KEEP kisi, adet, olcum",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "null ve eksik aynı yedek gruba; ölçüm sayısı ayrı",
+          "got": "{'columns': ['kisi', 'adet', 'olcum'], 'values': [['alice', 2, 2], ['bob', 1, 0], [None, 2, 1]]}",
+          "exp": "{'columns': ['kisi', 'adet', 'olcum'], 'values': [['alice', 2, 2], ['bilinmiyor', 2, 1], ['bob', 1, 0]]}"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 3,
+      "label": "COUNT(*) -> COUNT(bytes)",
+      "code": "FROM pafta | EVAL kisi = COALESCE(user.name, \"bilinmiyor\") | STATS adet = COUNT(bytes), olcum = COUNT(bytes) BY kisi | SORT kisi | KEEP kisi, adet, olcum",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "null ve eksik aynı yedek gruba; ölçüm sayısı ayrı",
+          "got": "{'columns': ['kisi', 'adet', 'olcum'], 'values': [['alice', 2, 2], ['bilinmiyor', 1, 1], ['bob', 0, 0]]}",
+          "exp": "{'columns': ['kisi', 'adet', 'olcum'], 'values': [['alice', 2, 2], ['bilinmiyor', 2, 1], ['bob', 1, 0]]}"
+        },
+        {
+          "ok": false,
+          "msg": "boş metin null değildir, coalesce onu değiştirmez",
+          "got": "[['', 1, 1], ['alice', 2, 2], ['bob', 0, 0], ['svc', 0, 0]]",
+          "exp": "[['', 1, 1], ['alice', 2, 2], ['bob', 1, 0], ['svc', 1, 0]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 3,
+      "label": "KEEP removed",
+      "code": "FROM pafta | EVAL kisi = COALESCE(user.name, \"bilinmiyor\") | STATS adet = COUNT(*), olcum = COUNT(bytes) BY kisi | SORT kisi ",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "null ve eksik aynı yedek gruba; ölçüm sayısı ayrı",
+          "got": "{'columns': ['adet', 'olcum', 'kisi'], 'values': [[2, 2, 'alice'], [2, 1, 'bilinmiyor'], [1, 0, 'bob']]}",
+          "exp": "{'columns': ['kisi', 'adet', 'olcum'], 'values': [['alice', 2, 2], ['bilinmiyor', 2, 1], ['bob', 1, 0]]}"
+        },
+        {
+          "ok": false,
+          "msg": "boş metin null değildir, coalesce onu değiştirmez",
+          "got": "[[1, 1, ''], [2, 2, 'alice'], [1, 0, 'bob'], [1, 0, 'svc']]",
+          "exp": "[['', 1, 1], ['alice', 2, 2], ['bob', 1, 0], ['svc', 1, 0]]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "lesson": "el27",
+      "step": 3,
+      "label": "SORT removed",
+      "code": "FROM pafta | EVAL kisi = COALESCE(user.name, \"bilinmiyor\") | STATS adet = COUNT(*), olcum = COUNT(bytes) BY kisi | KEEP kisi, adet, olcum",
+      "status": "fail",
+      "equivalence_reason": null,
+      "checks": [
+        {
+          "ok": false,
+          "msg": "null ve eksik aynı yedek gruba; ölçüm sayısı ayrı",
+          "got": "{'columns': ['kisi', 'adet', 'olcum'], 'values': [['alice', 2, 2], ['bob', 1, 0], ['bilinmiyor', 2, 1]]}",
+          "exp": "{'columns': ['kisi', 'adet', 'olcum'], 'values': [['alice', 2, 2], ['bilinmiyor', 2, 1], ['bob', 1, 0]]}"
+        },
+        {
+          "ok": false,
+          "msg": "boş metin null değildir, coalesce onu değiştirmez",
+          "got": "[['alice', 2, 2], ['bob', 1, 0], ['', 1, 1], ['svc', 1, 0]]",
+          "exp": "[['', 1, 1], ['alice', 2, 2], ['bob', 1, 0], ['svc', 1, 0]]"
+        }
+      ],
+      "error": null
+    }
+  ]
+}

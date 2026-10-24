@@ -22,7 +22,7 @@ class ElasticCurriculumTests(unittest.TestCase):
         self.assertEqual(self.outline["runner"], "elastic")
         self.assertEqual(self.outline["dil"], "elastic")
         self.assertNotIn("okuma_dili", self.outline)
-        self.assertEqual(self.outline["order"], [f"el{i:02}" for i in range(1, 20)])
+        self.assertEqual(self.outline["order"], [f"el{i:02}" for i in range(1, 28)])
         self.assertEqual({m["rank"] for m in self.outline["modules"]}, {r["id"] for r in self.outline["ranks"]})
         self.assertEqual(len(self.outline["modules"]), 6)
         for path in (ROOT / "tracks" / "elastic").rglob("*"):
@@ -42,7 +42,7 @@ class ElasticCurriculumTests(unittest.TestCase):
                     continue
                 config = json.loads(step["stdin"])
                 self.assertEqual(config["dil"], step["meta"]["dil"])
-                self.assertIn(config["dil"], ("kibana", "lucene", "eql"))
+                self.assertIn(config["dil"], ("kibana", "lucene", "eql", "esql", "ingest", "rule"))
                 self.assertIsInstance(config["mapping"], dict)
                 self.assertTrue(config["documents"])
                 if step["kind"] == "tahmin":

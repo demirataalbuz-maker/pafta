@@ -253,3 +253,35 @@ test("revealed solutions use the actual step dialect and corpus", async () => {
     assert.equal(decoded,input);
   }
 });
+
+
+test("advanced native dialects preserve JSON input and never expose guesses early", () => {
+  for (const language of ["esql", "ingest", "rule"]) {
+    const app=appHarness();
+    const input=JSON.stringify({backend:"elastic",dil:language,mapping:{n:"long"},documents:[]});
+    const html=codeBlock("<tag>",language,{dil:language,stdin:input});
+    assert.ok(html.includes('data-act="run"'));
+    assert.ok(html.includes('data-stdin='));
+    assert.ok(!html.includes("<tag>"));
+    const hidden=codeBlock("answer",language,{dil:language,runnable:false,bench:false});
+    assert.ok(!hidden.includes('data-act="run"'));
+    assert.ok(!hidden.includes('data-act="bench"'));
+    const {query}=selectLesson(app,language,"tahmin",input);
+    app.showStep(0);
+    assert.equal(app.loads.at(-1).resetCode,"");
+    assert.notEqual(app.loads.at(-1).code,query);
+    assert.equal(app.loads.at(-1).stdin,input);
+    assert.equal(app.TAHMIN_DIL[language].kod,"");
+    assert.equal(app.lessonLanguage({dil:"elastic"},{steps:[]},{meta:{dil:language}}),language);
+  }
+});
+
+test("native Elastic JSON and tables both remain visible, with escaped backend", () => {
+  const app=appHarness();
+  const bench={pane:{},ed:{mark(){}}};
+  app.Bench.prototype.paintOut.call(bench,{elastic_native:true,elastic_backend:"Elastic <native>",
+    segs:[["out",'{"preview_count":2}']],tablolar:[{sutunlar:["n"],satirlar:[[2]]}]});
+  assert.ok(bench.pane.innerHTML.includes("preview_count"));
+  assert.ok(bench.pane.innerHTML.includes("<table"));
+  assert.ok(bench.pane.innerHTML.includes("Elastic &lt;native&gt;"));
+});

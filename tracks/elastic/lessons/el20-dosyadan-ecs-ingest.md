@@ -27,7 +27,7 @@ Her çalıştırma yeni bir geçici indeks kullanır, iş bitince onu siler. Gir
 `documents` ders tanıklarıdır; sorgu veya pipeline kodu editörde yazılır.
 Alan adı, tür, eksik alan ve zaman aralığı sözleşmenin parçasıdır.
 
-Kaynaklar: [Ingest pipelines](https://www.elastic.co/docs/manage-data/ingest/transform-enrich/ingest-pipelines), [ECS event alanları](https://www.elastic.co/docs/reference/ecs/ecs-event).
+Kaynaklar: [Ingest pipelines](https://www.elastic.co/docs/manage-data/ingest/transform-enrich/ingest-pipelines), [ECS event alanları](https://www.elastic.co/docs/reference/ecs/ecs-event), [ECS process alanları](https://www.elastic.co/docs/reference/ecs/ecs-process).
 :::
 
 ::: tahmin Önce çıktıyı düşün
