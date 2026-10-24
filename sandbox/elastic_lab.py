@@ -15,9 +15,9 @@ import urllib.request
 import uuid
 
 try:
-    from .elastic_common import ElasticError, corpus, selected_documents, field_value
+    from .elastic_common import ElasticError, field_value
 except ImportError:
-    from elastic_common import ElasticError, corpus, selected_documents, field_value
+    from elastic_common import ElasticError, field_value
 
 VERSION = '9.5.5'
 ROOT = Path(__file__).resolve().parents[1]
@@ -89,6 +89,12 @@ def options(value):
     if len(json.dumps(value,ensure_ascii=False,allow_nan=False).encode())>1024*1024:
         raise ElasticError('Girdi en çok 1 MiB olabilir.')
     value.setdefault('context',{})
+    allowed_context={'eql':{'timestamp_field','event_category_field','tiebreaker_field','time_filter'},
+                     'rule':{'timeframe_end'},'ingest':set(),'esql':set()}[value['dil']]
+    if not isinstance(value['context'],dict) or set(value['context'])-allowed_context:
+        raise ElasticError('Bu dil için desteklenmeyen context seçeneği; sessizce yok sayılmaz.')
+    if 'exceptions' in value and value['dil']!='rule':
+        raise ElasticError('exceptions yalnız gerçek Security rule modunda kullanılabilir.')
     return value
 
 def properties(mapping):
@@ -179,11 +185,7 @@ def evaluate(code,config):
                     'items':items,'simulation':[{'dropped':True} if d is None or d.get('doc','missing') is None else
                     {'source':d['doc']['_source']} if 'doc' in d else
                     {'error':d.get('error',{}).get('type')} for d in simulated['docs']]}
-        # Existing corpus validation gives native EQL identical typed source documents.
         docs=config['documents']
-        if mode=='eql' and set(config['context']) & {'time_filter','sort'}:
-            checked=corpus({k:v for k,v in config.items() if k in {'dil','mapping','documents','context'}})
-            docs=selected_documents(checked)
         items=bulk(index,docs)
         if any(i['error'] for i in items):
             raise ElasticError('Gerçek bulk mapping hatası: '+json.dumps(items,ensure_ascii=False))
@@ -194,6 +196,16 @@ def evaluate(code,config):
                   'event_category_field':ctx.get('event_category_field','event.category')}
             if ctx.get('tiebreaker_field'):
                 body['tiebreaker_field']=ctx['tiebreaker_field']
+            if 'time_filter' in ctx:
+                window=ctx['time_filter']
+                if (not isinstance(window,dict) or set(window)-{'field','gt','gte','lt','lte'}
+                        or not set(window)&{'gt','gte','lt','lte'}):
+                    raise ElasticError('time_filter field ve gt/gte/lt/lte sınırları içermeli.')
+                field=window.get('field','@timestamp')
+                spec=config['mapping'].get(field)
+                if (spec.get('type') if isinstance(spec,dict) else spec)!='date':
+                    raise ElasticError('time_filter alanı gerçek date mapping gerektirir.')
+                body['filter']={'range':{field:{k:v for k,v in window.items() if k!='field'}}}
             response=api('/'+index+'/_eql/search',body)
             if response.get('id'):
                 api('/_eql/search/'+response['id'],method='DELETE',missing_ok=True)
