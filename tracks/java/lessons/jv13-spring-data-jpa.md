@@ -86,6 +86,13 @@ rollbackFor: 8 → 8
 
 ???
 
+```text
+commit: 5 → 7
+RuntimeException rollback: 7 → 7
+denetimli istisna: 7 → 8
+rollbackFor: 8 → 8
+```
+
 İlk çağrı iki kayıt ekler ve commit eder. İkincisi `RuntimeException` fırlatır: ilk kayıt da geri alınır, sayı 7'de kalır. Üçüncüsü denetimli bir istisna fırlatır; varsayılan kural yalnız çalışma zamanı istisnalarında rollback yaptığı için `C` kaydı **commit edilir**: 8. Dördüncüsünde `rollbackFor` denetimli istisnayı da geri alma nedeni yapar: 8'de kalır.
 :::
 
@@ -164,6 +171,7 @@ eq(f("findByAcilisGreaterThanAndAcilisLessThanOrderByAcilisDesc"),
    "select b from Bilet b where b.acilis > ?1 and b.acilis < ?2 order by b.acilis desc", "aralık ve azalan sıra")
 eq(f("findBySunucuAdi"), "select b from Bilet b where b.sunucuAdi = ?1", "çok kelimeli alan: ilk harf küçülür, gerisi aynı kalır")
 eq(f("findByNotlar"), "select b from Bilet b where b.notlar = ?1", "Not ile başlayan alan adı işleç sanılmaz")
+eq(f("findByIn"), "select b from Bilet b where b.in = ?1", "adın tamamı bir işleç eki olsa da alan adıdır (ek, alanın tamamı olamaz)")
 for kotu in ("getByDurum", "findBy", "findByOrderByIdAsc", "deleteByDurum"):
     raises(ValueError, f, kotu, msg=f"desteklenmeyen ya da koşulsuz: {kotu}")
 ```

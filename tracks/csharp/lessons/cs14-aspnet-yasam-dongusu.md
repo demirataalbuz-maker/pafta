@@ -81,6 +81,15 @@ Click sayac=1 (postback)
 
 ???
 
+```text
+PreInit (postback)
+Init (postback)
+InitComplete (postback)
+PreLoad sayac=1 (postback)
+Load sayac=0 (postback)
+Click sayac=1 (postback)
+```
+
 Bu, `python tools/aspnet_yasam_dongusu.py GET:Hatali.aspx TIKLA:Hatali.aspx TIKLA:Hatali.aspx` çıktısındaki son postback'in ilk altı satırıdır. ViewState `PreLoad`'dan önce geri yüklendiği için `PreLoad` sayacı önceki istekteki 1 olarak görür. `Load` onu koşulsuz 0'a çeker; `Click` ondan sonra çalışır ve 1 yapar. Kullanıcı ne kadar basarsa bassın sayaç 1'de kalır.
 :::
 
