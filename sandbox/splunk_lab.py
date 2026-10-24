@@ -31,6 +31,7 @@ IMAJ = "splunk/splunk:10.6.1@sha256:2a7cf9d2e8a2226773a9fac95b5e0e2cc8752496abfb
 API = "https://127.0.0.1:8089"
 WEB = "http://127.0.0.1:8000"
 DIZIN = "pafta_ders"
+BASTIRMA_PAYI = 1    # alarm üreten çalıştırmadan sonra (sn): kayıtlar bir sonraki çalıştırmadan önce yerleşsin
 ONEK = "pafta_"                   # laboratuvarın kurduğu her nesnenin (sourcetype, kayıtlı arama) adı
 KLASOR = os.path.join(ROOT, ".deps", "splunk")
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
@@ -147,6 +148,26 @@ def _dizin_kur():
 
 # ── iş başına laboratuvar ──
 
+def _yasiyor(pid):
+    if pid <= 0:
+        return False
+    if os.name == "nt":
+        import ctypes
+        k = ctypes.windll.kernel32
+        tutamac = k.OpenProcess(0x00100000, False, pid)          # SYNCHRONIZE
+        if not tutamac:
+            return False
+        try:
+            return k.WaitForSingleObject(tutamac, 0) == 0x102      # WAIT_TIMEOUT: süreç çalışıyor
+        finally:
+            k.CloseHandle(tutamac)
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
 class _Kilit:
     """İşleri süreçler arasında sıraya sokar (validate aynı anda birçok iş çalıştırabilir)."""
 
@@ -164,10 +185,12 @@ class _Kilit:
                 return self
             except FileExistsError:
                 try:
-                    if time.time() - os.path.getmtime(self.yol) > self.timeout:
-                        os.remove(self.yol)            # çökmüş bir işten kalan kilit
+                    with open(self.yol, encoding="ascii") as f:
+                        icerik = f.read().strip()            # boşsa kilit henüz yazılıyor
+                    if (icerik and not _yasiyor(int(icerik))) or time.time() - os.path.getmtime(self.yol) > self.timeout:
+                        os.remove(self.yol)            # çökmüş ya da kesilmiş bir işten kalan kilit
                         continue
-                except OSError:
+                except (OSError, ValueError):
                     pass
                 if time.time() > son:
                     raise SplunkHatasi("Splunk laboratuvarı başka bir işle meşgul (kilit zaman aşımı)")
@@ -306,6 +329,65 @@ class Lab:
 
     def ara(self, spl, en_cok=10000):
         return _ara(spl, en_cok)
+
+    # — zamanlanmış aramalar (alarm) —
+
+    def kural(self, ad, ayarlar):
+        """savedsearches.conf'ta bir kıta kur → Splunk'taki adı. Ad her işte yenidir: Splunk bastırma
+        durumunu kayıtlı aramanın adına bağlar, eski bir işin bastırması yeni işe sızmasın.
+        Gerçek zamanlayıcı kuralı kendiliğinden çalıştırmasın diye takvim yılda bire çekilir;
+        çalıştırma anlarını laboratuvar dispatch.now ile verir (calistir)."""
+        if not ad.startswith(ONEK):
+            raise SplunkHatasi(f"laboratuvarın kayıtlı arama adları {ONEK} ile başlamalı: {ad}")
+        ic_ad = f"{ad}_{secrets.token_hex(3)}"
+        istek("/servicesNS/nobody/search/configs/conf-savedsearches",
+              dict(ayarlar, name=ic_ad, enableSched="1", cron_schedule="0 0 1 1 *", disabled="0"))
+        istek("/servicesNS/nobody/search/saved/searches/_reload")
+        self.aramalar.add(ic_ad)
+        return ic_ad
+
+    def calistir(self, ic_ad, an):
+        """Kuralı `an` (epoch) zamanlayıcının o anda çalıştırmış gibi çalıştır, alarm eylemleriyle →
+        (sid, pencere başı, pencere sonu, teslim edilen sonuçlar). Bastırılan sonuçlar teslim edilmez."""
+        r = istek(f"/servicesNS/nobody/search/saved/searches/{urllib.parse.quote(ic_ad, safe='')}/dispatch",
+                  {"trigger_actions": "1", "dispatch.now": str(int(an))})
+        sid = r["sid"]
+        son = time.time() + 120
+        while True:
+            c = istek(f"/services/search/jobs/{sid}")["entry"][0]["content"]
+            if c.get("isDone"):
+                break
+            if time.time() > son:
+                raise SplunkHatasi(f"kural {ic_ad} 120 saniyede bitmedi")
+            time.sleep(0.5)
+        hatalar = [m["text"] for m in c.get("messages", []) if m.get("type") in ("FATAL", "ERROR")]
+        if c.get("isFailed") or hatalar:
+            raise SplunkHatasi("; ".join(hatalar) or "kuralın araması başarısız")
+        sonuc = istek(f"/services/search/jobs/{sid}/results?count=1000")
+        alanlar = [a["name"] if isinstance(a, dict) else a for a in sonuc.get("fields", [])]
+        if int(c.get("resultCount") or 0):
+            time.sleep(BASTIRMA_PAYI)   # alarm ve bastırma kaydı bir sonraki çalıştırmadan önce yerleşsin
+        return sid, c.get("earliestTime"), c.get("latestTime"), alanlar, sonuc.get("results", [])
+
+    def zamanlayici(self, ic_ad, sidler, timeout=90):
+        """Her çalıştırmanın kaydı → {sid: (sonuç sayısı, tetiklenen alarm, bastırılan)}. Sonuç ve bastırma
+        zamanlayıcı günlüğünden (_internal), tetiklenen alarmlar denetim günlüğünden (_audit alert_fired)
+        okunur: özet modunda (alert.digest_mode = 1) zamanlayıcı günlüğü tetiklenmeyi yazmaz."""
+        son = time.time() + timeout
+        while True:
+            _, satirlar = _ara(f"search index=_internal sourcetype=scheduler savedsearch_name={ic_ad} "
+                               "| table sid result_count suppressed")
+            kayit = {s["sid"]: (int(s.get("result_count") or 0), int(s.get("suppressed") or 0)) for s in satirlar}
+            if all(sid in kayit for sid in sidler):
+                break
+            if time.time() > son:
+                raise SplunkHatasi("zamanlayıcı günlüğünde çalıştırma kayıtları bulunamadı")
+            time.sleep(1)
+        time.sleep(2)                                   # denetim kaydı aynı anda yazılır; dizine ulaşsın
+        _, satirlar = _ara(f"search index=_audit action=alert_fired ss_name={ic_ad} "
+                           "| stats sum(triggered_alerts) AS n by sid")
+        tetik = {s["sid"]: int(s.get("n") or 0) for s in satirlar}
+        return {sid: (kayit[sid][0], tetik.get(sid, 0), kayit[sid][1]) for sid in sidler}
 
 
 if __name__ == "__main__":

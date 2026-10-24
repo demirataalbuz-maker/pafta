@@ -26,6 +26,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HARNESS = os.path.join(ROOT, "sandbox", "py_harness.py")
@@ -433,13 +434,16 @@ class SplunkRunner(HarnessRunner):
         from sandbox.splunk_lab import available
         return available()
 
+    _sira = threading.Lock()     # laboratuvar tek; süre sınırı sıra gelince başlasın
+
     def execute(self, job, timeout=None):
         from sandbox import splunk_lab
-        sorun = splunk_lab.hazirla()      # konteynerin açılışı işin süresine sayılmaz
-        if sorun:
-            return {"status": "error", "segs": [], "error": {
-                "type": "SplunkYok", "msg": sorun, "line": None, "frames": [], "where": "kod"}}
-        return super().execute(job, timeout)
+        with SplunkRunner._sira:
+            sorun = splunk_lab.hazirla()      # konteynerin açılışı işin süresine sayılmaz
+            if sorun:
+                return {"status": "error", "segs": [], "error": {
+                    "type": "SplunkYok", "msg": sorun, "line": None, "frames": [], "where": "kod"}}
+            return super().execute(job, timeout)
 
 
 class HttpRunner(PythonRunner):

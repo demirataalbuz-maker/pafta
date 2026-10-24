@@ -21,6 +21,7 @@ import reprlib
 import sqlite3
 import subprocess
 import sys
+import time
 import traceback
 import types
 
@@ -1678,9 +1679,11 @@ def do_my_test(job):
 
 
 # ── Gerçek Splunk (SPL yolu, adım meta'sında motor: splunk): Docker'daki Splunk Enterprise ──
-# Görevin hazırlığı Python'dur: props(sourcetype, {ayar: değer}) ve veri(metin, sourcetype[, kaynak]).
-# girdi: props ise kullanıcının props.conf'u verinin dizine alınmasından ÖNCE uygulanır; arama ise
-# veri hazırlıktan hemen sonra alınır (sandbox/splunk_lab.py).
+# Görevin hazırlığı Python'dur: props(sourcetype, {ayar: değer}), veri(metin, sourcetype[, kaynak]) ve
+# alarm girdisinde çalıştırma anları: calistir("2026-10-19 09:30", ...[, ara=saniye]) ya da
+# aralik(baş, son) (anlar kuralın cron_schedule'ından hesaplanır). girdi: props ise kullanıcının
+# props.conf'u verinin dizine alınmasından ÖNCE uygulanır; arama ve alarmda veri hazırlıktan hemen
+# sonra alınır (sandbox/splunk_lab.py).
 
 def _splunk_lab():
     import importlib.util
@@ -1729,6 +1732,83 @@ def _spk_deger(v):
     return v
 
 
+def _cron_alan(alan, en_az, en_cok, ad):
+    degerler = set()
+    for parca in alan.split(","):
+        adim = 1
+        if "/" in parca:
+            parca, adim_metni = parca.split("/", 1)
+            if not adim_metni.isdigit() or int(adim_metni) == 0:
+                raise ValueError(f"{ad} alanında geçersiz adım: /{adim_metni}")
+            adim = int(adim_metni)
+        if parca == "*":
+            bas, son = en_az, en_cok
+        elif "-" in parca:
+            a, b = parca.split("-", 1)
+            if not (a.isdigit() and b.isdigit()):
+                raise ValueError(f"{ad} alanında geçersiz aralık: {parca}")
+            bas, son = int(a), int(b)
+        elif parca.isdigit():
+            bas = son = int(parca)
+            if "/" in alan:
+                son = en_cok
+        else:
+            raise ValueError(f"{ad} alanında anlaşılmayan değer: {parca}")
+        if not (en_az <= bas <= son <= en_cok):
+            raise ValueError(f"{ad} alanı {en_az}-{en_cok} dışında: {parca}")
+        degerler.update(range(bas, son + 1, adim))
+    return degerler
+
+
+def _cron_anlari(cron, bas, son):
+    """cron_schedule'ın [bas, son] (epoch, ikisi de dahil) aralığındaki anları. Laboratuvar dakika ve saat
+    alanlarını yorumlar; gün, ay ve haftanın günü * olmalıdır."""
+    alanlar = cron.split()
+    if len(alanlar) != 5:
+        raise ValueError(f"cron_schedule beş alan ister (dakika saat gün ay haftanın-günü): {cron!r}")
+    if alanlar[2:] != ["*", "*", "*"]:
+        raise ValueError("bu laboratuvar cron_schedule'ın yalnız dakika ve saat alanlarını yorumlar; "
+                         "gün, ay ve haftanın günü * olmalı")
+    dakikalar = _cron_alan(alanlar[0], 0, 59, "dakika")
+    saatler = _cron_alan(alanlar[1], 0, 23, "saat")
+    an = bas - bas % 60
+    if an < bas:
+        an += 60
+    anlar = []
+    while an <= son:
+        t = time.gmtime(an)
+        if t.tm_min in dakikalar and t.tm_hour in saatler:
+            anlar.append(an)
+        an += 60
+    return anlar
+
+
+def _an(metin):
+    import calendar
+    try:
+        return calendar.timegm(time.strptime(metin, "%Y-%m-%d %H:%M"))
+    except ValueError:
+        raise ValueError(f"an 'YYYY-AA-GG SS:DD' biçiminde olmalı: {metin!r}")
+
+
+def _an_yaz(deger, kayma=0):
+    """epoch ya da Splunk'ın ISO zamanı → 'YYYY-AA-GG SS:DD', laboratuvarın kaydırması geri alınmış."""
+    if not isinstance(deger, (int, float)):
+        import calendar
+        if not deger:
+            return ""
+        deger = calendar.timegm(time.strptime(deger[:19], "%Y-%m-%dT%H:%M:%S"))
+    return time.strftime("%Y-%m-%d %H:%M", time.gmtime(deger - kayma))
+
+
+def _gun_kaydir(metin, kayma):
+    """Satır başındaki YYYY-AA-GG tarihlerini `kayma` saniye (tam gün) ileri al."""
+    def kaydir(m):
+        import calendar
+        return time.strftime("%Y-%m-%d", time.gmtime(calendar.timegm(time.strptime(m.group(1), "%Y-%m-%d")) + kayma))
+    return re.sub(r"(?m)^(\d{4}-\d{2}-\d{2})(?= )", kaydir, metin)
+
+
 OLAY_ARAMASI = ('search index={dizin} | sort 0 _time | eval zaman=strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") '
                 '| table zaman sourcetype _raw')
 
@@ -1740,10 +1820,19 @@ class _SplunkIs:
         self.job, self.lab, self.S = job, lab, S
         self.girdi = job.get("girdi", "arama")
         self.bekleyen = []
+        self.takvim = None
+        self.kayma = 0
 
     def _hazirlik(self, ek=""):
+        def calistir(*anlar, ara=0):
+            self.takvim = ("anlar", [_an(a) for a in anlar], ara)
+
+        def aralik(bas, son):
+            self.takvim = ("aralik", [_an(bas), _an(son)], 0)
+
         ns = {"__name__": "__setup__", "props": self.lab.props, "DIZIN": self.S.DIZIN,
-              "veri": lambda metin, sourcetype, kaynak="ders.log": self.bekleyen.append((metin, sourcetype, kaynak))}
+              "veri": lambda metin, sourcetype, kaynak="ders.log": self.bekleyen.append((metin, sourcetype, kaynak)),
+              "calistir": calistir, "aralik": aralik}
         for kod in (self.job.get("setup") or "", ek or ""):
             if kod.strip():
                 exec(compile(kod, "<setup>", "exec"), ns)
@@ -1758,16 +1847,70 @@ class _SplunkIs:
                                              line=satir), "")
             self.lab.props(ad, ayarlar)
 
+    def _alarm_kos(self, kod):
+        """Her kıtayı bir kayıtlı arama olarak kur, takvimdeki anlarda alarm eylemleriyle çalıştır →
+        her çalıştırma bir satır: kural, calisma, pencere_bas, pencere_son, sonuc, tetiklenen, bastirilan, teslim."""
+        kitalar = _conf_coz(kod, "savedsearches.conf")
+        if not kitalar:
+            raise UserRunError(_spk_hata("savedsearches.conf boş: en az bir [kural adı] kıtası yaz"), "")
+        if self.takvim is None:
+            raise UserRunError(_spk_hata("görevin hazırlığı çalıştırma anlarını vermedi (calistir ya da aralik)",
+                                         "test"), "")
+        kurallar = []
+        for ad, ayarlar, satir in kitalar:
+            if not ad.startswith(self.S.ONEK):
+                raise UserRunError(_spk_hata(f"kural adı {self.S.ONEK} ile başlamalı: [{ad}]", line=satir), "")
+            for gerekli in ("search", "cron_schedule"):
+                if not ayarlar.get(gerekli):
+                    raise UserRunError(_spk_hata(f"[{ad}] kıtasında {gerekli} yok", line=satir), "")
+            tur, deger, ara = self.takvim
+            deger = [a + self.kayma for a in deger]
+            try:
+                anlar = _cron_anlari(ayarlar["cron_schedule"], *deger) if tur == "aralik" else deger
+            except ValueError as e:
+                raise UserRunError(_spk_hata(f"[{ad}] {e}", line=satir), "")
+            kurallar.append((ad, self.lab.kural(ad, {k: v for k, v in ayarlar.items() if k != "cron_schedule"}), anlar))
+        satirlar = []
+        for ad, ic_ad, anlar in kurallar:
+            cikanlar = []
+            for n, an in enumerate(anlar):
+                if n and ara:
+                    time.sleep(ara)
+                try:
+                    cikanlar.append((an,) + self.lab.calistir(ic_ad, an))
+                except self.S.SplunkHatasi as e:
+                    raise UserRunError(_spk_hata(f"[{ad}] {e}"), "")
+            kayit = self.lab.zamanlayici(ic_ad, [c[1] for c in cikanlar])
+            for an, sid, bas, son, alanlar, sonuclar in cikanlar:
+                sayi, tetiklenen, bastirilan = kayit[sid]
+                alanlar = [a for a in alanlar if not a.startswith("_")]
+                teslim = ", ".join(":".join(str(r.get(a, "")) for a in alanlar) for r in sonuclar) if tetiklenen else ""
+                satirlar.append((ad, _an_yaz(an, self.kayma), _an_yaz(bas, self.kayma), _an_yaz(son, self.kayma),
+                                 sayi, tetiklenen, bastirilan, teslim))
+        return ["kural", "calisma", "pencere_bas", "pencere_son", "sonuc", "tetiklenen", "bastirilan", "teslim"], satirlar
+
     def kos(self, kod, ek=""):
         """→ (alanlar, satırlar)"""
         self.bekleyen = []
+        self.takvim = None
         self._hazirlik(ek)
         if self.girdi == "props":
             self._props_uygula(kod)
-        elif self.girdi != "arama":
-            raise UserRunError(_spk_hata(f"bu girdi henüz desteklenmiyor: {self.girdi}"), "")
+        elif self.girdi not in ("arama", "alarm"):
+            raise UserRunError(_spk_hata(f"bu girdi desteklenmiyor: {self.girdi}"), "")
+        self.kayma = 0
+        if self.girdi == "alarm" and self.takvim:
+            # Dersin geçmişteki sabahı tam gün kaydırılarak yarına taşınır: Splunk bastırma kaydını takvim
+            # zamanı + süre geçince temizler; geçmiş bir zamanla kurulan kayıt hemen temizlenebilir ve
+            # bastırma rastgele kaybolur. Veri, çalıştırma anları ve pencereler birlikte kayar; çıktı
+            # dersin tarihleriyle gösterilir.
+            ilk = min(self.takvim[1])
+            yarin = (int(time.time()) // 86400 + 1) * 86400
+            self.kayma = max(0, yarin - (ilk - ilk % 86400))
         for metin, sourcetype, kaynak in self.bekleyen:
-            self.lab.yukle(metin, sourcetype, kaynak)
+            self.lab.yukle(_gun_kaydir(metin, self.kayma) if self.kayma else metin, sourcetype, kaynak)
+        if self.girdi == "alarm":
+            return self._alarm_kos(kod)
         return self.ara(OLAY_ARAMASI.format(dizin=self.S.DIZIN) if self.girdi == "props" else kod)
 
     def ara(self, spl):
