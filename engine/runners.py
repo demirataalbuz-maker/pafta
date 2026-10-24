@@ -432,6 +432,8 @@ RUNNERS = {
         "iz_satiri": "Set-PSDebug -Trace 1; ", "iz_disla": ["betik.ps1", "LASTEXITCODE"],
         "sure": 20, "satir_deseni": r"betik\.ps1:(\d+)",
         "iz_deseni": r"^DEBUG:\s+(?P<satir>\d+)\+\s*(?P<komut>.*)$",
+        # Proje kapsamında sabitlenen modüller (Pester 5.9.0) önce aransın: .deps\psmodules
+        "env": {"PSModulePath": os.path.join(ROOT, ".deps", "psmodules") + os.pathsep + os.environ.get("PSModulePath", "")},
     }, default_timeout=25, test_timeout=50,
         kopyala=[os.path.join(ROOT, "tracks", "powershell", "veri", "olaylar.json")]),
     "javascript": ProcRunner("javascript", {

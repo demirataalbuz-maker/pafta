@@ -112,9 +112,10 @@
    "not": "PS25; sertifika deposuna yazılmadı, sistemdeki imzalı dosyaların kopyaları (notepad katalog, MpSigStub gömülü, git.exe üçüncü taraf)"
   },
   "PowerShell: Pester ile kendi modül/fonksiyonunun testlerini yazmak": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Yazar 1 boşta; kullanıcı onayıyla"
+   "commit": "(bu commit)",
+   "not": "PS26; Pester 5.9.0 .deps\\psmodules'e (tools/pester_kur.ps1: SHA-256 + imzacı parmak izi doğrulamalı); runners.py PowerShell koşucusuna PSModulePath. Görevler mutasyon testli"
   }
  }
 }
