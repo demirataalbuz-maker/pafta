@@ -110,8 +110,11 @@ eq(f(["", "a", "pafta"]), [0, 1, 5], "boş, tek harf, beş harf")
 eq(f(["pafta çğüş"]), [10], "Türkçe harfler BMP: her biri tek kod birimi")
 eq(f(["ab\U0001F600cd"]), [6], "emoji BMP dışı: iki kod birimi sayılır (a b 😀=2 c d)")
 eq(f([]), [], "boş liste")
-import inspect
-src = inspect.getsource(f)
+import ctypes, inspect, re
+# İmza bildirilmişse ctypes yanlış türü çağrıdan önce reddeder; bildirilmemişse baytları
+# geniş karakter sanıp sayı döndürür (bu derste ölçüldü: b"abc" → 2).
+raises(ctypes.ArgumentError, f, [b"abc"], msg="argtypes bildirilince bytes argümanı reddedilir")
+src = re.sub(r"#[^\n]*", "", inspect.getsource(f))      # yorum satırı imza yerine geçmez
 ok("argtypes" in src and "restype" in src, "imzayı bildir: argtypes ve restype")
 ```
 
@@ -165,9 +168,11 @@ eq([(ad, yuklu) for ad, yuklu, _ in r],
 eq([h for _, yuklu, h in r if yuklu], [0, 0], "yüklü modüllerde hata 0")
 eq([h for ad, yuklu, h in r if not yuklu], [126], "yüklü olmayan modül: ERROR_MOD_NOT_FOUND (126)")
 eq(f([]), [], "boş liste")
-# yüklü handle gerçekten 32 biti aşabilir: c_void_p ile kırpılmadan alınmalı
-import inspect
-ok("c_void_p" in inspect.getsource(f), "handle'ı c_void_p restype ile al")
+# Yüklü handle 32 biti aşar (bu derste ölçüldü: kernel32 → 0x7ffa8ce00000; varsayılan c_int
+# restype onu negatif bir sayıya kırpar). Kırpılan değer de sıfırdan farklı olduğu için bu
+# görevin dönüşünden anlaşılmaz; kaynakta aranır, yorum satırı yeterli sayılmaz.
+import inspect, re
+ok("c_void_p" in re.sub(r"#[^\n]*", "", inspect.getsource(f)), "handle'ı c_void_p restype ile al")
 ```
 
 ```solution

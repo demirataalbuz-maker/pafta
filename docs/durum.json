@@ -86,14 +86,16 @@
    "not": "PCRE2 motoru + RX23"
   },
   "Python: Scapy ile paket kaydını Python'dan okumak ve üretmek": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: P80 okuma dersi Yazar 2'de denetime hazır. Kalan: Scapy ile paket ÜRETME ve wrpcap + TShark doğrulaması dersi (1 ders/2 görev); Yazar 2'de güvenlik filtresine takıldı. Ölçümler: Kali Scapy 2.7.0, TShark 4.6.6; MAC/IP açıkça verilmeli (yoksa uyarı ve makineye bağlı adres)"
+   "durum": "bitti",
+   "kim": "Yazar 2 (P80 okuma) · Yazar 1 (P81 üretme)",
+   "commit": "9128368, fc11f0d",
+   "not": "Denetlendi (25-10, Denetçi · Yazar 2): iki ortamda validate temiz, tahminler uyuşuyor, 3 yanlış çözüm reddedildi"
   },
   "Python: ctypes ile native API/ABI okuma ve küçük çağrılar": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Yazar 2'de güvenlik filtresine takıldı; 2 ders/4 görev hiç yazılmadı. Ölçümler: Win64 Python 3.11 c_long 4, c_void_p 8, c_wchar 2; FileTimeToSystemTime 0x7FFFFFFFFFFFFFFF → 30828-09-14, 0x8000... → hata 87; get_last_error başarıdan sonra sıfırlanmaz; Kali gcc 16.2 long 8; struct {char,int32,double,uint16} 24 bayt (0/4/8/16); restype verilmeyen int64 dönüşü 32 bite kırpılır; c_int32(2**31) sessizce -2**31; Python 3.14'te _pack_ uyarı verir"
+   "durum": "bitti",
+   "kim": "Yazar 1 (P82–P83)",
+   "commit": "fc11f0d",
+   "not": "Denetlendi (25-10, Denetçi · Yazar 2): A40 bulundu ve düzeltildi (imza kontrolü yalnız kaynak metnindeydi, yorumla geçiliyordu); c_void_p kontrolü kaynakta kalıyor, görevin dönüşü kırpılmayı göstermiyor"
   },
   "Bash: rwx sonrası POSIX ACL ve Linux capabilities": {
    "durum": "denetime-hazir",
