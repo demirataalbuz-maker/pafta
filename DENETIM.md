@@ -53,7 +53,7 @@ Kullanıcının hedefi THM ve HTB'nin mavi ve kırmızı takım yollarını biti
 
 ### Aşama 2 durum tablosu
 
-ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 öneri dahil) ve 24 Ekim'de kullanıcının purple team hedefi için SANS SEC504/SEC599/SEC699 ile OffSec PEN-200/SOC-200 konu listeleriyle karşılaştırmadan çıkan 11 madde (91–101, dalga 3) burada izlenir; bir madde ancak denetçinin ölçümünden geçince "denetlendi" olur. Durumlar: bekliyor · yazılıyor · denetlendi · geri döndü.
+ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 öneri dahil) ve 24 Ekim'de kullanıcının purple team hedefi için SANS SEC504/SEC599/SEC699 ile OffSec PEN-200/SOC-200 konu listeleriyle karşılaştırmadan çıkan 11 madde (91–101, dalga 3) ve Aşama 3 bitirme maddeleri (102–104, dalga 4) burada izlenir; bir madde ancak denetçinin ölçümünden geçince "denetlendi" olur. Durumlar: bekliyor · yazılıyor · denetlendi · geri döndü.
 
 | # | Yol | Madde (ASAMA2'deki adıyla) | Dalga | Yazar | Durum |
 |---|---|---|---|---|---|
@@ -158,6 +158,9 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 99 | purple | Bulut güvenlik günlükleri: AWS CloudTrail ile Entra ID oturum ve denetim kayıtları (purple team karşılaştırması, 10-24) | 3 | Claude (Yazar 2) | bekliyor |
 | 100 | purple | Web uygulama güvenliği uygulaması: IDOR, XSS, SQLi, komut enjeksiyonu, API (purple team karşılaştırması, 10-24) | 3 | Codex | bekliyor |
 | 101 | purple | Saldırı tarafı laboratuvarı: Windows/Linux yetki yükseltme, AD kimlik doğrulama saldırıları, yatay hareket (purple team karşılaştırması, 10-24) | 3 | Codex | bekliyor |
+| 102 | bitirme | Bitirme tatbikatı (savunma): hazır kayıtlarla uçtan uca olay incelemesi; KQL, SPL, Sigma, paket kaydı ve zaman çizelgesi (Aşama 3, 10-24) | 4 | Claude (Yazar 2) | bekliyor |
+| 103 | bitirme | Bitirme tatbikatı (saldırı zinciri): laboratuvarda zinciri canlandırıp kayıtlarını üretmek (Aşama 3, 10-24) | 4 | Codex | bekliyor |
+| 104 | bitirme | Olay raporu ve purple team bulgu yazımı: yönetici özeti, zaman çizelgesi, kanıt, tespit boşluğu ve öneri (Aşama 3, 10-24) | 4 | Claude (Yazar 2) | bekliyor |
 
 | Sıra | Yol | Seviye | Ölçüt | Tezgah | Durum |
 |---|---|---|---|---|---|

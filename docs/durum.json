@@ -35,7 +35,7 @@
    "durum": "denetime-hazir",
    "kim": "Codex",
    "commit": "9ca6432",
-   "not": "CM23–CM24: 2 ders, 4 görev, 2 gerçek tahmin. CMD yolu Windows ve Git Bash'te 24 ders/137 kontrol temiz; 13 hedefli mutasyon reddedildi. whoami ve icacls yalnız salt okunur; geçici dosyalarda gerçek okuma tanığı. Ortak README.md yalnız yol sayısı/açıklaması, tools/test_cmd_curriculum.py ve tools/test_cmd_integration.py yalnız ders sayısı için değişti."
+   "not": "CM23–CM24: 2 ders, 4 görev, 2 gerçek tahmin. CMD yolu Windows ve Git Bash'te 24 ders/137 kontrol temiz; 13 hedefli mutasyon reddedildi. whoami ve icacls yalnız salt okunur; geçici dosyalarda gerçek okuma tanığı. Ortak README.md yalnız yol sayısı/açıklaması, tools/test_cmd_curriculum.py ve tools/test_cmd_integration.py yalnız ders sayısı için değişti. Denetim düzeltmesi (cfe85e0, Claude Yazar 1): gerçek tahmin, yönetici/bütünlük görevi, gruplar.csv yenileme testi, System32 whoami yolu; 13/13 mutant."
   },
   "YARA: PE import/export ve bölüm özellikleriyle derin dosya incelemesi": {
    "durum": "denetime-hazir",
@@ -295,8 +295,8 @@
   "KQL: Sentinel/Defender güvenlik şemaları ve watchlist ile olay avcılığı": {
    "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "commit": "(bu commit)",
-   "not": "KQ24; SigninLogs, DeviceProcessEvents, DeviceNetworkEvents alt kümeleri ders hazırlığında; _GetWatchlist('ad') → watchlist_<ad> tablosu (let içinde de); gerçek Sentinel için Azure çalışma alanı gerekir"
+   "commit": "cbae4aa, a5f9b9d",
+   "not": "KQ24; SigninLogs, DeviceProcessEvents, DeviceNetworkEvents alt kümeleri ders hazırlığında; _GetWatchlist('ad') → watchlist_<ad> tablosu (let içinde de); gerçek Sentinel için Azure çalışma alanı gerekir; a5f9b9d (Claude Yazar 1): parantezsiz join/lookup/union _GetWatchlist, büyük harfli watchlist anahtarı testi"
   },
   "SPL: Gerçek log alımı ve olay sınırı/zaman ayarları": {
    "durum": "denetime-hazir",
@@ -330,6 +330,16 @@
    "durum": "codex-onerildi",
    "kim": "Claude (Denetçi · Yazar 2)",
    "not": "Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
+  },
+  "bitirme: Bitirme tatbikatı (saldırı zinciri): laboratuvarda zinciri canlandırıp kayıtlarını üretmek (Aşama 3, 10-24)": {
+   "durum": "codex-onerildi",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Saldırı zincirinin uygulanması Claude'un güvenlik filtresine takılıyor; Codex/Opus 4.8'e önerildi (10-24)"
+  },
+  "purple: Ağ tespit sistemleri: Suricata kuralları, Zeek günlükleri ve C2 işaretleşmesini tespit (purple team karşılaştırması, 10-24)": {
+   "durum": "calisiliyor",
+   "kim": "Claude (Yazar 2)",
+   "not": "Kullanıcı 10-24'te 'yapabileceğin her şeyi yap' dedi; Suricata ve Zeek WSL'de kurulacak, açılışta başlamayacak"
   }
  }
 }
