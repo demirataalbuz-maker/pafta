@@ -1,5 +1,5 @@
 {
- "_aciklama": "Ajanların madde durumları. Anahtar: Pafta_Takip.xlsx 'Ne yapılacak' metni (birebir). durum: calisiliyor | taslak | denetime-hazir | kismen | atlandi. Bir işe başlarken 'calisiliyor' yaz ve commit et; bitince 'denetime-hazir' + commit. 'Bitti' kararı denetçinin (Excel). docs/DURUM.md bu dosyadan her commit'te otomatik üretilir (tools/durum_listesi.py).",
+ "_aciklama": "Ajanların madde durumları. Anahtar: Pafta_Takip.xlsx 'Ne yapılacak' metni (birebir). durum: calisiliyor | taslak | denetime-hazir | kismen | codex-onerildi | atlandi. codex-onerildi: Yazar 2'nin güvenlik filtresine takıldığı, Codex'in üstlenmesi önerilen işler. Bir işe başlarken 'calisiliyor' yaz ve commit et; bitince 'denetime-hazir' + commit. 'Bitti' kararı denetçinin (Excel). docs/DURUM.md bu dosyadan her commit'te otomatik üretilir (tools/durum_listesi.py).",
  "maddeler": {
   "Python: pwntools kullanan hazır betiği okumak ve uyarlamak": {
    "durum": "denetime-hazir",
@@ -89,15 +89,15 @@
    "not": "PCRE2 motoru + RX23"
   },
   "Python: Scapy ile paket kaydını Python'dan okumak ve üretmek": {
-   "durum": "kismen",
-   "kim": "Claude (Yazar 2)",
-   "commit": "(bu commit)",
-   "not": "P80 okuma dersi (2 görev, Kali Scapy 2.7 + TShark) denetime hazır; paket üretme dersi Yazar 2'de güvenlik filtresine takıldı, başka yazara kalır"
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "commit": "9128368 (P80, okuma)",
+   "not": "P80 okuma dersi Yazar 2'de denetime hazır. Kalan: Scapy ile paket ÜRETME ve wrpcap + TShark doğrulaması dersi (1 ders/2 görev); Yazar 2'de güvenlik filtresine takıldı. Ölçümler: Kali Scapy 2.7.0, TShark 4.6.6; MAC/IP açıkça verilmeli (yoksa uyarı ve makineye bağlı adres)"
   },
   "Python: ctypes ile native API/ABI okuma ve küçük çağrılar": {
-   "durum": "atlandi",
-   "kim": "Claude (Yazar 2)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı, başka yazara kalır. Ölçümler: Win64 Python 3.11'de c_long 4, c_void_p 8; Kali gcc 16.2'de long 8; struct {char,int32,double,uint16} iki ABI'de 24 bayt (0/4/8/16)"
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Yazar 2'de güvenlik filtresine takıldı; 2 ders/4 görev hiç yazılmadı. Ölçümler: Win64 Python 3.11 c_long 4, c_void_p 8, c_wchar 2; FileTimeToSystemTime 0x7FFFFFFFFFFFFFFF → 30828-09-14, 0x8000... → hata 87; get_last_error başarıdan sonra sıfırlanmaz; Kali gcc 16.2 long 8; struct {char,int32,double,uint16} 24 bayt (0/4/8/16); restype verilmeyen int64 dönüşü 32 bite kırpılır; c_int32(2**31) sessizce -2**31; Python 3.14'te _pack_ uyarı verir"
   },
   "Bash: rwx sonrası POSIX ACL ve Linux capabilities": {
    "durum": "denetime-hazir",
@@ -129,9 +129,9 @@
    "not": "Bekliyor: WinRM için bir kez yönetici onayı (UAC) gerekiyor; oturum yönetici değil. Plan: yalnız localhost'a bağlı dinleyici (Tailscale 'Private' ağı yüzünden genel dinleyici açılmamalı), ASAMA2 yeni PowerShell istemiyor"
   },
   "HTTP ve HTML: SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri": {
-   "durum": "atlandi",
-   "kim": "Claude (Yazar 2)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı, başka yazara kalır"
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Excel'de Antigravity (10-24 03:33'te HT16 commit etti, aktif olabilir)"
   }
  }
 }
