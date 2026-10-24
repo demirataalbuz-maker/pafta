@@ -28,7 +28,20 @@ def names(rules, data):
 # Skip strings/comments so only comparison operators in actual YARA code change.
 _COMPARISON = re.compile(r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*[\s\S]*?\*/|<<|>>|(?P<op><=|>=|<|>)')
 _BOUNDARY_TASKS = (("yr12", 4, 1), ("yr15", 3, 2), ("yr16", 3, 1),
-                   ("yr17", 3, 2), ("yr17", 4, 2), ("yr18", 3, 2), ("yr18", 4, 2))
+                   ("yr17", 3, 2), ("yr17", 4, 2), ("yr18", 3, 2), ("yr18", 4, 2),
+                   ("yr20", 2, 1))
+
+_PE_MUTATIONS = (
+    ("yr19", 2, '"KERNEL32.dll"', '"USER32.dll"'),
+    ("yr19", 2, '"CreateFileW"', '"ReadFile"'),
+    ("yr19", 3, '"LabEntry"', '"OtherEntry"'),
+    ("yr19", 3, "ordinal == 7", "ordinal == 6"),
+    ("yr20", 2, 'name == ".text"', 'name == ".code"'),
+    ("yr20", 2, "pe.SECTION_MEM_EXECUTE", "pe.SECTION_MEM_WRITE"),
+    ("yr20", 3, "for any section", "for all section"),
+    ("yr20", 3, "pe.SECTION_MEM_EXECUTE", "pe.SECTION_MEM_READ"),
+    ("yr20", 3, "pe.SECTION_MEM_WRITE", "pe.SECTION_MEM_READ"),
+)
 
 
 def comparison_mutants(source):
@@ -44,6 +57,17 @@ def comparison_mutants(source):
 
 
 class YaraCurriculumBoundaryTests(unittest.TestCase):
+    def test_pe_lesson_mutants_are_rejected(self):
+        library, runner = Library(), get("yara")
+        for lesson_id, index, old, new in _PE_MUTATIONS:
+            step = library.lesson("yara", lesson_id)["steps"][index]
+            solution = step["solution"]
+            self.assertEqual(solution.count(old), 1, (lesson_id, index, old))
+            with self.subTest(lesson=lesson_id, task=index, mutation=old):
+                result = runner.test(solution.replace(old, new), step)
+                self.assertEqual(result["status"], "fail", result)
+                self.assertTrue(any(not check["ok"] for check in result["checks"]), result)
+
     def test_lesson_boundary_mutants_are_rejected(self):
         """Every audited solution passes, while each of its 12 boundary faults fails."""
         library, runner = Library(), get("yara")
