@@ -2,7 +2,7 @@
 id: bs34
 title: OpenSSH · Bağlanmadan Önce: Ayar ve Sunucu Kimliği
 summary: ssh'ın hangi kullanıcı, adres, port ve anahtarla bağlanacağını bağlanmadan görmek (ssh -G); ssh_config'te ilk eşleşen değerin kazanması, joker Host blokları ve komut satırının önceliği; known_hosts, ssh-keygen -F ile (karma) kayıt aramak, -lf ile parmak izi ve StrictHostKeyChecking.
-kazanim: LPIC1 110.3
+kazanim: LPIC1 105.2
 backend: wsl
 timeout: 60
 ---

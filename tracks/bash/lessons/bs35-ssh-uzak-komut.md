@@ -2,7 +2,7 @@
 id: bs35
 title: OpenSSH · Uzak Komut ve Dosya Akışı
 summary: Ayrılmış bir yerel laboratuvar uç noktasında (sshd -i, ProxyCommand) ssh ile uzak komut çalıştırmak; uzak stdout/stderr ve çıkış kodunun yerel komuta geçişi, 255'in iki anlamı ve çıkış kodunu bant içinde taşımak; uzak kabuğun alıntılamayı ikinci kez yorumlaması ve komutu stdin'den göndermek; scp ve sftp -b ile dosya aktarımı, çıkış kodları ve uzakta sha256 ile doğrulama.
-kazanim: LPIC1 110.3
+kazanim: LPIC1 105.2, LPIC1 103.4, LPIC1 103.2
 backend: wsl
 timeout: 90
 ---
