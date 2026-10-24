@@ -139,9 +139,9 @@
    "not": "Yazar 2'de güvenlik filtresine takıldı (heap/ASan konusu); ders yazılmadı. Excel'de zaten Codex"
   },
   "C: POSIX fd, kısa I/O ve hata akışı": {
-   "durum": "calisiliyor",
-   "kim": "Claude (Yazar 2)",
-   "not": "Kullanıcı onayıyla (10-24); Kali gcc ile gerçek çıktı"
+   "durum": "codex-onerildi",
+   "kim": "Codex (önerildi)",
+   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Ölçümler (Kali gcc 16.2): pipe'ta 7 bayta 64 istenince read 7; yazan uç kapanınca 0; okuyucusuz pipe'a write -1 EPIPE (SIGPIPE yok sayılınca); kapalı fd'de read -1 EBADF; engellemeyen socketpair'e 1 MB write kısa, ikincisi -1 EAGAIN"
   },
   "C: Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı": {
    "durum": "",
