@@ -190,9 +190,10 @@
    "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "C#: Nesne grafiği serializer'larında güvenilmeyen veri akışı": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "CS15; okuma düzeyi korundu (C# kodu okunur, görevler Python'da modellenir), gercek blokları Windows .NET 8.0.31'de birebir ölçüldü. ölçülen: BinaryFormatter .NET 8'de derleme hatası + NotSupportedException; System.Text.Json türü veriye seçtirmiyor ($type tek başına NotSupportedException), [JsonDerivedType] ile kapalı liste dışındaki gerçek alt sınıf bile JsonException. API'nin kapalılığı saklanmadı, binder çözüm diye sunulmadı. C# yolu 17 ders/87 kontrol temiz; mutasyon cs15 7/7, cs16 8/8, cs17 7/7.",
+   "commit": "24a9ded"
   },
   "PHP: unserialize callback ve autoload grafiğini izlemek": {
    "durum": "denetime-hazir",
@@ -414,9 +415,10 @@
    "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
   },
   "C#: XML ayrıştırıcı ayarlarında (XmlReaderSettings / DtdProcessing) DTD ve dış varlık sınırlarını okumak": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "CS17; okuma düzeyi korundu (C# kodu okunur, görevler Python'da modellenir), gercek blokları Windows .NET 8.0.31'de birebir ölçüldü. ölçülen: varsayılan DtdProcessing.Prohibit; Prohibit ve Ignore XmlException; Parse + çözücüsüz DIŞ varlık hata vermeden sessizce boş geliyor; dış kaynak için Parse ve XmlResolver birlikte gerekiyor; XmlResolver yalnız yazılabilir. C# yolu 17 ders/87 kontrol temiz; mutasyon cs15 7/7, cs16 8/8, cs17 7/7.",
+   "commit": "24a9ded"
   },
   "C: Çalışma zamanında dinamik sembol çözme (dlopen/dlsym ve LoadLibrary/GetProcAddress) akışını okumak": {
    "durum": "denetime-hazir",
@@ -491,9 +493,10 @@
    "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
   },
   "C#: Assembly/CIL ve P/Invoke sınırını okumak": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "CS16; okuma düzeyi korundu (C# kodu okunur, görevler Python'da modellenir), gercek blokları Windows .NET 8.0.31'de birebir ölçüldü. ölçülen: Topla IL 02 03 58 2a, P/Invoke yönteminin gövdesi null ve bayrağı PinvokeImpl; CharSet.Ansi'de ğ/ı sessizce 0x3f oluyor ama uzunluk değişmiyor; handle 32 biti aşıyor, olmayan modülde hata 126. Gerçek yerel kütüphane: kernel32 (Windows PE DLL + Windows dotnet). C# yolu 17 ders/87 kontrol temiz; mutasyon cs15 7/7, cs16 8/8, cs17 7/7.",
+   "commit": "24a9ded"
   },
   "PHP: Laravel istek ve yetki zincirini gerçek framework kodunda okumak": {
    "durum": "denetime-hazir",
