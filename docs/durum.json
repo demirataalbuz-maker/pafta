@@ -442,9 +442,10 @@
    "commit": "bd37450"
   },
   "Assembly: Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25) | Claude (Yazar 1): GDB Kali'de kurulu değil; paket kurma kuralı gereği kullanıcı onayı bekleniyor. Diğer üç assembly maddesi c0ef467'de bitti."
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS16; GDB 17.2 kullanıcı onayıyla kuruldu. Okuma düzeyi korundu, iz gerçek GDB'den. Ölçülen: call rcx noktasında rcx=0x40113a ve info symbol -> carp, rdi=6 rsi=7; GDB AT&T ile 'call *%rcx' yazıyor; stepi sonrası prolog çalışmadığı için GDB argümanları a=0 b=0 gösteriyor; finish 42 veriyor. asm yolu 16 ders/82 kontrol temiz; mutasyon 8/9 (biri eşdeğer).",
+   "commit": "as16"
   },
   "purple: Bellek analizi: Volatility 3 / MemProcFS ile süreç, ağ bağlantısı ve enjeksiyon izleri (purple team karşılaştırması, 10-24)": {
    "durum": "codex-opus",
