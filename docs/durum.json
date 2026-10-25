@@ -463,9 +463,10 @@
    "not": "SG21: source::WinEventLog KV_MODE=none tuzağı, 4688 alanları, exists:false tanık kuralı; gerçek pySigma 1.5.1 + Splunk backend 2.1.0 (.deps), gerçek Splunk laboratuvarı; motor: splunk"
   },
   "Sigma: İleri modifierları gerçek hedefte uygulamak": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "SG22 yarım: modifier dönüşümleri ölçüldü (base64offset, wide, windash, re, cidr, fieldref; cased desteklenmiyor), ders yazılmadı"
+   "commit": "(bu commit)",
+   "not": "SG22: modifier'ların Splunk backend çevirisi ve gerçek Splunk davranışı ölçüldü: yalnız base64offset UTF-16LE -enc yükünü kaçırır, wide|base64offset bulur; windash /enc ve tire benzerlerini yakalar; cidr Splunk'ta doğru eşlenir; fieldref harfe duyarlı where'e dönüşür (anlam farkı); cased desteklenmiyor"
   },
   "YARA: Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı": {
    "durum": "claude-alabilir",
