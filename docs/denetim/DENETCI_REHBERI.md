@@ -20,6 +20,26 @@ Pafta, kullanıcının bilgisayarında çalışan, güvenlik işi için dil ve a
 
 Denetlerken sorulacak ana soru: **"THM/HTB'nin bu konuda atladığı kısmı bu ders gerçekten, derinlemesine öğretiyor mu? Bunu bitiren, yolu yalnız platformda yürüyenden daha sağlam mı?"** Yüzeysel bir tekrar (platformun zaten gösterdiğini bir daha göstermek) eksik sayılır. Gerçek araç ve gerçek veri kullanılıyor mu, yoksa oyuncak bir benzetim mi? İş ilanında ve sertifikada (OSCP, CPTS, BSCP, BTL1, SC-200, PCEP/PCAP/PCPP1) karşılığı olan bir beceriye bağlanıyor mu?
 
+### Kullanıcının yürüdüğü yollar ve öncelik
+
+Kullanıcı 25 Ekim 2026'da yalnız purple'a uyan yolları seçti. Sıra (Pafta'daki **Rota** ekranı aynı sırayı gösterir, kaynağı `engine/rota.py`):
+
+| # | Aşama | TryHackMe (ısınma) | HTB Academy (derinlik + sertifika) | Bu aşamada Pafta yolları |
+|---|---|---|---|---|
+| 01 | Giriş | SOC Level 1, Jr Penetration Tester | Junior Cybersecurity Analyst (CJCA) | python, bash, powershell, cmd, http |
+| 02 | Omurga | SOC Level 2, Web Application Pentesting | Penetration Tester (CPTS) + SOC Analyst (CDSA), paralel | sql, regex, php, javascript, java, packets, spl, elastic, ids, yara |
+| 03 | Windows ve AD | Windows IR & Forensics, Advanced Endpoint Investigations | AD Penetration Tester (CAPE) | ad, c, csharp, asm |
+| 04 | Tespit mühendisliği | Defending Azure, Red Teaming | Detection Engineer (CDEP) | sigma, kql, purple |
+| 05 | İsteğe bağlı | Web Application Red Teaming | Wi-Fi Penetration Tester (CWPE) | — |
+| ∥ | Yan yol | — | AI Red Teamer (COAE) | — |
+
+**Eksikleri bu sıraya göre önceliklendir:** kullanıcının şu an bulunduğu aşamaya (Rota'da "ŞİMDİ") dokunan bir eksik, sonraki aşamalardakinden önce gelir. Rapordaki her eksiğe hangi yolda karşısına çıkacağını yaz (ör. "CDSA: Windows adli izleri yok").
+
+Denetçinin 25 Ekim'de bulduğu, bu yollara göre boşluklar (ASAMA2'de henüz madde değil, kullanıcı onayı bekliyor):
+- **CDSA:** Windows adli izleri (registry hive'ları, Prefetch, MFT, LNK, zaman çizelgesi); oltalama e-postası analizi (başlık, SPF/DKIM, ek).
+- **CPTS:** Linux yetki yükseltmenin altı (SUID, sudo, cron, PATH); parola özeti biçimleri.
+- **CDSA/CDEP:** bekleyen 91 (ATT&CK eşleme), 92 (Atomic ile tespit ölçme), 95 (bellek analizi) öne çekilmeli.
+
 ## 2. Dosya düzeni
 
 ```
@@ -30,6 +50,7 @@ engine/
   runners.py            her yol için koşucu; for_step() adımın meta'sına göre doğru koşucuyu seçer
   progress.py           öğrencinin ilerlemesi
   sinav.py              sınav ve tahmin çalıştırma
+  rota.py               Rota ekranı: aşamalar ve THM/HTB ilerlemesi (%LOCALAPPDATA%\Pafta\rota.json)
 tracks/<yol>/
   track.json            yolun sırası, modüller, rütbeler, runner, kazanım listesi
   lessons/*.md          dersler (bir ders bir dosya)
@@ -144,6 +165,7 @@ Bir denetim betiği de aynı yolu izlemeli: `runners.for_step(runners.get(track[
 - **`ASAMA2.md`:** 104 madde. Her biri bir eksikliği tarif eder: **neden** (sahada neye yarar), **ne gerekir** (dersin içermesi gereken), **kurulum**, **kabul**. Denetimin ölçütü bu sütunlardır, dersin kendi iddiası değil.
 - **`DENETIM.md` → "Aşama 2 durum tablosu":** her maddenin yazarı ve durumu (`bekliyor · yazılıyor · denetlendi · geri döndü`). Bu tablo **bayatlayabilir**: dersi commit'lenmiş birçok madde hâlâ "bekliyor" görünüyor (23–30, 35–36, 38–48, 50, 55–60). Durumu tablodan değil `git log`'dan ve ders dosyasından doğrula.
 - **`docs/CALISMA_PANOSU.md`:** kim neyi yapıyor; aynı işin iki kez yapılmaması için.
+- **Rota ekranı** (uygulamada üst menü): kullanıcının Pafta + THM + HTB ilerlemesini birlikte izlediği yer. Pafta sütunu derslerden hesaplanır, THM/HTB yüzdesini kullanıcı girer. Denetçi buna dokunmaz; yalnız önceliklendirmede okur.
 - **`Pafta_Takip.xlsx`:** kullanıcının baktığı yer. Her denetimden sonra `python -X utf8 tools/takip_excel.py` ile yeniden üretilir.
 
 ### Ajanlar
