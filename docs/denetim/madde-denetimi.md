@@ -380,3 +380,100 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
   - Alan düzeyinde yetki: `secret` alanının sahibe göre görünmesi.
 - **Eksikler:** bulmadım.
 - **Karar:** **Tam.**
+
+> Madde 31–40 toplu ölçüm: 10 ders (SQ19–SQ22, KQ22–KQ24, SP21–SP23), validate iki ortamda temiz (87 denetim), 12 tahminin hepsi uyuşuyor. SQL ve KQL mutasyonunda 72 mutantın 70'i yakalandı. SPL mutasyonu her mutantta gerçek Splunk'a yeniden veri yüklediği için saatler sürüyor; sonucu madde 45–48 bölümünün başına eklendi.
+>
+> **Kayıt eksiği:** 35, 36, 38, 39 ve 40'ın dersleri (KQ23, KQ24, SP21, SP22, SP23) commit'li, ama DENETIM'de durumları "bekliyor". Bu beş ders **benim**; durumu güncellemeyi unutmuşum.
+
+## Madde 31 · SQL · SQLite dışındaki lehçeler gerçek motorlarda
+
+- **Ders:** SQ22 (`05b1a4e`, `aef27d3`, `99b8b97`).
+- **Denetim:** validate, tahmin ve mutasyon temiz (2/2).
+- **Karşılananlar:** gerçek PostgreSQL ve MariaDB motorları (`motor: postgres` / `mariadb`). `LIMIT`/`FETCH`, `||` ile `CONCAT`, `::` ile `CAST`, `information_schema` farkları. SQLite korunmuş.
+- **Eksikler:**
+  - ASAMA2 **"MySQL ve SQL Server için sürümü sabit yerel servis/imaj"** istiyor. İkisi de yok; SQL Server'ın `TOP` sözdizimi yalnız anlatıda geçiyor.
+  - MariaDB'nin MySQL'den farkı anılıyor, ama gerçek bir MySQL ile karşılaştırma yok.
+- **Karar:** **Kısmen.**
+
+## Madde 32 · SQL · Uygulama girdisinden SQL'e veri akışı ve parametre bağlama
+
+- **Ders:** SQ19 (`3234635`).
+- **Denetim:** validate, tahmin ve mutasyon temiz. Testler sınır değerlerini (71/72/73), tırnağı, NULL'u ve boş metni tek tek deniyor.
+- **Karşılananlar:** formdan metin olarak gelen eşik; `CAST` tuzağı (`'abc'` → 0, `'12abc'` → 12); NULL ve boş değer; izinli sıralama alanı; joker karakterin kaçırılması.
+- **Eksikler:**
+  - ASAMA2 **"küçük yerel uygulama–DB köprüsü"** istiyor. Görevler saf SQL: "formdan gelen" değer bir tabloya önceden yazılmış olarak duruyor. Uygulama tarafında gerçek parametre bağlama (Python `sqlite3` ile `?`, `execute(sql, params)`) ya da birleştirilmiş metinle bağlanmış parametrenin karşılaştırması bir görevde yok.
+  - Java/PHP/C# derslerindeki güvenli sorgulara köprü kurulmamış.
+- **Karar:** **Kısmen.**
+
+## Madde 33 · SQL · Veritabanı rolleri ve etkili yetkiler
+
+- **Ders:** SQ21 (`05b1a4e`, `c48f84a`).
+- **Denetim:** validate ve tahmin temiz. Çözümler DDL olduğu için mutant üretilmedi. Testler `yapabilir(rol, sql)` ile sorguyu gerçekten o rol olarak çalıştırıyor ve reddedilmesini bekliyor.
+- **Karşılananlar:** gerçek PostgreSQL. `LOGIN`/`NOLOGIN`, rol üyeliği ve `INHERIT`/`NOINHERIT`, `GRANT`/`REVOKE`, sütun düzeyi yetki, `PUBLIC`. Sequence yetkisi tuzağı. Yetkisiz okuma, yazma, güncelleme ve silmenin gerçekten reddedilmesi.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
+
+## Madde 34 · SQL · SQL içinden JSON kayıtlarını sorgulamak
+
+- **Ders:** SQ20 (`a0290ad`).
+- **Denetim:** validate, tahmin ve mutasyon temiz (2/2).
+- **Karşılananlar:** SQLite `json_extract`, `->`/`->>`, `json_each`, `json_type`. Olmayan anahtar, JSON null ve SQL NULL ayrımı; bozuk JSON; `"3"` metni ile `3` sayısının farkı.
+- **Eksikler:**
+  - ASAMA2 **"PostgreSQL jsonb için ayrı görevler"** istiyor. jsonb yalnız bir karşılık tablosunda; ders "burada çalışmaz" diyor. Oysa projede gerçek PostgreSQL motoru var (SQ21–SQ22 kullanıyor). jsonb görevi yok.
+- **Karar:** **Kısmen.**
+
+## Madde 35 · KQL · Sentinel/Defender şemaları ve watchlist
+
+- **Ders:** KQ24. **Yazar 2: dersi ben yazdım, çıkar çatışması var.**
+- **Denetim:** validate, tahmin ve mutasyon temiz (5/5).
+- **Karşılananlar:** gerçek alan adlarıyla anonim `SigninLogs`, `DeviceProcessEvents`, `DeviceNetworkEvents` örnekleri; `_GetWatchlist` karşılığı ve `SearchKey`; yönetici hesapları, Office'ten açılan kabuk, kötü IP listesi.
+- **Eksikler:**
+  - ASAMA2'nin istediği **canlı doğrulama (tenant/ürün bağlantısı) yok.** Abonelik gerektiği için beklenen bir sınır, ama sorgular gerçek Sentinel'de hiç çalıştırılmadı.
+  - Sorgular yerel motorda (SQLite'a çeviri) çalışıyor; gerçek Kusto'da sınanmadı.
+- **Karar:** **Kısmen** (canlı doğrulama dış bağımlılık). Çıkar çatışması notuyla.
+
+## Madde 36 · KQL · mv-apply ve bag_unpack
+
+- **Ders:** KQ23. **Yazar 2: dersi ben yazdım, çıkar çatışması var.**
+- **Denetim:** validate, tahmin ve mutasyon temiz (11/11).
+- **Karşılananlar:** `mv-apply` ile her dizide alt sorgu (en yavaş iki ölçüm); boş dizide kaydı kaybetmemek; `bag_unpack` ve sütunların veriye bağlı olması.
+- **Eksikler:**
+  - ASAMA2 **"önce KQ21'deki gerçek Kusto bağlantısında görev"** diyor. Ders gerçek Kusto'da değil; SQLite'a çeviren yerel motorda çalışıyor. Ders bunu açıkça yazıyor; alt sorguda yalnız birkaç işleç destekleniyor.
+  - Yerel motora eklendiği hâlde ASAMA2'nin istediği **`OutputSchema`** ve **tür uyuşmazlığı** testleri yok. Eksik özellik ve boş dizi var.
+- **Karar:** **Kısmen.** Çıkar çatışması notuyla.
+
+## Madde 37 · KQL · Avcılık sorgusundan zamanlanan Sentinel kuralına
+
+- **Ders:** KQ22 (`13fd071`, `e0a8e37`).
+- **Denetim:** validate ve tahmin temiz. Mutasyonda 51 mutantın 49'u yakalandı. Geçen 2'si `range ... to` bitiş saatleri; eşdeğer (yeni adım eklemiyor ya da olaysız çalıştırma ekliyor).
+- **Karşılananlar:** çalıştırma sıklığı ile lookback'in kurduğu pencere dizisi; kaçan ve iki kez sayılan olaylar; geç gelen kayıt ve `ingestion_time`; eşik.
+- **Eksikler:**
+  - ASAMA2'nin istediği **gerçek Sentinel'de kural önizlemesi/çıktı karşılaştırması yok** (abonelik gerekiyor). DENETIM'de de "yerel benzetim" olarak not edilmiş.
+  - Entity mapping yalnız bir kez anılıyor; görevde yok.
+- **Karar:** **Kısmen.**
+
+## Madde 38 · SPL · Gerçek log alımı, olay sınırı ve zaman
+
+- **Ders:** SP21. **Yazar 2: dersi ben yazdım, çıkar çatışması var.**
+- **Denetim:** validate ve tahmin temiz; mutasyon sonucu 45–48 bölümünde.
+- **Karşılananlar:** gerçek Splunk Enterprise'ta `props.conf`: `LINE_BREAKER`, `SHOULD_LINEMERGE`, `TIME_PREFIX`, `TIME_FORMAT`, `MAX_TIMESTAMP_LOOKAHEAD`, `TZ`. Ham örnek dosyalar; alınan olay sayısının ve `_time`'ın doğrulanması.
+- **Eksikler:** bulmadım. Bağımsız gözle bakılmalı.
+- **Karar:** **Tam** (çıkar çatışması notuyla).
+
+## Madde 39 · SPL · CIM ve tstats gerçek veri modelinde
+
+- **Ders:** SP23. **Yazar 2: dersi ben yazdım, çıkar çatışması var.**
+- **Denetim:** validate ve tahmin temiz; mutasyon sonucu 45–48 bölümünde.
+- **Karşılananlar:** gerçek Splunk'ta veri modeli ve `tstats`; `summariesonly` ile ham sonucun karşılaştırılması; hızlandırma ve özet kapsamı; SQLite ile hız iddiası yok.
+- **Eksikler:**
+  - ASAMA2 **Authentication/Endpoint** verisi istiyor; ders **Web** modelini kullanıyor. Authentication senaryosu yazılırken güvenlik filtresine takıldım ve modeli değiştirdim. Endpoint de yok.
+  - (Karşılanan: resmi CIM eklentisi `Splunk_SA_CIM` 8.5.0 laboratuvarda kurulu ve sürümü yazılı.) Eklentinin kurulumu otomatik değil, Splunkbase hesabıyla elle indiriliyor. Başka makinede kurulum için madde 1'deki kurulum betiği eksiğiyle bağlantılı.
+- **Karar:** **Kısmen.** Çıkar çatışması notuyla.
+
+## Madde 40 · SPL · Zamanlanan alarm, tetikleme ve bastırma
+
+- **Ders:** SP22. **Yazar 2: dersi ben yazdım, çıkar çatışması var.**
+- **Denetim:** validate ve tahmin temiz; mutasyon sonucu 45–48 bölümünde. Önceden bilinen kararsızlık: bir tahmin yaklaşık 8 çalıştırmada bir farklı çıkıyor (yalnız gösterim).
+- **Karşılananlar:** gerçek `savedsearches.conf`; `cron_schedule` ile `dispatch.earliest/latest_time`'ın boşluksuz ve çakışmasız pencere dizisi; `counttype`/`relation`/`quantity` ile eşik altı, eşit ve üstü; iki varlık; `alert.suppress` ve `fields` ile varlık başına bastırma.
+- **Eksikler:** tahmin kararsızlığı (küçük).
+- **Karar:** **Tam** (küçük notla; çıkar çatışması notuyla).
