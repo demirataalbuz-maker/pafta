@@ -249,3 +249,134 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
   - Boş seçim, bozuk ve eksik kaynak; aşamaya göre ayrı hata kodları.
 - **Eksikler:** bulmadım.
 - **Karar:** **Tam.**
+
+> Madde 21–30 toplu ölçüm: 14 ders (CM21–CM25, HT16–HT24), validate iki ortamda temiz (74 denetim), 14 tahminin hepsi uyuşuyor, mutasyonda 250 mutantın 211'i yakalandı.
+>
+> CMD derslerinde geçen mutantların çoğu `2>nul` → `3>nul` ya da `>&2` → `>&3`. Bunlar yalnız stderr'in nereye gittiğini değiştiriyor; eşdeğer sayıldı. Eşdeğer olmayanlar maddesinde ayrıca yazılı.
+>
+> **Kayıt eksiği:** madde 23, 24, 25, 26, 27, 29 ve 30 için dersler (CM25, HT17–HT24) HEAD'de commit'li. Buna rağmen `DENETIM.md`'de bu maddelerin durumu hâlâ "bekliyor"; madde 29'da "Yazar 2'de filtreye takıldı" yazıyor. Durum sütunu güncel değil.
+
+## Madde 21 · CMD · Servis, zamanlanmış görev ve Registry sorgusu
+
+- **Dersler:** CM21–CM22 (`8a64430`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. Geçen 3 mutant `2>nul`; eşdeğer.
+- **Karşılananlar:**
+  - Önce örnek çıktılar, sonra gerçek `sc.exe qc`, `schtasks /query /fo CSV`, `reg query /v` ve `/f /e /c`.
+  - Doğrulama yerel `sc.exe` ile bağımsız olarak yapılıyor.
+  - Olmayan servis, görev ve değer için hata kodu sınanıyor.
+- **Eksikler:** ASAMA2 **"boş/erişilemeyen sonuç"** istiyor. Olmayan kayıt sınanıyor, ama **erişim reddi** (korunan bir anahtar ya da servis; `Access is denied`) hiç sınanmıyor. Küçük.
+- **Karar:** **Kısmen** (küçük).
+
+## Madde 22 · CMD · Token, grup, ayrıcalık ve icacls
+
+- **Dersler:** CM23–CM24 (`9ca6432`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz.
+  - **CM23'ün hata yolu hiç sınanmıyor.** CM23:3'te 4 mutantın 4'ü geçti. Görev 3, 4 ve 5'te `exit /b 1` → `2` ve `>&2 echo token-hatasi` mutantları geçiyor. `whoami` başarısız olduğunda verilecek çıkış kodu ve mesaj hiçbir testte yok.
+  - CM24:4'te geçen 4 mutant `2>nul`; eşdeğer.
+- **Karşılananlar:**
+  - `whoami /user /groups /priv` CSV olarak; Everyone SID'i.
+  - Yönetici grubunun "deny only" ya da etkin olması; bütünlük seviyesi SID'leri.
+  - `icacls` ile özel karakterli yol.
+  - Gerçek okuma tanığı: `type` ile alınan baytlar kaynakla karşılaştırılıyor.
+- **Eksikler:**
+  - **Yalnız başarılı erişim tanığı var.** Anlatı `(DENY)`'den bahsediyor, ama hiçbir görevde DENY ACE'li bir dosyanın okunamadığı gösterilmiyor. ASAMA2 "hazır klasör/hesap bağlamları" istiyor; yalnız geçerli hesap kullanılıyor. Madde 15'teki eksikle aynı.
+  - CM23 hata yolunun testi yok (yukarıda).
+- **Karar:** **Kısmen.**
+
+## Madde 23 · CMD · Sigcheck/Autorunsc ile karşılaştırmalı envanter
+
+- **Ders:** CM25. **Yazar 2: dersi ben yazdım, çıkar çatışması var.** DENETIM durumu güncel değil ("bekliyor").
+- **Denetim:** validate ve tahmin temiz. CM25:4'te geçen 2 mutant `type nul > eski_anahtar.txt` / `yeni_anahtar.txt` satırları. Bu dosyaların oluşturulması hiçbir sonucu etkilemiyor; **ölü kod**. Küçük temizlik.
+- **Karşılananlar:**
+  - Gerçek `sigcheck64.exe` ve `autorunsc64.exe` (`-accepteula`, `-c` CSV).
+  - Sürüm notu (2.93).
+  - İmzası sorunlu yürütülebilirleri ayırmak; iki başlangıç envanterini karşılaştırmak.
+  - Hata kodları sınanıyor. Çevrimiçi (VirusTotal) sorgu yok; ASAMA2 de istemiyor.
+- **Eksikler:** sürüm sabitleme yalnız notta; araçlar `.deps`'te değil, kurulum betiği yok (madde 1'deki genel eksikle bağlantılı). Bağımsız gözle bakılmalı.
+- **Karar:** **Tam** (çıkar çatışması notuyla).
+
+## Madde 24 · HTTP · Burp Proxy → History → Repeater
+
+- **Ders:** HT17 (Codex). DENETIM durumu güncel değil.
+- **Denetim:** validate ve tahmin temiz. HT17:2'de geçen 3 mutant girdi doğrulamasının sınırları (`or`→`and` tür denetimi, karakter kodu 32/33). Küçük test boşlukları.
+- **Karşılananlar:**
+  - Ders süresince yaşayan ve sıfırlanabilen kalıcı lab sunucusu (`--port 8769`, `reset`); Kali'deki Burp için yönerge.
+  - Anlatıda gerçek Burp adımları: Open browser, History, Send to Repeater.
+  - Görevlerde aynı oturumla tek değişkeni (hedefi) değiştirip yeniden üretmek; olay kaydıyla kanıt.
+- **Eksikler:**
+  - **Burp'ün kendisi hiçbir yerde ölçülmüyor.** Ders de bunu açıkça söylüyor ("Burp'un sekmelerini otomatik testler göremez"). Görevler Python `lab.request` ile yapılıyor. `docs/http-lab.md`'deki Burp kabul listesi elle. Madde adındaki "Burp iş akışı" otomatik kanıtla karşılanmıyor; öğrencinin Burp'ü gerçekten kullandığına dair bir tanık (ör. Burp'ten dışa aktarılan istek/yanıt dosyasının ayrıştırılması) yok.
+- **Karar:** **Kısmen.**
+
+## Madde 25 · HTTP · curl ile HTTPS, CA ve hostname doğrulaması
+
+- **Ders:** HT18 (Codex). DENETIM durumu güncel değil.
+- **Denetim:** validate ve tahmin temiz. HT18:2'de geçen 4 mutant yol doğrulamasındaki karakter sınırları (127/DEL, 32/33). HT18:3'te 24 mutantın hepsi yakalandı.
+- **Karşılananlar:**
+  - Yerel TLS ucu ve ders sertifikaları (`http_tls_lab.py`); çağrıya özel `--cacert`.
+  - Bilinmeyen CA ve yanlış hostname (60), TLS bağlantı hatası (35), başarılı doğrulama, `--resolve`.
+  - `-k`/`--insecure` tuzağı; HTTP hatasını TLS hatasından ayırmak.
+- **Eksikler:** yalnız yol doğrulamasının sınır testleri (küçük).
+- **Karar:** **Tam.**
+
+## Madde 26 · HTTP · Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF
+
+- **Dersler:** HT19–HT20 (Codex). DENETIM durumu güncel değil.
+- **Denetim:** validate ve tahmin temiz. HT19:2'de geçen 1 mutant `wildcard_get` sayımındaki `and`→`or`; küçük.
+- **Karşılananlar:**
+  - **Gerçek tarayıcı:** Edge/Chromium ve playwright-core (`http_browser_lab.py`).
+  - İki origin; preflight `OPTIONS` ve okunabilirlik sonucu.
+  - Oturuma bağlı CSRF jetonu: başka oturumun jetonu reddediliyor ve revizyon değişmiyor, yani yazma gerçekten durmuş.
+  - SameSite deneyi farklı **site** bağlamında yapılıyor (`app.pafta.test` / `evil.other.test`), yalnız farklı port değil.
+- **Eksikler:**
+  - SameSite gerçek tarayıcıda yalnız **tahmin** adımında gösteriliyor; görevlerde değil. Görevler Python istemcisiyle yapılıyor.
+  - "Network gözlemi" sunucu tarafı olay listesinden okunuyor; tarayıcının kendi ağ kaydı (DevTools/HAR) kullanılmıyor. Küçük.
+- **Karar:** **Tam** (küçük notlarla).
+
+## Madde 27 · HTTP · İki hesaplı nesne yetkilendirme matrisi
+
+- **Ders:** HT21 (Codex). DENETIM durumu güncel değil.
+- **Denetim:** validate ve tahmin temiz; mutantların hepsi yakalandı.
+- **Karşılananlar:**
+  - A, B ve oturumsuz hesap; farklı sahiplikteki kayıtlarda GET ve PATCH matrisi (12 hücre).
+  - "Değişti" bilgisi HTTP kodundan değil durumun kendisinden türetiliyor.
+  - Olay kaydı ve revizyon sayısı sınanıyor.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
+
+## Madde 28 · HTTP · JWT, imza doğrulama tuzakları ve OAuth2/OIDC
+
+- **Ders:** HT16 (`7ee458e`).
+- **Denetim:** validate ve tahmin temiz; mutasyonda 43 mutantın hepsi yakalandı.
+- **Karşılananlar:**
+  - Katı JWT doğrulayıcı (RFC 7519/8725): `alg`, imzasız token, süresi dolmuş token, yanlış audience.
+  - `redirect_uri`/`state` denetçisi ve PKCE S256 (RFC 9700/7636).
+  - Yerel sahte IdP ve kaynak sunucusuyla uçtan uca istemci.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
+
+## Madde 29 · HTTP · SSRF, URL ayrıştırıcı farkları ve yönlendirme zinciri
+
+- **Ders:** HT22 (Codex). DENETIM durumu güncel değil ("Yazar 2'de filtreye takıldı" yazıyor, ama ders yazılmış).
+- **Denetim:** validate ve tahmin temiz. HT22:3'te 22 mutantın 9'u geçti:
+  - **`max_redirects=3` → `4` geçiyor:** yönlendirme sınırı hiç sınanmıyor. Sonsuz ya da uzun zincirde durmak SSRF savunmasının parçası.
+  - `300 <= status <= 399` sınırları (300 ve 399) sınanmıyor.
+  - `Location` içindeki denetim karakteri kontrolü sınanmıyor.
+  - HT22:2'de URL karakter sınırları (32/127) sınanmıyor.
+- **Karşılananlar:**
+  - İki loopback hizmetiyle dış/iç hedef benzetimi.
+  - 301/302/307/308 zinciri; her hop'ta yeniden doğrulama; yöntemin bilinçli taşınması.
+  - `urllib.parse` farkları (`127.1`, `2130706433`, `\@`, userinfo, `#`).
+  - DNS rebinding ve IDNA'nın kapsam dışı olduğu açıkça yazılmış.
+- **Eksikler:** yönlendirme sınırının ve durum kodu sınırlarının testi yok (yukarıda).
+- **Karar:** **Kısmen** (test boşluğu; içerik tam).
+
+## Madde 30 · HTTP · WebSocket (101) ve GraphQL
+
+- **Dersler:** HT23–HT24 (Codex). DENETIM durumu güncel değil.
+- **Denetim:** validate ve tahmin temiz. HT23'te 15 mutantın hepsi yakalandı. HT24'ün çözümleri sorgu metni, bu yüzden mutant üretilmedi. Testler, metni gerçek `graphql-core` motoruna ve lab'e çalıştırarak doğruluyor.
+- **Karşılananlar:**
+  - Gerçek soket üzerinden el sıkışma ve 101 kanıtı (`Sec-WebSocket-Accept`), maskeli text çerçevesi, `Origin`.
+  - GraphQL: parametreli sorgu (değer `variables` içinde), introspection, mutation hatasını `errors` içinden okumak.
+  - Alan düzeyinde yetki: `secret` alanının sahibe göre görünmesi.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
