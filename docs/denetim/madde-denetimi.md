@@ -477,3 +477,192 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
 - **Karşılananlar:** gerçek `savedsearches.conf`; `cron_schedule` ile `dispatch.earliest/latest_time`'ın boşluksuz ve çakışmasız pencere dizisi; `counttype`/`relation`/`quantity` ile eşik altı, eşit ve üstü; iki varlık; `alert.suppress` ve `fields` ile varlık başına bastırma.
 - **Eksikler:** tahmin kararsızlığı (küçük).
 - **Karar:** **Tam** (küçük notla; çıkar çatışması notuyla).
+
+> Madde 41–50 toplu ölçüm:
+>
+> - **Elastic:** 8 ders (EL20–EL27), gerçek Elasticsearch/Kibana 9.5.5 (Basic). Validate temiz, ama **ilk çalıştırmada EL20 ve EL21 "Yerel Elastic API erişilemiyor: timed out" ile düştü.** O sırada başka bir arka plan işi Splunk'ı yüklüyordu; yeniden denemede ikisi de geçti. Yük altında zaman aşımı kararsızlığı var. 8 tahminin hepsi uyuşuyor; mutasyonda 43 mutantın hepsi yakalandı. EL20, EL21 ve EL27'nin çözümleri JSON/ES|QL belgesi olduğu için genel araç mutant üretmedi; bunlar için projenin kendi `tools/audit_elastic_mutations.py` aracı var.
+> - **YARA:** 4 ders (YR19–YR22). Validate temiz, 4 tahminin hepsi uyuşuyor, 38 mutantın hepsi yakalandı.
+> - **Sigma:** SG19–SG22. Ölçüm aşağıda maddelerinde.
+>
+> **Kayıt eksiği:** 41–48 ve 50 için dersler snapshot'ta var. Buna rağmen DENETIM'de durumları "bekliyor".
+
+## Madde 41 · Elastic · Gerçek telemetri alımı, ECS ve ingest eşlemesi
+
+- **Dersler:** EL20–EL21 (Codex).
+- **Karşılananlar:**
+  - Gerçek Elasticsearch'te dosyadan ingest pipeline; `_simulate`; ECS alanları ve `event.category` sınıflandırması.
+  - Hatalı mapping kanıtı: 32 bit sayı taşması, zaman dilimi ve tarih ayrıştırma hatası. Eksik alan.
+  - Gerçek üst süreç gözlemi ile telemetri.
+- **Eksikler:**
+  - **Elastic Agent yok.** Ders Elastic Agent ya da Sysmon olayı olmadığını açıkça söylüyor. ASAMA2 "Elastic Agent **veya** dosya alımı" dediği için şart karşılanıyor, ama ajan tabanlı alım öğretilmiyor.
+  - Yük altında zaman aşımı kararsızlığı (yukarıda).
+- **Karar:** **Tam** (notlarla).
+
+## Madde 42 · Elastic · EQL işlevleri ve gerçek backend
+
+- **Dersler:** EL22–EL23 (Codex).
+- **Karşılananlar:** gerçek `_eql` API'si; `endsWith`, `between`, ayırıcı tuzağı; `sequence`, `until`, `maxspan`, eksik olay (`!`); yerel tezgaha sessiz dönüş yok.
+- **Eksikler:** ASAMA2 **"mevcut tahminleri de aynı veri/mapping ile karşılaştıran otomatik denetim"** istiyor. EL13–EL18'deki yerel EQL tahminlerini gerçek Elasticsearch'te çalıştırıp sonucu karşılaştıran bir araç bulamadım. `tools/test_elastic_integration.py` yalnız tahmin çağrısının çalıştığını sınıyor; yerel ile gerçek motoru karşılaştırmıyor.
+- **Karar:** **Kısmen.**
+
+## Madde 43 · Elastic · Security tespit kuralı olarak işletmek
+
+- **Dersler:** EL24–EL25 (Codex).
+- **Karşılananlar:**
+  - Gerçek Kibana'da custom query (`kuery`) ve event correlation (`type: eql`) kuralı.
+  - `interval` ile `from` farkı; threshold; gerçek exception list.
+  - Lisans açıkça belirtilmiş (Basic, 9.5.5); kural yetkisi ve API anahtarı anlatılıyor.
+- **Eksikler:** görevler kuralı **devre dışı** kaydedip tek bir **önizleme** yürütmesiyle ölçüyor. Gerçek zamanlayıcının çalıştırdığı etkin kural ve operational alarm indeksi yalnız "teslim kabul betiği"nde ölçülüyor; öğrenci görevinde değil. Ders bu ayrımı açıkça yazıyor. Küçük.
+- **Karar:** **Tam** (küçük notla).
+
+## Madde 44 · Elastic · ES|QL ile toplama ve dönüştürme
+
+- **Dersler:** EL26–EL27 (Codex). ASAMA2'de bu madde için ayrıntılı satır yok.
+- **Karşılananlar:** gerçek `_query` API'si; `STATS`, `EVAL`, `KEEP`, `SORT`, `WHERE`; çok değerli alanlar; `null` ile kullanıcı yokluğunun korunması; boş girdi.
+- **Eksikler:** `DISSECT`/`GROK` ile metin ayrıştırma yok. ASAMA2 istemiyor; bilgi notu.
+- **Karar:** **Tam.**
+
+## Madde 45–48 · Sigma
+
+**SG19–SG22'nin dördünü de ben yazdım; çıkar çatışması var.** Bu eksikleri kullanıcıya daha önce sözlü olarak bildirmiştim; burada kayda geçiriyorum. DENETIM'de dört maddenin durumu da "bekliyor"; güncel değil.
+
+Ölçüm: SG19–SG22 validate'i Git Bash'te temiz (18 denetim); 4 tahminin hepsi uyuşuyor. PowerShell'deki ikinci validate ile SPL/Sigma mutasyonu gerçek Splunk'ta saatler sürüyor; sonuçları bu raporun sonuna ayrı bir ek olarak yazılacak.
+
+Dört maddede ortak eksik: **altyapı testi yok.** `tools/test_sigma_runtime.py` yalnız yerel Sigma eşleştiricisini sınıyor. Splunk'a çeviren koşucu (`SigmaSplunkRunner`: pipeline seçimi, `kural`/`pipeline` girdisi, veri yükleme) için hiçbir test yok.
+
+### Madde 45 · sigma-cli, gerçek backend ve processing pipeline
+
+- **Ders:** SG19 (tek görev).
+- **Karşılananlar:** gerçek pySigma Splunk backend'i; `sysmon`, `windows` ve `splunk_windows` pipeline'ları; öğrencinin kendi pipeline'ını yazması. Üretilen sorgu, gerçek Splunk'ta aynı olaylarla sınanıyor.
+- **Eksikler:**
+  - **sigma-cli hiç kullanılmıyor.** Madde adında ve ASAMA2'de var. Öğrenci `sigma convert` komutunu hiç çalıştırmıyor; dönüşümü tezgah pySigma kütüphanesiyle arka planda yapıyor.
+  - **Yalnız Splunk.** NEDEN satırı "Splunk/Elastic/Sentinel" diyor. Projede gerçek Elasticsearch 9.5.5 ve KQL motoru var, ama Elastic ya da Kusto backend'i hiç yok.
+- **Karar:** **Kısmen.**
+
+### Madde 46 · Çalıştırılan korelasyon kuralları
+
+- **Ders:** SG20.
+- **Karşılananlar:** `event_count` ve `value_count` korelasyonları gerçek Splunk'ta çalışıyor; `group-by`, `timespan`. Splunk backend'inin sabit zaman kutuları kurduğu (kayan pencere değil) ve sınırın iki yanına düşen olayların sayılmadığı gösteriliyor. Aynı adrese yinelenen bağlantılar `value_count` ile ayrılıyor.
+- **Eksikler:**
+  - **Zamansal korelasyon (`temporal` / `temporal_ordered`) hiç yok.** NEDEN satırı "zamansal ilişkiyi yazıp gerçekten çalıştırmak" diyor; GEREKİR satırı "sıra" testleri istiyor.
+- **Karar:** **Kısmen.**
+
+### Madde 47 · Gerçek olaydan kurala telemetri doğrulaması
+
+- **Ders:** SG21.
+- **Karşılananlar:** kural sessizse üç nedenin ayrılması: kanal toplanmıyor, alan çıkarılmıyor (`KV_MODE=none` / `INDEXED_EXTRACTIONS`), alan hiç yazılmıyor. Sysmon kuralını 4688 alanlarına uyarlamak; kör noktayı bulan tanık kuralı.
+- **Eksikler:**
+  - **Gerçek EVTX/XML yok.** Olaylar sentetik JSON. ASAMA2 "sürümü belli EVTX/XML örneklerini normalleştirmek" istiyor. Projede EVTX fixture üreticisi (`ps_evtx_fixtures.py`) var, kullanılmamış.
+  - PS21/PS27'deki olay okuma bilgisine köprü kurulmamış.
+- **Karar:** **Kısmen.**
+
+### Madde 48 · İleri modifier'lar gerçek hedefte
+
+- **Ders:** SG22.
+- **Karşılananlar:** her modifier'ın Splunk'ta neye dönüştüğü ölçülmüş ve tabloya yazılmış. Görevlerde `windash`, `wide|base64offset` (gerçek UTF-16LE PowerShell yükü) ve `cidr` (ağların son adresleri dahil). `fieldref`'in Splunk'ta harfe duyarlı `where`'e dönüşmesi ve `cased`'in desteklenmemesi gösteriliyor.
+- **Eksikler:**
+  - **`re` ve `fieldref` görevde yok.** `fieldref` yalnız tahmin adımında, `re` yalnız tabloda. Görev sayısı 2.
+  - `utf16le`/`utf16be` (NEDEN satırında adı geçiyor) ayrı bir görevde yok; yalnız `wide` kullanılıyor.
+- **Karar:** **Kısmen.**
+
+
+## Madde 49 · YARA · PE import/export ve bölüm özellikleri
+
+- **Dersler:** YR19–YR20 (`b4b7432`).
+- **Karşılananlar:** gerçek libyara `pe` modülü; `pe.imports` DLL+işlev çifti (harf büyüklüğü, başka DLL); export adı ve ordinal; `pe.sections` ile bölüm adı, yürütme ve yazma biti, tam eşik.
+- **Eksikler:**
+  - ASAMA2 **"farklı derleyici/32–64 bit örnekleri"** istiyor. Örnekler `yara_pe_fixtures.pe_fixture()` ile Python'da sentezleniyor. Gerçek bir derleyicinin (MSVC/MinGW) çıktısı yok; `pe.is_32bit`/`is_64bit`/`machine` hiçbir görevde yok.
+  - Bozuk başlık tanığı zayıf: "bozuk" yalnız bir kez geçiyor. Eksik import tablosu görevde ayrıca sınanmıyor.
+- **Karar:** **Kısmen.**
+
+## Madde 50 · YARA · ELF ve .NET modülleri
+
+- **Dersler:** YR21–YR22. DENETIM durumu güncel değil.
+- **Karşılananlar:**
+  - `elf` modülü: mimari, `ET_DYN`/`ET_EXEC`, salt okunur bölüm ve sınır. Örnekler gcc ile derlenmiş.
+  - `dotnet` modülü: assembly adı ve kapsayıcı sürüm aralığı; namespace dahil sınıf kimliği. Örnekler kurulu .NET 8 SDK ile derlenmiş, çalıştırılmıyor.
+  - Native PE ve ELF'in managed sayılmadığı tanıklar.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
+
+> Madde 51–60 toplu ölçüm: 15 ders (RX23–RX24, PK19–PK29, AD13–AD14), validate temiz (87 denetim), 15 tahminin hepsi uyuşuyor, mutasyonda **78 mutantın hepsi yakalandı**. Bazı adımlarda mutant üretilmedi; bunlar yalnız desen ya da filtre metninden oluşan çözümler. Bu adımların testleri çözümü gerçek motorda (PCRE2, .NET, Node, TShark) çalıştırıyor.
+>
+> **Kayıt eksiği:** madde 55–60 için dersler (PK19–PK29, AD13–AD14) snapshot'ta var. Buna rağmen `DENETIM.md`'de durumları "bekliyor".
+
+## Madde 51 · YARA · Dış değişkenler, include ve namespace
+
+- **Ders:** **yok.** YARA yolu YR22'de bitiyor; bu maddeye ait ders yazılmamış. DENETIM'de sahibi Codex, durumu "bekliyor".
+- **Eksikler:** maddenin tamamı: `externals`, kaynak sözlüğü ve namespace, ders dosyalarıyla sınırlı include callback, tanımsız değişken ve ad çakışması testleri. Tezgahın `includes=False` sınırı da genişletilmemiş.
+- **Karar:** **Eksik.**
+
+## Madde 52 · YARA · Toplu tarama, çıktı ve maliyet ölçümü
+
+- **Ders:** **yok.** DENETIM'de sahibi Codex, durumu "bekliyor".
+- **Eksikler:** maddenin tamamı: klasör tarayıcı, dosya/eşleşme raporu, timeout ve uyarı davranışı, küçük/büyük/eşleşmeyen korpusla süre ölçümü.
+- **Karar:** **Eksik.**
+
+## Madde 53 · Regex · Lehçe bilgisini gerçek motorlarda sınamak
+
+- **Ders:** RX24 (`6291614`, `94a3b76`, `97ef3e8`). **Yazar 2: DENETIM'de sahibi Yazar 2; çıkar çatışması var.**
+- **Denetim:** validate ve tahmin temiz. RX24:4'te 10 mutantın hepsi yakalandı. Desen çözümleri gerçek JavaScript, .NET ve PCRE2 motorlarında çalıştırılıyor.
+- **Karşılananlar:** Python `re`, .NET, Node (JavaScript) ve PCRE2 için ayrı adaptörler. `\d` ve `\w`'nun motora göre değişen Unicode kapsamı (JavaScript'te Türkçe kelime, .NET'te yalnız ASCII port), bayrak koyulamayan motorda satır sonu.
+- **Eksikler:** ASAMA2 "eşleşme aralığı karşılaştırması" diyor. Testler eşleşen metne bakıyor; aynı korpusta motorlar arasında başlangıç/bitiş konumlarını yan yana karşılaştıran bir görev görmedim. Küçük.
+- **Karar:** **Tam** (küçük notla; çıkar çatışması notuyla).
+
+## Madde 54 · Regex · PCRE2 subroutine/recursion ve kontrol fiilleri
+
+- **Ders:** RX23 (`6291614`, `9000f66`). **DENETIM'de sahibi Yazar 2; çıkar çatışması var.**
+- **Denetim:** validate ve tahmin temiz. RX23:7'de 5 mutantın hepsi yakalandı. Diğer görevlerin çözümleri desen metni; testler bunları gerçek PCRE2'de çalıştırıyor.
+- **Karşılananlar:** `(?R)`, `(?&ad)`, `DEFINE`, branch reset `(?|...)`, `(*SKIP)(*FAIL)`. Yapının Python `re`'de olmadığı söyleniyor, zorla çevrilmiyor.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam** (çıkar çatışması notuyla).
+
+## Madde 55 · Packets · PCAPNG ve farklı link-layer türleri
+
+- **Dersler:** PK19–PK20. DENETIM durumu güncel değil.
+- **Denetim:** validate, tahmin ve mutasyon temiz.
+- **Karşılananlar:** TShark ile PCAPNG; birden çok arayüz (`frame.interface_id`); kesilmiş paket; DLT'ye göre BPF (Ethernet, SLL dahil dört link-layer); `if_tsresol` anılıyor.
+- **Eksikler:** zaman çözünürlüğünün (`if_tsresol`) korunduğu yalnız anlatıda geçiyor; hiçbir görev nano/mikro saniye farkını sınamıyor. Küçük.
+- **Karar:** **Tam** (küçük notla).
+
+## Madde 56 · Packets · TLS/HTTP2/QUIC ve görünürlük sınırı
+
+- **Dersler:** PK21–PK22. DENETIM durumu güncel değil.
+- **Denetim:** validate, tahmin ve mutasyon temiz.
+- **Karşılananlar:** ClientHello SNI; sır yok, yanlış sır ve doğru sır durumları ayrı test ediliyor; sırlar geçici TShark profiline veriliyor. "Anahtar yoksa boş sonuç, '201 gönderilmedi' anlamına gelmez" tuzağı. QUIC Initial ve stream yükü.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
+
+## Madde 57 · Packets · TCP yeniden birleştirme ve analist iş akışı
+
+- **Dersler:** PK23–PK24. DENETIM durumu güncel değil.
+- **Denetim:** validate, tahmin ve mutasyon temiz.
+- **Karşılananlar:** retransmission ve out-of-order etiketleri; iki geçişli analiz (`-2`); reassembly tercihleri; Follow Stream; `--export-objects` ile gövdenin baytları. Yeniden birleştirilmiş veri ile tek frame arasındaki fark gösteriliyor.
+- **Eksikler:** "kayıp segment" (`tcp.analysis.lost_segment`) görevlerde yok. Küçük.
+- **Karar:** **Tam** (küçük notla).
+
+## Madde 58 · Packets · SMB2, Kerberos ve LDAP
+
+- **Dersler:** PK25–PK27. DENETIM durumu güncel değil.
+- **Denetim:** validate, tahmin ve mutasyon temiz.
+- **Karşılananlar:** SMB2 Tree Connect ve NTSTATUS; Kerberos AS-REQ ve `PREAUTH_FAILED`; LDAP bind hatası 49 ve arama kökü. Şifreli olduğu için görünmeyen alanların tanığı (enc-part, SASL) anlatılıyor.
+- **Eksikler:** ASAMA2 "mevcut TShark sürümündeki alan listesiyle doğrulama" (`tshark -G fields`) istiyor; derslerde kullanılmıyor. Küçük.
+- **Karar:** **Tam** (küçük notla).
+
+## Madde 59 · Packets · Gerçek CLI ile toplama, alan çıkarma ve özet
+
+- **Dersler:** PK28–PK29. DENETIM durumu güncel değil.
+- **Denetim:** validate, tahmin ve mutasyon temiz.
+- **Karşılananlar:** `tshark -T fields -e -E`; `-z io,phs` protokol hiyerarşisi; `-w` ile yeni kayıt; tcpdump ile gerçek yakalama, snaplen (`-s 64`), `-c`; dosya döndürme (`-C 1 -W 2`).
+- **Eksikler:** süre sınırlı döndürme (`-G` / `-b duration`) yok; yalnız boyut eşiği var. Küçük.
+- **Karar:** **Tam** (küçük notla).
+
+## Madde 60 · AD · Nesne ACL'lerinden erişim yolu çıkarmak
+
+- **Dersler:** AD13–AD14 (DENETIM'de sahibi Antigravity, durumu "bekliyor").
+- **Denetim:** validate, tahmin ve mutasyon temiz (AD13:3'te 9/9, AD14:2'de 1/1).
+- **Karşılananlar:** sıralı DACL'den etkin hak hesabı; GenericAll, WriteDacl ve WriteOwner; sahiplik ve devralma; doğrulanmış kenarlarla en kısa yol.
+- **Eksikler:**
+  - **BloodHound CE hiç kullanılmıyor.** Ders, "gerçek etki alanında AD12 laboratuvarındaki ACL'leri topla, BloodHound CE verisinde yolu aç" diye **öneriyor**, ama hiçbir görev gerçek BloodHound verisini ya da grafiğini okumuyor. Görevler yerel modelde. ASAMA2 "gerçek grafikte sonucu kontrol eden okuma görevleri" istiyor.
+  - AD12 laboratuvarından gerçek ACL çıktısı (`nTSecurityDescriptor`) görevlerde yok. Çalışma ağacında başkasının yarım AD VM işi var (`sandbox/ad_vm*`, AD15–AD19, commit'lenmemiş); bu madde onunla kapanabilir, ama şu an kapalı değil.
+- **Karar:** **Kısmen.**
