@@ -195,9 +195,10 @@
    "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
   },
   "PHP: unserialize callback ve autoload grafiğini izlemek": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH12; okuma düzeyi korundu (PHP kodu okunur, görevler Python'da modellenir), gercek blokları Kali PHP 8.4.24'te birebir ölçüldü. unserialize sınıf kurar, __construct çağrılmaz; ölçülen: __unserialize varsa __wakeup hiç çalışmaz, bilinmeyen ad autoload'u tetikler, allowed_classes=false'ta __PHP_Incomplete_Class ve hiç geri çağırma yok, bozuk veri false. allowed_classes 'güvenli yapar' diye sunulmadı. PHP yolu 14 ders/79 kontrol temiz; mutasyon ph12 8/8, ph13 8/8, ph14 10/10.",
+   "commit": "60e5d8d"
   },
   "JavaScript: Prototype pollution: kaynak→kalıtılan özellik→karar": {
    "durum": "codex-opus",
@@ -423,9 +424,10 @@
    "commit": "cfe268d"
   },
   "PHP: Twig/Blade şablon kaçışı ({{ }} vs {!! !!}) ve parse_url / filter_var doğrulama sınırlarını okumak": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH14; okuma düzeyi korundu (PHP kodu okunur, görevler Python'da modellenir), gercek blokları Kali PHP 8.4.24'te birebir ölçüldü. Blade {{ }} ve {!! !!}, Twig |raw; htmlspecialchars 8.1'den beri tek tırnağı da kaçırıyor; ölçülen: yetkide son @ host'u belirler ve https://good:80@evil/ filter_var'dan geçer, host'u boş adresler parse_url'de false. PHP yolu 14 ders/79 kontrol temiz; mutasyon ph12 8/8, ph13 8/8, ph14 10/10.",
+   "commit": "60e5d8d"
   },
   "JavaScript: Browser/SPA içinde postMessage ve ham HTML güven sınırı": {
    "durum": "codex-opus",
@@ -531,9 +533,10 @@
    "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
   },
   "PHP: Upload ve stream-wrapper dosya akışını okumak": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH13; okuma düzeyi korundu (PHP kodu okunur, görevler Python'da modellenir), gercek blokları Kali PHP 8.4.24'te birebir ölçüldü. $_FILES'ta name/type istemciden; UPLOAD_ERR sıralı değil (5 yok); ölçülen: .jpg adlı PHP dosyasında mime_content_type text/x-php, pathinfo son uzantıyı verir ve harf büyüklüğünü korur, php://filter base64'leyerek okur, allow_url_fopen açık / allow_url_include kapalı. PHP yolu 14 ders/79 kontrol temiz; mutasyon ph12 8/8, ph13 8/8, ph14 10/10.",
+   "commit": "60e5d8d"
   }
  }
 }
