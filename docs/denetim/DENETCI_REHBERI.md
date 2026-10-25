@@ -10,7 +10,7 @@ Yazan: Claude (Denetçi · Yazar 2), 25 Ekim 2026, `ac6f37b` üzerinde. Sayılar
 
 Pafta, kullanıcının bilgisayarında çalışan, güvenlik işi için dil ve araç öğreten bir okul. Hedef kullanıcı **purple team** (red + blue) uygulayıcısı olmak istiyor.
 
-**Pafta'nın rolü altyapıdır.** Kullanıcı uygulamalı red/blue yollarını (path) TryHackMe ve HackTheBox'ta **paralel** yürüyor. Pafta onların laboratuvarlarını kopyalamaz. Pafta, o platformların "bunu zaten biliyorsun" diye varsaydığı temeli verir:
+**Pafta, platformların atladığı kısmı öğretir.** Kullanıcı uygulamalı red/blue yollarını (path) TryHackMe ve HackTheBox'ta **paralel** yürüyor. Pafta onların laboratuvarlarını kopyalamaz. "Temel" ya da "başlangıç" da değildir: o platformların hızla geçtiği, "aracı çalıştır, bayrağı al" deyip üstünden atladığı kısımları **derinlemesine** öğretir. Fikir şu: bu kısımları iyi bilen ve yapabilen biri, aynı yolu bitiren diğerlerinden çok daha sağlam olur. Atlanan kısımlar şunlar:
 
 - dilin kendisi (Python, C, Bash, PowerShell, SQL, ...),
 - aracın altında ne olduğu (ctypes'ta ABI, requests'te vekil ve CA, pip'te çözücü),
@@ -18,7 +18,7 @@ Pafta, kullanıcının bilgisayarında çalışan, güvenlik işi için dil ve a
 - hazır bir betiği okuyup uyarlamak, kendi küçük aracını yazmak,
 - tespit dillerinin kendisi (SPL, KQL, Sigma, YARA, Suricata/Zeek).
 
-Denetlerken sorulacak ana soru: **"THM/HTB'de bu konuya gelen biri, Pafta'dan gereken temelle mi geliyor?"** Gerçek araç ve gerçek veri kullanılıyor mu, yoksa oyuncak bir benzetim mi? İş ilanında ve sertifikada (OSCP, CPTS, BSCP, BTL1, SC-200, PCEP/PCAP/PCPP1) karşılığı olan bir beceriye bağlanıyor mu?
+Denetlerken sorulacak ana soru: **"THM/HTB'nin bu konuda atladığı kısmı bu ders gerçekten, derinlemesine öğretiyor mu? Bunu bitiren, yolu yalnız platformda yürüyenden daha sağlam mı?"** Yüzeysel bir tekrar (platformun zaten gösterdiğini bir daha göstermek) eksik sayılır. Gerçek araç ve gerçek veri kullanılıyor mu, yoksa oyuncak bir benzetim mi? İş ilanında ve sertifikada (OSCP, CPTS, BSCP, BTL1, SC-200, PCEP/PCAP/PCPP1) karşılığı olan bir beceriye bağlanıyor mu?
 
 ## 2. Dosya düzeni
 
@@ -261,7 +261,7 @@ Her maddede ayrıca sor:
 
 - Gerçek araç ve gerçek veri mi (gerçek derleyici, gerçek Splunk, gerçek PCAP), yoksa benzetim mi?
 - Saldırı tarafı (teknik nasıl çalışır, hangi iz kalır) ve savunma tarafı (hangi kayıt, hangi kural yakalar) bu ders için gerekiyorsa var mı?
-- THM/HTB yolunda bu konuya gelen biri temeli buradan alıyor mu? Platformların atladığı kısım (çıktıyı okumak, betiği uyarlamak, biçimi anlamak) var mı?
+- Platformların bu konuda atladığı kısım (çıktıyı okumak, betiği uyarlamak, biçimi anlamak, aracın altında ne olduğu) burada derinlemesine var mı, yoksa ders platformun zaten gösterdiğini mi tekrarlıyor?
 - THM/HTB laboratuvarını kopyalamayı **önerme**; Pafta'nın işi o değil.
 
 ### 6.8 Rapor ve commit
