@@ -62,6 +62,7 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
   - "Yerel **test kitaplığı**" yerine Windows'un `kernel32`'si kullanılıyor; zararsız ve gerçek, ama öğrencinin kendi derlediği bir kitaplıkla imza uyuşmazlığını görmesi yok.
   - P82 ikinci görevde `c_void_p` hâlâ kaynak metninden denetleniyor (A40 notu); davranışla ayırt etmek görevin dönüş biçimini değiştirmeyi gerektirir.
 - **Karar:** **Kısmen** (küçük eksikler).
+- **Güncelleme (2026-10-25, `f834b74`):** kullanıcının isteğiyle eksikler kapatıldı. Yeni `sandbox/ctypes_lab.py` küçük C kaynaklarını Kali'deki gerçek derleyicilerle (i686/x86_64 MinGW, gcc) derliyor. P82'ye öğrencinin kendi test DLL'i eklendi (anlatı, tahmin, görev): `void*` dönüşü artık kaynak metninden değil davranışla sınanıyor. P83'e 32 bit, LLP64 ve LP64 yerleşim görevi eklendi: 32 bit taraf gerçek bir 32 bit programın `sizeof`/`offsetof` ölçümüyle doğrulanıyor. Üç eksik de kapandı. Validate iki kabukta temiz; mutantlar 24/24; elle 9 yanlış çözüm reddedildi. **Bu bölümü ben yazdım; çıkar çatışması var.** **Yeni karar: Tam.**
 
 ## Madde 6 · Python · pwntools kullanan hazır betiği okumak ve uyarlamak
 

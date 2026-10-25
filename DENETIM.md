@@ -68,7 +68,7 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 | 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | denetlendi (`8f4c9a6`, `5fb8da0`, P74); eksikler `892ced3` ile kapandı (form, vekil, CA, sürüm kaydı) |
 | 3 | python | Beautiful Soup ile HTML ayrıştırma | 1 (sıra 3) | Yazar 1 | denetlendi (`8f4c9a6`, P74) |
 | 4 | python | Scapy ile paket kaydını Python'dan okumak ve üretmek | 1 (sıra 4) | Yazar 2 (okuma) · Yazar 1 (üretme) | denetlendi: okuma P80 (`9128368`), üretme P81 (`fc11f0d`); denetim `6dd201f` |
-| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Yazar 1 | denetlendi: P82–P83 (`fc11f0d`); iki testi denetçi güçlendirdi (A40), denetim `6dd201f` |
+| 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Yazar 1 | denetlendi: P82–P83 (`fc11f0d`); iki testi denetçi güçlendirdi (A40), denetim `6dd201f`; eksikler `f834b74` ile kapandı (kendi test DLL'i, 32/64 bit ölçümü) |
 | 6 | python | pwntools kullanan hazır betiği okumak ve uyarlamak | 1 (sıra 6) | Codex | denetlendi (`312e90b`, P76–P77) |
 | 7 | python | Impacket kullanan Windows/AD protokol betiğini okumak | 1 (sıra 7) | Codex | denetlendi (`b645c80`, P78–P79) |
 | 8 | bash | curl/jq ile API ve JSON araç zinciri | 1 (sıra 8) | Yazar 1 | denetlendi (`0362d53`, BS29) |
