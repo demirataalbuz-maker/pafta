@@ -1,7 +1,7 @@
 ---
 id: p83
 title: ctypes · Yapılar, Hizalama ve İşaretçiler
-summary: ctypes.Structure ile C yapısı tanımlamak; doğal hizalamanın doldurma (padding) eklemesi, _pack_ ile sıkıştırma, offset ve sizeof; bir Win32 çağrısına byref ile yapı verip doldurtmak (SYSTEMTIME/FILETIME), API'nin gün-of-week gibi alanları hesaplaması, geçersiz girdide dönüş 0 + hata 87; from_buffer_copy ile ham baytları bir başlık yapısına çözmek ve on-wire paketlemenin yanlış olması durumunda alanların kayması.
+summary: ctypes.Structure ile C yapısı tanımlamak; doğal hizalamanın doldurma (padding) eklemesi, _pack_ ile sıkıştırma, offset ve sizeof; bir Win32 çağrısına byref ile yapı verip doldurtmak (SYSTEMTIME/FILETIME), API'nin gün-of-week gibi alanları hesaplaması, geçersiz girdide dönüş 0 + hata 87; from_buffer_copy ile ham baytları bir başlık yapısına çözmek ve on-wire paketlemenin yanlış olması durumunda alanların kayması; aynı yapının win32, win64 (LLP64) ve linux64 (LP64) yerleşimini gerçek derleyicilerin ölçümüyle karşılaştırmak.
 timeout: 60
 ---
 
@@ -228,5 +228,124 @@ def coz_baslik(ham):
 
 ```hint
 `SIHIR = int.from_bytes(b"PAFT", "little")` ile beklenen sihri hesapla. `from_buffer_copy` kısa baytta `ValueError` atar; bunu önlemek için uzunluğu önceden denetle.
+```
+:::
+
+::: anlat 32 bit, 64 bit ve iki farklı "64 bit"
+`ctypes.Structure` yapıyı **çalıştığın yorumlayıcının** ABI'sine göre dizer. Bu laboratuvarın Python'u 64 bit Windows'tur. Bir aracın 32 bit sürümüyle ya da Linux'taki karşılığıyla aynı yapıyı paylaşıyorsan boyutlar değişir. Değişmeyeceğini varsaymak, alanları kaydırarak okumak demektir.
+
+Aşağıdaki tablo bu derste **ölçüldü**. Aynı C programı Kali'de üç derleyiciyle derlendi: `i686-w64-mingw32-gcc` (32 bit Windows, Windows'ta WOW64 ile çalıştı), `x86_64-w64-mingw32-gcc` (64 bit Windows) ve `gcc` (64 bit Linux). Her hücre `sizeof / hizalama`:
+
+| Tür | win32 | win64 | linux64 |
+|---|---|---|---|
+| `char` | 1 / 1 | 1 / 1 | 1 / 1 |
+| `short` | 2 / 2 | 2 / 2 | 2 / 2 |
+| `int` | 4 / 4 | 4 / 4 | 4 / 4 |
+| `long` | 4 / 4 | **4 / 4** | **8 / 8** |
+| `long long` | 8 / 8 | 8 / 8 | 8 / 8 |
+| `double` | 8 / 8 | 8 / 8 | 8 / 8 |
+| `void *` | **4 / 4** | 8 / 8 | 8 / 8 |
+
+İki ayrı "64 bit" var. Windows **LLP64**'tür: `long` 64 bitte de 4 bayttır, yalnız işaretçi ve `long long` 8'dir. Linux **LP64**'tür: `long` de 8'dir. `ctypes.c_long` bu yüzden Windows'ta 4, Linux'ta 8 bayttır. Genişliği sabit bir alan istiyorsan `c_int32`/`c_int64` kullan.
+
+Yapıya etkisi (aynı ölçüm):
+
+| Yapı | win32 | win64 | linux64 |
+|---|---|---|---|
+| `{char c; void *p; short s;}` | 12 bayt, `p` 4'te, `s` 8'de | 24, 8, 16 | 24, 8, 16 |
+| `{char c; long l;}` | 8 bayt, `l` 4'te | 8, 4 | **16, 8** |
+| `{char c; long long q;}` | 16 bayt, `q` 8'de | 16, 8 | 16, 8 |
+
+Kural her ABI'de aynıdır, yalnız tablo değişir. Her alan kendi hizalamasının katı olan ilk ofsete konur. Yapının boyutu, en büyük alan hizalamasının katına yuvarlanır (dizide bir sonraki eleman da hizalı başlasın diye).
+
+> [!NOT] 32 bit Windows'ta `long long` da 8'e hizalanır
+> 32 bit Linux'un ABI belgesine (i386 System V) göre `long long` ve `double` yapı içinde 4'e hizalanır. Bu laboratuvarda 32 bit Linux derleyicisi yok; bu satır ölçülmedi. Windows'un 32 bit ABI'si ise onları 8'e hizalar: yukarıdaki üçüncü satırı (`q` 8'de) bu derste ölçtük. Aynı "32 bit" de işletim sistemine göre farklıdır.
+:::
+
+::: gorev Üç hedefte aynı yapı
+`duzen(hedef, alanlar)` yaz. `hedef` `"win32"`, `"win64"` ya da `"linux64"`; `alanlar` C türü adlarının listesidir (`"char"`, `"short"`, `"int"`, `"long"`, `"long long"`, `"double"`, `"void*"`). Yapıyı yukarıdaki ölçülmüş tabloya ve hizalama kuralına göre diz, `(boyut, [ofsetler])` döndür.
+
+Bilinmeyen hedef, bilinmeyen tür ya da boş alan listesi için `None` döndür.
+
+Testler sonucunu, aynı yapıların gerçek derleyicilerle derlenip **çalıştırılan** programlarının yazdığı `sizeof`/`offsetof` değerleriyle karşılaştırır. Derleyiciyi kendin çağırma; kuralı yaz.
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") == "py_harness.py")
+runpy.run_path(os.path.join(_s, "ctypes_lab.py"))
+```
+
+```starter
+def duzen(hedef, alanlar):
+    boyutlar = {"char": 1, "short": 2, "int": 4, "long": 4, "long long": 8, "double": 8, "void*": 8}
+    ofsetler, simdi = [], 0
+    for alan in alanlar:
+        ofsetler.append(simdi)
+        simdi += boyutlar[alan]
+    return (simdi, ofsetler)
+```
+
+```test
+import ctypes, ctlab
+f = need("duzen")
+YAPILAR = [["char", "int"], ["char", "long long"], ["char", "void*", "short"], ["char", "long"],
+           ["short", "char", "double", "char"], ["void*", "char"], ["int", "char", "char", "long"],
+           ["char"], ["long long", "char"], ["char", "short", "char", "int"], ["char", "char", "void*"],
+           ["long", "void*", "int"]]
+satirlar = ["#include <stdio.h>", "#include <stddef.h>"]
+for i, alanlar in enumerate(YAPILAR):
+    govde = " ".join(f"{t.replace('void*', 'void *')} f{j};" for j, t in enumerate(alanlar))
+    satirlar.append(f"struct S{i} {{ {govde} }};")
+satirlar.append("int main(void) {")
+for i, alanlar in enumerate(YAPILAR):
+    ofs = "".join(f' printf(" %zu", offsetof(struct S{i}, f{j}));' for j in range(len(alanlar)))
+    satirlar.append(f'    printf("%zu", sizeof(struct S{i}));{ofs} printf("\\n");')
+satirlar.append("    return 0;\n}\n")
+KAYNAK = "\n".join(satirlar)
+for hedef in ("win32", "win64", "linux64"):
+    olcum = ctlab.calistir(KAYNAK, hedef).split("\n")
+    for alanlar, satir in zip(YAPILAR, olcum):
+        sayilar = [int(s) for s in satir.split()]
+        eq(f(hedef, alanlar), (sayilar[0], sayilar[1:]), f"{hedef} {{{', '.join(alanlar)}}}: gerçek derleyicinin ölçümü")
+C = {"char": ctypes.c_char, "short": ctypes.c_short, "int": ctypes.c_int, "long": ctypes.c_long,
+     "long long": ctypes.c_longlong, "double": ctypes.c_double, "void*": ctypes.c_void_p}
+for alanlar in YAPILAR[:4]:
+    Y = type("Y", (ctypes.Structure,), {"_fields_": [(f"f{j}", C[t]) for j, t in enumerate(alanlar)]})
+    eq(f("win64", alanlar), (ctypes.sizeof(Y), [getattr(Y, f"f{j}").offset for j in range(len(alanlar))]),
+       "win64 bu Python'un kendi ctypes yerleşimiyle aynı")
+eq(f("win16", ["char"]), None, "bilinmeyen hedef")
+eq(f("win64", ["char", "float128"]), None, "bilinmeyen tür")
+eq(f("linux64", []), None, "boş alan listesi")
+ok("ctlab" not in src and "subprocess" not in src, "derleyiciyi çağırma; kuralı kendin yaz")
+```
+
+```solution
+TURLER = {
+    "win32":   {"char": 1, "short": 2, "int": 4, "long": 4, "long long": 8, "double": 8, "void*": 4},
+    "win64":   {"char": 1, "short": 2, "int": 4, "long": 4, "long long": 8, "double": 8, "void*": 8},
+    "linux64": {"char": 1, "short": 2, "int": 4, "long": 8, "long long": 8, "double": 8, "void*": 8},
+}
+
+def duzen(hedef, alanlar):
+    tablo = TURLER.get(hedef)
+    if tablo is None or not alanlar or any(a not in tablo for a in alanlar):
+        return None
+    ofsetler, simdi, en_buyuk = [], 0, 1
+    for alan in alanlar:
+        boyut = hizalama = tablo[alan]          # bu türlerde hizalama boyuta eşit (ölçüldü)
+        simdi = (simdi + hizalama - 1) // hizalama * hizalama
+        ofsetler.append(simdi)
+        simdi += boyut
+        en_buyuk = max(en_buyuk, hizalama)
+    return ((simdi + en_buyuk - 1) // en_buyuk * en_buyuk, ofsetler)
+```
+
+```hint
+Bir alanı koymadan önce ofseti hizalamanın katına yuvarla: `(simdi + h - 1) // h * h`. Bütün alanlar bitince toplam boyutu da en büyük hizalamanın katına yuvarla. `{"void*", "char"}` win64'te 9 değil 16'dır.
+```
+
+```hint
+Üç hedefin farkı yalnız iki türde: `void*` (win32'de 4) ve `long` (linux64'te 8). Her hedef için bir boyut tablosu kur; ölçülen tablodaki bütün türlerde hizalama boyuta eşittir.
 ```
 :::

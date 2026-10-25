@@ -1,7 +1,7 @@
 ---
 id: p82
 title: ctypes · Native Kütüphaneyi Python'dan Çağırmak
-summary: ctypes ile Windows'un native kütüphanesini (kernel32) yüklemek; c tiplerinin boyutları ve 64 bit ABI; restype ve argtypes vermenin neden zorunlu olduğu (varsayılan c_int'in 64 bit işaretçiyi kırpması), geniş karakter (c_wchar_p) marshalling'i ve UTF-16 kod birimi sayımı; use_last_error ile GetLastError'u temiz okumak ve başarısız çağrıyı (dönüş değeri + hata kodu) ayırmak.
+summary: ctypes ile Windows'un native kütüphanesini (kernel32) yüklemek; c tiplerinin boyutları ve 64 bit ABI; restype ve argtypes vermenin neden zorunlu olduğu (varsayılan c_int'in 64 bit işaretçiyi kırpması), geniş karakter (c_wchar_p) marshalling'i ve UTF-16 kod birimi sayımı; use_last_error ile GetLastError'u temiz okumak ve başarısız çağrıyı (dönüş değeri + hata kodu) ayırmak; gerçek derleyiciyle üretilmiş kendi test DLL'inde imzayı C başlığından kurmak (32 biti aşan dönüş, argtypes'sız double, C dizisi, void*).
 timeout: 60
 ---
 
@@ -200,5 +200,147 @@ def modul_durumu(adlar):
 
 ```hint
 `GetLastError` başarılı çağrıdan sonra sıfırlanmaz. Her çağrıdan önce `k.SetLastError(0)` ve çağrının hemen ardından `get_last_error()` okursan eski değerleri taşımazsın.
+```
+:::
+
+::: anlat Kendi test kitaplığın
+`kernel32` gerçek ama senin yazmadığın bir kitaplıktır; imzasını belgeden okursun. Bir aracın kendi DLL'ini ya da `.so`'sunu çağırırken ise imzayı çoğu zaman **C başlık dosyasından** çıkarırsın. Bu bölümde dersin hazırlığı aşağıdaki C kaynağını Kali'deki `x86_64-w64-mingw32-gcc` ile 64 bit bir Windows DLL'ine derler ve çalışma klasörüne `pafta_test.dll` adıyla koyar. Kod yalnız hesap yapar; dosyaya ya da ağa dokunmaz.
+
+```c norun
+__declspec(dllexport) long long carp(int a, int b) { return (long long)a * b; }
+__declspec(dllexport) double yarim(double x) { return x / 2; }
+__declspec(dllexport) int topla(const int *d, int n) { int t = 0; for (int i = 0; i < n; i++) t += d[i]; return t; }
+__declspec(dllexport) void *adres(void) { return (void *)0x123456789ABCULL; }
+```
+
+| C imzası | `restype` | `argtypes` |
+|---|---|---|
+| `long long carp(int, int)` | `c_longlong` | `[c_int, c_int]` |
+| `double yarim(double)` | `c_double` | `[c_double]` |
+| `int topla(const int *, int)` | `c_int` (varsayılan) | `[POINTER(c_int), c_int]` |
+| `void *adres(void)` | `c_void_p` | `[]` |
+
+Bu derste ölçülen üç hata:
+
+- `restype` verilmezse ctypes dönüşü `int` (32 bit) sayar: `carp(100000, 100000)` 10 000 000 000 yerine **1410065408** döner (alt 32 bit).
+- `argtypes` verilmezse ctypes Python `float`'ını **dönüştürmez**: `yarim(3.0)` `ArgumentError: Don't know how to convert parameter 1` verir. Tam sayıyı ise sessizce `int` olarak geçirir. Bu durumda işlev kayan nokta yazmacındaki anlamsız bir değeri okur.
+- `argtypes` `POINTER(c_int)` diyorsa Python listesi kabul edilmez (`expected LP_c_long instance instead of list`). Önce bir C dizisi kur: `(c_int * len(liste))(*liste)`. (`c_int`, Windows'ta `c_long`'un takma adıdır; mesaj bu yüzden `LP_c_long` der.)
+
+```setup
+import os, runpy, shutil, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") == "py_harness.py")
+runpy.run_path(os.path.join(_s, "ctypes_lab.py"))
+import ctlab
+KAYNAK = r'''__declspec(dllexport) long long carp(int a, int b) { return (long long)a * b; }
+__declspec(dllexport) double yarim(double x) { return x / 2; }
+__declspec(dllexport) int topla(const int *d, int n) { int t = 0; for (int i = 0; i < n; i++) t += d[i]; return t; }
+__declspec(dllexport) void *adres(void) { return (void *)0x123456789ABCULL; }
+'''
+shutil.copyfile(ctlab.derle(KAYNAK, "win64-dll"), "pafta_test.dll")
+```
+:::
+
+::: tahmin Kendi kitaplığında imza
+Çalışma klasöründe yukarıdaki `pafta_test.dll` var. Ne yazar?
+
+```python
+import ctypes, os
+
+L = ctypes.CDLL(os.path.abspath("pafta_test.dll"))
+print(L.carp(100000, 100000))
+L.carp.restype = ctypes.c_longlong
+print(L.carp(100000, 100000))
+L.yarim.restype = ctypes.c_double
+print(L.yarim(3))
+L.yarim.argtypes = [ctypes.c_double]
+print(L.yarim(3))
+```
+
+???
+
+`1410065408`, `10000000000`, `1e-323` ve `1.5`.
+
+İlk çağrıda `restype` yok: 10¹⁰'un yalnız alt 32 biti okunur. İkinci çağrıda dönüş doğru genişlikte. Üçüncüsü sinsidir: dönüş türü doğru (`c_double`), ama `argtypes` olmadığı için `3` bir **tam sayı** olarak, bit deseni `3` olarak geçti. İşlev bu deseni double sanıp ikiye böldü ve en küçük normal-altı sayılardan biri çıktı. Hata yok, uyarı yok. `argtypes` verilince ctypes `3`'ü `3.0`'a çevirir ve sonuç `1.5` olur.
+
+```setup
+import os, runpy, shutil, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") == "py_harness.py")
+runpy.run_path(os.path.join(_s, "ctypes_lab.py"))
+import ctlab
+KAYNAK = r'''__declspec(dllexport) long long carp(int a, int b) { return (long long)a * b; }
+__declspec(dllexport) double yarim(double x) { return x / 2; }
+__declspec(dllexport) int topla(const int *d, int n) { int t = 0; for (int i = 0; i < n; i++) t += d[i]; return t; }
+__declspec(dllexport) void *adres(void) { return (void *)0x123456789ABCULL; }
+'''
+shutil.copyfile(ctlab.derle(KAYNAK, "win64-dll"), "pafta_test.dll")
+```
+:::
+
+::: gorev İmzaları başlıktan kur
+`kendi_kitaplik(a, b, x, sayilar)` yaz. Çalışma klasöründeki `pafta_test.dll`'i yükle (tam yoluyla), dört işlevin `restype`/`argtypes`'ını yukarıdaki C imzalarına göre bildir ve şu demeti döndür:
+
+`(carp(a, b), yarim(x), topla(sayilar), adres())`
+
+- `x` tam sayı da olabilir; `yarim` her zaman doğru sonucu vermeli.
+- `sayilar` bir Python listesidir; `topla`'ya C dizisi olarak ver, uzunluğu da geç.
+- `adres()`'in değerini Python tam sayısı olarak döndür.
+
+```setup
+import os, runpy, shutil, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") == "py_harness.py")
+runpy.run_path(os.path.join(_s, "ctypes_lab.py"))
+import ctlab
+KAYNAK = r'''__declspec(dllexport) long long carp(int a, int b) { return (long long)a * b; }
+__declspec(dllexport) double yarim(double x) { return x / 2; }
+__declspec(dllexport) int topla(const int *d, int n) { int t = 0; for (int i = 0; i < n; i++) t += d[i]; return t; }
+__declspec(dllexport) void *adres(void) { return (void *)0x123456789ABCULL; }
+'''
+shutil.copyfile(ctlab.derle(KAYNAK, "win64-dll"), "pafta_test.dll")
+```
+
+```starter
+import ctypes, os
+
+def kendi_kitaplik(a, b, x, sayilar):
+    L = ctypes.CDLL(os.path.abspath("pafta_test.dll"))
+    dizi = (ctypes.c_int * len(sayilar))(*sayilar)
+    return (L.carp(a, b), L.yarim(ctypes.c_double(x)), L.topla(dizi, len(sayilar)), L.adres())
+```
+
+```test
+f = need("kendi_kitaplik")
+eq(f(100000, 100000, 3.0, [1, 2, 3, 4]), (10000000000, 1.5, 10, 0x123456789ABC),
+   "dönüş 32 biti aşar: restype c_longlong; işaretçi 48 bit: restype c_void_p")
+eq(f(-70000, 70000, 3, []), (-4900000000, 1.5, 0, 0x123456789ABC),
+   "negatif çarpım; x tam sayı gelse de argtypes onu double'a çevirir; boş dizi 0")
+eq(f(7, 6, -5, [10, -3]), (42, -2.5, 7, 0x123456789ABC), "küçük değerler ve negatif double")
+r = f(46341, 46341, 1, [2147483647, 1])
+eq(r[0], 2147488281, "2³¹'i biraz aşan çarpım: int olarak okunsaydı negatif çıkardı")
+ok(isinstance(r[3], int), "adres Python tam sayısı", got=type(r[3]).__name__)
+```
+
+```solution
+import ctypes, os
+from ctypes import POINTER, c_double, c_int, c_longlong, c_void_p
+
+def kendi_kitaplik(a, b, x, sayilar):
+    L = ctypes.CDLL(os.path.abspath("pafta_test.dll"))
+    L.carp.argtypes, L.carp.restype = [c_int, c_int], c_longlong
+    L.yarim.argtypes, L.yarim.restype = [c_double], c_double
+    L.topla.argtypes, L.topla.restype = [POINTER(c_int), c_int], c_int
+    L.adres.argtypes, L.adres.restype = [], c_void_p
+    dizi = (c_int * len(sayilar))(*sayilar)
+    return (L.carp(a, b), L.yarim(x), L.topla(dizi, len(sayilar)), L.adres())
+```
+
+```hint
+Her işlevin iki özniteliği var: `L.carp.restype = c_longlong`, `L.carp.argtypes = [c_int, c_int]`. `restype` verilmeyen her işlev `int` döndürüyor sayılır.
+```
+
+```hint
+`void *` dönen işlevde `restype = c_void_p` ver. ctypes bu değeri doğrudan Python tam sayısı olarak döndürür; işaretçi `NULL` olsaydı `None` dönerdi.
 ```
 :::
