@@ -1,7 +1,7 @@
 ---
 id: p74
 title: requests Session ve Beautiful Soup
-summary: Oturumlu HTTP istemcisi: çerezi taşıyan Session, params ve json, timeout, durum kodunu okumak ve sayfalama; HTML'yi regex yerine ağaçtan okumak, eksik öğe None döner, kapanmamış etiket veriyi sessizce birleştirir.
+summary: Oturumlu HTTP istemcisi: çerezi taşıyan Session, params ve json, timeout, durum kodunu okumak ve sayfalama; HTML'yi regex yerine ağaçtan okumak, eksik öğe None döner, kapanmamış etiket veriyi sessizce birleştirir; form gövdesi (data=), kimlikli vekil ve Via ile kanıtı, kendi CA'nla doğrulama ve iki TLS hatasını ayırmak, kütüphane sürümünü ve yerini kaydetmek; aiohttp ile sınırlı eşzamanlılık.
 kazanim: PCPP1 4.4
 ---
 
@@ -98,7 +98,7 @@ runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ::: anlat Tezgahın sınırı ve sıradaki adım
 Bu dersteki `api` modülü, hazırlık bloğunun başlattığı yerel bir uygulamadır (`sandbox/api_tezgah.py`): `127.0.0.1`'de boş bir portta çalışır, verisi her çalıştırmada sıfırlanır, `Date` başlığı ve oturum çerezi sabittir. İnternete çıkmaz. Böylece tahminler ve testler her makinede aynı sonucu verir.
 
-Gerçek bir hedefte eklenen üç şey var: **TLS** (sertifika doğrulaması; `verify=False` yazmak güvenliği kapatır, hata ayıklarken bile alışkanlık yapma), **oran sınırı** (`429` ve `Retry-After`), ve **robots.txt ile kullanım koşulları**. Bir siteyi izinsiz taramak teknik değil hukuki bir sorundur.
+Gerçek bir hedefte eklenen üç şey var: **TLS** (sertifika doğrulaması; `verify=False` yazmak güvenliği kapatır, hata ayıklarken bile alışkanlık yapma; dersin ilerisinde tezgah kendi CA'sıyla HTTPS'te de açılır), **oran sınırı** (`429` ve `Retry-After`), ve **robots.txt ile kullanım koşulları**. Bir siteyi izinsiz taramak teknik değil hukuki bir sorundur.
 
 > [!NOT] Eşzamanlı istemci dersin sonunda
 > Bugünkü `requests` kodu sırayla çalışır: yüz istek, yüz gidiş-dönüş demektir. Çok sayıda isteği aynı anda yürüten `aiohttp` bölümü bu dersin **son adımlarındadır** ve gerçek Linux'ta (Kali, WSL) çalışır; aynı tezgah orada da başlatılır. P60 ve P61'deki `asyncio` bilgisi o bölümün temelidir.
@@ -360,6 +360,337 @@ for tr in corba.select("tr.bilet"):
 
 ```hint
 `select` eşleşme bulamazsa **boş liste** döndürür, `None` değil: `if not satirlar` ile sınayabilirsin.
+```
+:::
+
+::: anlat Gerçek hedefin dört ayarı: form, vekil, CA ve sürüm
+Buraya kadar yalnız JSON gövde gönderdin. Gerçek hedeflerde dört ayar daha karşına çıkar.
+
+**Form gövdesi.** Tarayıcıdaki bir HTML formu veriyi JSON olarak değil, `application/x-www-form-urlencoded` olarak gönderir: `ad=değer&ad2=değer2`. `requests`'te bunu `data={...}` yapar; değerleri **yüzde kodlamasıyla** kodlar (`&` → `%26`, boşluk → `+`, `+` → `%2B`). Tezgahın `/giris-form` ucu yalnız bu biçimi kabul eder; JSON gönderirsen `415` döner. Gövdeyi elle `"kullanici=" + ad + "&parola=" + parola` diye kurarsan, parolada `&` ya da `+` olduğunda sunucu başka bir parola okur. Bu derste ölçüldü: tezgahın özel karakterli parolasıyla elle kurulan gövde `401` aldı, `data=` ile kurulan `200`.
+
+**Vekil (proxy).** Kurumlar dışarı çıkan trafiği bir vekilden geçirir. Burp de bir vekildir (HT17). `proxies` sözlüğünün anahtarı **hedef adresin şemasıdır**, vekilin değil:
+
+```python norun
+proxies = {"http": "http://kullanici:parola@127.0.0.1:8080"}   # http:// adreslerine giden istekler bu vekilden geçer
+requests.get("http://127.0.0.1:5000/bos", proxies=proxies, timeout=5)
+```
+
+| Durum | Sonuç |
+|---|---|
+| Vekil kimlik ister, sen vermezsin | `407 Proxy Authentication Required` ve `Proxy-Authenticate` başlığı |
+| Kimlik adresin içinde (`http://ad:parola@vekil:port`) | `requests` onu `Proxy-Authorization` başlığına çevirir |
+| `Session().proxies = {...}` | Oturumdaki bütün istekler vekilden geçer |
+| Ortamda `HTTP_PROXY`/`HTTPS_PROXY` tanımlı | `requests` onları **kendiliğinden** kullanır (`trust_env`); `NO_PROXY` hariç tutar |
+
+> [!TUZAK] Yanlış anahtar, vekili sessizce atlar
+> `proxies={"https": vekil}` yazıp `http://` bir adrese istek atarsan istek vekile **hiç uğramaz**. Hiçbir hata ya da uyarı yoktur; doğrudan hedefe gider. Bu derste ölçüldü: yanıt geldi, ama vekilin `Via` başlığı yoktu ve vekilin sayacı artmadı. Trafiğin gerçekten vekilden geçtiğini **yanıttaki `Via` başlığından** ya da vekilin kendi kaydından doğrula.
+
+**CA doğrulaması.** HTTPS'te `requests` sunucunun sertifikasını kendi güven deposuyla (`certifi`) doğrular. Kurum içi ya da laboratuvar sunucuları çoğu zaman **kendi CA'larıyla** imzalanır. Doğru çözüm, o CA dosyasını **yalnız o çağrıya** vermektir: `verify="ca.pem"`. `verify=False` doğrulamayı tümden kapatır; araya giren herkesin sertifikasını da kabul eder.
+
+| Deneme | Sonuç (bu derste ölçüldü) |
+|---|---|
+| `verify=api.CA`, `https://127.0.0.1:...` | doğrulama geçer; durum kodu ne olursa olsun bir **HTTP yanıtı** gelir (204, 404...) |
+| CA verilmez (varsayılan `certifi`) | `SSLError`: `unable to get local issuer certificate` |
+| `verify=api.CA`, `https://localhost:...` | `SSLError`: `Hostname mismatch, certificate is not valid for 'localhost'` |
+
+İkinci ve üçüncü satır aynı istisna sınıfıdır (`requests.exceptions.SSLError`), ama anlamları farklıdır: biri "bu imzacıyı tanımıyorum", öteki "imzacı tamam, sertifika bu ada verilmemiş". Sertifika yalnız `127.0.0.1` IP adına verildiği için `localhost` başka bir addır, aynı makine olsa bile. Bir `404` ise TLS hatası **değildir**: el sıkışma başarılı olmuş, sunucu HTTP düzeyinde "yok" demiştir.
+
+**Sürüm kaydı.** Bir betiğin sonucunu raporlarken hangi kütüphane sürümüyle ve **hangi klasörden** yüklendiğini de yaz. Aynı makinede bir paketin iki kopyası olabilir (P75'te `.deps` örneği). `requests.__version__` modülün kendi söylediği sürümdür; `importlib.metadata.version("requests")` kurulu dağıtımın kayıtlı sürümüdür. Modülün gerçek yeri `requests.__file__`'dır.
+:::
+
+::: gorev Formla giriş
+Girdi kutusunun ilk satırı kullanıcı adı, ikinci satırı paroladır. Bir `Session` ile `/giris-form` ucuna **form gövdesiyle** giriş yap, sonra aynı oturumla `/api/biletler`'i iste.
+
+- Giriş `200` ise `200|<toplam>` yazdır; toplamı liste yanıtının `toplam` alanından al.
+- Değilse `<giriş kodu>|-` yazdır.
+- Girdi iki satır değilse tek satır `HATA` yazdır.
+
+Tezgahta iki hesap var: `api.KULLANICI` / `api.PAROLA` ve özel karakterli `api.FORM_KULLANICI` / `api.FORM_PAROLA`.
+
+```stdin
+nöbetçi analist
+a&b=c d+%
+```
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+```
+
+```starter
+import api, requests, sys
+
+satirlar = sys.stdin.read().splitlines()
+oturum = requests.Session()
+govde = "kullanici=" + satirlar[0] + "&parola=" + satirlar[1]
+y = oturum.post(api.SUNUCU + "/giris-form", data=govde, timeout=5)
+print(y.status_code)
+```
+
+```test
+eq(out, "200|7\n", "özel karakterli parola form kodlamasıyla doğru gider")
+eq(run(stdin="analist\npafta123\n"), "200|7\n", "ikinci hesap")
+eq(run(stdin="analist\nyanlis\n"), "401|-\n", "yanlış parola: liste istenmez")
+eq(run(stdin="nöbetçi analist\na&b=c d\n"), "401|-\n", "parolanın bir kısmı yetmez")
+eq(run(stdin="yalniz\n"), "HATA\n", "tek satır HATA")
+ok("data=" in src and "json=" not in src, "form gövdesi data= ile gönderilir")
+```
+
+```solution
+import api, requests, sys
+
+satirlar = sys.stdin.read().splitlines()
+if len(satirlar) != 2:
+    print("HATA")
+    raise SystemExit
+
+oturum = requests.Session()
+y = oturum.post(api.SUNUCU + "/giris-form",
+                data={"kullanici": satirlar[0], "parola": satirlar[1]}, timeout=5)
+if y.status_code != 200:
+    print(f"{y.status_code}|-")
+else:
+    liste = oturum.get(api.SUNUCU + "/api/biletler", timeout=5)
+    print(f"200|{liste.json()['toplam']}")
+```
+
+```hint
+Gövdeyi metin olarak kurma; sözlük ver: `data={"kullanici": ..., "parola": ...}`. `requests` `&`, `=`, `+` ve boşluğu kendisi kodlar ve `Content-Type` başlığını koyar.
+```
+
+```hint
+`json=` gönderirsen sunucu `415` döner: `/giris-form` yalnız form biçimini kabul eder.
+```
+:::
+
+::: gorev Vekilden geçtiğini kanıtla
+`api.vekil_kur()` kimlik isteyen bir vekil başlatır ve adresini döndürür. Girdi kutusunun ilk satırı vekil kimliğidir: `ad:parola`. Satır boşsa kimliksiz dene.
+
+Vekili kullanan bir `Session` kur, giriş yap (`/giris`, JSON) ve `/api/bilet/101`'i iste. Tek satır yazdır:
+
+- Bilet geldiyse `<durum kodu>|<Via başlığı>|<başlık>`.
+- Vekil reddettiyse (`407`) `407|-|-`.
+- Yanıtta `Via` başlığı **yoksa**, yani istek vekilden geçmediyse, sonuç ne olursa olsun `VEKILSIZ` yazdır.
+
+```stdin
+vekil:pafta-vekil-2026
+```
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+import api
+api.vekil_kur()
+```
+
+```starter
+import api, requests
+
+kimlik = input().strip()
+oturum = requests.Session()
+oturum.proxies = {"https": api.VEKIL}
+oturum.post(api.SUNUCU + "/giris", json={"kullanici": api.KULLANICI, "parola": api.PAROLA}, timeout=5)
+y = oturum.get(api.SUNUCU + "/api/bilet/101", timeout=5)
+print(y.status_code, y.json()["baslik"])
+```
+
+```test
+import api
+eq(out, "200|1.1 pafta-vekil|web01 disk doldu\n", "kimlikli vekil: giriş ve bilet vekilden geçti")
+once = api.vekil_sayac()
+eq(run(stdin="vekil:pafta-vekil-2026\n"), "200|1.1 pafta-vekil|web01 disk doldu\n", "ikinci çalıştırma")
+ok(api.vekil_sayac() - once >= 2, "vekil hem girişi hem bilet isteğini gördü", got=api.vekil_sayac() - once)
+eq(run(stdin="vekil:yanlis\n"), "407|-|-\n", "yanlış vekil parolası 407")
+eq(run(stdin="\n"), "407|-|-\n", "kimliksiz istek 407")
+eq(run(stdin="baska:pafta-vekil-2026\n"), "407|-|-\n", "yanlış vekil kullanıcısı 407")
+yanlis_anahtar = src.replace('"http"', '"https"').replace("'http'", "'https'")
+if yanlis_anahtar != src:
+    eq(run_code(yanlis_anahtar, stdin="vekil:pafta-vekil-2026\n"), "VEKILSIZ\n",
+       "proxies anahtarı https olursa istek vekili atlar; bunu Via başlığından yakalarsın")
+ok("Via" in src, "vekilden geçtiğini yanıttaki Via başlığıyla doğrula")
+```
+
+```solution
+import api, requests
+
+kimlik = input().strip()
+vekil = api.VEKIL.replace("http://", f"http://{kimlik}@") if kimlik else api.VEKIL
+oturum = requests.Session()
+oturum.proxies = {"http": vekil}
+oturum.post(api.SUNUCU + "/giris", json={"kullanici": api.KULLANICI, "parola": api.PAROLA}, timeout=5)
+y = oturum.get(api.SUNUCU + "/api/bilet/101", timeout=5)
+via = y.headers.get("Via")
+if y.status_code == 407:
+    print("407|-|-")
+elif via is None:
+    print("VEKILSIZ")
+else:
+    print(f"{y.status_code}|{via}|{y.json()['baslik']}")
+```
+
+```hint
+`proxies` sözlüğünün anahtarı **hedefin** şemasıdır. Tezgah `http://` olduğu için anahtar `"http"` olmalı. Kimliği vekil adresine göm: `http://ad:parola@127.0.0.1:PORT`.
+```
+
+```hint
+Vekilin reddi `407` durum kodudur, istisna değildir. Önce `407`'yi, sonra `Via` başlığının yokluğunu denetle: `y.headers.get("Via")` başlık yoksa `None` verir.
+```
+:::
+
+::: gorev Kendi CA'nla doğrula
+`api.tls_kur()` uygulamayı HTTPS'te de başlatır: `api.HTTPS_SUNUCU`, ders CA'sı `api.CA` ve port `api.HTTPS_PORT`. Girdi kutusunun ilk satırı bir deneme adıdır:
+
+| Deneme | İstek |
+|---|---|
+| `ca` | `api.HTTPS_SUNUCU + "/bos"`, CA olarak `api.CA` |
+| `ca-yok` | `api.HTTPS_SUNUCU + "/yok"`, CA olarak `api.CA` |
+| `sistem` | `api.HTTPS_SUNUCU + "/bos"`, varsayılan doğrulama (CA verme) |
+| `ad` | `https://localhost:<api.HTTPS_PORT>/bos`, CA olarak `api.CA` |
+
+Tek satır yazdır: HTTP yanıtı geldiyse `HTTP|<durum kodu>`; imzacı tanınmadıysa `TANINMAYAN_CA`; sertifika bu ada verilmemişse `AD_UYUSMAZ`. Tanınmayan deneme adı için `HATA`. **Doğrulamayı hiçbir denemede kapatma.**
+
+```stdin
+ca
+```
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+import api
+api.tls_kur()
+```
+
+```starter
+import api, requests
+
+deneme = input().strip()
+y = requests.get(api.HTTPS_SUNUCU + "/bos", verify=False, timeout=5)
+print("HTTP|" + str(y.status_code))
+```
+
+```test
+eq(out, "HTTP|204\n", "ders CA'sıyla doğrulama geçer")
+eq(run(stdin="ca-yok\n"), "HTTP|404\n", "404 bir TLS hatası değildir: el sıkışma başarılı, sunucu HTTP'de yok dedi")
+eq(run(stdin="sistem\n"), "TANINMAYAN_CA\n", "varsayılan güven deposu ders CA'sını tanımaz")
+eq(run(stdin="ad\n"), "AD_UYUSMAZ\n", "sertifika 127.0.0.1'e verildi; localhost başka bir addır")
+eq(run(stdin="baska\n"), "HATA\n", "tanınmayan deneme")
+ok("verify=False" not in src.replace(" ", ""), "verify=False doğrulamayı kapatır; kullanma")
+ok("api.CA" in src, "CA yalnız o çağrıya verilir: verify=api.CA")
+```
+
+```solution
+import api, requests
+
+deneme = input().strip()
+istekler = {
+    "ca": (api.HTTPS_SUNUCU + "/bos", api.CA),
+    "ca-yok": (api.HTTPS_SUNUCU + "/yok", api.CA),
+    "sistem": (api.HTTPS_SUNUCU + "/bos", True),
+    "ad": (f"https://localhost:{api.HTTPS_PORT}/bos", api.CA),
+}
+if deneme not in istekler:
+    print("HATA")
+    raise SystemExit
+
+adres, dogrula = istekler[deneme]
+try:
+    y = requests.get(adres, verify=dogrula, timeout=5)
+except requests.exceptions.SSLError as e:
+    print("AD_UYUSMAZ" if "Hostname mismatch" in str(e) else "TANINMAYAN_CA")
+else:
+    print(f"HTTP|{y.status_code}")
+```
+
+```hint
+`verify` hem `True`/`False` hem bir dosya yolu alır: `verify=api.CA`. Varsayılan (`True`) `requests`'in kendi güven deposudur.
+```
+
+```hint
+İki doğrulama hatası da `requests.exceptions.SSLError`'dır. Ayırmak için mesajın içine bak: ad uyuşmazlığında `Hostname mismatch` geçer, tanınmayan imzacıda `unable to get local issuer certificate`.
+```
+:::
+
+::: gorev Hangi kütüphaneyle çalıştın?
+Raporuna eklenecek üç satırı yazdır:
+
+```text
+python <büyük.küçük.yama>
+requests <sürüm> <yüklendiği klasör>
+urllib3 <sürüm> <yüklendiği klasör>
+```
+
+Klasör, modülü içeren paket klasörünün **bir üstüdür** (`requests/__init__.py` için `.../site-packages` gibi). Sürümü **o klasördeki dağıtım kaydından** al: `importlib.metadata.distributions(path=[klasör])`. Modülün kendi `__version__` değeri kayıttaki sürümle uyuşmuyorsa o satırın sonuna ` UYUSMAZ` ekle.
+
+```setup
+import os, runpy, sys
+_s = next(os.path.dirname(m.__file__) for m in list(sys.modules.values())
+          if os.path.basename(getattr(m, "__file__", None) or "") in ("py_harness.py", "wsl_job.py"))
+runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
+```
+
+```starter
+import requests, urllib3
+
+print("requests", requests.__version__)
+print("urllib3", urllib3.__version__)
+```
+
+```test
+import importlib.metadata as md, os, sys
+satirlar = out.splitlines()
+eq(len(satirlar), 3, "üç satır")
+eq(satirlar[0] if satirlar else "", "python " + ".".join(str(x) for x in sys.version_info[:3]), "yorumlayıcı sürümü")
+for satir, ad in zip(satirlar[1:], ("requests", "urllib3")):
+    p = satir.split(" ")
+    ok(len(p) >= 3 and p[0] == ad, ad + " satırı", got=satir)
+    if len(p) < 3:
+        continue
+    klasor = " ".join(p[2:]).removesuffix(" UYUSMAZ")
+    ok(os.path.isfile(os.path.join(klasor, ad, "__init__.py")), ad + " gerçekten bu klasörden yüklenebilir", got=klasor)
+    kayit = [d.version for d in md.distributions(path=[klasor]) if d.metadata["Name"].lower() == ad]
+    eq(p[1], kayit[0] if kayit else None, ad + " sürümü o klasördeki dağıtım kaydıyla aynı")
+    modul = sys.modules.get(ad)
+    ok(modul is not None and os.path.dirname(os.path.dirname(modul.__file__)) == klasor,
+       ad + " klasörü gerçekten yüklenen kopyanın klasörü")
+    if modul is not None:
+        eq(satir.endswith(" UYUSMAZ"), modul.__version__ != p[1],
+           ad + ": UYUSMAZ yalnız __version__ kayıttan farklıysa eklenir")
+import requests
+gercek = requests.__version__
+requests.__version__ = "0.0.0"
+try:
+    bozuk = run_code(src).splitlines()
+finally:
+    requests.__version__ = gercek
+ok(len(bozuk) == 3 and bozuk[1].endswith(" UYUSMAZ") and not bozuk[2].endswith(" UYUSMAZ"),
+   "modülün __version__'ı kayıttan farklıysa yalnız o satıra UYUSMAZ eklenir", got=bozuk[1:])
+ok("distributions" in src, "sürümü yüklenen klasördeki dağıtım kaydından al")
+```
+
+```solution
+import importlib.metadata as md, os, sys
+import requests, urllib3
+
+print("python", ".".join(str(x) for x in sys.version_info[:3]))
+for modul in (requests, urllib3):
+    ad = modul.__name__
+    klasor = os.path.dirname(os.path.dirname(modul.__file__))
+    surum = next(d.version for d in md.distributions(path=[klasor]) if d.metadata["Name"].lower() == ad)
+    print(ad, surum, klasor + ("" if modul.__version__ == surum else " UYUSMAZ"))
+```
+
+```hint
+`os.path.dirname(requests.__file__)` paketin kendi klasörüdür (`.../requests`); bir kez daha `dirname` alınca paketin bulunduğu yer çıkar.
+```
+
+```hint
+`importlib.metadata.version("requests")` kısa yoldur, ama `sys.path`'te **ilk bulduğu** kaydı okur. Bir paketin iki kopyası varsa bu kayıt yüklenen kopyanınki olmayabilir. Klasörü `__file__`'dan al, kaydı o klasörde ara: `[d for d in md.distributions(path=[klasor]) if d.metadata["Name"].lower() == "requests"]`.
 ```
 :::
 
