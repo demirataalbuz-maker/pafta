@@ -1728,6 +1728,129 @@ function openSettings() {
 }
 
 // ── yönlendirme ───────────────────────────────────────────────────────────────
+// ── Rota: Pafta + TryHackMe + HackTheBox ─────────────────────────────────────
+const ROTA_PLATFORM = { pafta: "Pafta", thm: "TryHackMe", htb: "HackTheBox Academy" };
+
+function rotaYuzde(a) {
+  // Bir aşamanın üç sütununun ilerlemesi (0–100); boş sütun null
+  const ort = xs => (xs.length ? xs.reduce((s, x) => s + x, 0) / xs.length : null);
+  const pb = a.pafta.reduce((s, t) => s + t.bitti, 0), pt = a.pafta.reduce((s, t) => s + t.toplam, 0);
+  return { pafta: pt ? pb / pt * 100 : null, thm: ort(a.thm.map(y => y.yuzde)), htb: ort(a.htb.map(y => y.yuzde)) };
+}
+
+function rotaGenel(r) {
+  // Seçmeli aşama ve yan yol genel ilerlemeye katılmaz
+  const ana = r.asamalar.filter(a => a.id !== "secmeli");
+  const pafta = ana.flatMap(a => a.pafta), thm = ana.flatMap(a => a.thm), htb = ana.flatMap(a => a.htb);
+  const ort = xs => (xs.length ? xs.reduce((s, y) => s + y.yuzde, 0) / xs.length : 0);
+  const pt = pafta.reduce((s, t) => s + t.toplam, 0);
+  return { pafta: pt ? pafta.reduce((s, t) => s + t.bitti, 0) / pt * 100 : 0, thm: ort(thm), htb: ort(htb) };
+}
+
+const yuzdeYaz = x => (x == null ? "—" : (Math.round(x * 10) / 10).toLocaleString("tr-TR"));
+
+function rotaSatirDis(platform, y) {
+  const sert = y.sertifika_adi
+    ? `<label class="rota-sert ${y.sertifika ? "on" : ""}" title="${at(y.sertifika_adi)} sınavını geçtiysen işaretle">` +
+      `<input type="checkbox" data-sert="${platform}:${y.id}" ${y.sertifika ? "checked" : ""}> ${esc(y.sertifika_adi)}</label>`
+    : "";
+  return `<div class="rota-satir ${y.yuzde >= 100 ? "bitti" : ""}" data-satir="${platform}:${y.id}">` +
+    `<span class="rota-ad">${esc(y.ad)}</span>${sert}` +
+    `<span class="rota-girdi"><input type="number" min="0" max="100" step="0.1" value="${y.yuzde}" data-yuzde="${platform}:${y.id}" aria-label="${at(y.ad)} ilerleme yüzdesi"><small>%</small></span>` +
+    `<span class="rota-bar"><i style="width:${y.yuzde}%"></i></span></div>`;
+}
+
+function rotaSatirPafta(t) {
+  const y = t.toplam ? t.bitti / t.toplam * 100 : 0;
+  return `<a class="rota-satir pafta ${t.toplam && t.bitti === t.toplam ? "bitti" : ""}" href="#/yol/${t.id}">` +
+    `<span class="rota-ad">${esc(t.ad)}</span><span class="rota-sayi">${t.bitti}<small>/${t.toplam}</small></span>` +
+    `<span class="rota-bar"><i style="width:${y}%"></i></span></a>`;
+}
+
+function rotaAsama(a, no, simdi) {
+  const y = rotaYuzde(a);
+  const sutun = (p, ic) => `<div class="rota-sutun ${p}"><div class="rota-sb"><span class="label">${ROTA_PLATFORM[p]}</span>` +
+    `<b data-asama-yuzde="${a.id}:${p}">${yuzdeYaz(y[p])}${y[p] == null ? "" : "<small>%</small>"}</b></div>${ic || `<p class="rota-bos">Bu aşamada yok</p>`}</div>`;
+  return `<section class="rota-asama ${simdi ? "simdi" : ""}" data-asama="${a.id}">
+    <header class="rota-ah"><span class="rota-no">${no}</span><div><h2>${esc(a.ad)}</h2><p>${esc(a.not)}</p></div>${simdi ? `<span class="rota-simdi">ŞİMDİ</span>` : ""}</header>
+    <div class="rota-izgara">
+      ${sutun("pafta", a.pafta.map(rotaSatirPafta).join(""))}
+      ${sutun("thm", a.thm.map(x => rotaSatirDis("thm", x)).join(""))}
+      ${sutun("htb", a.htb.map(x => rotaSatirDis("htb", x)).join(""))}
+    </div></section>`;
+}
+
+function rotaGenelBoya() {
+  const g = rotaGenel(S.rota);
+  for (const p of ["pafta", "thm", "htb"]) {
+    const k = $(`[data-genel="${p}"]`);
+    if (!k) continue;
+    k.querySelector(".rota-buyuk").innerHTML = `${yuzdeYaz(g[p])}<small>%</small>`;
+    k.querySelector(".rota-bar i").style.width = `${g[p]}%`;
+  }
+  for (const a of [...S.rota.asamalar, S.rota.yan]) {
+    const y = rotaYuzde(a);
+    for (const p of ["pafta", "thm", "htb"]) {
+      const b = $(`[data-asama-yuzde="${a.id}:${p}"]`);
+      if (b) b.innerHTML = `${yuzdeYaz(y[p])}${y[p] == null ? "" : "<small>%</small>"}`;
+    }
+  }
+}
+
+async function renderRota() {
+  view.innerHTML = `<div class="page"><p class="label">Yükleniyor…</p></div>`;
+  try { S.rota = await api("/api/rota"); }
+  catch (e) { view.innerHTML = `<div class="page"><div class="empty-state">Rota yüklenemedi: ${esc(e.message)}</div></div>`; return; }
+  const r = S.rota;
+  const tam = a => { const y = rotaYuzde(a); return ["pafta", "thm", "htb"].every(p => y[p] == null || y[p] >= 100); };
+  const simdi = r.asamalar.findIndex(a => !tam(a));
+  const g = rotaGenel(r);
+  const kadran = p => `<div class="rota-kadran ${p}" data-genel="${p}"><span class="label">${ROTA_PLATFORM[p]}</span>` +
+    `<span class="rota-buyuk">${yuzdeYaz(g[p])}<small>%</small></span><span class="rota-bar"><i style="width:${g[p]}%"></i></span></div>`;
+  view.innerHTML = `<div class="page rota">
+    <span class="label">Purple team · üç cephe birlikte</span>
+    <h1 class="page-title">Rota</h1>
+    <p class="page-sub">Her aşamada THM ile ısın, HTB ile derinleş, Pafta'da platformların atladığı kısmı öğren. Pafta ilerlemesi derslerinden kendiliğinden gelir; THM ve HTB yüzdelerini sitede gördüğün gibi yaz, kendiliğinden kaydedilir.</p>
+    <div class="rota-kadranlar">${kadran("pafta")}${kadran("thm")}${kadran("htb")}</div>
+    ${r.asamalar.map((a, i) => rotaAsama(a, pad(i + 1), i === simdi)).join("")}
+    ${rotaAsama(r.yan, "∥", false)}
+  </div>`;
+
+  // Her satırın kendi bekleme süresi var: bir satıra yazarken ötekinin kaydı iptal olmasın
+  const bekleyen = {};
+  const kaydet = (platform, id, govde, satir, hemen = false) => {
+    const anahtar = `${platform}:${id}:${Object.keys(govde)[0]}`;
+    clearTimeout(bekleyen[anahtar]);
+    bekleyen[anahtar] = setTimeout(async () => {
+      try {
+        const k = await api("/api/rota", { platform, id, ...govde });
+        const a = [...r.asamalar, r.yan].find(a => a[platform].some(y => y.id === id));
+        Object.assign(a[platform].find(y => y.id === id), k);
+        if (satir) satir.classList.toggle("bitti", k.yuzde >= 100);
+        rotaGenelBoya();
+      } catch (err) { toast(err.message); }
+    }, hemen ? 0 : 450);
+  };
+
+  view.oninput = e => {
+    const yz = e.target.dataset.yuzde;
+    if (!yz) return;
+    const [platform, id] = yz.split(":");
+    const v = Math.max(0, Math.min(100, parseFloat(e.target.value.replace(",", ".")) || 0));
+    const satir = e.target.closest(".rota-satir");
+    satir.querySelector(".rota-bar i").style.width = `${v}%`;
+    kaydet(platform, id, { yuzde: v }, satir);
+  };
+  view.onchange = e => {
+    const s = e.target.dataset.sert;
+    if (!s) return;
+    const [platform, id] = s.split(":");
+    e.target.closest(".rota-sert").classList.toggle("on", e.target.checked);
+    kaydet(platform, id, { sertifika: e.target.checked }, null, true);
+  };
+  view.onclick = null;
+}
+
 function route() {
   const p = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean).map(decodeURIComponent);
   const key = !p[0] || p[0] === "ders" || p[0] === "yol" ? "harita" : p[0];
@@ -1741,6 +1864,7 @@ function route() {
   if (p[0] === "tekrar" && p[3] !== undefined) return renderReviewSolve(p[1], p[2], +p[3]);
   if (p[0] === "tekrar") return renderReview();
   if (p[0] === "tezgah") return renderPlayground(p[1]);
+  if (p[0] === "rota") return renderRota();
   if (p[0] === "yol" && p[1]) return renderMap(p[1]);
   return renderMap();
 }

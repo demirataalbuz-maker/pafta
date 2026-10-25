@@ -807,3 +807,53 @@ dialog::backdrop { background: rgba(4, 14, 28, .55); }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ── Rota: Pafta + TryHackMe + HackTheBox ─────────────────────────────────── */
+.rota { max-width: 1180px; }
+.rota { --c-pafta: var(--marker); --c-thm: var(--bad); --c-htb: var(--ok); }
+.rota-bar { display: block; height: 4px; background: var(--line); position: relative; overflow: hidden; }
+.rota-bar i { position: absolute; inset: 0 auto 0 0; background: var(--c, var(--marker)); transition: width .25s; }
+.rota .pafta { --c: var(--c-pafta); }
+.rota .thm { --c: var(--c-thm); }
+.rota .htb { --c: var(--c-htb); }
+.rota-kadranlar { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); margin: 26px 0 8px; background: var(--sheet-2); }
+.rota-kadran { padding: 18px 22px 20px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; border-top: 3px solid var(--c); }
+.rota-kadran:last-child { border-right: 0; }
+.rota-buyuk { font: 700 54px/1 var(--f-head); font-stretch: 80%; color: var(--c); }
+.rota-buyuk small, .rota-sb b small { font-size: .45em; color: var(--ink-faint); font-weight: 400; margin-left: 3px; }
+.rota-kadran .rota-bar { height: 6px; }
+.rota-asama { border: 1px solid var(--line); margin-top: 22px; background: var(--sheet); position: relative; }
+.rota-asama.simdi { border-color: var(--marker); box-shadow: 0 0 0 1px var(--marker), var(--shadow); }
+.rota-ah { display: flex; align-items: center; gap: 18px; padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--sheet-2); }
+.rota-ah h2 { font: 600 17px/1.2 var(--f-head); letter-spacing: .12em; text-transform: uppercase; margin: 0; }
+.rota-ah p { margin: 3px 0 0; font-size: 12.5px; color: var(--ink-soft); }
+.rota-ah > div { flex: 1; }
+.rota-no { font: 700 34px/1 var(--f-head); font-stretch: 75%; color: var(--ink-faint); min-width: 44px; }
+.rota-asama.simdi .rota-no { color: var(--marker); }
+.rota-simdi { font: 700 11px/1 var(--f-label); letter-spacing: .22em; color: var(--marker-ink); background: var(--marker); padding: 6px 9px; border-radius: 2px; }
+.rota-izgara { display: grid; grid-template-columns: 1.15fr 1fr 1fr; }
+.rota-sutun { border-right: 1px solid var(--line); padding: 0 0 6px; border-top: 2px solid var(--c); }
+.rota-sutun:last-child { border-right: 0; }
+.rota-sb { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 16px 8px; }
+.rota-sb b { font: 600 20px/1 var(--f-head); color: var(--c); }
+.rota-bos { margin: 4px 16px 10px; font-size: 12px; color: var(--ink-faint); font-style: italic; }
+.rota-satir { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 6px 10px; padding: 9px 16px; border-top: 1px dashed var(--line); color: inherit; text-decoration: none; }
+.rota-satir .rota-bar { grid-column: 1 / -1; }
+.rota-satir.pafta { grid-template-columns: 1fr auto; }
+a.rota-satir:hover { background: var(--marker-soft); }
+.rota-ad { font: 500 13.5px/1.3 var(--f-head); letter-spacing: .02em; }
+.rota-satir.bitti .rota-ad::after { content: " ✓"; color: var(--c); font-weight: 700; }
+.rota-sayi { font: 12px var(--f-mono); color: var(--ink-soft); }
+.rota-sayi small { color: var(--ink-faint); }
+.rota-girdi { display: flex; align-items: center; gap: 3px; }
+.rota-girdi input { width: 62px; background: var(--code-bg); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: 4px 6px; font: 13px var(--f-mono); text-align: right; }
+.rota-girdi input:focus { border-color: var(--c); outline: none; }
+.rota-girdi small { color: var(--ink-faint); font-size: 12px; }
+.rota-sert { font: 600 10px/1 var(--f-label); letter-spacing: .14em; border: 1px dashed var(--line); padding: 4px 6px; border-radius: 2px; color: var(--ink-faint); cursor: pointer; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.rota-sert input { margin: 0; accent-color: var(--c); }
+.rota-sert.on { border-style: solid; border-color: var(--c); color: var(--c); }
+.rota-asama[data-asama="yan"] { border-style: dashed; }
+@media (max-width: 900px) {
+  .rota-izgara, .rota-kadranlar { grid-template-columns: 1fr; }
+  .rota-sutun, .rota-kadran { border-right: 0; }
+}
