@@ -152,19 +152,22 @@
    "commit": "cfe268d"
   },
   "Assembly: ELF/PE yükleyici bağlamı ve adres türlerini okumak": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS13; okuma düzeyi korundu (assembly okunur, görevler Python'da modellenir), gercek blokları Kali binutils 2.47 / nasm 3.01 ve gerçek ntdll.dll üzerinde ölçüldü. ölçülen: LOAD segmentleri (0x1000->0x401000), kare VA 0x401106 -> dosya ofseti 0x1106, .o'da adres yerine R_X86_64_PLT32 yer değiştirmesi, gerçek ntdll .text VMA 0x180001000 / ham ofset 0x1000 (ImageBase 0x180000000). RVA ile ham ofsetin çakışmasının rastlantı olduğu vurgulandı. asm yolu 15 ders/77 kontrol temiz; mutasyon as13 8/8, as14 7/7, as15 8/8.",
+   "commit": "c0ef467"
   },
   "Assembly: x86-32 cdecl/stdcall çağrı kurallarını okumak": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS14; okuma düzeyi korundu (assembly okunur, görevler Python'da modellenir), gercek blokları Kali binutils 2.47 / nasm 3.01 ve gerçek ntdll.dll üzerinde ölçüldü. ölçülen (gcc -m32 -O0): push 0x3/0x2/0x1 + call + add esp,0xc (cdecl, çağıran temizler, düz ret c3); push 0x5/0x4 + call ve temizlik yok (stdcall, callee ret 0x8 = c2 08 00). asm yolu 15 ders/77 kontrol temiz; mutasyon as13 8/8, as14 7/7, as15 8/8.",
+   "commit": "c0ef467"
   },
   "Assembly: x86-64 syscall (0f 05) ABI'si ve Windows ntdll sistem çağrısı şablonunu okumak": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS15; okuma düzeyi korundu (assembly okunur, görevler Python'da modellenir), gercek blokları Kali binutils 2.47 / nasm 3.01 ve gerçek ntdll.dll üzerinde ölçüldü. ölçülen: nasm ile Linux write/exit (0f 05, rax numara); gerçek ntdll stub'ı mov r10,rcx / mov eax,0xf / test 0x7ffe0308 / syscall / ret / int 0x2e. Dördüncü argümanın rcx yerine r10 olmasının nedeni (syscall rcx ve r11'i ezer) açıklandı. asm yolu 15 ders/77 kontrol temiz; mutasyon as13 8/8, as14 7/7, as15 8/8.",
+   "commit": "c0ef467"
   },
   "Java: Spring Data JPA ve transaction proxy akışı": {
    "durum": "denetime-hazir",
@@ -441,7 +444,7 @@
   "Assembly: Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi": {
    "durum": "codex-opus",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25) | Claude (Yazar 1): GDB Kali'de kurulu değil; paket kurma kuralı gereği kullanıcı onayı bekleniyor. Diğer üç assembly maddesi c0ef467'de bitti."
   },
   "purple: Bellek analizi: Volatility 3 / MemProcFS ile süreç, ağ bağlantısı ve enjeksiyon izleri (purple team karşılaştırması, 10-24)": {
    "durum": "codex-opus",
