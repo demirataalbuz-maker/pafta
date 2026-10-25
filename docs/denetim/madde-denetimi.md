@@ -41,3 +41,30 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
 - **Karşılananlar:** `select` ve `find`, öznitelik (`tr["data-id"]`) ve `get_text(strip=True)`, olmayan öğenin `None` dönmesi ve buna karşı korunmak, kapanmamış etiketin veriyi sessizce birleştirmesi (bozuk HTML), `html.parser`.
 - **Eksikler:** `find_all` yalnız anlatımda; görevlerde hep `select` kullanılıyor. Önemli bir eksik değil.
 - **Karar:** **Tam.**
+
+## Madde 4 · Python · Scapy ile paket kaydını Python'dan okumak ve üretmek
+
+- **Dersler:** P80 okuma (`9128368`, **Yazar 2 — kendi yazdığım ders, çıkar çatışması**), P81 üretme (`fc11f0d`, Yazar 1).
+- **Denetim:** anlık görüntü `9be539d`. Validate (P76–P83 birlikte 48 kontrol) PowerShell ve Git Bash'te temiz. P80 tahmini uyuşuyor; mutasyon P80'de 7/7 yakalandı. P81 25 Ekim'de ayrıca denetlendi (3 yanlış çözümün 3'ü reddedildi).
+- **Karşılananlar:** `rdpcap` ve `PcapReader`, katman yığını ve `haslayer`, alan okuma, başlık alanı ile çözülmüş katman farkı, snaplen kırpması (`caplen`/`wirelen`) ile kesik kayıt; P81'de katman katman paket kurmak, hesaplanan alanlar, `wrpcap` ve geri okuma, sağlamanın Scapy'de ve TShark'ta doğrulanması.
+- **Eksikler:** yok (Windows `.deps`'e Scapy taşımak ASAMA2'de "sonraki dalga seçeneği", zorunlu değil).
+- **Karar:** **Tam.** P80 için bağımsız bir gözün bakması iyi olur.
+
+## Madde 5 · Python · ctypes ile native API/ABI okuma ve küçük çağrılar
+
+- **Dersler:** P82–P83 (`fc11f0d`, Yazar 1). 25 Ekim denetiminde A40 bulundu ve düzeltildi (`7814a3e`).
+- **Denetim:** validate iki ortamda temiz; tahminler uyuşuyor; mutasyon 6/6.
+- **Karşılananlar:** `argtypes`/`restype` ve verilmezse 64 bitlik handle'ın kırpılması (ölçüldü), `c_wchar_p` ve UTF-16 kod birimi, `use_last_error` ve `GetLastError`, `Structure`, hizalama ve `_pack_`, `sizeof`/offset, `byref` ile Win32'ye yapı doldurtmak, `from_buffer_copy`.
+- **Eksikler:**
+  - ASAMA2 "**32–64 bit boyut testleri**" istiyor. Laboratuvarda yalnız 64 bit Python var; 32 bit taraf yalnız anlatımda (kırpılma örneğiyle), sınanmıyor.
+  - "Yerel **test kitaplığı**" yerine Windows'un `kernel32`'si kullanılıyor; zararsız ve gerçek, ama öğrencinin kendi derlediği bir kitaplıkla imza uyuşmazlığını görmesi yok.
+  - P82 ikinci görevde `c_void_p` hâlâ kaynak metninden denetleniyor (A40 notu); davranışla ayırt etmek görevin dönüş biçimini değiştirmeyi gerektirir.
+- **Karar:** **Kısmen** (küçük eksikler).
+
+## Madde 6 · Python · pwntools kullanan hazır betiği okumak ve uyarlamak
+
+- **Dersler:** P76–P77 (`312e90b`). Yazar: başka ajan.
+- **Denetim:** validate iki ortamda temiz; 2 tahmin uyuşuyor. Mutasyon 28 mutantın 25'i yakalandı; geçen 3'ü yalnız hata mesajındaki sayıyı değiştiriyor ("32 bit", "16 bayt"), testler mesaj metnine bakmadığı için eşdeğer.
+- **Karşılananlar:** `context` ve endian, `p16`/`p32`/`u16`/`u32` işaretli ve işaretsiz paketleme, uzunluk denetimi; yerel bir oyuncak süreçle `process`/tube akışı, satır sınırı, `recvn` ile tam uzunluk, zaman aşımı ve EOF'un ayrılması; hazır bir paketleyiciyi uyarlama görevi.
+- **Eksikler:** yok.
+- **Karar:** **Tam.**
