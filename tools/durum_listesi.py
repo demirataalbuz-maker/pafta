@@ -177,7 +177,7 @@ PANEL = r"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root{--kagit:#efe8d6;--kagit2:#e6dcc3;--murekkep:#1e2a33;--soluk:#6d6a5e;--cizgi:#b9ad8e;
- --codex:#13808a;--bitti:#2f5d3a;--hazir:#2d5f8b;--calis:#c98a12;--taslak:#c4561d;--kismen:#6b4c8a;--isaret:#c0261c;--kirmizi:#b3261e;--mavi:#1f5fbf}
+ --codex:#13808a;--bitti:#2f5d3a;--hazir:#4f8a52;--calis:#c98a12;--taslak:#c4561d;--kismen:#6b4c8a;--isaret:#c0261c;--kirmizi:#b3261e;--mavi:#1f5fbf}
 *{box-sizing:border-box}
 body{margin:0;background:var(--kagit);color:var(--murekkep);font-family:Bahnschrift,"Segoe UI",system-ui,sans-serif;
  background-image:repeating-radial-gradient(circle at 78% 12%,transparent 0 38px,rgba(120,100,60,.09) 38px 39px),
