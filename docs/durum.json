@@ -188,9 +188,10 @@
    "not": "JS13; Express 5.3.0 .deps/npm'e (tools/js_bagimlilik_kur.py, kilit dosyası tools/js_bagimliliklar, npm ci --ignore-scripts); javascript koşucusuna NODE_PATH"
   },
   "Java: Serialization nesne grafiği, callback ve filtre sınırlarını okumak": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JV14; okuma düzeyi korundu, gercek blokları OpenJDK 25.0.4te ölçüldü. Ölçülen: okurken sınıfın kendi kurucusu çalışmıyor ama Serializable olmayan üst sınıfınki çalışıyor; readObject başında alanlar boş; filtre eşikleri dahil (maxdepth=3 kabul / 2 ret, maxarray=5 kabul / 4 ret); ilk eşleşen kalıp karar veriyor; ret InvalidClassException (REJECTED). Java yolu 14 ders/72 kontrol temiz; mutasyon 9/10 (biri eşdeğer).",
+   "commit": "9595373"
   },
   "C#: Nesne grafiği serializer'larında güvenilmeyen veri akışı": {
    "durum": "denetime-hazir",
@@ -415,7 +416,7 @@
   "Java: Şablon motorlarında (Thymeleaf / FreeMarker) bağlam, otomatik kaçış ve ifadeleri okumak": {
    "durum": "codex-opus",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25) | Claude (Yazar 1): m2 önbelleğinde spring-security/thymeleaf/freemarker yok; Maven indirmesi için kullanıcı onayı bekleniyor. Madde 67 (JV14) 9595373te bitti."
   },
   "C#: XML ayrıştırıcı ayarlarında (XmlReaderSettings / DtdProcessing) DTD ve dış varlık sınırlarını okumak": {
    "durum": "denetime-hazir",
@@ -494,7 +495,7 @@
   "Java: Gerçek Spring Security zinciri ve method authorization": {
    "durum": "claude-alabilir",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e | Claude (Yazar 1): m2 önbelleğinde spring-security/thymeleaf/freemarker yok; Maven indirmesi için kullanıcı onayı bekleniyor. Madde 67 (JV14) 9595373te bitti."
   },
   "C#: Assembly/CIL ve P/Invoke sınırını okumak": {
    "durum": "denetime-hazir",
