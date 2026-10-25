@@ -68,3 +68,38 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
 - **Karşılananlar:** `context` ve endian, `p16`/`p32`/`u16`/`u32` işaretli ve işaretsiz paketleme, uzunluk denetimi; yerel bir oyuncak süreçle `process`/tube akışı, satır sınırı, `recvn` ile tam uzunluk, zaman aşımı ve EOF'un ayrılması; hazır bir paketleyiciyi uyarlama görevi.
 - **Eksikler:** yok.
 - **Karar:** **Tam.**
+
+## Madde 7 · Python · Impacket kullanan Windows/AD protokol betiğini okumak
+
+- **Dersler:** P78–P79 (`b645c80`). Yazar: başka ajan.
+- **Denetim:** anlık görüntü `9be539d`; validate (P78, P79, BS29, BS31–BS33 birlikte 52 kontrol) PowerShell ve Git Bash'te temiz; P79 tahmini uyuşuyor. Mutasyon: 67 mutantın 59'u yakalandı. Geçen 8'in 7'si yalnız hata mesajı metni (eşdeğer). **Biri gerçek, küçük bir test boşluğu:** P79 "Kaydedilmiş yanıt başlığını özetle" görevinde üst sınır `2**64 - 1` → `2**65 - 1` gevşetilince test fark etmiyor; `2**64` sınır değeri sınanmıyor.
+- **Karşılananlar:** kurulu Impacket'in sürümü ve içe aktarma yolu kaydediliyor (ASAMA2'nin istediği); `LDAP_SID` ile ham SID baytları; `SMB2Packet` / `SMB2Echo` ile sabit kayıt üretmek ve yanıt başlığı alanlarını (komut, bayrak, MessageID, Status) okumak; sürüme bağlı yardımcı sınırları.
+- **Eksikler:**
+  - ASAMA2 "neden"inde "**örnek betiğin seçeneklerini** ve **bağımlılık sorunlarını** çözmek" var. Hazır bir Impacket örnek betiğinin (ör. `examples/` altındaki araçlar) komut satırı seçeneklerini okumak yalnız bir ipucunda anılıyor; görev yok. Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok.
+  - Yukarıdaki `2**64` sınır testi.
+- **Karar:** **Kısmen.**
+
+## Madde 8 · Bash · curl/jq ile API ve JSON araç zinciri
+
+- **Ders:** BS29 (`0362d53`). Yazar: başka ajan.
+- **Denetim:** validate iki ortamda temiz; tahmin uyuşuyor. Mutasyon 11 mutantın 9'u yakalandı; geçen 2'si eşdeğer (bir yorum satırındaki sayı; `2> /dev/null`'un bozulması yalnız stderr'i etkiliyor, testler stdout'a bakıyor).
+- **Karşılananlar:** curl'ün çıkış kodu ile HTTP durumunun ayrı olması (401'de 0, `--fail` 22, kapalı port 7, zaman aşımı 28), çerez kavanozu, `--json`, güvenli sorgu dizesi; `jq -r`, `@tsv`, `select`, `--arg` ile güvenli değişken geçirmek, `// empty`, bozuk JSON'un `jq empty` ile denetlenmesi.
+- **Eksikler:**
+  - ASAMA2 açıkça **`jq -e`** istiyor ve dersin özeti de "-e" diyor, ama **derste `jq -e` hiç kullanılmıyor** (`null`/`false` sonucunda sıfır olmayan çıkış kodu). Özet içerikten fazlasını vaat ediyor.
+- **Karar:** **Kısmen.**
+
+## Madde 9 · Bash · Linux süreç ve olay verisini kaynağından toplamak
+
+- **Ders:** BS31 (`572363f`; A37 düzeltmesi kapandı). Yazar: başka ajan.
+- **Denetim:** validate iki ortamda temiz; 2 tahmin uyuşuyor. Mutasyon 29 mutantın 24'ü yakalandı; geçen 5'i `2> /dev/null` yönlendirmesinin bozulması (yalnız stderr; eşdeğer).
+- **Karşılananlar:** `/proc/<pid>` (status, NUL ayrımlı `cmdline` ve `environ`, 15 karakterlik ad, `exec -a` ile sahte argv[0]), `ps -o` ve süreç ağacı, `journalctl --file` ile dağıtılan günlük dosyası, UTC çıktısı, `systemd-journal-remote` ile kendi günlüğünü üretmek; çalışan servis varsayılmıyor.
+- **Eksikler:** JSON çıktısı (`-o json`) yalnız bir tabloda anılıyor; hiçbir görevde kullanılmıyor (ASAMA2 "JSON/UTC çıktısı" diyor). Küçük.
+- **Karar:** **Kısmen** (küçük).
+
+## Madde 10 · Bash · rwx sonrası POSIX ACL ve Linux capabilities
+
+- **Dersler:** BS32–BS33 (`0348358`). **Yazar 2 — kendi yazdığım dersler, çıkar çatışması.**
+- **Denetim:** validate iki ortamda temiz; 2 tahmin uyuşuyor. Mutasyon 34 mutantın 30'u yakalandı; geçen 4'ü `>&2` / `2>/dev/null` yönlendirmesi (yalnız stderr; eşdeğer).
+- **Karşılananlar:** adlı kullanıcı/grup girdileri, maske ve `#effective`, erişim denetimi sırası, `chmod`'un maskeyi değiştirmesi, varsayılan ACL ile kalıtım ve umask; capability maskelerini `/proc/PID/status` ve `capsh --decode` ile okumak, dosya capability'leri; **gerçek erişim karşılaştırması** `setpriv` ile başka kimlikle denenerek yapılıyor (ASAMA2'nin istediği).
+- **Eksikler:** bulmadım. Kendi işim olduğu için bağımsız bir göz gerekli.
+- **Karar:** **Tam** (çıkar çatışması notuyla).
