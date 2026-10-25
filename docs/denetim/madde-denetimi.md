@@ -182,3 +182,70 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
   - ASAMA2 **"ACL nesnesinden rapor ve gerçek erişim sonucunu karşılaştırmak"** istiyor. Derste gerçek erişim **denenmiyor**: Deny kuralı konup okuma/yazma denenmiyor, `UnauthorizedAccessException` gözlenmiyor. Etkin yetki görevi metin girdisi üzerinde bir benzetim. Madde 10'daki `setpriv` denemesinin Windows karşılığı yok.
   - Test boşlukları yukarıda (küçük).
 - **Karar:** **Kısmen** (gerçek erişim karşılaştırması eksik).
+
+> Madde 16–20 toplu ölçüm: 6 ders, validate iki ortamda temiz (38 denetim), 6 tahminin hepsi uyuşuyor, mutasyonda 121 mutantın 111'i yakalandı. Geçen 10 mutant aşağıda maddesine göre ayrıldı.
+
+## Madde 16 · PowerShell · Authenticode imzasını dosya incelemesine katmak
+
+- **Ders:** PS25 (`c0cdadb`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. Geçen tek mutant PS25:4'te: `$Girdi[1]` → `$Girdi[2]` değişikliği testten geçiyor. Yayıncı satırının **boş ya da yalnız boşluk** olduğu durum sınanmıyor; yalnız satırın hiç olmadığı durum sınanıyor. Küçük.
+- **Karşılananlar:**
+  - Yerel örnek dosyalar: geçerli, bozulmuş (`HashMismatch`), imzasız betik (`NotSigned`), Microsoft ve üçüncü taraf yayıncı.
+  - `Status` ve yayıncı CN'si; harfe duyarlı tam ad karşılaştırması. Geçerli imza tek başına güven sayılmıyor; beklenen yayıncı da şart.
+  - Katalog imzası (`SignatureType`), zaman damgası, `UnknownError`/`NotTrusted`, iptal denetiminin ağa ve kök güven deposuna bağlılığı anlatıda açıkça belirtiliyor (ASAMA2'nin istediği).
+- **Eksikler:** boş yayıncı satırının testi (küçük).
+- **Karar:** **Tam** (küçük test notuyla).
+
+## Madde 17 · PowerShell · Pester ile kendi testlerini yazmak
+
+- **Ders:** PS26 (`2af3515`; A39). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. PS26:3'te mutasyon aracı mutant üretmedi, çünkü çözüm bir test dosyası. Bunun yerine dersin kendi testi öğrencinin Pester dosyasını **6 bozuk modüle karşı** çalıştırıyor; bu doğru yöntem. PS26:4'teki 5 geçen mutantın hepsi öğrencinin test dosyasındaki sabitler (Mock'lanan tarih, eşik saati). Testin anlamı değişmiyor; eşdeğer.
+- **Karşılananlar:**
+  - `Describe`/`Context`/`It`/`Should`, `BeforeAll`/`BeforeEach`.
+  - `Mock -ModuleName` ve `Should -Invoke`.
+  - `TestDrive:` ile geçici dosya; `Should -Throw` ile hata senaryoları.
+  - Pester 5.9.0 `-RequiredVersion` ile sabitlenmiş; makinedeki 3.4 farkı not edilmiş.
+  - Öğrencinin testlerinin bozuk sürümleri yakalaması şartı.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
+
+## Madde 18 · PowerShell · Gerçek PSSession yaşam döngüsü ve uzak çıktı
+
+- **Ders:** PS29. **Yazar 2: dersi ben yazdım, çıkar çatışması var.** DENETIM'de durum hâlâ "denetime hazır"; bağımsız denetimi yapılmadı.
+- **Denetim:** validate ve tahmin temiz. PS29:4'te geçen 2 mutant `{ 1 + 1 }` içindeki sayılar. Testler yalnız dönen türün `String` olduğuna bakıyor; eşdeğer.
+- **Karşılananlar:**
+  - `New-PSSession` → `Invoke-Command -Session` (durum oturumda kalıyor) → `Remove-PSSession` ve `State`.
+  - Oturumun ayrı bir süreç olması.
+  - Gerçek serileştirme ölçümü: `Deserialized.` türü ve metot kaybı; DateTime'ın sağlam gelmesi; betik bloğunun metne dönmesi.
+- **Eksikler:**
+  - **Ayrılmış Windows lab endpoint'i yok.** ASAMA2 bunu istiyor. Oturum `-UseWindowsPowerShell` ile yerel bir süreçte açılıyor; WinRM, `-ComputerName`, kimlik bilgisi ve ağ üzerinden bağlantı yok. Bu sınır DENETIM'de "kapsam dışı" olarak yazılmış, ama madde adındaki "gerçek uzak" tam karşılanmıyor.
+  - **Hata ve temizlik akışı yok.** NEDEN satırı bunu istiyor. `try/finally` ile hata durumunda da oturumu kapatmak, uzak hatanın yerele nasıl geldiği (`ErrorRecord`, `-ErrorAction`), `Broken` durumu ve `Get-PSSession` ile sızan oturum avı görevlerde yok.
+  - Disconnect/Reconnect yok (bilerek dışarıda bırakıldı).
+- **Karar:** **Kısmen.** Çıkar çatışması notuyla.
+
+## Madde 19 · PowerShell · CLM, JEA ve AppLocker (8002/8004) olayları
+
+- **Ders:** PS24 (`1f608b9`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz; mutasyonda 46 mutantın hepsi yakalandı.
+- **Karşılananlar:**
+  - `$ExecutionContext.SessionState.LanguageMode` ile gerçek bir runspace'te CLM deneyi; ayrıştırma anında bağlanma tuzağı.
+  - Anlatıda gerçek `.psrc` üretimi (`New-PSRoleCapabilityFile` + `Import-PowerShellDataFile`).
+  - JEA risk denetimi ve çoklu rol birleştirme mantığı.
+  - AppLocker 8002–8007 kimliklerinin anlamı ve kullanıcı başına korelasyon.
+- **Eksikler:**
+  - **AppLocker olayları gerçek EVTX değil.** Görev girdisi tek satırlık elle yazılmış XML dizeleri. ASAMA2 "çevrimdışı AppLocker EVTX (8002/8004) kayıtları" istiyor; `Get-WinEvent -Path` hiç kullanılmıyor. Projede EVTX fixture üreticisi (`ps_evtx_fixtures.py`) var, kullanılmamış.
+  - **JEA görevleri gerçek `.psrc`/`.pssc` dosyası okumuyor.** Girdi, dosyanın JSON "özeti". `.pssc` yalnız anlatıda anılıyor; `Test-PSSessionConfigurationFile` görevde yok.
+- **Karar:** **Kısmen.**
+
+## Madde 20 · CMD · wevtutil ile offline EVTX sorgu ve export
+
+- **Dersler:** CM19–CM20 (`def85ee`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. Geçen 2 mutant (CM20:3 ve CM20:4) `>nul`'un `>=nul` yapılması; yalnız atılan çıktının gittiği yeri değiştiriyor, eşdeğer.
+- **Karşılananlar:**
+  - Gerçek EVTX örneklerinde `qe /lf:true`, `/q` XPath ile aralık, `/c` ve `/rd:true` ile en yeni N kayıt.
+  - `epl` ile aktarım; `/ow` ile eski hedefin korunması.
+  - Aktarılan dosyanın gerçek araçla yeniden açılıp **kayıtlarının tek tek** karşılaştırılması (yalnız sayı değil). `ElfFile` imzası.
+  - Kaynağın değişmediğinin kanıtlanması.
+  - Boş seçim, bozuk ve eksik kaynak; aşamaya göre ayrı hata kodları.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
