@@ -103,3 +103,82 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
 - **Karşılananlar:** adlı kullanıcı/grup girdileri, maske ve `#effective`, erişim denetimi sırası, `chmod`'un maskeyi değiştirmesi, varsayılan ACL ile kalıtım ve umask; capability maskelerini `/proc/PID/status` ve `capsh --decode` ile okumak, dosya capability'leri; **gerçek erişim karşılaştırması** `setpriv` ile başka kimlikle denenerek yapılıyor (ASAMA2'nin istediği).
 - **Eksikler:** bulmadım. Kendi işim olduğu için bağımsız bir göz gerekli.
 - **Karar:** **Tam** (çıkar çatışması notuyla).
+
+> Madde 11–15 toplu ölçüm: 7 ders, validate iki ortamda temiz (57 denetim), 7 tahminin hepsi uyuşuyor, mutasyonda 165 mutantın 141'i yakalandı. Geçen 24 mutant aşağıda maddesine göre ayrıldı.
+
+## Madde 11 · Bash · OpenSSH istemcisiyle komut ve dosya akışı
+
+- **Dersler:** BS34–BS35 (`698d81e`, `a99aaa9`). **Yazar 2: dersleri ben yazdım, çıkar çatışması var.**
+- **Denetim:** validate ve tahmin temiz. Geçen mutantlar:
+  - BS34 `hata=1` değerinin değişmesi eşdeğer. Çıkış `$(( hata ? 2 : 0 ))` ile hesaplanıyor; sıfır olmayan her değer 2 veriyor.
+  - `2>/dev/null` bozulmaları yalnız stderr'i etkiliyor; eşdeğer.
+  - **BS35:5'te iki mutant gerçek boşluk.** `[[ -n $uzak_ozet && ... ]]` içindeki `&&`'nin `||` yapılması ve `uyuşmazlık` dalındaki `exit 1`'in değişmesi testten geçiyor. Yani **özet uyuşmazlığı hiç sınanmıyor**. Görevin adı "uzakta doğrula", ama yanlış özet veren ya da boş özette "tamam" diyen bir çözüm geçiyor.
+- **Karşılananlar:**
+  - Önce `ssh -G` ile bağlantı kurmadan config okuma (joker blok, `!` ile dışlama, ilk eşleşen değer).
+  - Ayrılmış lab uç noktası: `sshd -i` ile ProxyCommand, ders için yazılmış config, önceden doğrulanmış known_hosts, `StrictHostKeyChecking yes`.
+  - Gerçek uzak stdout, stderr ve çıkış kodu; 255'in iki anlamı.
+  - `scp` ile gerçek dosya aktarımı; boşluklu ad, ikili ve boş dosya, yazılamayan klasör.
+- **Eksikler:**
+  - Özet uyuşmazlığı dalının testi yok (yukarıda).
+  - `sftp` yalnız anlatıda geçiyor, görevde kullanılmıyor (ASAMA2 yalnız "dosya aktarımı" diyor; küçük).
+- **Karar:** **Kısmen** (doğrulama dalının testi eksik). Çıkar çatışması notuyla.
+
+## Madde 12 · Bash · ShellCheck ve Bats ile kendi aracını sınamak
+
+- **Ders:** BS30 (`6b53bd0`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. Geçen mutantlar:
+  - BS30:4'te `boyut > enboyut` → `>=`: eşit boyutlu iki dosyada hangisinin yazılacağı sınanmıyor. Görev metni bu durumu da tanımlamıyor; bu yüzden hata değil, **belirsizlik**.
+  - BS30:5'teki 6 mutantın tamamı öğrencinin Bats dosyasının içinde: test başlıkları ve aynı anlama gelen bozuk argümanlar (`1`, `1 2 3`, `1 iki`). Eşdeğer.
+- **Karşılananlar:** gerçek ShellCheck 0.11 ve Bats 1.13 Linux'ta çalışıyor; `-S` eşiği, `-f gcc/json1`, çıkış kodları; boşluklu ve `-` ile başlayan ad fixture'ları; exit, stdout ve stderr ayrı ayrı denetleniyor; `setup()` kullanılıyor; testler bozuk uygulamalara karşı da çalıştırılıyor.
+- **Eksikler:**
+  - `teardown` yalnız tabloda anılıyor, hiçbir görevde kullanılmıyor (ASAMA2 "setup/teardown" istiyor).
+  - ASAMA2 **"Git Bash ve Linux farkları ayrıca kaydedilir"** diyor. Ders yalnız "gerçek Linux'ta çalışır" diyor; farklar hiçbir yerde kayıtlı değil.
+- **Karar:** **Kısmen.**
+
+## Madde 13 · PowerShell · Invoke-RestMethod/WebRequest ile oturumlu API otomasyonu
+
+- **Ders:** PS23 (`dc4cd2e`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. Geçen mutant: PS23:6'da başarı dalındaki `"200|-"` metni değiştirilince test geçiyor. **2xx yolu hiç sınanmıyor**; testler yalnız 400–599 kodlarını ve geçersiz girdiyi deniyor. Küçük ama gerçek boşluk.
+- **Karşılananlar:**
+  - Yerel API ve gerçek `-SessionVariable`/`-WebSession` ile çerez.
+  - `-Body` ile JSON gövde, sayfalama.
+  - 201 + `Location` başlığı.
+  - Hata gövdesini `ErrorDetails` ile okumak.
+  - Durum kodu sınırları.
+  - 5.1 ile 7 arasındaki farklar bir tabloda ayrılmış (`SkipHttpErrorCheck`, `StatusCodeVariable`, başlık okuma).
+- **Eksikler:**
+  - **Yönlendirme yok.** `-MaximumRedirection`, 3xx ve redirect hiçbir yerde geçmiyor; ASAMA2 açıkça istiyor.
+  - **Timeout yalnız tabloda bir satır** (`-TimeoutSec 5`); hiçbir görevde yavaş yanıt ya da zaman aşımı sınanmıyor.
+  - Form gövdesi (`-Form` / `application/x-www-form-urlencoded`) yok; NEDEN satırı "form/JSON gövdesi" diyor.
+  - 2xx dalının testi yok (yukarıda).
+- **Karar:** **Kısmen.**
+
+## Madde 14 · PowerShell · Offline EVTX ve PowerShell 4104 kayıtları
+
+- **Dersler:** PS27–PS28 (`403bd7a`; A37). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. Geçen mutantlar: iki derste de `-Oldest`'in silinmesi testten geçiyor. Bu eşdeğer: PS27 sonucu `Sort-Object Id, Level` ile sıralıyor, PS28 de blokları en küçük RecordId'ye, parçaları sıra numarasına göre sıralıyor. `-Oldest`'in etkisi anlatı ve tahminde gösteriliyor.
+- **Karşılananlar:**
+  - Gerçek EVTX fixture'larında (`ps_evtx_fixtures.py` ile üretiliyor) `Get-WinEvent -Path` ve `FilterXPath` ile zaman penceresi.
+  - `Properties` dizinleri; 4104'ün parçalı blokları (ScriptBlockId, parça sırası, eksik blok işareti).
+  - Boş dosya, okunamayan dosya ve eşleşmeyen sorgu tanıkları; sayısal sıralama tuzağı.
+- **Eksikler:**
+  - **`FilterXml` hiç yok** (ASAMA2 "FilterXPath/FilterXml" diyor). Yalnız `FilterHashtable` anlatılıyor.
+  - **`ToXml()` yalnız tabloda bir satır**; hiçbir görevde ham XML'den alan okunmuyor (ASAMA2 açıkça istiyor).
+- **Karar:** **Kısmen.**
+
+## Madde 15 · PowerShell · Get-Acl ile NTFS/Registry erişim değerlendirmesi
+
+- **Ders:** PS22 (`e47d743`). Yazar: başka ajan.
+- **Denetim:** validate ve tahmin temiz. Geçen mutantlar:
+  - PS22:5 döngü sınırı `-lt` → `-le`: döngü bir kez fazla dönüyor ve null satırda hata veriyor, ama karar değişmiyor; testler stderr'e bakmıyor. Küçük boşluk: stderr temizliği sınanmıyor.
+  - Devralınan gruplardaki `-and` → `-or` mutantları geçiyor, çünkü hiçbir testte devralınan bir Allow, devralınan bir Deny'dan **önce** yazılmıyor. Kanonik sıranın son iki grubu tam sınanmıyor. Küçük.
+- **Karşılananlar:**
+  - SDDL'in alanları ve ACE tablosu.
+  - Kanonik sıra ve Deny'ın üstünlüğüne göre etkin yetki hesabı.
+  - Gerçek nesnelerde `Set-Acl`: geçici klasör ve `HKCU:\Software\PaftaAclGecici` anahtarı, devralma bayrakları, açık kurallar.
+  - Temizliğin doğrulanması (`TEMIZ`).
+  - Sahiplik ve ACL dışındaki halkalar uyarı notunda anlatılıyor.
+- **Eksikler:**
+  - ASAMA2 **"ACL nesnesinden rapor ve gerçek erişim sonucunu karşılaştırmak"** istiyor. Derste gerçek erişim **denenmiyor**: Deny kuralı konup okuma/yazma denenmiyor, `UnauthorizedAccessException` gözlenmiyor. Etkin yetki görevi metin girdisi üzerinde bir benzetim. Madde 10'daki `setpriv` denemesinin Windows karşılığı yok.
+  - Test boşlukları yukarıda (küçük).
+- **Karar:** **Kısmen** (gerçek erişim karşılaştırması eksik).
