@@ -22,6 +22,7 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
   - ASAMA2 "**projenin `.venv`'i ile `.deps` paket deposunun rollerini ayıran** kurulum" istiyor. Derste `.deps` hiç geçmiyor; Pafta'nın kendi iki yerli düzeni öğrenciye anlatılmıyor.
   - "**Çakışan bağımlılığı çözmek**" (iki paketin uyuşmaz sürüm istemesi, pip çözücü hatası) yok. Yalnız eksik paket (`ModuleNotFoundError`) anlatılıyor.
 - **Karar:** **Kısmen.**
+- **Güncelleme (2026-10-25, `892ced3`):** kullanıcının isteğiyle eksikler kapatıldı. P75'e iki bölüm eklendi. (1) Sanal ortam ile `--target` paket deposunun (Pafta'nın `.deps`'i) rolleri; tahmin ve görev: `PYTHONPATH`'teki depo, ortamın kendi kopyasının önüne geçiyor. (2) Çakışan bağımlılık (`ResolutionImpossible`) ve çözücünün uyarısız geri izlemesini yakalayan görev. Kali'de ölçüldü (pip 26.1.2). Validate iki kabukta temiz; mutantlar ve elle 4 yanlış çözüm reddedildi. **Bu bölümü ben yazdım; çıkar çatışması var.** **Yeni karar: Tam.**
 
 ## Madde 2 · Python · Requests Session ve aiohttp ile HTTP otomasyonu
 
@@ -34,6 +35,7 @@ Kendi yazdığım maddelerde (Yazar 2) çıkar çatışması ayrıca belirtilir.
   - **Form gövdesi** (`data=`, `application/x-www-form-urlencoded`) yalnız anılıyor, görevde kullanılmıyor.
   - "**Paket yolu/sürümü kaydedilir**" (hangi `requests`/`aiohttp` sürümüyle çalışıldığını göstermek) hiçbir görevde yok.
 - **Karar:** **Kısmen.**
+- **Güncelleme (2026-10-25, `892ced3`):** kullanıcının isteğiyle eksikler kapatıldı. P74'e bir anlatı ve dört görev eklendi: form gövdesi (`data=`, özel karakterli parola), kimlikli vekil ve `Via` ile kanıt (yanlış `proxies` anahtarının vekili uyarısız atlaması), ders CA'sıyla HTTPS doğrulaması (tanınmayan CA, ad uyuşmazlığı ve 404'ün ayrılması), kütüphane sürümünü yüklendiği klasörden kaydetmek. Tezgaha `/giris-form`, `vekil_kur()` ve `tls_kur()` eklendi; PS23 ve BS29 temiz. Validate iki kabukta temiz; elle 5 yanlış çözüm reddedildi. **Bu bölümü ben yazdım; çıkar çatışması var.** **Yeni karar: Tam.**
 
 ## Madde 3 · Python · Beautiful Soup ile HTML ayrıştırma
 

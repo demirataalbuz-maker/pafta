@@ -64,8 +64,8 @@ ASAMA2.md'deki 90 maddenin hepsi (Antigravity'nin `ef7c81e` ile eklediği 10 ön
 
 | # | Yol | Madde (ASAMA2'deki adıyla) | Dalga | Yazar | Durum |
 |---|---|---|---|---|---|
-| 1 | python | pip/venv ile betik ortamı ve tekrarlanabilir bağımlılık kurulumu | 1 (sıra 1) | Codex (altyapı) · Yazar 1 (ders) | denetlendi (`19fb053` altyapı, `ebd4157` P75) |
-| 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | denetlendi (`8f4c9a6`, `5fb8da0`, P74) |
+| 1 | python | pip/venv ile betik ortamı ve tekrarlanabilir bağımlılık kurulumu | 1 (sıra 1) | Codex (altyapı) · Yazar 1 (ders) | denetlendi (`19fb053` altyapı, `ebd4157` P75); eksikler `892ced3` ile kapandı (.deps/venv rolleri, çakışan bağımlılık) |
+| 2 | python | Requests Session ve aiohttp ile HTTP otomasyonu | 1 (sıra 2) | Yazar 1 | denetlendi (`8f4c9a6`, `5fb8da0`, P74); eksikler `892ced3` ile kapandı (form, vekil, CA, sürüm kaydı) |
 | 3 | python | Beautiful Soup ile HTML ayrıştırma | 1 (sıra 3) | Yazar 1 | denetlendi (`8f4c9a6`, P74) |
 | 4 | python | Scapy ile paket kaydını Python'dan okumak ve üretmek | 1 (sıra 4) | Yazar 2 (okuma) · Yazar 1 (üretme) | denetlendi: okuma P80 (`9128368`), üretme P81 (`fc11f0d`); denetim `6dd201f` |
 | 5 | python | ctypes ile native API/ABI okuma ve küçük çağrılar | 1 (sıra 5) | Yazar 1 | denetlendi: P82–P83 (`fc11f0d`); iki testi denetçi güçlendirdi (A40), denetim `6dd201f` |
