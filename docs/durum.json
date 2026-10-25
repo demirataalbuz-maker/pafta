@@ -493,14 +493,16 @@
    "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
   },
   "PHP: Laravel istek ve yetki zincirini gerçek framework kodunda okumak": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH15; okuma düzeyi korundu (kod okunur, görevler Python'da modellenir), gercek blokları gerçek kurulumda birebir ölçüldü. sağlayıcı boot süreç başına bir kez; ölçülen: yetki denetleyici içindeyken gövde yetkisiz istekte de çalışıyor, rotaya bağlı can ara katmanında girilmiyor (ikisi de 403); 403'te ara katmanın sonra evresi yine çalışıyor; konukta yetenek geri çağrısı hiç çağrılmadan reddediliyor. Laravel 13.38.0 kuruldu. PHP yolu 16 ders/89 kontrol temiz; mutasyon ph15 8/8, ph16 8/9 (kalan eşdeğer).",
+   "commit": "509fd0a"
   },
   "PHP: WordPress eklentisi/REST endpoint yetkileri": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma; filtreye takılırsa Opus 4.8'e"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH16; okuma düzeyi korundu (kod okunur, görevler Python'da modellenir), gercek blokları gerçek kurulumda birebir ölçüldü. ölçülen: aynı ret anonimde 401 oturumluda 403, WP_Error kendi status'unu (451) herkese dayatıyor, permission_callback verilmezse yalnız _doing_it_wrong uyarısı çıkıp uç nokta anonime 200 dönüyor, geçerli nonce ile yetkisizlik yan yana durabiliyor. WordPress 7.1.3 + MariaDB kuruldu. PHP yolu 16 ders/89 kontrol temiz; mutasyon ph15 8/8, ph16 8/9 (kalan eşdeğer).",
+   "commit": "509fd0a"
   },
   "JavaScript: Bundle/source map ile çalışan kodu kaynağa eşlemek": {
    "durum": "claude-alabilir",
