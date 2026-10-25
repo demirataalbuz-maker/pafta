@@ -201,9 +201,10 @@
    "commit": "60e5d8d"
   },
   "JavaScript: Prototype pollution: kaynak→kalıtılan özellik→karar": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JS14; görevler gerçek Node'da çalışıyor. ölçülen: JSON.parse __proto__'yu own yapıyor, naif birleşme prototipi kirletiyor, kirli alan Object.keys ve JSON.stringify'da görünmüyor; savunmalar (anahtar süzgeci, null prototipli hedef, freeze, Object.hasOwn) ölçüldü. JS yolu 16 ders/132 kontrol temiz; mutasyon js14 7/7, js15 7/7, js16 8/8.",
+   "commit": "bd37450"
   },
   "Active Directory: Nesne ACL'leri ve etkili yetkilerden erişim yolu çıkarmak": {
    "durum": "denetime-hazir",
@@ -430,9 +431,10 @@
    "commit": "60e5d8d"
   },
   "JavaScript: Browser/SPA içinde postMessage ve ham HTML güven sınırı": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JS15; görevler gerçek Node'da çalışıyor. gerçek tarayıcıda ölçüldü (127.0.0.1 ve localhost farklı köken): hedefOrigin tutmayan mesaj sessizce teslim edilmiyor, e.origin gönderenin kökeni, veri yapılandırılmış kopya, e.source contentWindow'a eşit; innerHTML'de script çalışmıyor ama img onerror ve iframe srcdoc çalışıyor, svg onload çalışmıyor. JS yolu 16 ders/132 kontrol temiz; mutasyon js14 7/7, js15 7/7, js16 8/8.",
+   "commit": "bd37450"
   },
   "Assembly: Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi": {
    "durum": "codex-opus",
@@ -506,9 +508,10 @@
    "commit": "509fd0a"
   },
   "JavaScript: Bundle/source map ile çalışan kodu kaynağa eşlemek": {
-   "durum": "claude-alabilir",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Claude alabilir (kullanıcı 10-25); savunma/analiz ya da kod okuma"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JS16; görevler gerçek Node'da çalışıyor. bundle + .map fikstürü VLQ ile üretildi, doğruluğu Node eşlemesiyle kanıtlandı; ölçülen: haritasız bundle.js:1:32, --enable-source-maps ile src/hesap.js:2:16 ve özgün satır metni, fonksiyon adı küçültülmüş kalıyor. JS yolu 16 ders/132 kontrol temiz; mutasyon js14 7/7, js15 7/7, js16 8/8.",
+   "commit": "bd37450"
   },
   "purple: Tehdit istihbaratı: MISP, IOC yaşam döngüsü, istihbarattan avcılık sorgusuna (purple team karşılaştırması, 10-24)": {
    "durum": "claude-alabilir",
