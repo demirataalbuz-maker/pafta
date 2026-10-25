@@ -134,19 +134,22 @@
    "commit": "4f6ad7d"
   },
   "C: Heap sahipliği, alias ve realloc başarısızlığını izlemek": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Yazar 2'de güvenlik filtresine takıldı (heap/ASan konusu); ders yazılmadı. Excel'de zaten Codex"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C14; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. sahiplik/alias/sarkma, realloc sözleşmesi ve p=realloc(p,n) sızıntısı; ölçülen kenar durumlar realloc(p,0), malloc(0), free(NULL); tanımsız davranış için tek çıktı tahmini yok. C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "2b4dc17"
   },
   "C: POSIX fd, kısa I/O ve hata akışı": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Ölçümler (Kali gcc 16.2): pipe'ta 7 bayta 64 istenince read 7; yazan uç kapanınca 0; okuyucusuz pipe'a write -1 EPIPE (SIGPIPE yok sayılınca); kapalı fd'de read -1 EBADF; engellemeyen socketpair'e 1 MB write kısa, ikincisi -1 EAGAIN"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C15; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. read/write dönüşü gerçekleşendir; ölçülen 100 bayt→64+36+0, iki write(3)+read(10)→6 (pipe bayt akışı), EPIPE(32), EBADF(9); tam okuma döngüsü. C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "2b4dc17"
   },
   "C: Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C16; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. stat/lstat/fstat, TOCTOU aralığı, önce aç sonra fstat ile doğrula, openat; ölçülen O_NOFOLLOW yalnız son bileşeni kapsıyor (ELOOP 40), ara bileşen bağ olsa da açılıyor. C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "cfe268d"
   },
   "Assembly: ELF/PE yükleyici bağlamı ve adres türlerini okumak": {
    "durum": "claude-alabilir",
@@ -414,9 +417,10 @@
    "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
   },
   "C: Çalışma zamanında dinamik sembol çözme (dlopen/dlsym ve LoadLibrary/GetProcAddress) akışını okumak": {
-   "durum": "codex-opus",
-   "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C17; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. dlopen/dlsym/dlerror protokolü, RTLD bayrakları, LoadLibrary/GetProcAddress karşılığı; ölçülen ./ad yüklenir, çıplak ad yüklenmez (çalışma dizini arama sırasında yok). C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "cfe268d"
   },
   "PHP: Twig/Blade şablon kaçışı ({{ }} vs {!! !!}) ve parse_url / filter_var doğrulama sınırlarını okumak": {
    "durum": "codex-opus",
