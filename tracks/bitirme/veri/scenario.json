@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "madde": 103,
+  "simulation": true,
+  "run_id": "bt01-20261026t100000z",
+  "utc": "2026-10-26T10:00:00Z",
+  "description": "Tamamen kurgusal ve çevrimdışı madde 103 saldırı zinciri canlandırması; gerçek istek, kimlik bilgisi, kod yürütme veya kalıcılık yoktur.",
+  "environment": {
+    "domain": "pafta.test",
+    "web_host": "web.pafta.test",
+    "client_host": "ISTEMCI-07",
+    "dc_host": "DC-01",
+    "account": "PAFTA\\ayse.demo",
+    "source_ip": "10.20.30.40"
+  },
+  "steps": [
+    {
+      "order": 1,
+      "id": "bt01-oturum",
+      "timestamp": "2026-10-26T10:00:00Z",
+      "title": "Kurgusal hesapla oturum açılması",
+      "attack": {
+        "technique": "T1078",
+        "name": "Valid Accounts"
+      },
+      "web": {
+        "event_id": "W001",
+        "method": "POST",
+        "uri": "/oturum",
+        "status": 200,
+        "bytes": 128,
+        "action": "session-established"
+      },
+      "ad": {
+        "event_id": "A001",
+        "event_code": 4624,
+        "action": "logon",
+        "object": "interactive-logon"
+      },
+      "expected_evidence": ["W001", "A001"],
+      "expected_detection": {
+        "id": "BT01-D01",
+        "title": "Kurgusal hesap için yeni oturum bağlamı"
+      }
+    },
+    {
+      "order": 2,
+      "id": "bt01-dizin-okuma",
+      "timestamp": "2026-10-26T10:01:00Z",
+      "title": "Kurgusal dizin nesnesinin okunması",
+      "attack": {
+        "technique": "T1087.002",
+        "name": "Account Discovery: Domain Account"
+      },
+      "web": {
+        "event_id": "W002",
+        "method": "GET",
+        "uri": "/dizin/ekip",
+        "status": 200,
+        "bytes": 640,
+        "action": "directory-view"
+      },
+      "ad": {
+        "event_id": "A002",
+        "event_code": 4662,
+        "action": "directory-read",
+        "object": "CN=DemoEkip,OU=Lab,DC=pafta,DC=test"
+      },
+      "expected_evidence": ["W002", "A002"],
+      "expected_detection": {
+        "id": "BT01-D02",
+        "title": "Oturum sonrası olağandışı dizin okuma dizisi"
+      }
+    },
+    {
+      "order": 3,
+      "id": "bt01-belge-derleme",
+      "timestamp": "2026-10-26T10:02:00Z",
+      "title": "Kurgusal raporların listelenmesi",
+      "attack": {
+        "technique": "T1213.002",
+        "name": "Data from Information Repositories: Sharepoint"
+      },
+      "web": {
+        "event_id": "W003",
+        "method": "GET",
+        "uri": "/raporlar/bitirme",
+        "status": 200,
+        "bytes": 2048,
+        "action": "repository-collection"
+      },
+      "ad": {
+        "event_id": "A003",
+        "event_code": 4663,
+        "action": "object-read",
+        "object": "\\\\FS-01\\raporlar\\bitirme-demo.txt"
+      },
+      "expected_evidence": ["W003", "A003"],
+      "expected_detection": {
+        "id": "BT01-D03",
+        "title": "Aynı oturumda dizin okuma ve belge derleme"
+      }
+    },
+    {
+      "order": 4,
+      "id": "bt01-dis-aktarim",
+      "timestamp": "2026-10-26T10:03:00Z",
+      "title": "Kurgusal dış aktarım kaydı",
+      "attack": {
+        "technique": "T1041",
+        "name": "Exfiltration Over C2 Channel"
+      },
+      "web": {
+        "event_id": "W004",
+        "method": "POST",
+        "uri": "/sentetik-dis-aktarim",
+        "status": 202,
+        "bytes": 4096,
+        "action": "simulated-egress-record"
+      },
+      "ad": {
+        "event_id": "A004",
+        "event_code": 5156,
+        "action": "simulated-network-audit",
+        "object": "203.0.113.10:443"
+      },
+      "expected_evidence": ["W004", "A004"],
+      "expected_detection": {
+        "id": "BT01-D04",
+        "title": "Derleme sonrası sentetik dış aktarım kanıtı"
+      }
+    }
+  ]
+}

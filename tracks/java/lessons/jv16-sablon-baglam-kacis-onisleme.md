@@ -26,7 +26,7 @@ Thymeleaf HTML kipinde dört yazım var ve ikisi kaçırır, ikisi kaçırmaz:
 
 `th:href` ile bir URL parametresi yazıldığında **iki katman** üst üste gelir: değer önce URL kodlamasından geçer (`<` → `%3C`, boşluk → `%20`), sonra bütün öznitelik değeri HTML olarak kaçırılır. Bu yüzden çıktıda hem `%3C` hem `&#39;` görürsün — biri URL katmanından, öteki HTML katmanından. `/` karakteri URL'de zararsız olduğu için kodlanmadan kalır: URL kodlayıcı her şeyi değil, **o bağlamda tehlikeli olanı** kodlar.
 
-`JAVASCRIPT` kipinde ise çıktı HTML değil bir **JS dizgisidir**: değer çift tırnak içine alınır, içindeki `"` kaçırılır, `&` `&` olur ve `</` ikilisi `<\/` yazılır. Son ayrıntı güvenliğin kendisidir: HTML ayrıştırıcısı `<script>` bloğunu ilk `</script>` dizisinde kapatır, JS dizgisinin içinde olup olmadığına bakmaz. Slash işaretini kaçırmak o diziyi oluşmaz hâle getirir.
+`JAVASCRIPT` kipinde ise çıktı HTML değil bir **JS dizgisidir**: değer çift tırnak içine alınır, içindeki `"` kaçırılır, `&` Unicode kaçışıyla `\u0026` olur ve `</` ikilisi `<\/` yazılır. Son ayrıntı güvenliğin kendisidir: HTML ayrıştırıcısı `<script>` bloğunu ilk `</script>` dizisinde kapatır, JS dizgisinin içinde olup olmadığına bakmaz. Slash işaretini kaçırmak o diziyi oluşmaz hâle getirir.
 :::
 
 ::: anlat İki motor, ters varsayılan
@@ -66,6 +66,8 @@ Taşınan değer `<b>ad</b> & "x" 'y'`. Ön işleme bölümünde `alan` değişk
 
 FreeMarker satırlarında `+ output HTML`, şablonun çıktı biçiminin HTML olduğu anlamına gelir; `duz` ise çıktı biçimi verilmediği durumdur.
 
+Bu iz, `tracks/java/template_lab` içindeki sabit controller ve şablon parçalarıyla gerçek motorlarda üretilir; `python tools/template_lab.py` komutu varsayılan olarak çevrimdışı çalışır ve aynı çıktıyı yeniden üretir.
+
 ```gercek
 yuk                 : <b>ad</b> & "x" 'y'
 --- Thymeleaf 3.1.3 / HTML kipi ---
@@ -74,7 +76,7 @@ th:utext="${ad}"     : <p><b>ad</b> & "x" 'y'</p>
 [[${ad}]]           : <p>&lt;b&gt;ad&lt;/b&gt; &amp; &quot;x&quot; &#39;y&#39;</p>
 [(${ad})]           : <p><b>ad</b> & "x" 'y'</p>
 th:href="@{a(q=..)}" : <a href="a?q=%3Cb%3Ead%3C/b%3E%20%26%20%22x%22%20&#39;y&#39;">l</a>
-JAVASCRIPT kipi     : var s = "<b>ad<\/b> & \"x\" 'y'";
+JAVASCRIPT kipi     : var s = "<b>ad<\/b> \u0026 \"x\" 'y'";
 --- on isleme (alan = ${2*21}, duz = ayse) ---
 th:text="${alan}"    : <p>${2*21}</p>
 th:text="__${alan}__": <p>42</p>
@@ -96,7 +98,7 @@ ${ad?no_esc} duz    : HATA ParseException
 
 **`th:href`** satırı iki katmanı birlikte gösteriyor. `<` `%3C` olmuş (URL katmanı), ama tek tırnak `&#39;` olmuş (HTML katmanı): URL kodlayıcı tek tırnağı tehlikeli saymadı, sonra öznitelik yazıcısı onu kaçırdı. `/` ise ikisinden de geçmeden kaldı. Yani "kaçırıldı mı" sorusu tek bir yanıt istemiyor; her katman kendi tehlikeli kümesine bakıyor.
 
-**JAVASCRIPT kipi** HTML kaçışı *yapmıyor* — `<b>` olduğu gibi duruyor. Yaptığı şey bir JS dizgisi üretmek: `"` kaçırılmış, `&` `&` olmuş, `</b>` ise `<\/b>` yazılmış. Tek tırnak kaçırılmamış, çünkü dizgi çift tırnakla kapatılıyor ve orada zararsız. Bağlam değişince tehlikeli karakter kümesi de değişiyor.
+**JAVASCRIPT kipi** HTML kaçışı *yapmıyor* — `<b>` olduğu gibi duruyor. Yaptığı şey bir JS dizgisi üretmek: `"` kaçırılmış, `&` `\u0026` olmuş, `</b>` ise `<\/b>` yazılmış. Tek tırnak kaçırılmamış, çünkü dizgi çift tırnakla kapatılıyor ve orada zararsız. Bağlam değişince tehlikeli karakter kümesi de değişiyor.
 
 **Ön işleme.** `${alan}` değeri metin olarak basıyor: çıktı `${2*21}`. `__${alan}__` ise `42` basıyor — aynı veri, bu kez ifade olarak çalıştırıldı. `__${duz}__` `ayse` basıyor; ön işlemeden sonra kalan `ayse` metni Thymeleaf'in değişmez simge (literal token) kuralıyla okunuyor. `'x' + __${duz}__` bunu doğruluyor: ön işleme `'x' + ayse` üretiyor, değerlendirme `xayse` veriyor. Tanımsız `yok` ise boş dizgiye dönüşüyor ve geriye boş bir ifade kalıyor.
 

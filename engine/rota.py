@@ -30,7 +30,7 @@ ASAMALAR = [
     {"id": "tespit", "ad": "Tespit mühendisliği", "not": "Purple'ın kalbi: saldırıyı bilip tespitini yazmak ve ölçmek.",
      "thm": [("azure", "Defending Azure", None), ("redteam", "Red Teaming", None)],
      "htb": [("cdep", "Detection Engineer", "CDEP")],
-     "pafta": ["sigma", "kql", "purple"]},
+     "pafta": ["sigma", "kql", "purple", "bitirme"]},
     {"id": "secmeli", "ad": "İsteğe bağlı", "not": "Purple ile bağı zayıf; vakit kalırsa.",
      "thm": [("webrt", "Web Application Red Teaming", None)],
      "htb": [("wifi", "Wi-Fi Penetration Tester", "CWPE")],

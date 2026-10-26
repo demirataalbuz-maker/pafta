@@ -1,7 +1,7 @@
 ---
 id: pu02
-title: Olay Müdahalesi · Zaman Çizelgesi ve Kapsam
-summary: Olay müdahalesinin adımları (doğrula, kapsamla, sınırla, temizle, ders çıkar); farklı saat dilimi ve biçimlerdeki kaynakları (yerel saatli CSV, UTC ISO, epoch) tek UTC zaman çizelgesinde birleştirmek; cihaz ve hesap adlarını tek biçime getirmek; bir başlangıç noktasından cihaz ve hesap üzerinden ilişkili varlıkları bulmak (kapsamlama) ve olaydan önceki kayıtların kapsamı şişirmesi. Python, sentetik kayıtlar.
+title: Olay Müdahalesi · Zaman Çizelgesi ve Playbook
+summary: Olay müdahalesinin adımları (doğrula, kapsamla, sınırla, temizle, ders çıkar); farklı saat dilimi ve biçimlerdeki kaynakları tek UTC zaman çizelgesinde birleştirmek; cihaz ve hesap üzerinden kapsamlamak; olay türüne göre playbook seçmek ve bağımlılıklara göre sıralamak; sınırlama ve temizleme önkoşullarını atomik durum geçişleriyle uygulamak; kanıtları değiştirmeden kopyalamak, SHA-256 manifestosu üretmek ve bütünlüğü doğrulamak. Python, yerel ve zararsız sentetik kayıtlar.
 ---
 
 ::: anlat Bir olayın ilk saati
@@ -15,7 +15,7 @@ Bir alarm geldi: "pc-ayse'de şüpheli bir dosya indirildi". Olay müdahalesi (i
 | Temizle ve geri dön | Kalıcılık izlerini kaldırmak, sistemi güvenle geri açmak |
 | Ders çıkar | Hangi tespit eksikti, neyi değiştiriyoruz? |
 
-Bu paftanın konusu ilk iki adımın mutfağıdır: **zaman çizelgesi** ve **kapsam**. Kayıtlar farklı ekiplerden, farklı biçimlerde gelir:
+Önce **zaman çizelgesi** ve **kapsam** ile başlıyoruz; ardından aynı olay verisi üzerinde playbook kararlarını, sınırlama ve temizleme adımlarını uygulayacağız. Kayıtlar farklı ekiplerden, farklı biçimlerde gelir:
 
 | Kaynak | Dosya | Zaman biçimi |
 |---|---|---|
@@ -254,5 +254,375 @@ json.dump([{"zaman": 1792400550, "cihaz": "Pc-Ayse", "kullanici": "AYSE", "olay"
            {"zaman": 1792401000, "cihaz": "srv-dosya", "kullanici": "yedek_svc", "olay": "yeni hizmet kuruldu"},
            {"zaman": 1792401200, "cihaz": "PC-MERT", "kullanici": "mert", "olay": "dosya oluşturuldu: rapor.docx"}],
           open("edr.json", "w", encoding="utf-8"), ensure_ascii=False)
+```
+:::
+
+::: anlat Playbook bir kontrol listesi değil, bağımlılık grafiğidir
+**Playbook**, belirli bir olay türünde hangi kararların ve müdahale adımlarının uygulanacağını tanımlar. Adımları listede gördüğün sırayla körlemesine çalıştırmak yerine önkoşullarını denetle: kanıt toplanmadan sınırlama, sınırlama tamamlanmadan temizleme, temizlik doğrulanmadan geri açma yapılmaz. Bu dersin laboratuvarında bu sıra açık `gerektirir` bağımlılıklarıyla verilir; gerçek kurumun onay ve acil durum yolları ayrıca playbook'a işlenir.
+
+**Sınırlama** (containment) yayılımı durdurur: cihazı izole etmek ve hesabı kilitlemek. **Temizleme** (eradication) zararlı dosya ve kalıcılığı kaldırır. Temizlik, sınırlamanın yerine geçmez; tek başına dosya silmek, başka cihazlara yayılım sürerken yalnız görünen izi ortadan kaldırır.
+
+Kanıt da temizlenecek bir "artık" değildir. Özgün kayıtlar değiştirilmeden kopyalanır, her kopyanın SHA-256 özeti bir manifestoya yazılır ve sonraki doğrulamada bayt bayt bütünlük denetlenir. Aşağıdaki kodlar yalnız görevin geçici klasöründeki zararsız olay verisini ve durum sözlüklerini işler; gerçek ağ, hesap ya da sistem ayarını değiştirmez.
+:::
+
+::: gorev 3 · Doğru playbook'u ve adım sırasını seç
+`playbook(playbooklar, olay)` fonksiyonunu yaz.
+
+- `olay["yanlis_alarm"]` doğruysa `[]` döndür; olayı doğrulanmamışsa (`dogrulandi` yanlışsa) yalnız `["kanit-topla", "dogrula"]` döndür.
+- Doğrulanmış olayda `tur` alanı eşleşen playbook'lardan `oncelik` değeri en küçük olanı seç. Eşleşme yoksa `ValueError` yükselt.
+- Seçilen playbook'un `adimlar` listesindeki her adım `{"id": ..., "gerektirir": [...]}` biçiminde. Adım kimliklerini, her adımın bütün bağımlılıkları kendisinden önce gelecek biçimde döndür. Aynı anda hazır olan adımları kimliğe göre sırala.
+- Bilinmeyen bağımlılık, yinelenen adım kimliği ya da bağımlılık döngüsü `ValueError` üretmeli; bozuk bir sırayı sessizce döndürme.
+
+```starter
+def playbook(playbooklar, olay):
+    for p in playbooklar:
+        if p["tur"] == olay["tur"]:
+            return [a["id"] for a in p["adimlar"]]
+    return []
+```
+
+```test
+import json
+need("playbook")
+P = json.load(open("playbooklar.json", encoding="utf-8"))
+eq(playbook(P, {"tur": "kotucul-yurutme", "dogrulandi": True}),
+   ["kanit-topla", "agdan-ayir", "hesabi-kilitle", "kaliciligi-kaldir", "temizligi-dogrula", "geri-ac"],
+   "öncelik 10 seçilir; kanıt → sınırlama → temizleme → doğrulama → geri açma")
+eq(playbook(P, {"tur": "oltalama", "dogrulandi": True}),
+   ["kanit-topla", "hesabi-kilitle", "oturumlari-iptal-et"],
+   "oltalama playbook'u; oturum iptali hesap kilidinden sonra")
+eq(playbook(P, {"tur": "oltalama", "dogrulandi": False}), ["kanit-topla", "dogrula"],
+   "doğrulanmamış olayda henüz containment yok")
+eq(playbook(P, {"tur": "oltalama", "dogrulandi": True, "yanlis_alarm": True}), [],
+   "yanlış alarm müdahale zincirine girmez")
+raises(ValueError, playbook, P, {"tur": "bilinmeyen", "dogrulandi": True}, msg="playbook eşleşmesi yok")
+raises(ValueError, playbook, [{"tur": "x", "oncelik": 1, "adimlar": [{"id": "a", "gerektirir": ["yok"]}]}],
+       {"tur": "x", "dogrulandi": True}, msg="bilinmeyen bağımlılık")
+raises(ValueError, playbook, [{"tur": "x", "oncelik": 1, "adimlar": [{"id": "a", "gerektirir": ["b"]}, {"id": "b", "gerektirir": ["a"]}]}],
+       {"tur": "x", "dogrulandi": True}, msg="döngü")
+raises(ValueError, playbook, [{"tur": "x", "oncelik": 1, "adimlar": [{"id": "a"}, {"id": "a"}]}],
+       {"tur": "x", "dogrulandi": True}, msg="yinelenen adım")
+```
+
+```solution
+def playbook(playbooklar, olay):
+    if olay.get("yanlis_alarm"):
+        return []
+    if not olay.get("dogrulandi"):
+        return ["kanit-topla", "dogrula"]
+    uygun = [p for p in playbooklar if p["tur"] == olay["tur"]]
+    if not uygun:
+        raise ValueError("Olay türüne uygun playbook yok")
+    secilen = min(uygun, key=lambda p: p["oncelik"])
+    adimlar = {a["id"]: a for a in secilen["adimlar"]}
+    if len(adimlar) != len(secilen["adimlar"]):
+        raise ValueError("Yinelenen adım kimliği")
+    kalan = set(adimlar)
+    sonuc = []
+    while kalan:
+        hazir = sorted(a for a in kalan if all(g in sonuc for g in adimlar[a].get("gerektirir", [])))
+        if not hazir:
+            raise ValueError("Bilinmeyen bağımlılık veya döngü")
+        for ad in hazir:
+            sonuc.append(ad)
+            kalan.remove(ad)
+    return sonuc
+
+
+print(playbook(__import__("json").load(open("playbooklar.json", encoding="utf-8")),
+               {"tur": "kotucul-yurutme", "dogrulandi": True}))
+```
+
+```hint
+Önce karar kapılarını uygula. Sonra adımları kimlikten adım sözlüğüne eşle; her turda bağımlılıkları zaten `sonuc` içinde olan hazır adımları seç. Hazır adım kalmadığı hâlde `kalan` boş değilse grafik geçersizdir.
+```
+
+```setup
+import json
+P = [
+    {"tur": "kotucul-yurutme", "oncelik": 20, "adimlar": [{"id": "yanlis-playbook"}]},
+    {"tur": "kotucul-yurutme", "oncelik": 10, "adimlar": [
+        {"id": "geri-ac", "gerektirir": ["temizligi-dogrula"]},
+        {"id": "hesabi-kilitle", "gerektirir": ["kanit-topla"]},
+        {"id": "kaliciligi-kaldir", "gerektirir": ["agdan-ayir", "hesabi-kilitle"]},
+        {"id": "kanit-topla"},
+        {"id": "temizligi-dogrula", "gerektirir": ["kaliciligi-kaldir"]},
+        {"id": "agdan-ayir", "gerektirir": ["kanit-topla"]}
+    ]},
+    {"tur": "oltalama", "oncelik": 10, "adimlar": [
+        {"id": "oturumlari-iptal-et", "gerektirir": ["hesabi-kilitle"]},
+        {"id": "kanit-topla"},
+        {"id": "hesabi-kilitle", "gerektirir": ["kanit-topla"]}
+    ]}
+]
+json.dump(P, open("playbooklar.json", "w", encoding="utf-8"), ensure_ascii=False)
+```
+:::
+
+::: gorev 4 · Sınırlama ve temizleme adımlarını güvenle uygula
+`mudahale(durum, adimlar)` fonksiyonunu yaz: yerel olay durumunun **derin kopyası** üzerinde adımları sırayla uygula ve yeni durumu döndür. Girdi sözlüğü hiçbir durumda değişmemeli; bir adım geçersizse `ValueError` yükselip bütün işlem reddedilmeli.
+
+Desteklenen adımlar ve kurallar:
+
+- `kanit-topla`: `kanit_toplandi` alanını doğrular.
+- `agdan-ayir:<cihaz>` ve `hesabi-kilitle:<hesap>`: yalnız kanıt toplandıktan sonra; var olan varlığın `izole` / `kilitli` alanını doğru yapar.
+- `kaliciligi-kaldir:<ad>` ve `zararliyi-kaldir:<ad>`: **bütün** cihazlar izole ve **bütün** hesaplar kilitliyse ilgili listeden var olan öğeyi kaldırır.
+- `temizligi-dogrula`: iki liste de boşsa `temizlik_dogrulandi` alanını doğru yapar.
+- `geri-ac`: temizlik doğrulanmışsa yalnız cihaz izolasyonlarını kaldırır; hesap kilitlerini açmaz.
+
+Bilinmeyen adım, cihaz, hesap veya listede olmayan kalıcılık/zararlı adı da `ValueError` üretir.
+
+```starter
+def mudahale(durum, adimlar):
+    for adim in adimlar:
+        if adim.startswith("agdan-ayir:"):
+            durum["cihazlar"][adim.split(":")[1]]["izole"] = True
+        elif adim.startswith("kaliciligi-kaldir:"):
+            durum["kalicilik"].remove(adim.split(":")[1])
+    return durum
+```
+
+```test
+import copy
+import json
+need("mudahale")
+D = json.load(open("olay.json", encoding="utf-8"))
+O = copy.deepcopy(D)
+PLAN = ["kanit-topla", "agdan-ayir:pc-ayse", "agdan-ayir:srv-dosya",
+        "hesabi-kilitle:ayse", "hesabi-kilitle:yedek_svc",
+        "kaliciligi-kaldir:GuncellemeKontrol", "kaliciligi-kaldir:guncelle.lnk",
+        "zararliyi-kaldir:fatura.exe", "temizligi-dogrula", "geri-ac"]
+Y = mudahale(D, PLAN)
+eq(D, O, "başarılı çağrı bile girdiyi değiştirmez")
+eq(Y["kanit_toplandi"], True, "kanıt adımı uygulandı")
+eq((Y["kalicilik"], Y["zararlilar"], Y["temizlik_dogrulandi"]), ([], [], True), "temizlik tamam ve doğrulu")
+eq({c: v["izole"] for c, v in Y["cihazlar"].items()}, {"pc-ayse": False, "srv-dosya": False}, "geri açma izolasyonu kaldırır")
+eq({h: v["kilitli"] for h, v in Y["hesaplar"].items()}, {"ayse": True, "yedek_svc": True}, "hesaplar kilitli kalır")
+for bozuk in (["agdan-ayir:pc-ayse"],
+              ["kanit-topla", "kaliciligi-kaldir:guncelle.lnk"],
+              ["kanit-topla", "agdan-ayir:pc-ayse", "agdan-ayir:srv-dosya", "hesabi-kilitle:ayse", "hesabi-kilitle:yedek_svc", "geri-ac"],
+              ["kanit-topla", "agdan-ayir:olmayan"],
+              ["kanit-topla", "zararliyi-kaldir:olmayan"]):
+    raises(ValueError, mudahale, D, bozuk, msg="geçersiz sıra veya hedef reddedilir: " + repr(bozuk))
+    eq(D, O, "başarısız çağrıda da özgün durum korunur")
+```
+
+```solution
+import copy
+import json
+
+
+def mudahale(durum, adimlar):
+    yeni = copy.deepcopy(durum)
+    for adim in adimlar:
+        ad, _, hedef = adim.partition(":")
+        if adim == "kanit-topla":
+            yeni["kanit_toplandi"] = True
+        elif ad in ("agdan-ayir", "hesabi-kilitle"):
+            if not yeni["kanit_toplandi"]:
+                raise ValueError("Önce kanıt toplanmalı")
+            grup, alan, bayrak = (("cihazlar", "cihaz", "izole") if ad == "agdan-ayir"
+                                  else ("hesaplar", "hesap", "kilitli"))
+            if hedef not in yeni[grup]:
+                raise ValueError("Bilinmeyen " + alan)
+            yeni[grup][hedef][bayrak] = True
+        elif ad in ("kaliciligi-kaldir", "zararliyi-kaldir"):
+            if not all(c["izole"] for c in yeni["cihazlar"].values()) or not all(h["kilitli"] for h in yeni["hesaplar"].values()):
+                raise ValueError("Temizlemeden önce bütün kapsam sınırlanmalı")
+            liste = "kalicilik" if ad == "kaliciligi-kaldir" else "zararlilar"
+            if hedef not in yeni[liste]:
+                raise ValueError("Hedef listede yok")
+            yeni[liste].remove(hedef)
+        elif adim == "temizligi-dogrula":
+            if yeni["kalicilik"] or yeni["zararlilar"]:
+                raise ValueError("Temizlik tamamlanmadı")
+            yeni["temizlik_dogrulandi"] = True
+        elif adim == "geri-ac":
+            if not yeni["temizlik_dogrulandi"]:
+                raise ValueError("Önce temizlik doğrulanmalı")
+            for cihaz in yeni["cihazlar"].values():
+                cihaz["izole"] = False
+        else:
+            raise ValueError("Bilinmeyen müdahale adımı")
+    return yeni
+
+
+D = json.load(open("olay.json", encoding="utf-8"))
+print(mudahale(D, ["kanit-topla", "agdan-ayir:pc-ayse"]))
+```
+
+```hint
+`copy.deepcopy(durum)` ile başla. Her `elif` dalında önce önkoşulu ve hedefin varlığını denetle, sonra yalnız kopyayı değiştir. Böylece hata yükseldiğinde çağıranın elindeki özgün durum aynı kalır.
+```
+
+```setup
+import json
+D = {
+    "cihazlar": {"pc-ayse": {"izole": False}, "srv-dosya": {"izole": False}},
+    "hesaplar": {"ayse": {"kilitli": False}, "yedek_svc": {"kilitli": False}},
+    "kalicilik": ["GuncellemeKontrol", "guncelle.lnk"],
+    "zararlilar": ["fatura.exe"],
+    "kanit_toplandi": False,
+    "temizlik_dogrulandi": False
+}
+json.dump(D, open("olay.json", "w", encoding="utf-8"), ensure_ascii=False)
+```
+:::
+
+::: gorev 5 · Kanıtı değiştirmeden paketle ve doğrula
+İki fonksiyon yaz:
+
+- `kanit_paketle(kaynak, hedef)`: `kaynak` klasörünün altındaki **bütün dosyaları** göreli yollarını koruyarak `hedef` klasörüne kopyalar. Kaynak dosyaları silmez, taşımaz veya değiştirmez. `hedef/manifest.json` içine `{"dosyalar": [{"yol": <POSIX göreli yolu>, "boyut": <bayt>, "sha256": <küçük harf özet>}, ...]}` yazar; kayıtlar yola göre sıralıdır. Manifesto sözlüğünü döndürür. Zamana veya rastgele değere bağlı alan ekleme.
+- `kanit_dogrula(hedef)`: manifestodaki her dosyanın varlığını, bayt boyutunu ve SHA-256 özetini denetler. Hepsi doğruysa `True`, eksik ya da değişmiş dosyada `ValueError` yükseltir.
+
+Manifesto güvenilir bir sınır değildir: `yol` yalnız `/` ayraçlı, temiz bir **göreli POSIX yolu** olmalı. Mutlak yolu, `.` / `..` parçalarını, boş parçayı, ters eğik çizgiyi, sürücü veya UNC adını reddet. Sonra symlink'leri çözümle ve hedefin hâlâ paket kökünün altında olduğunu denetle; `hedef / "../disarida.txt"` ya da dışarıyı gösteren bir symlink kanıt doğrulamak için kullanılamaz.
+
+```starter
+import os
+import shutil
+
+
+def kanit_paketle(kaynak, hedef):
+    shutil.copytree(kaynak, hedef, dirs_exist_ok=True)
+    return {"dosyalar": []}
+
+
+def kanit_dogrula(hedef):
+    return os.path.isdir(hedef)
+```
+
+```test
+import copy
+import hashlib
+import json
+import os
+need("kanit_paketle"); need("kanit_dogrula")
+
+def anlik(kok):
+    return {os.path.relpath(os.path.join(k, a), kok).replace(os.sep, "/"): open(os.path.join(k, a), "rb").read()
+            for k, _, dosyalar in os.walk(kok) for a in dosyalar}
+
+def manifest_yaz(manifest):
+    json.dump(manifest, open("kanit_paketi/manifest.json", "w", encoding="utf-8"), ensure_ascii=False)
+
+once = anlik("kanit_kaynagi")
+M = kanit_paketle("kanit_kaynagi", "kanit_paketi")
+eq(anlik("kanit_kaynagi"), once, "kaynak kanıtların baytları ve dosya listesi değişmedi")
+eq([d["yol"] for d in M["dosyalar"]], ["edr.json", "guvenlik.csv", "notlar/olay.txt"], "alt klasör dahil, yola göre sıralı")
+eq(M["dosyalar"][1], {"yol": "guvenlik.csv", "boyut": len(once["guvenlik.csv"]),
+                      "sha256": "113eca34ead7a2d46209c6139d6e09451cd7cb573f2c6ff1902d9abafa613134"},
+   "gerçek boyut ve SHA-256")
+eq(json.load(open("kanit_paketi/manifest.json", encoding="utf-8")), M, "manifesto diske yazıldı")
+eq(kanit_dogrula("kanit_paketi"), True, "değişmemiş paket doğrulanır")
+M2 = kanit_paketle("kanit_kaynagi", "ikinci_paket")
+eq(M2, M, "iki çalıştırmada deterministik manifesto")
+open("kanit_paketi/edr.json", "ab").write(b" ")
+raises(ValueError, kanit_dogrula, "kanit_paketi", msg="değişen kanıt reddedilir")
+os.remove("kanit_paketi/guvenlik.csv")
+raises(ValueError, kanit_dogrula, "kanit_paketi", msg="silinen kanıt reddedilir")
+
+veri = once["edr.json"]
+open("disarida.txt", "wb").write(veri)
+B = copy.deepcopy(M)
+B["dosyalar"][0] = {"yol": "../disarida.txt", "boyut": len(veri), "sha256": hashlib.sha256(veri).hexdigest()}
+B["dosyalar"] = B["dosyalar"][:1]  # başka bir eksik dosya, traversal kontrolünü gizlemesin
+manifest_yaz(B)
+raises(ValueError, kanit_dogrula, "kanit_paketi", msg="var olan ve özeti doğru paket dışı dosya bile reddedilir")
+for kotu in (os.path.abspath("disarida.txt").replace(os.sep, "/"), "C:disarida.txt",
+             "\\\\sunucu\\paylasim\\disarida.txt", "notlar/../../disarida.txt", "notlar\\..\\disarida.txt"):
+    B["dosyalar"][0]["yol"] = kotu
+    manifest_yaz(B)
+    raises(ValueError, kanit_dogrula, "kanit_paketi", msg="mutlak, sürücü/UNC veya .. yolu reddedilir: " + repr(kotu))
+try:
+    os.symlink(os.path.abspath("disarida.txt"), "kanit_paketi/bagli.txt")
+except (OSError, NotImplementedError):
+    ok(True, "bu ortam symlink kurmaya izin vermiyor; yol ve traversal kontrolleri yine çalıştı")
+else:
+    B["dosyalar"][0]["yol"] = "bagli.txt"
+    manifest_yaz(B)
+    raises(ValueError, kanit_dogrula, "kanit_paketi", msg="paket dışını gösteren symlink reddedilir")
+```
+
+```solution
+import hashlib
+import json
+import os
+from pathlib import Path, PurePosixPath, PureWindowsPath
+import shutil
+
+
+def ozet(yol):
+    h = hashlib.sha256()
+    with open(yol, "rb") as f:
+        for parca in iter(lambda: f.read(65536), b""):
+            h.update(parca)
+    return h.hexdigest()
+
+
+def kanit_paketle(kaynak, hedef):
+    os.makedirs(hedef, exist_ok=True)
+    kayitlar = []
+    for kok, _, dosyalar in os.walk(kaynak):
+        for ad in dosyalar:
+            tam = os.path.join(kok, ad)
+            goreli = os.path.relpath(tam, kaynak).replace(os.sep, "/")
+            kayitlar.append((goreli, tam))
+    manifest = {"dosyalar": []}
+    for goreli, tam in sorted(kayitlar):
+        kopya = os.path.join(hedef, *goreli.split("/"))
+        os.makedirs(os.path.dirname(kopya), exist_ok=True)
+        shutil.copyfile(tam, kopya)
+        manifest["dosyalar"].append({"yol": goreli, "boyut": os.path.getsize(kopya), "sha256": ozet(kopya)})
+    with open(os.path.join(hedef, "manifest.json"), "w", encoding="utf-8", newline="\n") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("\n")
+    return manifest
+
+
+def kanit_yolu(hedef, goreli):
+    if not isinstance(goreli, str) or not goreli or "\\" in goreli or "\0" in goreli:
+        raise ValueError("Geçersiz kanıt yolu")
+    parcalar = goreli.split("/")
+    if (PurePosixPath(goreli).is_absolute() or PureWindowsPath(goreli).drive
+            or any(p in ("", ".", "..") for p in parcalar)):
+        raise ValueError("Kanıt yolu temiz bir göreli POSIX yolu olmalı")
+    try:
+        kok = Path(hedef).resolve(strict=True)
+        yol = kok.joinpath(*parcalar).resolve(strict=True)
+        yol.relative_to(kok)
+    except (OSError, RuntimeError, ValueError) as e:
+        raise ValueError("Kanıt eksik veya yolu paket dışına çıkıyor") from e
+    if not yol.is_file():
+        raise ValueError("Kanıt normal bir dosya olmalı")
+    return yol
+
+
+def kanit_dogrula(hedef):
+    with open(os.path.join(hedef, "manifest.json"), encoding="utf-8") as f:
+        manifest = json.load(f)
+    for kayit in manifest["dosyalar"]:
+        yol = kanit_yolu(hedef, kayit["yol"])
+        if yol.stat().st_size != kayit["boyut"] or ozet(yol) != kayit["sha256"]:
+            raise ValueError("Kanıt bütünlüğü bozuk: " + kayit["yol"])
+    return True
+
+
+M = kanit_paketle("kanit_kaynagi", "kanit_paketi")
+print(kanit_dogrula("kanit_paketi"), len(M["dosyalar"]))
+```
+
+```hint
+Önce `os.walk` ile `(göreli_yol, tam_yol)` çiftlerini toplayıp sırala. `shutil.copyfile` içeriği kopyalar; `shutil.move` veya `os.remove` kullanma. Doğrulamada `PurePosixPath` / `PureWindowsPath` ile yol biçimini reddet; ardından `Path.resolve(strict=True)` ve `relative_to(paket_koku)` ile symlink dahil kök sınırını denetle.
+```
+
+```setup
+import os
+os.makedirs("kanit_kaynagi/notlar", exist_ok=True)
+open("kanit_kaynagi/guvenlik.csv", "wb").write(
+    b"zaman;olay;bilgisayar\r\n19.10.2026 12:03:40;4688;PC-AYSE\r\n")
+open("kanit_kaynagi/edr.json", "wb").write(
+    b'[{"zaman":1792400550,"olay":"dosya olusturuldu"}]\n')
+open("kanit_kaynagi/notlar/olay.txt", "wb").write(
+    "İlk gözlem: fatura.exe; kanıt saatleri UTC'ye çevrildi.\n".encode("utf-8"))
 ```
 :::

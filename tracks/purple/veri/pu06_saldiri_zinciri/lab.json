@@ -1,0 +1,106 @@
+{
+  "senaryo": "PU06 sentetik saldırı zinciri; gerçek sistem, hesap veya ağ kaydı değildir",
+  "linux": {
+    "id": {
+      "user": "operator",
+      "uid": 1000,
+      "groups": ["operator", "users"]
+    },
+    "getcap": [
+      {"path": "/usr/bin/dumpcap", "capabilities": {"cap_net_raw": "ep"}},
+      {"path": "/opt/lab/okuyucu", "capabilities": {"cap_dac_override": "p", "cap_net_raw": "ep"}},
+      {"path": "/opt/lab/yardimci", "capabilities": {"cap_setuid": "ep"}}
+    ],
+    "sudo_l": [
+      {"user": "operator", "runas": "root", "nopasswd": true, "command": "/usr/bin/systemctl restart yedek"},
+      {"user": "operator", "runas": "root", "nopasswd": true, "command": "/usr/bin/less /var/log/*"},
+      {"user": "denetci", "runas": "root", "nopasswd": false, "command": "/usr/bin/journalctl"}
+    ],
+    "cron": [
+      {"path": "/etc/cron.d/yedek", "owner": "root", "writable_by": []},
+      {"path": "/etc/cron.d/rapor", "owner": "root", "writable_by": ["users"]},
+      {"path": "/etc/cron.d/gecici", "owner": "operator", "writable_by": ["operator"]}
+    ],
+    "path": [
+      {"directory": "/usr/local/sbin", "owner": "root", "writable_by": []},
+      {"directory": "/opt/ortak/bin", "owner": "root", "writable_by": ["users"]},
+      {"directory": "", "owner": "operator", "writable_by": []},
+      {"directory": "./araclar", "owner": "operator", "writable_by": []}
+    ]
+  },
+  "windows": {
+    "token": {
+      "user_sid": "S-1-5-21-100-1101",
+      "groups": [
+        {"sid": "S-1-1-0", "name": "Everyone", "enabled": true, "deny_only": false},
+        {"sid": "S-1-5-32-545", "name": "BUILTIN\\Users", "enabled": true, "deny_only": false},
+        {"sid": "S-1-5-32-544", "name": "BUILTIN\\Administrators", "enabled": false, "deny_only": true},
+        {"sid": "S-1-16-8192", "name": "Medium Mandatory Level", "enabled": true, "deny_only": false}
+      ]
+    },
+    "objects": [
+      {
+        "path": "C:\\Yonetim\\Rapor.ps1",
+        "owner_sid": "S-1-5-18",
+        "aces": [
+          {"type": "allow", "sid": "S-1-5-32-545", "rights": ["ReadAndExecute"]},
+          {"type": "allow", "sid": "S-1-5-32-544", "rights": ["FullControl"]}
+        ]
+      },
+      {
+        "path": "C:\\Yonetim\\Ortak.ps1",
+        "owner_sid": "S-1-5-18",
+        "aces": [
+          {"type": "allow", "sid": "S-1-1-0", "rights": ["ReadAndExecute"]},
+          {"type": "allow", "sid": "S-1-5-32-545", "rights": ["Write", "ReadAndExecute"]}
+        ]
+      },
+      {
+        "path": "C:\\Yonetim\\Korunan.ps1",
+        "owner_sid": "S-1-5-18",
+        "aces": [
+          {"type": "allow", "sid": "S-1-5-32-545", "rights": ["FullControl"]},
+          {"type": "deny", "sid": "S-1-5-21-100-1101", "rights": ["Write"]}
+        ]
+      }
+    ],
+    "jea": [
+      {
+        "name": "SaltOkuma",
+        "run_as_virtual_account": true,
+        "language_mode": "NoLanguage",
+        "visible_cmdlets": ["Get-Service"],
+        "visible_external_commands": ["C:\\Windows\\System32\\whoami.exe"],
+        "function_definitions": []
+      },
+      {
+        "name": "PortalYonetim",
+        "run_as_virtual_account": true,
+        "language_mode": "FullLanguage",
+        "visible_cmdlets": ["Get-Service", "Invoke-Expression"],
+        "visible_external_commands": ["whoami.exe"],
+        "function_definitions": [{"name": "Set-Portal", "body": "Invoke-Expression $Girdi"}]
+      }
+    ]
+  },
+  "ad_events": [
+    {"time": "2026-10-26T09:00:00Z", "event_id": 4625, "account": "ayse", "source_ip": "10.20.30.40", "source_host": "PC-AYSE", "target_host": "SRV-PORTAL", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:01:00Z", "event_id": 4771, "account": "mehmet", "source_ip": "10.20.30.40", "source_host": "PC-AYSE", "target_host": "DC01", "status": "0x18"},
+    {"time": "2026-10-26T09:02:00Z", "event_id": 4776, "account": "zeynep", "source_ip": "10.20.30.40", "source_host": "PC-AYSE", "target_host": "DC01", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:03:00Z", "event_id": 4625, "account": "can", "source_ip": "10.20.30.40", "source_host": "PC-AYSE", "target_host": "SRV-PORTAL", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:04:00Z", "event_id": 4625, "account": "elif", "source_ip": "10.20.30.40", "source_host": "PC-AYSE", "target_host": "SRV-PORTAL", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:05:00Z", "event_id": 4624, "account": "ayse", "source_ip": "10.20.30.40", "source_host": "PC-AYSE", "target_host": "SRV-PORTAL", "logon_type": 3, "status": "0x0"},
+    {"time": "2026-10-26T09:06:00Z", "event_id": 4768, "account": "ayse", "source_ip": "10.20.30.40", "source_host": "PC-AYSE", "target_host": "DC01", "status": "0x0"},
+    {"time": "2026-10-26T09:07:00Z", "event_id": 4769, "account": "ayse", "source_ip": "10.20.30.40", "source_host": "SRV-PORTAL", "target_host": "DC01", "service": "CIFS/srv-db", "status": "0x0"},
+    {"time": "2026-10-26T09:08:00Z", "event_id": 4624, "account": "ayse", "source_ip": "10.20.30.40", "source_host": "SRV-PORTAL", "target_host": "SRV-DB", "logon_type": 3, "status": "0x0"},
+    {"time": "2026-10-26T09:09:00Z", "event_id": 4624, "account": "svc_yedek", "source_ip": "10.20.30.41", "source_host": "SRV-DB", "target_host": "SRV-YEDEK", "logon_type": 3, "status": "0x0"},
+    {"time": "2026-10-26T09:10:00Z", "event_id": 4625, "account": "can", "source_ip": "10.20.30.50", "source_host": "PC-CAN", "target_host": "SRV-ADM", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:11:00Z", "event_id": 4625, "account": "can", "source_ip": "10.20.30.50", "source_host": "PC-CAN", "target_host": "SRV-ADM", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:12:00Z", "event_id": 4776, "account": "can", "source_ip": "10.20.30.50", "source_host": "PC-CAN", "target_host": "DC01", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:13:00Z", "event_id": 4625, "account": "can", "source_ip": "10.20.30.50", "source_host": "PC-CAN", "target_host": "SRV-ADM", "status": "0xC000006A"},
+    {"time": "2026-10-26T09:14:00Z", "event_id": 4624, "account": "can", "source_ip": "10.20.30.50", "source_host": "PC-CAN", "target_host": "SRV-ADM", "logon_type": 10, "status": "0x0"},
+    {"time": "2026-10-26T09:15:00Z", "event_id": 4624, "account": "mert", "source_ip": "10.20.30.60", "source_host": "PC-MERT", "target_host": "PC-MERT", "logon_type": 2, "status": "0x0"},
+    {"time": "2026-10-26T09:16:00Z", "event_id": 4624, "account": "mert", "source_ip": "10.20.30.60", "source_host": "PC-MERT", "target_host": "SRV-DOSYA", "logon_type": 3, "status": "0x0"},
+    {"time": "2026-10-26T09:17:00Z", "event_id": 4776, "account": "mert", "source_ip": "10.20.30.60", "source_host": "PC-MERT", "target_host": "DC01", "status": "0x0"}
+  ]
+}
