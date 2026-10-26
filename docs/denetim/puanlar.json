@@ -228,28 +228,18 @@
     "P78",
     "P79"
    ],
-   "karar": "Kısmen",
-   "ozet": "P79 iki görevde tam 2**64 reddi zaten vardı; 2**64+1 ve 2**65-1 eklendi. Ders temiz. Kalan kapsam eksikleri aşağıda açık.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "P78/P79: gerçek Impacket betiğinin seçenek envanteri ve import/metadata/API tanısı; 17 kontrol temiz, 14 yanlış çözüm reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 20,
-    "kapsam": 16,
-    "derinlik": 18,
-    "gerceklik": 14,
-    "yol": 9
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 8
    },
-   "eksikler": [
-    {
-     "metin": "Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.",
-     "oncelik": "orta",
-     "etiket": "CPTS"
-    },
-    {
-     "metin": "Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden').",
-     "oncelik": "orta"
-    }
-   ],
+   "eksikler": [],
    "not": "Bu konunun ayrıntısı bende güvenlik filtresine takılıyor; derinlik kısmı Opus 4.8/Codex'e.",
    "onceki_denetim": {
     "karar": "Kısmen",
@@ -269,17 +259,26 @@
      "metin": "P79'da 2**64 sınır değeri sınanmıyor. → P79 iki görevde tam 2**64 reddi zaten vardı; 2**64+1 ve 2**65-1 eklendi. Ders temiz.",
      "etiket": "düzeltildi",
      "oncelik": "düşük"
+    },
+    {
+     "metin": "Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.",
+     "oncelik": "orta",
+     "etiket": "CPTS"
+    },
+    {
+     "metin": "Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden').",
+     "oncelik": "orta"
     }
    ],
    "duzeltme": {
-    "tarih": "26.10.2026",
     "yazar": "Codex",
-    "commit": "5c701c6",
-    "ozet": "P79 iki görevde tam 2**64 reddi zaten vardı; 2**64+1 ve 2**65-1 eklendi. Ders temiz.",
-    "kanit": "../../outputs/codex-aciklar-p79-validate.txt",
-    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "tarih": "27.10.2026",
+    "commit": "8f5cfa2",
+    "ozet": "P78/P79: gerçek Impacket betiğinin seçenek envanteri ve import/metadata/API tanısı; 17 kontrol temiz, 14 yanlış çözüm reddedildi.",
+    "kanit": "../../outputs/a-notu-p78-impacket-kabul.json",
+    "rapor": "../../outputs/a-notu-p78-rapor.md",
     "bagimsiz_denetim": "yeniden yapılmadı",
-    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+    "puan_notu": "93/100 Codex öz değerlendirmesi. Önceki bağımsız puan 77/100; geçmiş denetim kaydı saklandı."
    },
    "inceleme_notlari": [
     {
@@ -296,24 +295,61 @@
    "dersler": [
     "BS29"
    ],
-   "karar": "Kısmen",
-   "ozet": "curl çıkış kodu/HTTP durumu ayrımı, çerez, --json; jq -r/@tsv/select/--arg. Ama jq -e hiç kullanılmıyor.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "BS29: jq -e/-s yazma görevi; gerçek tahmin, 13 kontrol temiz, 10 yanlış çözüm reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 22,
-    "kapsam": 18,
-    "derinlik": 19,
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "no": 8,
+    "yol": "bash",
+    "ad": "curl/jq ile API ve JSON araç zinciri",
+    "dersler": [
+     "BS29"
+    ],
+    "karar": "Kısmen",
+    "ozet": "curl çıkış kodu/HTTP durumu ayrımı, çerez, --json; jq -r/@tsv/select/--arg. Ama jq -e hiç kullanılmıyor.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+     "test": 22,
+     "kapsam": 18,
+     "derinlik": 19,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "eksikler": [
+     {
+      "metin": "ASAMA2 ve dersin özeti 'jq -e' diyor; derste hiç kullanılmıyor.",
+      "oncelik": "orta",
+      "etiket": "CJCA"
+     }
+    ]
+   },
+   "kapatilanlar": [
     {
      "metin": "ASAMA2 ve dersin özeti 'jq -e' diyor; derste hiç kullanılmıyor.",
      "oncelik": "orta",
      "etiket": "CJCA"
     }
-   ]
+   ],
+   "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "commit": "3b97d20",
+    "ozet": "BS29: jq -e/-s yazma görevi; gerçek tahmin, 13 kontrol temiz, 10 yanlış çözüm reddedildi.",
+    "kanit": "../../outputs/a-notu-bs29-jq-kabul.json",
+    "rapor": "../../outputs/a-notu-bs29-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "94/100 Codex öz değerlendirmesi. Önceki bağımsız puan 83/100; geçmiş denetim kaydı saklandı."
+   }
   },
   {
    "no": 9,
@@ -322,24 +358,61 @@
    "dersler": [
     "BS31"
    ],
-   "karar": "Kısmen",
-   "ozet": "/proc, ps, journalctl --file, UTC; çalışan servis varsayılmıyor. JSON çıktısı görevde yok.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "BS31: gerçek journalctl JSON rapor görevi; 17 kontrol temiz, 9 yanlış çözüm reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 23,
-    "kapsam": 20,
-    "derinlik": 21,
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "no": 9,
+    "yol": "bash",
+    "ad": "Linux süreç ve olay verisini kaynağından toplamak",
+    "dersler": [
+     "BS31"
+    ],
+    "karar": "Kısmen",
+    "ozet": "/proc, ps, journalctl --file, UTC; çalışan servis varsayılmıyor. JSON çıktısı görevde yok.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+     "test": 23,
+     "kapsam": 20,
+     "derinlik": 21,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "eksikler": [
+     {
+      "metin": "journalctl -o json yalnız tabloda; görevde yok.",
+      "oncelik": "düşük",
+      "etiket": "CDSA"
+     }
+    ]
+   },
+   "kapatilanlar": [
     {
      "metin": "journalctl -o json yalnız tabloda; görevde yok.",
      "oncelik": "düşük",
      "etiket": "CDSA"
     }
-   ]
+   ],
+   "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "commit": "8aea24b",
+    "ozet": "BS31: gerçek journalctl JSON rapor görevi; 17 kontrol temiz, 9 yanlış çözüm reddedildi.",
+    "kanit": "../../outputs/a-notu-bs31-json-kabul.json",
+    "rapor": "../../outputs/a-notu-bs31-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "94/100 Codex öz değerlendirmesi. Önceki bağımsız puan 88/100; geçmiş denetim kaydı saklandı."
+   }
   },
   {
    "no": 10,
