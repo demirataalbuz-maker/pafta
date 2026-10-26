@@ -1,0 +1,49 @@
+{
+  "backend": "real Kali Bash/jq",
+  "prediction_stdout": "0\n1\n1\n0\n4\n0\n",
+  "reference_passed": true,
+  "mutants_rejected": 10,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "without exit-status",
+      "status": "rejected"
+    },
+    {
+      "mutation": "without slurp",
+      "status": "rejected"
+    },
+    {
+      "mutation": "exclusive zero",
+      "status": "rejected"
+    },
+    {
+      "mutation": "exclusive ten",
+      "status": "rejected"
+    },
+    {
+      "mutation": "allow eleven",
+      "status": "rejected"
+    },
+    {
+      "mutation": "allow minus one",
+      "status": "rejected"
+    },
+    {
+      "mutation": "allow multiple documents",
+      "status": "rejected"
+    },
+    {
+      "mutation": "ignore readiness",
+      "status": "rejected"
+    },
+    {
+      "mutation": "coerce boolean string",
+      "status": "rejected"
+    },
+    {
+      "mutation": "ignore JSON error",
+      "status": "rejected"
+    }
+  ]
+}

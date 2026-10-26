@@ -312,3 +312,57 @@ Boşluğu **ayrıca** denetle (`[[ -s dosya ]]`): `jq empty` boş dosyayı geçe
 `jq empty` girdi geçerli JSON ise hiçbir şey yazmadan 0, değilse 5 ile çıkar; hata mesajını `2> /dev/null` ile sustur.
 ```
 :::
+
+
+::: anlat jq -e: JSON değeri ile süreç başarısını bağlamak
+Bir API'de `false` çıktısını görmek komutun başarısız çıkması demek değildir. `jq -e` son çıktı false/null ise 1, başka bir değerse 0, hiç sonuç üretilmediyse 4 verir. Boş dizi, boş metin ve sıfır da jq'da true sayılır. Birden çok sonuçta **sonuncu** belirleyicidir. JSON geçerliliği ile uygulamanın hazır olması farklı kararlardır.
+
+Aşağıdaki görev `-s` ile bütün girdi akışını diziye toplar: boş/yalnız boşluk girdi `[]`, iki belge iki elemandır. Böylece tam bir belge şartını ayrıca sınayabiliriz. `-e` sonucunu çıktıyı grep'leyerek tahmin etme; `$?` değerini hemen sakla. Kullanım/derleme hatalarının da sıfır dışı olabileceğini unutma; aşağıdaki sabit programda beklenmeyen sıfır dışı kod `BOZUK` olarak raporlanır. Kaynak: [jq -e ve --slurp](https://jqlang.org/manual/#invoking-jq).
+:::
+
+::: tahmin Sıfır, false ve boş akış
+```bash
+for value in '0' 'false' 'null' '[]' ''; do
+    printf '%s' "$value" | jq -e . >/dev/null
+    printf '%s\n' "$?"
+done
+printf 'false\ntrue\n' | jq -e . >/dev/null
+printf '%s\n' "$?"
+```
+
+???
+`0`, `1`, `1`, `0`, `4`, `0` ayrı satırlarda. Sıfır ve boş dizi truthy; boş akış sonuç üretmez; son akışın son değeri true.
+:::
+
+::: gorev jq -e ile hazır olma kapısı
+Standart girdinin tamamını gerçek jq ile değerlendir. Tam **bir** JSON belgesi, object türü, `hazir` tam boolean true ve `bekleyen` number türünde 0–10 (iki uç dahil) ise `HAZIR`; geçerli ama şartı karşılamayan ya da boş/yalnız boşluk akışta `HAZIR_DEGIL`; JSON ayrıştırma hatasında `BOZUK` yazdır. Sayısal metin kabul edilmez. `-s` ile belge sayısını, `-e` ile koşulun süreç sonucunu kullan. Her durumda tek satır çıktı, hata mesajı stderr'e sızmasın.
+
+```stdin
+{"hazir":true,"bekleyen":10}
+```
+
+```starter
+cat >/dev/null
+echo HAZIR
+```
+
+```test
+eq(out,'HAZIR\n','üst eşik dahil')
+for body in ('{"hazir":true,"bekleyen":0}','{"hazir":true,"bekleyen":9}','{"hazir":true,"bekleyen":0.5}'):
+    eq(run(stdin=body),'HAZIR\n','geçerli sayı ve alt eşik')
+for body in ('{"hazir":true,"bekleyen":-1}','{"hazir":true,"bekleyen":11}','{"hazir":false,"bekleyen":1}','{"hazir":"true","bekleyen":1}','{"hazir":true,"bekleyen":"1"}','{"hazir":true,"bekleyen":null}','{"hazir":true}','{}','[]','0','true','null','',' \n\t','{"hazir":true,"bekleyen":1}\n{"hazir":true,"bekleyen":2}'):
+    eq(run(stdin=body),'HAZIR_DEGIL\n','tip, varlık, eşik, boşluk ve tek belge sözleşmesi')
+for body in ('{','{"hazir":true,}','yanlis','{"hazir":true,"bekleyen":1}\n{'):
+    eq(run(stdin=body),'BOZUK\n','ayrıştırma hatası hazır değil ile karışmaz')
+```
+
+```solution
+jq -e -s 'length == 1 and (.[0] | type == "object" and .hazir == true and (.bekleyen | type == "number" and . >= 0 and . <= 10))' >/dev/null 2>/dev/null
+kod=$?
+case "$kod" in
+    0) echo HAZIR ;;
+    1) echo HAZIR_DEGIL ;;
+    *) echo BOZUK ;;
+esac
+```
+:::
