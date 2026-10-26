@@ -261,3 +261,87 @@ Kimlikleri `-split ","` ile ayırıp her birini `"EventID=$_"` yap, `-join " or 
 `TimeCreated` yerel saattir: `.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss'Z'")`. Tırnak içindeki `T` ve `Z` biçim harfi sayılmaz, olduğu gibi yazılır.
 ```
 :::
+
+
+::: anlat FilterXml ve ToXml: iki farklı XML
+FilterXml bir QueryList sorgu belgesidir; ToXml() ise okunan tek olayın kanıt XML'ini verir. Bunları karıştırma. QueryList/Query/Select ile birden çok seçim ya da Suppress kurulabilir. Bu görev tek dosya ve tek Select kullanır; mevcut FilterXPath görevinin yanına gerçek FilterXml kullanımını ekler.
+
+Kurulu Windows okuyucusunda çevrimdışı dosya, Query/Select Path içinde **file:// + tam Windows yolu** ile açıldı; yalnız C:\... yazıldığında "channel path is invalid" hatası ölçüldü. QueryList'in XML özniteliğine yolu koymadan SecurityElement.Escape uygula. Kurulu okuyucuda buna rağmen & içeren dosya yolu "query is invalid" üretti; %26 URL kodlaması da çözmedi. Bu yüzden görev kaynak dosyayı değiştirmeden çalışma klasöründe GUID adlı bir EVTX kopyası açar, sorguyu o kopyada çalıştırır ve olay nesnelerini Dispose ettikten sonra finally ile kopyayı siler. Pafta'nın bu görevdeki geçici çalışma klasörü yolu & içermemelidir; okuyucu sınırı gizlenmez. EventID ve Level girdilerini önce sayısal aralıkla doğrula. XML parser'ın &lt;= metnini XPath okuyucusuna <= olarak vereceğini unutma.
+
+Olay XML'inin varsayılan namespace'i http://schemas.microsoft.com/win/2004/08/events/event değeridir. XmlNamespaceManager ile e öneki ata; //Data gibi namespace'siz XPath boş dönebilir. Bu dosyalar eski EVT'den çevrildiğinden EventData/Data adsız ve sıralıdır; gerçek manifest olaylarında Name özniteliği de olabilir. Görev hem System metadatasını hem Data metinlerini **ToXml() sonucundan** çıkarır; yerelleştirilmiş Message alanını kanıt diye ayrıştırmaz.
+
+Kaynak: [Microsoft Get-WinEvent FilterXml](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-5.1), [Event schema](https://learn.microsoft.com/en-us/windows/win32/wes/eventschema-schema), [EventLogRecord.ToXml](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.eventing.reader.eventlogrecord.toxml?view=windowsdesktop-9.0). file:// davranışı ayrıca bu bilgisayardaki gerçek Get-WinEvent ile ölçüldü.
+:::
+
+::: gorev FilterXml seçimi ve ham olay XML'inden alanlar
+Girdide üç satır var: EVTX dosya yolu, EventID (0–65535), en yüksek Level (0–5). Dosya yoksa veya sayı/aralık geçersizse HATA. Gerçek Get-WinEvent -FilterXml ve -Oldest ile yalnız bu dosyada EventID eşit ve Level küçük/eşit kayıtları seç. Eşleşme yoksa [] JSON listesi; bozuk EVTX veya başka okuma hatasıysa throw. Canlı kanal okuma.
+
+Her olayın ToXml() sonucunu [xml] olarak aç, namespace'li XPath ile record/id/level sayıları, provider adı ve sıralı data metin dizisini çıkar. Bu beş alanlı nesnelerin kayıt sıralı JSON listesini yaz; tek kayıtta da liste kalmalı. Properties/Message üzerinden bu alanları yeniden kurma. Kaynağı değiştirmeden GUID adlı query-<GUID>.evtx çalışma kopyası aç; finally içinde olay nesnelerini Dispose edip bu kopyayı sil. Sorgu yolunu XML öznitelikleri için kaçır; Select XPath'indeki <= XML'de &lt;= olmalı.
+
+```stdin
+sistem.evtx
+7045
+3
+```
+
+```setup
+import os,runpy,sys,pathlib,shutil
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,'__file__',None) or '')=='py_harness.py'))
+fixture=runpy.run_path(os.path.join(_s,'ps_evtx_fixtures.py'));fixture['ps27']()
+shutil.copyfile('sistem.evtx','kopya & sistem.evtx')
+```
+
+```starter
+'[]'
+```
+
+```test
+import json
+provider='Service Control Manager'
+first={'record':3,'id':7045,'level':4,'provider':provider,'data':['PaftaYedek',r'C:\Araclar\yedek.exe','user mode service','auto start']}
+second={'record':7,'id':7045,'level':3,'provider':provider,'data':['Guncelleyici',r'C:\Users\Public\g.exe','user mode service','demand start']}
+eq(json.loads(out),[second],'Level 3 eşit ucu ve tek kaydın liste kalması')
+eq(json.loads(run(stdin='sistem.evtx\n7045\n4\n')),[first,second],'Level 4 dahil, Oldest kayıt sırası')
+eq(json.loads(run(stdin='kopya & sistem.evtx\n7045\n5\n')),[first,second],'XML özniteliğinde & ve boşluklu gerçek dosya')
+eq(json.loads(run(stdin='sistem.evtx\n7045\n2\n')),[],'eşleşme yok')
+eq(json.loads(run(stdin='sistem.evtx\n0\n0\n')),[],'EventID ve Level alt uçları geçerli')
+eq(json.loads(run(stdin='sistem.evtx\n65535\n5\n')),[],'EventID ve Level üst uçları geçerli')
+eq(json.loads(run(stdin='sistem.evtx\n6005\n4\n')),[{'record':1,'id':6005,'level':4,'provider':'EventLog','data':[]}],'Data yoksa boş dizi')
+for body in ('sistem.evtx\n-1\n3\n','sistem.evtx\n65536\n3\n','sistem.evtx\n1\n-1\n','sistem.evtx\n1\n6\n','sistem.evtx\n1 or 1=1\n3\n','yok.evtx\n1\n3\n',''):
+    eq(run(stdin=body),'HATA\n','dosya ve sayısal girdi sınırları')
+r=calis(stdin='bozuk.evtx\n7045\n3\n');ok(r['kod']!=0,'bozuk dosya eşleşme yok diye gizlenmez')
+import pathlib
+eq(list(pathlib.Path('.').glob('query-*.evtx')),[],'başarı, eşleşme yok ve hata yollarında çalışma kopyası temizlenir')
+ok('-FilterXml' in src and '.ToXml()' in src,'görev sözleşmesi: gerçek FilterXml ve olay ToXml çağrısı')
+```
+
+```solution
+$id=0
+$level=0
+if ($Girdi.Count -lt 3 -or -not [int]::TryParse($Girdi[1],[ref]$id) -or -not [int]::TryParse($Girdi[2],[ref]$level) -or $id -lt 0 -or $id -gt 65535 -or $level -lt 0 -or $level -gt 5 -or -not (Test-Path -LiteralPath $Girdi[0] -PathType Leaf)) { 'HATA'; exit 0 }
+$staged=Join-Path $PWD ('query-'+[guid]::NewGuid().ToString('N')+'.evtx')
+$events=@()
+try {
+Copy-Item -LiteralPath $Girdi[0] -Destination $staged -ErrorAction Stop
+$path=[Security.SecurityElement]::Escape('file://'+$staged)
+$query="<QueryList><Query Id='0' Path='$path'><Select Path='$path'>*[System[(EventID=$id) and (Level&lt;=$level)]]</Select></Query></QueryList>"
+try { $events=@(Get-WinEvent -FilterXml $query -Oldest -ErrorAction Stop) }
+catch {
+    if ($_.FullyQualifiedErrorId -notlike 'NoMatchingEventsFound*') { throw }
+    $events=@()
+}
+$result=@(foreach($event in $events) {
+    [xml]$doc=$event.ToXml()
+    $ns=New-Object System.Xml.XmlNamespaceManager($doc.NameTable)
+    $ns.AddNamespace('e','http://schemas.microsoft.com/win/2004/08/events/event')
+    $system=$doc.SelectSingleNode('/e:Event/e:System',$ns)
+    $data=@($doc.SelectNodes('/e:Event/e:EventData/e:Data',$ns) | ForEach-Object { $_.InnerText })
+    [pscustomobject]@{record=[int]$system.SelectSingleNode('e:EventRecordID',$ns).InnerText;id=[int]$system.SelectSingleNode('e:EventID',$ns).InnerText;level=[int]$system.SelectSingleNode('e:Level',$ns).InnerText;provider=$system.SelectSingleNode('e:Provider',$ns).GetAttribute('Name');data=$data}
+})
+ConvertTo-Json -InputObject $result -Depth 6 -Compress
+} finally {
+    foreach ($event in $events) { $event.Dispose() }
+    if (Test-Path -LiteralPath $staged) { Remove-Item -LiteralPath $staged -ErrorAction Stop }
+}
+```
+:::

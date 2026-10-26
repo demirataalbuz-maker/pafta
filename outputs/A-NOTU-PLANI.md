@@ -20,7 +20,7 @@ Kullanıcının isteğiyle paneldeki 01 → 02 → 03 sırası izlenecek; daha �
 | 11 | bash | 86 | sftp yalnız anlatıda. | tamam: BS34/BS35, 17 kontrol temiz; gerçek SFTP ve 8 mutant reddedildi |
 | 12 | bash | 85 | teardown yalnız tabloda (ASAMA2 setup/teardown).; Git Bash ile Linux farkları kayıtlı değil (ASAMA2 istiyor). | tamam: BS30, 11 kontrol iki ortamda temiz; 7 mutant reddedildi ve ortam farkları ölçüldü |
 | 13 | powershell | 78 | Yönlendirme (-MaximumRedirection, 3xx) yok.; Form gövdesi (-Form) yok.; Timeout yalnız tabloda; sınanmıyor. | tamam: PS23, 17 kontrol temiz; 12 mutant reddedildi, gerçek yönlendirme/form/timeout |
-| 14 | powershell | 87 | FilterXml hiç yok (ASAMA2 FilterXPath/FilterXml).; ToXml() yalnız tabloda; ham XML'den alan okunmuyor. | bekliyor |
+| 14 | powershell | 87 | FilterXml hiç yok (ASAMA2 FilterXPath/FilterXml).; ToXml() yalnız tabloda; ham XML'den alan okunmuyor. | tamam: PS27/PS28, 16 kontrol iki ortamda temiz; 11 mutant reddedildi |
 | 15 | powershell | 77 | Gerçek erişim karşılaştırması yok (Deny sonrası okuma denemesi, UnauthorizedAccess). | bekliyor |
 | 18 | powershell | 73 | Ayrılmış Windows lab ucu, WinRM ve -ComputerName yok (ASAMA2 istiyor).; Hata ve temizlik akışı (try/finally, Broken durumu, sızan oturum) yok. | bekliyor |
 | 19 | powershell | 83 | AppLocker olayları elle yazılmış XML; gerçek EVTX yok (ps_evtx_fixtures.py kullanılmamış).; JEA görevleri gerçek .psrc/.pssc okumuyor. | bekliyor |
