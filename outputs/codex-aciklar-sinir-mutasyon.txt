@@ -1,0 +1,17 @@
+cm23:3 «Kullanıcı ve grupları CSV'ye ayır» 4 mutant, 4 yakalandı
+cm23:4 «Ayrıcalığı tam adla seç» 6 mutant, 6 yakalandı
+cm23:5 «Yönetici grubu etkin mi, bütünlük seviyesi ne?» 14 mutant, 14 yakalandı
+ht22:2 «Dar ve açık bir URL izin politikası» 20 mutant, 20 yakalandı
+ht22:3 «Her hop'ta doğrula, yöntemi bilinçli taşı» 22 mutant, 22 yakalandı
+ps22:4 «SDDL'yi tabloya çevir» 6 mutant, 6 yakalandı
+ps22:5 «Etkin yetkiyi hesapla» 24 mutant, 23 yakalandı · GEÇEN: ["'-and'→'-or' @23"]
+ps22:6 çözüm kendisi geçmiyor: fail
+ps25:3 çözüm kendisi geçmiyor: fail
+ps25:4 çözüm kendisi geçmiyor: fail
+cs13:3 «1 · Poliçe gereksinimleri (VE), çoklu işleyiciler (VEYA) ve `context.Fail()` değerlendiricisi» 24 mutant, 22 yakalandı · GEÇEN: ["'400'→'401' @29", "'400'→'401' @42"]
+cs13:4 «2 · `IAuthorizationService.AuthorizeAsync` ile kaynak tabanlı (`Belge`) yetkilendirme» 24 mutant, 24 yakalandı
+cs16:3 «CIL baytlarını çöz» 0 mutant, 0 yakalandı
+cs16:4 «Ansi'ye çevirirken ne kayboluyor?» 1 mutant, 1 yakalandı
+p79:3 «Hazır ECHO kayıt üreticisini uyarla» 7 mutant, 6 yakalandı · GEÇEN: ["'64'→'65' @5"]
+p79:4 «Kaydedilmiş yanıt başlığını özetle» 24 mutant, 20 yakalandı · GEÇEN: ["'2'→'3' @4", "'64'→'65' @4", "'64'→'65' @5", "'64'→'65' @7"]
+toplam 176 mutant, 8 geçen
