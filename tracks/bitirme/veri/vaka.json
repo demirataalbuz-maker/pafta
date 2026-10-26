@@ -1,0 +1,16 @@
+{
+  "case": "PF-2026-102",
+  "synthetic": true,
+  "base_utc": "2026-10-26T09:00:00Z",
+  "clock_max_error_seconds": 2,
+  "host_ip_snapshot": {
+    "ws01": "10.0.0.10",
+    "ws02": "10.0.0.11"
+  },
+  "limitations": [
+    "PCAP yalnız istekleri içerir; yanıt/gövde yok.",
+    "Kimlik-cihaz-IP eşlemesi vaka anındaki sağlanan envanterdir.",
+    "Başarılı giriş ve health.ps1 süreç gözlemi yetkisiz kullanım kanıtı değildir.",
+    "Bellek, disk imajı ve dosya hash kanıtı yok."
+  ]
+}

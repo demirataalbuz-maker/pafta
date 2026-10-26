@@ -151,6 +151,22 @@ class PurpleRunner(PythonRunner):
     ek = {"kopyala": [os.path.join(ROOT, "tracks", "purple", "veri", "attack.json")]}
 
 
+class CapstoneRunner(PythonRunner):
+    """Shared offline case files and explicit adapters for the capstone track."""
+    name = "bitirme"
+    default_timeout = 20
+    test_timeout = 45
+    ek = {"kopyala": [os.path.join(ROOT, "tracks", "bitirme", "veri", name)
+                      for name in ("olaylar.jsonl", "vaka.json", "vaka.pcap", "manifest.json")]}
+
+    def execute(self, job, timeout=None):
+        setup = ("import sys, importlib\n"
+                 f"sys.path.insert(0, {ROOT!r})\n"
+                 f"sys.path.insert(0, {os.path.join(ROOT,'.deps')!r})\n"
+                 "sys.modules['vaka_lab'] = importlib.import_module('sandbox.capstone_lab')\n")
+        return super().execute(dict(job, setup=setup+(job.get("setup") or "")), timeout)
+
+
 class VqlRunner(HarnessRunner):
     """Purple yolu, adım meta'sında motor: velociraptor → WSL'de gerçek Velociraptor (sandbox/vql_lab.py,
     py_harness vql_*). Hazırlık disk/ altında dosya ağacı kurar; kod bir VQL sorgusudur (Kok değişkeni)."""
@@ -671,6 +687,7 @@ RUNNERS = {
     "packets": PacketRunner(),
     "ids": IdsRunner(),
     "purple": PurpleRunner(),
+    "bitirme": CapstoneRunner(),
     "elastic": ElasticRunner(),
     "ad": AdRunner(),
     "bash": ProcRunner("bash", {
