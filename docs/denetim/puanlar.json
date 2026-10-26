@@ -8,11 +8,11 @@
     "P75"
    ],
    "karar": "Tam",
-   "ozet": "P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude + Kimi (bağımsız)",
+   "ozet": "P75 gerçek pip/venv yeniden kabulü: 14 kontrol temiz; çevrimdışı bayrak ve sürüm karşılaştırması için 3 yanlış çözüm reddedildi, 0 geçen.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 15,
+    "test": 24,
     "kapsam": 24,
     "derinlik": 23,
     "gerceklik": 15,
@@ -46,14 +46,14 @@
     }
    ],
    "duzeltme": {
-    "tarih": "26.10.2026",
     "yazar": "Codex",
-    "commit": "04dd2ec",
-    "ozet": "P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
-    "kanit": "../../outputs/codex-aciklar-yuksek-hedefler.json",
-    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "tarih": "27.10.2026",
+    "commit": "a0b47e5",
+    "ozet": "P75 gerçek pip/venv yeniden kabulü: 14 kontrol temiz; çevrimdışı bayrak ve sürüm karşılaştırması için 3 yanlış çözüm reddedildi, 0 geçen.",
+    "kanit": "../../outputs/a-notu-p75-venv-kabul.json",
+    "rapor": "../../outputs/a-notu-p75-rapor.md",
     "bagimsiz_denetim": "yeniden yapılmadı",
-    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+    "puan_notu": "95/100 Codex öz değerlendirmesi. Önceki bağımsız 86/100 ve önceki düzeltme kaydı korundu; test puanı gerçek yeniden kabulden sonra 15→24, diğer ölçütler aynı."
    },
    "inceleme_notlari": [
     {
@@ -61,7 +61,57 @@
      "etiket": "eşdeğerlik",
      "oncelik": "düşük"
     }
-   ]
+   ],
+   "onceki_kabul": {
+    "no": 1,
+    "yol": "python",
+    "ad": "pip/venv ile betik ortamı ve bağımlılık kurulumu",
+    "dersler": [
+     "P75"
+    ],
+    "karar": "Tam",
+    "ozet": "P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude + Kimi (bağımsız)",
+    "puan": {
+     "test": 15,
+     "kapsam": 24,
+     "derinlik": 23,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "eksikler": [],
+    "cikar": true,
+    "kapatilanlar": [
+     {
+      "metin": "P75:11 (benim yazdığım görev) sürümleri metin olarak karşılaştıran çözümü kabul ediyor; testte 0.10.0 gibi bir sürüm yok. → P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
+      "etiket": "düzeltildi",
+      "oncelik": "yüksek"
+     },
+     {
+      "metin": "P75:5 --no-index olmadan da geçiyor; çevrimdışılık öğrencinin kodundan değil koşucudan geliyor. → P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
+      "etiket": "düzeltildi",
+      "oncelik": "yüksek"
+     }
+    ],
+    "duzeltme": {
+     "tarih": "26.10.2026",
+     "yazar": "Codex",
+     "commit": "04dd2ec",
+     "ozet": "P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
+     "kanit": "../../outputs/codex-aciklar-yuksek-hedefler.json",
+     "rapor": "../../outputs/codex-aciklar-teslim.md",
+     "bagimsiz_denetim": "yeniden yapılmadı",
+     "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+    },
+    "inceleme_notlari": [
+     {
+      "metin": "Genel mutasyondaki >→>= aynı sürümü tekrar atar; 1 eşdeğer mutant saklandı, sıfır diye sunulmadı.",
+      "etiket": "eşdeğerlik",
+      "oncelik": "düşük"
+     }
+    ]
+   }
   },
   {
    "no": 2,
