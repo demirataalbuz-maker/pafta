@@ -175,3 +175,111 @@ def sid_oku(ham):
 Kütüphane nesnesini oluşturmadan önce sabit başlığı ve tam boyu denetle. Byte 1 alt alan sayısıdır; authority'nin bütün altı baytını oku.
 ```
 :::
+
+
+::: anlat Seçeneği ve import hatasını bağlantı kurmadan oku
+Kurulu `/usr/share/doc/python3-impacket/examples/smbclient.py` kaynağını okuyacağız. Bu Kali paketinin dosya konumudur; başka dağıtımda aynı yol garanti edilmez. Betiği `main()` ile çalıştırmıyoruz: kaynakta bağlantı ve parola isteme akışı da var. AST ile yalnız `add_argument` bildirimlerini envantere almak, bağlantı seçeneğiyle kimlik doğrulama seçeneğini ayırmayı sağlar. Bu envanter argparse'ın çalışma zamanı doğrulamasının yerine geçmez; örneğin `choices` bildirimini kaydeder, komut çalıştırmaz.
+
+`ModuleNotFoundError.name`, istenen modülün mü yoksa onun import ettiği başka bir bağımlılığın mı eksik olduğunu ayırır. Dağıtım metadata'sının bulunmaması, modül dosyasının import edilememesiyle aynı şey değildir. Bir simgenin yokluğu da sürüm/API uyuşmazlığına işarettir; parola veya sunucu hatası değildir. Otomatik `pip install` ile sistem Python'unu değiştirmek yerine yorumlayıcı, modül yolu ve dağıtım sürümünü kaydet; P75'teki ayrı ortam düzenine dön.
+
+Kaynak: [kurulu örneğin upstream karşılığı](https://github.com/fortra/impacket/blob/master/examples/smbclient.py), [Python metadata ve PackageNotFoundError](https://docs.python.org/3/library/importlib.metadata.html), [ModuleNotFoundError](https://docs.python.org/3/library/exceptions.html#ModuleNotFoundError). Burada sürüm karşılaştırma motoru yazılmıyor; mevcut API'nin kullanılabilirliği yoklanıyor.
+:::
+
+::: gorev Gerçek örnek betiğin seçenek bildirimlerini çıkar
+`secenek_kayitlari(kaynak)` AST'deki `.add_argument(...)` çağrılarını kaynak sırasıyla okusun. Her kayıt `(adlar, action, default, choices)`; adlar positional dahil tuple, action bildirilmemişse `'store'`, default/choices bildirilmemişse None. Bu üç keyword ve bütün adlar yalnız literal ise kabul edilir; dinamik ifadede ValueError. Diğer keyword'ler bu envanterin kapsamı dışında ve değerlendirilmez. Kaynağı exec/eval ile çalıştırma; dosya/ağ işlemi yapılmaz. Tek bir keyword bildirimi iki kez yazılmış kaynaklar kapsam dışıdır.
+
+```starter
+def secenek_kayitlari(kaynak):
+    return []
+```
+
+```test
+from pathlib import Path
+f=need('secenek_kayitlari')
+source=Path('/usr/share/doc/python3-impacket/examples/smbclient.py').read_text()
+rows=f(source)
+by_name={name:row for row in rows for name in row[0]}
+eq(by_name['target'],(('target',),'store',None,None),'positional hedef de envanterde')
+eq(by_name['-port'],(('-port',),'store','445',['139','445']),'gerçek port default ve choices')
+eq(by_name['-k'],(('-k',),'store_true',None,None),'kimlik doğrulama bayrağı')
+for name in ('-target-ip','-dc-ip','-hashes','-aesKey','-no-pass','-inputfile','-outputfile','-debug','-ts'):
+    ok(name in by_name,'kurulu kaynak seçeneği: '+name)
+eq(f('p.add_argument("-x", "--extra", default=0, choices=[0,1])\np.add_argument("file")'),[(('-x','--extra'),'store',0,[0,1]),(('file',),'store',None,None)],'çoklu ad, sıralama, sıfır default')
+eq(f('raise RuntimeError("kaynak çalıştırılmamalı")'),[],'kaynak çalıştırılmaz')
+eq(f('p.add_argument("x", help=bilinmeyen())'),[(('x',),'store',None,None)],'kapsam dışı keyword çalıştırılmaz')
+for text in ('p.add_argument(ad)','p.add_argument("x", default=hesapla())','p.add_argument("x", choices=liste)','p.add_argument("x", action=eylem)'):
+    raises(ValueError,lambda text=text:f(text),msg='dinamik bildirim açık hata')
+```
+
+```solution
+import ast
+
+def secenek_kayitlari(kaynak):
+    calls=[node for node in ast.walk(ast.parse(kaynak)) if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and node.func.attr=='add_argument']
+    calls.sort(key=lambda node:(node.lineno,node.col_offset))
+    result=[]
+    for call in calls:
+        try:
+            names=tuple(ast.literal_eval(arg) for arg in call.args)
+            if not names or any(not isinstance(name,str) for name in names):raise ValueError('Literal seçenek adı gerekli')
+            values={kw.arg:ast.literal_eval(kw.value) for kw in call.keywords if kw.arg in ('action','default','choices')}
+        except (ValueError,TypeError,SyntaxError) as error:
+            raise ValueError('Dinamik seçenek bildirimi desteklenmiyor') from error
+        result.append((names,values.get('action','store'),values.get('default'),values.get('choices')))
+    return result
+```
+:::
+
+::: gorev Eksik paket ile eksik API'yi ayır
+`ortam_yokla(modul,dagitim,simge)` gerçek importlib ile modülü import etsin, metadata sürümünü ve simgenin varlığını denetlesin. Sonuç iki elemanlı tuple: başarılıysa `('ok',(version,module.__file__))`; hata durumlarında `('modul-eksik',eksik_ad)`, `('alt-bagimlilik-eksik',eksik_ad)`, `('metadata-eksik',dagitim)` veya `('api-uyusmaz',simge)`. Öncelik import, metadata, simge. ModuleNotFoundError.name istenen ad veya onun nokta ile ayrılmış üst paketiyse modul-eksik; başka adsa alt-bagimlilik-eksik. Diğer import hatalarını gizleme. Sadece simgenin varlığı ölçülür, çağrılabilir olması gerekmez. Paket kurma, sunucuya bağlanma.
+
+```starter
+def ortam_yokla(modul,dagitim,simge):
+    return ('ok',('', ''))
+```
+
+```test
+import importlib,importlib.metadata,sys,tempfile
+from pathlib import Path
+f=need('ortam_yokla')
+import impacket.ldap.ldaptypes as real
+version=importlib.metadata.version('impacket')
+eq(f('impacket.ldap.ldaptypes','impacket','LDAP_SID'),('ok',(version,real.__file__)),'gerçek modül ve dağıtım kimliği')
+eq(f('impacket.ldap.ldaptypes','impacket','PAFTA_OLMAYAN_API'),('api-uyusmaz','PAFTA_OLMAYAN_API'),'yanlış API adı')
+eq(f('impacket.ldap.ldaptypes','pafta_metadata_yok_726','LDAP_SID'),('metadata-eksik','pafta_metadata_yok_726'),'import var, metadata yok')
+eq(f('pafta_modul_yok_726.child','impacket','x'),('modul-eksik','pafta_modul_yok_726'),'üst paket eksik')
+eq(f('impacket.pafta_olmayan_alt_modul','impacket','x'),('modul-eksik','impacket.pafta_olmayan_alt_modul'),'alt modül eksik')
+with tempfile.TemporaryDirectory() as folder:
+    root=Path(folder)
+    (root/'pafta_broken_import_726.py').write_text('import pafta_alt_bagimlilik_yok_726\n')
+    (root/'pafta_import_error_726.py').write_text('raise ImportError("gerçek başka hata")\n')
+    (root/'pafta_none_api_726.py').write_text('api=None\n')
+    sys.path.insert(0,folder);importlib.invalidate_caches()
+    try:
+        eq(f('pafta_broken_import_726','impacket','x'),('alt-bagimlilik-eksik','pafta_alt_bagimlilik_yok_726'),'var olan modülün bağımlılığı eksik')
+        raises(ImportError,lambda:f('pafta_import_error_726','impacket','x'),msg='diğer ImportError gizlenmez')
+        ok(f('pafta_none_api_726','impacket','api')[0]=='ok','None değerli simge vardır')
+    finally:
+        sys.path.remove(folder)
+        for name in ('pafta_broken_import_726','pafta_import_error_726','pafta_none_api_726'):sys.modules.pop(name,None)
+```
+
+```solution
+import importlib
+import importlib.metadata
+
+def ortam_yokla(modul,dagitim,simge):
+    try:
+        loaded=importlib.import_module(modul)
+    except ModuleNotFoundError as error:
+        missing=error.name
+        own=missing==modul or (missing is not None and modul.startswith(missing+'.'))
+        return ('modul-eksik' if own else 'alt-bagimlilik-eksik',missing)
+    try:
+        version=importlib.metadata.version(dagitim)
+    except importlib.metadata.PackageNotFoundError:
+        return ('metadata-eksik',dagitim)
+    if not hasattr(loaded,simge):return ('api-uyusmaz',simge)
+    return ('ok',(version,loaded.__file__))
+```
+:::

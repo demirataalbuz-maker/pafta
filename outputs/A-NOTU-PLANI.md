@@ -10,7 +10,7 @@ Puan yükseltmek tek başına tamamlanma değildir. Eksikler ders/görev/tezgâh
 |---|---|---|---|---|
 | 1 | python | 86 | Kapanan bulgular ve puan ölçütlerini mevcut ders/gerçek kabul kanıtıyla yeniden değerlendir. | bekliyor |
 | 3 | python | 80 | Gizli alanı ve form girdilerini HTML ağacından çıkarma (ASAMA2 'neden') yalnız anlatımda; görev yok.; Bağlantı hedeflerini (href) toplayan görev yok. | tamam: P74, 29 kontrol temiz; 17 anlamsal mutant reddedildi |
-| 7 | python | 77 | Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.; Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden'). | bekliyor |
+| 7 | python | 77 | Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.; Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden'). | tamam: P78/P79, 17 kontrol temiz; 14 anlamsal mutant reddedildi |
 | 8 | bash | 83 | ASAMA2 ve dersin özeti 'jq -e' diyor; derste hiç kullanılmıyor. | bekliyor |
 | 9 | bash | 88 | journalctl -o json yalnız tabloda; görevde yok. | bekliyor |
 | 11 | bash | 86 | sftp yalnız anlatıda. | bekliyor |
