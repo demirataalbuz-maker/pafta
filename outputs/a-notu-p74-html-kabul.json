@@ -1,0 +1,103 @@
+{
+  "backend": "real WSL / Beautiful Soup",
+  "references_passed": 2,
+  "mutants_rejected": 17,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "function": "form_oku",
+      "case": "reference",
+      "status": "pass"
+    },
+    {
+      "function": "form_oku",
+      "case": "duplicate fields lost",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "wrong form scope",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "ignore disabled",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "hidden field lost",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "ignore base",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "empty action uses base",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "ignore unsupported controls",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "ignore form association",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "default POST",
+      "status": "rejected"
+    },
+    {
+      "function": "form_oku",
+      "case": "empty value dropped",
+      "status": "rejected"
+    },
+    {
+      "function": "baglantilar",
+      "case": "reference",
+      "status": "pass"
+    },
+    {
+      "function": "baglantilar",
+      "case": "ignore base",
+      "status": "rejected"
+    },
+    {
+      "function": "baglantilar",
+      "case": "no deduplication",
+      "status": "rejected"
+    },
+    {
+      "function": "baglantilar",
+      "case": "reverse DOM order",
+      "status": "rejected"
+    },
+    {
+      "function": "baglantilar",
+      "case": "strip fragments",
+      "status": "rejected"
+    },
+    {
+      "function": "baglantilar",
+      "case": "same host only",
+      "status": "rejected"
+    },
+    {
+      "function": "baglantilar",
+      "case": "accept non HTTP",
+      "status": "rejected"
+    },
+    {
+      "function": "baglantilar",
+      "case": "skip empty href",
+      "status": "rejected"
+    }
+  ]
+}

@@ -95,6 +95,134 @@ runpy.run_path(os.path.join(_s, "api_tezgah.py"), run_name="__tezgah__")
 ```
 :::
 
+::: anlat Form ve bağlantı: HTML metni ile tarayıcı durumu aynı değildir
+Bir giriş sayfasında gizli `input` değeri, görünen alanlar ve gönderim hedefi farklı yerlerdedir. Beautiful Soup **indirilen HTML'yi** ayrıştırır; JavaScript çalıştırmaz ve kullanıcının sonradan yazdığı değeri bilmez. Formun alanlarını tek sözlüğe indirgemek aynı adlı iki alanı kaybettirir. `requests.post(..., data=[('tag','a'),('tag','b')])` çift listesini koruyabilir.
+
+Aşağıdaki görev formun içindeki hidden/text/password input'larını okuyan açık bir alt kümedir. Checkbox/radio/select/textarea/file, fieldset üzerinden devralınan disabled, form dışındaki `form=` ilişkilendirmesi ve JavaScript durumunu modellemez. Desteklenmeyen etkin kontrol varsa sessiz eksik gönderim yerine ValueError üretir. Gerçek tarayıcının bütün form algoritması olduğu iddia edilmez. Değerler raporlanır; hiçbir URL'ye istek gönderilmez.
+
+Bir `<base href>` göreli bağlantıların tabanını değiştirebilir. `urljoin` tam bir URL gördüğünde onun host'unu korur; `/` ile başlayan yol sunucu köküne gider. HTML'den URL çıkarmak o hedefe istek atma izni değildir; HT22 hedef politikasını ayrıca uygular. Bu ders yalnız HTTP/HTTPS URL envanteri üretir. [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/), [HTML form entry list](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#constructing-the-entry-list), [Python urljoin](https://docs.python.org/3/library/urllib.parse.html#urllib.parse.urljoin).
+:::
+
+::: tahmin
+```python
+from bs4 import BeautifulSoup
+s=BeautifulSoup('<form><input type="hidden" name="token" value="a&amp;b"><input name="tag" value="x"><input name="tag" value="y"></form>','html.parser')
+print([(i['name'],i.get('value','')) for i in s.select('input[name]')])
+```
+
+???
+`[('token', 'a&b'), ('tag', 'x'), ('tag', 'y')]`. Entity ayrıştırılır ve aynı adlı iki alan kaybolmaz.
+
+```meta
+backend: wsl
+timeout: 30
+```
+:::
+
+::: gorev Gizli alanları ve giriş formunu kayıpsız çıkar
+`form_oku(html, belge_url, form_id)` seçilen formu gerçek Beautiful Soup/html.parser ile okusun. Form yoksa ValueError. Sonuç `(method, action_url, fields)`; method yoksa GET, varsa upper ve yalnız GET/POST. action eksik veya boşsa belge_url; göreliyse ilk base[href] (yoksa belge_url) üzerinden çöz. fields DOM sıralı `(name,value)` listesi; yalnız seçilen formun içindeki hidden/text/password input'ları. Boş/eksik name veya disabled kontrol atlanır, value yoksa boş metin. Etkin ve adlı diğer kontrol türleri ValueError (button/submit dahil). Etkin kontrolün fieldset altında olması ya da form= özniteliği de destek dışı ValueError. Bu kontrollü görevin belge/form base URL'leri zaten geçerli HTTP URL'leridir; burada erişim politikası uygulanmaz.
+
+```meta
+backend: wsl
+timeout: 30
+```
+
+```starter
+def form_oku(html,belge_url,form_id):
+    return ('POST',belge_url,[])
+```
+
+```test
+f=need('form_oku')
+page='''<base href="https://lab.test/app/"><input name="outside" value="x"><form id="login" method="post" action="../session"><input type="hidden" name="token" value="a&amp;b"><input name="user" value="ali"><input name="tag" value="x"><input name="tag" value="y"><input type="password" name="pass"><input name="skip" disabled value="x"><input name="" value="x"><input value="x"></form><form id="other"><input name="bad" value="x"></form>'''
+expected=('POST','https://lab.test/session',[('token','a&b'),('user','ali'),('tag','x'),('tag','y'),('pass','')])
+eq(f(page,'https://lab.test/login','login'),expected,'gizli alan, entity, çoklu isim, kapsam ve disabled')
+eq(f(page.replace('value="a&amp;b"','value="rotated"'),'https://lab.test/login','login')[2][0],('token','rotated'),'token sabit değildir')
+eq(f('<base href="https://forms.test/v2/"><form id="f" action="submit"></form>','https://lab.test/current','f')[1],'https://forms.test/v2/submit','base hedefi belge host ve yolundan farklıdır')
+eq(f('<form id="f"><input name="x" value=""></form>','https://lab.test/current?x=1','f'),('GET','https://lab.test/current?x=1',[('x','')]),'varsayılan method ve eksik action')
+eq(f('<base href="https://other.test/"><form id="f" action=""></form>','https://lab.test/current','f')[1],'https://lab.test/current','boş action belgeye gider, base değil')
+raises(ValueError,lambda:f(page,'https://lab.test/','missing'),msg='form yok')
+for control in ('<select name="x"><option>1</option></select>','<textarea name="x">x</textarea>','<input name="x" type="checkbox" checked>','<input name="x" type="file">','<button name="x">git</button>','<input name="x" form="other">','<fieldset><input name="x"></fieldset>'):
+    raises(ValueError,lambda control=control:f('<form id="f">'+control+'</form>','https://lab.test/','f'),msg='destek dışı alan sessizce kaybolmaz')
+raises(ValueError,lambda:f('<form id="f" method="put"></form>','https://lab.test/','f'),msg='method kapsamı')
+eq(f('<form id="f"></form>','https://lab.test/','f')[2],[],'boş form')
+```
+
+```solution
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+
+def form_oku(html,belge_url,form_id):
+    soup=BeautifulSoup(html,'html.parser')
+    form=soup.find('form',id=form_id)
+    if form is None:raise ValueError('Form yok')
+    method=form.get('method','get').upper()
+    if method not in ('GET','POST'):raise ValueError('Destek dışı method')
+    base=soup.find('base',href=True)
+    base_url=urljoin(belge_url,base['href']) if base else belge_url
+    action=form.get('action')
+    target=urljoin(base_url,action) if action else belge_url
+    fields=[]
+    for control in form.find_all(['input','select','textarea','button']):
+        name=control.get('name')
+        if not name or control.has_attr('disabled'):continue
+        if control.has_attr('form') or control.find_parent('fieldset') is not None:raise ValueError('İlişkilendirme kapsam dışı')
+        if control.name!='input' or control.get('type','text').lower() not in ('hidden','text','password'):raise ValueError('Kontrol kapsam dışı')
+        fields.append((name,control.get('value','')))
+    return method,target,fields
+```
+
+```hint
+Formu id ile seç, alanları çift listesinde tut. Değerini bilmediğin kontrolü boş değerle gönderme.
+```
+:::
+
+::: gorev href envanterini gerçek taban URL ile çıkar
+`baglantilar(html,belge_url)` yalnız `a[href]` hedeflerini DOM sırasıyla döndürsün. İlk base[href] varsa urljoin ile tabanı çöz. Her href strip edilir, göreli hedef urljoin ile çözülür; yalnız scheme http/https ve hostname dolu olanlar alınır. Fragment aynen korunur; tam aynı URL bir kez alınır. Aynı host'a sınırlama yok; şema bağımsız //hedef bağlantı da çözülür. Bu bir URL doğrulayıcısı/erişim izni değildir, yalnız envanterdir. Script/src, mailto, javascript, data ve href'i olmayan a alınmaz.
+
+```meta
+backend: wsl
+timeout: 30
+```
+
+```starter
+def baglantilar(html,belge_url):
+    return []
+```
+
+```test
+f=need('baglantilar')
+html='''<base href="/app/"><a href="one">1</a><a href=" /root?q=a&amp;b=2 ">2</a><a href="//other.test/x">3</a><a href="one">tekrar</a><a href="#part">4</a><a>yok</a><a href="mailto:a@b">mail</a><a href="javascript:alert(1)">js</a><a href="data:text/plain,x">data</a><img src="hidden"><a href="">boş</a>'''
+eq(f(html,'https://lab.test/current'),['https://lab.test/app/one','https://lab.test/root?q=a&b=2','https://other.test/x','https://lab.test/app/#part','https://lab.test/app/'],'DOM, base, entity, tam URL tekilleştirme')
+eq(f('<a href="../x">x</a><a href="http://outside.test/y">y</a>','https://lab.test/a/b'),['https://lab.test/x','http://outside.test/y'],'göreli ve mutlak ayrı')
+eq(f('<base href="https://one.test/"><base href="https://two.test/"><a href="x">x</a>','https://lab.test/'),['https://one.test/x'],'ilk base geçerli')
+eq(f('<a href="/x#1">a</a><a href="/x#2">b</a>','https://lab.test/'),['https://lab.test/x#1','https://lab.test/x#2'],'fragmentler ayrı kanıt')
+eq(f('<a href="ftp://files.test/x">ftp</a><a href="https://web.test/x">web</a>','https://lab.test/'),['https://web.test/x'],'host olması HTTP şeması olduğu anlamına gelmez')
+eq(f('','https://lab.test/'),[],'boş HTML')
+```
+
+```solution
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin,urlsplit
+
+def baglantilar(html,belge_url):
+    soup=BeautifulSoup(html,'html.parser')
+    base=soup.find('base',href=True)
+    origin=urljoin(belge_url,base['href']) if base else belge_url
+    result=[];seen=set()
+    for anchor in soup.select('a[href]'):
+        url=urljoin(origin,anchor['href'].strip())
+        parsed=urlsplit(url)
+        if parsed.scheme in ('http','https') and parsed.hostname and url not in seen:
+            result.append(url);seen.add(url)
+    return result
+```
+
+```hint
+get_text bağlantının etiketini verir, hedefini değil. Hedef href özniteliğindedir.
+```
+:::
+
 ::: anlat Tezgahın sınırı ve sıradaki adım
 Bu dersteki `api` modülü, hazırlık bloğunun başlattığı yerel bir uygulamadır (`sandbox/api_tezgah.py`): `127.0.0.1`'de boş bir portta çalışır, verisi her çalıştırmada sıfırlanır, `Date` başlığı ve oturum çerezi sabittir. İnternete çıkmaz. Böylece tahminler ve testler her makinede aynı sonucu verir.
 
