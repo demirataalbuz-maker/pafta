@@ -7,7 +7,7 @@
  "runner": "purple",
  "dil": "python",
  "role": "Saldırı ile savunmanın buluştuğu yer: tespitleri ATT&CK'e eşlemek, kapsamı ölçmek, olay müdahalesi ve raporlama.",
- "tagline": "Tespit kurallarını MITRE ATT&CK'in gerçek verisine (Enterprise 19.2) eşleyip kapsamı ölçmek, boşlukları bulmak ve Navigator katmanı üretmek. Python ile, resmi ATT&CK verisinin özetiyle.",
+ "tagline": "ATT&CK kapsamından IOC avcılığına, sertleştirme kabulüne ve bulut günlüklerinin kanıta dayalı incelenmesine.",
  "kahraman": [
   "Kuraldan",
   "Kapsam",
@@ -70,6 +70,20 @@
    "rank": "buyuk-orta",
    "lessons": [
     "pu07"
+   ]
+  },
+  {
+   "title": "Bulut Kanıtı",
+   "rank": "basalti",
+   "lessons": [
+    "pu08"
+   ]
+  },
+  {
+   "title": "Kimlik ve Değişiklik Korelasyonu",
+   "rank": "baspehlivan",
+   "lessons": [
+    "pu09"
    ]
   }
  ]
