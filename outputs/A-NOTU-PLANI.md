@@ -4,11 +4,15 @@ Hedef: 104 maddenin her birinde en az 90/100; gerçek kapsam ve test kanıtı. K
 
 Puan yükseltmek tek başına tamamlanma değildir. Eksikler ders/görev/tezgâh değişikliğiyle kapanır; çalışan çözüm, reddedilen yanlış çözümler ve gerçek araç çıktısı kaydedilir. Codex öz değerlendirmesi bağımsız denetimden ayrı gösterilir. Paket/ürün indirme önceki izin kuralına tabidir.
 
+## Sıra ve kalite ölçütü · 27 Ekim 2026
+
+Kullanıcının isteğiyle paneldeki 01 → 02 → 03 sırası izlenecek; daha önce tamamlananlar atlanmış sayılmayacak, mevcut kanıt ve açıkları kontrol edilecek. 02 (98/100, gerçek Session/aiohttp tezgâhı) kapsam/derinlik/gerçek araç/test kalitesi için örnektir. Her maddenin puanı kendi kabul kanıtıyla verilir; aynı puanı yazmak hedefin yerine geçmez. Bu tablodaki numaralar açık işlerin süzülmüş listesidir, tam 104 kartın sırasını değiştirmez.
+
 ## Çalışma sırası
 
 | No | Yol | Bugünkü puan | Kalan iş / yeniden kabul | Durum |
 |---|---|---|---|---|
-| 1 | python | 86 | Kapanan bulgular ve puan ölçütlerini mevcut ders/gerçek kabul kanıtıyla yeniden değerlendir. | bekliyor |
+| 1 | python | 86 | Kapanan bulgular ve puan ölçütlerini mevcut ders/gerçek kabul kanıtıyla yeniden değerlendir. | tamam: P75 14 kontrol temiz; 3 gerçek pip/venv regresyonu reddedildi, öz değerlendirme 95 |
 | 3 | python | 80 | Gizli alanı ve form girdilerini HTML ağacından çıkarma (ASAMA2 'neden') yalnız anlatımda; görev yok.; Bağlantı hedeflerini (href) toplayan görev yok. | tamam: P74, 29 kontrol temiz; 17 anlamsal mutant reddedildi |
 | 7 | python | 77 | Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.; Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden'). | tamam: P78/P79, 17 kontrol temiz; 14 anlamsal mutant reddedildi |
 | 8 | bash | 83 | ASAMA2 ve dersin özeti 'jq -e' diyor; derste hiç kullanılmıyor. | tamam: BS29, 13 kontrol temiz; tahmin doğrulandı, 10 mutant reddedildi |
