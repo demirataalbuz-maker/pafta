@@ -484,22 +484,26 @@
   "YARA: Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "YR23: gerçek libyara sources/externals/include_callback, namespace kimliği; include yalnız verilen sözlük. YARA 24 ders/144 kontrol Windows ve Git Bash temiz, 4 bundle testi/10 yeni mutasyon ve 15 eski motor testi temiz. Madde 52 devamında YR24 kaydedilecek."
+   "not": "YR23: gerçek libyara sources/externals/include_callback, namespace kimliği; include yalnız verilen sözlük. YARA 24 ders/144 kontrol Windows ve Git Bash temiz, 4 bundle testi/10 yeni mutasyon ve 15 eski motor testi temiz. Madde 52 devamında YR24 kaydedilecek.",
+   "commit": "e6d0254"
   },
   "YARA: Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "YR24: gerçek dosya okuma/libyara toplu tarama, eşleşmeyen dosya/timeout ayrımı, ölçülen perf_counter_ns maliyet; sınır korpusu, 4 bundle testi/10 mutasyon reddi; 15 eski motor testi temiz. Windows ve Git Bash YARA 24 ders/144 kontrol temiz. CLI kurulmadı; API dersi."
+   "not": "YR24: gerçek dosya okuma/libyara toplu tarama, eşleşmeyen dosya/timeout ayrımı, ölçülen perf_counter_ns maliyet; sınır korpusu, 4 bundle testi/10 mutasyon reddi; 15 eski motor testi temiz. Windows ve Git Bash YARA 24 ders/144 kontrol temiz. CLI kurulmadı; API dersi.",
+   "commit": "893ae19"
   },
   "Active Directory: GPO/SYSVOL yapılandırma dosyalarını (GptTmpl.inf, Groups.xml) ve LAPS özniteliklerini denetlemek": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "AD24–AD25: UTF-16 GptTmpl.inf, Groups.xml SID/eylem/targeting kanıtı, Registry.pol ikili başlık ve LAPS JSON/FILETIME/görünürlük-yetki ayrımı. Beş görev, iki gerçek Python tahmini, 14 mutasyon reddi. Windows ve Git Bash hedefli 2 ders/12 kontrol temiz. Offline kanıt okuma; GPO uygulaması, gerçek LAPS parola döndürme ve BloodHound kabulü iddia edilmez."
+   "not": "AD24–AD25: UTF-16 GptTmpl.inf, Groups.xml SID/eylem/targeting kanıtı, Registry.pol ikili başlık ve LAPS JSON/FILETIME/görünürlük-yetki ayrımı. Beş görev, iki gerçek Python tahmini, 14 mutasyon reddi. Windows ve Git Bash hedefli 2 ders/12 kontrol temiz. Offline kanıt okuma; GPO uygulaması, gerçek LAPS parola döndürme ve BloodHound kabulü iddia edilmez.",
+   "commit": "7fa4b29"
   },
   "Java: Gerçek Spring Security zinciri ve method authorization": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "Mevcut JV15 (f915717, Claude) yeniden yazılmadı; depoya pinli security_lab Java/Maven düzeneği ve tools/security_lab.py eklendi. Varsayılan offline, --download kullanıcı onaylı Maven Central paketleri. Gerçek Spring Security 7.0.2 + Framework 7.0.10/JDK21 çıktısının 21 satırı dersle uyuştu; 8 kaynak mutasyonu reddedildi, birebir yol harf durumu tanığı eklendi. Windows/Git Bash Java 16 ders/84 kontrol temiz. Okuma düzeyi korundu."
+   "not": "Mevcut JV15 (f915717, Claude) yeniden yazılmadı; depoya pinli security_lab Java/Maven düzeneği ve tools/security_lab.py eklendi. Varsayılan offline, --download kullanıcı onaylı Maven Central paketleri. Gerçek Spring Security 7.0.2 + Framework 7.0.10/JDK21 çıktısının 21 satırı dersle uyuştu; 8 kaynak mutasyonu reddedildi, birebir yol harf durumu tanığı eklendi. Windows/Git Bash Java 16 ders/84 kontrol temiz. Okuma düzeyi korundu.",
+   "commit": "4e70d2c"
   },
   "C#: Assembly/CIL ve P/Invoke sınırını okumak": {
    "durum": "denetime-hazir",
@@ -528,17 +532,20 @@
   "purple: Tehdit istihbaratı: MISP, IOC yaşam döngüsü, istihbarattan avcılık sorgusuna (purple team karşılaştırması, 10-24)": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "PU04–PU05: MISP Event.Attribute seçimi, silme/to_ids ve eşik dahil TTL; IOC tür normalleştirme ve gerçek parametrik SQLite avcılığı. Sentetik kayıtlar; MISP sunucusu/decay motoru taklit edilmez. Purple son kabulü: 9 ders/47 kontrol, 6 gerçek tahmin ve 38 reddedilen mutasyon (PU04–09)."
+   "not": "PU04–PU05: MISP Event.Attribute seçimi, silme/to_ids ve eşik dahil TTL; IOC tür normalleştirme ve gerçek parametrik SQLite avcılığı. Sentetik kayıtlar; MISP sunucusu/decay motoru taklit edilmez. Purple son kabulü: 9 ders/47 kontrol, 6 gerçek tahmin ve 38 reddedilen mutasyon (PU04–09).",
+   "commit": "07e3c5a"
   },
   "purple: Sertleştirme ve önleme: LAPS, ASR kuralları, Exploit Guard, AppLocker politika tasarımı (purple team karşılaştırması, 10-24)": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "PU06–PU07: ASR 0/1/2/5/6 kipleri, pilot kapılarının sınırları, LAPS AD25 köprüsü, Exploit Guard katmanları, gerçek XML ile AppLocker koleksiyon/koşul/istisna envanteri ve enforcement kabul kanıtı. Canlı Defender/AppLocker politikası uygulanmaz; eğitim kabul politikası ürün motorundan açıkça ayrılır."
+   "not": "PU06–PU07: ASR 0/1/2/5/6 kipleri, pilot kapılarının sınırları, LAPS AD25 köprüsü, Exploit Guard katmanları, gerçek XML ile AppLocker koleksiyon/koşul/istisna envanteri ve enforcement kabul kanıtı. Canlı Defender/AppLocker politikası uygulanmaz; eğitim kabul politikası ürün motorundan açıkça ayrılır.",
+   "commit": "2debc74"
   },
   "purple: Bulut güvenlik günlükleri: AWS CloudTrail ile Entra ID oturum ve denetim kayıtları (purple team karşılaştırması, 10-24)": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "PU08–PU09: CloudTrail eventID/UTC/rol oturumu/MFA belirsizliği, Graph signIn ve directoryAudit, doğru aktör ve iki eşit uçlu zaman korelasyonu. Gerçek belgelenmiş biçimlerde sentetik çevrimdışı kayıtlar; AWS/Entra aboneliği veya canlı API yok. Purple Windows/Git Bash: 9 ders/47 kontrol; 6 gerçek tahmin, 38 mutant reddi."
+   "not": "PU08–PU09: CloudTrail eventID/UTC/rol oturumu/MFA belirsizliği, Graph signIn ve directoryAudit, doğru aktör ve iki eşit uçlu zaman korelasyonu. Gerçek belgelenmiş biçimlerde sentetik çevrimdışı kayıtlar; AWS/Entra aboneliği veya canlı API yok. Purple Windows/Git Bash: 9 ders/47 kontrol; 6 gerçek tahmin, 38 mutant reddi.",
+   "commit": "fb93fa3"
   },
   "bitirme: Bitirme tatbikatı (savunma): hazır kayıtlarla uçtan uca olay incelemesi; KQL, SPL, Sigma, paket kaydı ve zaman çizelgesi (Aşama 3, 10-24)": {
    "durum": "claude-alabilir",
