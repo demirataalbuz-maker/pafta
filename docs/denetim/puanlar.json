@@ -7,8 +7,8 @@
    "dersler": [
     "P75"
    ],
-   "karar": "Sorunlu",
-   "ozet": "İçerik ve çözümler çalışıyor; ama bağımsız denetim (Kimi) iki görevin yanlış çözümü kabul ettiğini buldu, ben de yeniden ölçüp doğruladım.",
+   "karar": "Tam",
+   "ozet": "P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
    "tarih": "26.10.2026",
    "kaynak": "Claude + Kimi (bağımsız)",
    "puan": {
@@ -18,19 +18,50 @@
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "cikar": true,
+   "onceki_denetim": {
+    "karar": "Sorunlu",
+    "ozet": "İçerik ve çözümler çalışıyor; ama bağımsız denetim (Kimi) iki görevin yanlış çözümü kabul ettiğini buldu, ben de yeniden ölçüp doğruladım.",
+    "puan": {
+     "test": 15,
+     "kapsam": 24,
+     "derinlik": 23,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude + Kimi (bağımsız)"
+   },
+   "kapatilanlar": [
     {
-     "metin": "P75:11 (benim yazdığım görev) sürümleri metin olarak karşılaştıran çözümü kabul ediyor; testte 0.10.0 gibi bir sürüm yok.",
-     "oncelik": "yüksek",
-     "etiket": "test"
+     "metin": "P75:11 (benim yazdığım görev) sürümleri metin olarak karşılaştıran çözümü kabul ediyor; testte 0.10.0 gibi bir sürüm yok. → P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
+     "etiket": "düzeltildi",
+     "oncelik": "yüksek"
     },
     {
-     "metin": "P75:5 --no-index olmadan da geçiyor; çevrimdışılık öğrencinin kodundan değil koşucudan geliyor.",
-     "oncelik": "yüksek",
-     "etiket": "test"
+     "metin": "P75:5 --no-index olmadan da geçiyor; çevrimdışılık öğrencinin kodundan değil koşucudan geliyor. → P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
+     "etiket": "düzeltildi",
+     "oncelik": "yüksek"
     }
    ],
-   "cikar": true
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "04dd2ec",
+    "ozet": "P75:5 açık --no-index koşulu; P75:11 gerçek 0.10.0/0.9.0 sürüm gerilemesi testi. Üç özel yüksek öncelik yanlış çözümü fail.",
+    "kanit": "../../outputs/codex-aciklar-yuksek-hedefler.json",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   },
+   "inceleme_notlari": [
+    {
+     "metin": "Genel mutasyondaki >→>= aynı sürümü tekrar atar; 1 eşdeğer mutant saklandı, sıfır diye sunulmadı.",
+     "etiket": "eşdeğerlik",
+     "oncelik": "düşük"
+    }
+   ]
   },
   {
    "no": 2,
@@ -156,7 +187,7 @@
     "P79"
    ],
    "karar": "Kısmen",
-   "ozet": "Sürüm/yol kaydı, SID baytları, SMB2 paket üretme ve başlık okuma; ama örnek betik seçenekleri ve bağımlılık sorunu yok.",
+   "ozet": "P79 iki görevde tam 2**64 reddi zaten vardı; 2**64+1 ve 2**65-1 eklendi. Ders temiz. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -175,14 +206,46 @@
     {
      "metin": "Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden').",
      "oncelik": "orta"
-    },
-    {
-     "metin": "P79'da 2**64 sınır değeri sınanmıyor.",
-     "oncelik": "düşük",
-     "etiket": "test"
     }
    ],
-   "not": "Bu konunun ayrıntısı bende güvenlik filtresine takılıyor; derinlik kısmı Opus 4.8/Codex'e."
+   "not": "Bu konunun ayrıntısı bende güvenlik filtresine takılıyor; derinlik kısmı Opus 4.8/Codex'e.",
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "Sürüm/yol kaydı, SID baytları, SMB2 paket üretme ve başlık okuma; ama örnek betik seçenekleri ve bağımlılık sorunu yok.",
+    "puan": {
+     "test": 20,
+     "kapsam": 16,
+     "derinlik": 18,
+     "gerceklik": 14,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
+    {
+     "metin": "P79'da 2**64 sınır değeri sınanmıyor. → P79 iki görevde tam 2**64 reddi zaten vardı; 2**64+1 ve 2**65-1 eklendi. Ders temiz.",
+     "etiket": "düzeltildi",
+     "oncelik": "düşük"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "5c701c6",
+    "ozet": "P79 iki görevde tam 2**64 reddi zaten vardı; 2**64+1 ve 2**65-1 eklendi. Ders temiz.",
+    "kanit": "../../outputs/codex-aciklar-p79-validate.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   },
+   "inceleme_notlari": [
+    {
+     "metin": "Kalan 5 genel mutantın üçü ValueError ileti metni, ikisi sonraki MessageID eşitliğinde yine reddedilen geniş guard. Kapsam eksikleri aşağıda açık.",
+     "etiket": "eşdeğerlik",
+     "oncelik": "düşük"
+    }
+   ]
   },
   {
    "no": 8,
@@ -267,7 +330,7 @@
     "BS35"
    ],
    "karar": "Kısmen",
-   "ozet": "ssh -G config okuma, ayrılmış lab ucu, gerçek uzak stdout/çıkış kodu, scp. Ama özet uyuşmazlığı dalı sınanmıyor.",
+   "ozet": "BS35:5 yanlış/boş uzak hash ve hata akışı: ders toplam 10 mutant, 0 geçen. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -279,16 +342,41 @@
    },
    "eksikler": [
     {
-     "metin": "BS35:5 özet uyuşmazlığı hiç sınanmıyor; yanlış ya da boş özette 'tamam' diyen çözüm geçiyor.",
-     "oncelik": "yüksek",
-     "etiket": "test"
-    },
-    {
      "metin": "sftp yalnız anlatıda.",
      "oncelik": "düşük"
     }
    ],
-   "cikar": true
+   "cikar": true,
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "ssh -G config okuma, ayrılmış lab ucu, gerçek uzak stdout/çıkış kodu, scp. Ama özet uyuşmazlığı dalı sınanmıyor.",
+    "puan": {
+     "test": 18,
+     "kapsam": 22,
+     "derinlik": 22,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
+    {
+     "metin": "BS35:5 özet uyuşmazlığı hiç sınanmıyor; yanlış ya da boş özette 'tamam' diyen çözüm geçiyor. → BS35:5 yanlış/boş uzak hash ve hata akışı: ders toplam 10 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "yüksek"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "a287146",
+    "ozet": "BS35:5 yanlış/boş uzak hash ve hata akışı: ders toplam 10 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-bs35-final-mutasyon.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 12,
@@ -327,7 +415,7 @@
     "PS23"
    ],
    "karar": "Kısmen",
-   "ozet": "Gerçek -SessionVariable çerezi, JSON gövde, 201+Location, ErrorDetails. Yönlendirme, timeout ve form eksik.",
+   "ozet": "PS23:6 gerçek loopback HTTP 200 başarı dalı: 6 mutant, 0 geçen. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -349,13 +437,38 @@
     {
      "metin": "Timeout yalnız tabloda; sınanmıyor.",
      "oncelik": "düşük"
-    },
-    {
-     "metin": "2xx dalı sınanmıyor.",
-     "oncelik": "orta",
-     "etiket": "test"
     }
-   ]
+   ],
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "Gerçek -SessionVariable çerezi, JSON gövde, 201+Location, ErrorDetails. Yönlendirme, timeout ve form eksik.",
+    "puan": {
+     "test": 19,
+     "kapsam": 16,
+     "derinlik": 19,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
+    {
+     "metin": "2xx dalı sınanmıyor. → PS23:6 gerçek loopback HTTP 200 başarı dalı: 6 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "orta"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "94aefc9",
+    "ozet": "PS23:6 gerçek loopback HTTP 200 başarı dalı: 6 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-ps23-ps25-final.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 14,
@@ -397,7 +510,7 @@
     "PS22"
    ],
    "karar": "Kısmen",
-   "ozet": "SDDL, kanonik sıra, gerçek nesnelerde Set-Acl. Ama gerçek erişim denemesi yok; etkin yetki metin üzerinde benzetim.",
+   "ozet": "PS22 devralınan Deny/Allow ve stderr tanıkları eklendi. PS22:6 4 mutant, 0 geçen. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -412,11 +525,43 @@
      "metin": "Gerçek erişim karşılaştırması yok (Deny sonrası okuma denemesi, UnauthorizedAccess).",
      "oncelik": "orta",
      "etiket": "CDSA"
+    }
+   ],
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "SDDL, kanonik sıra, gerçek nesnelerde Set-Acl. Ama gerçek erişim denemesi yok; etkin yetki metin üzerinde benzetim.",
+    "puan": {
+     "test": 20,
+     "kapsam": 17,
+     "derinlik": 18,
+     "gerceklik": 13,
+     "yol": 9
     },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
     {
-     "metin": "Kanonik sıranın son iki grubu ve stderr temizliği tam sınanmıyor.",
-     "oncelik": "düşük",
-     "etiket": "test"
+     "metin": "Kanonik sıranın son iki grubu ve stderr temizliği tam sınanmıyor. → PS22 devralınan Deny/Allow ve stderr tanıkları eklendi. PS22:6 4 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "düşük"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "0f077f8",
+    "ozet": "PS22 devralınan Deny/Allow ve stderr tanıkları eklendi. PS22:6 4 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-sinir-final-mutasyon.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   },
+   "inceleme_notlari": [
+    {
+     "metin": "PS22:5 son grupta AND→OR önceki kararsız ACE’leri tekrar dolaştırır. Ham 1 geçen saklandı; kesin sıfır iddia edilmez.",
+     "etiket": "eşdeğerlik",
+     "oncelik": "düşük"
     }
    ]
   },
@@ -428,7 +573,7 @@
     "PS25"
    ],
    "karar": "Tam",
-   "ozet": "Yerel örnekler, Status/yayıncı CN, katalog imzası, zaman damgası; geçerli imza tek başına güven sayılmıyor.",
+   "ozet": "PS25:4 boş ve yalnız boşluk yayıncı satırı; 10 mutant, 0 geçen.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -438,13 +583,37 @@
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "karar": "Tam",
+    "ozet": "Yerel örnekler, Status/yayıncı CN, katalog imzası, zaman damgası; geçerli imza tek başına güven sayılmıyor.",
+    "puan": {
+     "test": 23,
+     "kapsam": 24,
+     "derinlik": 22,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
     {
-     "metin": "Boş yayıncı satırı sınanmıyor.",
-     "oncelik": "düşük",
-     "etiket": "test"
+     "metin": "Boş yayıncı satırı sınanmıyor. → PS25:4 boş ve yalnız boşluk yayıncı satırı; 10 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "düşük"
     }
-   ]
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "776ff68",
+    "ozet": "PS25:4 boş ve yalnız boşluk yayıncı satırı; 10 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-ps23-ps25-final.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 17,
@@ -581,7 +750,7 @@
     "CM24"
    ],
    "karar": "Kısmen",
-   "ozet": "whoami CSV, bütünlük SID'leri, icacls, gerçek okuma tanığı. DENY erişimi ve CM23 hata yolu sınanmıyor.",
+   "ozet": "CM23 gerçek çocuk süreç hata yolları ve ikinci whoami test double: 24 mutant, 0 geçen. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -596,13 +765,38 @@
      "metin": "DENY ACE'li dosyanın okunamadığı gösterilmiyor.",
      "oncelik": "orta",
      "etiket": "CDSA"
-    },
-    {
-     "metin": "CM23 hata yolu (whoami başarısız) hiç sınanmıyor.",
-     "oncelik": "orta",
-     "etiket": "test"
     }
-   ]
+   ],
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "whoami CSV, bütünlük SID'leri, icacls, gerçek okuma tanığı. DENY erişimi ve CM23 hata yolu sınanmıyor.",
+    "puan": {
+     "test": 18,
+     "kapsam": 19,
+     "derinlik": 19,
+     "gerceklik": 15,
+     "yol": 8
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
+    {
+     "metin": "CM23 hata yolu (whoami başarısız) hiç sınanmıyor. → CM23 gerçek çocuk süreç hata yolları ve ikinci whoami test double: 24 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "orta"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "4d6fd79",
+    "ozet": "CM23 gerçek çocuk süreç hata yolları ve ikinci whoami test double: 24 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-cm23-native-double.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 23,
@@ -750,8 +944,8 @@
    "dersler": [
     "HT22"
    ],
-   "karar": "Kısmen",
-   "ozet": "İçerik tam (loopback hedefler, yönlendirme zinciri, ayrıştırıcı farkları). Yönlendirme sınırı sınanmıyor.",
+   "karar": "Tam",
+   "ozet": "HT22 kapalı 300/399 uçları, max_redirects ve Location komşuları: 42 mutant, 0 geçen.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -761,13 +955,37 @@
     "gerceklik": 15,
     "yol": 10
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "İçerik tam (loopback hedefler, yönlendirme zinciri, ayrıştırıcı farkları). Yönlendirme sınırı sınanmıyor.",
+    "puan": {
+     "test": 18,
+     "kapsam": 24,
+     "derinlik": 23,
+     "gerceklik": 15,
+     "yol": 10
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
     {
-     "metin": "max_redirects ve 300/399 sınırları sınanmıyor.",
-     "oncelik": "orta",
-     "etiket": "test"
+     "metin": "max_redirects ve 300/399 sınırları sınanmıyor. → HT22 kapalı 300/399 uçları, max_redirects ve Location komşuları: 42 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "orta"
     }
-   ]
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "6906182",
+    "ozet": "HT22 kapalı 300/399 uçları, max_redirects ve Location komşuları: 42 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-final-mutasyon.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 30,
@@ -986,8 +1204,8 @@
    "dersler": [
     "SP21"
    ],
-   "karar": "Kısmen",
-   "ozet": "Gerçek Splunk'ta props.conf (LINE_BREAKER, TIME_FORMAT, TZ); alınan olay sayısı ve _time doğrulanıyor.",
+   "karar": "Tam",
+   "ozet": "SP21 gerçek UTC/İstanbul gece yarısı, saniye ve milisaniye tanıkları eklendi.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -997,14 +1215,39 @@
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "cikar": true,
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "Gerçek Splunk'ta props.conf (LINE_BREAKER, TIME_FORMAT, TZ); alınan olay sayısı ve _time doğrulanıyor.",
+    "puan": {
+     "test": 20,
+     "kapsam": 24,
+     "derinlik": 23,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "0b849ad",
+    "ozet": "SP21 gerçek UTC/İstanbul gece yarısı, saniye ve milisaniye tanıkları eklendi.",
+    "kanit": "../../outputs/codex-aciklar-native-final-mutasyon.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   },
+   "inceleme_notlari": [
     {
-     "metin": "Mutasyonda iki gerçek boşluk: SP21:2 ve SP21:4'te saat değerinin bir artması testten geçiyor.",
-     "oncelik": "orta",
-     "etiket": "test"
+     "metin": "Denetimde saat diye nitelenen 23→24 ve 19→20, MAX_TIMESTAMP_LOOKAHEAD karakter sınırlarıdır. TIME_FORMAT değişmiyor; iki geçiş aynı zamanı üretir. Bu kayıt davranış kusuru olarak kapatılmadı; eşdeğerlik incelemesine ayrıldı.",
+     "etiket": "eşdeğerlik",
+     "oncelik": "düşük"
     }
-   ],
-   "cikar": true
+   ]
   },
   {
    "no": 39,
@@ -1046,7 +1289,7 @@
     "SP22"
    ],
    "karar": "Tam",
-   "ozet": "Gerçek savedsearches.conf; boşluksuz pencere dizisi, eşik ilişkileri, varlık başına bastırma.",
+   "ozet": "Dispatch başlangıçları monotonic saatle aralanıyor; gecikme payı açık hata. İki tahmin sekizer kez, toplam 16 gerçek sonuç aynı.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -1056,14 +1299,38 @@
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "cikar": true,
+   "onceki_denetim": {
+    "karar": "Tam",
+    "ozet": "Gerçek savedsearches.conf; boşluksuz pencere dizisi, eşik ilişkileri, varlık başına bastırma.",
+    "puan": {
+     "test": 22,
+     "kapsam": 24,
+     "derinlik": 23,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
     {
-     "metin": "Bir tahmin yaklaşık 8 çalıştırmada bir farklı çıkıyor.",
-     "oncelik": "düşük",
-     "etiket": "test"
+     "metin": "Bir tahmin yaklaşık 8 çalıştırmada bir farklı çıkıyor. → Dispatch başlangıçları monotonic saatle aralanıyor; gecikme payı açık hata. İki tahmin sekizer kez, toplam 16 gerçek sonuç aynı.",
+     "etiket": "düzeltildi",
+     "oncelik": "düşük"
     }
    ],
-   "cikar": true
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "973f247",
+    "ozet": "Dispatch başlangıçları monotonic saatle aralanıyor; gecikme payı açık hata. İki tahmin sekizer kez, toplam 16 gerçek sonuç aynı.",
+    "kanit": "../../outputs/codex-aciklar-sp22-kabul.json",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 41,
@@ -1073,8 +1340,8 @@
     "EL20",
     "EL21"
    ],
-   "karar": "Tam",
-   "ozet": "Gerçek Elasticsearch'te ingest pipeline, _simulate, ECS, hatalı mapping kanıtları.",
+   "karar": "Kısmen",
+   "ozet": "EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -1089,13 +1356,38 @@
      "metin": "Elastic Agent yok; ajan tabanlı alım öğretilmiyor.",
      "oncelik": "orta",
      "etiket": "CDSA"
-    },
-    {
-     "metin": "Yük altında zaman aşımı kararsızlığı (EL20/EL21).",
-     "oncelik": "düşük",
-     "etiket": "test"
     }
-   ]
+   ],
+   "onceki_denetim": {
+    "karar": "Tam",
+    "ozet": "Gerçek Elasticsearch'te ingest pipeline, _simulate, ECS, hatalı mapping kanıtları.",
+    "puan": {
+     "test": 21,
+     "kapsam": 22,
+     "derinlik": 22,
+     "gerceklik": 14,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
+    {
+     "metin": "Yük altında zaman aşımı kararsızlığı (EL20/EL21). → EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz.",
+     "etiket": "düzeltildi",
+     "oncelik": "düşük"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "b23011f",
+    "ozet": "EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz.",
+    "kanit": "../../outputs/codex-aciklar-elastic-budget.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 42,
@@ -1105,8 +1397,8 @@
     "EL22",
     "EL23"
    ],
-   "karar": "Kısmen",
-   "ozet": "Gerçek _eql API'si; sequence, until, maxspan, eksik olay. Yerel ve gerçek motor karşılaştırması yok.",
+   "karar": "Tam",
+   "ozet": "Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -1116,13 +1408,37 @@
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "Gerçek _eql API'si; sequence, until, maxspan, eksik olay. Yerel ve gerçek motor karşılaştırması yok.",
+    "puan": {
+     "test": 23,
+     "kapsam": 17,
+     "derinlik": 22,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
     {
-     "metin": "EL13–EL18'deki yerel EQL tahminlerini gerçek Elasticsearch'le karşılaştıran otomatik denetim yok.",
-     "oncelik": "orta",
-     "etiket": "test"
+     "metin": "EL13–EL18'deki yerel EQL tahminlerini gerçek Elasticsearch'le karşılaştıran otomatik denetim yok. → Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
+     "etiket": "düzeltildi",
+     "oncelik": "orta"
     }
-   ]
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "0df3a47",
+    "ozet": "Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
+    "kanit": "../../outputs/codex-aciklar-eql-native.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 43,
@@ -1185,7 +1501,7 @@
     "SG19"
    ],
    "karar": "Kısmen",
-   "ozet": "Gerçek pySigma Splunk backend'i ve pipeline'lar; üretilen sorgu gerçek Splunk'ta sınanıyor.",
+   "ozet": "SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude",
    "puan": {
@@ -1205,19 +1521,46 @@
      "metin": "Yalnız Splunk; Elastic ve Kusto backend'i yok.",
      "oncelik": "yüksek",
      "etiket": "CDEP"
-    },
-    {
-     "metin": "Mutasyonda gerçek boşluk: SG19:2'de eşik değerinin bir artması geçiyor.",
-     "oncelik": "orta",
-     "etiket": "test"
-    },
-    {
-     "metin": "SigmaSplunkRunner'ın kendi altyapı testi yok.",
-     "oncelik": "orta",
-     "etiket": "test"
     }
    ],
-   "cikar": true
+   "cikar": true,
+   "onceki_denetim": {
+    "karar": "Kısmen",
+    "ozet": "Gerçek pySigma Splunk backend'i ve pipeline'lar; üretilen sorgu gerçek Splunk'ta sınanıyor.",
+    "puan": {
+     "test": 20,
+     "kapsam": 13,
+     "derinlik": 20,
+     "gerceklik": 13,
+     "yol": 9
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude"
+   },
+   "kapatilanlar": [
+    {
+     "metin": "SigmaSplunkRunner'ın kendi altyapı testi yok. → SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz.",
+     "etiket": "düzeltildi",
+     "oncelik": "orta"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "26cf766",
+    "ozet": "SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz.",
+    "kanit": "../../outputs/codex-aciklar-sigma-runner.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   },
+   "inceleme_notlari": [
+    {
+     "metin": "SG19’daki 100→101 tespit eşiği değil pipeline priority. Kullanılan pipeline + birleştirmesi önceliği sıralamaz; kurulu pySigma’da aynı SPL doğrulandı. Bu geçiş eşdeğer olarak ayrı saklandı.",
+     "etiket": "eşdeğerlik",
+     "oncelik": "düşük"
+    }
+   ]
   },
   {
    "no": 46,
@@ -1655,8 +1998,8 @@
     "AD22",
     "AD23"
    ],
-   "karar": "Tam",
-   "ozet": "Gerçek DC'ye doğrulanmış LDAPS/StartTLS/imzalı SASL; sertifika hatasını filtreyle karıştırmama; geçerli/eksik/bozuk channel binding. Bağlantı katmanı filtreden ayrı.",
+   "karar": "Kısmen",
+   "ozet": "WSL --exec ile kabuksuz argv aktarımı; gerçek WSL’de boşluksuz, boşluklu ve $ içeren yol testleri temiz. Kalan kapsam eksikleri aşağıda açık.",
    "tarih": "26.10.2026",
    "kaynak": "Claude · 26.10.2026",
    "puan": {
@@ -1668,16 +2011,41 @@
    },
    "eksikler": [
     {
-     "metin": "ad_ldap_client.py:24 wslpath'e yolu tırnaksız geçiriyor; boşluksuz bir yola kurulursa AD22/AD23 kırılır. Kullanıcının yolunda boşluk var, çalışıyor; Codex'in dosyası.",
-     "oncelik": "orta",
-     "etiket": "test"
-    },
-    {
      "metin": "Windows ldp.exe GUI aracı, otomatik sınanamaz (yalnız anılıyor); çekirdek davranış gerçek bağlantıda ölçüldüğü için not.",
      "oncelik": "düşük",
      "etiket": "CAPE"
     }
-   ]
+   ],
+   "onceki_denetim": {
+    "karar": "Tam",
+    "ozet": "Gerçek DC'ye doğrulanmış LDAPS/StartTLS/imzalı SASL; sertifika hatasını filtreyle karıştırmama; geçerli/eksik/bozuk channel binding. Bağlantı katmanı filtreden ayrı.",
+    "puan": {
+     "test": 22,
+     "kapsam": 23,
+     "derinlik": 22,
+     "gerceklik": 15,
+     "yol": 10
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude · 26.10.2026"
+   },
+   "kapatilanlar": [
+    {
+     "metin": "ad_ldap_client.py:24 wslpath'e yolu tırnaksız geçiriyor; boşluksuz bir yola kurulursa AD22/AD23 kırılır. Kullanıcının yolunda boşluk var, çalışıyor; Codex'in dosyası. → WSL --exec ile kabuksuz argv aktarımı; gerçek WSL’de boşluksuz, boşluklu ve $ içeren yol testleri temiz.",
+     "etiket": "düzeltildi",
+     "oncelik": "orta"
+    }
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "342500a",
+    "ozet": "WSL --exec ile kabuksuz argv aktarımı; gerçek WSL’de boşluksuz, boşluklu ve $ içeren yol testleri temiz.",
+    "kanit": "../../outputs/codex-aciklar-ldap-path-final.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 64,
@@ -1783,7 +2151,7 @@
     "CS13"
    ],
    "karar": "Tam",
-   "ozet": "Yetkilendirme mantığı (gizlilik eşiği, rol) sağlam. Girdi-doğrulama guard dalları az test.",
+   "ozet": "CS13 kullanıcı/belge/işlem ve politika guard testleri: 48 mutant, 0 geçen.",
    "tarih": "26.10.2026",
    "kaynak": "Claude · 26.10.2026",
    "puan": {
@@ -1793,13 +2161,37 @@
     "gerceklik": 14,
     "yol": 7
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "karar": "Tam",
+    "ozet": "Yetkilendirme mantığı (gizlilik eşiği, rol) sağlam. Girdi-doğrulama guard dalları az test.",
+    "puan": {
+     "test": 19,
+     "kapsam": 24,
+     "derinlik": 22,
+     "gerceklik": 14,
+     "yol": 7
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude · 26.10.2026"
+   },
+   "kapatilanlar": [
     {
-     "metin": "cs13 girdi-doğrulama guard dalları az test; or→and ve 400→401 mutantları yaşıyor (geçersiz-girdi yolları pinlenmemiş).",
-     "oncelik": "düşük",
-     "etiket": "test"
+     "metin": "cs13 girdi-doğrulama guard dalları az test; or→and ve 400→401 mutantları yaşıyor (geçersiz-girdi yolları pinlenmemiş). → CS13 kullanıcı/belge/işlem ve politika guard testleri: 48 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "düşük"
     }
-   ]
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "eb4d26d",
+    "ozet": "CS13 kullanıcı/belge/işlem ve politika guard testleri: 48 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-cs13-final-mutasyon.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 70,
@@ -1847,7 +2239,7 @@
     "CS16"
    ],
    "karar": "Tam",
-   "ozet": "Gerçek CIL baytları + Ansi dönüşümü. 0xFFFF sınırı test edilmemiş.",
+   "ozet": "CS16:4 U+FFFF tek ?, U+10000 iki ? sınırı: 1 mutant, 0 geçen.",
    "tarih": "26.10.2026",
    "kaynak": "Claude · 26.10.2026",
    "puan": {
@@ -1857,13 +2249,37 @@
     "gerceklik": 14,
     "yol": 7
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "karar": "Tam",
+    "ozet": "Gerçek CIL baytları + Ansi dönüşümü. 0xFFFF sınırı test edilmemiş.",
+    "puan": {
+     "test": 21,
+     "kapsam": 24,
+     "derinlik": 22,
+     "gerceklik": 14,
+     "yol": 7
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude · 26.10.2026"
+   },
+   "kapatilanlar": [
     {
-     "metin": "cs16:4 ord>0xFFFF sınırı test edilmemiş; >→>= mutantı yaşıyor. U+FFFF ve U+10000 vakası ekle.",
-     "oncelik": "düşük",
-     "etiket": "test"
+     "metin": "cs16:4 ord>0xFFFF sınırı test edilmemiş; >→>= mutantı yaşıyor. U+FFFF ve U+10000 vakası ekle. → CS16:4 U+FFFF tek ?, U+10000 iki ? sınırı: 1 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "düşük"
     }
-   ]
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "e3c804d",
+    "ozet": "CS16:4 U+FFFF tek ?, U+10000 iki ? sınırı: 1 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-final-mutasyon.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 73,
@@ -2063,7 +2479,7 @@
     "JS13"
    ],
    "karar": "Tam",
-   "ozet": "Yönlendirme/hata akışı sağlam. Hata-mesajı açığa çıkarma dalı az test.",
+   "ozet": "JS13:3 expose true/false, 399/400/499/500 matrisi: 14 mutant, 0 geçen.",
    "tarih": "26.10.2026",
    "kaynak": "Claude · 26.10.2026",
    "puan": {
@@ -2073,13 +2489,37 @@
     "gerceklik": 14,
     "yol": 7
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "karar": "Tam",
+    "ozet": "Yönlendirme/hata akışı sağlam. Hata-mesajı açığa çıkarma dalı az test.",
+    "puan": {
+     "test": 18,
+     "kapsam": 24,
+     "derinlik": 22,
+     "gerceklik": 14,
+     "yol": 7
+    },
+    "tarih": "26.10.2026",
+    "kaynak": "Claude · 26.10.2026"
+   },
+   "kapatilanlar": [
     {
-     "metin": "js13:3 s18 hata-açığa-çıkarma dalı yalnız 413 ile test; expose=false 4xx, tam 400/500 sınırı, &&/|| vakaları yok (6 mutant yaşıyor).",
-     "oncelik": "orta",
-     "etiket": "test"
+     "metin": "js13:3 s18 hata-açığa-çıkarma dalı yalnız 413 ile test; expose=false 4xx, tam 400/500 sınırı, &&/|| vakaları yok (6 mutant yaşıyor). → JS13:3 expose true/false, 399/400/499/500 matrisi: 14 mutant, 0 geçen.",
+     "etiket": "düzeltildi",
+     "oncelik": "orta"
     }
-   ]
+   ],
+   "duzeltme": {
+    "tarih": "26.10.2026",
+    "yazar": "Codex",
+    "commit": "dbe87c7",
+    "ozet": "JS13:3 expose true/false, 399/400/499/500 matrisi: 14 mutant, 0 geçen.",
+    "kanit": "../../outputs/codex-aciklar-final-mutasyon.txt",
+    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+   }
   },
   {
    "no": 84,
