@@ -13,7 +13,7 @@ Puan yükseltmek tek başına tamamlanma değildir. Eksikler ders/görev/tezgâh
 | 7 | python | 77 | Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.; Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden'). | tamam: P78/P79, 17 kontrol temiz; 14 anlamsal mutant reddedildi |
 | 8 | bash | 83 | ASAMA2 ve dersin özeti 'jq -e' diyor; derste hiç kullanılmıyor. | tamam: BS29, 13 kontrol temiz; tahmin doğrulandı, 10 mutant reddedildi |
 | 9 | bash | 88 | journalctl -o json yalnız tabloda; görevde yok. | tamam: BS31, 17 kontrol temiz; 9 mutant reddedildi |
-| 11 | bash | 86 | sftp yalnız anlatıda. | bekliyor |
+| 11 | bash | 86 | sftp yalnız anlatıda. | tamam: BS34/BS35, 17 kontrol temiz; gerçek SFTP ve 8 mutant reddedildi |
 | 12 | bash | 85 | teardown yalnız tabloda (ASAMA2 setup/teardown).; Git Bash ile Linux farkları kayıtlı değil (ASAMA2 istiyor). | bekliyor |
 | 13 | powershell | 78 | Yönlendirme (-MaximumRedirection, 3xx) yok.; Form gövdesi (-Form) yok.; Timeout yalnız tabloda; sınanmıyor. | bekliyor |
 | 14 | powershell | 87 | FilterXml hiç yok (ASAMA2 FilterXPath/FilterXml).; ToXml() yalnız tabloda; ham XML'den alan okunmuyor. | bekliyor |

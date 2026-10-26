@@ -1,0 +1,48 @@
+{
+  "backend": "real Kali OpenSSH sshd -i / internal-sftp",
+  "references_passed": 1,
+  "mutants_rejected": 8,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "ignore content mismatch",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "missing source is transfer error",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "transfer errors exit zero",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "mismatch exits zero",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "fixed remote directory",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "fixed source",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "lost batch path quoting",
+      "status": "rejected",
+      "runner_status": "error"
+    },
+    {
+      "mutation": "ignore batch failure",
+      "status": "rejected",
+      "runner_status": "error"
+    }
+  ]
+}
