@@ -1362,36 +1362,40 @@
   {
    "no": 51,
    "yol": "yara",
-   "ad": "Dış değişkenler, include ve namespace",
-   "dersler": [],
-   "karar": "Eksik",
-   "ozet": "Ders yok. YARA yolu YR22'de bitiyor.",
+   "ad": "Dış değişkenler, include ve namespace ile çok dosyalı kural",
+   "dersler": [
+    "YR23"
+   ],
+   "karar": "Tam",
+   "ozet": "yr23 var (önceki 'ders yok' bayattı); externals/include/namespace gerçek derleyiciye bağlı. Tahmin uyuşuyor, mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "Claude",
-   "eklenmeli": [
-    {
-     "metin": "externals, namespace, sınırlı include callback, tanımsız değişken ve ad çakışması testleri.",
-     "oncelik": "orta",
-     "etiket": "CDEP"
-    }
-   ]
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 8
+   }
   },
   {
    "no": 52,
    "yol": "yara",
-   "ad": "Toplu tarama, çıktı ve maliyet ölçümü",
-   "dersler": [],
-   "karar": "Eksik",
-   "ozet": "Ders yok.",
+   "ad": "Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü",
+   "dersler": [
+    "YR24"
+   ],
+   "karar": "Tam",
+   "ozet": "yr24 var; gerçek motorla toplu tarama + maliyet/eksik raporu. Mutasyon 4/4.",
    "tarih": "26.10.2026",
-   "kaynak": "Claude",
-   "eklenmeli": [
-    {
-     "metin": "Klasör tarayıcı, eşleşme raporu, timeout, korpusla süre ölçümü.",
-     "oncelik": "orta",
-     "etiket": "CDSA"
-    }
-   ]
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 8
+   }
   },
   {
    "no": 53,
@@ -1702,10 +1706,17 @@
    "dersler": [
     "JV15"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek matcher sırası + @PreAuthorize, MockMvc çıktısı (gercek blok). Mutasyon 6/6.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 8
+   }
   },
   {
    "no": 66,
@@ -1714,10 +1725,17 @@
    "dersler": [
     "JV13"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Türetilmiş sorgu/JPQL + self-invocation; gerçek sonuç. Tahmin uyuşuyor, mutasyon 13/13.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 8
+   }
   },
   {
    "no": 67,
@@ -1726,22 +1744,36 @@
    "dersler": [
     "JV14"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "readObject/readResolve sırası + ObjectInputFilter, gerçek bayt/eşik. Mutasyon 10/10.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 25,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 68,
    "yol": "java",
-   "ad": "Şablon motorlarında (Thymeleaf/FreeMarker) bağlam ve kaçış",
+   "ad": "Şablon motorları (Thymeleaf/FreeMarker): bağlam, kaçış, ifade",
    "dersler": [
     "JV16"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek Thymeleaf 3.1.3 th:text/utext + __${}__ önişleme; 1 eşdeğer mutant; Kimi +13 yanlış-çözüm testi.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 8
+   }
   },
   {
    "no": 69,
@@ -1750,22 +1782,43 @@
    "dersler": [
     "CS13"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Yetkilendirme mantığı (gizlilik eşiği, rol) sağlam. Girdi-doğrulama guard dalları az test.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 19,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "cs13 girdi-doğrulama guard dalları az test; or→and ve 400→401 mutantları yaşıyor (geçersiz-girdi yolları pinlenmemiş).",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 70,
    "yol": "csharp",
-   "ad": "Klasik ASP.NET/System.Web yaşam döngüsü",
+   "ad": "Klasik ASP.NET / System.Web yaşam döngüsü",
    "dersler": [
     "CS14"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Olay sırası + sayaç; tahmin uyuşuyor, mutasyon 5/5.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 71,
@@ -1774,10 +1827,17 @@
    "dersler": [
     "CS15"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "BinaryFormatter NotSupported, JsonElement; gerçek .NET çıktısı (gercek blok). Mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 72,
@@ -1786,10 +1846,24 @@
    "dersler": [
     "CS16"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek CIL baytları + Ansi dönüşümü. 0xFFFF sınırı test edilmemiş.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 21,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "cs16:4 ord>0xFFFF sınırı test edilmemiş; >→>= mutantı yaşıyor. U+FFFF ve U+10000 vakası ekle.",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 73,
@@ -1798,10 +1872,17 @@
    "dersler": [
     "CS17"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "DtdProcessing/XmlReaderSettings; gerçek XmlException çıktısı. Mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 74,
@@ -1810,10 +1891,17 @@
    "dersler": [
     "C14"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Sahiplik izleyicisi + realloc aliasing; mutasyon 12/12. (Eski güvenlik-filtresi engeli kalktı.)",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 75,
@@ -1822,34 +1910,55 @@
    "dersler": [
     "C15"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Tam okuma döngüsü, eof/hata; mutasyon 1 eşdeğer (n==0 önceden yakalanıyor). (Engel kalktı.)",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 76,
    "yol": "c",
-   "ad": "Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı",
+   "ad": "Yol adı ile açık dosya nesnesi arasındaki güven sınırı",
    "dersler": [
     "C16"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Son bileşen kuralı + denetim-kullanım aralığı (TOCTOU); mutasyon 8/8.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 77,
    "yol": "c",
-   "ad": "Çalışma zamanında dinamik sembol çözme (dlopen/LoadLibrary)",
+   "ad": "Dinamik sembol çözme (dlopen/dlsym, LoadLibrary)",
    "dersler": [
     "C17"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Ad çözen arama + dlerror protokolü; okuma ağırlıklı, tahmin uyuşuyor.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 7
+   }
   },
   {
    "no": 78,
@@ -1858,22 +1967,36 @@
    "dersler": [
     "PH15"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek ara katman zinciri çıktısı (gercek blok); mutasyon 4/4.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 79,
    "yol": "php",
-   "ad": "WordPress eklentisi/REST endpoint yetkileri",
+   "ad": "WordPress eklentisi / REST endpoint yetkileri",
    "dersler": [
     "PH16"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek REST durum kodu eşlemesi; mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 80,
@@ -1882,10 +2005,17 @@
    "dersler": [
     "PH12"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Autoload grafiği; mutasyon 3/3.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 81,
@@ -1894,22 +2024,36 @@
    "dersler": [
     "PH13"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Uzantı ayrıştırma + sarmalayıcı ayrımı; gerçek çıktı; mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 82,
    "yol": "php",
-   "ad": "Twig/Blade şablon kaçışı ve parse_url/filter_var",
+   "ad": "Twig/Blade kaçışı ve parse_url / filter_var sınırları",
    "dersler": [
     "PH14"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "userinfo@host güvenlik tuzağını çok iyi test ediyor (14 vaka); 4 eşdeğer maxsplit mutantı.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 83,
@@ -1918,22 +2062,43 @@
    "dersler": [
     "JS13"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Yönlendirme/hata akışı sağlam. Hata-mesajı açığa çıkarma dalı az test.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 18,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "js13:3 s18 hata-açığa-çıkarma dalı yalnız 413 ile test; expose=false 4xx, tam 400/500 sınırı, &&/|| vakaları yok (6 mutant yaşıyor).",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 84,
    "yol": "javascript",
-   "ad": "Browser/SPA içinde postMessage ve ham HTML güven sınırı",
+   "ad": "Browser/SPA'da postMessage ve ham HTML güven sınırı",
    "dersler": [
     "JS15"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek postMessage çerçeve çıktısı (gercek blok); sayı mutantları eşdeğer offset.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 85,
@@ -1942,10 +2107,17 @@
    "dersler": [
     "JS14"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Kirletmeyen birleştirme + own-özellik kararı; mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 86,
@@ -1954,10 +2126,17 @@
    "dersler": [
     "JS16"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek node stack trace (gercek blok); VLQ çözme; sayı mutantları eşdeğer.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 87,
@@ -1966,10 +2145,17 @@
    "dersler": [
     "AS13"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek objdump VA/RVA/offset; mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 88,
@@ -1978,10 +2164,17 @@
    "dersler": [
     "AS16"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek gdb breakpoint izi; 1 eşdeğer maxsplit mutantı.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 89,
@@ -1990,22 +2183,36 @@
    "dersler": [
     "AS14"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Gerçek ret baytları c3 / c2 08 00; yığın dengesi mutasyon 10/10.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 90,
    "yol": "asm",
-   "ad": "x86-64 syscall ABI'si ve ntdll sistem çağrısı şablonu",
+   "ad": "x86-64 syscall ABI ve ntdll sistem çağrısı şablonu",
    "dersler": [
     "AS15"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "rcx→r10, syscall 0f 05; 1 eşdeğer maxsplit mutantı.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 91,
@@ -2014,10 +2221,17 @@
    "dersler": [
     "PU01"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Etiket→teknik→kapsam, Navigator katmanı; mutasyon temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 92,
@@ -2032,46 +2246,99 @@
   {
    "no": 93,
    "yol": "purple",
-   "ad": "Olay müdahale süreci ve zaman çizelgesi",
+   "ad": "Olay müdahale: playbook, sınırlama, temizleme, kanıt paketi",
    "dersler": [
     "PU02"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Kimi geliştirdi (IR playbook +376 satır). Zaman çizelgesi/playbook iyi; ama yol-doğrulama ve bütünlük mantığı az test.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 16,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "pu02:7 kanit_yolu guard'ları (@37/40/41) ve bütünlük kontrolü (@59 size≠ VEYA hash≠) or→and yaşıyor; pu02:6 de ×2. Güvenlik-kritik; her guard'ı ve 'size ok ama hash yanlış' vakasını pinle.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 94,
    "yol": "purple",
-   "ad": "Uç nokta avcılığı: Velociraptor ve osquery",
+   "ad": "Uç nokta avcılığı: Velociraptor ve VQL",
    "dersler": [
     "PU03"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Açılış süreçleri + olay penceresi dosyaları; mutasyon 5/5.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 95,
    "yol": "purple",
    "ad": "Bellek analizi: Volatility 3 / MemProcFS",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "dersler": [
+    "PU10"
+   ],
+   "karar": "Tam",
+   "ozet": "Kimi yazdı. Normalize/korelasyon derinliği iyi (gerçek araç opt-in). Korelasyon sınırları az test.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 17,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "pu10:3/4 sınır (<=→<) ve bir mantık (==→!= @49) mutantı yaşıyor; eşik komşularını ve eşitlik kararını pinle.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 96,
-   "yol": "purple",
-   "ad": "Ağ tespit sistemleri: Suricata, Zeek ve C2 işaretleşmesi",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "yol": "ids",
+   "ad": "Ağ tespiti: Suricata, Zeek ve C2 işaretleşmesi",
+   "dersler": [
+    "ID01-ID05"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek Suricata/Zeek kuralları. Ama eşik/pencere değerleri (count, 60s) yeterince pinlenmemiş.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 16,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "id01/02/03/05'te eşik/pencere sayıları (1→2, 60→61, 5→6) mutasyonda yaşıyor (10 geçen); eşik sınır testleri ekle.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 97,
@@ -2081,23 +2348,44 @@
     "PU04",
     "PU05"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Öznitelik ayırma + gerçek SQLite avcılık sorgusu; sayı mutantları eşdeğer offset.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 22,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 98,
    "yol": "purple",
-   "ad": "Sertleştirme ve önleme: LAPS, ASR, AppLocker",
+   "ad": "Sertleştirme: LAPS, ASR, AppLocker politika",
    "dersler": [
     "PU06",
     "PU07"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "Paralel ASR eşleme + önleme kanıtı. Pilot geçiş kapısı eşiği az test.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 20,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "pu06:3 geçiş kapısı eşiği (<=→<, 25→26) mutasyonda yaşıyor; eşik sınırını pinle.",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 99,
@@ -2107,60 +2395,130 @@
     "PU08",
     "PU09"
    ],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "karar": "Tam",
+   "ozet": "UTC/eventID düzen + oturum/MFA belirsizliği; 1 eşdeğer offset mutantı.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 22,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 100,
    "yol": "purple",
-   "ad": "Web uygulama güvenliği uygulaması: IDOR, XSS, SQLi, API",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "ad": "Web uygulama güvenliği: IDOR, XSS, SQLi, API",
+   "dersler": [
+    "PU11"
+   ],
+   "karar": "Tam",
+   "ozet": "Kimi yazdı. 127.0.0.1 sentetik lab; IDOR/durum+kalıcılık, parametre bağlama, güvenli DOM; mutasyon büyük ölçüde temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 101,
    "yol": "purple",
-   "ad": "Saldırı tarafı laboratuvarı: yetki yükseltme ve yatay hareket",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "ad": "Saldırı tarafı: privesc, AD, yatay hareket (kayıt analizi)",
+   "dersler": [
+    "PU12"
+   ],
+   "karar": "Tam",
+   "ozet": "Kimi yazdı. Kapsam geniş (Linux/Windows/AD, kayıt analizi). Bazı mantık/sınır kararları az test.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 17,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "pu12:4/5 and→or / or→and (@9/27/40) ve sınır (<→<=) mutantları yaşıyor; mantık ve eşik kararlarını pinle.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 102,
    "yol": "bitirme",
-   "ad": "Bitirme tatbikatı (savunma): uçtan uca olay incelemesi",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "ad": "Bitirme (savunma): uçtan uca olay incelemesi",
+   "dersler": [
+    "BT01",
+    "BT02",
+    "BT03",
+    "BT04"
+   ],
+   "karar": "Tam",
+   "ozet": "Ortak kanıttan KQL/SPL/Sigma/TShark inceleme; mutasyon büyük ölçüde temiz.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 103,
    "yol": "bitirme",
-   "ad": "Bitirme tatbikatı (saldırı zinciri)",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "ad": "Bitirme (saldırı zinciri): deterministik canlandırma",
+   "dersler": [
+    "BT07"
+   ],
+   "karar": "Tam",
+   "ozet": "Kimi yazdı. Deterministik zincir + SHA-256 manifest; mutasyon TEMİZ, iyi test edilmiş.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   }
   },
   {
    "no": 104,
    "yol": "bitirme",
    "ad": "Olay raporu ve purple team bulgu yazımı",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "dersler": [
+    "BT05",
+    "BT06"
+   ],
+   "karar": "Tam",
+   "ozet": "İddia defteri + teslim planı + yeniden test kapısı. Birkaç sınır/mantık kararı az test.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 19,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "bt05:2 (<=→<) ve bt06:3 (or→and @4, 25→26 @5) mutantları yaşıyor; kabul kapısı eşik/mantığını pinle.",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
   }
  ],
  "yeni_maddeler": [
