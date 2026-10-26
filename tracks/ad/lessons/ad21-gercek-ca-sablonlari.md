@@ -72,6 +72,10 @@ suffix=r'''
 } finally {Set-ADObject $__pfDN -Replace @{'msPKI-Enrollment-Flag'=[int]$__pfOld;'msPKI-Certificate-Name-Flag'=[int]$__pfOldName}}
 '''
 if not eq(run_code(prefix+src+suffix,"PaftaClientLegacy\n").strip(), "PaftaClientLegacy|True|True|True|0|True", "canlı bit değişikliği ve komşu bit"): stop()
+
+prefix_one=prefix.replace("'msPKI-Enrollment-Flag'=[int]3","'msPKI-Enrollment-Flag'=[int]1")
+if not eq(run_code(prefix_one+src+suffix,'PaftaClientLegacy\n').strip(),'PaftaClientLegacy|True|True|False|0|True','yalnız bit 1 açık; pending bit 2 kapalı'):stop()
+
 ```
 
 ```solution
