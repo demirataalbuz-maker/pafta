@@ -263,6 +263,11 @@ eq(run(stdin="pafta-demo\n"), "pafta-demo==1.2.0\n", "kısıt yoksa en yüksek s
 eq(run(stdin="\n"), "HATA\n", "boş girdi HATA")
 sistem = subprocess.run([sys.executable, "-c", "import pafta_demo"], capture_output=True)
 ok(sistem.returncode != 0, "sistem Python'u kirlenmemeli: pafta_demo yalnız venv'de olmalı")
+
+import ast
+ok(any(isinstance(n,ast.Constant) and n.value=='--no-index' for n in ast.walk(tree)),
+   'öğrenci komutu çevrimdışı kurulumu açıkça --no-index ile istemeli')
+
 ```
 
 ```solution
@@ -651,6 +656,21 @@ eq(run(stdin="pafta-yok\n"), "HATA\n", "bulunamayan paket çakışma değildir")
 eq(run(stdin="\n"), "HATA\n", "boş girdi")
 sistem = subprocess.run([sys.executable, "-c", "import pafta_rapor"], capture_output=True)
 ok(sistem.returncode != 0, "sistem Python'u kirlenmemeli")
+
+# Aynı gerçek wheel çözücüsünde 0.9 ile 0.10 sırasını ayırt et.
+import pathlib
+kok=pathlib.Path('test_rapor_010');(kok/'pafta_rapor').mkdir(parents=True,exist_ok=True)
+(kok/'pyproject.toml').write_text('[build-system]\nrequires=["setuptools>=61"]\nbuild-backend="setuptools.build_meta"\n[project]\nname="pafta-rapor"\nversion="0.10.0"\ndependencies=["pafta-ortak>=2"]\n[tool.setuptools]\npackages=["pafta_rapor"]\n',encoding='utf-8')
+(kok/'pafta_rapor'/'__init__.py').write_text('__version__="0.10.0"\n',encoding='utf-8')
+subprocess.run([sys.executable,'-m','pip','wheel','--no-index','--no-build-isolation','--no-deps','-w','dist','./'+str(kok)],check=True,capture_output=True)
+original=next(pathlib.Path('dist').glob('pafta_rapor-1.0.0-*.whl'))
+saved=original.with_suffix('.saved');original.rename(saved)
+try:
+    eq(run(stdin='pafta-tarayici pafta-rapor\n'),'pafta-ortak==1.0.0\npafta-rapor==0.9.0\npafta-tarayici==1.0.0\nGERI|pafta-rapor 0.10.0->0.9.0\n','sayısal 0.9 < 0.10; metin kıyası yanlış')
+finally:
+    saved.rename(original)
+    for whl in pathlib.Path('dist').glob('pafta_rapor-0.10.0-*.whl'):whl.unlink()
+
 ```
 
 ```solution
