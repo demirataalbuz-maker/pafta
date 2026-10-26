@@ -681,18 +681,51 @@
     "PS27",
     "PS28"
    ],
-   "karar": "Kısmen",
-   "ozet": "Gerçek EVTX fixture'larında Get-WinEvent/FilterXPath, 4104 parçalı bloklar. FilterXml ve ToXml görevde yok.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "PS27: gerçek FilterXml ve ToXml, namespace alanları, EventID/Level sınırları ve temizlenen EVTX çalışma kopyası. PS27/28 iki ortamda 16 kontrol temiz; 11 mutant reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 23,
-    "kapsam": 19,
-    "derinlik": 21,
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "no": 14,
+    "yol": "powershell",
+    "ad": "Offline EVTX ve PowerShell 4104 kayıtları",
+    "dersler": [
+     "PS27",
+     "PS28"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Gerçek EVTX fixture'larında Get-WinEvent/FilterXPath, 4104 parçalı bloklar. FilterXml ve ToXml görevde yok.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+     "test": 23,
+     "kapsam": 19,
+     "derinlik": 21,
+     "gerceklik": 15,
+     "yol": 9
+    },
+    "eksikler": [
+     {
+      "metin": "FilterXml hiç yok (ASAMA2 FilterXPath/FilterXml).",
+      "oncelik": "orta",
+      "etiket": "CDSA"
+     },
+     {
+      "metin": "ToXml() yalnız tabloda; ham XML'den alan okunmuyor.",
+      "oncelik": "orta",
+      "etiket": "CDSA"
+     }
+    ]
+   },
+   "kapatilanlar": [
     {
      "metin": "FilterXml hiç yok (ASAMA2 FilterXPath/FilterXml).",
      "oncelik": "orta",
@@ -703,7 +736,17 @@
      "oncelik": "orta",
      "etiket": "CDSA"
     }
-   ]
+   ],
+   "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "commit": "3303dd8",
+    "ozet": "PS27: gerçek FilterXml ve ToXml, namespace alanları, EventID/Level sınırları ve temizlenen EVTX çalışma kopyası. PS27/28 iki ortamda 16 kontrol temiz; 11 mutant reddedildi.",
+    "kanit": "../../outputs/a-notu-ps27-filterxml-kabul.json",
+    "rapor": "../../outputs/a-notu-ps27-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "94/100 Codex öz değerlendirmesi; önceki bağımsız 87/100 kaydı korundu. Native okuyucunun dosya yolu sınırı derste ve raporda açık."
+   }
   },
   {
    "no": 15,
