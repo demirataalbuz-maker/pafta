@@ -1,7 +1,7 @@
 ---
 id: ps29
 title: PSSession · Kalıcı Oturum ve Serileştirilmiş Sonuç
-summary: Invoke-Command'ın her çağrıda sıfırdan başlamasıyla New-PSSession'ın kalıcı oturumu arasındaki fark; oturumun ayrı bir süreçte yaşaması ve değişkenlerin orada kalması; oturum sınırını geçen nesnelerin serileştirilmesi (Deserialized.* tipleri, metotların kaybolması, DateTime gibi bilinen tiplerin sağlam geçmesi, ScriptBlock'un metne dönmesi); hatadan sonra oturumun açık kalması, Remove-PSSession ve silinmiş oturumun InvalidOperation vermesi. Gerçek PowerShell 7.6.8 ile, yönetici ve WinRM olmadan.
+summary: Invoke-Command'ın her çağrıda sıfırdan başlamasıyla New-PSSession'ın kalıcı oturumu arasındaki fark; oturumun ayrı bir süreçte yaşaması ve değişkenlerin orada kalması; oturum sınırını geçen nesnelerin serileştirilmesi (Deserialized.* tipleri, metotların kaybolması, DateTime gibi bilinen tiplerin sağlam geçmesi, ScriptBlock'un metne dönmesi); hatadan sonra oturumun açık kalması, Remove-PSSession ve silinmiş oturumun InvalidOperation vermesi. İlk bölüm gerçek PowerShell 7.6.8 ile yönetici/WinRM olmadan; ek bölüm yönetilen PF-APP01 VM üzerinde gerçek WSMan, Broken ve finally temizliğiyle.
 kazanim: AZ040 8.1, AZ040 8.2
 ---
 
@@ -211,5 +211,149 @@ Metodun varlığı: `if ($p | Get-Member -MemberType Method -Name Kill) { "VAR" 
 
 ```meta
 motor: pwsh
+```
+:::
+
+::: anlat Gerçek WinRM: ayrılmış Windows Server konukta WSMan
+Bu ek bölüm Pafta'nın mevcut PF-APP01 Windows Server VM'sinde çalışır. Çalıştır düğmesi VM'yi arka planda hazırlar; konsol açman gerekmez. Gereksinimler README'dedir: kurulu VMware/Windows Server laboratuvarı, konukta WinRM ve Microsoft.PowerShell endpoint'i. Host bilgisayarın WinRM/TrustedHosts ayarı değiştirilmez, indirme yapılmaz. Önceki UseWindowsPowerShell adımları bu kurulum olmadan kullanılabilir.
+
+New-PSSession -ComputerName localhost burada konuk içindeki gerçek WSMan/WinRM bağlantısıdır; UseWindowsPowerShell uyumluluk taşımasıyla aynı değildir. Ayrı bir Windows sunucu ortamında ağ taşıması ölçülür; iki ayrı makine arasında Kerberos, double-hop veya JEA yetki sınırı doğrulandığı iddia edilmez. Laboratuvar hesabı ayrıcalıklıdır; öğrenci kodu genel bir güvenli sandbox değildir.
+
+Komutun throw üretmesi oturumu mutlaka bozmaz: ölçülen durumda State Opened kalır ve sonraki komut çalışabilir. Uzak oturumun yalnız kendi $PID süreci durdurulduğunda taşıma hatası ve Broken oluşur. Remove-PSSession kaydı siler, fakat zaten Broken nesnenin State alanı bu sürümde Broken kalır. Temizliği Get-PSSession içinde InstanceId'nin kalmadığını denetleyerek ölç. finally her üç yolda da kendi oturumunu kaldırmalı.
+
+Get-Process nesnesi WSMan sınırında Deserialized.System.Diagnostics.Process olur ve Kill yöntemi taşınmaz. Uzak PID çağıran PID'den farklıdır. Windows PowerShell 5.1 uzak String/Int32 değerlerine de PSComputerName/RunspaceId notları ekler; doğrudan ConvertTo-Json bu notları value nesnesi olarak açabilir. Raporun şeması düz metin/sayı istiyorsa biçimlendirme ve sayı işlemiyle yeni skaler değer üret; ham nesnenin tamamını JSON'a dökmekle karıştırma. Kaynak: [Microsoft New-PSSession](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/new-pssession?view=powershell-5.1), [Remove-PSSession](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/remove-pssession?view=powershell-5.1). Broken sonrası nesne durumu kurulu Windows Server'da ayrıca ölçüldü.
+:::
+
+::: tahmin Komut hatası, oturum hatası değildir
+```meta
+motor: ad-vm
+guest: PF-APP01
+timeout: 90
+```
+```powershell
+$s=New-PSSession -ComputerName localhost -ErrorAction Stop
+try {
+    try { Invoke-Command -Session $s { throw 'PAFTA_REMOTE_TEST' } -ErrorAction Stop }
+    catch { 'COMMAND_ERROR' }
+    $s.State.ToString()
+    Invoke-Command -Session $s { 6*7 }
+} finally { Remove-PSSession -Session $s }
+@(Get-PSSession | Where-Object InstanceId -eq $s.InstanceId).Count
+```
+
+???
+COMMAND_ERROR, Opened, 42 ve 0 ayrı satırlarda. Komut düştü, oturum kullanılabildi; finally sonrasında kayıt kalmadı.
+:::
+
+::: gorev WSMan oturumunu başarıda ve iki hata türünde temizle
+İlk girdi ok, error veya broken; ikinci girdi -10..10 tam sayı artış miktarıdır. Geçersiz girdide HATA. Girdiyi [Console]::ReadLine() ile oku; bu VM taşıması $Girdi kullanmaz. Gerçek New-PSSession -ComputerName localhost aç; oturumda total=0 başlat ve üç ayrı Invoke-Command -Session çağrısında ArgumentList ile artış miktarını geçirerek total'a ekle. Üç ara sonucu sırayla sakla.
+
+Aynı oturumdan bilgisayar adı ve Get-Process -Id $PID nesnesini getir. Gerçek WSMan ConnectionInfo türünü, uzak PID'nin çağırandan farklı olduğunu, Deserialized tipini ve Kill metodunun kaybolduğunu ölç. error modunda yalnız PAFTA_REMOTE_TEST komut hatasını yakala; broken modunda Invoke-Command içinde yalnız o uzak oturumun $PID sürecini Stop-Process ile durdur ve PSRemotingTransportException'ı yakala. Diğer hataları throw et. before alanını gerçek State'ten al. finally içinde yalnız kendi oturumunu Remove-PSSession ile kaldır.
+
+Tek JSON nesnesi yaz: computer, transport ('WSMan'), totals (3 sayı), serialized (Deserialized tip ve Kill yoksa true), separate_process (uzak PID farklıysa true), handled ('none', 'command-error', 'transport-error'), before, after (State metinleri), registered (kendi InstanceId'si Get-PSSession'da kaldıysa true). Broken nesnenin after değeri bu lab'da Broken; kayıt yine silinmeli. Parola ve host yapılandırmasını değiştirme.
+
+```meta
+motor: ad-vm
+guest: PF-APP01
+timeout: 240
+```
+```stdin
+ok
+2
+```
+```starter
+'{}'
+```
+```test
+import json
+
+def expected(mode,n):
+    return {'computer':'PF-APP01','transport':'WSMan','totals':[n,2*n,3*n],'serialized':True,'separate_process':True,'handled':{'ok':'none','error':'command-error','broken':'transport-error'}[mode],'before':'Broken' if mode=='broken' else 'Opened','after':'Broken' if mode=='broken' else 'Closed','registered':False}
+eq(json.loads(out),expected('ok',2),'gerçek WSMan ve kalıcı üç komut')
+# Bir VMware kopyasında gerçek konuk PowerShell süreçlerini art arda çalıştır.
+# Aynı öğrenci betiği / aynı cmdlet'ler; taşıma maliyeti her girdide tekrarlanmaz.
+import base64
+cases=[('error',-1),('broken',0),('ok',-10),('ok',10)]
+bodies=[mode+'\n'+str(n)+'\n' for mode,n in cases]+['ok\n-11\n','ok\n11\n','other\n1\n','ok\nx\n','']
+encoded=base64.b64encode(('[Console]::OutputEncoding=New-Object Text.UTF8Encoding $false\n'+src).encode('utf-8')).decode('ascii')
+inputs=','.join("'"+base64.b64encode(body.encode('utf-8')).decode('ascii')+"'" for body in bodies)
+driver=r'''
+$utf8=New-Object Text.UTF8Encoding $false
+$scriptFile=Join-Path $PWD 'winrm-batch-learner.ps1'
+[IO.File]::WriteAllText($scriptFile,[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('SOURCE_BASE64')),(New-Object Text.UTF8Encoding $true))
+$results=@()
+foreach($body in @(INPUT_BASE64)) {
+    [IO.File]::WriteAllBytes((Join-Path $PWD 'batch-input.txt'),[Convert]::FromBase64String($body))
+    $child=Start-Process "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -WindowStyle Hidden -ArgumentList @('-NoLogo','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',$scriptFile) -RedirectStandardInput (Join-Path $PWD 'batch-input.txt') -RedirectStandardOutput (Join-Path $PWD 'batch-output.txt') -RedirectStandardError (Join-Path $PWD 'batch-error.txt') -WorkingDirectory $PWD -PassThru
+    $null=$child.Handle
+    if(-not $child.WaitForExit(30000)) { $child.Kill();throw 'BATCH_CHILD_TIMEOUT' }
+    $child.WaitForExit()
+    $results+=@([pscustomobject]@{code=$child.ExitCode;stdout=[IO.File]::ReadAllText((Join-Path $PWD 'batch-output.txt'),$utf8);stderr=[IO.File]::ReadAllText((Join-Path $PWD 'batch-error.txt'),$utf8)})
+}
+ConvertTo-Json -InputObject $results -Depth 5 -Compress
+'''.replace('SOURCE_BASE64',encoded).replace('INPUT_BASE64',inputs)
+results=json.loads(run_code(driver))
+eq(len(results),len(bodies),'bütün gerçek konuk süreçleri çalıştı')
+for i,(mode,n) in enumerate(cases):
+    eq(results[i]['code'],0,'konuk çalışma kodu')
+    eq(results[i]['stderr'],'','başarı/hata yönetiminde stderr temiz')
+    eq(json.loads(results[i]['stdout']),expected(mode,n),'komut/taşıma hatası ve dahil uçlar')
+for result in results[len(cases):]:
+    eq((result['code'],result['stdout'].replace('\r\n','\n'),result['stderr']),(0,'HATA\n',''),'geçersiz giriş')
+
+# Gerçek Session nesnesi ve taşıma türünü öğrenci raporundan bağımsız izle.
+wrapper=r'''
+$script:ObservedSessions=@()
+function New-PSSession {
+    [CmdletBinding()]param([string]$ComputerName)
+    $created=Microsoft.PowerShell.Core\New-PSSession -ComputerName $ComputerName -ErrorAction Stop
+    $script:ObservedSessions+=@($created)
+    $created
+}
+'''
+probe=wrapper+'\ntry { & {\n'+src+r'''
+}
+if($script:ObservedSessions.Count -ne 1) {throw 'ONE_REAL_SESSION_REQUIRED'}
+$observed=$script:ObservedSessions[0]
+if($observed.Runspace.ConnectionInfo -isnot [System.Management.Automation.Runspaces.WSManConnectionInfo]) {throw 'REAL_WSMAN_REQUIRED'}
+if(@(Get-PSSession | Where-Object InstanceId -eq $observed.InstanceId).Count -ne 0) {throw 'LEAKED_SESSION'}
+} finally {
+ foreach($session in $script:ObservedSessions) {Microsoft.PowerShell.Core\Remove-PSSession -Session $session -ErrorAction SilentlyContinue}
+}
+'''
+eq(json.loads(run_code(probe,stdin='error\n3\n')),expected('error',3),'bağımsız gerçek oturum kaydı silindi')
+```
+```solution
+$mode=[Console]::ReadLine()
+$text=[Console]::ReadLine()
+$n=0
+if ($mode -notin @('ok','error','broken') -or -not [int]::TryParse($text,[ref]$n) -or $n -lt -10 -or $n -gt 10) { 'HATA'; exit 0 }
+$s=$null
+try {
+    $s=New-PSSession -ComputerName localhost -ErrorAction Stop
+    $transport=if ($s.Runspace.ConnectionInfo -is [System.Management.Automation.Runspaces.WSManConnectionInfo]) {'WSMan'} else {'OTHER'}
+    $computer='{0}' -f (Invoke-Command -Session $s { $env:COMPUTERNAME })
+    $process=Invoke-Command -Session $s { Get-Process -Id $PID }
+    $serialized=$process.PSTypeNames[0] -eq 'Deserialized.System.Diagnostics.Process' -and -not ($process | Get-Member -MemberType Method -Name Kill)
+    $separate=$process.Id -ne $PID
+    $null=Invoke-Command -Session $s { $script:total=0 }
+    $totals=@(for ($i=0;$i -lt 3;$i++) {
+        [int](Invoke-Command -Session $s -ArgumentList $n { param($increment) $script:total+=$increment; $script:total }) + 0
+    })
+    $handled='none'
+    try {
+        if ($mode -eq 'error') { Invoke-Command -Session $s { throw 'PAFTA_REMOTE_TEST' } -ErrorAction Stop }
+        if ($mode -eq 'broken') { Invoke-Command -Session $s { Stop-Process -Id $PID -Force } -ErrorAction Stop }
+    } catch {
+        if ($mode -eq 'error' -and $_.FullyQualifiedErrorId -eq 'PAFTA_REMOTE_TEST') { $handled='command-error' }
+        elseif ($mode -eq 'broken' -and $_.Exception -is [System.Management.Automation.Remoting.PSRemotingTransportException]) { $handled='transport-error' }
+        else { throw }
+    }
+    $before=$s.State.ToString()
+} finally {
+    if ($null -ne $s) { Remove-PSSession -Session $s -ErrorAction Stop }
+}
+$registered=@(Get-PSSession | Where-Object InstanceId -eq $s.InstanceId).Count -gt 0
+[pscustomobject]@{computer=$computer;transport=$transport;totals=$totals;serialized=[bool]$serialized;separate_process=$separate;handled=$handled;before=$before;after=$s.State.ToString();registered=$registered} | ConvertTo-Json -Depth 4 -Compress
 ```
 :::
