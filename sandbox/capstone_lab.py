@@ -15,15 +15,18 @@ def yukle():
 
 
 def sorgu(dil, code, rows=None):
+    from datetime import datetime
     from . import kql, spl
     if dil not in ('kql','spl'):
         raise ValueError('Yalnız kql veya spl')
     rows = yukle() if rows is None else rows
+    meta=json.loads(Path('vaka.json').read_text(encoding='utf-8'))
+    base=datetime.fromisoformat(meta['base_utc'].replace('Z','+00:00')).timestamp()
     engine = kql if dil == 'kql' else spl
     with sqlite3.connect(':memory:') as db:
         db.execute('CREATE TABLE olaylar(id TEXT,ts INTEGER,source TEXT,host TEXT,user TEXT,event TEXT,outcome TEXT,src TEXT,Image TEXT,CommandLine TEXT,_time INTEGER,_raw TEXT)')
         db.executemany('INSERT INTO olaylar VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
-                       [tuple(r.get(k) for k in FIELDS)+(r['ts'],json.dumps(r)) for r in rows])
+                       [tuple(r.get(k) for k in FIELDS)+(base+r['ts'],json.dumps(r)) for r in rows])
         engine.fonksiyonlari_kaydet(db)
         def columns(sql):
             return [d[0] for d in db.execute(sql).description]

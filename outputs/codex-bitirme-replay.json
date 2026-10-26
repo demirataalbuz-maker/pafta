@@ -1,0 +1,169 @@
+{
+  "case": "PF-2026-102",
+  "claims": {
+    "auth": {
+      "kind": "observed",
+      "refs": [
+        "auth:a-edge",
+        "auth:a-mid",
+        "auth:a-start"
+      ],
+      "text": "3 başarısız auth kaydı kapalı pencerede seçildi."
+    },
+    "impact": {
+      "kind": "unknown",
+      "refs": [],
+      "text": "Yetkisiz kullanım, dosya kimliği, payload yürütülmesi ve veri sızması doğrulanmadı."
+    },
+    "intent": {
+      "kind": "hypothesis",
+      "refs": [
+        "endpoint:p-run"
+      ],
+      "text": "Yetkili bakım aynı gözlemleri açıklayabilir."
+    },
+    "process": {
+      "kind": "observed",
+      "refs": [
+        "endpoint:p-run"
+      ],
+      "text": "Bakım scripti metni içeren süreç kaydı seçildi."
+    },
+    "request": {
+      "kind": "observed",
+      "refs": [
+        "vaka.pcap#frame=1"
+      ],
+      "text": "İlgili HTTP isteği kayıtta görüldü; yanıt/gövde yok."
+    }
+  },
+  "human_review": "pending; otomatik replay insan kabulü değildir",
+  "limitations": [
+    "PCAP yalnız istekleri içerir; yanıt/gövde yok.",
+    "Kimlik-cihaz-IP eşlemesi vaka anındaki sağlanan envanterdir.",
+    "Başarılı giriş ve health.ps1 süreç gözlemi yetkisiz kullanım kanıtı değildir.",
+    "Bellek, disk imajı ve dosya hash kanıtı yok."
+  ],
+  "measured": {
+    "missing_CommandLine_metrics": {
+      "fn": 1,
+      "fp": 0,
+      "precision": null,
+      "recall": 0.0,
+      "tp": 0,
+      "unknown_hits": 0
+    },
+    "selected": {
+      "auth": [
+        "a-edge",
+        "a-mid",
+        "a-start"
+      ],
+      "frames": [
+        1
+      ],
+      "process": [
+        "p-run"
+      ],
+      "timeline": [
+        [
+          0,
+          "auth:a-start"
+        ],
+        [
+          60,
+          "auth:a-mid"
+        ],
+        [
+          120,
+          "auth:a-edge"
+        ],
+        [
+          130.0,
+          "vaka.pcap#frame=1"
+        ],
+        [
+          135,
+          "endpoint:p-run"
+        ]
+      ]
+    },
+    "selector_metrics": {
+      "fn": 0,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "tp": 1,
+      "unknown_hits": 0
+    }
+  },
+  "recommendations": [
+    {
+      "owner": "SOC",
+      "task": "Bakım kaydı ve kullanıcı doğrulaması; hizmet etkisi kararı olay sorumlusunda"
+    },
+    {
+      "owner": "Detection Engineering",
+      "task": "CommandLine veri sağlığını düzelt; negatif kontrolle replay ve ayrı canlı kabul"
+    }
+  ],
+  "reproduction": {
+    "manifest_sha256": "3ec89a49eb8bb5b332e1d34fe2aa3c54bb0949b430dcd3432a82554856a79ff2",
+    "queries": {
+      "display_filter": "ip.src == 10.0.0.10 and http.host == \"updates.lab.test\" and http.request.uri == \"/health.ps1\"",
+      "kql": "olaylar | where source == \"auth\" and host == \"ws01\" and user == \"alice\" and outcome == \"failure\" and ts >= 0 and ts <= 120 | project id",
+      "sigma": "title: Pafta Bakim Betigi Incelemesi\nlogsource:\n    product: windows\n    category: process_creation\ndetection:\n    selection:\n        Image|endswith: '\\powershell.exe'\n        CommandLine|contains: '\\health.ps1'\n    condition: selection\n",
+      "spl": "sourcetype=olaylar | where source=\"auth\" AND host=\"ws01\" AND user=\"alice\" AND outcome=\"failure\" AND ts>=0 AND ts<=120 | table id"
+    },
+    "tool_versions": {
+      "kql_spl": "Pafta yerel çevirici; üretim ürünü değil",
+      "pysigma": "1.5.1",
+      "python": "3.11.9",
+      "tshark": "TShark (Wireshark) 4.6.8 (v4.6.8-0-ge677bf052328)."
+    }
+  },
+  "scope": [
+    "ws01",
+    "alice",
+    "2026-10-26T09:00:00Z; hata bütçesi 2 saniye"
+  ],
+  "summary": "ws01/alice için başarısız girişler, HTTP isteği ve süreç kaydı inceleniyor; yetkisiz kullanım doğrulanmadı.",
+  "timeline": [
+    [
+      "2026-10-26T09:00:00+00:00",
+      "auth:a-start",
+      "ws01",
+      "alice"
+    ],
+    [
+      "2026-10-26T09:01:00+00:00",
+      "auth:a-mid",
+      "ws01",
+      "alice"
+    ],
+    [
+      "2026-10-26T09:02:00+00:00",
+      "auth:a-edge",
+      "ws01",
+      "alice"
+    ],
+    [
+      "2026-10-26T09:02:05+00:00",
+      "auth:a-ok",
+      "ws01",
+      "alice"
+    ],
+    [
+      "2026-10-26T09:02:10+00:00",
+      "proxy:w-get",
+      "ws01",
+      "alice"
+    ],
+    [
+      "2026-10-26T09:02:15+00:00",
+      "endpoint:p-run",
+      "ws01",
+      "alice"
+    ]
+  ]
+}
