@@ -290,8 +290,8 @@ def for_step(runner, step):
     elif motor == "python" and isinstance(runner, AdRunner):
         runner = AdAuditRunner()
     elif motor == "ad-vm":
-        if not isinstance(runner, AdRunner):
-            raise ValueError("motor: ad-vm yalnız AD yolunda tanımlı.")
+        if not isinstance(runner, AdRunner) and getattr(runner, "name", None) != "powershell":
+            raise ValueError("motor: ad-vm yalnız AD ve PowerShell yollarında tanımlı.")
         runner = AdVmRunner(meta.get("guest", "PF-DC01"))
     elif motor == "ad-client":
         if not isinstance(runner, AdRunner):

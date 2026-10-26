@@ -263,6 +263,8 @@ SQL çıktısı (`out`, tahmin karşılaştırması) sqlite3 kabuğunun liste bi
 
 **KQL ve SPL** dersleri SQL'in test yardımcılarını aynen kullanır (`sonuc`, `sutunlar`, `sorgu`, `dene`, `kullanir`); kod blokları ` ``kql ` ve ` ``spl `, boş değer çıktıda boş görünür. Boş satırla ayrılmış her sorgu ayrı bir sonuç tablosu verir.
 
+**PowerShell PS29 WinRM ek bölümü:** `meta: motor: ad-vm, guest: PF-APP01` mevcut yönetilen AD VM koşucusunu kullanır. Bu adımlar için aşağıdaki VMware/Windows Server laboratuvarı hazır olmalı; `PF-APP01` içinde çalışan WinRM ve `Microsoft.PowerShell` endpoint'i gerekir. Pafta kodu konukta çalıştırır; `New-PSSession -ComputerName localhost` konuk içinde gerçek WSMan bağlantısı açar. Windows host'ta WinRM, TrustedHosts veya güvenlik duvarı ayarı değiştirilmez. Bu iki farklı fiziksel bilgisayar arasında Kerberos/delegation deneyi değildir. Önceki `motor: pwsh` oturum adımları VMware olmadan çalışmaya devam eder. Girdi yeni VM adımlarında `[Console]::ReadLine()` ile okunur; konuk taşıması `$Girdi` sarmalayıcısı kullanmaz. VM otomatik hazır edilir, kurulum eksikse açık hata verilir; paket veya ISO indirilmez.
+
 **JavaScript** dersleri Bash/PowerShell gibi süreç olarak koşar (`out`, `run`, `calis`); girdi `require("fs").readFileSync(0, "utf8")` ile okunur.
 
 **CMD / Batch** dersleri de süreç testlerini kullanır. Kod blokları `cmd` (`batch`/`bat` takma adları), betik değişkenleri `%%I` biçimindedir. Tahmin veya görevde `meta` içindeki `argv` gerçek çalıştırmaya aktarılır. Beklenen hata kodunu `calis()` sonucu üzerinden sınamak için görevin ilk çalışmasının başarılı olmasını sağlayan varsayılan veya meta argümanları verilir.
