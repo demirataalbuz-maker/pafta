@@ -1,0 +1,34 @@
+Received: from mail.pafta.test (mail.pafta.test [192.0.2.25])
+	by edge.pafta.test with ESMTPS id PU14-EDGE-002
+	for <ayse@pafta.test>; Mon, 26 Oct 2026 08:05:00 +0000
+Authentication-Results: edge.pafta.test;
+	spf=pass smtp.mailfrom=pafta.test;
+	dkim=pass header.d=pafta.test header.s=mail2026;
+	dmarc=pass header.from=pafta.test
+From: "Pafta Finans" <finans@pafta.test>
+Reply-To: "Pafta Finans" <finans@pafta.test>
+Return-Path: <finans@pafta.test>
+To: "Ayse" <ayse@pafta.test>
+Date: Mon, 26 Oct 2026 08:04:45 +0000
+Message-ID: <PU14-KURUMSAL-001@pafta.test>
+Subject: =?utf-8?b?QnV0Y2Uga2F5ZGk=?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="PU14-KURUMSAL"
+
+--PU14-KURUMSAL
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html><body>
+<p>Bütçe kaydı ektedir.</p>
+<p><a href="https://pafta.test/butce">https://pafta.test/butce</a></p>
+</body></html>
+
+--PU14-KURUMSAL
+Content-Type: text/csv; name="butce.csv"
+Content-Disposition: attachment; filename="butce.csv"
+Content-Transfer-Encoding: base64
+
+a2FsYW4sbWlrdGFyCm9kZW1lLDEwNDIK
+
+--PU14-KURUMSAL--

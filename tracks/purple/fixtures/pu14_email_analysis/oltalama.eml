@@ -1,0 +1,58 @@
+Received: from mail.pafta-billing.example (mail.pafta-billing.example [203.0.113.45])
+	by edge.pafta.test with ESMTPS id PU14-EDGE-001
+	for <ayse@pafta.test>; Mon, 26 Oct 2026 09:17:03 +0000
+Received: from workstation.sender.example (workstation.sender.example [198.51.100.24])
+	by mail.pafta-billing.example with ESMTP id PU14-RELAY-001
+	for <ayse@pafta.test>; Mon, 26 Oct 2026 09:16:51 +0000
+Authentication-Results: edge.pafta.test;
+	spf=pass smtp.mailfrom=pafta-billing.example;
+	dkim=pass header.d=pafta-billing.example header.s=mail2026;
+	dmarc=pass header.from=pafta-billing.example
+From: "Pafta Finans <finans@pafta.test>" <fatura@pafta-billing.example>
+Reply-To: "Finans Operasyon" <operasyon@pafta-billing.example>
+Return-Path: <bounce@pafta-billing.example>
+To: "Ayse" <ayse@pafta.test>
+Date: Mon, 26 Oct 2026 09:16:45 +0000
+Message-ID: <PU14-OLTALAMA-001@pafta-billing.example>
+Subject: =?utf-8?b?VMO2ZGVtZSBkYXZldGl5ZXNpIC0gMTA0Mg==?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="PU14-MIXED"
+
+--PU14-MIXED
+Content-Type: multipart/alternative; boundary="PU14-ALT"
+
+--PU14-ALT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+Sayın Ayşe, 1042 numaralı ödeme kaydını doğrulamanız istenmiştir.
+Bağlantı: https://pafta.test/odeme/1042
+Bu iletideki bütün alan adları, IP adresleri ve dosyalar sentetiktir.
+
+--PU14-ALT
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html><body>
+<p>Sayın Ayşe, ödeme kaydını doğrulayın.</p>
+<p><a href="https://pafta.test@odeme-guvenli.example/giris">https://pafta.test/odeme/1042</a></p>
+<p><a href="https://pafta.test/durum">https://pafta.test/durum</a></p>
+</body></html>
+
+--PU14-ALT--
+--PU14-MIXED
+Content-Type: application/x-msdownload; name="Fatura_1042.pdf.exe"
+Content-Description: Fatura_1042.pdf.exe
+Content-Disposition: attachment; filename="Fatura_1042.pdf.exe"
+Content-Transfer-Encoding: base64
+
+TVqQAFBVMTQgU0VOVEVUSUsgLSBDQUxJU1RJUklMQU1BWiBLQU5JVAo=
+
+--PU14-MIXED
+Content-Type: text/plain; name="odeme_notu.pdf"
+Content-Disposition: attachment; filename="odeme_notu.pdf"
+Content-Transfer-Encoding: base64
+
+UFUxNCBzZW50ZXRpayBtZXRpbiBla2k7IFBERiBkZWdpbGRpci4K
+
+--PU14-MIXED--
