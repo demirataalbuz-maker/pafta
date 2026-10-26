@@ -436,3 +436,104 @@ Dosya sisteminde `FileSystemAccessRule` ve `FileSystemRights`, kayıt defterinde
 Anahtarı en sonda, `klasor` seçilmiş olsa bile sil: `Remove-Item ... -ErrorAction SilentlyContinue` yoksa da hata vermez. `TEMIZ` satırını `Test-Path` sonucuna bak yazdır.
 ```
 :::
+
+
+::: anlat ACL satırı ile gerçek dosya açılışı farklı kanıtlardır
+Açık bir ReadData Deny kuralı geçerli kullanıcının dosya baytlarını normal açışını engeller. WriteData Deny ise aynı okuma denemesini engellemez. Kullanıcı/SID ve işlem türünü söylemeden yalnız Deny var demek eksik bir bulgudur. Bu bölüm geçerli Windows token'ıyla gerçek File.ReadAllBytes çağırır; yedekleme semantiği, farklı hesap/SMB paylaşımı veya bütün etkin erişim haklarının genel hesaplaması değildir.
+
+PowerShell 5.1'de .NET statik yöntem hatası MethodInvocationException içinde UnauthorizedAccessException olarak gelebilir. InnerException zincirinde bu türü ara; her hatayı erişim reddi diye etiketleme. Aynı dosyada önce oku, sonra Deny ekleyip tekrar oku, özgün ACL'yi finally ile geri yükleyip üçüncü kez oku. Deny yalnız ReadData/WriteData bitine uygulanır; ACL okuma/değiştirme veya Delete reddedilmez. Boş DACL/FullControl Deny kullanma; geçici klasörü kilitleme.
+
+Sahiplik, ACL'yi değiştirme imkânı ve dosyayı o an okuma kararı aynı şey değildir. Burada sahibi olan kullanıcı da normal dosya açılışında ReadData Deny yüzünden reddedildi; sonra özgün ACL geri yüklendi. Yalnız çalışma klasöründeki görev dosyaları değiştirilir. Kaynak: [FileSystemRights](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemrights?view=net-9.0), [File.ReadAllBytes ve UnauthorizedAccessException](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readallbytes?view=net-9.0).
+:::
+
+::: gorev Deny sonrası gerçek okumayı karşılaştır ve geri yükle
+Girdide dosya adı ve ReadData veya WriteData var. Yalnız okuma.bin, boşluklu dosya.bin ve bos.bin görev dosyaları kabul edilir; başka yol/hak veya eksik girdi HATA. Bu dosyalar çalışma klasöründe hazırdır. Dosyanın özgün Get-Acl nesnesini sakla; geçerli kullanıcının SID'sine yalnız istenen bit için açık Deny ekle ve Set-Acl ile uygula. Yeni kurallı ACL ile aslı birbirinden ayrı Get-Acl nesneleri olsun.
+
+Gerçek File.ReadAllBytes ile önce, Deny uygulanmışken ve özgün ACL finally içinde geri yüklendikten sonra okuma yap. Başarıyı OK:<bayt sayısı>, zincirdeki gerçek UnauthorizedAccessException'ı DENIED olarak raporla; diğer hataları throw et. Dört satır: before=<sonuç>, during=<sonuç>, after=<sonuç>, restored=<özgün SDDL ile son SDDL eşitliği>. Normal raporda son değer True; WriteData Deny okumayı engellememeli. Dosya içeriğini değiştirme. Set-Acl sonrasında bir hata çıksa bile finally özgün ACL'yi geri yüklemeli; hata gizlenmemeli.
+
+```stdin
+okuma.bin
+ReadData
+```
+```setup
+from pathlib import Path
+Path('okuma.bin').write_bytes(bytes(range(256)))
+Path('boşluklu dosya.bin').write_bytes(b'abc\x00\xff')
+Path('bos.bin').write_bytes(b'')
+```
+```starter
+'before=OK:256'
+'during=DENIED'
+'after=OK:256'
+'restored=True'
+```
+```test
+import json,pathlib
+files={'okuma.bin':bytes(range(256)),'boşluklu dosya.bin':b'abc\x00\xff','bos.bin':b''}
+eq(out,'before=OK:256\nduring=DENIED\nafter=OK:256\nrestored=True\n','aynı token ile gerçek okuma kararı')
+for name,data in files.items():
+    for right in ('ReadData','WriteData'):
+        during='DENIED' if right=='ReadData' else 'OK:'+str(len(data))
+        eq(run(stdin=name+'\n'+right+'\n'),f'before=OK:{len(data)}\nduring={during}\nafter=OK:{len(data)}\nrestored=True\n','dosya, sıfır bayt ve işlem biti')
+        eq(pathlib.Path(name).read_bytes(),data,'sonraki gerçek Python açılışı ve içerik korunması')
+for body in ('okuma.bin\nFullControl\n','../okuma.bin\nReadData\n','yok.bin\nReadData\n',''):
+    eq(run(stdin=body),'HATA\n','yalnız görev dosyası ve dar hak listesi')
+
+# Sarmalayıcı gerçek Microsoft cmdlet'ini çağırır ve bağımsız .NET açılışı yapar.
+wrapper=r'''
+$script:AclCalls=0
+function Set-Acl {
+    [CmdletBinding()]param([string]$LiteralPath,[Security.AccessControl.FileSystemSecurity]$AclObject)
+    Microsoft.PowerShell.Security\Set-Acl -LiteralPath $LiteralPath -AclObject $AclObject -ErrorAction Stop
+    $script:AclCalls++
+    $state='OK'
+    try { $null=[IO.File]::ReadAllBytes($LiteralPath) }
+    catch {
+        $err=$_.Exception
+        while ($err.InnerException) { $err=$err.InnerException }
+        if ($err -is [UnauthorizedAccessException]) { $state='DENIED' } else { throw }
+    }
+    $sddl=(Get-Acl -LiteralPath $LiteralPath).Sddl
+    [pscustomobject]@{call=$script:AclCalls;state=$state;sddl=$sddl} | ConvertTo-Json -Compress | Add-Content -LiteralPath acl-observed.jsonl -Encoding UTF8
+    if ($script:AclCalls -eq 1 -and $script:InjectAclFault) { throw 'PAFTA_ACL_INJECTED_FAULT' }
+}
+'''
+log=pathlib.Path('acl-observed.jsonl')
+for inject in (False,True):
+    log.unlink(missing_ok=True)
+    prefix=wrapper+('\n$script:InjectAclFault=$true\n' if inject else '\n$script:InjectAclFault=$false\n')
+    code=prefix+"\n$initial=(Get-Acl -LiteralPath okuma.bin).Sddl\ntry { & {\n"+src+"\n} } catch { if ($_.Exception.Message -notlike '*PAFTA_ACL_INJECTED_FAULT*') { throw }; 'FAULT_OBSERVED' }\nif ((Get-Acl -LiteralPath okuma.bin).Sddl -ne $initial) { throw 'ORIGINAL_ACL_NOT_RESTORED' }\n"
+    output=run_code(code,stdin='okuma.bin\nReadData\n')
+    records=[json.loads(line) for line in log.read_text(encoding='utf-8-sig').splitlines()] if log.exists() else []
+    eq([r['state'] for r in records],['DENIED','OK'],'bağımsız gerçek açılış: Deny uygulandı ve geri yüklendi')
+    if inject:ok('FAULT_OBSERVED' in output,'uygulama sonrası hata gizlenmedi')
+    eq(pathlib.Path('okuma.bin').read_bytes(),files['okuma.bin'],'finally hata yolunda da geri yükledi')
+```
+```solution
+if ($Girdi.Count -lt 2 -or $Girdi[0] -notin @('okuma.bin','boşluklu dosya.bin','bos.bin') -or $Girdi[1] -notin @('ReadData','WriteData')) { 'HATA'; exit 0 }
+$ErrorActionPreference='Stop'
+$path=Join-Path $PWD $Girdi[0]
+$original=Get-Acl -LiteralPath $path
+$changed=Get-Acl -LiteralPath $path
+$sid=[Security.Principal.WindowsIdentity]::GetCurrent().User
+$rule=New-Object Security.AccessControl.FileSystemAccessRule($sid,$Girdi[1],'Deny')
+$changed.AddAccessRule($rule)
+function Read-State([string]$File) {
+    try { 'OK:'+([IO.File]::ReadAllBytes($File).Length) }
+    catch {
+        $err=$_.Exception
+        while ($err.InnerException) { $err=$err.InnerException }
+        if ($err -is [UnauthorizedAccessException]) { 'DENIED' } else { throw }
+    }
+}
+'before='+(Read-State $path)
+try {
+    Set-Acl -LiteralPath $path -AclObject $changed
+    'during='+(Read-State $path)
+} finally {
+    Set-Acl -LiteralPath $path -AclObject $original
+}
+'after='+(Read-State $path)
+'restored='+((Get-Acl -LiteralPath $path).Sddl -eq $original.Sddl)
+```
+:::
