@@ -12,3 +12,5 @@ Test sarmalayıcısı Set-Acl çağrısını gerçek Microsoft.PowerShell.Securi
 - Yeni paket kurulmadı, UTF-8/LF.
 
 Öz değerlendirme: test 24, kapsam 24, derinlik 22, gerçeklik 15, yol 9 = 94/100 (A). Önceki bağımsız 77/100 korunur; bağımsız yeniden denetim yapılmadı.
+
+Son yol geneli kabulü: Windows ve Git Bash, 29 ders/283 kontrol TEMİZ. Ham loglar `a-notu-dalga3-platform-kabul.json`, toplu rapor `A-NOTU-UCUNCU-TESLIM.md`.

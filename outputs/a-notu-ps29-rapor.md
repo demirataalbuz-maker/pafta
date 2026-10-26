@@ -21,3 +21,5 @@ Bu, ayrı Windows Server konuk içinde loopback WinRM'dir; iki farklı makine ar
 Windows hedefli doğrulama: PS29 1 ders, 8 kontrol TEMİZ. Yol geneli ve Git Bash kabulü son teslim raporunda yer alır. Tek konuk çalışması 90 saniyeyle sınırlı; bütün görev testi mevcut 240 saniye tavanını kullanır. Sınır girdileri gerçek konuk PowerShell süreçlerinde tek taşıma işi içinde ardışık çalıştırılarak VMware kopyalama maliyeti azaltıldı; gerçek cmdlet'ler veya WinRM taklit edilmedi.
 
 Öz değerlendirme: test 24, kapsam 24, derinlik 22, gerçeklik 15, yol 9 = 94/100 (A). Önceki bağımsız 73/100 kaydı korunur; bağımsız yeniden denetim yapılmadı.
+
+Son yol geneli kabulü: Windows ve Git Bash, 29 ders/283 kontrol TEMİZ. Ham loglar `a-notu-dalga3-platform-kabul.json`, toplu rapor `A-NOTU-UCUNCU-TESLIM.md`.
