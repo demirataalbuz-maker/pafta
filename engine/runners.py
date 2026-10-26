@@ -379,7 +379,27 @@ class ElasticRunner(HarnessRunner):
     name = "elastic"
     default_timeout = 20
     test_timeout = 60
+    tavan = 300
+    # Native ingest/index/refresh operations are expensive under validation's
+    # eight workers. Keep this product's pressure bounded without serializing
+    # local KQL/Lucene/EQL or hiding failed operations behind retries.
+    native_gate = threading.BoundedSemaphore(2)
     modlar = {"run": "elastic_run", "test": "elastic_test"}
+
+    def execute(self, job, timeout=None):
+        try:
+            config=json.loads(job.get('stdin') or '{}')
+        except (ValueError,TypeError):
+            config={}
+        if not isinstance(config,dict) or config.get('backend')!='elastic':
+            return super().execute(job,timeout)
+        budget=timeout if timeout is not None else 120
+        if not self.native_gate.acquire(timeout=180):
+            return {'status':'timeout','error':{'type':'Elastic meşgul','msg':'Yerel Elastic iş kuyruğu 180 saniyede açılmadı.'}}
+        try:
+            return super().execute(job,budget)
+        finally:
+            self.native_gate.release()
 
     def available(self):
         from sandbox.elastic_lucene import available

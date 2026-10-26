@@ -276,6 +276,15 @@ eq(bos, "RET|-\n", "hiç ACE yoksa istek reddedilir")
 
 hatali = run(stdin="ALICE 0x2\nAllow;hayir;ALICE\n")
 eq(hatali, "HATA\n", "dört alanı olmayan satır HATA")
+
+for metin,expected in [('ALICE 0x2\nAllow;evet;ALICE;0x2\nDeny;evet;ALICE;0x2\n','RET|2\n'),('ALICE 0x2\nAllow;evet;ALICE;0x2\n','IZIN|1\n'),('ALICE 0x2\nDeny;evet;ALICE;0x4\nAllow;evet;ALICE;0x2\n','IZIN|2\n')]:
+    r=calis(stdin=metin)
+    eq((r['kod'],r['cikti'],r['hata']),(0,expected,''),'son iki kanonik grup ve temiz stderr')
+
+
+r=calis(stdin='ALICE 0x2\nAllow;evet;ALICE;0x2\nDeny;hayir;BOB;0x1\n')
+eq((r['kod'],r['cikti'],r['hata']),(0,'IZIN|1\n',''),'devralınan Allow var, diğer kimliğin açık Deny kaydı karar vermez')
+
 ```
 
 ```solution
@@ -373,6 +382,11 @@ gecersiz = run(stdin="hepsi\n")
 eq(gecersiz, "HATA\n", "tanınmayan değer HATA")
 
 ok("GetCurrent" in src, "geçerli kullanıcıyı çalışma anında al, adı koda yazma")
+
+for value in ('ikisi','klasor','anahtar','hepsi',''):
+    r=calis(stdin=value+'\n')
+    eq(r['hata'],'','başarı ve geçersiz girdide stderr temizliği')
+
 ```
 
 ```solution

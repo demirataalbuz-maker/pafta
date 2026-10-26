@@ -35,7 +35,7 @@ Pipeline işlemcileri sırayla uygulanınca belge biçimi ve bulk durumları ne 
 
 ```meta
 dil: ingest
-timeout: 60
+timeout: 120
 ```
 
 ```ingest
@@ -119,7 +119,7 @@ at→@timestamp, exe→process.name; pid ve rc metinlerini long türündeki proc
 
 ```meta
 dil: ingest
-timeout: 60
+timeout: 120
 ```
 
 ```stdin
@@ -197,7 +197,7 @@ rename, convert target_field ve remove sırasını kur.
 
 ```meta
 dil: ingest
-timeout: 60
+timeout: 120
 ```
 
 ```stdin

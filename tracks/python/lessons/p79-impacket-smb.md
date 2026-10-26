@@ -99,6 +99,10 @@ for ileti in (0, 1, 255, 256, 2**32, 2**64 - 1):
 for yanlis in (-1, 2**64, True, "7", 7.0, None):
     raises(ValueError, f, yanlis, 0, msg="MessageID tür/sınırı")
     raises(ValueError, f, 0, yanlis, msg="SessionID tür/sınırı")
+
+for invalid in (2**64+1,2**65-1):
+    raises(ValueError,f,invalid,0,msg='MessageID üst taşma komşuları')
+    raises(ValueError,f,0,invalid,msg='SessionID üst taşma komşuları')
 ```
 ```solution
 from impacket.smb3structs import SMB2Packet, SMB2Echo, SMB2_ECHO
@@ -160,6 +164,9 @@ for ham in (b"", good[:-1], good+b"\0", b"\xffSMB"+good[4:], b"\xfeBAD"+good[4:]
 for mid in (-1, 2**64, False, True, "0", 0.0, None):
     raises(ValueError, f, good, mid, msg="Beklenen kimlik tür/sınırı")
 raises(ValueError, f, baslik(mid=1), True, msg="True eşleşen MessageID olsa da int kabul edilmez")
+
+for invalid in (2**64+1,2**65-1):
+    raises(ValueError,f,good,invalid,msg='beklenen MessageID üst taşma komşuları')
 ```
 ```solution
 from impacket.smb3structs import SMB2Packet

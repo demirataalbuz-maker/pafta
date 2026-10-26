@@ -279,6 +279,28 @@ eq((r["kod"], r["cikti"]), (2, "HATA\n"), "yerel dosya yok")
 r = calis(stdin="rapor.txt\n")
 eq((r["kod"], r["cikti"]), (2, "HATA\n"), "uzak klasör alanı eksik")
 ok("sha256sum" in src and "ssh" in src, "uzak özet ssh ile hesaplatılır")
+
+# Yalnız uzak sha256sum yanıtını bozan test double; scp/sshd gerçek kalır.
+import pathlib,shutil,shlex
+real_ssh=shutil.which('ssh');old_path=os.environ['PATH']
+bin_dir=pathlib.Path('test_ssh_bin').resolve();bin_dir.mkdir(exist_ok=True)
+shim=bin_dir/'ssh'
+shim.write_text('#!/bin/bash\nfor arg in "$@"; do\n if [[ "$arg" == *sha256sum* ]]; then\n  printf "%s\\n" "$PAFTA_TEST_REMOTE_HASH"\n  exit 0\n fi\ndone\nexec '+shlex.quote(real_ssh)+' "$@"\n',encoding='utf-8')
+shim.chmod(0o755)
+try:
+    os.environ['PATH']=str(bin_dir)+':'+old_path
+    for remote_hash in ('0'*64,''):
+        os.environ['PAFTA_TEST_REMOTE_HASH']=remote_hash
+        r=calis(stdin=f'rapor.txt\t{U}/gelen\n')
+        eq((r['kod'],r['cikti']),(1,'uyuşmazlık\n'),'yanlış veya boş uzak özet başarı değildir')
+finally:
+    os.environ['PATH']=old_path
+    os.environ.pop('PAFTA_TEST_REMOTE_HASH',None)
+
+
+r=calis(stdin=f'rapor.txt\t{U}/olmayan\n')
+eq(r['hata'],'','başarısız scp stderr ayrıntısı dışarı sızmaz')
+
 ```
 
 ```solution

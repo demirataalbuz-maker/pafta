@@ -38,6 +38,7 @@ class NativeTests(unittest.TestCase):
                     with self.subTest(lesson=lid):
                         self.assertEqual(local(step['code'],cfg),lab.evaluate(step['code'],dict(cfg,backend='elastic'))['ids'])
                         checked.append(lid)
+                        print(lid+': yerel EQL == gerçek Elasticsearch',flush=True)
         self.assertEqual(checked,[f'el{i}' for i in range(13,19)])
 
     def test_eql_time_window_is_native_range_filter(self):
@@ -167,7 +168,10 @@ class ScheduledTests(unittest.TestCase):
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--scheduled',action='store_true')
+    parser.add_argument('--eql-predictions',action='store_true',help='Only compare EL13–EL18 with the installed real Elasticsearch')
     args=parser.parse_args()
-    suite=unittest.defaultTestLoader.loadTestsFromTestCase(ScheduledTests if args.scheduled else NativeTests)
+    if args.scheduled and args.eql_predictions:parser.error('Choose one acceptance scope')
+    suite=(unittest.TestSuite([NativeTests('test_existing_eql_predictions_against_product')]) if args.eql_predictions
+           else unittest.defaultTestLoader.loadTestsFromTestCase(ScheduledTests if args.scheduled else NativeTests))
     result=unittest.TextTestRunner(verbosity=2).run(suite)
     sys.exit(not result.wasSuccessful())
