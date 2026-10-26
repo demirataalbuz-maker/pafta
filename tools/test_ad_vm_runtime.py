@@ -42,22 +42,22 @@ class Transport(unittest.TestCase):
 
 @unittest.skipUnless(os.name=='nt','Windows Job Objects require Windows')
 class WindowsGuard(unittest.TestCase):
- def guard(self,source,timeout=3):
+ def guard(self,source,timeout=3,stdin=""):
   temp=tempfile.TemporaryDirectory(prefix='pafta_guest_guard_')
   self.addCleanup(temp.cleanup)
   root=Path(temp.name)
   (root/'guard.ps1').write_text(vm.GUARD,encoding='utf-8-sig')
-  (root/'learner.ps1').write_text('[Console]::OutputEncoding=New-Object Text.UTF8Encoding $false\n'+source,encoding='utf-8-sig')
+  (root/'learner.ps1').write_text('[Console]::InputEncoding=New-Object Text.UTF8Encoding $false\n[Console]::OutputEncoding=New-Object Text.UTF8Encoding $false\n'+source,encoding='utf-8-sig')
   (root/'request.json').write_text(json.dumps({'timeout':timeout}),encoding='utf8')
-  (root/'stdin.txt').write_text('',encoding='utf8')
+  (root/'stdin.txt').write_text(stdin,encoding='utf8',newline='\n')
   p=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',str(root/'guard.ps1'),'-Folder',str(root)],capture_output=True,timeout=timeout+30,creationflags=vm.NO_WINDOW)
   self.assertTrue((root/'result.json').exists(),p.stderr.decode('utf8','replace'))
   return root,json.loads((root/'result.json').read_text(encoding='utf-8-sig'))
 
  def test_utf8_exit_and_stderr(self):
-  _,r=self.guard("[Console]::WriteLine('Türkçe şİ'); [Console]::Error.WriteLine('stderr'); exit 7")
+  _,r=self.guard("[Console]::WriteLine('Türkçe şİ|'+[Console]::ReadLine()); [Console]::Error.WriteLine('stderr'); exit 7",stdin='Türkçe\n')
   self.assertEqual(r['code'],7)
-  self.assertEqual(r['stdout'].strip(),'Türkçe şİ')
+  self.assertEqual(r['stdout'].strip(),'Türkçe şİ|Türkçe')
   self.assertEqual(r['stderr'].strip(),'stderr')
   self.assertFalse(r['timeout'])
 
@@ -79,9 +79,9 @@ class WindowsGuard(unittest.TestCase):
 @unittest.skipUnless(os.environ.get('PAFTA_AD_LIVE')=='1','set PAFTA_AD_LIVE=1 for the managed guest')
 class LiveGuest(unittest.TestCase):
  def test_real_guest_utf8_exit_and_stderr(self):
-  r=vm.execute("[Console]::WriteLine('Türkçe şİ'); [Console]::Error.WriteLine('stderr'); exit 7",timeout=10)
+  r=vm.execute("[Console]::WriteLine('Türkçe şİ|'+[Console]::ReadLine()); [Console]::Error.WriteLine('stderr'); exit 7",stdin='Türkçe\n',timeout=10)
   self.assertEqual(r['code'],7,r)
-  self.assertEqual(r['stdout'].strip(),'Türkçe şİ')
+  self.assertEqual(r['stdout'].strip(),'Türkçe şİ|Türkçe')
   self.assertEqual(r['stderr'].strip(),'stderr')
 
  def test_real_guest_timeout_kills_child(self):

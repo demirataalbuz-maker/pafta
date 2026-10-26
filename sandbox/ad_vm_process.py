@@ -137,7 +137,7 @@ def execute(code, stdin='', guest='PF-DC01', timeout=30):
         folder = Path(folder)
         files = {
             'guard.ps1': GUARD,
-            'learner.ps1': '[Console]::OutputEncoding = New-Object Text.UTF8Encoding $false\n$OutputEncoding = [Console]::OutputEncoding\n$ErrorActionPreference = "Stop"\n' + code,
+            'learner.ps1': '[Console]::InputEncoding = New-Object Text.UTF8Encoding $false\n[Console]::OutputEncoding = New-Object Text.UTF8Encoding $false\n$OutputEncoding = [Console]::OutputEncoding\n$ErrorActionPreference = "Stop"\n' + code,
             'request.json': json.dumps({'timeout': timeout}), 'stdin.txt': stdin,
         }
         call(data, guest, 'createDirectoryInGuest', target)
