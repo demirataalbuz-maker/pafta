@@ -717,3 +717,60 @@ echo "yazilan $yazilan, atlanan $atlanan"
 Her kaydı `printf '...MESSAGE=%s\n\n'` ile bitir: son kayıttan sonraki boş satır eksik kalırsa araç o kaydı atar ve yine 0 ile çıkar. Mesajı biçim metnine değil `%s` argümanına koy; `%95` gibi bir parça biçim yönergesi sanılmasın. Döngüden önce `rm -f kendi.journal`: araç var olan dosyaya ekler.
 ```
 :::
+
+
+::: anlat JSON günlük akışını mesaj metninden ayır
+`journalctl -o json` her kayıt için ayrı JSON nesnesi üretir. PRIORITY bir metin alanıdır; sayısal eşik için dönüştürülür. __REALTIME_TIMESTAMP mikrosaniye cinsinden metindir; bu görev onu aynen korur. MESSAGE içindeki boşluk/tab/Unicode, metin sütunlarını boşluktan bölerek güvenle okunamaz. jq -s akışı toplar, --arg kimliği jq koduna yapıştırmadan veri olarak taşır.
+
+Gerçek journal'da tekrarlanan alanlar JSON dizisi, bazı binary alanlar bayt dizisi, çok büyük alanlar varsayılan olarak null olabilir. Bu görevde üretilen küçük, tek değerli UTF-8 alanlar kullanılır; genel bir journal normalleştiricisi olduğu iddia edilmez. Eksik PRIORITY sıfır sayılmaz. Yalnız yerel görev journal'ı okunur; sistem günlüklerine erişilmez. Kaynak: [journalctl JSON çıktı biçimi](https://www.freedesktop.org/software/systemd/man/latest/journalctl.html), [journal alanları](https://www.freedesktop.org/software/systemd/man/latest/systemd.journal-fields.html).
+:::
+
+::: gorev Journal JSON kayıtlarından eşik raporu
+İlk girdi satırı tek basamaklı 0–7 eşik, ikinci satır tam SYSLOG_IDENTIFIER olsun. Geçersiz eşik veya boş kimlikte `HATA` yazdır. Gerçek `journalctl --file=json-gorev.journal -o json` akışından, kimliği tam eşleşen ve PRIORITY alanı **var olup** sayısal değeri eşikten küçük/eşit olanları al. Kaynak sıralı JSON listesi yazdır: her eleman `{"zaman":<mikrosaniye metni>,"oncelik":<sayı>,"mesaj":<özgün metin>}`. Eşleşme yoksa `[]`. Tab ve Unicode dahil mesaj değerini kaybetme; jq --arg ile kimliği geçir. Bu kontrollü fixture'daki PRIORITY alanları varsa geçerli 0–7 metinleridir.
+
+```stdin
+3
+web[1]
+```
+
+```setup
+import pathlib,subprocess
+rows=[(0,'web[1]',0,'acil: şifre "x"'),(1,'web[1]',3,'disk\tdolu'),(2,'web[1]',4,'uyarı'),(3,'web[1]',7,'debug'),(4,'web[1]',None,'öncelik yok'),(5,'web1',1,'başka kimlik')]
+with pathlib.Path('json-gorev.export').open('w',encoding='utf-8',newline='\n') as f:
+    for offset,ident,priority,message in rows:
+        f.write(f'__REALTIME_TIMESTAMP={1767258000000000+offset}\n_BOOT_ID=0123456789abcdef0123456789abcdef\nSYSLOG_IDENTIFIER={ident}\n')
+        if priority is not None:f.write(f'PRIORITY={priority}\n')
+        f.write(f'MESSAGE={message}\n\n')
+subprocess.run(['/usr/lib/systemd/systemd-journal-remote','-o','json-gorev.journal','json-gorev.export'],check=True,stderr=subprocess.DEVNULL)
+```
+
+```starter
+cat >/dev/null
+echo '[]'
+```
+
+```test
+import json
+expected=[{'zaman':str(1767258000000000+i),'oncelik':p,'mesaj':m} for i,p,m in [(0,0,'acil: şifre "x"'),(1,3,'disk\tdolu'),(2,4,'uyarı'),(3,7,'debug')]]
+eq(json.loads(out),expected[:2],'eşit uç 3 dahil; tab, tırnak, Unicode ve zaman')
+eq(json.loads(run(stdin='0\nweb[1]\n')),expected[:1],'en ağır öncelik 0 dahil')
+eq(json.loads(run(stdin='4\nweb[1]\n')),expected[:3],'ara eşik 4 dahil')
+eq(json.loads(run(stdin='7\nweb[1]\n')),expected,'7 dahil ve eksik PRIORITY dışarıda')
+eq(json.loads(run(stdin='7\nyok\n')),[],'eşleşme yok')
+eq(json.loads(run(stdin='1\nweb1\n')),[{'zaman':'1767258000000005','oncelik':1,'mesaj':'başka kimlik'}],'kimlik düzenli ifade değildir')
+for text in ('-1\nweb[1]\n','8\nweb[1]\n','03\nweb[1]\n','x\nweb[1]\n','3\n\n',''):
+    eq(run(stdin=text),'HATA\n','geçersiz eşik veya kimlik')
+```
+
+```solution
+IFS= read -r p || true
+IFS= read -r kimlik || true
+if [[ ! $p =~ ^[0-7]$ || -z $kimlik ]]; then
+    echo HATA
+    exit 0
+fi
+set -o pipefail
+journalctl --file=json-gorev.journal -o json -q --no-pager |
+    jq -cs --argjson p "$p" --arg id "$kimlik" '[.[] | select(.SYSLOG_IDENTIFIER == $id and has("PRIORITY")) | select((.PRIORITY | tonumber) <= $p) | {zaman:.__REALTIME_TIMESTAMP,oncelik:(.PRIORITY | tonumber),mesaj:.MESSAGE}]'
+```
+:::

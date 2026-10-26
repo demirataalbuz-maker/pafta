@@ -12,7 +12,7 @@ Puan yükseltmek tek başına tamamlanma değildir. Eksikler ders/görev/tezgâh
 | 3 | python | 80 | Gizli alanı ve form girdilerini HTML ağacından çıkarma (ASAMA2 'neden') yalnız anlatımda; görev yok.; Bağlantı hedeflerini (href) toplayan görev yok. | tamam: P74, 29 kontrol temiz; 17 anlamsal mutant reddedildi |
 | 7 | python | 77 | Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.; Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden'). | tamam: P78/P79, 17 kontrol temiz; 14 anlamsal mutant reddedildi |
 | 8 | bash | 83 | ASAMA2 ve dersin özeti 'jq -e' diyor; derste hiç kullanılmıyor. | tamam: BS29, 13 kontrol temiz; tahmin doğrulandı, 10 mutant reddedildi |
-| 9 | bash | 88 | journalctl -o json yalnız tabloda; görevde yok. | bekliyor |
+| 9 | bash | 88 | journalctl -o json yalnız tabloda; görevde yok. | tamam: BS31, 17 kontrol temiz; 9 mutant reddedildi |
 | 11 | bash | 86 | sftp yalnız anlatıda. | bekliyor |
 | 12 | bash | 85 | teardown yalnız tabloda (ASAMA2 setup/teardown).; Git Bash ile Linux farkları kayıtlı değil (ASAMA2 istiyor). | bekliyor |
 | 13 | powershell | 78 | Yönlendirme (-MaximumRedirection, 3xx) yok.; Form gövdesi (-Form) yok.; Timeout yalnız tabloda; sınanmıyor. | bekliyor |

@@ -25,7 +25,7 @@ def main():
             ('empty value dropped', "fields.append((name,control.get('value','')))", "\n        if control.get('value',''):fields.append((name,control.get('value','')))"),
         ],
         'baglantilar': [
-            ('ignore base', "urljoin(base['href']", "unused"),
+            ('ignore base', "origin=urljoin(belge_url,base['href']) if base else belge_url", 'origin=belge_url'),
             ('no deduplication', 'and url not in seen', ''),
             ('reverse DOM order', 'return result', 'return result[::-1]'),
             ('strip fragments', "url=urljoin(origin,anchor['href'].strip())", "url=urljoin(origin,anchor['href'].strip()).split('#')[0]"),
@@ -34,8 +34,6 @@ def main():
             ('skip empty href', "url=urljoin(origin,anchor['href'].strip())", "\n        if not anchor['href'].strip():continue\n        url=urljoin(origin,anchor['href'].strip())"),
         ],
     }
-    # Use the actual expression rather than a synthetic parser for the base mutant.
-    cases['baglantilar'][0] = ('ignore base', "origin=urljoin(belge_url,base['href']) if base else belge_url", 'origin=belge_url')
     records = []
     for function, mutations in cases.items():
         step = next(s for s in steps if s['kind'] == 'gorev' and f'def {function}(' in s.get('solution', ''))

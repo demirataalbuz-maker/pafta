@@ -1,0 +1,44 @@
+{
+  "backend": "real Kali journal-remote / journalctl / jq",
+  "references_passed": 1,
+  "mutants_rejected": 9,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "exclusive threshold",
+      "status": "rejected"
+    },
+    {
+      "mutation": "inverted severity",
+      "status": "rejected"
+    },
+    {
+      "mutation": "ignore identifier",
+      "status": "rejected"
+    },
+    {
+      "mutation": "missing priority becomes zero",
+      "status": "rejected"
+    },
+    {
+      "mutation": "string priority in report",
+      "status": "rejected"
+    },
+    {
+      "mutation": "reverse source order",
+      "status": "rejected"
+    },
+    {
+      "mutation": "seconds lose precision",
+      "status": "rejected"
+    },
+    {
+      "mutation": "allow eight",
+      "status": "rejected"
+    },
+    {
+      "mutation": "exclude zero",
+      "status": "rejected"
+    }
+  ]
+}
