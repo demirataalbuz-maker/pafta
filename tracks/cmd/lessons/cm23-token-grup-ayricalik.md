@@ -80,14 +80,22 @@ finally:
     else:os.environ['SystemRoot']=saved_root
 
 
-job=calis.__self__.job
-original_code=job['code']
-try:
-    job['code']=src.replace('"%whoami%" /groups /fo CSV /nh','"%SystemRoot%\\System32\\cmd.exe" /d /c "echo forced-error 1>&2 & exit /b 7"',1)
-    r=calis()
-    eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'ikinci whoami hata yolu ve stderr temizliği')
-finally:
-    job['code']=original_code
+# Kaynak metnini değiştirmeden ikinci çağrıyı bozan yürütülebilir test double.
+import subprocess
+real_root=os.environ.get('SystemRoot',r'C:\Windows')
+csc=Path(real_root)/'Microsoft.NET'/'Framework64'/'v4.0.30319'/'csc.exe'
+with tempfile.TemporaryDirectory(prefix='pafta_whoami_double_') as root:
+    system32=Path(root)/'System32';system32.mkdir()
+    code=Path(root)/'Who.cs'
+    code.write_text('using System; class Who { static int Main(string[] a) { if (a.Length>0 && a[0]=="/user") { Console.WriteLine("test-user,test-sid"); return 0; } Console.Error.WriteLine("forced-error"); return 7; } }',encoding='utf-8')
+    compiled=subprocess.run([str(csc),'/nologo','/target:exe','/out:'+str(system32/'whoami.exe'),str(code)],capture_output=True)
+    eq(compiled.returncode,0,'test double derlenir; yeni paket kurulmaz')
+    try:
+        os.environ['SystemRoot']=root
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'ilk whoami başarılı, ikinci hatalı; stderr ayrıntısı sızmaz')
+    finally:
+        os.environ['SystemRoot']=real_root
 
 ```
 ```solution
