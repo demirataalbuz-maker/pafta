@@ -45,6 +45,37 @@ class SplunkHatasi(Exception):
     pass
 
 
+def dispatch_after(previous, interval, clock=time.monotonic, sleep=time.sleep):
+    """Space dispatch starts, not job completion plus the requested interval.
+
+    Native searches consume wall time too. Adding their duration to each wait
+    can silently expire a short suppression period before the second dispatch.
+    """
+    now=clock()
+    if previous is not None and interval:
+        remaining=previous+interval-now
+        if remaining < -interval/6:
+            raise SplunkHatasi('Gerçek saat deneyi dispatch aralığını aştı; Splunk yükünü azaltıp yeniden deneyin.')
+        if remaining>0:
+            sleep(remaining)
+            now=clock()
+    return now
+
+
+def verify_dispatch_window(start, interval, previous=None, clock=time.monotonic):
+    """Do not show a timing prediction after backend latency ate its margin.
+
+    SP22 uses starts 12s apart and a 20s suppression period. Keep start drift
+    and consecutive response-latency jitter each within 2s; constant backend
+    latency need not be zero. Overruns are explicit errors, never alternate
+    'correct' predictions or emulated alarm counts.
+    """
+    elapsed=clock()-start
+    if interval and previous is not None and abs(elapsed-previous)>interval/6:
+        raise SplunkHatasi('Gerçek saat deneyi zaman payını aştı; Splunk yükünü azaltıp yeniden deneyin.')
+    return elapsed
+
+
 def _docker(*args, timeout=60):
     p = subprocess.run(["docker", *args], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE, timeout=timeout, creationflags=NO_WINDOW)
@@ -418,8 +449,19 @@ class Lab:
                   {"trigger_actions": "1", "dispatch.now": str(int(an))})
         sid = r["sid"]
         son = time.time() + 120
+        visible_until = time.monotonic() + 10
         while True:
-            c = istek(f"/services/search/jobs/{sid}")["entry"][0]["content"]
+            try:
+                c = istek(f"/services/search/jobs/{sid}")["entry"][0]["content"]
+            except SplunkHatasi as exc:
+                # Dispatch returns before its SID is always visible to the
+                # status endpoint. Retry only that initial 404, boundedly;
+                # authentication/product failures must never become empty data.
+                if str(exc).startswith('404 ') and time.monotonic()<visible_until:
+                    time.sleep(0.2)
+                    continue
+                raise
+            visible_until = 0
             if c.get("isDone"):
                 break
             if time.time() > son:

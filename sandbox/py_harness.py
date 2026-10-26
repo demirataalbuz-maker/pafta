@@ -1906,11 +1906,13 @@ class _SplunkIs:
         satirlar = []
         for ad, ic_ad, anlar in kurallar:
             cikanlar = []
+            previous_dispatch = None
+            previous_duration = None
             for n, an in enumerate(anlar):
-                if n and ara:
-                    time.sleep(ara)
+                previous_dispatch = self.S.dispatch_after(previous_dispatch, ara)
                 try:
                     cikanlar.append((an,) + self.lab.calistir(ic_ad, an))
+                    previous_duration = self.S.verify_dispatch_window(previous_dispatch, ara, previous_duration)
                 except self.S.SplunkHatasi as e:
                     raise UserRunError(_spk_hata(f"[{ad}] {e}"), "")
             kayit = self.lab.zamanlayici(ic_ad, [c[1] for c in cikanlar])
