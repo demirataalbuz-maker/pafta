@@ -318,6 +318,24 @@ eq(run(stdin="beş yüz\n"), "HATA\n", "tam sayı olmayan girdi istek atılmadan
 bos = calis(stdin="")
 eq(bos["cikti"], "HATA\n", "boş girdi HATA")
 eq(bos["hata"].strip(), "", "boş girdide hata akışına bir şey düşmemeli")
+
+# /durum üretim fixture'ı yalnız 4xx/5xx verir; 2xx dalını ayrı loopback HTTP tanığıyla ölç.
+import http.server,threading
+from pathlib import Path
+class Success(http.server.BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length','2');self.end_headers();self.wfile.write(b'{}')
+    def log_message(self,*args):pass
+server=http.server.ThreadingHTTPServer(('127.0.0.1',0),Success)
+thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+path=Path('api_adres.txt');previous=path.read_bytes()
+try:
+    path.write_text('http://127.0.0.1:'+str(server.server_port),encoding='utf-8')
+    r=calis(stdin='200\n')
+    eq((r['kod'],r['cikti'],r['hata']),(0,'200|-\n',''),'gerçek 2xx yanıt başarı dalını çalıştırır')
+finally:
+    path.write_bytes(previous);server.shutdown();server.server_close();thread.join(timeout=2)
+
 ```
 
 ```solution
