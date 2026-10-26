@@ -7,6 +7,8 @@ summary: authorizeHttpRequests kuralları sırayla denenir ve ilk eşleşen kura
 ::: anlat Kurallar sırayla denenir
 `JV09`'da Servlet filtre zincirini okudun. Spring Security'nin yetkilendirme kararı da bir **sıralı kural listesidir**: her istek için kurallar yukarıdan aşağı denenir, **ilk eşleşen** kural kararı verir ve zincir orada biter. Geri kalan kurallara hiç bakılmaz.
 
+Depoya eklenen `tracks/java/security_lab` kaynağı ve `python tools/security_lab.py` bu çıktıyı tekrar üretir; varsayılan çevrimdışıdır, yalnız açık `--download` onaylanmış Maven Central bağımlılıklarını getirir. Dinleyici açmaz. [İstek yetkilendirmesi](https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html), [metot güvenliği](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html).
+
 Bu dersin ölçümü gerçek `spring-security-core/web/config 7.0.2` ve Spring Framework 7.0.10 üzerinde, `RequestMatcherDelegatingAuthorizationManager` ile alındı (JDK 21).
 
 ```java
@@ -150,6 +152,7 @@ eq(zincirKarari(B, "/yonetim/sil", ["YONETICI"]), "IZIN", "B'de yönetici de gen
 eq(zincirKarari([("/yonetim/**", "YONETICI")], "/rapor", ["YONETICI"]), "KURAL YOK",
    "hiçbir kural tutmadı: RED ile aynı şey değil")
 eq(zincirKarari([], "/x", ["YONETICI"]), "KURAL YOK", "kural listesi boş")
+eq(zincirKarari([("/rapor", "*")], "/Rapor", []), "KURAL YOK", "birebir kalıpta da harf durumu korunur")
 eq(zincirKarari([("/rapor", "*")], "/rapor/alt", ["X"]), "KURAL YOK", "birebir kalıp alt yolu tutmaz")
 eq(zincirKarari([("/**", "YONETICI")], "/x", ["A", "YONETICI", "B"]), "IZIN", "yetki listenin ortasında")
 ```
