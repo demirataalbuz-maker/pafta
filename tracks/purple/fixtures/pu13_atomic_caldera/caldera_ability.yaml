@@ -1,0 +1,16 @@
+- id: 9b7b3e20-98ec-4c2c-a3db-18a0c13a9202
+  name: PU13 sentetik ability incelemesi
+  description: Caldera ability alanlarını gösterir; bu depoda çalıştırılmaz.
+  tactic: execution
+  technique_id: T1059.001
+  technique_name: PowerShell
+  platforms:
+    windows:
+      psh:
+        command: Set-Content -LiteralPath "#{output_file}" -Value "sentetik"
+        cleanup: Remove-Item -LiteralPath "#{output_file}" -ErrorAction SilentlyContinue
+  requirements:
+    - plugins.stockpile.app.requirements.basic:
+        - source: host.powershell
+          edge: has
+          target: host.powershell.available

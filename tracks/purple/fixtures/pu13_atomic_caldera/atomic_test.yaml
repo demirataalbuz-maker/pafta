@@ -1,0 +1,28 @@
+attack_technique: T1059.001
+display_name: PowerShell Sentetik Mesaj Üretimi
+atomic_tests:
+- name: Sentetik olay adımlarını göster
+  auto_generated_guid: 7f2f9c88-73f4-4e8c-b5fd-18a0c13a9201
+  description: |-
+    Yalnız şema incelemesi için elle yazılmış, zararsız bir örnektir.
+    Bu depoda Atomic Red Team kurulu değildir ve bu test çalıştırılmaz.
+  supported_platforms:
+  - windows
+  input_arguments:
+    output_file:
+      description: Sentetik işaret dosyasının yolu
+      type: Path
+      default: $env:TEMP\pu13_sentetik.txt
+  dependency_executor_name: powershell
+  dependencies:
+  - description: PowerShell yorumlayıcısı bulunmalı
+    prereq_command: Get-Command powershell -ErrorAction Stop
+    get_prereq_command: Write-Host "Elle ve yetkili kurulum gerekir; ders kurulum yapmaz"
+  executor:
+    name: powershell
+    elevation_required: false
+    command: |-
+      Write-Host "PU13 sentetik Atomic örneği"
+      Set-Content -LiteralPath "#{output_file}" -Value "sentetik"
+    cleanup_command: |-
+      Remove-Item -LiteralPath "#{output_file}" -ErrorAction SilentlyContinue

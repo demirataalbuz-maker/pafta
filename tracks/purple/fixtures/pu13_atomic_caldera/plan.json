@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "senaryo": "Tamamen sentetik ve çevrimdışı; komut yürütme planı değil kanıt planıdır.",
+  "steps": [
+    {
+      "step_id": "step-001",
+      "atomic_guid": "7f2f9c88-73f4-4e8c-b5fd-18a0c13a9201",
+      "ability_id": "9b7b3e20-98ec-4c2c-a3db-18a0c13a9202",
+      "technique": "T1059.001",
+      "platform": "windows",
+      "executor": "powershell",
+      "caldera_executor": "psh",
+      "prerequisites": [
+        {"id": "powershell-present", "status": "met"}
+      ],
+      "input_bindings": {"output_file": "%TEMP%\\pu13_sentetik.txt"},
+      "cleanup_declared": true,
+      "expected_observations": [
+        {"kind": "process", "source": "synthetic_process", "event_id": 1, "technique": "T1059.001"},
+        {"kind": "artifact", "source": "synthetic_artifact", "event_id": 11, "technique": "T1059.001"}
+      ]
+    },
+    {
+      "step_id": "step-002-prereq-yok",
+      "atomic_guid": "7f2f9c88-73f4-4e8c-b5fd-18a0c13a9201",
+      "ability_id": "9b7b3e20-98ec-4c2c-a3db-18a0c13a9202",
+      "technique": "T1059.001",
+      "platform": "windows",
+      "executor": "powershell",
+      "caldera_executor": "psh",
+      "prerequisites": [
+        {"id": "powershell-present", "status": "unmet"}
+      ],
+      "input_bindings": {"output_file": "%TEMP%\\pu13_sentetik.txt"},
+      "cleanup_declared": true,
+      "expected_observations": [
+        {"kind": "process", "source": "synthetic_process", "event_id": 1, "technique": "T1059.001"}
+      ]
+    }
+  ]
+}
