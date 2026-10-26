@@ -1,0 +1,2130 @@
+{
+ "maddeler": [
+  {
+   "no": 1,
+   "yol": "python",
+   "ad": "pip/venv ile betik ortamı ve bağımlılık kurulumu",
+   "dersler": [
+    "P75"
+   ],
+   "karar": "Sorunlu",
+   "ozet": "İçerik ve çözümler çalışıyor; ama bağımsız denetim (Kimi) iki görevin yanlış çözümü kabul ettiğini buldu, ben de yeniden ölçüp doğruladım.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude + Kimi (bağımsız)",
+   "puan": {
+    "test": 15,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "P75:11 (benim yazdığım görev) sürümleri metin olarak karşılaştıran çözümü kabul ediyor; testte 0.10.0 gibi bir sürüm yok.",
+     "oncelik": "yüksek",
+     "etiket": "test"
+    },
+    {
+     "metin": "P75:5 --no-index olmadan da geçiyor; çevrimdışılık öğrencinin kodundan değil koşucudan geliyor.",
+     "oncelik": "yüksek",
+     "etiket": "test"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 2,
+   "yol": "python",
+   "ad": "Requests Session ve aiohttp ile HTTP otomasyonu",
+   "dersler": [
+    "P74"
+   ],
+   "karar": "Tam",
+   "ozet": "Oturum, form, kimlikli vekil, kendi CA'sı, sürüm kaydı, sınırlı eşzamanlılık; gerçek istemci ve tezgâh. Kimi de Tam dedi.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude + Kimi (bağımsız)",
+   "puan": {
+    "test": 25,
+    "kapsam": 25,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "cikar": true
+  },
+  {
+   "no": 3,
+   "yol": "python",
+   "ad": "Beautiful Soup ile HTML ayrıştırma",
+   "dersler": [
+    "P74"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Tablo, metin, öznitelik, eksik/bozuk HTML gerçek BS4 ile çalışıyor; ama form ve gizli alan çıkarma görevle ölçülmüyor (Kimi'nin düzeltmesi).",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude (Kimi düzeltti)",
+   "puan": {
+    "test": 23,
+    "kapsam": 16,
+    "derinlik": 18,
+    "gerceklik": 15,
+    "yol": 8
+   },
+   "eksikler": [
+    {
+     "metin": "Gizli alanı ve form girdilerini HTML ağacından çıkarma (ASAMA2 'neden') yalnız anlatımda; görev yok.",
+     "oncelik": "yüksek",
+     "etiket": "CPTS"
+    },
+    {
+     "metin": "Bağlantı hedeflerini (href) toplayan görev yok.",
+     "oncelik": "orta",
+     "etiket": "CPTS"
+    }
+   ]
+  },
+  {
+   "no": 4,
+   "yol": "python",
+   "ad": "Scapy ile paket kaydını okumak ve üretmek",
+   "dersler": [
+    "P80",
+    "P81"
+   ],
+   "karar": "Tam",
+   "ozet": "rdpcap/PcapReader, katman yığını, snaplen kırpması; paket kurma, wrpcap, sağlama Scapy ve TShark'ta doğrulanıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 8
+   },
+   "cikar": true,
+   "not": "P80 benim; bağımsız göz iyi olur."
+  },
+  {
+   "no": 5,
+   "yol": "python",
+   "ad": "ctypes ile native API/ABI okuma ve küçük çağrılar",
+   "dersler": [
+    "P82",
+    "P83"
+   ],
+   "karar": "Tam",
+   "ozet": "argtypes/restype, Structure, hizalama; kendi DLL'i gerçek derleniyor, 32/64 bit yerleşim gerçek derleyiciyle ölçülüyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 25,
+    "kapsam": 24,
+    "derinlik": 24,
+    "gerceklik": 15,
+    "yol": 8
+   },
+   "cikar": true,
+   "not": "Eksikleri ben kapattım; bağımsız göz gerekli."
+  },
+  {
+   "no": 6,
+   "yol": "python",
+   "ad": "pwntools kullanan hazır betiği okumak ve uyarlamak",
+   "dersler": [
+    "P76",
+    "P77"
+   ],
+   "karar": "Tam",
+   "ozet": "context/endian, paketleme, yerel tube akışı, recvn, EOF; hazır paketleyiciyi uyarlama.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 9
+   }
+  },
+  {
+   "no": 7,
+   "yol": "python",
+   "ad": "Impacket ile Windows/AD protokol betiğini okumak",
+   "dersler": [
+    "P78",
+    "P79"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Sürüm/yol kaydı, SID baytları, SMB2 paket üretme ve başlık okuma; ama örnek betik seçenekleri ve bağımlılık sorunu yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 16,
+    "derinlik": 18,
+    "gerceklik": 14,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Hazır örnek betiğin komut satırı seçeneklerini okumak yalnız ipucunda; görev yok.",
+     "oncelik": "orta",
+     "etiket": "CPTS"
+    },
+    {
+     "metin": "Bağımlılık sorunu (eksik/uyuşmaz paket) hiç yok (ASAMA2 'neden').",
+     "oncelik": "orta"
+    },
+    {
+     "metin": "P79'da 2**64 sınır değeri sınanmıyor.",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ],
+   "not": "Bu konunun ayrıntısı bende güvenlik filtresine takılıyor; derinlik kısmı Opus 4.8/Codex'e."
+  },
+  {
+   "no": 8,
+   "yol": "bash",
+   "ad": "curl/jq ile API ve JSON araç zinciri",
+   "dersler": [
+    "BS29"
+   ],
+   "karar": "Kısmen",
+   "ozet": "curl çıkış kodu/HTTP durumu ayrımı, çerez, --json; jq -r/@tsv/select/--arg. Ama jq -e hiç kullanılmıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 22,
+    "kapsam": 18,
+    "derinlik": 19,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "ASAMA2 ve dersin özeti 'jq -e' diyor; derste hiç kullanılmıyor.",
+     "oncelik": "orta",
+     "etiket": "CJCA"
+    }
+   ]
+  },
+  {
+   "no": 9,
+   "yol": "bash",
+   "ad": "Linux süreç ve olay verisini kaynağından toplamak",
+   "dersler": [
+    "BS31"
+   ],
+   "karar": "Kısmen",
+   "ozet": "/proc, ps, journalctl --file, UTC; çalışan servis varsayılmıyor. JSON çıktısı görevde yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 20,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "journalctl -o json yalnız tabloda; görevde yok.",
+     "oncelik": "düşük",
+     "etiket": "CDSA"
+    }
+   ]
+  },
+  {
+   "no": 10,
+   "yol": "bash",
+   "ad": "rwx sonrası POSIX ACL ve Linux capabilities",
+   "dersler": [
+    "BS32",
+    "BS33"
+   ],
+   "karar": "Tam",
+   "ozet": "Adlı girdiler, maske, varsayılan ACL kalıtımı; capability maskeleri; gerçek erişim setpriv ile başka kimlikle deneniyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "cikar": true,
+   "not": "Kendi işim; bağımsız göz iyi olur."
+  },
+  {
+   "no": 11,
+   "yol": "bash",
+   "ad": "OpenSSH istemcisiyle komut ve dosya akışı",
+   "dersler": [
+    "BS34",
+    "BS35"
+   ],
+   "karar": "Kısmen",
+   "ozet": "ssh -G config okuma, ayrılmış lab ucu, gerçek uzak stdout/çıkış kodu, scp. Ama özet uyuşmazlığı dalı sınanmıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 18,
+    "kapsam": 22,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "BS35:5 özet uyuşmazlığı hiç sınanmıyor; yanlış ya da boş özette 'tamam' diyen çözüm geçiyor.",
+     "oncelik": "yüksek",
+     "etiket": "test"
+    },
+    {
+     "metin": "sftp yalnız anlatıda.",
+     "oncelik": "düşük"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 12,
+   "yol": "bash",
+   "ad": "ShellCheck ve Bats ile kendi aracını sınamak",
+   "dersler": [
+    "BS30"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek ShellCheck/Bats, çıkış kodları, fixture'lar; exit/stdout/stderr ayrı denetleniyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 22,
+    "kapsam": 19,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 8
+   },
+   "eksikler": [
+    {
+     "metin": "teardown yalnız tabloda (ASAMA2 setup/teardown).",
+     "oncelik": "düşük"
+    },
+    {
+     "metin": "Git Bash ile Linux farkları kayıtlı değil (ASAMA2 istiyor).",
+     "oncelik": "orta"
+    }
+   ]
+  },
+  {
+   "no": 13,
+   "yol": "powershell",
+   "ad": "Invoke-RestMethod/WebRequest ile oturumlu API",
+   "dersler": [
+    "PS23"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek -SessionVariable çerezi, JSON gövde, 201+Location, ErrorDetails. Yönlendirme, timeout ve form eksik.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 19,
+    "kapsam": 16,
+    "derinlik": 19,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Yönlendirme (-MaximumRedirection, 3xx) yok.",
+     "oncelik": "orta"
+    },
+    {
+     "metin": "Form gövdesi (-Form) yok.",
+     "oncelik": "orta"
+    },
+    {
+     "metin": "Timeout yalnız tabloda; sınanmıyor.",
+     "oncelik": "düşük"
+    },
+    {
+     "metin": "2xx dalı sınanmıyor.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
+  },
+  {
+   "no": 14,
+   "yol": "powershell",
+   "ad": "Offline EVTX ve PowerShell 4104 kayıtları",
+   "dersler": [
+    "PS27",
+    "PS28"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek EVTX fixture'larında Get-WinEvent/FilterXPath, 4104 parçalı bloklar. FilterXml ve ToXml görevde yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 19,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "FilterXml hiç yok (ASAMA2 FilterXPath/FilterXml).",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "ToXml() yalnız tabloda; ham XML'den alan okunmuyor.",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    }
+   ]
+  },
+  {
+   "no": 15,
+   "yol": "powershell",
+   "ad": "Get-Acl ile NTFS/Registry erişim değerlendirmesi",
+   "dersler": [
+    "PS22"
+   ],
+   "karar": "Kısmen",
+   "ozet": "SDDL, kanonik sıra, gerçek nesnelerde Set-Acl. Ama gerçek erişim denemesi yok; etkin yetki metin üzerinde benzetim.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 17,
+    "derinlik": 18,
+    "gerceklik": 13,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Gerçek erişim karşılaştırması yok (Deny sonrası okuma denemesi, UnauthorizedAccess).",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "Kanonik sıranın son iki grubu ve stderr temizliği tam sınanmıyor.",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
+  },
+  {
+   "no": 16,
+   "yol": "powershell",
+   "ad": "Authenticode imzasını dosya incelemesine katmak",
+   "dersler": [
+    "PS25"
+   ],
+   "karar": "Tam",
+   "ozet": "Yerel örnekler, Status/yayıncı CN, katalog imzası, zaman damgası; geçerli imza tek başına güven sayılmıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Boş yayıncı satırı sınanmıyor.",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
+  },
+  {
+   "no": 17,
+   "yol": "powershell",
+   "ad": "Pester ile kendi testlerini yazmak",
+   "dersler": [
+    "PS26"
+   ],
+   "karar": "Tam",
+   "ozet": "Describe/It/Should, Mock -ModuleName, TestDrive; öğrencinin testleri 6 bozuk modülü yakalamak zorunda.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 8
+   }
+  },
+  {
+   "no": 18,
+   "yol": "powershell",
+   "ad": "Gerçek PSSession yaşam döngüsü ve uzak çıktı",
+   "dersler": [
+    "PS29"
+   ],
+   "karar": "Kısmen",
+   "ozet": "New/Invoke/Remove-PSSession, serileştirme ölçümü. Ama ayrı Windows lab ucu ve hata/temizlik akışı yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 15,
+    "derinlik": 17,
+    "gerceklik": 13,
+    "yol": 8
+   },
+   "eksikler": [
+    {
+     "metin": "Ayrılmış Windows lab ucu, WinRM ve -ComputerName yok (ASAMA2 istiyor).",
+     "oncelik": "orta",
+     "etiket": "CAPE"
+    },
+    {
+     "metin": "Hata ve temizlik akışı (try/finally, Broken durumu, sızan oturum) yok.",
+     "oncelik": "orta"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 19,
+   "yol": "powershell",
+   "ad": "CLM, JEA ve AppLocker (8002/8004) olayları",
+   "dersler": [
+    "PS24"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek runspace'te CLM, .psrc üretimi, JEA risk denetimi. Ama AppLocker olayları gerçek EVTX değil.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 18,
+    "derinlik": 20,
+    "gerceklik": 12,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "AppLocker olayları elle yazılmış XML; gerçek EVTX yok (ps_evtx_fixtures.py kullanılmamış).",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "JEA görevleri gerçek .psrc/.pssc okumuyor.",
+     "oncelik": "orta"
+    }
+   ]
+  },
+  {
+   "no": 20,
+   "yol": "cmd",
+   "ad": "wevtutil ile offline EVTX sorgu ve export",
+   "dersler": [
+    "CM19",
+    "CM20"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek EVTX'te qe/epl, aktarılan dosyanın kayıt kayıt karşılaştırılması, kaynağın değişmediğinin kanıtı.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
+   }
+  },
+  {
+   "no": 21,
+   "yol": "cmd",
+   "ad": "Servis, zamanlanmış görev ve Registry sorgusu",
+   "dersler": [
+    "CM21",
+    "CM22"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek sc/schtasks/reg, bağımsız doğrulama. Erişim reddi sınanmıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 22,
+    "kapsam": 20,
+    "derinlik": 20,
+    "gerceklik": 15,
+    "yol": 8
+   },
+   "eksikler": [
+    {
+     "metin": "Erişim reddi (korunan anahtar ya da servis) sınanmıyor.",
+     "oncelik": "düşük"
+    }
+   ]
+  },
+  {
+   "no": 22,
+   "yol": "cmd",
+   "ad": "Token, grup, ayrıcalık ve icacls",
+   "dersler": [
+    "CM23",
+    "CM24"
+   ],
+   "karar": "Kısmen",
+   "ozet": "whoami CSV, bütünlük SID'leri, icacls, gerçek okuma tanığı. DENY erişimi ve CM23 hata yolu sınanmıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 18,
+    "kapsam": 19,
+    "derinlik": 19,
+    "gerceklik": 15,
+    "yol": 8
+   },
+   "eksikler": [
+    {
+     "metin": "DENY ACE'li dosyanın okunamadığı gösterilmiyor.",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "CM23 hata yolu (whoami başarısız) hiç sınanmıyor.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
+  },
+  {
+   "no": 23,
+   "yol": "cmd",
+   "ad": "Sigcheck/Autorunsc ile karşılaştırmalı envanter",
+   "dersler": [
+    "CM25"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek sigcheck/autorunsc, CSV, iki envanter karşılaştırması, hata kodları.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "CM25:4'te iki ölü kod satırı.",
+     "oncelik": "düşük"
+    },
+    {
+     "metin": "Araçlar .deps'te değil; kurulum betiği yok.",
+     "oncelik": "düşük"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 24,
+   "yol": "http",
+   "ad": "Burp Proxy → History → Repeater",
+   "dersler": [
+    "HT17"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Kalıcı lab sunucusu, Burp adımları anlatımda. Ama Burp'ün kendisi hiç ölçülmüyor; görevler Python ile.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 16,
+    "derinlik": 18,
+    "gerceklik": 12,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "Burp kullanımına dair otomatik tanık yok (Burp'ten dışa aktarılan istek/yanıtı ayrıştırmak gibi).",
+     "oncelik": "yüksek",
+     "etiket": "CPTS"
+    }
+   ]
+  },
+  {
+   "no": 25,
+   "yol": "http",
+   "ad": "curl ile HTTPS, CA ve hostname doğrulaması",
+   "dersler": [
+    "HT18"
+   ],
+   "karar": "Tam",
+   "ozet": "Yerel TLS ucu, --cacert, bilinmeyen CA ve yanlış host (60), TLS hatası (35), -k tuzağı.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 10
+   }
+  },
+  {
+   "no": 26,
+   "yol": "http",
+   "ad": "Gerçek tarayıcıda CORS/preflight ve CSRF",
+   "dersler": [
+    "HT19",
+    "HT20"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek tarayıcı, iki origin, preflight, oturuma bağlı CSRF, farklı site SameSite.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 23,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "SameSite gerçek tarayıcıda yalnız tahminde; görevler Python istemcisiyle.",
+     "oncelik": "düşük"
+    }
+   ]
+  },
+  {
+   "no": 27,
+   "yol": "http",
+   "ad": "İki hesaplı nesne yetkilendirme matrisi",
+   "dersler": [
+    "HT21"
+   ],
+   "karar": "Tam",
+   "ozet": "A/B/oturumsuz hesapla 12 hücrelik matris; 'değişti' bilgisi durumdan türetiliyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 25,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   }
+  },
+  {
+   "no": 28,
+   "yol": "http",
+   "ad": "JWT, imza tuzakları ve OAuth2/OIDC",
+   "dersler": [
+    "HT16"
+   ],
+   "karar": "Tam",
+   "ozet": "Katı JWT doğrulayıcı, redirect_uri/state, PKCE S256, yerel IdP ile uçtan uca.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 25,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   }
+  },
+  {
+   "no": 29,
+   "yol": "http",
+   "ad": "SSRF, URL ayrıştırıcı farkları ve yönlendirme",
+   "dersler": [
+    "HT22"
+   ],
+   "karar": "Kısmen",
+   "ozet": "İçerik tam (loopback hedefler, yönlendirme zinciri, ayrıştırıcı farkları). Yönlendirme sınırı sınanmıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 18,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "max_redirects ve 300/399 sınırları sınanmıyor.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
+  },
+  {
+   "no": 30,
+   "yol": "http",
+   "ad": "WebSocket (101) ve GraphQL",
+   "dersler": [
+    "HT23",
+    "HT24"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek soketle 101 el sıkışma, maskeli çerçeve; GraphQL parametreli sorgu, introspection, alan yetkisi.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 10
+   }
+  },
+  {
+   "no": 31,
+   "yol": "sql",
+   "ad": "SQLite dışındaki lehçeler gerçek motorlarda",
+   "dersler": [
+    "SQ22"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek PostgreSQL ve MariaDB; LIMIT/FETCH, ||/CONCAT, ::/CAST, information_schema farkları.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 16,
+    "derinlik": 20,
+    "gerceklik": 14,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "MySQL ve SQL Server için sürümü sabit yerel servis yok (ASAMA2 istiyor); TOP yalnız anlatıda.",
+     "oncelik": "orta",
+     "etiket": "CPTS"
+    }
+   ]
+  },
+  {
+   "no": 32,
+   "yol": "sql",
+   "ad": "Uygulama girdisinden SQL'e veri akışı ve parametre bağlama",
+   "dersler": [
+    "SQ19"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Formdan metin gelen eşik, CAST tuzağı, NULL/boş, izinli sıralama alanı, joker kaçırma. Ama uygulama–DB köprüsü yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 15,
+    "derinlik": 18,
+    "gerceklik": 12,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "Uygulama tarafında gerçek parametre bağlama (Python sqlite3 ile ? ve execute) görevde yok.",
+     "oncelik": "yüksek",
+     "etiket": "CPTS"
+    },
+    {
+     "metin": "Java/PHP/C# güvenli sorgu derslerine köprü yok.",
+     "oncelik": "orta"
+    }
+   ]
+  },
+  {
+   "no": 33,
+   "yol": "sql",
+   "ad": "Veritabanı rolleri ve etkili yetkiler",
+   "dersler": [
+    "SQ21"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek PostgreSQL; LOGIN/INHERIT, GRANT/REVOKE, sütun yetkisi, PUBLIC; yetkisiz işlemler gerçekten reddediliyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 8
+   }
+  },
+  {
+   "no": 34,
+   "yol": "sql",
+   "ad": "SQL içinden JSON kayıtlarını sorgulamak",
+   "dersler": [
+    "SQ20"
+   ],
+   "karar": "Kısmen",
+   "ozet": "SQLite json_extract, ->/->>, json_each; NULL ayrımları, bozuk JSON. PostgreSQL jsonb görevi yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 16,
+    "derinlik": 20,
+    "gerceklik": 13,
+    "yol": 8
+   },
+   "eksikler": [
+    {
+     "metin": "PostgreSQL jsonb görevi yok; projede gerçek PostgreSQL varken yalnız tabloda.",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    }
+   ]
+  },
+  {
+   "no": 35,
+   "yol": "kql",
+   "ad": "Sentinel/Defender şemaları ve watchlist",
+   "dersler": [
+    "KQ24"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek alan adlarıyla SigninLogs, DeviceProcessEvents, DeviceNetworkEvents; watchlist karşılığı.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 17,
+    "derinlik": 20,
+    "gerceklik": 10,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Gerçek Sentinel/Kusto'da hiç çalıştırılmadı (abonelik gerekiyor); yerel çeviri motorunda.",
+     "oncelik": "orta",
+     "etiket": "CDEP"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 36,
+   "yol": "kql",
+   "ad": "mv-apply ve bag_unpack",
+   "dersler": [
+    "KQ23"
+   ],
+   "karar": "Kısmen",
+   "ozet": "mv-apply ile dizide alt sorgu, boş dizi, bag_unpack. Gerçek Kusto değil, yerel motor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 16,
+    "derinlik": 19,
+    "gerceklik": 10,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "OutputSchema ve tür uyuşmazlığı testleri yok (ASAMA2 istiyor).",
+     "oncelik": "düşük"
+    },
+    {
+     "metin": "Gerçek Kusto bağlantısında görev yok.",
+     "oncelik": "orta",
+     "etiket": "CDEP"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 37,
+   "yol": "kql",
+   "ad": "Avcılık sorgusundan zamanlanan Sentinel kuralına",
+   "dersler": [
+    "KQ22"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Çalıştırma sıklığı ve lookback pencereleri, kaçan ve iki kez sayılan olaylar, ingestion_time, eşik.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 18,
+    "derinlik": 22,
+    "gerceklik": 10,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Gerçek Sentinel'de kural önizlemesi yok (abonelik).",
+     "oncelik": "orta",
+     "etiket": "CDEP"
+    },
+    {
+     "metin": "Entity mapping yalnız anılıyor; görevde yok.",
+     "oncelik": "orta",
+     "etiket": "CDEP"
+    }
+   ]
+  },
+  {
+   "no": 38,
+   "yol": "spl",
+   "ad": "Gerçek log alımı, olay sınırı ve zaman",
+   "dersler": [
+    "SP21"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek Splunk'ta props.conf (LINE_BREAKER, TIME_FORMAT, TZ); alınan olay sayısı ve _time doğrulanıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Mutasyonda iki gerçek boşluk: SP21:2 ve SP21:4'te saat değerinin bir artması testten geçiyor.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 39,
+   "yol": "spl",
+   "ad": "CIM ve tstats gerçek veri modelinde",
+   "dersler": [
+    "SP23"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek Splunk'ta veri modeli ve tstats, summariesonly karşılaştırması; resmi CIM eklentisi kurulu.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 22,
+    "kapsam": 15,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "ASAMA2 Authentication/Endpoint istiyor; ders Web modelini kullanıyor.",
+     "oncelik": "yüksek",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "CIM eklentisinin kurulumu otomatik değil.",
+     "oncelik": "düşük"
+    }
+   ],
+   "cikar": true,
+   "not": "Authentication senaryosu bende güvenlik filtresine takıldı; Codex'e."
+  },
+  {
+   "no": 40,
+   "yol": "spl",
+   "ad": "Zamanlanan alarm, tetikleme ve bastırma",
+   "dersler": [
+    "SP22"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek savedsearches.conf; boşluksuz pencere dizisi, eşik ilişkileri, varlık başına bastırma.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 22,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Bir tahmin yaklaşık 8 çalıştırmada bir farklı çıkıyor.",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 41,
+   "yol": "elastic",
+   "ad": "Gerçek telemetri alımı, ECS ve ingest eşlemesi",
+   "dersler": [
+    "EL20",
+    "EL21"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek Elasticsearch'te ingest pipeline, _simulate, ECS, hatalı mapping kanıtları.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 21,
+    "kapsam": 22,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Elastic Agent yok; ajan tabanlı alım öğretilmiyor.",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "Yük altında zaman aşımı kararsızlığı (EL20/EL21).",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
+  },
+  {
+   "no": 42,
+   "yol": "elastic",
+   "ad": "EQL işlevleri ve gerçek backend",
+   "dersler": [
+    "EL22",
+    "EL23"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek _eql API'si; sequence, until, maxspan, eksik olay. Yerel ve gerçek motor karşılaştırması yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 17,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "EL13–EL18'deki yerel EQL tahminlerini gerçek Elasticsearch'le karşılaştıran otomatik denetim yok.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ]
+  },
+  {
+   "no": 43,
+   "yol": "elastic",
+   "ad": "Security tespit kuralı olarak işletmek",
+   "dersler": [
+    "EL24",
+    "EL25"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek Kibana'da query ve EQL kuralı, interval/from farkı, threshold, exception list.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 22,
+    "kapsam": 23,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "Görevler kuralı önizlemeyle ölçüyor; etkin zamanlayıcı yalnız kabul betiğinde.",
+     "oncelik": "düşük"
+    }
+   ]
+  },
+  {
+   "no": 44,
+   "yol": "elastic",
+   "ad": "ES|QL ile toplama ve dönüştürme",
+   "dersler": [
+    "EL26",
+    "EL27"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek _query API'si; STATS/EVAL/KEEP/SORT/WHERE, çok değerli alanlar, null.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 23,
+    "kapsam": 22,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eklenmeli": [
+    {
+     "metin": "DISSECT/GROK ile metin ayrıştırma (ASAMA2 istemiyor; CDSA'da işe yarar).",
+     "oncelik": "düşük",
+     "etiket": "CDSA"
+    }
+   ]
+  },
+  {
+   "no": 45,
+   "yol": "sigma",
+   "ad": "sigma-cli, gerçek backend ve processing pipeline",
+   "dersler": [
+    "SG19"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek pySigma Splunk backend'i ve pipeline'lar; üretilen sorgu gerçek Splunk'ta sınanıyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 13,
+    "derinlik": 20,
+    "gerceklik": 13,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "sigma-cli hiç kullanılmıyor (madde adında var).",
+     "oncelik": "yüksek",
+     "etiket": "CDEP"
+    },
+    {
+     "metin": "Yalnız Splunk; Elastic ve Kusto backend'i yok.",
+     "oncelik": "yüksek",
+     "etiket": "CDEP"
+    },
+    {
+     "metin": "Mutasyonda gerçek boşluk: SG19:2'de eşik değerinin bir artması geçiyor.",
+     "oncelik": "orta",
+     "etiket": "test"
+    },
+    {
+     "metin": "SigmaSplunkRunner'ın kendi altyapı testi yok.",
+     "oncelik": "orta",
+     "etiket": "test"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 46,
+   "yol": "sigma",
+   "ad": "Çalıştırılan korelasyon kuralları",
+   "dersler": [
+    "SG20"
+   ],
+   "karar": "Kısmen",
+   "ozet": "event_count ve value_count gerçek Splunk'ta; sabit zaman kutusu tuzağı gösteriliyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 14,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Zamansal korelasyon (temporal / temporal_ordered) hiç yok.",
+     "oncelik": "yüksek",
+     "etiket": "CDEP"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 47,
+   "yol": "sigma",
+   "ad": "Gerçek olaydan kurala telemetri doğrulaması",
+   "dersler": [
+    "SG21"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Kural sessizliğinin üç nedeni ayrılıyor; Sysmon kuralını 4688'e uyarlama; kör nokta tanığı.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 20,
+    "kapsam": 15,
+    "derinlik": 21,
+    "gerceklik": 9,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Gerçek EVTX/XML yok; olaylar sentetik JSON.",
+     "oncelik": "yüksek",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "PS27/PS21'deki olay okuma bilgisine köprü yok.",
+     "oncelik": "orta"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 48,
+   "yol": "sigma",
+   "ad": "İleri modifier'lar gerçek hedefte",
+   "dersler": [
+    "SG22"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Modifier'ların Splunk karşılığı ölçülmüş; windash, wide|base64offset, cidr görevde.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 21,
+    "kapsam": 15,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 8
+   },
+   "eksikler": [
+    {
+     "metin": "re ve fieldref görevde yok.",
+     "oncelik": "orta",
+     "etiket": "CDEP"
+    },
+    {
+     "metin": "utf16le/utf16be ayrı görevde yok.",
+     "oncelik": "düşük"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 49,
+   "yol": "yara",
+   "ad": "PE import/export ve bölüm özellikleri",
+   "dersler": [
+    "YR19",
+    "YR20"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Gerçek libyara pe modülü; imports, exports, sections ve bitleri.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 16,
+    "derinlik": 20,
+    "gerceklik": 9,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "Gerçek derleyici çıktısı (MinGW 32/64) yok; örnekler Python'da sentezleniyor. Projede ctypes_lab ile derleme artık mümkün.",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    },
+    {
+     "metin": "pe.is_32bit/is_64bit/machine görevde yok; bozuk başlık tanığı zayıf.",
+     "oncelik": "düşük"
+    }
+   ]
+  },
+  {
+   "no": 50,
+   "yol": "yara",
+   "ad": "ELF ve .NET modülleri",
+   "dersler": [
+    "YR21",
+    "YR22"
+   ],
+   "karar": "Tam",
+   "ozet": "elf modülü gcc ile derlenmiş örneklerde; dotnet modülü .NET 8 SDK ile derlenmiş örneklerde.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 8
+   }
+  },
+  {
+   "no": 51,
+   "yol": "yara",
+   "ad": "Dış değişkenler, include ve namespace",
+   "dersler": [],
+   "karar": "Eksik",
+   "ozet": "Ders yok. YARA yolu YR22'de bitiyor.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "eklenmeli": [
+    {
+     "metin": "externals, namespace, sınırlı include callback, tanımsız değişken ve ad çakışması testleri.",
+     "oncelik": "orta",
+     "etiket": "CDEP"
+    }
+   ]
+  },
+  {
+   "no": 52,
+   "yol": "yara",
+   "ad": "Toplu tarama, çıktı ve maliyet ölçümü",
+   "dersler": [],
+   "karar": "Eksik",
+   "ozet": "Ders yok.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "eklenmeli": [
+    {
+     "metin": "Klasör tarayıcı, eşleşme raporu, timeout, korpusla süre ölçümü.",
+     "oncelik": "orta",
+     "etiket": "CDSA"
+    }
+   ]
+  },
+  {
+   "no": 53,
+   "yol": "regex",
+   "ad": "Lehçe bilgisini gerçek motorlarda sınamak",
+   "dersler": [
+    "RX24"
+   ],
+   "karar": "Tam",
+   "ozet": "Python re, .NET, Node ve PCRE2 adaptörleri; \\d ve \\w'nun motora göre değişen kapsamı.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "eksikler": [
+    {
+     "metin": "Motorlar arası eşleşme aralığı (başlangıç/bitiş) karşılaştırması yok.",
+     "oncelik": "düşük"
+    }
+   ],
+   "cikar": true
+  },
+  {
+   "no": 54,
+   "yol": "regex",
+   "ad": "PCRE2 subroutine/recursion ve kontrol fiilleri",
+   "dersler": [
+    "RX23"
+   ],
+   "karar": "Tam",
+   "ozet": "(?R), (?&ad), DEFINE, branch reset, (*SKIP)(*FAIL); gerçek PCRE2.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 7
+   },
+   "cikar": true
+  },
+  {
+   "no": 55,
+   "yol": "packets",
+   "ad": "PCAPNG ve farklı link-layer türleri",
+   "dersler": [
+    "PK19",
+    "PK20"
+   ],
+   "karar": "Tam",
+   "ozet": "TShark ile PCAPNG, çoklu arayüz, kesik paket, dört link-layer'da BPF.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
+   },
+   "eksikler": [
+    {
+     "metin": "if_tsresol (zaman çözünürlüğü) görevde sınanmıyor.",
+     "oncelik": "düşük"
+    }
+   ]
+  },
+  {
+   "no": 56,
+   "yol": "packets",
+   "ad": "TLS/HTTP2/QUIC ve görünürlük sınırı",
+   "dersler": [
+    "PK21",
+    "PK22"
+   ],
+   "karar": "Tam",
+   "ozet": "SNI; sır yok/yanlış/doğru durumları; 'anahtar yoksa boş sonuç gönderilmedi demek değil' tuzağı; QUIC.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 25,
+    "kapsam": 24,
+    "derinlik": 24,
+    "gerceklik": 15,
+    "yol": 10
+   }
+  },
+  {
+   "no": 57,
+   "yol": "packets",
+   "ad": "TCP yeniden birleştirme ve analist iş akışı",
+   "dersler": [
+    "PK23",
+    "PK24"
+   ],
+   "karar": "Tam",
+   "ozet": "Retransmission/out-of-order, iki geçişli analiz, Follow Stream, --export-objects.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 23,
+    "derinlik": 24,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "tcp.analysis.lost_segment görevde yok.",
+     "oncelik": "düşük",
+     "etiket": "CDSA"
+    }
+   ]
+  },
+  {
+   "no": 58,
+   "yol": "packets",
+   "ad": "SMB2, Kerberos ve LDAP",
+   "dersler": [
+    "PK25",
+    "PK26",
+    "PK27"
+   ],
+   "karar": "Tam",
+   "ozet": "SMB2 Tree Connect ve NTSTATUS, Kerberos ön kimlik doğrulama hatası, LDAP bind hatası; şifreli alanların sınırı.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 23,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "tshark -G fields ile sürüm alan listesi doğrulaması yok.",
+     "oncelik": "düşük"
+    }
+   ]
+  },
+  {
+   "no": 59,
+   "yol": "packets",
+   "ad": "Gerçek CLI ile toplama, alan çıkarma ve özet",
+   "dersler": [
+    "PK28",
+    "PK29"
+   ],
+   "karar": "Tam",
+   "ozet": "tshark -T fields, -z io,phs, -w; tcpdump gerçek yakalama, snaplen, dosya döndürme.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "Süreye göre döndürme (-G / -b duration) yok.",
+     "oncelik": "düşük"
+    }
+   ]
+  },
+  {
+   "no": 60,
+   "yol": "ad",
+   "ad": "Nesne ACL'lerinden erişim yolu çıkarmak",
+   "dersler": [
+    "AD13",
+    "AD14"
+   ],
+   "karar": "Kısmen",
+   "ozet": "Sıralı DACL'den etkin hak, sahiplik ve devralma, doğrulanmış kenarlarla en kısa yol; yerel modelde.",
+   "tarih": "26.10.2026",
+   "kaynak": "Claude",
+   "puan": {
+    "test": 24,
+    "kapsam": 15,
+    "derinlik": 20,
+    "gerceklik": 9,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "Gerçek grafik verisini okuyan görev yok (ASAMA2 'gerçek grafikte sonucu kontrol eden okuma').",
+     "oncelik": "orta",
+     "etiket": "CAPE"
+    }
+   ],
+   "not": "Codex 26 Ekim'de AD 60 için gerçek DC kabul kanıtı ekledi (af22836); bir sonraki turda yeniden ölçülecek."
+  },
+  {
+   "no": 61,
+   "yol": "ad",
+   "ad": "Mevcut devir türlerine gerçek S4U/bilet akışı ve doğrulama",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 62,
+   "yol": "ad",
+   "ad": "AD CS ve sertifika şablonu/izin denetimi",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 63,
+   "yol": "ad",
+   "ad": "Gerçek LDAP bağlantısında TLS, imzalama ve channel binding",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 64,
+   "yol": "ad",
+   "ad": "GPO/SYSVOL dosyaları (GptTmpl.inf, Groups.xml) ve LAPS okuma",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 65,
+   "yol": "java",
+   "ad": "Gerçek Spring Security zinciri ve method authorization",
+   "dersler": [
+    "JV15"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 66,
+   "yol": "java",
+   "ad": "Spring Data JPA ve transaction proxy akışı",
+   "dersler": [
+    "JV13"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 67,
+   "yol": "java",
+   "ad": "Serialization nesne grafiği, callback ve filtre sınırları",
+   "dersler": [
+    "JV14"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 68,
+   "yol": "java",
+   "ad": "Şablon motorlarında (Thymeleaf/FreeMarker) bağlam ve kaçış",
+   "dersler": [
+    "JV16"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 69,
+   "yol": "csharp",
+   "ad": "Claims/policy ve nesne sahibine göre yetkilendirme",
+   "dersler": [
+    "CS13"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 70,
+   "yol": "csharp",
+   "ad": "Klasik ASP.NET/System.Web yaşam döngüsü",
+   "dersler": [
+    "CS14"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 71,
+   "yol": "csharp",
+   "ad": "Nesne grafiği serializer'larında güvenilmeyen veri",
+   "dersler": [
+    "CS15"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 72,
+   "yol": "csharp",
+   "ad": "Assembly/CIL ve P/Invoke sınırını okumak",
+   "dersler": [
+    "CS16"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 73,
+   "yol": "csharp",
+   "ad": "XML ayrıştırıcı ayarlarında DTD ve XXE sınırı",
+   "dersler": [
+    "CS17"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 74,
+   "yol": "c",
+   "ad": "Heap sahipliği, alias ve realloc başarısızlığı",
+   "dersler": [
+    "C14"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 75,
+   "yol": "c",
+   "ad": "POSIX fd, kısa I/O ve hata akışı",
+   "dersler": [
+    "C15"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 76,
+   "yol": "c",
+   "ad": "Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı",
+   "dersler": [
+    "C16"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 77,
+   "yol": "c",
+   "ad": "Çalışma zamanında dinamik sembol çözme (dlopen/LoadLibrary)",
+   "dersler": [
+    "C17"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 78,
+   "yol": "php",
+   "ad": "Laravel istek ve yetki zincirini gerçek framework kodunda okumak",
+   "dersler": [
+    "PH15"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 79,
+   "yol": "php",
+   "ad": "WordPress eklentisi/REST endpoint yetkileri",
+   "dersler": [
+    "PH16"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 80,
+   "yol": "php",
+   "ad": "unserialize callback ve autoload grafiğini izlemek",
+   "dersler": [
+    "PH12"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 81,
+   "yol": "php",
+   "ad": "Upload ve stream-wrapper dosya akışını okumak",
+   "dersler": [
+    "PH13"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 82,
+   "yol": "php",
+   "ad": "Twig/Blade şablon kaçışı ve parse_url/filter_var",
+   "dersler": [
+    "PH14"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 83,
+   "yol": "javascript",
+   "ad": "Gerçek Express Router ve hata akışını okumak",
+   "dersler": [
+    "JS13"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 84,
+   "yol": "javascript",
+   "ad": "Browser/SPA içinde postMessage ve ham HTML güven sınırı",
+   "dersler": [
+    "JS15"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 85,
+   "yol": "javascript",
+   "ad": "Prototype pollution: kaynak→kalıtılan özellik→karar",
+   "dersler": [
+    "JS14"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 86,
+   "yol": "javascript",
+   "ad": "Bundle/source map ile çalışan kodu kaynağa eşlemek",
+   "dersler": [
+    "JS16"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 87,
+   "yol": "asm",
+   "ad": "ELF/PE yükleyici bağlamı ve adres türlerini okumak",
+   "dersler": [
+    "AS13"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 88,
+   "yol": "asm",
+   "ad": "Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi",
+   "dersler": [
+    "AS16"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 89,
+   "yol": "asm",
+   "ad": "x86-32 cdecl/stdcall çağrı kurallarını okumak",
+   "dersler": [
+    "AS14"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 90,
+   "yol": "asm",
+   "ad": "x86-64 syscall ABI'si ve ntdll sistem çağrısı şablonu",
+   "dersler": [
+    "AS15"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 91,
+   "yol": "purple",
+   "ad": "MITRE ATT&CK ile tespit kapsamı haritası",
+   "dersler": [
+    "PU01"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 92,
+   "yol": "purple",
+   "ad": "Rakip öykünmesi: Atomic Red Team / Caldera",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 93,
+   "yol": "purple",
+   "ad": "Olay müdahale süreci ve zaman çizelgesi",
+   "dersler": [
+    "PU02"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 94,
+   "yol": "purple",
+   "ad": "Uç nokta avcılığı: Velociraptor ve osquery",
+   "dersler": [
+    "PU03"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 95,
+   "yol": "purple",
+   "ad": "Bellek analizi: Volatility 3 / MemProcFS",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 96,
+   "yol": "purple",
+   "ad": "Ağ tespit sistemleri: Suricata, Zeek ve C2 işaretleşmesi",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 97,
+   "yol": "purple",
+   "ad": "Tehdit istihbaratı: MISP ve IOC yaşam döngüsü",
+   "dersler": [
+    "PU04",
+    "PU05"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 98,
+   "yol": "purple",
+   "ad": "Sertleştirme ve önleme: LAPS, ASR, AppLocker",
+   "dersler": [
+    "PU06",
+    "PU07"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 99,
+   "yol": "purple",
+   "ad": "Bulut güvenlik günlükleri: CloudTrail ve Entra ID",
+   "dersler": [
+    "PU08",
+    "PU09"
+   ],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Ders commit'li.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 100,
+   "yol": "purple",
+   "ad": "Web uygulama güvenliği uygulaması: IDOR, XSS, SQLi, API",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 101,
+   "yol": "purple",
+   "ad": "Saldırı tarafı laboratuvarı: yetki yükseltme ve yatay hareket",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 102,
+   "yol": "bitirme",
+   "ad": "Bitirme tatbikatı (savunma): uçtan uca olay incelemesi",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 103,
+   "yol": "bitirme",
+   "ad": "Bitirme tatbikatı (saldırı zinciri)",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  },
+  {
+   "no": 104,
+   "yol": "bitirme",
+   "ad": "Olay raporu ve purple team bulgu yazımı",
+   "dersler": [],
+   "karar": "Bekliyor",
+   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "tarih": "26.10.2026",
+   "kaynak": "sıraya alındı"
+  }
+ ],
+ "yeni_maddeler": [
+  {
+   "ad": "Oltalama e-postası analizi",
+   "oncelik": "yüksek",
+   "etiket": "CDSA",
+   "neden": "SOC L1/CDSA'nın merkezinde; başlık, SPF/DKIM/DMARC, ek ve URL ayrıştırma. Pafta'da hiç yok."
+  },
+  {
+   "ad": "Windows adli izleri",
+   "oncelik": "yüksek",
+   "etiket": "CDSA",
+   "neden": "Registry hive, Prefetch, MFT, LNK, zaman çizelgesi. CDSA'nın son modülü buna dayanıyor; ASAMA2'de madde yok."
+  },
+  {
+   "ad": "Linux yetki yükseltmenin altı",
+   "oncelik": "yüksek",
+   "etiket": "CPTS",
+   "neden": "SUID, sudo, cron, PATH, capability. CPTS'te en çok takılınan yer; madde 10 yakın ama yetki yükseltme yok."
+  },
+  {
+   "ad": "Parola özeti biçimleri",
+   "oncelik": "orta",
+   "etiket": "CPTS",
+   "neden": "NTLM, bcrypt, $y$ gibi biçimleri tanımak ve hangi aracın neyi kırdığını bilmek. Pafta'da yok."
+  }
+ ]
+}
