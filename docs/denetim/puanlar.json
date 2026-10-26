@@ -886,18 +886,51 @@
    "dersler": [
     "PS29"
    ],
-   "karar": "Kısmen",
-   "ozet": "New/Invoke/Remove-PSSession, serileştirme ölçümü. Ama ayrı Windows lab ucu ve hata/temizlik akışı yok.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "PS29: PF-APP01 üzerinde gerçek WinRM/ComputerName, kalıcı veri, serileştirme, Opened/Broken ve finally ile oturum kaydının silinmesi. Tahmin doğrulandı, 8 kontrol temiz; 7 mutant reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 20,
-    "kapsam": 15,
-    "derinlik": 17,
-    "gerceklik": 13,
-    "yol": 8
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "cikar": true,
+   "onceki_denetim": {
+    "no": 18,
+    "yol": "powershell",
+    "ad": "Gerçek PSSession yaşam döngüsü ve uzak çıktı",
+    "dersler": [
+     "PS29"
+    ],
+    "karar": "Kısmen",
+    "ozet": "New/Invoke/Remove-PSSession, serileştirme ölçümü. Ama ayrı Windows lab ucu ve hata/temizlik akışı yok.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+     "test": 20,
+     "kapsam": 15,
+     "derinlik": 17,
+     "gerceklik": 13,
+     "yol": 8
+    },
+    "eksikler": [
+     {
+      "metin": "Ayrılmış Windows lab ucu, WinRM ve -ComputerName yok (ASAMA2 istiyor).",
+      "oncelik": "orta",
+      "etiket": "CAPE"
+     },
+     {
+      "metin": "Hata ve temizlik akışı (try/finally, Broken durumu, sızan oturum) yok.",
+      "oncelik": "orta"
+     }
+    ],
+    "cikar": true
+   },
+   "kapatilanlar": [
     {
      "metin": "Ayrılmış Windows lab ucu, WinRM ve -ComputerName yok (ASAMA2 istiyor).",
      "oncelik": "orta",
@@ -908,7 +941,16 @@
      "oncelik": "orta"
     }
    ],
-   "cikar": true
+   "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "commit": "5b199b2",
+    "ozet": "PS29: PF-APP01 üzerinde gerçek WinRM/ComputerName, kalıcı veri, serileştirme, Opened/Broken ve finally ile oturum kaydının silinmesi. Tahmin doğrulandı, 8 kontrol temiz; 7 mutant reddedildi.",
+    "kanit": "../../outputs/a-notu-ps29-winrm-kabul.json",
+    "rapor": "../../outputs/a-notu-ps29-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "94/100 Codex öz değerlendirmesi; önceki bağımsız 73/100 korundu. Gerçek WinRM bağlantısı ayrılmış VM içinde loopback; iki makine Kerberos/double-hop kabulü değildir."
+   }
   },
   {
    "no": 19,
