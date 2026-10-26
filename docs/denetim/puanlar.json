@@ -549,18 +549,48 @@
    "dersler": [
     "BS30"
    ],
-   "karar": "Kısmen",
-   "ozet": "Gerçek ShellCheck/Bats, çıkış kodları, fixture'lar; exit/stdout/stderr ayrı denetleniyor.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "BS30: düşen/geçen testte gerçek teardown, ayrı alanlar ve bağımsız Bats kabulü; Git Bash/Kali farkları gerçek envanterle kaydedildi. 11 kontrol iki ortamda temiz, 7 mutant reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 22,
-    "kapsam": 19,
-    "derinlik": 21,
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
     "gerceklik": 15,
-    "yol": 8
+    "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "no": 12,
+    "yol": "bash",
+    "ad": "ShellCheck ve Bats ile kendi aracını sınamak",
+    "dersler": [
+     "BS30"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Gerçek ShellCheck/Bats, çıkış kodları, fixture'lar; exit/stdout/stderr ayrı denetleniyor.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+     "test": 22,
+     "kapsam": 19,
+     "derinlik": 21,
+     "gerceklik": 15,
+     "yol": 8
+    },
+    "eksikler": [
+     {
+      "metin": "teardown yalnız tabloda (ASAMA2 setup/teardown).",
+      "oncelik": "düşük"
+     },
+     {
+      "metin": "Git Bash ile Linux farkları kayıtlı değil (ASAMA2 istiyor).",
+      "oncelik": "orta"
+     }
+    ]
+   },
+   "kapatilanlar": [
     {
      "metin": "teardown yalnız tabloda (ASAMA2 setup/teardown).",
      "oncelik": "düşük"
@@ -569,7 +599,17 @@
      "metin": "Git Bash ile Linux farkları kayıtlı değil (ASAMA2 istiyor).",
      "oncelik": "orta"
     }
-   ]
+   ],
+   "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "commit": "3f1fd61",
+    "ozet": "BS30: düşen/geçen testte gerçek teardown, ayrı alanlar ve bağımsız Bats kabulü; Git Bash/Kali farkları gerçek envanterle kaydedildi. 11 kontrol iki ortamda temiz, 7 mutant reddedildi.",
+    "kanit": "../../outputs/a-notu-bs30-teardown-kabul.json",
+    "rapor": "../../outputs/a-notu-bs30-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "94/100 Codex öz değerlendirmesi; önceki bağımsız 85/100 kaydı korundu."
+   }
   },
   {
    "no": 13,
