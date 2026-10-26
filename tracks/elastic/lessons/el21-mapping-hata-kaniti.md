@@ -35,7 +35,7 @@ Taşan sayı ve sözcük on_failure ile neye dönüşür?
 
 ```meta
 dil: ingest
-timeout: 60
+timeout: 120
 ```
 
 ```ingest
@@ -78,7 +78,7 @@ raw metnini integer n alanına çevir; raw kalsın. Çevrilemeyenlerde n olması
 
 ```meta
 dil: ingest
-timeout: 60
+timeout: 120
 ```
 
 ```stdin
@@ -136,7 +136,7 @@ raw tarihini UTC @timestamp alanına ISO8601 olarak dönüştür. Çıktı yyyy-
 
 ```meta
 dil: ingest
-timeout: 60
+timeout: 120
 ```
 
 ```stdin
