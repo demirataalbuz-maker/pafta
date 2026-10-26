@@ -618,31 +618,18 @@
    "dersler": [
     "PS23"
    ],
-   "karar": "Kısmen",
-   "ozet": "PS23:6 gerçek loopback HTTP 200 başarı dalı: 6 mutant, 0 geçen. Kalan kapsam eksikleri aşağıda açık.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "PS23: gerçek PowerShell 7 redirect sınırı, multipart FileInfo, başlık/gövde timeout ayrımı; 17 kontrol temiz, 12 mutant reddedildi. Bütün PowerShell yolu 29 ders/276 kontrol temiz.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 19,
-    "kapsam": 16,
-    "derinlik": 19,
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
-    {
-     "metin": "Yönlendirme (-MaximumRedirection, 3xx) yok.",
-     "oncelik": "orta"
-    },
-    {
-     "metin": "Form gövdesi (-Form) yok.",
-     "oncelik": "orta"
-    },
-    {
-     "metin": "Timeout yalnız tabloda; sınanmıyor.",
-     "oncelik": "düşük"
-    }
-   ],
+   "eksikler": [],
    "onceki_denetim": {
     "karar": "Kısmen",
     "ozet": "Gerçek -SessionVariable çerezi, JSON gövde, 201+Location, ErrorDetails. Yönlendirme, timeout ve form eksik.",
@@ -661,17 +648,29 @@
      "metin": "2xx dalı sınanmıyor. → PS23:6 gerçek loopback HTTP 200 başarı dalı: 6 mutant, 0 geçen.",
      "etiket": "düzeltildi",
      "oncelik": "orta"
+    },
+    {
+     "metin": "Yönlendirme (-MaximumRedirection, 3xx) yok.",
+     "oncelik": "orta"
+    },
+    {
+     "metin": "Form gövdesi (-Form) yok.",
+     "oncelik": "orta"
+    },
+    {
+     "metin": "Timeout yalnız tabloda; sınanmıyor.",
+     "oncelik": "düşük"
     }
    ],
    "duzeltme": {
-    "tarih": "26.10.2026",
     "yazar": "Codex",
-    "commit": "94aefc9",
-    "ozet": "PS23:6 gerçek loopback HTTP 200 başarı dalı: 6 mutant, 0 geçen.",
-    "kanit": "../../outputs/codex-aciklar-ps23-ps25-final.txt",
-    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "tarih": "27.10.2026",
+    "commit": "97b36ee",
+    "ozet": "PS23: gerçek PowerShell 7 redirect sınırı, multipart FileInfo, başlık/gövde timeout ayrımı; 17 kontrol temiz, 12 mutant reddedildi. Bütün PowerShell yolu 29 ders/276 kontrol temiz.",
+    "kanit": "../../outputs/a-notu-ps23-http-kabul.json",
+    "rapor": "../../outputs/a-notu-ps23-rapor.md",
     "bagimsiz_denetim": "yeniden yapılmadı",
-    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+    "puan_notu": "94/100 Codex öz değerlendirmesi; önceki bağımsız 78/100 kaydı korundu."
    }
   },
   {
