@@ -42,6 +42,10 @@ for port in (1,65535):
     for u in (f'http://127.0.0.1:{port}/#x',f'http://x@127.0.0.1:{port}/',f'http://127.1:{port}/',f'http://2130706433:{port}/',f'http://127.0.0.1.evil.test:{port}/',f'https://127.0.0.1:{port}/',f'http://127.0.0.1:{port}/a b',f'http://127.0.0.1:{port}/a\tb',f'http://127.0.0.1:{port}/a\\b',f'http://127.0.0.1:{port}/\u011f','http://127.0.0.1:0/','http://127.0.0.1:65536/','http://127.0.0.1:/','http://[oops','/echo'):
         eq(izinli(u,base),False,'belirsiz veya farkli hedef')
 eq(izinli('http://127.0.0.1:81/','http://127.0.0.1:80'),False,'port origin parcasi')
+
+eq(izinli('http://127.0.0.1:1/a!b','http://127.0.0.1:1'),True,'ASCII 33 izinli komşu')
+eq(izinli('http://127.0.0.1:1/a\x7fb','http://127.0.0.1:1'),False,'tam DEL 127 reddedilir')
+
 ```
 ```solution
 from urllib.parse import urlsplit
@@ -104,6 +108,30 @@ def deny(u): calls.append(u); raise ValueError('deny')
 try: takip(lambda *a:ok(False,'guard oncesi ag'),'http://127.0.0.1:1/',deny)
 except ValueError: pass
 eq(len(calls),1,'ilk URL de dogrulanir')
+
+# Yönlendirme aralığının iki eşit ucu ve komşuları: transport test double'ı.
+for status in (299,400):
+    response={'status':status,'headers':{}}
+    eq(takip(lambda *a:response,'http://127.0.0.1:1/',lambda u:None),response,'aralık dışında doğrudan yanıt')
+for status in (300,399):
+    raises(ValueError,lambda status=status:takip(lambda *a:{'status':status,'headers':{'location':'/x'}},'http://127.0.0.1:1/',lambda u:None),msg='aralığın eşit ucu desteklenmeyen yönlendirme')
+with RedirectLab() as lab:
+    for limit in (1,2,3):
+        eq(takip(lab.wire,lab.base+'/chain'+str(limit),lambda u:None,max_redirects=limit)['status'],200,'tam izin verilen hop sayısı')
+        raises(ValueError,lambda limit=limit:takip(lab.wire,lab.base+'/chain'+str(limit),lambda u:None,max_redirects=limit-1),msg='bir fazla yönlendirme durdurulur')
+
+
+for ch,allowed in [(' ',False),('!',True),('\x7f',False),('\x80',True)]:
+    sent=[]
+    def wire_edge(method,url,body=None):
+        sent.append(url)
+        return {'status':302,'headers':{'location':'/a'+ch+'b'}} if len(sent)==1 else {'status':200,'headers':{}}
+    if allowed: eq(takip(wire_edge,'http://127.0.0.1:1/start',lambda u:None)['status'],200,'Location kontrolünün izinli komşusu')
+    else: raises(ValueError,lambda:takip(wire_edge,'http://127.0.0.1:1/start',lambda u:None),msg='Location kontrolünün eşit ucu')
+with RedirectLab() as lab:
+    lab.public.redirects['/chain4']=(302,'/chain3')
+    raises(ValueError,lambda:takip(lab.wire,lab.base+'/chain4',lambda u:None),msg='varsayılan tam 3 hop; dördüncü reddedilir')
+
 ```
 ```solution
 from urllib.parse import urljoin
