@@ -32,6 +32,22 @@ ETIKET = {
     "": "· dokunulmadı",
 }
 
+# Excel'deki 104 maddeyi değiştirmeden iş-rolü eklerini paftada göster.
+EK_MADDELER = [
+    {"no": 105, "ad": "İş Rolü: Oltalama e-postası analizi (PU14)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "SPF/DKIM/DMARC, Received, URL ve ek kanıtı; 9/9 test temiz"},
+    {"no": 106, "ad": "İş Rolü: Windows adli izleri (PU15)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "Registry, Prefetch, MFT, LNK ve UTC çizelgesi; 9/9 test temiz"},
+    {"no": 107, "ad": "İş Rolü: Linux yetki yükseltme temelleri (PU16)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "SUID/SGID, sudo, cron/systemd, PATH ve capability; 8/8 test temiz"},
+    {"no": 108, "ad": "İş Rolü: Parola özeti biçimleri (PU17)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "NTLM, bcrypt, sha512crypt, yescrypt ve araç modları; 8/8 test temiz"},
+]
+
 
 def git(*args):
     p = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace")
@@ -97,6 +113,8 @@ def uret():
         m["kim"] = d.get("kim", "")
         m["commit"] = d.get("commit", "")
         m["not"] = d.get("not", "")
+
+    maddeler.extend(dict(m) for m in EK_MADDELER)
 
     sayac = {}
     for m in maddeler:
