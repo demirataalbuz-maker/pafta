@@ -214,17 +214,20 @@
   "Active Directory: Nesne ACL'leri ve etkili yetkilerden erişim yolu çıkarmak": {
    "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "AD13–AD14: sentetik ACL kesitinde sıralı ACE, owner, deny/allow, devralma ve en kısa inceleme yolu; gerçek AD ve BloodHound sınırları açık. AD yolu 14 ders/125 kontrol temiz."
+   "not": "AD13–AD15: normalize ACL/grafik + gerçek svc_sql, gerçek kullanıcı token'ı ve Windows AccessCheck; canlı allow/deny değişiminde karar değişiyor. BloodHound CE kurulmadı; grafik sınırı derste açık. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "af22836"
   },
   "Active Directory: Mevcut devir türlerinin üzerine gerçek S4U/bilet akışı ve yapılandırma doğrulaması": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "AD15–AD23 ve Pafta içinden otomatik VMware AD/KDC/CA koşucusu üzerinde çalışılıyor; gerçek kabul devam ediyor. AD13–AD23 kimlikleri bu işte kullanılıyor."
+   "not": "AD16–AD18: gerçek KDC/S4U ve SMB erişimi; classic/rbcd başarı, missing/blocked ret; gerçek klist ve zaman aralıklı 4769 kanıtı. Nonforwardable RBCD özel durumu ayrıca doğrulanmış değildir. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "df2bc40"
   },
   "Active Directory: AD CS ve sertifika şablonu/izin denetimi": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "AD15–AD23 ve Pafta içinden otomatik VMware AD/KDC/CA koşucusu üzerinde çalışılıyor; gerçek kabul devam ediyor. AD13–AD23 kimlikleri bu işte kullanılıyor."
+   "not": "AD19–AD21: gerçek AD öznitelikleri/CA yayım listesi ve test kullanıcısının gerçek CSR'sine issued/pending/denied; enrollment ve değiştirme hakkı ayrımı. Bit alanının canlı birleşik uçları ve CA politikası değişimi sınandı; PKINIT başarısı iddiası yok. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "1cd906d"
   },
   "HTTP ve HTML: Burp Proxy → History → Repeater iş akışı": {
    "durum": "denetime-hazir",
@@ -409,9 +412,10 @@
    "not": "Madde 44: Excel satırının adı ES|QL içindeki ayraç nedeniyle Elastic: ES diye kesilmiş; Excel değiştirilmedi. EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
   },
   "Active Directory: Gerçek LDAP bağlantısında TLS, imzalama ve channel binding": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Codex",
-   "not": "AD15–AD23 ve Pafta içinden otomatik VMware AD/KDC/CA koşucusu üzerinde çalışılıyor; gerçek kabul devam ediyor. AD13–AD23 kimlikleri bu işte kullanılıyor."
+   "not": "AD22–AD23: gerçek OpenLDAP/Impacket; CA/ad doğrulamalı LDAPS, zorunlu StartTLS, signed/unsigned ve valid/none/wrong CBT. Gerçek bağlantı ve beklenmeyen sonuç sınırları sınandı. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "9832298"
   },
   "Java: Şablon motorlarında (Thymeleaf / FreeMarker) bağlam, otomatik kaçış ve ifadeleri okumak": {
    "durum": "codex-opus",
