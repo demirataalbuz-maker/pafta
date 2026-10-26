@@ -1597,41 +1597,103 @@
    "no": 61,
    "yol": "ad",
    "ad": "Mevcut devir türlerine gerçek S4U/bilet akışı ve doğrulama",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "dersler": [
+    "AD16",
+    "AD17",
+    "AD18"
+   ],
+   "karar": "Tam",
+   "ozet": "Yapılandırma bulgusunu başarılı bilet isteğinden ayırma, bilet zinciri ilişkilendirme; gerçek iki Windows Server konuğunda akış ve dosya erişimi. Testler durum değiştirme ile korunuyor.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "not": "Saldırı konusu; denetim yalnız kapsam ve test sağlamlığında tutuldu."
   },
   {
    "no": 62,
    "yol": "ad",
    "ad": "AD CS ve sertifika şablonu/izin denetimi",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "dersler": [
+    "AD19",
+    "AD20",
+    "AD21"
+   ],
+   "karar": "Tam",
+   "ozet": "Şablon konu/amaç bit alanları, enrollment ile değiştirme hakkını ayırma, gerçek CA'da şablon ve başvuru kararı. ASAMA2'nin üç koşulu da karşılanıyor.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 23,
+    "kapsam": 24,
+    "derinlik": 23,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "AD21:2'de -band 2 → -band 3 mutantı geçiyor; canlı şablonun bit değeri ikisini ayırt ettirmiyor (gizli zayıflık).",
+     "oncelik": "düşük",
+     "etiket": "test"
+    }
+   ]
   },
   {
    "no": 63,
    "yol": "ad",
    "ad": "Gerçek LDAP bağlantısında TLS, imzalama ve channel binding",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "dersler": [
+    "AD22",
+    "AD23"
+   ],
+   "karar": "Tam",
+   "ozet": "Gerçek DC'ye doğrulanmış LDAPS/StartTLS/imzalı SASL; sertifika hatasını filtreyle karıştırmama; geçerli/eksik/bozuk channel binding. Bağlantı katmanı filtreden ayrı.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 22,
+    "kapsam": 23,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 10
+   },
+   "eksikler": [
+    {
+     "metin": "ad_ldap_client.py:24 wslpath'e yolu tırnaksız geçiriyor; boşluksuz bir yola kurulursa AD22/AD23 kırılır. Kullanıcının yolunda boşluk var, çalışıyor; Codex'in dosyası.",
+     "oncelik": "orta",
+     "etiket": "test"
+    },
+    {
+     "metin": "Windows ldp.exe GUI aracı, otomatik sınanamaz (yalnız anılıyor); çekirdek davranış gerçek bağlantıda ölçüldüğü için not.",
+     "oncelik": "düşük",
+     "etiket": "CAPE"
+    }
+   ]
   },
   {
    "no": 64,
    "yol": "ad",
-   "ad": "GPO/SYSVOL dosyaları (GptTmpl.inf, Groups.xml) ve LAPS okuma",
-   "dersler": [],
-   "karar": "Bekliyor",
-   "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
+   "ad": "GPO/SYSVOL dosyaları ve LAPS özniteliklerini denetlemek",
+   "dersler": [
+    "AD24",
+    "AD25"
+   ],
+   "karar": "Tam",
+   "ozet": "GptTmpl.inf (UTF-16), Groups.xml ve Registry.pol (ikili başlık) üç biçim de okunuyor; LAPS alanları ve FILETIME, gizli değeri dökmeden erişim kanıtı. ASAMA2 'yerel yeterli' diyor, karşılanıyor.",
    "tarih": "26.10.2026",
-   "kaynak": "sıraya alındı"
+   "kaynak": "Claude · 26.10.2026",
+   "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 10
+   }
   },
   {
    "no": 65,

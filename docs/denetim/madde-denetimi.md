@@ -669,3 +669,45 @@ Dört maddede ortak eksik: **altyapı testi yok.** `tools/test_sigma_runtime.py`
   - **BloodHound CE hiç kullanılmıyor.** Ders, "gerçek etki alanında AD12 laboratuvarındaki ACL'leri topla, BloodHound CE verisinde yolu aç" diye **öneriyor**, ama hiçbir görev gerçek BloodHound verisini ya da grafiğini okumuyor. Görevler yerel modelde. ASAMA2 "gerçek grafikte sonucu kontrol eden okuma görevleri" istiyor.
   - AD12 laboratuvarından gerçek ACL çıktısı (`nTSecurityDescriptor`) görevlerde yok. Çalışma ağacında başkasının yarım AD VM işi var (`sandbox/ad_vm*`, AD15–AD19, commit'lenmemiş); bu madde onunla kapanabilir, ama şu an kapalı değil.
 - **Karar:** **Kısmen.**
+
+---
+
+> Madde 61–64 toplu ölçüm (26 Ekim 2026, anlık görüntü `9fad633`, **boşluklu yol**): AD yolu validate iki ortamda **temiz** (168 kontrol). 9 tahminin hepsi uyuşuyor. Mutasyon: 50 mutantın 49'u yakalandı (geçen 1'i aşağıda, eşdeğer). Codex 26 Ekim'de gerçek VMware DC laboratuvarını ve AD15–AD25 derslerini commit'ledi; madde 60'ın altındaki "commit'lenmemiş" notu artık geçersiz.
+>
+> **Canlı görevlerin test sağlamlığı güçlü.** `motor=ad-vm` görevleri (AD18:2, AD21:2/4, AD15:2) gerçek DC'de koşuyor ve sabit cevapla geçilemiyor: test gerçek lab durumunu değiştirip (`run_code(degistir(...))`) kararın buna göre değişmesini şart koşuyor. Bu yüzden bu görevlerde mutant üretilememesi zayıflık değil.
+>
+> **Ortam bulgusu (gerçek, ama kullanıcının kurulumunu etkilemiyor):** `sandbox/ad_ldap_client.py:24` Windows yolunu `wslpath`'e ters bölü işaretleriyle ve tırnaksız geçiriyor. Yol **boşluk içermezse** `wsl.exe` argümanı ters bölüleri siliyor ve AD22/AD23 "Kali WSL yolu çözümlenemedi" ile düşüyor. Kullanıcının gerçek yolu boşluk ve emoji içerdiği için orada çalışıyor; ama taşınabilir değil (boşluksuz bir yola kurulursa kırılır). Codex'in dosyası; düzeltmeyi ona bırakıyorum.
+
+## Madde 61 · AD · Mevcut devir türlerine gerçek S4U/bilet akışı ve doğrulama
+
+- **Dersler:** AD16, AD17, AD18 (`df2bc40`, Codex). Mevcut AD08 tanıtımını gerçek akışa bağlıyor.
+- **Denetim:** validate/tahmin temiz. AD17:3 mutasyonu 19/19. AD18:2 gerçek iki Windows Server konuğunda koşuyor; durum değiştirme testiyle korunuyor.
+- **Karşılananlar:** yapılandırma bulgusunu başarılı bilet isteğinden ayırmak (AD16); kendi hizmeti ile arka hizmet biletini ilişkilendirmek ve başarısızı ayırmak (AD17); **gerçek KDC/üye sunucu** arasında klasik ve kaynak tabanlı devir ile dosya erişimi, hassas kullanıcı sınırı (AD18). Hesap özellikleri LDAP'a bağlı; yerel KDC taklidi yok. ASAMA2'nin istediği her şey karşılanıyor.
+- **Eksikler:** bulmadım. Gerçek lab, gerçek akış, sağlam test.
+- **Karar:** **Tam.**
+
+## Madde 62 · AD · AD CS ve sertifika şablonu/izin denetimi
+
+- **Dersler:** AD19, AD20, AD21 (`1cd906d`, Codex).
+- **Denetim:** validate/tahmin temiz. AD20:3 mutasyonu 8/8. AD21:4 gerçek CA'da, durum değiştirme testiyle korunuyor. **Küçük test boşluğu:** AD21:2'de `-band 2` → `-band 3` mutantı geçiyor; canlı şablonun ilgili bitinin değeri bu iki maskeyi ayırt ettirmediği için (yalnızca o canlı şablona bağlı, gizli zayıflık).
+- **Karşılananlar:** şablonun konu/kimlik doğrulama amacını bit alanlarından okumak (AD19); **enrollment hakkı ile şablon değiştirme hakkını ayırmak** (AD20); gerçek CA şablon öznitelikleri, yayım listesi ve başvuru kararı (AD21). ASAMA2'nin üç koşulu da (konu/amaç, enrollment, değişiklik) karşılanıyor; gerçek CA kullanılıyor.
+- **Eksikler:** AD21:2 küçük test boşluğu (yukarıda).
+- **Karar:** **Tam** (küçük test notuyla).
+
+## Madde 63 · AD · Gerçek LDAP bağlantısında TLS, imzalama ve channel binding
+
+- **Dersler:** AD22, AD23 (`9832298`, Codex). `motor=ad-client` ile gerçek DC'ye bağlanıyor.
+- **Denetim:** validate/tahmin temiz (boşluklu yolda). AD17 benzeri davranış testleri. **Ortam bulgusu yukarıda:** boşluksuz yolda bu iki ders düşüyor.
+- **Karşılananlar:** gerçek DC'ye doğrulanmış LDAPS, StartTLS ve imzalı SASL; **sertifika hatasını LDAP filtresiyle karıştırmamak** (bağlantı katmanı filtreden ayrı — ASAMA2'nin özellikle istediği); geçerli/eksik/bozuk channel binding karşılaştırması ve sunucu olayları. `ldapsearch` anılıyor.
+- **Eksikler:**
+  - ASAMA2 Windows `RSAT/ldp` de diyor; `ldp.exe` GUI aracı, otomatik sınanamaz (Burp durumuyla aynı). Çekirdek davranış gerçek bağlantıda ölçüldüğü için gerçek boşluk değil, not.
+  - Taşınabilirlik hatası (yukarıdaki ortam bulgusu).
+- **Karar:** **Tam** (ldp notu + taşınabilirlik hatası).
+
+## Madde 64 · AD · GPO/SYSVOL dosyaları ve LAPS özniteliklerini denetlemek
+
+- **Dersler:** AD24, AD25 (`7fa4b29`, Codex). Tümü yerel; ASAMA2 de "statik SYSVOL örnekleri yeterli" diyor.
+- **Denetim:** validate/tahmin temiz. Mutasyon: AD24 8/8 ve 6/6, AD25 2/2 ve 2/2. Hepsi yakalandı.
+- **Karşılananlar:** `GptTmpl.inf` (UTF-16 güvenlik şablonu), `Groups.xml` (grup değişiklik tercihi) ve `Registry.pol` (ikili başlık sınırı) — üç dosya biçimi de okunuyor; dosya içeriği ile etkili GPO sonucu ayrılıyor (AD24). Legacy ve Windows LAPS alanları, FILETIME sınırı, **gizli değeri rapora dökmeden** erişim kanıtını sınıflamak (AD25). ASAMA2'nin istediği her şey karşılanıyor.
+- **Eksikler:** bulmadım.
+- **Karar:** **Tam.**
