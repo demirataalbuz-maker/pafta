@@ -165,6 +165,10 @@ eq(ansiBaytlar("\U0001F600", CP), [0x3f, 0x3f], "tek başına BMP dışı karakt
 utf16_birim = len("ab\U0001F600cd".encode("utf-16-le")) // 2
 eq(len(ansiBaytlar("ab\U0001F600cd", CP)), utf16_birim,
    "bayt sayısı C#'ın Length'i (UTF-16 kod birimi) ile aynı kalır: sayıya bakarak bozulmayı göremezsin")
+
+eq(ansiBaytlar('\uffff',CP),[0x3f],'U+FFFF tek UTF16 birimi')
+eq(ansiBaytlar('\U00010000',CP),[0x3f,0x3f],'U+10000 iki UTF16 birimi')
+
 ```
 
 ```solution
