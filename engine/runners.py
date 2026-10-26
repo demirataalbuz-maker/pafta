@@ -235,9 +235,9 @@ def for_step(runner, step):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
     if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk",
-                     "suricata", "zeek", "velociraptor", "pwsh"):
+                     "suricata", "zeek", "velociraptor", "pwsh", "ad-vm", "ad-client"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb, splunk, suricata, zeek, velociraptor veya pwsh kullanın.")
+                         "mariadb, splunk, suricata, zeek, velociraptor, pwsh, ad-vm veya ad-client kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -271,6 +271,14 @@ def for_step(runner, step):
         runner = RUNNERS["powershell-7"]
     elif motor == "python" and isinstance(runner, AdRunner):
         runner = AdAuditRunner()
+    elif motor == "ad-vm":
+        if not isinstance(runner, AdRunner):
+            raise ValueError("motor: ad-vm yalnız AD yolunda tanımlı.")
+        runner = AdVmRunner(meta.get("guest", "PF-DC01"))
+    elif motor == "ad-client":
+        if not isinstance(runner, AdRunner):
+            raise ValueError("motor: ad-client yalnız AD yolunda tanımlı.")
+        runner = AdClientRunner()
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -370,7 +378,22 @@ class AdAuditRunner(PythonRunner):
     """AD güvenlik denetimi eklerinde çevrimdışı kanıtları yorumlayan Python tezgahı."""
     name = "ad-audit"
     ozellik = {"roentgen": True, "dis": None}
-    ek = {"kopyala": [os.path.join(ROOT, "tracks", "ad", "veri", "acl.json")]}
+    ek = {"kopyala": [os.path.join(ROOT, "tracks", "ad", "veri", name)
+                      for name in ("acl.json", "s4u.json", "adcs.json")]}
+
+
+class AdClientRunner(PythonRunner):
+    """Learner Python calls real, fixed-lab LDAP clients; no Python LDAP model."""
+    name = "ad-client"
+    default_timeout = 110
+    test_timeout = 240
+    tavan = 240
+
+    def execute(self, job, timeout=None):
+        setup = ("import sys, importlib\n"
+                 f"sys.path.insert(0, {ROOT!r})\n"
+                 "sys.modules['ad_lab'] = importlib.import_module('sandbox.ad_ldap_client')\n")
+        return super().execute(dict(job, setup=setup+(job.get("setup") or "")), timeout)
 
 
 class SqlRunner(HarnessRunner):
@@ -564,6 +587,36 @@ class ProcRunner(HarnessRunner):
 
     def available(self):
         return bool(self.ek["proc"]["cmd"][0])
+
+
+class AdVmRunner(ProcRunner):
+    """Real AD PowerShell in the managed guest, transparently started by Pafta."""
+    _locks = {name: threading.Lock() for name in ("PF-DC01", "PF-APP01")}
+    tavan = 240
+
+    def __init__(self, guest="PF-DC01"):
+        if guest not in self._locks:
+            raise ValueError("AD guest: PF-DC01 veya PF-APP01 olmalı.")
+        self.guest = guest
+        super().__init__("ad-vm", {
+            "cmd": [python_exe(), "-X", "utf8", os.path.join(ROOT, "sandbox", "ad_vm_process.py"), "--guest", guest],
+            "dosya": "betik.ps1", "bom": True, "sure": 90,
+        }, default_timeout=110, test_timeout=240, iz=False)
+
+    def available(self):
+        from sandbox.ad_vm_process import LAB
+        return (LAB / "config.json").is_file()
+
+    def execute(self, job, timeout=None):
+        from sandbox.ad_vm_process import ensure_ready
+        with self._locks[self.guest]:
+            try:
+                if self.guest == "PF-APP01":
+                    ensure_ready("PF-DC01")
+                ensure_ready(self.guest)
+            except Exception as exc:
+                return {"status": "error", "error": {"type": "ADLaboratuvarı", "msg": str(exc), "line": None, "frames": [], "where": "kod"}, "segs": []}
+            return super().execute(job, timeout)
 
 
 def _pwsh7_yolu():

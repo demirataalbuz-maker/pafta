@@ -1,0 +1,35 @@
+{
+  "aciklama": "Pafta'nın sentetik S4U öğretim kanıtı; gerçek KDC bileti veya Windows olay günlüğü değildir.",
+  "hesaplar": {
+    "svc_portal": {
+      "spn": "HTTP/portal.pafta.local",
+      "trusted_to_auth_for_delegation": true,
+      "allowed_to_delegate_to": ["MSSQLSvc/sql01.pafta.local:1433"]
+    },
+    "svc_rapor": {
+      "spn": "HTTP/rapor.pafta.local",
+      "trusted_to_auth_for_delegation": false,
+      "allowed_to_delegate_to": []
+    },
+    "svc_on": {
+      "spn": "HTTP/on.pafta.local",
+      "trusted_to_auth_for_delegation": false,
+      "allowed_to_delegate_to": []
+    }
+  },
+  "kaynaklar": {
+    "MSSQLSvc/sql01.pafta.local:1433": {"allowed_to_act": ["svc_on"]},
+    "CIFS/dosya01.pafta.local": {"allowed_to_act": []}
+  },
+  "kullanicilar": {
+    "ali.kaya": {"not_delegated": false},
+    "yonetici": {"not_delegated": true}
+  },
+  "akislar": [
+    {"id": "A", "asama": "S4U2Self", "sira": 10, "on_hizmet": "svc_portal", "kullanici": "ali.kaya", "hedef_spn": "HTTP/portal.pafta.local", "durum": "0x0", "forwardable": true},
+    {"id": "A", "asama": "S4U2Proxy", "sira": 11, "on_hizmet": "svc_portal", "kullanici": "ali.kaya", "hedef_spn": "MSSQLSvc/sql01.pafta.local:1433", "durum": "0x0", "evidence_sira": 10},
+    {"id": "B", "asama": "S4U2Self", "sira": 20, "on_hizmet": "svc_portal", "kullanici": "yonetici", "hedef_spn": "HTTP/portal.pafta.local", "durum": "0x0", "forwardable": false},
+    {"id": "B", "asama": "S4U2Proxy", "sira": 21, "on_hizmet": "svc_portal", "kullanici": "yonetici", "hedef_spn": "MSSQLSvc/sql01.pafta.local:1433", "durum": "0xD", "evidence_sira": 20},
+    {"id": "C", "asama": "S4U2Self", "sira": 30, "on_hizmet": "svc_rapor", "kullanici": "ali.kaya", "hedef_spn": "HTTP/rapor.pafta.local", "durum": "0x0", "forwardable": false}
+  ]
+}
