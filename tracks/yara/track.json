@@ -7,7 +7,7 @@
  "runner": "yara",
  "dil": "yara",
  "role": "Dosya ve bayt tespiti: gerçek libyara ile metin/hex kuralları, PE, hash, istatistik ve regresyon testleri.",
- "tagline": "22 paftada ilk işaretten PE, ELF ve .NET incelemeye. Gerçek YARA motoru; zararsız eğitim verileri.",
+ "tagline": "23 paftada ilk işaretten PE, ELF ve .NET incelemeye. Gerçek YARA motoru; zararsız eğitim verileri. Externals/include/namespace gerçek Python API ile.",
  "girdi_etiketi": "Veri (metin / hex: / base64:)",
  "kahraman": [
   "Bayttan",
@@ -102,7 +102,8 @@
     "yr19",
     "yr20",
     "yr21",
-    "yr22"
+    "yr22",
+    "yr23"
    ]
   }
  ]

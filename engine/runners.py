@@ -269,6 +269,8 @@ def for_step(runner, step):
         if getattr(runner, "name", None) != "powershell":
             raise ValueError("motor: pwsh yalnız PowerShell yolunda tanımlı.")
         runner = RUNNERS["powershell-7"]
+    elif motor == "python" and isinstance(runner, DetectionRunner) and runner.name == "yara":
+        runner = YaraApiRunner()
     elif motor == "python" and isinstance(runner, AdRunner):
         runner = AdAuditRunner()
     elif motor == "ad-vm":
@@ -372,6 +374,20 @@ class AdRunner(HarnessRunner):
     name = "ad"
     ozellik = {"roentgen": False, "dis": "LDAP"}
     modlar = {"run": "ad_run", "test": "ad_test", "dis": "ad_dis"}
+
+
+class YaraApiRunner(PythonRunner):
+    """YR23–24 use real yara-python through the explicit bundle API."""
+    name = "yara-api"
+    default_timeout = 20
+    test_timeout = 45
+
+    def execute(self, job, timeout=None):
+        setup = ("import sys, importlib\n"
+                 f"sys.path.insert(0, {ROOT!r})\n"
+                 f"sys.path.insert(0, {os.path.join(ROOT,'.deps')!r})\n"
+                 "sys.modules['yara_lab'] = importlib.import_module('sandbox.yara_bundle')\n")
+        return super().execute(dict(job, setup=setup+(job.get("setup") or "")), timeout)
 
 
 class AdAuditRunner(PythonRunner):

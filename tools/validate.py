@@ -75,7 +75,7 @@ def jobs_for(lib, tid, dil, lid):
                 jobs.append(("AÇIKLAMASIZ", tid, where, None, None))
             jobs.append(("tahmin", tid, where, st, st["code"]))
         else:
-            ornek_dil = (st.get("meta") or {}).get("dil", dil) if tid == "ad" else dil
+            ornek_dil = (st.get("meta") or {}).get("dil", dil) if tid in ("ad", "yara") else dil
             for m in kod_deseni(ornek_dil).finditer(st["body"]):
                 if "norun" in m.group(2):
                     continue
