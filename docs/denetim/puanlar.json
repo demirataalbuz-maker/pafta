@@ -755,24 +755,18 @@
    "dersler": [
     "PS22"
    ],
-   "karar": "Kısmen",
-   "ozet": "PS22 devralınan Deny/Allow ve stderr tanıkları eklendi. PS22:6 4 mutant, 0 geçen. Kalan kapsam eksikleri aşağıda açık.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "PS22: gerçek NTFS ReadData Deny sonrasında UnauthorizedAccess, WriteData kontrolü, özgün ACL geri yükleme ve hata enjeksiyonu. 11 kontrol iki ortamda temiz; 8 mutant reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 20,
-    "kapsam": 17,
-    "derinlik": 18,
-    "gerceklik": 13,
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
-    {
-     "metin": "Gerçek erişim karşılaştırması yok (Deny sonrası okuma denemesi, UnauthorizedAccess).",
-     "oncelik": "orta",
-     "etiket": "CDSA"
-    }
-   ],
+   "eksikler": [],
    "onceki_denetim": {
     "karar": "Kısmen",
     "ozet": "SDDL, kanonik sıra, gerçek nesnelerde Set-Acl. Ama gerçek erişim denemesi yok; etkin yetki metin üzerinde benzetim.",
@@ -791,17 +785,22 @@
      "metin": "Kanonik sıranın son iki grubu ve stderr temizliği tam sınanmıyor. → PS22 devralınan Deny/Allow ve stderr tanıkları eklendi. PS22:6 4 mutant, 0 geçen.",
      "etiket": "düzeltildi",
      "oncelik": "düşük"
+    },
+    {
+     "metin": "Gerçek erişim karşılaştırması yok (Deny sonrası okuma denemesi, UnauthorizedAccess).",
+     "oncelik": "orta",
+     "etiket": "CDSA"
     }
    ],
    "duzeltme": {
-    "tarih": "26.10.2026",
     "yazar": "Codex",
-    "commit": "0f077f8",
-    "ozet": "PS22 devralınan Deny/Allow ve stderr tanıkları eklendi. PS22:6 4 mutant, 0 geçen.",
-    "kanit": "../../outputs/codex-aciklar-sinir-final-mutasyon.txt",
-    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "tarih": "27.10.2026",
+    "commit": "0e1fe6d",
+    "ozet": "PS22: gerçek NTFS ReadData Deny sonrasında UnauthorizedAccess, WriteData kontrolü, özgün ACL geri yükleme ve hata enjeksiyonu. 11 kontrol iki ortamda temiz; 8 mutant reddedildi.",
+    "kanit": "../../outputs/a-notu-ps22-ntfs-kabul.json",
+    "rapor": "../../outputs/a-notu-ps22-rapor.md",
     "bagimsiz_denetim": "yeniden yapılmadı",
-    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+    "puan_notu": "94/100 Codex öz değerlendirmesi; önceki bağımsız 77/100 kaydı korundu."
    },
    "inceleme_notlari": [
     {
