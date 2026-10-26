@@ -66,6 +66,29 @@ r=calis()
 eq((r['kod'],r['cikti'],r['hata']),(0,'token-hazir\n',''),'Yeniden sorgu')
 eq(len(read('kullanici.csv')),1,'Rapor eklenmez')
 eq(len(read('gruplar.csv')),len(g),'Grup dosyası da yenilenir, eklenmez')
+
+# SystemRoot yalnız bu test alt sürecinde değiştirilir; whoami mutlak yolu bulunamaz.
+import os,tempfile
+saved_root=os.environ.get('SystemRoot')
+try:
+    with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
+        os.environ['SystemRoot']=root
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
+finally:
+    if saved_root is None:os.environ.pop('SystemRoot',None)
+    else:os.environ['SystemRoot']=saved_root
+
+
+job=calis.__self__.job
+original_code=job['code']
+try:
+    job['code']=src.replace('"%whoami%" /groups /fo CSV /nh','"%SystemRoot%\\System32\\cmd.exe" /d /c "echo forced-error 1>&2 & exit /b 7"',1)
+    r=calis()
+    eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'ikinci whoami hata yolu ve stderr temizliği')
+finally:
+    job['code']=original_code
+
 ```
 ```solution
 @echo off
@@ -114,6 +137,19 @@ for name in ('SeChangeNotifyPrivilegeX','ChangeNotifyPrivilege','PaftaYokPrivile
     r=calis(argv=[name])
     eq((r['kod'],r['cikti'],r['hata']),(0,'yok\n',''),'Yakın veya eksik ad')
     eq(Path('secim.csv').read_bytes(),b'','Eski seçim kalmadı')
+
+# SystemRoot yalnız bu test alt sürecinde değiştirilir; whoami mutlak yolu bulunamaz.
+import os,tempfile
+saved_root=os.environ.get('SystemRoot')
+try:
+    with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
+        os.environ['SystemRoot']=root
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
+finally:
+    if saved_root is None:os.environ.pop('SystemRoot',None)
+    else:os.environ['SystemRoot']=saved_root
+
 ```
 ```solution
 @echo off
@@ -222,6 +258,19 @@ yaz('bos.csv', '')
 eq(calis(argv=['bos.csv'])['cikti'], 'yonetici-yok\nbutunluk=yok\n', 'boş dosya')
 r = calis(argv=['yok.csv'])
 eq((r['kod'], r['cikti'], r['hata'].strip()), (1, '', 'dosya-yok'), 'olmayan dosya')
+
+# SystemRoot yalnız bu test alt sürecinde değiştirilir; whoami mutlak yolu bulunamaz.
+import os,tempfile
+saved_root=os.environ.get('SystemRoot')
+try:
+    with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
+        os.environ['SystemRoot']=root
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
+finally:
+    if saved_root is None:os.environ.pop('SystemRoot',None)
+    else:os.environ['SystemRoot']=saved_root
+
 ```
 ```solution
 @echo off
