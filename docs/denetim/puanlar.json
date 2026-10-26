@@ -444,23 +444,18 @@
     "BS34",
     "BS35"
    ],
-   "karar": "Kısmen",
-   "ozet": "BS35:5 yanlış/boş uzak hash ve hata akışı: ders toplam 10 mutant, 0 geçen. Kalan kapsam eksikleri aşağıda açık.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "BS35: gerçek SFTP batch put/get, boşluklu yollar, ikili/boş dosya, hata kodları ve bozuk geri indirme; BS34/35 17 kontrol temiz, 8 yanlış çözüm reddedildi.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
-    "test": 18,
-    "kapsam": 22,
+    "test": 24,
+    "kapsam": 24,
     "derinlik": 22,
     "gerceklik": 15,
     "yol": 9
    },
-   "eksikler": [
-    {
-     "metin": "sftp yalnız anlatıda.",
-     "oncelik": "düşük"
-    }
-   ],
+   "eksikler": [],
    "cikar": true,
    "onceki_denetim": {
     "karar": "Kısmen",
@@ -480,17 +475,21 @@
      "metin": "BS35:5 özet uyuşmazlığı hiç sınanmıyor; yanlış ya da boş özette 'tamam' diyen çözüm geçiyor. → BS35:5 yanlış/boş uzak hash ve hata akışı: ders toplam 10 mutant, 0 geçen.",
      "etiket": "düzeltildi",
      "oncelik": "yüksek"
+    },
+    {
+     "metin": "sftp yalnız anlatıda.",
+     "oncelik": "düşük"
     }
    ],
    "duzeltme": {
-    "tarih": "26.10.2026",
     "yazar": "Codex",
-    "commit": "a287146",
-    "ozet": "BS35:5 yanlış/boş uzak hash ve hata akışı: ders toplam 10 mutant, 0 geçen.",
-    "kanit": "../../outputs/codex-aciklar-bs35-final-mutasyon.txt",
-    "rapor": "../../outputs/codex-aciklar-teslim.md",
+    "tarih": "27.10.2026",
+    "commit": "7449280",
+    "ozet": "BS35: gerçek SFTP batch put/get, boşluklu yollar, ikili/boş dosya, hata kodları ve bozuk geri indirme; BS34/35 17 kontrol temiz, 8 yanlış çözüm reddedildi.",
+    "kanit": "../../outputs/a-notu-bs35-sftp-kabul.json",
+    "rapor": "../../outputs/a-notu-bs35-rapor.md",
     "bagimsiz_denetim": "yeniden yapılmadı",
-    "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+    "puan_notu": "94/100 Codex öz değerlendirmesi. Önceki bağımsız puan 86/100; geçmiş denetim kaydı saklandı."
    }
   },
   {
