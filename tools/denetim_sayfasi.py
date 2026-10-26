@@ -79,6 +79,17 @@ def kart(m):
             + (f'<span class="etiket">{e(x["etiket"])}</span>' if x.get("etiket") else "")
             + f'{e(x["metin"])}</li>' for x in xs) + "</ul>")
 
+    duzeltme = m.get("duzeltme") or {}
+    teslim = ""
+    if duzeltme:
+        teslim = (f'<div class="duzeltme"><h4>Düzeltme · {e(duzeltme.get("yazar"))}</h4>'
+                  f'<p>{e(duzeltme.get("ozet"))}</p>'
+                  f'<p>Commit <code>{e(duzeltme.get("commit"))}</code> · {e(duzeltme.get("tarih"))}</p>'
+                  f'<p><a href="{e(duzeltme.get("kanit"))}">Doğrulama kanıtı</a> · '
+                  f'<a href="{e(duzeltme.get("rapor"))}">Teslim raporu</a></p>'
+                  f'<p class="not">{e(duzeltme.get("puan_notu"))} '
+                  f'Bağımsız tekrar denetimi: {e(duzeltme.get("bagimsiz_denetim"))}.</p></div>')
+
     return (f'<article class="kart k-{KARAR_RENK.get(karar, "bekliyor")}" data-karar="{e(karar)}" '
             f'data-asama="{"" if asama is None else asama}" data-yol="{e(m["yol"])}" id="m{m["no"]}">'
             f'<header><span class="no">{m["no"]:02d}</span><div class="bas"><span class="yol">{e(m["yol"])}'
@@ -91,6 +102,9 @@ def kart(m):
             + (f'<div class="olculer">{olcu}</div>' if olcu else "")
             + liste("Eksikler", m.get("eksikler"), "eksikler")
             + liste("Eklenmesi gerekenler", m.get("eklenmeli"), "eklenmeli")
+            + teslim
+            + liste("Kapatılan bulgular", m.get("kapatilanlar"), "kapatilanlar")
+            + liste("İnceleme notları", m.get("inceleme_notlari"), "inceleme-notlari")
             + (f'<p class="not">⚠ {e(m["not"])}</p>' if m.get("not") else "")
             + f'<footer>{e(m.get("tarih", ""))}{" · çıkar çatışması" if m.get("cikar") else ""}'
             + (f' · {e(m["kaynak"])}' if m.get("kaynak") else "") + "</footer></article>")
@@ -186,6 +200,9 @@ h1 em{{font-style:normal;color:var(--marker)}}
 li.o-yüksek::marker{{color:var(--bad)}}li.o-orta::marker{{color:var(--marker)}}li.o-düşük::marker{{color:var(--faint)}}
 .etiket{{display:inline-block;font:600 10px/1 Bahnschrift,sans-serif;letter-spacing:.1em;border:1px solid var(--mor);color:var(--mor);padding:2px 5px;margin-right:6px;vertical-align:1px}}
 .not{{font-size:12px;color:var(--turuncu)}}
+.duzeltme{{border-top:1px dashed var(--line);margin-top:12px;padding-top:4px}}
+.duzeltme p{{font-size:12px;margin:5px 0}}.duzeltme a{{color:var(--ok)}}
+.kapatilanlar{{color:var(--soft)}}.kapatilanlar li::marker{{color:var(--ok)}}
 .kart footer{{margin-top:8px;font-size:11px;color:var(--faint)}}
 .gizli{{display:none}}
 @media (max-width:900px){{.ust,.kartlar{{grid-template-columns:1fr}}.ust>div{{border-right:0;border-bottom:1px solid var(--line)}}}}
