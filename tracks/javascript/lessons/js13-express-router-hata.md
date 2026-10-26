@@ -187,6 +187,18 @@ eq(run(stdin="DELETE /api/saglik\nGET /\n"), '404 {"hata":"bulunamadı"}\n404 {"
 r = calis(stdin="GET /api/akis\nGET /api/saglik\n")
 eq(r["cikti"], '200 {"akis":"başladı"}\n200 {"durum":"iyi"}\n', "yanıt gönderildikten sonraki hata durum kodunu bozmaz, sunucu çalışmaya devam eder")
 ok("veritabanı bağlantısı koptu" not in out, "iç hatanın iletisi istemciye gitmez")
+
+# Aynı hata işleyicisine gerçek Express route'undan kontrollü hata gönder.
+probe="""app.get('/__audit/:status/:expose', (req,res,next) => {
+  const err=new Error('gizli-ileti');
+  err.status=Number(req.params.status);err.expose=req.params.expose==='true';
+  next(err);
+});
+"""
+code=src.replace('app.use(express.json());','app.use(express.json());\n'+probe,1)
+requests=''.join('GET /__audit/%s/%s\n'%(status,expose) for status,expose in [(399,'true'),(400,'true'),(499,'true'),(500,'true'),(400,'false'),(499,'false'),(500,'false')])
+eq(run_code(code,stdin=requests),'500 {"hata":"iç hata"}\n400 {"hata":"gizli-ileti"}\n499 {"hata":"gizli-ileti"}\n500 {"hata":"iç hata"}\n500 {"hata":"iç hata"}\n500 {"hata":"iç hata"}\n500 {"hata":"iç hata"}\n','expose ile kapalı 400/açık 500 sınırı birlikte; gizli ileti sızmaz')
+
 ```
 
 ```solution
