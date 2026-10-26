@@ -369,3 +369,94 @@ Her testte `"$HEDEF"`'i çalıştır, `./topla.sh`'yi değil; yoksa bozuk uygula
 Yalnız "çıkış 0 mı?" diye sormak yetmez: değeri (`$output`), hata durumundaki **kodu** (`$status`) ve sınırdaki girdiyi (eksi sayı) ayrı ayrı sına.
 ```
 :::
+
+
+::: anlat teardown: test düştüğünde de temizle
+Bats setup/teardown her testin öncesi/sonrasında çalışır. Testte false veya başarısız bir assertion olması teardown'ı atlamak için sebep değildir. Temizliği testin son satırına koyarsan o satıra ulaşılmayabilir. Her test kendi mktemp klasörünü alsın; temizlenecek yolu setup'ta sakla, teardown'da yalnız o yolu sil. Klasör adını sabitlemek testler arası veri sızıntısını gizleyebilir.
+
+Bats'in yönettiği BATS_TEST_TMPDIR ile uygulamanın başka yerde ürettiği geçici dosya aynı şey değildir. Aşağıdaki görev kendi çalışma alanını açar; otomatik üst seviye temizliğe güvenmeden teardown'ın sildiğini ölçer. Zorla süreç öldürme/elektrik kesintisinde kullanıcı kodunun çalışacağı garantisi yoktur. Kaynak: [Bats setup/teardown](https://bats-core.readthedocs.io/en/stable/writing-tests.html#setup-and-teardown-pre-and-post-test-hooks).
+:::
+
+::: gorev Düşen testin çalışma alanını temizle
+Betiğin temizlik.bats dosyasını yazsın. İki test olsun: ilki kendi alanında x dosyası üretip **bilerek false ile düşsün**; ikincisi kendi alanında x bulunmadığını doğrulayıp geçsin. setup her testte çalışma klasörünün içinde mktemp -d ile ayrı alan açsın ve tam yolunu alanlar.log'a bir satır eklesin. teardown yalnız o alanı silsin. dışarıdaki dokunma klasörünü koru.
+
+Ana betik önce alanlar.log'u sıfırlasın, gerçek bats --tap temizlik.bats çalıştırsın ve TAP çıktısını tap.txt'ye alsın. Sonra üç satır yazsın: bats=<çıkış kodu>, alan=<logdaki yol sayısı>, kalan=<hâlâ var olan yol sayısı>. Doğru sonuç bats=1 / alan=2 / kalan=0; bilinçli düşüş beklenen test verisidir, ana betik 0 ile bitsin. Temizliği ana betikte yapma; testler Bats dosyanı ayrıca doğrudan çalıştırıp teardown'ı ölçecek.
+
+```setup
+from pathlib import Path
+Path('dokunma').mkdir(exist_ok=True)
+Path('dokunma/kanit.txt').write_text('korunacak',encoding='utf-8')
+```
+
+```starter
+printf 'bats=1\nalan=2\nkalan=0\n'
+```
+
+```test
+import pathlib,subprocess
+root=pathlib.Path.cwd()
+eq(out,'bats=1\nalan=2\nkalan=0\n','ana betiğin gerçek sonuç raporu')
+def kontrol():
+    lines=pathlib.Path('alanlar.log').read_text().splitlines()
+    eq(len(lines),2,'iki setup çalıştı')
+    eq(len(set(lines)),2,'her test ayrı alan açar')
+    for line in lines:
+        path=pathlib.Path(line)
+        ok(path.is_absolute() and path.parent==root,'yalnız bu çalışma klasöründe alan')
+        ok(not path.exists(),'başarılı ve başarısız testin alanı teardown ile silindi')
+    eq(pathlib.Path('dokunma/kanit.txt').read_text(),'korunacak','başka alan silinmez')
+kontrol()
+pathlib.Path('alanlar.log').write_text('')
+r=subprocess.run(['bats','--tap','temizlik.bats'],capture_output=True,text=True)
+eq(r.returncode,1,'tek bilinçli düşüş')
+plan=r.stdout.splitlines()
+ok('1..2' in plan,'iki gerçek Bats testi')
+ok(any(line.startswith('not ok 1 ') for line in plan),'ilk test gerçekten düşmeli')
+ok(any(line.startswith('ok 2 ') for line in plan),'ikinci test gerçekten geçmeli')
+kontrol()
+```
+
+```solution
+cat > temizlik.bats <<'TEST'
+setup() {
+    ALAN=$(mktemp -d "$PWD/alan.XXXXXX")
+    printf '%s\n' "$ALAN" >> "$PWD/alanlar.log"
+}
+teardown() {
+    rm -rf -- "$ALAN"
+}
+@test "bilerek dusen" {
+    printf veri > "$ALAN/x"
+    false
+}
+@test "yalitilmis" {
+    [ ! -e "$ALAN/x" ]
+    printf veri > "$ALAN/y"
+}
+TEST
+: > alanlar.log
+bats --tap temizlik.bats > tap.txt
+kod=$?
+alan=0
+kalan=0
+while IFS= read -r yol; do
+    alan=$((alan + 1))
+    if [[ -e $yol ]]; then kalan=$((kalan + 1)); fi
+done < alanlar.log
+printf 'bats=%s\nalan=%s\nkalan=%s\n' "$kod" "$alan" "$kalan"
+```
+:::
+
+::: anlat Git Bash'ten başlatmak ile Linux'ta çalıştırmak
+Pafta'yı Git Bash'ten başlatabilirsin; backend: wsl olan bu ders yine Kali'nin gerçek Bash/Bats/ShellCheck araçlarında çalışır. Git Bash MSYS2 tabanlı bir Windows ortamıdır; WSL ise Linux ortamıdır. Git Bash'in /tmp ve /c gibi yollarını Linux yollarıyla aynı dosya sistemi sanma. MSYS2, bazı yerel Windows programlarına verilen Unix görünümlü argümanları Windows yoluna dönüştürür; cygpath -w dönüşümü açıkça gösterir. WSL'de /mnt/c Windows sürücüsüdür; bu dersin geçici çalışma alanı Linux /tmp altındadır.
+
+| Ölçüm | Git Bash | Bu dersin Kali WSL ortamı |
+|---|---|---|
+| uname -s | MINGW/MSYS ailesi | Linux |
+| Linux çekirdek kimliği /proc/sys/kernel/osrelease | Linux çekirdeği kanıtı olarak kullanılmaz | okunabilir Linux çekirdek sürümü |
+| cygpath | MSYS/Windows yol dönüşümü | dersin araç sözleşmesi değil |
+| journalctl, systemd journal | Git Bash'e ait Linux servis altyapısı varsayılmaz | BS31 gerçek journal araçlarıyla ayrı dosya okur |
+| ShellCheck/Bats sürümü | PATH'teki kurulum ayrıca ölçülür | ders koşucusunun Linux PATH'i ölçülür |
+
+Bir makinede Git Bash'te de bats bulunması onu WSL'ye dönüştürmez. ShellCheck sürümü/SC çıktıları değişebilir; BS30'un örnekleri kurulu sürümle ölçülmüştür. CRLF ile kaydedilmiş bir Bash dosyasının satır sonundaki CR komut/argümana karışabilir; depodaki betikleri UTF-8 ve LF olarak tut. Kaynak: [MSYS2 dosya sistemi yolları ve otomatik dönüşüm](https://www.msys2.org/docs/filesystem-paths/), [Git for Windows](https://gitforwindows.org/), [Bats belgeleri](https://bats-core.readthedocs.io/en/stable/writing-tests.html).
+:::
