@@ -1835,7 +1835,8 @@ class _SplunkIs:
               "veri": lambda metin, sourcetype, kaynak="ders.log": self.bekleyen.append((metin, sourcetype, kaynak)),
               "calistir": calistir, "aralik": aralik, "olay_turu": self.lab.olay_turu, "etiket": self.lab.etiket,
               "goster": lambda arama: setattr(self, "gosterim", arama),
-              "kural": lambda yaml: setattr(self, "kural_yaml", yaml)}
+              "kural": lambda yaml: setattr(self, "kural_yaml", yaml),
+              "dosya": lambda ad, metin: self.__dict__.setdefault("dosyalar", {}).__setitem__(ad, metin)}
         for kod in (self.job.get("setup") or "", ek or ""):
             if kod.strip():
                 exec(compile(kod, "<setup>", "exec"), ns)
@@ -2251,8 +2252,84 @@ def _sgs_hata(e, where="kod"):
     return {"type": "SigmaHatası", "msg": msg[:400], "line": None, "frames": [], "where": where}
 
 
-def _sgs_cevir(job, kural_yaml):
+_SGS_CLI_HAZIR = {"splunk_windows", "splunk_sysmon_acceleration", "splunk_cim", "sysmon", "windows-logsources",
+                  "windows-audit"}
+_SGS_CLI_DEGERLI = {"-t", "--target", "-p", "--pipeline", "-f", "--format", "-O", "--backend-option"}
+_SGS_CLI_BAYRAK = {"-s", "--skip-unsupported", "--without-pipeline"}
+
+
+def _sgs_komut(komut, dosyalar):
+    """girdi: komut → gerçek sigma-cli (.deps, 3.1.0) `sigma convert ...` komutunu hazırlığın dosyalarıyla geçici
+    bir klasörde çalıştır → stdout'taki sorgular. Hedef yalnız splunk, biçim yalnız çalıştırılabilir (default,
+    data_model); dosya yazan ya da ağa çıkan seçenek yok."""
+    import shlex
+    import tempfile
+    deps = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".deps")
+
+    def hata(msg):
+        return UserRunError(_sgs_hata(msg), "")
+    try:
+        parca = shlex.split((komut or "").strip(), posix=True)
+    except ValueError as e:
+        raise hata(f"komut ayrıştırılamadı: {e}")
+    if parca[:2] != ["sigma", "convert"]:
+        raise hata("komut 'sigma convert' ile başlamalı")
+    args, girdiler, i = [], [], 2
+    while i < len(parca):
+        a = parca[i]
+        if a in _SGS_CLI_DEGERLI:
+            if i + 1 >= len(parca):
+                raise hata(f"{a} bir değer ister")
+            v = parca[i + 1]
+            if a in ("-t", "--target") and v != "splunk":
+                raise hata("bu laboratuvarda hedef yalnız splunk: çıktı gerçek Splunk'ta çalıştırılır")
+            if a in ("-f", "--format") and v not in ("default", "data_model"):
+                raise hata("biçim default ya da data_model olmalı: çalıştırılabilir sorgu gerekir")
+            if a in ("-p", "--pipeline") and v not in _SGS_CLI_HAZIR and v not in dosyalar:
+                raise hata(f"pipeline yok: {v} (hazır adlar: {', '.join(sorted(_SGS_CLI_HAZIR))})")
+            args += [a, v]
+            i += 2
+        elif a in _SGS_CLI_BAYRAK:
+            args.append(a)
+            i += 1
+        elif a.startswith("-"):
+            raise hata(f"bu laboratuvarda desteklenmeyen seçenek: {a}")
+        else:
+            yol = a.rstrip("/")
+            if (yol.startswith(("/", "\\")) or ":" in yol or ".." in yol.replace("\\", "/").split("/")
+                    or not any(k == yol or k.startswith(yol + "/") for k in dosyalar)):
+                raise hata(f"girdi yok: {a}")
+            girdiler.append(a)
+            i += 1
+    if not girdiler:
+        raise hata("çevrilecek kural dosyası ya da klasörü yok")
+    with tempfile.TemporaryDirectory(prefix="pafta_sigma_") as klasor:
+        for ad, metin in dosyalar.items():
+            hedef = os.path.join(klasor, *ad.split("/"))
+            os.makedirs(os.path.dirname(hedef), exist_ok=True)
+            with open(hedef, "w", encoding="utf-8") as f:
+                f.write(metin)
+        on = f"import sys; sys.path.insert(0, {deps!r}); from sigma.cli.main import main; sys.argv=['sigma']+sys.argv[1:]; main()"
+        try:
+            p = subprocess.run([sys.executable, "-I", "-X", "utf8", "-c", on, "convert", *args, *girdiler], cwd=klasor,
+                               capture_output=True, timeout=60, stdin=subprocess.DEVNULL)
+        except subprocess.TimeoutExpired:
+            raise hata("sigma-cli 60 saniyede bitmedi")
+    cikti = p.stdout.decode("utf-8", "replace")
+    if p.returncode:
+        satirlar = [s.strip() for s in (p.stderr.decode("utf-8", "replace") + "\n" + cikti).splitlines()
+                    if s.strip() and not s.startswith("Parsing Sigma rules")]
+        raise hata(f"sigma-cli çıkış kodu {p.returncode}: " + " ".join(satirlar)[:300])
+    sorgular = [s.strip() for s in cikti.splitlines() if s.strip() and not s.startswith("Parsing Sigma rules")]
+    if not sorgular:
+        raise hata("sigma-cli sorgu üretmedi")
+    return sorgular
+
+
+def _sgs_cevir(job, kural_yaml, dosyalar=None):
     """→ SPL sorguları listesi. Çeviri hatası UserRunError olur."""
+    if job.get("girdi") == "komut":
+        return _sgs_komut(job["code"], dosyalar or {})
     deps = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".deps")
     if deps not in sys.path:
         sys.path.insert(0, deps)
@@ -2279,14 +2356,22 @@ def _sgs_kos(is_, job, ek=""):
     """Hazırlığı kur, kuralı çevir, son sorguyu Splunk'ta çalıştır → (spl listesi, alanlar, satırlar)."""
     is_.bekleyen = []
     is_.kural_yaml = None
+    is_.dosyalar = {}
     is_._hazirlik(ek)
     kural = job["code"] if job.get("girdi", "kural") == "kural" else is_.kural_yaml
-    if not kural:
+    if not kural and job.get("girdi") != "komut":
         raise UserRunError(_sgs_hata("görevin hazırlığı kuralı vermedi (kural(...))", "test"), "")
-    sorgular = _sgs_cevir(job, kural)
+    sorgular = _sgs_cevir(job, kural, is_.dosyalar)
     for metin, sourcetype, kaynak in is_.bekleyen:
         is_.lab.yukle(metin, sourcetype, kaynak)
-    alanlar, satirlar = is_.ara(f"search index={is_.S.DIZIN} " + sorgular[-1])
+    # data_model biçimi | tstats ile başlar; veri modeli kapısı (etiket) laboratuvar dizinindeki olayları seçer.
+    # temporal korelasyon | multisearch [ search ... ] üretir: her alt arama laboratuvar dizinine sınırlanır.
+    son = sorgular[-1]
+    if son.startswith("|"):
+        son = son.replace("[ search ", f"[ search index={is_.S.DIZIN} ")
+    else:
+        son = f"search index={is_.S.DIZIN} " + son
+    alanlar, satirlar = is_.ara(son)
     return sorgular, alanlar, satirlar
 
 

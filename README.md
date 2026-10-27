@@ -114,6 +114,8 @@ python tools/test_yara_runtime.py
 python tools/test_detection_integration.py
 ```
 
+SG19'un `girdi: komut` görevlerinde kod bir `sigma convert ...` komut satırıdır. `.deps` içindeki gerçek sigma-cli 3.1.0, hazırlığın `dosya(...)` ile verdiği kural ve pipeline dosyalarıyla geçici klasörde çalışır. Hedef yalnız `splunk`, biçim `default` ya da `data_model`; çıktı gerçek Splunk'ta (gerekirse CIM 8.5.0 veri modelinde) koşar. Kabul: `python -X utf8 tools/test_sigma_cli.py`.
+
 Resmi dayanaklar: [Sigma şartnamesi](https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html), [pySigma](https://github.com/SigmaHQ/pySigma), [YARA Python API](https://yara.readthedocs.io/en/stable/yarapython.html).
 
 ### Elastic / Kibana sorgu tezgahı
@@ -152,6 +154,8 @@ Parola ve şifreleme anahtarları Git dışında `.deps/elastic-lab/` içinde
 Bu **yalnız localhost HTTP öğretim ortamıdır**: konteynerler arasındaki HTTP
 TLS kullanmaz. EL19'un gerçek dağıtım TLS yönergesini karşılamaz; internete
 veya yerel ağa port açmayın. Üretimde TLS ve en az yetki gerekir.
+
+EL20'nin ajan görevi (`motor: elastic-agent`, [sandbox/elastic_agent_lab.py](sandbox/elastic_agent_lab.py)) ayrıca Elastic Agent 9.5.5 imajını ister; bir kez `docker pull docker.elastic.co/elastic-agent/elastic-agent:9.5.5` (digest koşucuda sabit). Ajan standalone çalışır, yalnız `pafta-elastic` ağına bağlanır, host klasörü bağlanmaz. 5 dakikalık ve yalnız `logs-pafta.*-*` yazabilen API anahtarı ortam değişkeniyle verilir. Konteyner, veri akışı ve anahtar her çalıştırmadan sonra silinir. Kabul: `python -X utf8 tools/test_elastic_agent.py`.
 
 Gerçek pipeline + bulk alımı, EQL, Security create/preview ve ES|QL API'leri
 kullanılır. Her işin rastgele indeksi/kuralı/pipeline'ı temizlenir. Security
