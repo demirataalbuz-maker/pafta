@@ -13,6 +13,7 @@ win32       i686-w64-mingw32-gcc ile 32 bit Windows programı; Windows onu WOW64
 win64       x86_64-w64-mingw32-gcc ile 64 bit Windows programı
 linux64     Kali gcc ile 64 bit Linux programı; WSL içinde çalışır
 win64-dll   64 bit Windows DLL'i; 64 bit Python ctypes ile yükler
+win32-dll   32 bit Windows DLL'i; yalnız dosya olarak incelenir (YR19), 64 bit Python yükleyemez
 
 Derleyiciler WSL'deki Kali dağıtımındadır (varsayılan `kali-linux`, PAFTA_WSL_DISTRO ile
 değişir); Windows'a derleyici kurulmaz. Çıktılar kaynağın SHA-256 özetiyle
@@ -32,7 +33,8 @@ ONBELLEK = os.path.join(tempfile.gettempdir(), "pafta_ctypes_onbellek")
 DERLEYICI = {"win32": ("i686-w64-mingw32-gcc", ".exe", []),
              "win64": ("x86_64-w64-mingw32-gcc", ".exe", []),
              "linux64": ("gcc", "", []),
-             "win64-dll": ("x86_64-w64-mingw32-gcc", ".dll", ["-shared"])}
+             "win64-dll": ("x86_64-w64-mingw32-gcc", ".dll", ["-shared"]),
+             "win32-dll": ("i686-w64-mingw32-gcc", ".dll", ["-shared"])}
 _PENCERESIZ = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 

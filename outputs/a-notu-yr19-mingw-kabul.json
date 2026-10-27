@@ -1,0 +1,49 @@
+{
+  "ders": "yr19",
+  "gorev": "Gerçek MinGW çıktısında mimari ve rol",
+  "derleyici": "Kali WSL i686/x86_64-w64-mingw32-gcc (ctypes_lab)",
+  "tarayici": "yara-python 4.5.4",
+  "referans": "geçti",
+  "mutant_reddedilen": 7,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "mutasyon": "64 bit makine denetimi yok",
+      "durum": "reddedildi"
+    },
+    {
+      "mutasyon": "DLL biti denetimi yok",
+      "durum": "reddedildi"
+    },
+    {
+      "mutasyon": "PE32 denetimi yok",
+      "durum": "reddedildi"
+    },
+    {
+      "mutasyon": "32 bit makine denetimi yok",
+      "durum": "reddedildi"
+    },
+    {
+      "mutasyon": "program/DLL ayrımı yok",
+      "durum": "reddedildi"
+    },
+    {
+      "mutasyon": "export denetimi yok",
+      "durum": "reddedildi"
+    },
+    {
+      "mutasyon": "mimari ters",
+      "durum": "reddedildi"
+    }
+  ],
+  "esdeger": [
+    {
+      "mutasyon": "PE32+ denetimi yok: Magic PE32 yapılınca veri dizinleri kayar, export zaten bulunmaz",
+      "runner_status": "pass"
+    },
+    {
+      "mutasyon": "pe.is_pe yok: PE olmayan veride modül alanları tanımsız",
+      "runner_status": "pass"
+    }
+  ]
+}
