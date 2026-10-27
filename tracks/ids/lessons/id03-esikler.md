@@ -82,6 +82,13 @@ eq([r for r in dene(EK5) if r[0] >= "2026-10-19 09:40"], [], "60 saniyede tam be
 EK6 = EK5 + 'akis(tur="dns", zaman="2026-10-19 09:40:50", istemci="10.0.1.50", sunucu="10.0.0.2", ad="z5.ornek-olmayan.test")\n'
 eq([(r[0], r[4]) for r in dene(EK6) if r[0] >= "2026-10-19 09:40"], [("2026-10-19 09:40:50", "10.0.1.50")],
    "altıncı hata alarm verir")
+BES = "".join(f'akis(tur="dns", zaman="2026-10-19 09:40:{i * 10:02d}", istemci="10.0.1.50", sunucu="10.0.0.2", ad="y{i}.ornek-olmayan.test")\n'
+              for i in range(5))
+ALTI = lambda z: BES + f'akis(tur="dns", zaman="2026-10-19 {z}", istemci="10.0.1.50", sunucu="10.0.0.2", ad="y5.ornek-olmayan.test")\n'
+eq([r[0] for r in dene(ALTI("09:41:00")) if r[0] >= "2026-10-19 09:40"], ["2026-10-19 09:41:00"],
+   "altıncı hata ilkinden tam 60 sn sonra: pencere ucu dahil (gerçek Suricata'da ölçüldü)")
+eq([r for r in dene(ALTI("09:41:01")) if r[0] >= "2026-10-19 09:40"], [],
+   "altıncı hata 61 sn sonra: ilk hata pencereden çıkmış, eşik aşılmaz")
 ```
 
 ```solution
@@ -130,6 +137,12 @@ EK = "".join(f'akis(tur="dns", zaman="2026-10-19 09:45:{i * 2:02d}", istemci="10
              for i in range(12))
 eq([(r[0], r[4]) for r in dene(EK) if r[0] >= "2026-10-19 09:45"], [("2026-10-19 09:45:08", "10.0.1.60")],
    "12 hatada bile pencere başına tek alarm")
+IKI = "".join(f'akis(tur="dns", zaman="2026-10-19 09:45:{i * 2:02d}", istemci="10.0.1.61", sunucu="10.0.0.2", ad="w{i}.ornek-olmayan.test")\n'
+              for i in range(5))
+IKI += "".join(f'akis(tur="dns", zaman="2026-10-19 09:46:{1 + i * 2:02d}", istemci="10.0.1.61", sunucu="10.0.0.2", ad="x{i}.ornek-olmayan.test")\n'
+               for i in range(5))
+eq([(r[0], r[4]) for r in dene(IKI) if r[0] >= "2026-10-19 09:45"], [("2026-10-19 09:45:08", "10.0.1.61"), ("2026-10-19 09:46:09", "10.0.1.61")],
+   "61. saniyede yeni pencere açılır; ikinci beşlide ikinci alarm (gerçek Suricata'da ölçüldü)")
 ```
 
 ```solution

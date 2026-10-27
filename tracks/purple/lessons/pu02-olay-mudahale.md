@@ -402,7 +402,11 @@ for bozuk in (["agdan-ayir:pc-ayse"],
               ["kanit-topla", "kaliciligi-kaldir:guncelle.lnk"],
               ["kanit-topla", "agdan-ayir:pc-ayse", "agdan-ayir:srv-dosya", "hesabi-kilitle:ayse", "hesabi-kilitle:yedek_svc", "geri-ac"],
               ["kanit-topla", "agdan-ayir:olmayan"],
-              ["kanit-topla", "zararliyi-kaldir:olmayan"]):
+              ["kanit-topla", "zararliyi-kaldir:olmayan"],
+              ["kanit-topla", "agdan-ayir:pc-ayse", "agdan-ayir:srv-dosya", "kaliciligi-kaldir:guncelle.lnk"],
+              ["kanit-topla", "hesabi-kilitle:ayse", "hesabi-kilitle:yedek_svc", "zararliyi-kaldir:fatura.exe"],
+              PLAN[:5] + ["kaliciligi-kaldir:GuncellemeKontrol", "kaliciligi-kaldir:guncelle.lnk", "temizligi-dogrula"],
+              PLAN[:5] + ["zararliyi-kaldir:fatura.exe", "temizligi-dogrula"]):
     raises(ValueError, mudahale, D, bozuk, msg="geçersiz sıra veya hedef reddedilir: " + repr(bozuk))
     eq(D, O, "başarısız çağrıda da özgün durum korunur")
 ```
@@ -541,6 +545,22 @@ else:
     B["dosyalar"][0]["yol"] = "bagli.txt"
     manifest_yaz(B)
     raises(ValueError, kanit_dogrula, "kanit_paketi", msg="paket dışını gösteren symlink reddedilir")
+
+P = "ucuncu_paket"
+M3 = kanit_paketle("kanit_kaynagi", P)
+def yaz3(m):
+    json.dump(m, open(P + "/manifest.json", "w", encoding="utf-8"), ensure_ascii=False)
+icerik = open(P + "/edr.json", "rb").read()
+open(P + "/edr.json", "wb").write(bytes([icerik[0] ^ 1]) + icerik[1:])
+raises(ValueError, kanit_dogrula, P, msg="aynı boyutta değişen bayt özetten yakalanır")
+open(P + "/edr.json", "wb").write(icerik)
+eq(kanit_dogrula(P), True, "geri yüklenen dosya yine doğrulanır")
+yanlis = copy.deepcopy(M3); yanlis["dosyalar"][0]["boyut"] += 1; yaz3(yanlis)
+raises(ValueError, kanit_dogrula, P, msg="özet doğru ama boyut yanlış: reddedilir")
+for yol in ("notlar\\olay.txt", "notlar/./olay.txt", "notlar//olay.txt", None, 5,
+            os.path.abspath(P + "/notlar/olay.txt").replace(os.sep, "/")):
+    m = copy.deepcopy(M3); m["dosyalar"] = [dict(M3["dosyalar"][2], yol=yol)]; yaz3(m)
+    raises(ValueError, kanit_dogrula, P, msg="paket içini gösterse de biçimi bozuk yol reddedilir: " + repr(yol))
 ```
 
 ```solution

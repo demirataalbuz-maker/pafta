@@ -183,6 +183,11 @@ EK = "".join(f'akis(tur="dns", zaman="2026-10-19 09:57:{i:02d}", istemci="10.0.1
 dene(EK)
 eq([(n.get("note"), n.get("src")) for n in kayitlar.get("notice", [])], [("Cok_NXDOMAIN", "10.0.3.4")],
    "dört hata bildirim üretmez")
+BES = "".join(f'akis(tur="dns", zaman="2026-10-19 09:58:{i:02d}", istemci="10.0.1.91", sunucu="10.0.0.2", ad="t{i}.ornek-olmayan.test")\n'
+              for i in range(5))
+dene(BES)
+eq(sorted((n.get("note"), n.get("src")) for n in kayitlar.get("notice", [])),
+   [("Cok_NXDOMAIN", "10.0.1.91"), ("Cok_NXDOMAIN", "10.0.3.4")], "yeni istemcide tam beşinci hata bildirim üretir")
 ```
 
 ```solution

@@ -175,6 +175,13 @@ eq((eski["surec"], eski["eslesme"]), ("eski.exe", "pid+zaman"), "07:15, 09:02'de
 sahipsiz = next(c for c in cs if c["pid"] == 9999)
 ok(sahipsiz["surec"] is None and sahipsiz["eslesme"] == "yok", "sahipsiz PID'ye isim uydurma")
 eq([c["zaman"] for c in cs], sorted(c["zaman"] for c in cs), "artan zaman")
+an = aktif["zaman"]
+sinir = lambda b, e: [{"pid": 4242, "ppid": 1, "ad": "sinir.exe", "baslangic": b, "bitis": e, "kaynaklar": ["volatility"]}]
+def bul(ps2):
+    return next(c for c in baglantilar(ps2) if c["pid"] == 4242 and c["zaman"] == an)
+eq((bul(sinir(an, None))["surec"], bul(sinir(an, None))["eslesme"]), ("sinir.exe", "pid+zaman"), "süreç tam bağlantı anında başladıysa adaydır")
+eq(bul(sinir("2026-10-19 09:00:00", an))["eslesme"], "pid+zaman", "süreç tam bağlantı anında bittiyse adaydır")
+eq(bul(sinir("2026-10-19 09:00:00", "2026-10-19 09:03:59"))["eslesme"], "yok", "bağlantıdan önce biten süreç aday değildir")
 ```
 
 ```solution
@@ -290,6 +297,20 @@ sahipsiz = next(b for b in bs if b["pid"] == 9999)
 ok(sahipsiz["surec"] is None and sahipsiz["nedenler"] == ["rwx-ozel-dosyasiz"],
    "yanlış-negatif kontrolü: sahipsiz bellek kanıtı kaybolmaz, isim/ağ uydurulmaz")
 ok(all("zararli" not in b["nedenler"] for b in bs), "bulgu gerekçedir, zararlı hükmü değil")
+an = ana["zaman"]
+ps2 = [{"pid": 4242, "ppid": 1, "ad": "sinir.exe", "baslangic": an, "bitis": an, "kaynaklar": ["volatility"]}]
+cs2 = [{"pid": 4242, "surec": "sinir.exe", "zaman": an, "durum": "ESTABLISHED", "uzak_ip": "198.51.100.24", "uzak_port": 8443}]
+s = next(b for b in bulgular(ps2, cs2) if b["pid"] == 4242)
+eq((s["surec"], s["nedenler"]), ("sinir.exe", ["rwx-ozel-dosyasiz", "dis-ag-baglantisi"]),
+   "süreç bölge anında başlayıp bitiyor, bağlantı bölgeyle aynı anda: üçü de sınır dahil")
+eq(next(b for b in bulgular(ps2, [dict(cs2[0], durum="LISTENING")]) if b["pid"] == 4242)["nedenler"], ["rwx-ozel-dosyasiz"],
+   "kurulmamış bağlantı gerekçe değildir")
+cn = next(c for c in cs if c["pid"] == 4242 and c["durum"] == "ESTABLISHED")["zaman"]
+sinir = lambda b, e: [{"pid": 4242, "ppid": 1, "ad": "sinir.exe", "baslangic": b, "bitis": e, "kaynaklar": ["volatility"]}]
+eq(next(c for c in baglantilar(sinir(cn, None)) if c["pid"] == 4242 and c["zaman"] == cn)["surec"], "sinir.exe",
+   "baglantilar: bağlantı anında başlayan süreç adaydır")
+eq(next(c for c in baglantilar(sinir("2026-10-19 00:00:00", cn)) if c["pid"] == 4242 and c["zaman"] == cn)["surec"], "sinir.exe",
+   "baglantilar: bağlantı anında biten süreç adaydır")
 ```
 
 ```solution

@@ -285,6 +285,14 @@ for alan, yanlis_deger in (("source", "synthetic_baska"), ("event_id", 999), ("t
     eq(r["bosluklar"][0]["neden"], "telemetri-yok", f"yanlış {alan} telemetri boşluğu olarak kalır")
 eq(kapsam_raporu([], olaylar, kurallar),
    {"toplam": 0, "gozlenen": 0, "tespit": 0, "kapsam_yuzdesi": 0.0, "bosluklar": []}, "sıfırda bölme yok")
+need("beklenen_telemetri")
+adim = lambda sid, durumlar: {"step_id": sid, "prerequisites": [{"status": s} for s in durumlar],
+                              "expected_observations": [{"kind": "process", "source": "s", "event_id": 1, "technique": "T1"}]}
+eq([o["step_id"] for o in beklenen_telemetri([adim("a", ["met"]), adim("b", []), adim("c", ["met", "unmet"]),
+                                               adim("d", ["unmet"]), adim("e", ["met", "met"])])], ["a", "e"],
+   "yalnız ön koşulları var ve hepsi met olan adımlar; boş ön koşul listesi de beklenmez")
+uc = b + [dict(b[1], step_id="step-yok")]
+eq(kapsam_raporu(uc, olaylar, kurallar)["kapsam_yuzdesi"], 33.3, "1/3 kapsam bir ondalığa yuvarlanır")
 ```
 
 ```solution
