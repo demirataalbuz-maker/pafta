@@ -99,7 +99,7 @@ def fixture(setup='',extra=''):
                 name,declared=col[1],col[2].upper()
                 if not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]*',name):raise ValueError('Fixture sütun adı destek dışı')
                 values=[r[index] for r in rows if r[index] is not None]
-                temporal=bool(values) and all(isinstance(v,str) and re.fullmatch(r'\d{4}-\d\d-\d\d[ T]\d\d:\d\d(?::\d\d(?:\.\d+)?)?Z?',v) for v in values)
+                temporal=name.lower() in {'zaman','timestamp','timegenerated','alim'} or (bool(values) and all(isinstance(v,str) and re.fullmatch(r'\d{4}-\d\d-\d\d[ T]\d\d:\d\d(?::\d\d(?:\.\d+)?)?Z?',v) for v in values))
                 types.append('datetime' if temporal else 'long' if 'INT' in declared else 'real' if any(t in declared for t in ('REAL','FLOAT','DOUBLE')) else 'string')
             literals=[]
             for row in rows:

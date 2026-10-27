@@ -1,0 +1,71 @@
+{
+  "no": 36,
+  "yol": "kql",
+  "ad": "mv-apply ve bag_unpack",
+  "dersler": [
+    "KQ23"
+  ],
+  "karar": "Tam",
+  "ozet": "mv-apply ve bag_unpack görevleri gerçek Kusto motoruna taşındı. OutputSchema/tür uyuşmazlığı görevi eklendi. Native sonuçla üç eski model farkı düzeltildi: typeof(long) string rakamı dönüştürmez; null/boş kaynak dizi sayacı aynı değildir; eksik string bag alanı boş string döner.",
+  "tarih": "27.10.2026",
+  "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+  "puan": {
+    "test": 24,
+    "kapsam": 25,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 9
+  },
+  "eksikler": [],
+  "cikar": false,
+  "onceki_denetim": {
+    "no": 36,
+    "yol": "kql",
+    "ad": "mv-apply ve bag_unpack",
+    "dersler": [
+      "KQ23"
+    ],
+    "karar": "Kısmen",
+    "ozet": "mv-apply ile dizide alt sorgu, boş dizi, bag_unpack. Gerçek Kusto değil, yerel motor.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+      "test": 24,
+      "kapsam": 16,
+      "derinlik": 19,
+      "gerceklik": 10,
+      "yol": 7
+    },
+    "eksikler": [
+      {
+        "metin": "OutputSchema ve tür uyuşmazlığı testleri yok (ASAMA2 istiyor).",
+        "oncelik": "düşük"
+      },
+      {
+        "metin": "Gerçek Kusto bağlantısında görev yok.",
+        "oncelik": "orta",
+        "etiket": "CDEP"
+      }
+    ],
+    "cikar": true
+  },
+  "kapatilanlar": [
+    {
+      "metin": "OutputSchema ve tür uyuşmazlığı testleri yok (ASAMA2 istiyor).",
+      "oncelik": "düşük"
+    },
+    {
+      "metin": "Gerçek Kusto bağlantısında görev yok.",
+      "oncelik": "orta",
+      "etiket": "CDEP"
+    }
+  ],
+  "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "kanit": "../../outputs/a-notu-kq23-native-kabul.json",
+    "rapor": "../../outputs/a-notu-kq23-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "95/100 öz değerlendirme; önceki bağımsız puan korundu. Ortak dosya boşalınca uygulanacak öneri. Native sorgu kabulü gerçek tenant verisi/connector kabulü değildir."
+  }
+}
