@@ -1,0 +1,100 @@
+{
+  "backend": "native Burp Community 2026.8 XML + real Python reader",
+  "references_passed": 1,
+  "mutants_rejected": 18,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "size equal upper excluded",
+      "status": "rejected"
+    },
+    {
+      "mutation": "size extra byte accepted",
+      "status": "rejected"
+    },
+    {
+      "mutation": "wrong root accepted",
+      "status": "rejected"
+    },
+    {
+      "mutation": "missing version accepted",
+      "status": "rejected"
+    },
+    {
+      "mutation": "unknown item silently skipped",
+      "status": "rejected"
+    },
+    {
+      "mutation": "duplicate field silently chosen",
+      "status": "rejected"
+    },
+    {
+      "mutation": "missing metadata accepted",
+      "status": "rejected"
+    },
+    {
+      "mutation": "status lower equality excluded",
+      "status": "rejected"
+    },
+    {
+      "mutation": "status upper equality excluded",
+      "status": "rejected"
+    },
+    {
+      "mutation": "ignore status upper bound",
+      "status": "rejected"
+    },
+    {
+      "mutation": "non base64 flag accepted",
+      "status": "rejected"
+    },
+    {
+      "mutation": "permissive base64 junk",
+      "status": "rejected"
+    },
+    {
+      "mutation": "discard binary HTTP",
+      "status": "rejected"
+    },
+    {
+      "mutation": "ignore request metadata",
+      "status": "rejected"
+    },
+    {
+      "mutation": "ignore response metadata",
+      "status": "rejected"
+    },
+    {
+      "mutation": "reverse export order",
+      "status": "rejected"
+    },
+    {
+      "mutation": "drop repeated exchanges",
+      "status": "rejected"
+    },
+    {
+      "mutation": "no entity restriction",
+      "status": "rejected"
+    }
+  ],
+  "provenance": {
+    "product": "Burp Suite Community Edition 2026.8",
+    "captured_on": "2026-10-27",
+    "source": "Native Save items / Save item XML export, Base64 checked",
+    "lab": "Pafta http_lab.py, Kali loopback 127.0.0.1:18769",
+    "history_client": "Python http.client through real Burp Proxy; not a browser capture",
+    "repeater": "History row sent with Ctrl+R, Send in Repeater; actual HTTP 200 response",
+    "normalization": "XML source CRLF converted to LF only; Base64 HTTP bytes untouched",
+    "files": {
+      "history.xml": {
+        "native_sha256": "f95a9fe61ac882c684c51b29fcfc99d4e1f13963e80e38ec3f9be72af0468b39",
+        "lf_sha256": "18603bfdc1ad8a4e8bd4cb377eb9f06aaf7745a37caf1d1e203aa4345f3ec170"
+      },
+      "repeater.xml": {
+        "native_sha256": "40c021b1b880fdc0541fa48811a7d2139cfe59b7fdbb893b1b41d4bbbc6f1a2e",
+        "lf_sha256": "e05ae03fbaaa4b2410cd2ff7d0694acdb0ac619cf738f278ba4b453e7e8c22d2"
+      }
+    }
+  },
+  "limit": "Checks archived exports; not proof that each learner clicked the GUI."
+}

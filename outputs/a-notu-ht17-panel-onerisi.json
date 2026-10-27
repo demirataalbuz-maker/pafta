@@ -1,0 +1,61 @@
+{
+  "no": 24,
+  "yol": "http",
+  "ad": "Burp Proxy → History → Repeater",
+  "dersler": [
+    "HT17"
+  ],
+  "karar": "Tam",
+  "ozet": "Gerçek Burp Community Proxy/History/Repeater XML çiftlerini okuyan yazma görevi; 18 davranış bozan mutant reddedildi. Windows ve Git Bash HTTP yolu 24 ders, 177 kontrol temiz. Arşiv okumak öğrenci GUI tıklamasını kanıtlamaz.",
+  "tarih": "27.10.2026",
+  "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+  "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 10
+  },
+  "onceki_denetim": {
+    "no": 24,
+    "yol": "http",
+    "ad": "Burp Proxy → History → Repeater",
+    "dersler": [
+      "HT17"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Kalıcı lab sunucusu, Burp adımları anlatımda. Ama Burp'ün kendisi hiç ölçülmüyor; görevler Python ile.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+      "test": 20,
+      "kapsam": 16,
+      "derinlik": 18,
+      "gerceklik": 12,
+      "yol": 10
+    },
+    "eksikler": [
+      {
+        "metin": "Burp kullanımına dair otomatik tanık yok (Burp'ten dışa aktarılan istek/yanıtı ayrıştırmak gibi).",
+        "oncelik": "yüksek",
+        "etiket": "CPTS"
+      }
+    ]
+  },
+  "kapatilanlar": [
+    {
+      "metin": "Burp kullanımına dair otomatik tanık yok (Burp'ten dışa aktarılan istek/yanıtı ayrıştırmak gibi).",
+      "oncelik": "yüksek",
+      "etiket": "CPTS"
+    }
+  ],
+  "eksikler": [],
+  "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "kanit": "../../outputs/a-notu-ht17-burp-kabul.json",
+    "rapor": "../../outputs/a-notu-ht17-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "94/A öz değerlendirme; eski bağımsız 76/100 korunur. Ortak dosya boşalınca uygulanacak öneri."
+  }
+}
