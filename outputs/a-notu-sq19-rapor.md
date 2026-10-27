@@ -18,3 +18,5 @@ Kaynaklar kontrol edildi:
 - https://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html
 - https://www.php.net/manual/en/pdo.prepare.php
 - https://learn.microsoft.com/en-us/ef/core/querying/sql-queries
+
+Son tam kabul: Windows ve Git Bash, her birinde **22 ders, 250 kontrol TEMİZ**. Loglar a-notu-sql35-windows.log ve a-notu-sql35-git-bash.log; platform özeti a-notu-sql35-platform-kabul.json.

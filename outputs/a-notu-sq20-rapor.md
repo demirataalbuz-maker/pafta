@@ -13,3 +13,5 @@ Kabul: SQ20 **15 kontrol TEMİZ**, tools/test_sql_jsonb.py: **2 referans geçti,
 Öz değerlendirme: test24/kapsam24/derinlik22/gerçeklik15/yol10 = **95/A**. Önceki bağımsız80 korunmalı; bağımsız yeniden denetim beklenir. Ortak panel dosyasına başka ajanın değişiklikleri nedeniyle dokunulmadı; öneri ayrı dosyadadır.
 
 Kaynaklar kontrol edildi: https://www.postgresql.org/docs/18/functions-json.html ve https://www.postgresql.org/docs/18/datatype-json.html#JSON-CONTAINMENT .
+
+Son tam kabul: Windows ve Git Bash, her birinde **22 ders, 250 kontrol TEMİZ**. Loglar a-notu-sql35-windows.log ve a-notu-sql35-git-bash.log; platform özeti a-notu-sql35-platform-kabul.json.
