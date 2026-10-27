@@ -41,6 +41,7 @@ for change in ({'id':''},{'text':'  '},{'kind':'confirmed'},{'refs':[]},{'refs':
     raises(ValueError,lambda change=change:defter([dict(base,**change)],refs),msg='bozuk iddia')
 raises(ValueError,lambda:defter([base,base],refs),msg='iki ayrı iddia aynı id taşımaz')
 eq(defter([],refs),{},'boş defter; nihai rapor değil')
+eq(defter([dict(base,refs=sorted(refs))],refs)['c1']['refs'],sorted(refs),'bütün mevcut kanıtlara başvuran iddia geçerli')
 ```
 
 ```solution

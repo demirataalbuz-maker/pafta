@@ -85,6 +85,8 @@ for key,value in [('fn',1),('tp',0),('fp',-1),('negatives',0),('negatives',False
     eq(kabul(dict(base,**{key:value})),False,'bağımsız kapı '+key)
 eq(kabul(dict(base,negatives=0,fp=1)),False,'negatif örnek sayısını aşan FP')
 eq(kabul({}),False,'verisiz kabul olmaz')
+eq(kabul(dict(base,fp=0,negatives=0)),False,'FP sıfır olsa da negatif örnek yoksa kabul yok')
+eq(kabul(dict(base,tp=0,fp=0,fn=0)),False,'pozitif örnek yoksa kabul yok; sıfıra bölme olmaz')
 ```
 
 ```solution
