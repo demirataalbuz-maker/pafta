@@ -296,3 +296,190 @@ entity_girdisi
 Sadece ilk @'dan bölmek çoklu @'ı gizler. Identifier ile columnName farklıdır; gerçek çıktı sütun adları mapping JSON'u ile eşleşmeli.
 ```
 :::
+
+::: anlat Kural kaynağı: ürünün doğrulayıcısı neyi kabul etmez
+Portalda kaydettiğin kural, Azure'da `Microsoft.SecurityInsights/alertRules` türünde bir kaynaktır. Portal **Export** ile ARM şablonu (JSON) verir, **Import** aynı şablonu geri yükler; kuralı kod olarak saklamanın ve gözden geçirmenin yolu budur. Zamanlanmış kural `kind: "Scheduled"` ile tanımlanır. REST 2025-09-01 tanımında zorunlu alanlar `displayName`, `enabled`, `suppressionEnabled` ve `suppressionDuration`dır. Süreler ISO 8601 biçimindedir: `PT10M`, `PT1H`, `P1D`.
+
+Microsoft Learn'deki belgelenmiş sınırlar:
+
+| Ayar | ARM özelliği | Sınır |
+|---|---|---|
+| Run query every | `queryFrequency` | 5 dakika – 14 gün |
+| Lookup data from the last | `queryPeriod` | 5 dakika – 14 gün; **sıklıktan kısa olamaz** |
+| Alert threshold | `triggerOperator` + `triggerThreshold` | `GreaterThan`, `LessThan`, `Equal`, `NotEqual`; eşik her çalıştırmaya ayrı uygulanır |
+| Event grouping | `eventGroupingSettings.aggregationKind` | `SingleAlert` (varsayılan) ya da `AlertPerResult`; bir çalıştırma en çok **150** alarm üretir, 150'den fazla sonuçta ilk 149'u tekil, 150. alarm hepsini özetler |
+| Suppression | `suppressionEnabled` + `suppressionDuration` | en çok 24 saat; kural bu süre boyunca **hiç çalışmaz** |
+| Entity mapping | `entityMappings` | en çok 10 eşleme, eşleme başına en çok 3 identifier; bir alarmda toplam 500 entity (eşlemelere eşit bölünür), Entities alanı 64 KB |
+| Rule query | `query` | 1–10.000 karakter, `search *` ve `union *` yok; çıktıda `TimeGenerated` olmalı |
+
+Bu tablonun iki sonucu var. Birincisi: tahmin adımındaki "30 dakikada bir çalışıp 15 dakika geriye bakan" kuralı Sentinel **kaydetmez**; doğrulayıcı sıklığın geriye bakıştan uzun olmasına izin vermez. Pencerelerin arasındaki boşluk yine de oluşabilir, ama bu kez sebebi ayar değil gecikmedir. Sentinel bunun için zamanlanmış kuralları planlanan anlarından **beş dakika sonra** çalıştırır. Kayıt bundan da geç gelirse, Microsoft'un önerdiği çözüm geriye bakışı gecikme kadar uzatmak ve çift sayımı alım zamanıyla kesmektir:
+
+```kql norun
+let ingestion_delay = 2min;
+let rule_look_back = 5min;
+CommonSecurityLog
+| where TimeGenerated >= ago(ingestion_delay + rule_look_back)
+| where ingestion_time() > ago(rule_look_back)
+```
+
+Bu desen 3. görevdeki `alima_gore` sayımının ürün sorgusundaki karşılığıdır. İkinci sonuç: bastırma alarm gürültüsünü değil **kuralın kendisini** durdurur. Bastırma süresince başka bir hesaba yapılan saldırı da görülmez. Aynı olayın tekrar tekrar olay (incident) açmasını istemiyorsan önce olay gruplama (`incidentConfiguration.groupingConfiguration`) düşün.
+
+Entity'nin de kendi kuralları var. Account için `Name` alanı yalnız UPN'in `@` öncesini taşır; `Name + UPNSuffix` güçlü bir birleşimdir, yalnız `Name` zayıftır. Name değeri `ADMIN`, `ADMINISTRATOR`, `SYSTEM`, `ROOT` gibi yerleşik bir hesap adıysa entity alarmdan **düşürülür**: alarm üretilir ama o hesabı taşımaz.
+
+**Bu laboratuvarın sınırı:** Sonraki görevin koşucusu (`motor: sentinel-kural`) kural JSON'unu bu REST şemasına ve sınırlara göre denetler. Sonra sorguyu gerçek Kusto Emulator'da, portalın **Results simulation** penceresi gibi **son 50 planlı çalıştırma** üzerinde koşturur. Her çalıştırma planlanan andan 5 dakika sonra koşar ve yalnız o ana kadar ulaşmış kayıtları görür. Pencere bu dersteki gibi `(plan − queryPeriod, plan]` alınır. Takvim, eşik, gruplama, bastırma ve entity çıkarımı belgelere göre yazılmış yerel bir modeldir. Microsoft pencere uçlarının açık mı kapalı mı olduğunu yazmıyor. Gerçek Sentinel'in **Test with current data** ve **Review and create** doğrulaması bu makinede yapılmadı; kural yayınlanmaz.
+
+Kaynaklar: [zamanlanmış kural ayarları ve sınırları](https://learn.microsoft.com/en-us/azure/sentinel/scheduled-rules-overview), [kural sihirbazı ve sonuç benzetimi](https://learn.microsoft.com/en-us/azure/sentinel/create-analytics-rules), [alım gecikmesi](https://learn.microsoft.com/en-us/azure/sentinel/ingestion-delay), [entity mapping sınırları](https://learn.microsoft.com/en-us/azure/sentinel/map-data-fields-to-entities), [entity identifier'ları](https://learn.microsoft.com/en-us/azure/sentinel/entities-reference), [alertRules REST 2025-09-01](https://learn.microsoft.com/en-us/rest/api/securityinsights/alert-rules/create-or-update?view=rest-securityinsights-2025-09-01).
+:::
+
+::: gorev Kuralı kaynak olarak yaz, 50 çalıştırmada sına
+`SigninLogs` tablosunda (`TimeGenerated`, `UserPrincipalName`, `IPAddress`, `ResultType`, `AppDisplayName`) parola denemesi arayan zamanlanmış kuralı **ARM şablonu** olarak yaz. Başlangıçtaki şablon Export'tan gelmiş gibi duruyor, ama doğrulamadan geçmiyor ve istenen kuralı da kurmuyor.
+
+İstenen kural:
+
+- **10 dakikada bir** çalışsın, **son 10 dakikaya** baksın.
+- Sorgu başarısız girişleri (`ResultType` `"0"` değil) **hesap ve IP çifti başına** saysın. **En az 3** başarısız denemesi olan her çift bir sonuç satırı olsun. Çıktıda `TimeGenerated` (çiftin son denemesi), `AccountName` (UPN'in `@` öncesi), `AccountUPNSuffix` (`@` sonrası), `IPAddress` ve `Basarisiz` (deneme sayısı) bulunsun.
+- Kural **0'dan fazla** sonuçta alarm üretsin; **her sonuç ayrı alarm** olsun.
+- Account'u `Name` + `UPNSuffix` ile, IP'yi `Address` ile eşle. `Basarisiz` sütununu aynı adla custom detail olarak ekle.
+- Alarmdan sonra kural **45 dakika** bastırılsın. Severity `Medium`, taktik `CredentialAccess`, kural açık (`enabled: true`).
+
+Koşucu önce şablonu denetler, sonra sorguyu 2026-10-19 12:00'de biten son 50 planlı çalıştırmada gerçek Kusto'da koşturur. Test hangi çalıştırmanın alarm ürettiğine, hangisinin bastırıldığına ve alarmların hangi entity'leri taşıdığına bakar. Çalıştır düğmesi doğrulama hatalarını ve benzetim özetini gösterir.
+
+```meta
+motor: sentinel-kural
+son: 2026-10-19 12:00
+kosu: 50
+pencere: SigninLogs
+timeout: 120
+```
+
+```setup
+CREATE TABLE SigninLogs(TimeGenerated TEXT, alim TEXT, UserPrincipalName TEXT, IPAddress TEXT, ResultType TEXT, AppDisplayName TEXT);
+INSERT INTO SigninLogs VALUES
+('2026-10-19 10:01','2026-10-19 10:02','derya@pafta.example','203.0.113.20','0','Azure Portal'),
+('2026-10-19 10:03','2026-10-19 10:04','derya@pafta.example','203.0.113.20','0','Azure Portal'),
+('2026-10-19 10:05','2026-10-19 10:06','derya@pafta.example','203.0.113.20','0','Azure Portal'),
+('2026-10-19 10:12','2026-10-19 10:13','berk@pafta.example','203.0.113.50','50126','Azure Portal'),
+('2026-10-19 10:14','2026-10-19 10:15','berk@pafta.example','203.0.113.50','50126','Azure Portal'),
+('2026-10-19 10:31','2026-10-19 10:32','mert@pafta.example','192.0.2.10','50126','Office 365'),
+('2026-10-19 10:33','2026-10-19 10:34','mert@pafta.example','192.0.2.10','50126','Office 365'),
+('2026-10-19 10:38','2026-10-19 10:46','mert@pafta.example','192.0.2.10','50126','Office 365'),
+('2026-10-19 10:51','2026-10-19 10:52','ayse@pafta.example','203.0.113.7','50126','Office 365'),
+('2026-10-19 10:52','2026-10-19 10:53','ece@pafta.example','203.0.113.7','50126','Office 365'),
+('2026-10-19 10:53','2026-10-19 10:54','ayse@pafta.example','203.0.113.7','50126','Office 365'),
+('2026-10-19 10:54','2026-10-19 10:55','ece@pafta.example','203.0.113.7','50126','Office 365'),
+('2026-10-19 10:55','2026-10-19 11:03','ayse@pafta.example','203.0.113.7','50053','Office 365'),
+('2026-10-19 10:56','2026-10-19 10:57','ayse@pafta.example','203.0.113.7','0','Office 365'),
+('2026-10-19 10:57','2026-10-19 10:58','ece@pafta.example','203.0.113.7','50126','Office 365'),
+('2026-10-19 10:58','2026-10-19 10:59','ayse@pafta.example','198.51.100.77','50126','Office 365'),
+('2026-10-19 11:21','2026-10-19 11:22','can@pafta.example','198.51.100.4','50126','Azure Portal'),
+('2026-10-19 11:22','2026-10-19 11:23','can@pafta.example','198.51.100.4','50126','Azure Portal'),
+('2026-10-19 11:24','2026-10-19 11:25','can@pafta.example','198.51.100.4','50126','Azure Portal'),
+('2026-10-19 11:52','2026-10-19 11:53','admin@pafta.example','203.0.113.9','50126','Azure Portal'),
+('2026-10-19 11:53','2026-10-19 11:54','admin@pafta.example','203.0.113.9','50126','Azure Portal'),
+('2026-10-19 11:58','2026-10-19 11:59','admin@pafta.example','203.0.113.9','50126','Azure Portal');
+```
+
+```starter
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {"workspace": {"type": "string"}},
+  "resources": [{
+    "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+    "name": "[concat(parameters('workspace'), '/Microsoft.SecurityInsights/pafta-parola-deneme')]",
+    "apiVersion": "2025-09-01",
+    "kind": "Scheduled",
+    "properties": {
+      "displayName": "Pafta - parola denemesi",
+      "enabled": true,
+      "severity": "Medium",
+      "tactics": ["CredentialAccess"],
+      "query": "SigninLogs | where ResultType == \"50126\" | summarize Basarisiz = count() by UserPrincipalName | where Basarisiz > 3",
+      "queryFrequency": "PT10M",
+      "queryPeriod": "PT5M",
+      "triggerOperator": "GreaterThanOrEqual",
+      "triggerThreshold": 1,
+      "suppressionEnabled": true,
+      "suppressionDuration": "PT48H",
+      "eventGroupingSettings": {"aggregationKind": "SingleAlert"},
+      "entityMappings": [
+        {"entityType": "Account", "fieldMappings": [{"identifier": "FullName", "columnName": "UserPrincipalName"}]}
+      ]
+    }
+  }]
+}
+```
+
+```test
+eq(hatalar, [], 'kural doğrulaması: REST 2025-09-01 şeması ve belgelenmiş sınırlar')
+eq(sureler, {'queryFrequency': 10.0, 'queryPeriod': 10.0, 'suppressionDuration': 45.0}, 'sıklık 10 dk, geriye bakış 10 dk, bastırma 45 dk')
+eq(((kural.get('eventGroupingSettings') or {}).get('aggregationKind'), kural.get('suppressionEnabled'), kural.get('severity'), kural.get('tactics')),
+   ('AlertPerResult', True, 'Medium', ['CredentialAccess']), 'her sonuç ayrı alarm, bastırma açık, Medium, CredentialAccess')
+eq(kural.get('customDetails'), {'Basarisiz': 'Basarisiz'}, 'custom detail: ad → sütun')
+eq(uyarilar, [], 'Account güçlü identifier birleşimiyle eşlenmeli')
+ok({'TimeGenerated', 'AccountName', 'AccountUPNSuffix', 'IPAddress', 'Basarisiz'} <= set(sutunlar), 'sorgu çıktısı mapping ve custom detail sütunlarını taşır', sutunlar)
+eq(len(calismalar), 50, 'Results simulation gibi son 50 planlı çalıştırma')
+eq([c for c in calismalar if c[3] != 'sessiz'],
+   [('2026-10-19 11:00', 2, 2, 'alarm'), ('2026-10-19 11:10', None, 0, 'bastirildi'), ('2026-10-19 11:20', None, 0, 'bastirildi'),
+    ('2026-10-19 11:30', None, 0, 'bastirildi'), ('2026-10-19 11:40', None, 0, 'bastirildi'), ('2026-10-19 12:00', 1, 1, 'alarm')],
+   "11:00'da iki çift, iki alarm; 45 dk bastırma can'ın 11:30 denemesini gizler; mert'in 8 dk geç gelen kaydı hiçbir pencereye girmez")
+ACC = lambda ad: ('Account', (('Name', ad), ('UPNSuffix', 'pafta.example')))
+IP = lambda a: ('IP', (('Address', a),))
+eq(alarmlar, [('2026-10-19 11:00', (ACC('ayse'), IP('203.0.113.7'))), ('2026-10-19 11:00', (ACC('ece'), IP('203.0.113.7'))),
+              ('2026-10-19 12:00', (IP('203.0.113.9'),))],
+   "her alarm kendi hesabını taşır; admin yerleşik hesap adı olduğu için Account entity'si düşer, IP kalır")
+BERK = "INSERT INTO SigninLogs VALUES ('2026-10-19 10:16','2026-10-19 10:17','berk@pafta.example','203.0.113.50','50126','Azure Portal');"
+eq([(a[0], a[1][0]) for a in dene(BERK)[1]], [('2026-10-19 10:20', ACC('berk')), ('2026-10-19 11:30', ACC('can'))],
+   "tam 3 deneme alarm üretir; 10:20 alarmının bastırması 11:00'ı, 11:30 alarmınınki 12:00'yi gizler")
+IKI_IP = ("INSERT INTO SigninLogs VALUES ('2026-10-19 09:41','2026-10-19 09:42','zeynep@pafta.example','203.0.113.80','50126','Office 365'),"
+          "('2026-10-19 09:42','2026-10-19 09:43','zeynep@pafta.example','203.0.113.80','50126','Office 365'),"
+          "('2026-10-19 09:43','2026-10-19 09:44','zeynep@pafta.example','203.0.113.81','50126','Office 365'),"
+          "('2026-10-19 09:44','2026-10-19 09:45','zeynep@pafta.example','203.0.113.81','50126','Office 365');")
+eq(dene(IKI_IP)[1], alarmlar, "iki IP'den ikişer deneme tek çifte toplanmaz")
+```
+
+```solution
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {"workspace": {"type": "string"}},
+  "resources": [{
+    "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+    "name": "[concat(parameters('workspace'), '/Microsoft.SecurityInsights/pafta-parola-deneme')]",
+    "apiVersion": "2025-09-01",
+    "kind": "Scheduled",
+    "properties": {
+      "displayName": "Pafta - parola denemesi",
+      "enabled": true,
+      "severity": "Medium",
+      "tactics": ["CredentialAccess"],
+      "query": "SigninLogs | where ResultType != \"0\" | summarize TimeGenerated = max(TimeGenerated), Basarisiz = count() by UserPrincipalName, IPAddress | where Basarisiz >= 3 | extend AccountName = tostring(split(UserPrincipalName, \"@\")[0]), AccountUPNSuffix = tostring(split(UserPrincipalName, \"@\")[1])",
+      "queryFrequency": "PT10M",
+      "queryPeriod": "PT10M",
+      "triggerOperator": "GreaterThan",
+      "triggerThreshold": 0,
+      "suppressionEnabled": true,
+      "suppressionDuration": "PT45M",
+      "eventGroupingSettings": {"aggregationKind": "AlertPerResult"},
+      "customDetails": {"Basarisiz": "Basarisiz"},
+      "entityMappings": [
+        {"entityType": "Account", "fieldMappings": [{"identifier": "Name", "columnName": "AccountName"}, {"identifier": "UPNSuffix", "columnName": "AccountUPNSuffix"}]},
+        {"entityType": "IP", "fieldMappings": [{"identifier": "Address", "columnName": "IPAddress"}]}
+      ]
+    }
+  }]
+}
+```
+
+```hint
+Önce Çalıştır'a bas ve doğrulama hatalarını kapat: sıklık geriye bakıştan uzun olamaz, operatör REST enum'undan olmalı (`GreaterThan`, `LessThan`, `Equal`, `NotEqual`), bastırma 24 saati aşamaz. `!` ile başlayan satırlar uyarıdır; `FullName` eşlemede görünür ama entity şemasında yoktur. Hata listesi boşalınca benzetim özeti görünür.
+```
+
+```hint
+"0'dan fazla sonuçta alarm" `GreaterThan` + `0` demektir. Her çift ayrı alarm olsun diye `aggregationKind` `AlertPerResult` olmalı; 11:00'da iki çift var. Çıktıda `TimeGenerated` yoksa koşucu kuralı reddeder: `summarize TimeGenerated = max(TimeGenerated), ...` ile çiftin son denemesini taşı.
+```
+
+```hint
+`ResultType == "50126"` yalnız bir hata kodunu sayar; ayse'nin üçüncü denemesi `50053`. Hesap ve IP çifti için `by UserPrincipalName, IPAddress` yaz, `AccountName`/`AccountUPNSuffix` sütunlarını `split(UserPrincipalName, "@")` ile üret.
+```
+:::

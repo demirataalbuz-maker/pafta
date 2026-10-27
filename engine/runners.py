@@ -250,10 +250,11 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "mysql", "mssql", "kusto", "splunk",
-                     "suricata", "zeek", "velociraptor", "pwsh", "ad-vm", "ad-client"):
+    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "mysql", "mssql", "kusto",
+                     "sentinel-kural", "splunk", "suricata", "zeek", "velociraptor", "pwsh", "ad-vm", "ad-client"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb, mysql, mssql, kusto, splunk, suricata, zeek, velociraptor, pwsh, ad-vm veya ad-client kullanın.")
+                         "mariadb, mysql, mssql, kusto, sentinel-kural, splunk, suricata, zeek, velociraptor, pwsh, "
+                         "ad-vm veya ad-client kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -263,6 +264,11 @@ def for_step(runner, step):
             raise ValueError("motor: kusto yalnız KQL (Kusto) yolunda tanımlı.")
         from sandbox.kusto_runner import KustoRunner
         runner = KustoRunner()
+    elif motor == "sentinel-kural":
+        if type(runner) is not KqlRunner:
+            raise ValueError("motor: sentinel-kural yalnız KQL (Kusto) yolunda tanımlı.")
+        from sandbox.sentinel_kural_lab import SentinelKuralRunner
+        runner = SentinelKuralRunner(meta.get("son", ""), meta.get("kosu", 50), meta.get("pencere", "SigninLogs"))
     elif motor in ("mysql", "mssql"):
         if type(runner) is not SqlRunner:
             raise ValueError(f"motor: {motor} yalnız SQL yolunda tanımlı.")

@@ -1,0 +1,182 @@
+{
+  "ders": "kq22",
+  "gorev": "Kuralı kaynak olarak yaz, 50 çalıştırmada sına",
+  "motor": "Microsoft Kusto Emulator (gerçek sorgu motoru)",
+  "imaj": "mcr.microsoft.com/azuredataexplorer/kustainer-linux@sha256:093af777e866d79abfaa2cd1f6e10f9509e6eec6ebd229aecb87c9609f26f1e9",
+  "sema": "Microsoft.SecurityInsights alertRules REST 2025-09-01",
+  "kaynaklar": [
+    "https://learn.microsoft.com/en-us/azure/sentinel/scheduled-rules-overview",
+    "https://learn.microsoft.com/en-us/azure/sentinel/create-analytics-rules",
+    "https://learn.microsoft.com/en-us/azure/sentinel/ingestion-delay",
+    "https://learn.microsoft.com/en-us/azure/sentinel/map-data-fields-to-entities",
+    "https://learn.microsoft.com/en-us/azure/sentinel/entities-reference",
+    "https://learn.microsoft.com/en-us/rest/api/securityinsights/alert-rules/create-or-update?view=rest-securityinsights-2025-09-01"
+  ],
+  "referans": "geçti",
+  "baslangic": "kaldı",
+  "mutant_reddedilen": 29,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "mutasyon": "geriye bakış 20 dk: geç kayıt ikinci pencerede yakalanır, alarm kayar",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "sıklık 5 dk: pencereler örtüşür",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "sıklık geriye bakıştan uzun",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "tek alarm",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "bastırma kapalı",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "bastırma 40 dk",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "bastırma 24 saati aşar",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "eşik 1",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "operatör LessThan",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "operatör enum dışı",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "yalnız 50126 kodu",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "başarılı girişler de sayılır",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "yalnız hesap başına",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "eşik > 3",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "eşik >= 2",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "Name tam UPN",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "UPN parçaları ters",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "Account yalnız Name",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "IP eşlemesi yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "custom detail yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "TimeGenerated çıktıda yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "mapping sütunu yazım hatası",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "özellik adı yazım hatası",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "severity yanlış",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "taktik yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "kind yanlış",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "union * yasak",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "yayımlanmamış apiVersion",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "eski apiVersion: laboratuvar şeması 2025-09-01",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    }
+  ],
+  "esdeger": [
+    {
+      "mutasyon": "GreaterThan 0 ↔ NotEqual 0: sonuç sayısı negatif olamaz",
+      "runner_status": "pass"
+    },
+    {
+      "mutasyon": "son deneme ↔ ilk deneme TimeGenerated: alarm benzetimi bu değeri kullanmaz",
+      "runner_status": "pass"
+    },
+    {
+      "mutasyon": "$schema yılı: laboratuvar şablon şema adresini doğrulamaz",
+      "runner_status": "pass"
+    }
+  ],
+  "sinir_kontrolleri": "5 dk/14 gün, 24 saat, eşik 0–10000, 10000 karakter, 10 eşleme, 3 identifier",
+  "acik": "Gerçek Sentinel çalışma alanı yok: portal Test with current data ve Review doğrulaması yapılmadı. Takvim/eşik/gruplama/bastırma/entity çıkarımı belgelere göre yazılmış yerel modeldir."
+}
