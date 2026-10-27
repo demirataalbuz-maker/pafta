@@ -214,6 +214,16 @@ eq(erisim_var(token, x["objects"][2], "Write"), True, "deny kaldırılırsa Full
 x = copy.deepcopy(w)
 x["jea"][1]["visible_external_commands"] = ["D:\\Araclar\\whoami.exe"]
 eq([b for b in windows_bulgulari(x) if ":DIS:" in b], [], "başka sürücüdeki tam yol da kabul edilir")
+x = copy.deepcopy(w)
+for grup in x["token"]["groups"]:
+    if grup["sid"] == "S-1-5-32-545":
+        grup["enabled"], grup["deny_only"] = False, False
+eq(erisim_var(x["token"], nesneler[1], "Write"), False, "devre dışı grup SID'si deny-only olmasa da izin vermez")
+x = copy.deepcopy(w)
+for grup in x["token"]["groups"]:
+    if grup["sid"] == "S-1-5-32-544":
+        grup["deny_only"] = False
+eq([b for b in windows_bulgulari(x) if b.startswith("TOKEN:")], [], "deny-only olmayan Administrators token bulgusu değildir")
 ```
 
 ```solution
@@ -337,6 +347,17 @@ x.append(dict(x[0], account="yeni", time="2026-10-26T09:04:30Z"))
 x.append(dict(x[0], account="ayse", time="2026-10-26T09:04:45Z"))
 x.append(dict(x[0], account="ayse", time="2026-10-26T09:04:50Z"))
 eq(saldiri_tipleri(x)[0][1], "karma", "bir hesap eşiğe ulaşırken birçok hesap varsa karma")
+sablon = next(k for k in o if k["event_id"] == 4625)
+puskurt = [dict(sablon, source_ip="10.9.9.9", account=f"h{i}", time=f"2026-10-26T10:0{i}:{s:02d}Z") for i in range(4) for s in (0, 30)]
+eq(saldiri_tipleri(puskurt), [("10.9.9.9", "parola-puskurtme", 8, 4)], "hesap başına iki deneme eşik altında: hâlâ püskürtme")
+basarili_ntlm = [dict(sablon, event_id=4776, status="0x0", source_ip="10.9.9.8", account=f"n{i}", time=f"2026-10-26T10:1{i}:00Z") for i in range(4)]
+eq(saldiri_tipleri(basarili_ntlm), [], "0x0 durumlu 4776 başarılı doğrulamadır, hata sayılmaz")
+hata = dict(sablon, source_ip="10.9.9.7", account="deniz", time="2026-10-26T11:00:00Z")
+giris = dict(sablon, event_id=4624, status="0x0", source_ip="10.9.9.7", account="deniz", target_host="SRV-X", logon_type=3)
+eq(basariya_gecis([hata, dict(giris, time="2026-10-26T11:05:00Z")])[0][2], "2026-10-26T11:00:00Z", "tam 300 sn önceki hata pencerede")
+eq(basariya_gecis([hata, dict(giris, time="2026-10-26T11:05:01Z")]), [], "301 sn önceki hata varsayılan pencerenin dışında")
+eq(basariya_gecis([hata, dict(giris, time="2026-10-26T11:00:00Z")]), [], "başarıyla aynı saniyedeki hata öncül sayılmaz")
+eq(basariya_gecis([hata, dict(giris, event_id=4672, time="2026-10-26T11:01:00Z")]), [], "başka bir başarılı olay giriş değildir")
 ```
 
 ```solution

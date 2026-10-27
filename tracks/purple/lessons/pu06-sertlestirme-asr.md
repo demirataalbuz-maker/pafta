@@ -74,6 +74,9 @@ eq(pilot(base),True,'eşit kapılar dahil')
 for key,value in [('age_hours',24.01),('age_hours',-1),('samples',99),('critical',1),('owner',''),('rollback_plan',''),('laps_verified',False),('exceptions_reviewed',False)]:
     eq(pilot(dict(base,**{key:value})),False,'bağımsız kapı '+key)
 eq(pilot({}),False,'kanıt yok')
+eq(pilot(dict(base,age_hours=0)),True,'0 saatlik taze kanıt alt sınırda dahil')
+for key in ('age_hours','critical'):
+    eq(pilot({k:v for k,v in base.items() if k!=key}),False,'eksik '+key+' geçiş vermez')
 ```
 
 ```solution
