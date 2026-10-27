@@ -294,6 +294,9 @@ def for_step(runner, step):
         runner = YaraApiRunner()
     elif motor == "python" and isinstance(runner, AdRunner):
         runner = AdAuditRunner()
+    elif motor == "python" and type(runner) is SqlRunner:
+        # Application/DB binding exercises execute real Python sqlite3 calls.
+        runner = PythonRunner()
     elif motor == "ad-vm":
         if not isinstance(runner, AdRunner) and getattr(runner, "name", None) != "powershell":
             raise ValueError("motor: ad-vm yalnız AD ve PowerShell yollarında tanımlı.")
