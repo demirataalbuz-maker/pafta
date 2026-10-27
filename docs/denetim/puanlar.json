@@ -2405,29 +2405,71 @@
       "dersler": [
         "SG21"
       ],
-      "karar": "Kısmen",
-      "ozet": "Kural sessizliğinin üç nedeni ayrılıyor; Sysmon kuralını 4688'e uyarlama; kör nokta tanığı.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "SG21'e Windows'un gerçek EVTX/XML'inden normalleştirme: adsız Data'yı 4688 sırasıyla adlandırma, boş CommandLine, XML kaçışı, EventCode sözleşmesi; çıktı gerçek Splunk'ta windows-audit + splunk_windows ile sınanır. 8 mutant reddedildi, 0 geçen.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 20,
-        "kapsam": 15,
-        "derinlik": 21,
-        "gerceklik": 9,
+        "test": 23,
+        "kapsam": 22,
+        "derinlik": 22,
+        "gerceklik": 14,
         "yol": 9
       },
       "eksikler": [
         {
-          "metin": "Gerçek EVTX/XML yok; olaylar sentetik JSON.",
-          "oncelik": "yüksek",
+          "metin": "Kayıtlar EVT kaynaklı (sürüm 0, adsız Data); modern Data Name=... biçimi ve gerçek Sysmon kanalı sınanmıyor.",
+          "oncelik": "düşük",
           "etiket": "CDSA"
+        }
+      ],
+      "cikar": true,
+      "onceki_denetim": {
+        "karar": "Kısmen",
+        "ozet": "Kural sessizliğinin üç nedeni ayrılıyor; Sysmon kuralını 4688'e uyarlama; kör nokta tanığı.",
+        "puan": {
+          "test": 20,
+          "kapsam": 15,
+          "derinlik": 21,
+          "gerceklik": 9,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "Gerçek EVTX/XML yok; olaylar sentetik JSON.",
+            "oncelik": "yüksek",
+            "etiket": "CDSA"
+          },
+          {
+            "metin": "PS27/PS21'deki olay okuma bilgisine köprü yok.",
+            "oncelik": "orta"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
+        {
+          "metin": "Gerçek EVTX/XML yok; olaylar sentetik JSON. → Windows'un wevtutil ile ürettiği EVTX/XML, öğrenci normalleştiricisi, gerçek Splunk.",
+          "etiket": "düzeltildi",
+          "oncelik": "yüksek"
         },
         {
-          "metin": "PS27/PS21'deki olay okuma bilgisine köprü yok.",
+          "metin": "PS27/PS21'deki olay okuma bilgisine köprü yok. → PS27'deki Properties[n] konumsal erişimiyle aynı adsız Data biçimi.",
+          "etiket": "düzeltildi",
           "oncelik": "orta"
         }
       ],
-      "cikar": true
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "7e60709",
+        "ozet": "SG21'e Windows'un gerçek EVTX/XML'inden normalleştirme: adsız Data'yı 4688 sırasıyla adlandırma, boş CommandLine, XML kaçışı, EventCode sözleşmesi; çıktı gerçek Splunk'ta windows-audit + splunk_windows ile sınanır. 8 mutant reddedildi, 0 geçen.",
+        "kanit": "../../outputs/a-notu-sg21-evtx-kabul.json",
+        "rapor": "../../outputs/a-notu-sg21-evtx-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "90/100 Claude öz değerlendirmesi (sınırda A). Önceki bağımsız 74 korundu."
+      }
     },
     {
       "no": 48,
@@ -2436,29 +2478,65 @@
       "dersler": [
         "SG22"
       ],
-      "karar": "Kısmen",
-      "ozet": "Modifier'ların Splunk karşılığı ölçülmüş; windash, wide|base64offset, cidr görevde.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "SG22'ye re + harfe duyarlı fieldref görevi ve UTF-16LE/BE bayt sırası görevi; utf16le'nin bu pySigma'da bilinmeyen değiştirici olduğu ölçülür. 13 mutant reddedildi, 0 geçen.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 21,
-        "kapsam": 15,
-        "derinlik": 21,
+        "test": 24,
+        "kapsam": 23,
+        "derinlik": 22,
         "gerceklik": 15,
-        "yol": 8
+        "yol": 9
       },
-      "eksikler": [
+      "eksikler": [],
+      "cikar": true,
+      "onceki_denetim": {
+        "karar": "Kısmen",
+        "ozet": "Modifier'ların Splunk karşılığı ölçülmüş; windash, wide|base64offset, cidr görevde.",
+        "puan": {
+          "test": 21,
+          "kapsam": 15,
+          "derinlik": 21,
+          "gerceklik": 15,
+          "yol": 8
+        },
+        "eksikler": [
+          {
+            "metin": "re ve fieldref görevde yok.",
+            "oncelik": "orta",
+            "etiket": "CDEP"
+          },
+          {
+            "metin": "utf16le/utf16be ayrı görevde yok.",
+            "oncelik": "düşük"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
         {
-          "metin": "re ve fieldref görevde yok.",
-          "oncelik": "orta",
-          "etiket": "CDEP"
+          "metin": "re ve fieldref görevde yok. → SG22 görev 3.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         },
         {
-          "metin": "utf16le/utf16be ayrı görevde yok.",
+          "metin": "utf16le/utf16be ayrı görevde yok. → SG22 görev 4.",
+          "etiket": "düzeltildi",
           "oncelik": "düşük"
         }
       ],
-      "cikar": true
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "7e60709",
+        "ozet": "SG22'ye re + harfe duyarlı fieldref görevi ve UTF-16LE/BE bayt sırası görevi; utf16le'nin bu pySigma'da bilinmeyen değiştirici olduğu ölçülür. 13 mutant reddedildi, 0 geçen.",
+        "kanit": "../../outputs/a-notu-sg22-modifier-kabul.json",
+        "rapor": "../../outputs/a-notu-sg22-modifier-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "93/100 Claude öz değerlendirmesi. Önceki bağımsız 80 korundu."
+      }
     },
     {
       "no": 49,
@@ -2468,28 +2546,65 @@
         "YR19",
         "YR20"
       ],
-      "karar": "Kısmen",
-      "ozet": "Gerçek libyara pe modülü; imports, exports, sections ve bitleri.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "YR19'a gerçek MinGW 32/64 bit DLL ve EXE: pe.machine, is_32bit/is_64bit, is_dll, export; e_lfanew ve Machine-Magic uyuşmazlığı tanıkları. 7 mutant reddedildi, 2 eşdeğer ayrı.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
         "test": 24,
-        "kapsam": 16,
-        "derinlik": 20,
-        "gerceklik": 9,
+        "kapsam": 23,
+        "derinlik": 21,
+        "gerceklik": 15,
         "yol": 9
       },
-      "eksikler": [
+      "eksikler": [],
+      "cikar": true,
+      "onceki_denetim": {
+        "karar": "Kısmen",
+        "ozet": "Gerçek libyara pe modülü; imports, exports, sections ve bitleri.",
+        "puan": {
+          "test": 24,
+          "kapsam": 16,
+          "derinlik": 20,
+          "gerceklik": 9,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "Gerçek derleyici çıktısı (MinGW 32/64) yok; örnekler Python'da sentezleniyor. Projede ctypes_lab ile derleme artık mümkün.",
+            "oncelik": "orta",
+            "etiket": "CDSA"
+          },
+          {
+            "metin": "pe.is_32bit/is_64bit/machine görevde yok; bozuk başlık tanığı zayıf.",
+            "oncelik": "düşük"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
         {
-          "metin": "Gerçek derleyici çıktısı (MinGW 32/64) yok; örnekler Python'da sentezleniyor. Projede ctypes_lab ile derleme artık mümkün.",
-          "oncelik": "orta",
-          "etiket": "CDSA"
+          "metin": "Gerçek derleyici çıktısı (MinGW 32/64) yok; örnekler Python'da sentezleniyor. Projede ctypes_lab ile derleme artık mümkün. → YR19 gerçek MinGW görevi.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         },
         {
-          "metin": "pe.is_32bit/is_64bit/machine görevde yok; bozuk başlık tanığı zayıf.",
+          "metin": "pe.is_32bit/is_64bit/machine görevde yok; bozuk başlık tanığı zayıf. → mimari/rol görevi ve dört bozuk başlık tanığı.",
+          "etiket": "düzeltildi",
           "oncelik": "düşük"
         }
-      ]
+      ],
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "a99d318",
+        "ozet": "YR19'a gerçek MinGW 32/64 bit DLL ve EXE: pe.machine, is_32bit/is_64bit, is_dll, export; e_lfanew ve Machine-Magic uyuşmazlığı tanıkları. 7 mutant reddedildi, 2 eşdeğer ayrı.",
+        "kanit": "../../outputs/a-notu-yr19-mingw-kabul.json",
+        "rapor": "../../outputs/a-notu-yr19-mingw-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "92/100 Claude öz değerlendirmesi. Önceki bağımsız 78 korundu."
+      }
     },
     {
       "no": 50,
