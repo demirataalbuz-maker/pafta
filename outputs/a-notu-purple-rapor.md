@@ -54,7 +54,19 @@ Yalnız test puanı güncellendi; kapsam, derinlik, gerçeklik ve yol puanları 
 
 Hepsi öz değerlendirmedir; bağımsız yeniden denetim yapılmadı. Çıkar çatışması: 105, 106, 108 ve PU02'nin yeni testleri bu teslimde yazıldı.
 
+## 96 · ID01–ID05 (ek ölçüm, aynı gün)
+
+İlk ölçümde Docker Desktop kapalıydı, ID04/ID05'in çözümü bile koşmadı ("Zeek imajı yok"). Docker yeniden açılırken önceki oturumdan kalan iki AF_UNIX soket dosyası (`%LOCALAPPDATA%\Docker\run\dockerInference`, `%LOCALAPPDATA%\docker-secrets-engine\engine.sock`) silinemediği için iki kez çöktü. İki klasör `*.bozuk-20261027-*` adıyla kenara alındı, Docker 29.4.0 açıldı. Sabitlenmiş Zeek imajı (`zeek/zeek@sha256:70733f4e…`) yerindeydi.
+
+- `tools/validate.py id01 … id05`: 5 ders, 25 kontrol, PowerShell ve Git Bash'te temiz (`8ea29d5`).
+- Mutasyon: **23 mutant, 7 geçen.** Altısı kuralların `rev:1→2` revizyon numarası, biri ID05'teki `NOTICE` mesajının serbest metni (`"%s 5 NXDOMAIN"`). Görev `$msg` biçimi tanımlamıyor, test `note` ve `src`'ye bakıyor. Hepsi eşdeğer.
+- Elle yanlış çözüm: 18 vaka. İlk koşuda iki tanesi **geçti**, bunlar gerçek boşluktu ve `8ea29d5` ile kapatıldı:
+  - ID01 g2 `endswith` olmadan yazılan kural: ortasında `.exe` geçen `/yedek/kurulum.exe.bak` eklendi.
+  - ID03 g2 `threshold ... seconds 30`: 48 saniyeye yayılan beş hata eklendi; 60 sn pencerede beşincide alarm gerçek Suricata'da ölçüldü.
+  - Son durumda 18 vakanın 18'i reddedildi.
+- Çıktı: [a-notu-96-ids-mutasyon.txt](a-notu-96-ids-mutasyon.txt).
+- Puan: test 16→24, **83 → 91 A.**
+
 ## Açık kalan
 
-- **96 (ID01–ID05):** ID04 ve ID05 Zeek imajını Docker'da çalıştırır. Docker Desktop kapalıyken çözümün kendisi bile koşmuyor ("Zeek imajı yok"); bu yüzden 96 yeniden puanlanmadı.
 - **60 (AD erişim yolu):** eksiği gerçek grafik verisini okuyan görev; test sıkılaştırması değil. Bu teslimde ele alınmadı.

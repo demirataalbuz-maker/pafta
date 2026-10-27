@@ -3857,23 +3857,55 @@
         "ID01-ID05"
       ],
       "karar": "Tam",
-      "ozet": "Gerçek Suricata/Zeek kuralları. Ama eşik/pencere değerleri (count, 60s) yeterince pinlenmemiş.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "ID01-ID05 gerçek Suricata/Zeek'te yeniden ölçüldü: 23 mutant, 7 geçen (6× rev:1→2, 1× sözleşmede tanımsız notice mesaj metni; hepsi eşdeğer); 18 elle yanlış çözüm reddedildi. ID03 pencere uçları ve ID05 tam beşinci hata (61c5584), ID01 ortada .exe ve ID03 threshold pencere genişliği (8ea29d5) pinlendi.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 16,
+        "test": 24,
         "kapsam": 23,
         "derinlik": 22,
         "gerceklik": 15,
         "yol": 7
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Gerçek Suricata/Zeek kuralları. Ama eşik/pencere değerleri (count, 60s) yeterince pinlenmemiş.",
+        "puan": {
+          "test": 16,
+          "kapsam": 23,
+          "derinlik": 22,
+          "gerceklik": 15,
+          "yol": 7
+        },
+        "eksikler": [
+          {
+            "metin": "id01/02/03/05'te eşik/pencere sayıları (1→2, 60→61, 5→6) mutasyonda yaşıyor (10 geçen); eşik sınır testleri ekle.",
+            "oncelik": "orta",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude · 26.10.2026"
+      },
+      "kapatilanlar": [
         {
-          "metin": "id01/02/03/05'te eşik/pencere sayıları (1→2, 60→61, 5→6) mutasyonda yaşıyor (10 geçen); eşik sınır testleri ekle.",
-          "oncelik": "orta",
-          "etiket": "test"
+          "metin": "id01/02/03/05'te eşik/pencere sayıları (1→2, 60→61, 5→6) mutasyonda yaşıyor (10 geçen); eşik sınır testleri ekle. → ID01-ID05 gerçek Suricata/Zeek'te yeniden ölçüldü: 23 mutant, 7 geçen (6× rev:1→2, 1× sözleşmede tanımsız notice mesaj metni; hepsi eşdeğer); 18 elle yanlış çözüm reddedildi. ID03 pencere uçları ve ID05 tam beşinci hata (61c5584), ID01 ortada .exe ve ID03 threshold pencere genişliği (8ea29d5) pinlendi.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "61c5584, 8ea29d5",
+        "ozet": "ID01-ID05 gerçek Suricata/Zeek'te yeniden ölçüldü: 23 mutant, 7 geçen (6× rev:1→2, 1× sözleşmede tanımsız notice mesaj metni; hepsi eşdeğer); 18 elle yanlış çözüm reddedildi. ID03 pencere uçları ve ID05 tam beşinci hata (61c5584), ID01 ortada .exe ve ID03 threshold pencere genişliği (8ea29d5) pinlendi.",
+        "kanit": "../../outputs/a-notu-96-ids-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "91/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (16→24). Önceki 83 onceki_denetim'de."
+      }
     },
     {
       "no": 97,
