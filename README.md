@@ -343,3 +343,14 @@ Tam digest'ler `sandbox/sql_docker_lab.py` içinde sabittir; `python sandbox/sql
 Bu ek tezgah tek SELECT/CTE sonucu içindir. MySQL'in gerçek XML istemci çıktısı, SQL Server'ın gerçek `FOR JSON PATH, INCLUDE_NULL_VALUES` çıktısı okunur; SQL Server sorgusuna bu son ek koşucu tarafından eklenir. İsimli sonuç sütunları gerekir; yinelenen sütun adları ve çoklu sonuç kümeleri bu dar tezgahın kapsamı değildir. Sayı/metin değerleri metin, SQL NULL Python None olarak görev testine gider. Testte `dene(ek)` aynı işe ait veritabanını ek SQL ile değiştirip sorguyu yeniden çalıştırır; SQLite'taki temiz veritabanı semantiği varsayılmamalıdır.
 
 Resmî kaynaklar: https://hub.docker.com/_/mysql ve https://hub.docker.com/r/microsoft/mssql-server/ .
+
+
+### KQL ek görevleri: Microsoft Kusto Emulator
+
+`motor: kusto` adımları Docker Desktop/Linux containers ve Microsoft Kusto Emulator gerektirir. Kullanıcı onayıyla `mcr.microsoft.com/azuredataexplorer/kustainer-linux:latest` indirildi; kabul edilen digest `sandbox/kusto_lab.py` içinde sabittir. Belgede geçen stable tag'i kayıt defterinde bulunmadığından latest indirildi ve digest ile sabitlendi. Koşucu eksik imajı kendiliğinden indirmez. Yeni bilgisayarda önce sabit IMAGE değerini `docker pull` ile indirin; `python sandbox/kusto_lab.py` kurulumu doğrular/başlatır.
+
+Dört GB Docker belleği ve AVX2/SSE4.2 destekleyen x64 işlemci gerekir. `pafta-kusto` yalnız **127.0.0.1:18780** üzerinden HTTP açar; kimlik doğrulaması/HTTPS yoktur, dış ağ arayüzüne yayınlanmaz ve host klasörü bağlanmaz. Bu ücretsiz geliştirme/test motorudur; Sentinel veya Defender hizmeti, Microsoft Entra yetkilendirmesi ve üretim güvenlik modeli değildir. Konteynerdeki NetDefaultDB sorgulanır; ders verileri sorgu içi datatable/let ile taşınır, kalıcı müşteri verisi alınmaz. Çalışan konteyner dersler arasında açık kalır.
+
+Eski ders fixture'larının SQL CREATE/INSERT metni yalnız hazırlık verisini okumak için SQLite'a yüklenip yerel Kusto datatable'ına çevrilir; **öğrencinin KQL'i SQLite'a çevrilmez**, Microsoft motoruna gider. Fixture tamsayısı long, real/float real, ISO zaman metni datetime, diğer metin string olarak açıkça aktarılır; SQL NULL string alanı Kusto'nun boş string'ine dönüşür. Sonuç datetime'ı dersin dakika/saniye gösterimine çevrilir, sayılar/dynamic/bool native kalır. Watchlist yardımcı fonksiyonu yalnız dersin yerel listelerine bağlanır; gerçek Sentinel _GetWatchlist hizmeti değildir. Sorgu 30 saniye sunucu sınırı/4 MB yanıt sınırı taşır; büyük veya kısmi hatalı sonuç sessiz başarı sayılmaz. Yerel endpoint'i internete veya güvenilmeyen kullanıcılara açmayın.
+
+Resmî kurulum ve kapsam: https://learn.microsoft.com/en-us/azure/data-explorer/kusto-emulator-install ve https://learn.microsoft.com/en-us/azure/data-explorer/kusto-emulator-overview .
