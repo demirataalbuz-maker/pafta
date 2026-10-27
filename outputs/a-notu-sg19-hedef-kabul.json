@@ -1,0 +1,60 @@
+{
+  "ders": "sg19",
+  "gorev": "4 · Aynı kuralı Defender (Kusto) ve Elastic (EQL) için çevir",
+  "araclar": "sigma-cli 3.1.0, pySigma 1.5.1, pysigma-backend-kusto 1.0.1, pysigma-backend-elasticsearch 2.1.1",
+  "hedefler": "Microsoft Kusto Emulator (gerçek sorgu motoru) ve Elasticsearch 9.5.5 _eql API",
+  "referans": "geçti",
+  "mutant_reddedilen": 8,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "mutasyon": "Kusto pipeline yok: tablo yok",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "Gerçek Kusto sorgu hatası: General_BadRequest: Request is invalid and cannot be executed.\nError details:\nClientRequestId='unspecified;f2524b6f-f76b-4bad-b557-06fe8ee840fb', ActivityId='95c78fee-4c66-4"
+    },
+    {
+      "mutasyon": "Kusto ASIM tablosu: çalışma alanında tanımlı değil",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "Gerçek Kusto sorgu hatası: General_BadRequest: Request is invalid and cannot be executed.\nError details:\nClientRequestId='unspecified;b1c92054-894f-41ed-85f3-0f8213ddc50d', ActivityId='6a817479-d1e8-4"
+    },
+    {
+      "mutasyon": "EQL pipeline yok",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "sigma-cli çıkış kodu 2: Usage: sigma convert [OPTIONS] INPUT... Try 'sigma convert --help' for help. Error: Processing pipeline required by backend! Define a custom pipeline or choose a predefined one"
+    },
+    {
+      "mutasyon": "EQL Sysmon alanları: ECS indeksinde yok",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "Gerçek Elastic HTTP 400: {\"error\":{\"root_cause\":[{\"type\":\"verification_exception\",\"reason\":\"Found 4 problems\\nline 1:11: Unknown column [EventID]\\nline 1:26: Unknown column [Image]\\nline 1:56: Unknown"
+    },
+    {
+      "mutasyon": "yalnız Kusto",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": "'eql'"
+    },
+    {
+      "mutasyon": "yalnız EQL",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": "'kusto'"
+    },
+    {
+      "mutasyon": "desteklenmeyen hedef",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "bu görevde hedef kusto ya da eql: çıktı gerçek motorda çalıştırılır"
+    },
+    {
+      "mutasyon": "Splunk hedefi bu görevde değil",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "bu görevde hedef kusto ya da eql: çıktı gerçek motorda çalıştırılır"
+    }
+  ],
+  "acik": "Defender/Sentinel servisi değil; DeviceProcessEvents ders verisidir."
+}

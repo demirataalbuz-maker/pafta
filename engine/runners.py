@@ -251,10 +251,10 @@ def for_step(runner, step):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
     if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "mysql", "mssql", "kusto",
-                     "sentinel-kural", "elastic-agent", "splunk", "suricata", "zeek", "velociraptor", "pwsh", "ad-vm",
+                     "sentinel-kural", "elastic-agent", "sigma-hedef", "splunk", "suricata", "zeek", "velociraptor", "pwsh", "ad-vm",
                      "ad-client"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb, mysql, mssql, kusto, sentinel-kural, elastic-agent, splunk, suricata, zeek, "
+                         "mariadb, mysql, mssql, kusto, sentinel-kural, elastic-agent, sigma-hedef, splunk, suricata, zeek, "
                          "velociraptor, pwsh, ad-vm veya ad-client kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
@@ -275,6 +275,11 @@ def for_step(runner, step):
             raise ValueError("motor: elastic-agent yalnız Elastic yolunda tanımlı.")
         from sandbox.elastic_agent_lab import ElasticAgentRunner
         runner = ElasticAgentRunner()
+    elif motor == "sigma-hedef":
+        if not (isinstance(runner, DetectionRunner) and runner.name == "sigma"):
+            raise ValueError("motor: sigma-hedef yalnız Sigma yolunda tanımlı.")
+        from sandbox.sigma_hedef_lab import SigmaHedefRunner
+        runner = SigmaHedefRunner()
     elif motor in ("mysql", "mssql"):
         if type(runner) is not SqlRunner:
             raise ValueError(f"motor: {motor} yalnız SQL yolunda tanımlı.")

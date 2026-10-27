@@ -445,3 +445,65 @@ sigma convert -t splunk -p splunk_cim -f data_model kurallar/ofis_powershell.yml
 `-p splunk_cim` alan adlarını CIM'e çevirir ama `-f` vermezsen çıktı yine ham olaylarda arayan düz SPL olur. Veri modeli için biçim `data_model`.
 ```
 :::
+
+::: anlat Aynı kural, üç ürün: Defender'ın Kusto'su ve Elastic'in EQL'i
+Splunk tek hedef değildir. Bu bilgisayarda kurulu sigma-cli artık Kusto backend'i (1.0.1) ve Elasticsearch backend'i (2.1.1) ile de çalışır: `sigma list targets` çıktısında `kusto`, `eql`, `lucene`, `esql` görünür. Her hedefin kendi pipeline'ı vardır ve pipeline yalnız alan adını değil **tabloyu ya da indeks eşlemesini** de belirler (bu derste ölçüldü):
+
+| Komut | Çıktı | Neye dayanır |
+|---|---|---|
+| `-t kusto -p microsoft_xdr` | `DeviceProcessEvents \| where FolderPath endswith ... and ProcessCommandLine contains ...` | Defender XDR'ın gelişmiş avcılık tablosu ve alan adları |
+| `-t kusto -p sentinel_asim` | `imProcessCreate \| where TargetProcessName ...` | Sentinel'deki ASIM ayrıştırıcı fonksiyonu; çalışma alanında tanımlı olmalı |
+| `-t kusto` (pipeline'sız) | yalnız `Image endswith ...`; tablo yok | Kusto backend pipeline istemez ama çıktısı tek başına sorgu değildir |
+| `-t eql -p ecs_windows` | `any where process.executable.caseless:"*\\powershell.exe" ...` | ECS alanları ve indekste `.caseless` normalizer'lı alt alan |
+| `-t esql -p ecs_windows` | **ret**: pipeline bu hedefe uygun değil | sigma-cli pipeline/hedef uyumunu denetler |
+
+İki tuzak: `.caseless` alt alanı olmayan bir indekste EQL sorgusu eşleşmez ya da alan hatası verir. Bu yüzden indeks eşlemesi kuralın parçasıdır. Kusto'da `contains` ve `endswith` harfe duyarsızdır, Elastic EQL'de `:` ve `like~` da öyle. Splunk'taki `where 'A'='B'` ise harfe duyarlıdır (SG22). Aynı kural her üründe aynı olayları bulmalı; bunu ancak hepsinde aynı olaylarla sınayarak bilirsin.
+
+> [!NOT] Laboratuvar
+> Kod satır başına bir `sigma convert` komutudur (`motor: sigma-hedef`). `kusto` çıktısı gerçek Kusto Emulator'da hazırlığın `DeviceProcessEvents` tablosunda, `eql` çıktısı gerçek Elasticsearch 9.5.5'te hazırlığın ECS belgelerinde çalışır. Tablolar ders verisidir; Defender ya da Sentinel servisi değildir.
+
+Kaynaklar: [pySigma Kusto backend](https://github.com/AttackIQ/pySigma-backend-kusto), [pySigma Elasticsearch backend](https://github.com/SigmaHQ/pySigma-backend-elasticsearch), [DeviceProcessEvents](https://learn.microsoft.com/en-us/defender-xdr/advanced-hunting-deviceprocessevents-table), [ECS process alanları](https://www.elastic.co/docs/reference/ecs/ecs-process).
+:::
+
+::: gorev 4 · Aynı kuralı Defender (Kusto) ve Elastic (EQL) için çevir
+Hazırlıktaki `kurallar/ofis_powershell.yml` kuralını iki ürün için çeviren iki `sigma convert` satırı yaz:
+
+- **Defender XDR**: Kusto hedefi, Defender'ın `DeviceProcessEvents` tablosu ve alan adları.
+- **Elastic**: EQL hedefi, ECS Windows alanları.
+
+İki çıktı da gerçek motorlarda aynı beş süreç olayının kendi şemalarındaki kopyasında koşar. İkisinin de aynı iki cihazı bulması beklenir.
+
+```meta
+motor: sigma-hedef
+timeout: 180
+```
+
+```setup
+{"dosyalar": {"kurallar/ofis_powershell.yml": "title: Office'ten başlatılan kodlanmış PowerShell\nid: 5d1a8f2e-7c3b-4e9a-a1d2-0b6c4f8e9a10\nstatus: experimental\nlogsource: {product: windows, category: process_creation}\ndetection:\n  sel:\n    Image|endswith: '\\powershell.exe'\n    CommandLine|contains: ' -enc '\n    ParentImage|endswith: ['\\winword.exe', '\\excel.exe']\n  condition: sel\nlevel: high\n"}, "kusto_anahtar": "DeviceName", "kusto": {"DeviceProcessEvents": {"sutunlar": [["Timestamp", "datetime"], ["DeviceName", "string"], ["AccountName", "string"], ["FolderPath", "string"], ["ProcessCommandLine", "string"], ["InitiatingProcessFolderPath", "string"]], "satirlar": [["2026-10-19T09:01:00Z", "pc-ayse", "ayse", "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "powershell.exe -nop -w hidden -enc SQBFAFgA", "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"], ["2026-10-19T09:02:00Z", "pc-can", "can", "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "powershell.exe -File yedek.ps1", "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"], ["2026-10-19T09:03:00Z", "pc-mert", "mert", "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "powershell.exe -enc ZQBjAGgAbwA=", "C:\\Windows\\explorer.exe"], ["2026-10-19T09:04:00Z", "pc-zeynep", "zeynep", "C:\\WINDOWS\\SYSTEM32\\WINDOWSPOWERSHELL\\V1.0\\POWERSHELL.EXE", "POWERSHELL.EXE -ENC JABhAD0A", "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"], ["2026-10-19T09:05:00Z", "pc-ali", "ali", "C:\\Windows\\System32\\cmd.exe", "cmd.exe /c echo -enc", "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"]]}}, "elastic": {"mapping": {"@timestamp": "date", "event.category": "keyword", "host.name": "keyword", "user.name": "keyword", "process.executable": {"type": "keyword", "fields": {"caseless": {"type": "keyword", "normalizer": "lowercase"}}}, "process.command_line": "keyword", "process.parent.executable": {"type": "keyword", "fields": {"caseless": {"type": "keyword", "normalizer": "lowercase"}}}}, "documents": [{"id": "pc-ayse", "@timestamp": "2026-10-19T09:01:00Z", "event": {"category": "process"}, "host": {"name": "pc-ayse"}, "user": {"name": "ayse"}, "process": {"executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "command_line": "powershell.exe -nop -w hidden -enc SQBFAFgA", "parent": {"executable": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}}}, {"id": "pc-can", "@timestamp": "2026-10-19T09:02:00Z", "event": {"category": "process"}, "host": {"name": "pc-can"}, "user": {"name": "can"}, "process": {"executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "command_line": "powershell.exe -File yedek.ps1", "parent": {"executable": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}}}, {"id": "pc-mert", "@timestamp": "2026-10-19T09:03:00Z", "event": {"category": "process"}, "host": {"name": "pc-mert"}, "user": {"name": "mert"}, "process": {"executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "command_line": "powershell.exe -enc ZQBjAGgAbwA=", "parent": {"executable": "C:\\Windows\\explorer.exe"}}}, {"id": "pc-zeynep", "@timestamp": "2026-10-19T09:04:00Z", "event": {"category": "process"}, "host": {"name": "pc-zeynep"}, "user": {"name": "zeynep"}, "process": {"executable": "C:\\WINDOWS\\SYSTEM32\\WINDOWSPOWERSHELL\\V1.0\\POWERSHELL.EXE", "command_line": "POWERSHELL.EXE -ENC JABhAD0A", "parent": {"executable": "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"}}}, {"id": "pc-ali", "@timestamp": "2026-10-19T09:05:00Z", "event": {"category": "process"}, "host": {"name": "pc-ali"}, "user": {"name": "ali"}, "process": {"executable": "C:\\Windows\\System32\\cmd.exe", "command_line": "cmd.exe /c echo -enc", "parent": {"executable": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}}}]}}
+```
+
+```starter
+sigma convert -t kusto kurallar/ofis_powershell.yml
+sigma convert -t eql kurallar/ofis_powershell.yml
+```
+
+```test
+eq(sorted(hedefler), ["eql", "kusto"], "iki hedef de çevrildi")
+ok(hedefler["kusto"]["sorgu"].startswith("DeviceProcessEvents"), "Kusto sorgusu Defender tablosundan başlar", hedefler["kusto"]["sorgu"])
+ok("ProcessCommandLine" in hedefler["kusto"]["sorgu"] and "InitiatingProcessFolderPath" in hedefler["kusto"]["sorgu"],
+   "Defender alan adları: ProcessCommandLine, InitiatingProcessFolderPath")
+ok("process.parent.executable" in hedefler["eql"]["sorgu"] and "process.command_line" in hedefler["eql"]["sorgu"], "ECS alanları")
+eq(hedefler["kusto"]["eslesen"], ["pc-ayse", "pc-zeynep"], "gerçek Kusto: Word ve Excel'den kodlanmış PowerShell (büyük harfli yol dahil)")
+eq(hedefler["eql"]["eslesen"], ["pc-ayse", "pc-zeynep"], "gerçek Elasticsearch EQL: aynı iki cihaz")
+eq(hedefler["kusto"]["eslesen"], hedefler["eql"]["eslesen"], "iki ürün aynı olaylarda aynı sonucu verir")
+```
+
+```solution
+sigma convert -t kusto -p microsoft_xdr kurallar/ofis_powershell.yml
+sigma convert -t eql -p ecs_windows kurallar/ofis_powershell.yml
+```
+
+```hint
+Kusto backend pipeline istemez ama pipeline'sız çıktı bir tabloyla başlamaz; Defender tabloları için `-p microsoft_xdr`. EQL backend pipeline ister; ECS alanları için `-p ecs_windows`.
+```
+:::

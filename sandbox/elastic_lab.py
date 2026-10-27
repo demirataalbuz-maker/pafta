@@ -106,8 +106,13 @@ def properties(mapping):
         spec={'type':raw} if isinstance(raw,str) else copy.deepcopy(raw)
         if not isinstance(spec,dict) or spec.get('type') not in {'keyword','text','integer','long','double','date','boolean','ip','nested'}:
             raise ElasticError('Desteklenmeyen mapping türü: '+field)
-        if set(spec)-{'type','index','analyzer','normalizer','ignore_above','null_value'}:
+        if set(spec)-{'type','index','analyzer','normalizer','ignore_above','null_value','fields'}:
             raise ElasticError('Desteklenmeyen mapping seçeneği: '+field)
+        # Çok alanlı eşleme (ör. ECS process.executable.caseless): yalnız normalizer'lı keyword alt alanları.
+        for alt,altspec in (spec.get('fields') or {}).items():
+            if (not re.fullmatch(r'[A-Za-z]\w*',alt) or not isinstance(altspec,dict)
+                    or altspec.get('type')!='keyword' or set(altspec)-{'type','normalizer','ignore_above'}):
+                raise ElasticError('Desteklenmeyen alt alan: '+field+'.'+str(alt))
         if spec['type'] in {'integer','long','double'}:
             spec['coerce']=False
         current=props
