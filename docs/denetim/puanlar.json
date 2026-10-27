@@ -3075,20 +3075,21 @@
         "CS13"
       ],
       "karar": "Tam",
-      "ozet": "CS13 kullanıcı/belge/işlem ve politika guard testleri: 48 mutant, 0 geçen.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "Codex'in CS13 guard testleri yeniden ölçüldü: 48 mutant, 0 geçen; validate temiz.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 19,
+        "test": 24,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 14,
         "yol": 7
       },
       "eksikler": [],
+      "cikar": true,
       "onceki_denetim": {
         "karar": "Tam",
-        "ozet": "Yetkilendirme mantığı (gizlilik eşiği, rol) sağlam. Girdi-doğrulama guard dalları az test.",
+        "ozet": "CS13 kullanıcı/belge/işlem ve politika guard testleri: 48 mutant, 0 geçen.",
         "puan": {
           "test": 19,
           "kapsam": 24,
@@ -3096,6 +3097,7 @@
           "gerceklik": 14,
           "yol": 7
         },
+        "eksikler": [],
         "tarih": "26.10.2026",
         "kaynak": "Claude · 26.10.2026"
       },
@@ -3107,15 +3109,27 @@
         }
       ],
       "duzeltme": {
-        "tarih": "26.10.2026",
-        "yazar": "Codex",
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
         "commit": "eb4d26d",
-        "ozet": "CS13 kullanıcı/belge/işlem ve politika guard testleri: 48 mutant, 0 geçen.",
-        "kanit": "../../outputs/codex-aciklar-cs13-final-mutasyon.txt",
-        "rapor": "../../outputs/codex-aciklar-teslim.md",
+        "ozet": "Codex'in CS13 guard testleri yeniden ölçüldü: 48 mutant, 0 geçen; validate temiz.",
+        "kanit": "../../outputs/a-notu-69-72-83-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-69-72-83-rapor.md",
         "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
-      }
+        "puan_notu": "91/100 Claude yeniden ölçümü; ders değişmedi, yalnız test puanı güncellendi. Önceki bağımsız 86 korundu."
+      },
+      "duzeltme_gecmisi": [
+        {
+          "tarih": "26.10.2026",
+          "yazar": "Codex",
+          "commit": "eb4d26d",
+          "ozet": "CS13 kullanıcı/belge/işlem ve politika guard testleri: 48 mutant, 0 geçen.",
+          "kanit": "../../outputs/codex-aciklar-cs13-final-mutasyon.txt",
+          "rapor": "../../outputs/codex-aciklar-teslim.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        }
+      ]
     },
     {
       "no": 70,
@@ -3163,20 +3177,21 @@
         "CS16"
       ],
       "karar": "Tam",
-      "ozet": "CS16:4 U+FFFF tek ?, U+10000 iki ? sınırı: 1 mutant, 0 geçen.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "Codex'in CS16 U+FFFF/U+10000 sınır testi yeniden ölçüldü: mutant 0 geçen; validate temiz.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 21,
+        "test": 24,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 14,
         "yol": 7
       },
       "eksikler": [],
+      "cikar": true,
       "onceki_denetim": {
         "karar": "Tam",
-        "ozet": "Gerçek CIL baytları + Ansi dönüşümü. 0xFFFF sınırı test edilmemiş.",
+        "ozet": "CS16:4 U+FFFF tek ?, U+10000 iki ? sınırı: 1 mutant, 0 geçen.",
         "puan": {
           "test": 21,
           "kapsam": 24,
@@ -3184,6 +3199,7 @@
           "gerceklik": 14,
           "yol": 7
         },
+        "eksikler": [],
         "tarih": "26.10.2026",
         "kaynak": "Claude · 26.10.2026"
       },
@@ -3195,15 +3211,27 @@
         }
       ],
       "duzeltme": {
-        "tarih": "26.10.2026",
-        "yazar": "Codex",
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
         "commit": "e3c804d",
-        "ozet": "CS16:4 U+FFFF tek ?, U+10000 iki ? sınırı: 1 mutant, 0 geçen.",
-        "kanit": "../../outputs/codex-aciklar-final-mutasyon.txt",
-        "rapor": "../../outputs/codex-aciklar-teslim.md",
+        "ozet": "Codex'in CS16 U+FFFF/U+10000 sınır testi yeniden ölçüldü: mutant 0 geçen; validate temiz.",
+        "kanit": "../../outputs/a-notu-69-72-83-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-69-72-83-rapor.md",
         "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
-      }
+        "puan_notu": "91/100 Claude yeniden ölçümü; ders değişmedi. Önceki bağımsız 88 korundu."
+      },
+      "duzeltme_gecmisi": [
+        {
+          "tarih": "26.10.2026",
+          "yazar": "Codex",
+          "commit": "e3c804d",
+          "ozet": "CS16:4 U+FFFF tek ?, U+10000 iki ? sınırı: 1 mutant, 0 geçen.",
+          "kanit": "../../outputs/codex-aciklar-final-mutasyon.txt",
+          "rapor": "../../outputs/codex-aciklar-teslim.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        }
+      ]
     },
     {
       "no": 73,
@@ -3403,20 +3431,21 @@
         "JS13"
       ],
       "karar": "Tam",
-      "ozet": "JS13:3 expose true/false, 399/400/499/500 matrisi: 14 mutant, 0 geçen.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "Codex'in JS13 hata açığa çıkarma matrisi yeniden ölçüldü: 25 mutant, 1 eşdeğer (test düzeneği satırı), davranış bozan 0.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 18,
+        "test": 24,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 14,
         "yol": 7
       },
       "eksikler": [],
+      "cikar": true,
       "onceki_denetim": {
         "karar": "Tam",
-        "ozet": "Yönlendirme/hata akışı sağlam. Hata-mesajı açığa çıkarma dalı az test.",
+        "ozet": "JS13:3 expose true/false, 399/400/499/500 matrisi: 14 mutant, 0 geçen.",
         "puan": {
           "test": 18,
           "kapsam": 24,
@@ -3424,6 +3453,7 @@
           "gerceklik": 14,
           "yol": 7
         },
+        "eksikler": [],
         "tarih": "26.10.2026",
         "kaynak": "Claude · 26.10.2026"
       },
@@ -3435,15 +3465,34 @@
         }
       ],
       "duzeltme": {
-        "tarih": "26.10.2026",
-        "yazar": "Codex",
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
         "commit": "dbe87c7",
-        "ozet": "JS13:3 expose true/false, 399/400/499/500 matrisi: 14 mutant, 0 geçen.",
-        "kanit": "../../outputs/codex-aciklar-final-mutasyon.txt",
-        "rapor": "../../outputs/codex-aciklar-teslim.md",
+        "ozet": "Codex'in JS13 hata açığa çıkarma matrisi yeniden ölçüldü: 25 mutant, 1 eşdeğer (test düzeneği satırı), davranış bozan 0.",
+        "kanit": "../../outputs/a-notu-69-72-83-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-69-72-83-rapor.md",
         "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
-      }
+        "puan_notu": "91/100 Claude yeniden ölçümü; ders değişmedi. Önceki bağımsız 85 korundu."
+      },
+      "duzeltme_gecmisi": [
+        {
+          "tarih": "26.10.2026",
+          "yazar": "Codex",
+          "commit": "dbe87c7",
+          "ozet": "JS13:3 expose true/false, 399/400/499/500 matrisi: 14 mutant, 0 geçen.",
+          "kanit": "../../outputs/codex-aciklar-final-mutasyon.txt",
+          "rapor": "../../outputs/codex-aciklar-teslim.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        }
+      ],
+      "inceleme_notlari": [
+        {
+          "metin": "JS13:4 '!='→'==' @31 eşdeğer: DENEME düzeneğinde gövde yokken content-type satırı; testler gövde göndermez.",
+          "etiket": "not",
+          "oncelik": "düşük"
+        }
+      ]
     },
     {
       "no": 84,
