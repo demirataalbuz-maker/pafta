@@ -251,10 +251,11 @@ def for_step(runner, step):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
     if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "mysql", "mssql", "kusto",
-                     "sentinel-kural", "splunk", "suricata", "zeek", "velociraptor", "pwsh", "ad-vm", "ad-client"):
+                     "sentinel-kural", "elastic-agent", "splunk", "suricata", "zeek", "velociraptor", "pwsh", "ad-vm",
+                     "ad-client"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb, mysql, mssql, kusto, sentinel-kural, splunk, suricata, zeek, velociraptor, pwsh, "
-                         "ad-vm veya ad-client kullanın.")
+                         "mariadb, mysql, mssql, kusto, sentinel-kural, elastic-agent, splunk, suricata, zeek, "
+                         "velociraptor, pwsh, ad-vm veya ad-client kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -269,6 +270,11 @@ def for_step(runner, step):
             raise ValueError("motor: sentinel-kural yalnız KQL (Kusto) yolunda tanımlı.")
         from sandbox.sentinel_kural_lab import SentinelKuralRunner
         runner = SentinelKuralRunner(meta.get("son", ""), meta.get("kosu", 50), meta.get("pencere", "SigninLogs"))
+    elif motor == "elastic-agent":
+        if not isinstance(runner, ElasticRunner):
+            raise ValueError("motor: elastic-agent yalnız Elastic yolunda tanımlı.")
+        from sandbox.elastic_agent_lab import ElasticAgentRunner
+        runner = ElasticAgentRunner()
     elif motor in ("mysql", "mssql"):
         if type(runner) is not SqlRunner:
             raise ValueError(f"motor: {motor} yalnız SQL yolunda tanımlı.")
@@ -616,8 +622,8 @@ class SigmaSplunkRunner(SplunkRunner):
     modlar = {"run": "sgs_run", "test": "sgs_test"}
 
     def __init__(self, girdi="kural", pipeline=""):
-        if girdi not in ("kural", "pipeline"):
-            raise ValueError(f"Bilinmeyen girdi: {girdi!r}; kural veya pipeline kullanın.")
+        if girdi not in ("kural", "pipeline", "komut"):
+            raise ValueError(f"Bilinmeyen girdi: {girdi!r}; kural, pipeline veya komut kullanın.")
         self.ek = {"girdi": girdi, "pipeline": pipeline}
 
 
