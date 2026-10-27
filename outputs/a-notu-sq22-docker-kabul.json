@@ -1,0 +1,108 @@
+{
+  "versions": {
+    "mysql": "8.4.8",
+    "mssql": "16.0.4236.2"
+  },
+  "images": {
+    "mysql": "mysql:8.4.8@sha256:2952e3be7807f06fc18de50b3ea1a632d5c70d63482ff7d7376fe3aa8999babf",
+    "mssql": "mcr.microsoft.com/mssql/server:2022-CU23-ubuntu-22.04@sha256:0ec7739e1c5ec2f57861facbe1f2b74f1d3e147c7c97edf91eeea920c5944d9c"
+  },
+  "references_passed": 2,
+  "mutants_rejected": 14,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "motor": "mysql",
+      "case": "read-only + NULL/zero + normal/fault cleanup",
+      "status": "pass"
+    },
+    {
+      "motor": "mssql",
+      "case": "read-only + NULL/zero + normal/fault cleanup",
+      "status": "pass"
+    },
+    {
+      "motor": "mysql",
+      "mutation": "real division",
+      "status": "rejected"
+    },
+    {
+      "motor": "mysql",
+      "mutation": "wrong divisor boundary",
+      "status": "rejected"
+    },
+    {
+      "motor": "mysql",
+      "mutation": "byte length used as characters",
+      "status": "rejected"
+    },
+    {
+      "motor": "mysql",
+      "mutation": "character length used as bytes",
+      "status": "rejected"
+    },
+    {
+      "motor": "mysql",
+      "mutation": "null concatenation lost",
+      "status": "rejected"
+    },
+    {
+      "motor": "mysql",
+      "mutation": "empty surname stripped",
+      "status": "rejected"
+    },
+    {
+      "motor": "mysql",
+      "mutation": "order reversed",
+      "status": "rejected"
+    },
+    {
+      "motor": "mssql",
+      "mutation": "equal score excluded",
+      "status": "rejected"
+    },
+    {
+      "motor": "mssql",
+      "mutation": "below threshold accepted",
+      "status": "rejected"
+    },
+    {
+      "motor": "mssql",
+      "mutation": "TOP one",
+      "status": "rejected"
+    },
+    {
+      "motor": "mssql",
+      "mutation": "TOP three",
+      "status": "rejected"
+    },
+    {
+      "motor": "mssql",
+      "mutation": "wrong tie order",
+      "status": "rejected"
+    },
+    {
+      "motor": "mssql",
+      "mutation": "wrong score order",
+      "status": "rejected"
+    },
+    {
+      "motor": "mssql",
+      "mutation": "NULL text lost",
+      "status": "rejected"
+    },
+    {
+      "motor": "mysql",
+      "case": "worker timeout and server cleanup",
+      "status": "pass",
+      "seconds": 4.39
+    },
+    {
+      "motor": "mssql",
+      "case": "worker timeout and server cleanup",
+      "status": "pass",
+      "seconds": 7.36
+    }
+  ],
+  "isolation": "owned labelled containers, network none, no host ports, fresh read-only database per job"
+}

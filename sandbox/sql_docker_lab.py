@@ -61,7 +61,7 @@ def client(motor, sql, database=None, user=None, password=None):
     else:
         env['SQLCMDPASSWORD'] = password
         args = ['exec', '-i', '-e', 'SQLCMDPASSWORD', NAMES[motor], '/opt/mssql-tools18/bin/sqlcmd',
-                '-S', 'localhost', '-U', user or 'sa', '-C', '-b', '-r', '1', '-h', '-1', '-y', '0', '-w', '65535']
+                '-S', 'tcp:127.0.0.1,1433', '-U', user or 'sa', '-C', '-b', '-r', '1', '-h', '-1', '-y', '8000', '-w', '65535', '-l', '5', '-t', '15']
         if database:
             args += ['-d', database]
         sql = 'SET NOCOUNT ON;\n' + sql
@@ -149,6 +149,14 @@ def session(motor, setup=''):
         # Cleanup also runs after SQL/test exceptions. No wildcard deletion.
         if created:
             if motor == 'mysql':
+                active = ET.fromstring(client(motor, f"SELECT ID AS id FROM information_schema.PROCESSLIST WHERE USER='{name}';"))
+                for row in active.findall('row'):
+                    identifier = row.find('field').text
+                    if identifier and identifier.isdigit():
+                        try:
+                            client(motor, 'KILL ' + identifier + ';')
+                        except RuntimeError:
+                            pass  # A finished query may already have disconnected.
                 client(motor, f"DROP DATABASE IF EXISTS `{name}`; DROP USER IF EXISTS '{name}'@'localhost';")
             else:
                 client(motor, f"IF DB_ID('{name}') IS NOT NULL BEGIN ALTER DATABASE [{name}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE [{name}]; END; IF SUSER_ID('{name}') IS NOT NULL DROP LOGIN [{name}];")
