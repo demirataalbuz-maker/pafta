@@ -314,6 +314,9 @@ def for_step(runner, step):
     elif motor == "python" and type(runner) is SqlRunner:
         # Application/DB binding exercises execute real Python sqlite3 calls.
         runner = PythonRunner()
+    elif motor == "python" and isinstance(runner, DetectionRunner) and runner.name == "sigma":
+        # SG21: Windows'un EVTX/XML'ini Python'da normalleştir; sandbox/sigma_evtx_lab.py gerçek Splunk'a götürür.
+        runner = SigmaPythonRunner()
     elif motor == "ad-vm":
         if not isinstance(runner, AdRunner) and getattr(runner, "name", None) != "powershell":
             raise ValueError("motor: ad-vm yalnız AD ve PowerShell yollarında tanımlı.")
@@ -625,6 +628,13 @@ class SigmaSplunkRunner(SplunkRunner):
         if girdi not in ("kural", "pipeline", "komut"):
             raise ValueError(f"Bilinmeyen girdi: {girdi!r}; kural, pipeline veya komut kullanın.")
         self.ek = {"girdi": girdi, "pipeline": pipeline}
+
+
+class SigmaPythonRunner(PythonRunner):
+    """Sigma yolunda motor: python → Python görevi; testi gerçek Splunk'a yükleme yaptığı için süre tavanı geniş."""
+    name = "sigma-python"
+    test_timeout = 150
+    tavan = 180
 
 
 class HttpRunner(PythonRunner):

@@ -1,0 +1,88 @@
+{
+  "ders": "sg22",
+  "motor": "pySigma 1.5.1 + Splunk backend 2.1.0 + Splunk Enterprise 10.6.1",
+  "referans": "geçti",
+  "mutant_reddedilen": 13,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "gorev": "3 · Kodlanmış PowerShell, kullanıcısı üst süreçten farklı",
+      "mutasyon": "kısa yük kabul",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "3 · Kodlanmış PowerShell, kullanıcısı üst süreçten farklı",
+      "mutasyon": "tek boşluk",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "3 · Kodlanmış PowerShell, kullanıcısı üst süreçten farklı",
+      "mutasyon": "baştaki boşluk yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "3 · Kodlanmış PowerShell, kullanıcısı üst süreçten farklı",
+      "mutasyon": "en dash yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "3 · Kodlanmış PowerShell, kullanıcısı üst süreçten farklı",
+      "mutasyon": "aynı kullanıcı aranır",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "3 · Kodlanmış PowerShell, kullanıcısı üst süreçten farklı",
+      "mutasyon": "kullanıcı koşulu yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "3 · Kodlanmış PowerShell, kullanıcısı üst süreçten farklı",
+      "mutasyon": "base64 karakter sınıfı dar",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "4 · Aynı metin, iki bayt sırası",
+      "mutasyon": "yalnız LE",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "4 · Aynı metin, iki bayt sırası",
+      "mutasyon": "yalnız BE",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "4 · Aynı metin, iki bayt sırası",
+      "mutasyon": "BOM eklenen utf16",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "4 · Aynı metin, iki bayt sırası",
+      "mutasyon": "konuma bağlı base64",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "4 · Aynı metin, iki bayt sırası",
+      "mutasyon": "kodlama yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "4 · Aynı metin, iki bayt sırası",
+      "mutasyon": "yanlış araç",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    }
+  ],
+  "olcum": "utf16le bu pySigma sürümünde bilinmeyen değiştirici; fieldref Splunk where ile harfe duyarlı."
+}

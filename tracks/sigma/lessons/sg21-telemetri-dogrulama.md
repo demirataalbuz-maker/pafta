@@ -216,3 +216,109 @@ olaylar = [
 veri("".join(json.dumps(o) + "\n" for o in olaylar), "pafta_winsec", "WinEventLog:Security")
 ```
 :::
+
+::: anlat Gerçek EVTX/XML'den Sigma'ya: normalleştirme senin işin
+Şimdiye kadarki olaylar Sigma'ya hazır JSON'du. Sahada kanıt çoğunlukla bir **EVTX** dosyası ya da Windows'un ondan ürettiği **XML**'dir. PS27'de `Get-WinEvent -Path` ile okuduğun dosyanın aynısı. Bu görevde laboratuvar sentetik 4688 kayıtlarını Windows'un kendi aracıyla gerçek EVTX'e çevirir (`wevtutil epl`). Sonra Windows'un işlediği XML'i (`wevtutil qe /f:xml`) çalışma klasörüne `guvenlik.xml` olarak yazar. Canlı bir günlük okunmaz.
+
+Bu XML'in üç özelliği normalleştiriciyi belirler:
+
+| Özellik | Bu dosyada | Neden önemli |
+|---|---|---|
+| `EventData/Data` | **adsız**, sırayla | Eski EVT'den çevrilen kayıtta `Name` özniteliği yoktur. PS27'deki `Properties[n]` erişiminin aynısı. Alan adlarını Microsoft'un 4688 belgesindeki sıradan sen verirsin: `SubjectUserSid`, `SubjectUserName`, … `NewProcessName` (6.), … `CommandLine` (9.), … `ParentProcessName` (14.), `MandatoryLabel` (15.). |
+| Boş `<Data></Data>` | mert'in kaydında `CommandLine` | "Include command line in process creation events" ilkesi kapalıyken alan boştur. Boşu atlarsan sonraki bütün alanlar bir sola kayar. |
+| XML kaçışı | `&amp;`, `&lt;` | Metni regex'le değil bir XML ayrıştırıcısıyla oku; `ElementTree` kaçışı çözer. |
+
+Sigma tarafı da bir sözleşmedir. `windows-audit` pipeline'ı `process_creation` kuralını Security 4688 alanlarına çevirir (`Image → NewProcessName`, `ParentImage → ParentProcessName`). `splunk_windows` de `EventID`'yi Splunk Windows eklentisinin adıyla `EventCode` yapar ve `source="WinEventLog:Security"` koşulunu ekler. Normalleştirdiğin olayda alan adı `EventID` kalırsa kural hata vermeden **susar**. Bu dersin baştaki "sessiz kural" nedenlerinin gerçek örneğidir.
+
+> [!NOT] Laboratuvar
+> Kod bir Python fonksiyonudur: `normalle(xml) -> list[dict]`. Test onun çıktısını gerçek Splunk'a `WinEventLog:Security` kaynağıyla yükler ve hazırlıktaki kuralı gerçek pySigma Splunk backend'iyle (`windows-audit` + `splunk_windows`) çevirip çalıştırır. Sınır: EVT'den gelen kayıtlar sürüm 0'dır ve `Name` taşımaz. Modern bir 4688 kaydında `Data Name="NewProcessName"` bulunur. İyi bir normalleştirici ikisini de okur, ama bu görev yalnız adsız biçimi sınar.
+
+Kaynak: [4688 olay XML'i ve alan sırası](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4688).
+:::
+
+::: gorev 3 · Windows'un XML'ini Sigma'ya hazırla
+Çalışma klasöründeki `guvenlik.xml`, `<Events>` kökü altında altı adet 4688 olayı içeriyor. `normalle(xml)` fonksiyonunu yaz. Fonksiyon her olay için bir sözlük döndürsün:
+
+- `EventCode`: olay kimliği, **tamsayı**;
+- `TimeCreated`: `SystemTime` özniteliği, olduğu gibi;
+- `Computer`;
+- 15 `EventData` alanı, 4688 belgesindeki sırayla adlandırılmış (adlar `from sigma_evtx_lab import ALANLAR_4688` ile gelir). Boş alan `""` olsun.
+
+Olayların sırası dosyadaki sıra olsun. Test çıktını gerçek Splunk'a yükleyip "Office'ten başlatılan kodlanmış PowerShell" kuralını çalıştırır.
+
+```meta
+motor: python
+timeout: 120
+```
+
+```setup
+import os, sys
+_s = os.path.dirname(next(m.__file__ for m in list(sys.modules.values())
+                          if getattr(m, "__file__", None) and os.path.basename(m.__file__) == "py_harness.py"))
+sys.path.insert(0, _s)
+import sigma_evtx_lab
+sigma_evtx_lab.ornek(".")
+```
+
+```starter
+import re
+
+def normalle(xml):
+    olaylar = []
+    for parca in xml.split("<Event ")[1:]:
+        o = {"EventID": int(re.search(r"<EventID[^>]*>(\d+)<", parca).group(1))}
+        for ad, deger in re.findall(r"<Data Name='(\w+)'>([^<]*)</Data>", parca):
+            o[ad] = deger
+        olaylar.append(o)
+    return olaylar
+```
+
+```test
+import sigma_evtx_lab as L
+need("normalle")
+xml = open("guvenlik.xml", encoding="utf-8").read()
+n = normalle(xml)
+eq(len(n), 6, "altı 4688 olayı")
+eq([sorted(o) for o in n], [sorted(["EventCode", "TimeCreated", "Computer", *L.ALANLAR_4688])] * 6, "her olayda aynı 18 alan")
+eq([o["EventCode"] for o in n], [4688] * 6, "EventCode tamsayı; splunk_windows EventID'yi EventCode'a çevirir")
+eq([o["TimeCreated"] for o in n][:2], ["2026-01-01T09:00:05.0000000Z", "2026-01-01T09:00:12.0000000Z"], "SystemTime olduğu gibi, dosya sırasıyla")
+eq({o["Computer"] for o in n}, {"PAFTA-LAB"}, "Computer System bölümünden")
+eq([o["SubjectUserName"] for o in n], ["ayse", "berk", "can", "zeynep", "mert", "ece"], "2. Data alanı")
+eq(n[4]["CommandLine"], "", "boş Data yerini korur")
+eq((n[4]["TargetLogonId"], n[4]["ParentProcessName"], n[4]["MandatoryLabel"]),
+   ("0x0", L.WORD, "S-1-16-8192"), "boş komut satırından sonraki alanlar kaymaz")
+eq(n[5]["CommandLine"], "cmd.exe /c echo a & b <x> -enc", "XML kaçışı çözülür")
+tek = xml.replace("ayse", "ayse2", 1).split("</Event>")[0] + "</Event></Events>"
+eq([o["SubjectUserName"] for o in normalle(tek)], ["ayse2"], "dosyaya değil verilen XML metnine bakar")
+spl, sutun, satir = L.splunkta(n)
+eq(sorted(r[sutun.index("SubjectUserName")] for r in satir), ["ayse", "zeynep"],
+   "gerçek Splunk: Word/Excel'den kodlanmış PowerShell; mert'in boş komut satırı kör nokta, can'ın üst süreci Explorer")
+```
+
+```solution
+import xml.etree.ElementTree as ET
+from sigma_evtx_lab import ALANLAR_4688
+
+NS = {"e": "http://schemas.microsoft.com/win/2004/08/events/event"}
+
+def normalle(xml):
+    olaylar = []
+    for olay in ET.fromstring(xml).findall("e:Event", NS):
+        sistem = olay.find("e:System", NS)
+        degerler = [d.text or "" for d in olay.findall("e:EventData/e:Data", NS)]
+        o = {"EventCode": int(sistem.find("e:EventID", NS).text),
+             "TimeCreated": sistem.find("e:TimeCreated", NS).get("SystemTime"),
+             "Computer": sistem.find("e:Computer", NS).text}
+        o.update(zip(ALANLAR_4688, degerler))
+        olaylar.append(o)
+    return olaylar
+```
+
+```hint
+Başlangıç `Data Name='...'` arıyor; bu dosyada `Name` yok, bu yüzden hiçbir alan bulunmuyor. `xml.etree.ElementTree` ile `<Events>` kökünü ayrıştır. Olaylar `http://schemas.microsoft.com/win/2004/08/events/event` ad alanındadır: `findall("e:Event", NS)`.
+```
+
+```hint
+`[d.text or "" for d in olay.findall("e:EventData/e:Data", NS)]` boş `Data`'yı `""` yapar ve sırayı korur; sonra `zip(ALANLAR_4688, degerler)`. Olay kimliğinin anahtarı `EventCode` olmalı, değeri `int(...)`.
+```
+:::

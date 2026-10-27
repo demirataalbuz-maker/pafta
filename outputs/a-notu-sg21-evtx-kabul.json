@@ -1,0 +1,52 @@
+{
+  "ders": "sg21",
+  "gorev": "3 · Windows'un XML'ini Sigma'ya hazırla",
+  "kaynak": "ps_evtx_fixtures: EVT → wevtutil epl → gerçek EVTX → wevtutil qe /f:xml",
+  "hedef": "pySigma 1.5.1 windows-audit + splunk_windows → gerçek Splunk Enterprise 10.6.1",
+  "referans": "geçti",
+  "mutant_reddedilen": 8,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "mutasyon": "boş Data atlanır: alanlar kayar",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "boş Data None kalır",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "EventID adı kalır",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "EventCode metin",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "zaman öğe metninden",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "alan sırası bir kayık",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "ters olay sırası",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "Computer yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    }
+  ],
+  "acik": "EVT kaynaklı kayıt sürüm 0 ve adsız Data; modern Name öznitelikli 4688 biçimi bu görevde sınanmaz."
+}
