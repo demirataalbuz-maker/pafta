@@ -344,6 +344,16 @@ eski = copy.deepcopy(ms); eski[0]["si"]["b"] = "2026-10-20 08:15:00"
 r2 = zaman_raporu(rs, ps, eski, ls)
 eq([c["kod"] for c in r2["celiskiler"]], ["lnk-mft-dogum-farki"],
    "Prefetch artık Birth'ten önce değil; LNK farkı bağımsız kalır")
+esit = copy.deepcopy(ms); esit[0]["si"]["b"] = "2026-10-20 08:20:00"
+eq([c["kod"] for c in zaman_raporu(rs, ps, esit, ls)["celiskiler"]], ["lnk-mft-dogum-farki"],
+   "son çalıştırma SI Birth'e eşitse doğumdan önce değildir")
+esit[0]["si"]["b"] = "2026-10-20 08:10:00"
+eq(zaman_raporu(rs, ps, esit, ls)["celiskiler"], [], "LNK hedef Birth MFT SI Birth'e eşitse fark yok")
+esit[0]["si"]["b"] = "2026-10-20 08:05:00"
+eq([c["kod"] for c in zaman_raporu(rs, ps, esit, ls)["celiskiler"]], ["lnk-mft-dogum-farki"],
+   "LNK Birth SI Birth'ten sonra olsa da fark raporlanır; yön değil eşitsizlik ölçülür")
+eq([m["farklar"] for m in ms], [["si-fn:m", "si-fn:a", "si-fn:c", "si-fn:b"], []],
+   "kopyalanan MFT normalizasyonu SI/FN farklarını korur")
 ```
 
 ```solution

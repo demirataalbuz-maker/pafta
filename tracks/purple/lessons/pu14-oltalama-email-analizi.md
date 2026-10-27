@@ -134,6 +134,22 @@ x.replace_header("From", '"Bildirim <finans@pafta.test>" <fatura@tamamen-farkli.
 f = baslik_analizi(x)["findings"]
 eq(("display-name-spoofing" in f, "lookalike-domain" in f), (True, False),
    "lookalike yokken display-name spoofing bağımsız kalır")
+x = copy.deepcopy(mesaj)
+x.replace_header("From", "Fatura Servisi <fatura@pafta-billing.example>")
+eq(baslik_analizi(x)["findings"], ["from-kurumsal-degil", "lookalike-domain"],
+   "görünen adda kurumsal adres yoksa display-name spoofing yazılmaz")
+x.replace_header("From", '"finans@pafta.test" <finans@mail.pafta.test>')
+f = baslik_analizi(x)["findings"]
+eq([b for b in f if b not in ("reply-to-farkli", "return-path-farkli")], [],
+   "kurumsal alt alan kurumsaldır; gerçek From kurumsalken görünen addaki adres spoofing değildir")
+x.replace_header("From", "Destek <destek@notpafta.test>")
+eq("from-kurumsal-degil" in baslik_analizi(x)["findings"], True, "nokta sınırı olmadan sonek eşleşmesi alt alan sayılmaz")
+x = copy.deepcopy(mesaj)
+x.replace_header("From", "Fatura <fatura@mail.pafta-billing.example>")
+x.replace_header("Authentication-Results", "edge.pafta.test; spf=pass smtp.mailfrom=bounce.mail.pafta-billing.example; dkim=pass header.d=pafta-billing.example; dmarc=pass header.from=mail.pafta-billing.example")
+a = baslik_analizi(x)["authentication"]
+eq((a["spf_aligned"], a["dkim_aligned"]), (True, True),
+   "alignment iki yönde de alt alanı kabul eder: SPF alanı From'un, From da DKIM alanının alt alanı")
 ```
 
 ```solution
@@ -270,6 +286,14 @@ eq((baglantilari_analizet(x)[0]["uyusmuyor"], baglantilari_analizet(x)[0]["alan"
    (True, "dis.example"), "URL olmayan anchor metni de gerçek href'ten ayrılır")
 x = EmailMessage(); x.set_content("https://duz-metin.example")
 eq(baglantilari_analizet(x), [], "bu görev yalnız HTML anchor sözleşmesini uygular")
+x = EmailMessage(); x.add_alternative('<p><a href="https://dis.example/f"><span>Faturayı</span> <b>görüntüle</b></a></p>', subtype="html")
+eq(baglantilari_analizet(x), [{"gorunen": "Faturayı görüntüle", "gercek": "https://dis.example/f", "alan": "dis.example",
+   "kullanici_bilgisi": None, "defang": "hxxps[:]//dis[.]example/f", "uyusmuyor": True}],
+   "anchor içindeki span/b kapanışı kaydı erken kapatmaz; iç metin görünen yazıya katılır")
+x = EmailMessage(); x.add_alternative('<link rel="stylesheet" href="https://cdn.example/s.css"><p>Merhaba</p></a>'
+                                      '<a href="https://dis.example/x">Portal</a>', subtype="html")
+eq([b["gercek"] for b in baglantilari_analizet(x)], ["https://dis.example/x"],
+   "yalnız <a> kayıt açar; href taşıyan başka öğe ve sahipsiz </a> bağlantı değildir")
 ```
 
 ```solution
@@ -395,6 +419,12 @@ x = EmailMessage(); x.add_attachment(b"%PDF-sentetik", maintype="text", subtype=
 eq(ek_kanitlari(x)[0]["findings"], ["mime-uzanti-uyusmuyor"], "içerik imzası olmasa da ad/MIME denetimi kalır")
 x = EmailMessage(); x.set_content("eksiz")
 eq(ek_kanitlari(x), [], "ek yoksa boş kanıt listesi")
+x = EmailMessage()
+for ad, ana, alt in (("kurulum.exe", "application", "x-msdownload"), ("rapor.pdf.txt", "text", "plain"),
+                     ("arsiv.zip.exe", "application", "x-msdownload")):
+    x.add_attachment(b"veri", maintype=ana, subtype=alt, filename=ad)
+eq([e["findings"] for e in ek_kanitlari(x)], [["tehlikeli-uzanti"], [], ["tehlikeli-uzanti"]],
+   "çift uzantı yalnız belge uzantısı + tehlikeli son uzantıdır; tek .exe, .pdf.txt ve .zip.exe değildir")
 ```
 
 ```solution

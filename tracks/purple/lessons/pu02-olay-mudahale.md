@@ -558,7 +558,8 @@ eq(kanit_dogrula(P), True, "geri yüklenen dosya yine doğrulanır")
 yanlis = copy.deepcopy(M3); yanlis["dosyalar"][0]["boyut"] += 1; yaz3(yanlis)
 raises(ValueError, kanit_dogrula, P, msg="özet doğru ama boyut yanlış: reddedilir")
 for yol in ("notlar\\olay.txt", "notlar/./olay.txt", "notlar//olay.txt", None, 5,
-            os.path.abspath(P + "/notlar/olay.txt").replace(os.sep, "/")):
+            os.path.abspath(P + "/notlar/olay.txt").replace(os.sep, "/"),
+            (os.path.splitdrive(os.path.abspath(P))[0] or "C:") + "notlar/olay.txt"):
     m = copy.deepcopy(M3); m["dosyalar"] = [dict(M3["dosyalar"][2], yol=yol)]; yaz3(m)
     raises(ValueError, kanit_dogrula, P, msg="paket içini gösterse de biçimi bozuk yol reddedilir: " + repr(yol))
 ```

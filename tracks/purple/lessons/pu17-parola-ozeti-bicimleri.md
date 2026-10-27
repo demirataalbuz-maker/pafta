@@ -107,6 +107,14 @@ y = ozet_ayristir(by_id["yescrypt-belgelenmis-test"])
 eq((y["tur"], y["parametreler"], y["salt"]), ("yescrypt", "j9T", "SALT"), "yescrypt parametre bloğu sayı değildir")
 r = ozet_ayristir("$6$rounds=10000$abc$" + "A" * 86)
 eq(r["rounds"], 10000, "açık rounds okunur")
+for metin, alan, deger in (("$2a$04$CCCCCCCCCCCCCCCCCCCCC." + "A" * 31, "cost", 4),
+                           ("$2y$20$CCCCCCCCCCCCCCCCCCCCC." + "A" * 31, "cost", 20),
+                           ("$2b$31$CCCCCCCCCCCCCCCCCCCCC." + "A" * 31, "cost", 31),
+                           ("$6$a$" + "A" * 86, "salt", "a"),
+                           ("$6$" + "B" * 16 + "$" + "A" * 86, "salt", "B" * 16),
+                           ("$6$rounds=1000$abc$" + "A" * 86, "rounds", 1000),
+                           ("$6$rounds=999999999$abc$" + "A" * 86, "rounds", 999999999)):
+    eq(ozet_ayristir(metin)[alan], deger, "sınırdaki geçerli biçim kabul edilir: " + metin[:26])
 for kotu in ("", "8846f7ea", by_id["ntlm-rfc-test"] + "00", " " + by_id["ntlm-rfc-test"],
              "$5$abc$" + "A" * 43, "$2x$05$CCCCCCCCCCCCCCCCCCCCC." + "A" * 31,
              "$2a$03$CCCCCCCCCCCCCCCCCCCCC." + "A" * 31,
@@ -115,6 +123,7 @@ for kotu in ("", "8846f7ea", by_id["ntlm-rfc-test"] + "00", " " + by_id["ntlm-rf
              "$2a$05$CCCCCCCCCCCCCCCCCCCCC." + "A" * 30,
              "$6$" + "A" * 17 + "$" + "A" * 86,
              "$6$rounds=999$abc$" + "A" * 86,
+             "$6$rounds=1000000000$abc$" + "A" * 86,
              "$6$abc$" + "A" * 85,
              "$y$j9T$$" + "A" * 43,
              "$y$j9T$SALT$" + "A" * 43 + "$ek"):
@@ -168,7 +177,7 @@ hazirla()
 :::
 
 ::: gorev 2 · Shadow alanlarından salt ve cost bulgusu üret
-Görev 1'deki `ozet_ayristir` işlevini kopyala ve `shadow_raporu(satirlar, minimum_bcrypt_cost=12)` işlevini yaz. Boş satırları atla; diğer her satır tam dokuz alan olmalı, değilse `ValueError` yükselt. Parola alanı gerçek özet gibi görünüyorsa (`$` ile başlıyorsa) Görev 1 parser'ından geçir; bilinmeyen biçimi sessizce kabul etme.
+Görev 1'deki `ozet_ayristir` işlevini kopyala ve `shadow_raporu(satirlar, minimum_bcrypt_cost=12)` işlevini yaz. Boş satırları atla; diğer her satır tam dokuz alan olmalı, değilse `ValueError` yükselt. Boş ya da kilitli olmayan her parola alanını (modular `$...$` biçimleri ve bu derste NTLM bağlamındaki 32 hex) Görev 1 parser'ından geçir; bilinmeyen biçimi sessizce kabul etme.
 
 Dönüş:
 
@@ -219,6 +228,21 @@ x = list(satirlar); x[2] = x[2].replace("$2a$05$", "$2a$12$")
 eq(shadow_raporu(x)["dusuk_bcrypt_cost"], [], "cost 12 eşikte düşük değildir")
 x = list(satirlar); x[0] = x[0].replace("$y$j9T$", "$y$AAAA$")
 eq(shadow_raporu(x)["dusuk_bcrypt_cost"], ["pu17c"], "yescrypt parametresi bcrypt cost değildir")
+eq(r["kayitlar"][1]["ozet"]["rounds"], 5000, "rounds= yoksa sha512crypt varsayılanı 5000")
+ek = [k + ":" + p + ":20000:0:99999:7:::" for k, p in (
+    ("sinir4", "$2a$04$" + "a" * 22 + "A" * 31), ("orta20", "$2y$20$" + "b" * 22 + "A" * 31),
+    ("sinir31", "$2b$31$" + "c" * 22 + "A" * 31), ("tek", "$6$rounds=1000$a$" + "A" * 86),
+    ("ust", "$6$rounds=999999999$" + "B" * 16 + "$" + "A" * 86),
+    ("nt1", "8846f7eaee8fb117ad06bdd830b7586c"), ("nt2", "8846f7eaee8fb117ad06bdd830b7586c"))]
+s = shadow_raporu(ek)
+eq([(k["ozet"]["tur"], k["ozet"].get("cost"), k["ozet"].get("rounds")) for k in s["kayitlar"]],
+   [("bcrypt", 4, None), ("bcrypt", 20, None), ("bcrypt", 31, None), ("sha512crypt", None, 1000),
+    ("sha512crypt", None, 999999999), ("ntlm", None, None), ("ntlm", None, None)],
+   "kopyalanan parser sınırdaki biçimleri shadow'da da kabul eder")
+eq(s["dusuk_bcrypt_cost"], ["sinir4"], "cost 04 eşik altında, 20 ve 31 değil")
+eq(s["tekrarlanan_saltlar"], [], "NTLM salt taşımaz; aynı NT özeti salt tekrarı sayılmaz")
+raises(ValueError, shadow_raporu, ["uzun:$6$" + "A" * 17 + "$" + "A" * 86 + ":1:2:3:4:5:6:"],
+       msg="16 karakterden uzun salt shadow'da da reddedilir")
 ```
 
 ```solution
