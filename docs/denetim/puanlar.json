@@ -1211,24 +1211,60 @@
       "dersler": [
         "HT17"
       ],
-      "karar": "Kısmen",
-      "ozet": "Kalıcı lab sunucusu, Burp adımları anlatımda. Ama Burp'ün kendisi hiç ölçülmüyor; görevler Python ile.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "Gerçek Burp Community Proxy/History/Repeater XML çiftlerini okuyan yazma görevi; 18 davranış bozan mutant reddedildi. Windows ve Git Bash HTTP yolu 24 ders, 177 kontrol temiz. Arşiv okumak öğrenci GUI tıklamasını kanıtlamaz.",
+      "tarih": "27.10.2026",
+      "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 20,
-        "kapsam": 16,
-        "derinlik": 18,
-        "gerceklik": 12,
+        "test": 24,
+        "kapsam": 24,
+        "derinlik": 21,
+        "gerceklik": 15,
         "yol": 10
       },
-      "eksikler": [
+      "onceki_denetim": {
+        "no": 24,
+        "yol": "http",
+        "ad": "Burp Proxy → History → Repeater",
+        "dersler": [
+          "HT17"
+        ],
+        "karar": "Kısmen",
+        "ozet": "Kalıcı lab sunucusu, Burp adımları anlatımda. Ama Burp'ün kendisi hiç ölçülmüyor; görevler Python ile.",
+        "tarih": "26.10.2026",
+        "kaynak": "Claude",
+        "puan": {
+          "test": 20,
+          "kapsam": 16,
+          "derinlik": 18,
+          "gerceklik": 12,
+          "yol": 10
+        },
+        "eksikler": [
+          {
+            "metin": "Burp kullanımına dair otomatik tanık yok (Burp'ten dışa aktarılan istek/yanıtı ayrıştırmak gibi).",
+            "oncelik": "yüksek",
+            "etiket": "CPTS"
+          }
+        ]
+      },
+      "kapatilanlar": [
         {
           "metin": "Burp kullanımına dair otomatik tanık yok (Burp'ten dışa aktarılan istek/yanıtı ayrıştırmak gibi).",
           "oncelik": "yüksek",
           "etiket": "CPTS"
         }
-      ]
+      ],
+      "eksikler": [],
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "27.10.2026",
+        "kanit": "../../outputs/a-notu-ht17-burp-kabul.json",
+        "rapor": "../../outputs/a-notu-ht17-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "94/A öz değerlendirme; eski bağımsız 76/100 korunur. Panele 27.10.2026'da Claude işledi; validate iki kabukta yeniden temiz.",
+        "commit": "1d6297c"
+      }
     },
     {
       "no": 25,
@@ -1390,24 +1426,60 @@
       "dersler": [
         "SQ22"
       ],
-      "karar": "Kısmen",
-      "ozet": "Gerçek PostgreSQL ve MariaDB; LIMIT/FETCH, ||/CONCAT, ::/CAST, information_schema farkları.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "SQ22 gerçek, digest ile sabit MySQL 8.4.8 ve SQL Server 2022 CU23; Unicode/NULL/DIV/TOP ve eşik görevleri. 14 mutant reddedildi; salt okuma hesapları ve hata/timeout temizliği gerçek motorlarda doğrulandı.",
+      "tarih": "27.10.2026",
+      "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 23,
-        "kapsam": 16,
-        "derinlik": 20,
-        "gerceklik": 14,
-        "yol": 9
+        "test": 24,
+        "kapsam": 24,
+        "derinlik": 21,
+        "gerceklik": 15,
+        "yol": 10
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "no": 31,
+        "yol": "sql",
+        "ad": "SQLite dışındaki lehçeler gerçek motorlarda",
+        "dersler": [
+          "SQ22"
+        ],
+        "karar": "Kısmen",
+        "ozet": "Gerçek PostgreSQL ve MariaDB; LIMIT/FETCH, ||/CONCAT, ::/CAST, information_schema farkları.",
+        "tarih": "26.10.2026",
+        "kaynak": "Claude",
+        "puan": {
+          "test": 23,
+          "kapsam": 16,
+          "derinlik": 20,
+          "gerceklik": 14,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "MySQL ve SQL Server için sürümü sabit yerel servis yok (ASAMA2 istiyor); TOP yalnız anlatıda.",
+            "oncelik": "orta",
+            "etiket": "CPTS"
+          }
+        ]
+      },
+      "kapatilanlar": [
         {
           "metin": "MySQL ve SQL Server için sürümü sabit yerel servis yok (ASAMA2 istiyor); TOP yalnız anlatıda.",
           "oncelik": "orta",
           "etiket": "CPTS"
         }
-      ]
+      ],
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "27.10.2026",
+        "kanit": "../../outputs/a-notu-sq22-docker-kabul.json",
+        "rapor": "../../outputs/a-notu-sq22-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "94/A öz değerlendirme; önceki bağımsız 82 korunur. Panele 27.10.2026'da Claude işledi; validate iki kabukta yeniden temiz.",
+        "commit": "cc01e4d"
+      }
     },
     {
       "no": 32,
@@ -1416,18 +1488,49 @@
       "dersler": [
         "SQ19"
       ],
-      "karar": "Kısmen",
-      "ozet": "Formdan metin gelen eşik, CAST tuzağı, NULL/boş, izinli sıralama alanı, joker kaçırma. Ama uygulama–DB köprüsü yok.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "SQ19 gerçek sqlite3 execute ikinci argümanında parametre bağlama; literal LIKE, izinli sıralama, NULL ve sınır görevleri. 22 mutant reddedildi. JV10/PH08/CS10 okuma köprüsü eklendi.",
+      "tarih": "27.10.2026",
+      "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
         "test": 24,
-        "kapsam": 15,
-        "derinlik": 18,
-        "gerceklik": 12,
+        "kapsam": 24,
+        "derinlik": 22,
+        "gerceklik": 15,
         "yol": 10
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "no": 32,
+        "yol": "sql",
+        "ad": "Uygulama girdisinden SQL'e veri akışı ve parametre bağlama",
+        "dersler": [
+          "SQ19"
+        ],
+        "karar": "Kısmen",
+        "ozet": "Formdan metin gelen eşik, CAST tuzağı, NULL/boş, izinli sıralama alanı, joker kaçırma. Ama uygulama–DB köprüsü yok.",
+        "tarih": "26.10.2026",
+        "kaynak": "Claude",
+        "puan": {
+          "test": 24,
+          "kapsam": 15,
+          "derinlik": 18,
+          "gerceklik": 12,
+          "yol": 10
+        },
+        "eksikler": [
+          {
+            "metin": "Uygulama tarafında gerçek parametre bağlama (Python sqlite3 ile ? ve execute) görevde yok.",
+            "oncelik": "yüksek",
+            "etiket": "CPTS"
+          },
+          {
+            "metin": "Java/PHP/C# güvenli sorgu derslerine köprü yok.",
+            "oncelik": "orta"
+          }
+        ]
+      },
+      "kapatilanlar": [
         {
           "metin": "Uygulama tarafında gerçek parametre bağlama (Python sqlite3 ile ? ve execute) görevde yok.",
           "oncelik": "yüksek",
@@ -1437,7 +1540,16 @@
           "metin": "Java/PHP/C# güvenli sorgu derslerine köprü yok.",
           "oncelik": "orta"
         }
-      ]
+      ],
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "27.10.2026",
+        "kanit": "../../outputs/a-notu-sq19-binding-kabul.json",
+        "rapor": "../../outputs/a-notu-sq19-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "95/A öz değerlendirme; eski bağımsız 79 korunur. Panele 27.10.2026'da Claude işledi; validate iki kabukta yeniden temiz.",
+        "commit": "ab2cecb"
+      }
     },
     {
       "no": 33,
@@ -1465,24 +1577,60 @@
       "dersler": [
         "SQ20"
       ],
-      "karar": "Kısmen",
-      "ozet": "SQLite json_extract, ->/->>, json_each; NULL ayrımları, bozuk JSON. PostgreSQL jsonb görevi yok.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "SQ20 gerçek PostgreSQL jsonb görevleri: SQL/JSON NULL, nesne türü, ? ve @>, LATERAL/ordinality, dizi olmayan ve tekrarlı elemanlar. 15 mutant reddedildi, 0 geçen.",
+      "tarih": "27.10.2026",
+      "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 23,
-        "kapsam": 16,
-        "derinlik": 20,
-        "gerceklik": 13,
-        "yol": 8
+        "test": 24,
+        "kapsam": 24,
+        "derinlik": 22,
+        "gerceklik": 15,
+        "yol": 10
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "no": 34,
+        "yol": "sql",
+        "ad": "SQL içinden JSON kayıtlarını sorgulamak",
+        "dersler": [
+          "SQ20"
+        ],
+        "karar": "Kısmen",
+        "ozet": "SQLite json_extract, ->/->>, json_each; NULL ayrımları, bozuk JSON. PostgreSQL jsonb görevi yok.",
+        "tarih": "26.10.2026",
+        "kaynak": "Claude",
+        "puan": {
+          "test": 23,
+          "kapsam": 16,
+          "derinlik": 20,
+          "gerceklik": 13,
+          "yol": 8
+        },
+        "eksikler": [
+          {
+            "metin": "PostgreSQL jsonb görevi yok; projede gerçek PostgreSQL varken yalnız tabloda.",
+            "oncelik": "orta",
+            "etiket": "CDSA"
+          }
+        ]
+      },
+      "kapatilanlar": [
         {
           "metin": "PostgreSQL jsonb görevi yok; projede gerçek PostgreSQL varken yalnız tabloda.",
           "oncelik": "orta",
           "etiket": "CDSA"
         }
-      ]
+      ],
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "27.10.2026",
+        "kanit": "../../outputs/a-notu-sq20-jsonb-kabul.json",
+        "rapor": "../../outputs/a-notu-sq20-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "95/A öz değerlendirme; eski bağımsız 80 korunur. Panele 27.10.2026'da Claude işledi; validate iki kabukta yeniden temiz.",
+        "commit": "0842332"
+      }
     },
     {
       "no": 35,
@@ -1491,25 +1639,62 @@
       "dersler": [
         "KQ24"
       ],
-      "karar": "Kısmen",
-      "ozet": "Gerçek alan adlarıyla SigninLogs, DeviceProcessEvents, DeviceNetworkEvents; watchlist karşılığı.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "Sentinel/Defender şemaları ve yerel watchlist yardımcıları artık gerçek Microsoft Kusto motorunda çalışır. Öğrencinin sorgusu SQLite’a çevrilmez; veri kaynağı hâlâ sentetik fixture, gerçek tenant/connector değildir.",
+      "tarih": "27.10.2026",
+      "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 23,
-        "kapsam": 17,
-        "derinlik": 20,
-        "gerceklik": 10,
+        "test": 24,
+        "kapsam": 24,
+        "derinlik": 22,
+        "gerceklik": 14,
         "yol": 9
       },
-      "eksikler": [
+      "eksikler": [],
+      "cikar": false,
+      "onceki_denetim": {
+        "no": 35,
+        "yol": "kql",
+        "ad": "Sentinel/Defender şemaları ve watchlist",
+        "dersler": [
+          "KQ24"
+        ],
+        "karar": "Kısmen",
+        "ozet": "Gerçek alan adlarıyla SigninLogs, DeviceProcessEvents, DeviceNetworkEvents; watchlist karşılığı.",
+        "tarih": "26.10.2026",
+        "kaynak": "Claude",
+        "puan": {
+          "test": 23,
+          "kapsam": 17,
+          "derinlik": 20,
+          "gerceklik": 10,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "Gerçek Sentinel/Kusto'da hiç çalıştırılmadı (abonelik gerekiyor); yerel çeviri motorunda.",
+            "oncelik": "orta",
+            "etiket": "CDEP"
+          }
+        ],
+        "cikar": true
+      },
+      "kapatilanlar": [
         {
           "metin": "Gerçek Sentinel/Kusto'da hiç çalıştırılmadı (abonelik gerekiyor); yerel çeviri motorunda.",
           "oncelik": "orta",
           "etiket": "CDEP"
         }
       ],
-      "cikar": true
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "27.10.2026",
+        "kanit": "../../outputs/a-notu-kq24-native-kabul.json",
+        "rapor": "../../outputs/a-notu-kq24-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "93/100 öz değerlendirme; önceki bağımsız puan korundu. Panele 27.10.2026'da Claude işledi; validate iki kabukta yeniden temiz. Native sorgu kabulü gerçek tenant verisi/connector kabulü değildir.",
+        "commit": "7574818"
+      }
     },
     {
       "no": 36,
@@ -1518,18 +1703,51 @@
       "dersler": [
         "KQ23"
       ],
-      "karar": "Kısmen",
-      "ozet": "mv-apply ile dizide alt sorgu, boş dizi, bag_unpack. Gerçek Kusto değil, yerel motor.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "mv-apply ve bag_unpack görevleri gerçek Kusto motoruna taşındı. OutputSchema/tür uyuşmazlığı görevi eklendi. Native sonuçla üç eski model farkı düzeltildi: typeof(long) string rakamı dönüştürmez; null/boş kaynak dizi sayacı aynı değildir; eksik string bag alanı boş string döner.",
+      "tarih": "27.10.2026",
+      "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
         "test": 24,
-        "kapsam": 16,
-        "derinlik": 19,
-        "gerceklik": 10,
-        "yol": 7
+        "kapsam": 25,
+        "derinlik": 22,
+        "gerceklik": 15,
+        "yol": 9
       },
-      "eksikler": [
+      "eksikler": [],
+      "cikar": false,
+      "onceki_denetim": {
+        "no": 36,
+        "yol": "kql",
+        "ad": "mv-apply ve bag_unpack",
+        "dersler": [
+          "KQ23"
+        ],
+        "karar": "Kısmen",
+        "ozet": "mv-apply ile dizide alt sorgu, boş dizi, bag_unpack. Gerçek Kusto değil, yerel motor.",
+        "tarih": "26.10.2026",
+        "kaynak": "Claude",
+        "puan": {
+          "test": 24,
+          "kapsam": 16,
+          "derinlik": 19,
+          "gerceklik": 10,
+          "yol": 7
+        },
+        "eksikler": [
+          {
+            "metin": "OutputSchema ve tür uyuşmazlığı testleri yok (ASAMA2 istiyor).",
+            "oncelik": "düşük"
+          },
+          {
+            "metin": "Gerçek Kusto bağlantısında görev yok.",
+            "oncelik": "orta",
+            "etiket": "CDEP"
+          }
+        ],
+        "cikar": true
+      },
+      "kapatilanlar": [
         {
           "metin": "OutputSchema ve tür uyuşmazlığı testleri yok (ASAMA2 istiyor).",
           "oncelik": "düşük"
@@ -1540,7 +1758,15 @@
           "etiket": "CDEP"
         }
       ],
-      "cikar": true
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "27.10.2026",
+        "kanit": "../../outputs/a-notu-kq23-native-kabul.json",
+        "rapor": "../../outputs/a-notu-kq23-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "95/100 öz değerlendirme; önceki bağımsız puan korundu. Panele 27.10.2026'da Claude işledi; validate iki kabukta yeniden temiz. Native sorgu kabulü gerçek tenant verisi/connector kabulü değildir.",
+        "commit": "19403dc"
+      }
     },
     {
       "no": 37,
@@ -1550,26 +1776,88 @@
         "KQ22"
       ],
       "karar": "Kısmen",
-      "ozet": "Çalıştırma sıklığı ve lookback pencereleri, kaçan ve iki kez sayılan olaylar, ingestion_time, eşik.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "ozet": "ARM kural kaynağı REST 2025-09-01 şeması ve belgelenmiş Sentinel sınırlarıyla denetleniyor; sorgu gerçek Kusto'da son 50 planlı çalıştırmada koşuyor (5 dk gecikme, eşik, AlertPerResult, bastırma, entity çıkarımı). 29 mutant reddedildi, 0 geçen. Gerçek Sentinel portal önizlemesi açık.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
         "test": 24,
-        "kapsam": 18,
-        "derinlik": 22,
-        "gerceklik": 10,
+        "kapsam": 23,
+        "derinlik": 23,
+        "gerceklik": 12,
         "yol": 9
       },
       "eksikler": [
         {
-          "metin": "Gerçek Sentinel'de kural önizlemesi yok (abonelik).",
+          "metin": "Gerçek Sentinel'de kural önizlemesi (Test with current data, Review) yok; kullanıcı ücretli abonelik istemiyor. Takvim, eşik, gruplama, bastırma ve entity çıkarımı belgelere göre yazılmış yerel modeldir.",
           "oncelik": "orta",
           "etiket": "CDEP"
+        }
+      ],
+      "cikar": true,
+      "onceki_denetim": {
+        "karar": "Kısmen",
+        "ozet": "Çalıştırma sıklığı ve lookback pencereleri, kaçan ve iki kez sayılan olaylar, ingestion_time, eşik.",
+        "puan": {
+          "test": 24,
+          "kapsam": 18,
+          "derinlik": 22,
+          "gerceklik": 10,
+          "yol": 9
         },
+        "eksikler": [
+          {
+            "metin": "Gerçek Sentinel'de kural önizlemesi yok (abonelik).",
+            "oncelik": "orta",
+            "etiket": "CDEP"
+          },
+          {
+            "metin": "Entity mapping yalnız anılıyor; görevde yok.",
+            "oncelik": "orta",
+            "etiket": "CDEP"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
         {
           "metin": "Entity mapping yalnız anılıyor; görevde yok.",
           "oncelik": "orta",
           "etiket": "CDEP"
+        },
+        {
+          "metin": "Kuralın kendisi (eşik, olay gruplama, bastırma, entity eşlemesi, ürün sınırları) görevde yoktu; yalnız pencereler sınanıyordu. → ARM şablonu görevi, REST şema ve sınır denetimi, 50 çalıştırmalık gerçek Kusto benzetimi.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
+        }
+      ],
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "840b8ca",
+        "ozet": "ARM kural kaynağı REST 2025-09-01 şeması ve belgelenmiş Sentinel sınırlarıyla denetleniyor; sorgu gerçek Kusto'da son 50 planlı çalıştırmada koşuyor (5 dk gecikme, eşik, AlertPerResult, bastırma, entity çıkarımı). 29 mutant reddedildi, 0 geçen. Gerçek Sentinel portal önizlemesi açık.",
+        "kanit": "../../outputs/a-notu-kq22-kural-kabul.json",
+        "rapor": "../../outputs/a-notu-kq22-kural-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "91/100 Claude öz değerlendirmesi. Önceki bağımsız 83 ve Codex'in 89 kaydı korundu."
+      },
+      "duzeltme_gecmisi": [
+        {
+          "yazar": "Codex",
+          "tarih": "27.10.2026",
+          "kanit": "../../outputs/a-notu-kq22-native-kabul.json",
+          "rapor": "../../outputs/a-notu-kq22-rapor.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "89/100 Codex öz değerlendirmesi; panele işlenmeden Claude teslimiyle birleşti.",
+          "commit": "64c21d4",
+          "ozet": "Zaman penceresi sorguları gerçek Kusto’da çalışır. Account Name/UPNSuffix ve IP Address mapping’ine bağlanabilecek gerçek çıktı sütunlarını üreten görev eklendi. Kullanıcıda Sentinel çalışma alanı bulunmadığından gerçek Test with current data/Review portal kabulü yapılmadı; bu eksik açık kalır."
+        }
+      ],
+      "inceleme_notlari": [
+        {
+          "metin": "Eşdeğer mutantlar ayrı raporlandı: GreaterThan 0↔NotEqual 0, max↔min(TimeGenerated), $schema yılı; sıfır diye sunulmadı.",
+          "etiket": "eşdeğerlik",
+          "oncelik": "düşük"
         }
       ]
     },
@@ -3053,11 +3341,27 @@
       "no": 92,
       "yol": "purple",
       "ad": "Rakip öykünmesi: Atomic Red Team / Caldera",
-      "dersler": [],
-      "karar": "Bekliyor",
-      "ozet": "Yeni sistemle (derinlik merceği + puan) henüz denetlenmedi. Dersin varlığı doğrulanacak.",
-      "tarih": "26.10.2026",
-      "kaynak": "sıraya alındı"
+      "dersler": [
+        "PU13"
+      ],
+      "karar": "Tam",
+      "ozet": "Gerçek Atomic/Caldera sözleşmesi + detection coverage/gap ölçümü; tahmin uyuşuyor. Görev 3 testi zayıf.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude",
+      "puan": {
+        "test": 19,
+        "kapsam": 22,
+        "derinlik": 23,
+        "gerceklik": 13,
+        "yol": 9
+      },
+      "eksikler": [
+        {
+          "metin": "PU13 görev 3 (detection coverage) testi 3 mutantı kaçırıyor: !=→==, or→and, 1→2 (s9/s33). A için ayırt eden assert.",
+          "oncelik": "orta",
+          "etiket": "test"
+        }
+      ]
     },
     {
       "no": 93,
@@ -3335,32 +3639,111 @@
           "etiket": "test"
         }
       ]
+    },
+    {
+      "no": 105,
+      "yol": "purple",
+      "ad": "Oltalama e-postası analizi",
+      "dersler": [
+        "PU14"
+      ],
+      "karar": "Tam",
+      "ozet": "Başlık, SPF/DKIM/DMARC, URL gövde/hedef ayrımı, ek MIME/SHA-256 kanıtı; tahmin uyuşuyor. Doğrulama mantığı testi zayıf.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude",
+      "puan": {
+        "test": 15,
+        "kapsam": 20,
+        "derinlik": 23,
+        "gerceklik": 13,
+        "yol": 9
+      },
+      "eksikler": [
+        {
+          "metin": "PU14'te 10 mutant yaşıyor: doğrulama mantığında and→or (g1/g2/g3) ve 1→2 sınırları. Test 'and' bileşenlerini ayırmıyor; A için SPF/DKIM/DMARC'ı ayrı ayrı sınayan assert.",
+          "oncelik": "yüksek",
+          "etiket": "test"
+        }
+      ]
+    },
+    {
+      "no": 106,
+      "yol": "purple",
+      "ad": "Windows adli izleri",
+      "dersler": [
+        "PU15"
+      ],
+      "karar": "Tam",
+      "ozet": "Registry/Prefetch normalize, MFT SI/FN + LNK zamanları, UTC çelişki raporu; tahmin uyuşuyor. Görev 3 sınır testi zayıf.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude",
+      "puan": {
+        "test": 20,
+        "kapsam": 22,
+        "derinlik": 23,
+        "gerceklik": 13,
+        "yol": 9
+      },
+      "eksikler": [
+        {
+          "metin": "PU15 görev 3 (UTC olay/çelişki) 2 mutant kaçırıyor: <→<= (s87), !=→== (s42). A için sınır/eşitlik assert'i.",
+          "oncelik": "orta",
+          "etiket": "test"
+        }
+      ]
+    },
+    {
+      "no": 107,
+      "yol": "purple",
+      "ad": "Linux yetki yükseltmenin altı",
+      "dersler": [
+        "PU16"
+      ],
+      "karar": "Tam",
+      "ozet": "SUID/SGID+capability sınırları, sudo kullanıcı/argüman, cron/systemd PATH hijack; tahmin uyuşuyor. 31/32 mutant yakalandı.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude",
+      "puan": {
+        "test": 24,
+        "kapsam": 24,
+        "derinlik": 23,
+        "gerceklik": 14,
+        "yol": 9
+      },
+      "eksikler": [
+        {
+          "metin": "PU16 görev 2'de tek mutant kaçıyor: and→or (s28). Küçük; eşdeğer olabilir, kontrol edilip gerekirse assert.",
+          "oncelik": "düşük",
+          "etiket": "test"
+        }
+      ]
+    },
+    {
+      "no": 108,
+      "yol": "purple",
+      "ad": "Parola özeti biçimleri",
+      "dersler": [
+        "PU17"
+      ],
+      "karar": "Tam",
+      "ozet": "NTLM/bcrypt/$y$ biçim ayrıştırma, shadow salt/cost bulgusu, araç modu seçimi; tahmin uyuşuyor. Sınır/uzunluk testi zayıf.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude",
+      "puan": {
+        "test": 13,
+        "kapsam": 18,
+        "derinlik": 23,
+        "gerceklik": 13,
+        "yol": 9
+      },
+      "eksikler": [
+        {
+          "metin": "PU17 biçim ayrıştırmada (g1/g2) 15 mutant yaşıyor: <=→< sınırları + uzunluk/cost sabitleri (3,4,12,16,32,1000,5000). Hash'te uzunluk/cost sınırı kritik; A için her biçimin tam sınırını pinleyen assert.",
+          "oncelik": "yüksek",
+          "etiket": "test"
+        }
+      ]
     }
   ],
-  "yeni_maddeler": [
-    {
-      "ad": "Oltalama e-postası analizi",
-      "oncelik": "yüksek",
-      "etiket": "CDSA",
-      "neden": "SOC L1/CDSA'nın merkezinde; başlık, SPF/DKIM/DMARC, ek ve URL ayrıştırma. Pafta'da hiç yok."
-    },
-    {
-      "ad": "Windows adli izleri",
-      "oncelik": "yüksek",
-      "etiket": "CDSA",
-      "neden": "Registry hive, Prefetch, MFT, LNK, zaman çizelgesi. CDSA'nın son modülü buna dayanıyor; ASAMA2'de madde yok."
-    },
-    {
-      "ad": "Linux yetki yükseltmenin altı",
-      "oncelik": "yüksek",
-      "etiket": "CPTS",
-      "neden": "SUID, sudo, cron, PATH, capability. CPTS'te en çok takılınan yer; madde 10 yakın ama yetki yükseltme yok."
-    },
-    {
-      "ad": "Parola özeti biçimleri",
-      "oncelik": "orta",
-      "etiket": "CPTS",
-      "neden": "NTLM, bcrypt, $y$ gibi biçimleri tanımak ve hangi aracın neyi kırdığını bilmek. Pafta'da yok."
-    }
-  ]
+  "yeni_maddeler": []
 }
