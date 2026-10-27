@@ -3664,23 +3664,55 @@
         "PU13"
       ],
       "karar": "Tam",
-      "ozet": "Gerçek Atomic/Caldera sözleşmesi + detection coverage/gap ölçümü; tahmin uyuşuyor. Görev 3 testi zayıf.",
+      "ozet": "PU13 ön koşul süzgeci ve yuvarlama pinlendi; yeniden ölçüm: 18 mutant, 0 geçen; validate iki kabukta temiz.",
       "tarih": "27.10.2026",
-      "kaynak": "Claude",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 19,
+        "test": 24,
         "kapsam": 22,
         "derinlik": 23,
         "gerceklik": 13,
         "yol": 9
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Gerçek Atomic/Caldera sözleşmesi + detection coverage/gap ölçümü; tahmin uyuşuyor. Görev 3 testi zayıf.",
+        "puan": {
+          "test": 19,
+          "kapsam": 22,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "PU13 görev 3 (detection coverage) testi 3 mutantı kaçırıyor: !=→==, or→and, 1→2 (s9/s33). A için ayırt eden assert.",
+            "oncelik": "orta",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "27.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
         {
-          "metin": "PU13 görev 3 (detection coverage) testi 3 mutantı kaçırıyor: !=→==, or→and, 1→2 (s9/s33). A için ayırt eden assert.",
-          "oncelik": "orta",
-          "etiket": "test"
+          "metin": "PU13 görev 3 (detection coverage) testi 3 mutantı kaçırıyor: !=→==, or→and, 1→2 (s9/s33). A için ayırt eden assert. → PU13 ön koşul süzgeci ve yuvarlama pinlendi; yeniden ölçüm: 18 mutant, 0 geçen; validate iki kabukta temiz.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "61c5584",
+        "ozet": "PU13 ön koşul süzgeci ve yuvarlama pinlendi; yeniden ölçüm: 18 mutant, 0 geçen; validate iki kabukta temiz.",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "91/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (19→24). Önceki 86 onceki_denetim'de."
+      }
     },
     {
       "no": 93,
@@ -3690,23 +3722,55 @@
         "PU02"
       ],
       "karar": "Tam",
-      "ozet": "Kimi geliştirdi (IR playbook +376 satır). Zaman çizelgesi/playbook iyi; ama yol-doğrulama ve bütünlük mantığı az test.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "PU02 kanıt yolu guard'ları, kısmi sınırlama/temizlik, aynı boyutlu bayt değişimi ve paket içini gösteren C:yol biçimi pinlendi; 30 mutant, 4 geçen, dördü eşdeğer (gösterim satırı, sıra-bağımsız kapsam, manifest girintisi).",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 16,
+        "test": 24,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 15,
         "yol": 7
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Kimi geliştirdi (IR playbook +376 satır). Zaman çizelgesi/playbook iyi; ama yol-doğrulama ve bütünlük mantığı az test.",
+        "puan": {
+          "test": 16,
+          "kapsam": 24,
+          "derinlik": 22,
+          "gerceklik": 15,
+          "yol": 7
+        },
+        "eksikler": [
+          {
+            "metin": "pu02:7 kanit_yolu guard'ları (@37/40/41) ve bütünlük kontrolü (@59 size≠ VEYA hash≠) or→and yaşıyor; pu02:6 de ×2. Güvenlik-kritik; her guard'ı ve 'size ok ama hash yanlış' vakasını pinle.",
+            "oncelik": "orta",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude · 26.10.2026"
+      },
+      "kapatilanlar": [
         {
-          "metin": "pu02:7 kanit_yolu guard'ları (@37/40/41) ve bütünlük kontrolü (@59 size≠ VEYA hash≠) or→and yaşıyor; pu02:6 de ×2. Güvenlik-kritik; her guard'ı ve 'size ok ama hash yanlış' vakasını pinle.",
-          "oncelik": "orta",
-          "etiket": "test"
+          "metin": "pu02:7 kanit_yolu guard'ları (@37/40/41) ve bütünlük kontrolü (@59 size≠ VEYA hash≠) or→and yaşıyor; pu02:6 de ×2. Güvenlik-kritik; her guard'ı ve 'size ok ama hash yanlış' vakasını pinle. → PU02 kanıt yolu guard'ları, kısmi sınırlama/temizlik, aynı boyutlu bayt değişimi ve paket içini gösteren C:yol biçimi pinlendi; 30 mutant, 4 geçen, dördü eşdeğer (gösterim satırı, sıra-bağımsız kapsam, manifest girintisi).",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "61c5584, c7fe5df",
+        "ozet": "PU02 kanıt yolu guard'ları, kısmi sınırlama/temizlik, aynı boyutlu bayt değişimi ve paket içini gösteren C:yol biçimi pinlendi; 30 mutant, 4 geçen, dördü eşdeğer (gösterim satırı, sıra-bağımsız kapsam, manifest girintisi).",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "92/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (16→24). Önceki 84 onceki_denetim'de."
+      }
     },
     {
       "no": 94,
@@ -3735,23 +3799,55 @@
         "PU10"
       ],
       "karar": "Tam",
-      "ozet": "Kimi yazdı. Normalize/korelasyon derinliği iyi (gerçek araç opt-in). Korelasyon sınırları az test.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "PU10 süreç/bağlantı/bölge zaman sınırları pinlendi; 44 mutant, 3 geçen: ikisi görev 3 çıktısında kullanılmayan eslesme alanı, biri fixture'da olmayan 4 karakterli '-RWX' koruma biçimi.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 17,
+        "test": 23,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 15,
         "yol": 7
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Kimi yazdı. Normalize/korelasyon derinliği iyi (gerçek araç opt-in). Korelasyon sınırları az test.",
+        "puan": {
+          "test": 17,
+          "kapsam": 24,
+          "derinlik": 22,
+          "gerceklik": 15,
+          "yol": 7
+        },
+        "eksikler": [
+          {
+            "metin": "pu10:3/4 sınır (<=→<) ve bir mantık (==→!= @49) mutantı yaşıyor; eşik komşularını ve eşitlik kararını pinle.",
+            "oncelik": "orta",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude · 26.10.2026"
+      },
+      "kapatilanlar": [
         {
-          "metin": "pu10:3/4 sınır (<=→<) ve bir mantık (==→!= @49) mutantı yaşıyor; eşik komşularını ve eşitlik kararını pinle.",
-          "oncelik": "orta",
-          "etiket": "test"
+          "metin": "pu10:3/4 sınır (<=→<) ve bir mantık (==→!= @49) mutantı yaşıyor; eşik komşularını ve eşitlik kararını pinle. → PU10 süreç/bağlantı/bölge zaman sınırları pinlendi; 44 mutant, 3 geçen: ikisi görev 3 çıktısında kullanılmayan eslesme alanı, biri fixture'da olmayan 4 karakterli '-RWX' koruma biçimi.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "61c5584",
+        "ozet": "PU10 süreç/bağlantı/bölge zaman sınırları pinlendi; 44 mutant, 3 geçen: ikisi görev 3 çıktısında kullanılmayan eslesme alanı, biri fixture'da olmayan 4 karakterli '-RWX' koruma biçimi.",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "91/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (17→23). Önceki 85 onceki_denetim'de."
+      }
     },
     {
       "no": 96,
@@ -3808,23 +3904,55 @@
         "PU07"
       ],
       "karar": "Tam",
-      "ozet": "Paralel ASR eşleme + önleme kanıtı. Pilot geçiş kapısı eşiği az test.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "PU06 yaş 0 ve eksik alanlar pinlendi; PU06/PU07 31 mutant, 2 geçen, ikisi de eşdeğer eksik anahtar varsayılanı (25→26, 1→2).",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 20,
+        "test": 24,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 15,
         "yol": 7
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Paralel ASR eşleme + önleme kanıtı. Pilot geçiş kapısı eşiği az test.",
+        "puan": {
+          "test": 20,
+          "kapsam": 24,
+          "derinlik": 22,
+          "gerceklik": 15,
+          "yol": 7
+        },
+        "eksikler": [
+          {
+            "metin": "pu06:3 geçiş kapısı eşiği (<=→<, 25→26) mutasyonda yaşıyor; eşik sınırını pinle.",
+            "oncelik": "düşük",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude · 26.10.2026"
+      },
+      "kapatilanlar": [
         {
-          "metin": "pu06:3 geçiş kapısı eşiği (<=→<, 25→26) mutasyonda yaşıyor; eşik sınırını pinle.",
-          "oncelik": "düşük",
-          "etiket": "test"
+          "metin": "pu06:3 geçiş kapısı eşiği (<=→<, 25→26) mutasyonda yaşıyor; eşik sınırını pinle. → PU06 yaş 0 ve eksik alanlar pinlendi; PU06/PU07 31 mutant, 2 geçen, ikisi de eşdeğer eksik anahtar varsayılanı (25→26, 1→2).",
+          "etiket": "düzeltildi",
+          "oncelik": "düşük"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "eea5e1c",
+        "ozet": "PU06 yaş 0 ve eksik alanlar pinlendi; PU06/PU07 31 mutant, 2 geçen, ikisi de eşdeğer eksik anahtar varsayılanı (25→26, 1→2).",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "92/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (20→24). Önceki 88 onceki_denetim'de."
+      }
     },
     {
       "no": 99,
@@ -3873,23 +4001,55 @@
         "PU12"
       ],
       "karar": "Tam",
-      "ozet": "Kimi yazdı. Kapsam geniş (Linux/Windows/AD, kayıt analizi). Bazı mantık/sınır kararları az test.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "PU12 devre dışı grup, deny-only olmayan Administrators, başarılı 4776, 4624 dışı başarı, aynı saniye ve 301 sn hata, hesap başına iki denemeli püskürtme pinlendi; 66 mutant, 3 geçen: gösterim satırı ve yalnız 3 karakterli 'C:\\' sürücü kökünde fark eden JEA yol sınırı.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 17,
+        "test": 23,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 15,
         "yol": 7
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Kimi yazdı. Kapsam geniş (Linux/Windows/AD, kayıt analizi). Bazı mantık/sınır kararları az test.",
+        "puan": {
+          "test": 17,
+          "kapsam": 24,
+          "derinlik": 22,
+          "gerceklik": 15,
+          "yol": 7
+        },
+        "eksikler": [
+          {
+            "metin": "pu12:4/5 and→or / or→and (@9/27/40) ve sınır (<→<=) mutantları yaşıyor; mantık ve eşik kararlarını pinle.",
+            "oncelik": "orta",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude · 26.10.2026"
+      },
+      "kapatilanlar": [
         {
-          "metin": "pu12:4/5 and→or / or→and (@9/27/40) ve sınır (<→<=) mutantları yaşıyor; mantık ve eşik kararlarını pinle.",
-          "oncelik": "orta",
-          "etiket": "test"
+          "metin": "pu12:4/5 and→or / or→and (@9/27/40) ve sınır (<→<=) mutantları yaşıyor; mantık ve eşik kararlarını pinle. → PU12 devre dışı grup, deny-only olmayan Administrators, başarılı 4776, 4624 dışı başarı, aynı saniye ve 301 sn hata, hesap başına iki denemeli püskürtme pinlendi; 66 mutant, 3 geçen: gösterim satırı ve yalnız 3 karakterli 'C:\\' sürücü kökünde fark eden JEA yol sınırı.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "eea5e1c",
+        "ozet": "PU12 devre dışı grup, deny-only olmayan Administrators, başarılı 4776, 4624 dışı başarı, aynı saniye ve 301 sn hata, hesap başına iki denemeli püskürtme pinlendi; 66 mutant, 3 geçen: gösterim satırı ve yalnız 3 karakterli 'C:\\' sürücü kökünde fark eden JEA yol sınırı.",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "91/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (17→23). Önceki 85 onceki_denetim'de."
+      }
     },
     {
       "no": 102,
@@ -3941,23 +4101,55 @@
         "BT06"
       ],
       "karar": "Tam",
-      "ozet": "İddia defteri + teslim planı + yeniden test kapısı. Birkaç sınır/mantık kararı az test.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "ozet": "BT05 tam kanıt kümesi, BT06 sıfır negatif/pozitif kapıları pinlendi; 31 mutant, 2 geçen, ikisi eşdeğer (JSON girintisi, eksik yaş varsayılanı).",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 19,
+        "test": 24,
         "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 15,
         "yol": 7
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "İddia defteri + teslim planı + yeniden test kapısı. Birkaç sınır/mantık kararı az test.",
+        "puan": {
+          "test": 19,
+          "kapsam": 24,
+          "derinlik": 22,
+          "gerceklik": 15,
+          "yol": 7
+        },
+        "eksikler": [
+          {
+            "metin": "bt05:2 (<=→<) ve bt06:3 (or→and @4, 25→26 @5) mutantları yaşıyor; kabul kapısı eşik/mantığını pinle.",
+            "oncelik": "düşük",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude · 26.10.2026"
+      },
+      "kapatilanlar": [
         {
-          "metin": "bt05:2 (<=→<) ve bt06:3 (or→and @4, 25→26 @5) mutantları yaşıyor; kabul kapısı eşik/mantığını pinle.",
-          "oncelik": "düşük",
-          "etiket": "test"
+          "metin": "bt05:2 (<=→<) ve bt06:3 (or→and @4, 25→26 @5) mutantları yaşıyor; kabul kapısı eşik/mantığını pinle. → BT05 tam kanıt kümesi, BT06 sıfır negatif/pozitif kapıları pinlendi; 31 mutant, 2 geçen, ikisi eşdeğer (JSON girintisi, eksik yaş varsayılanı).",
+          "etiket": "düzeltildi",
+          "oncelik": "düşük"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "81c0c40",
+        "ozet": "BT05 tam kanıt kümesi, BT06 sıfır negatif/pozitif kapıları pinlendi; 31 mutant, 2 geçen, ikisi eşdeğer (JSON girintisi, eksik yaş varsayılanı).",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "92/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (19→24). Önceki 87 onceki_denetim'de."
+      }
     },
     {
       "no": 105,
@@ -3967,11 +4159,11 @@
         "PU14"
       ],
       "karar": "Tam",
-      "ozet": "Başlık, SPF/DKIM/DMARC, URL gövde/hedef ayrımı, ek MIME/SHA-256 kanıtı; tahmin uyuşuyor. Doğrulama mantığı testi zayıf.",
+      "ozet": "PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
       "tarih": "27.10.2026",
-      "kaynak": "Claude",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 15,
+        "test": 23,
         "kapsam": 20,
         "derinlik": 23,
         "gerceklik": 13,
@@ -3979,11 +4171,49 @@
       },
       "eksikler": [
         {
-          "metin": "PU14'te 10 mutant yaşıyor: doğrulama mantığında and→or (g1/g2/g3) ve 1→2 sınırları. Test 'and' bileşenlerini ayırmıyor; A için SPF/DKIM/DMARC'ı ayrı ayrı sınayan assert.",
-          "oncelik": "yüksek",
-          "etiket": "test"
+          "metin": "Kapsam puanı (20) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı.",
+          "oncelik": "düşük",
+          "etiket": "kapsam"
         }
-      ]
+      ],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Başlık, SPF/DKIM/DMARC, URL gövde/hedef ayrımı, ek MIME/SHA-256 kanıtı; tahmin uyuşuyor. Doğrulama mantığı testi zayıf.",
+        "puan": {
+          "test": 15,
+          "kapsam": 20,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "PU14'te 10 mutant yaşıyor: doğrulama mantığında and→or (g1/g2/g3) ve 1→2 sınırları. Test 'and' bileşenlerini ayırmıyor; A için SPF/DKIM/DMARC'ı ayrı ayrı sınayan assert.",
+            "oncelik": "yüksek",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "27.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
+        {
+          "metin": "PU14'te 10 mutant yaşıyor: doğrulama mantığında and→or (g1/g2/g3) ve 1→2 sınırları. Test 'and' bileşenlerini ayırmıyor; A için SPF/DKIM/DMARC'ı ayrı ayrı sınayan assert. → PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
+          "etiket": "düzeltildi",
+          "oncelik": "yüksek"
+        }
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "c7fe5df",
+        "ozet": "PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "88/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (15→23). Önceki 80 onceki_denetim'de."
+      }
     },
     {
       "no": 106,
@@ -3993,23 +4223,55 @@
         "PU15"
       ],
       "karar": "Tam",
-      "ozet": "Registry/Prefetch normalize, MFT SI/FN + LNK zamanları, UTC çelişki raporu; tahmin uyuşuyor. Görev 3 sınır testi zayıf.",
+      "ozet": "PU15 eşit Prefetch/SI Birth ve LNK/SI Birth, ters yönlü LNK farkı ve kopyalanan SI/FN farkları pinlendi; 11 mutant, 0 geçen. 2 elle yanlış çözüm reddedildi.",
       "tarih": "27.10.2026",
-      "kaynak": "Claude",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 20,
+        "test": 24,
         "kapsam": 22,
         "derinlik": 23,
         "gerceklik": 13,
         "yol": 9
       },
-      "eksikler": [
+      "eksikler": [],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "Registry/Prefetch normalize, MFT SI/FN + LNK zamanları, UTC çelişki raporu; tahmin uyuşuyor. Görev 3 sınır testi zayıf.",
+        "puan": {
+          "test": 20,
+          "kapsam": 22,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "PU15 görev 3 (UTC olay/çelişki) 2 mutant kaçırıyor: <→<= (s87), !=→== (s42). A için sınır/eşitlik assert'i.",
+            "oncelik": "orta",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "27.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
         {
-          "metin": "PU15 görev 3 (UTC olay/çelişki) 2 mutant kaçırıyor: <→<= (s87), !=→== (s42). A için sınır/eşitlik assert'i.",
-          "oncelik": "orta",
-          "etiket": "test"
+          "metin": "PU15 görev 3 (UTC olay/çelişki) 2 mutant kaçırıyor: <→<= (s87), !=→== (s42). A için sınır/eşitlik assert'i. → PU15 eşit Prefetch/SI Birth ve LNK/SI Birth, ters yönlü LNK farkı ve kopyalanan SI/FN farkları pinlendi; 11 mutant, 0 geçen. 2 elle yanlış çözüm reddedildi.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
-      ]
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "c7fe5df",
+        "ozet": "PU15 eşit Prefetch/SI Birth ve LNK/SI Birth, ters yönlü LNK farkı ve kopyalanan SI/FN farkları pinlendi; 11 mutant, 0 geçen. 2 elle yanlış çözüm reddedildi.",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "91/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (20→24). Önceki 87 onceki_denetim'de."
+      }
     },
     {
       "no": 107,
@@ -4045,11 +4307,11 @@
         "PU17"
       ],
       "karar": "Tam",
-      "ozet": "NTLM/bcrypt/$y$ biçim ayrıştırma, shadow salt/cost bulgusu, araç modu seçimi; tahmin uyuşuyor. Sınır/uzunluk testi zayıf.",
+      "ozet": "PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
       "tarih": "27.10.2026",
-      "kaynak": "Claude",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 13,
+        "test": 24,
         "kapsam": 18,
         "derinlik": 23,
         "gerceklik": 13,
@@ -4057,11 +4319,49 @@
       },
       "eksikler": [
         {
-          "metin": "PU17 biçim ayrıştırmada (g1/g2) 15 mutant yaşıyor: <=→< sınırları + uzunluk/cost sabitleri (3,4,12,16,32,1000,5000). Hash'te uzunluk/cost sınırı kritik; A için her biçimin tam sınırını pinleyen assert.",
-          "oncelik": "yüksek",
-          "etiket": "test"
+          "metin": "Kapsam puanı (18) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı.",
+          "oncelik": "düşük",
+          "etiket": "kapsam"
         }
-      ]
+      ],
+      "onceki_denetim": {
+        "karar": "Tam",
+        "ozet": "NTLM/bcrypt/$y$ biçim ayrıştırma, shadow salt/cost bulgusu, araç modu seçimi; tahmin uyuşuyor. Sınır/uzunluk testi zayıf.",
+        "puan": {
+          "test": 13,
+          "kapsam": 18,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "PU17 biçim ayrıştırmada (g1/g2) 15 mutant yaşıyor: <=→< sınırları + uzunluk/cost sabitleri (3,4,12,16,32,1000,5000). Hash'te uzunluk/cost sınırı kritik; A için her biçimin tam sınırını pinleyen assert.",
+            "oncelik": "yüksek",
+            "etiket": "test"
+          }
+        ],
+        "tarih": "27.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
+        {
+          "metin": "PU17 biçim ayrıştırmada (g1/g2) 15 mutant yaşıyor: <=→< sınırları + uzunluk/cost sabitleri (3,4,12,16,32,1000,5000). Hash'te uzunluk/cost sınırı kritik; A için her biçimin tam sınırını pinleyen assert. → PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
+          "etiket": "düzeltildi",
+          "oncelik": "yüksek"
+        }
+      ],
+      "cikar": true,
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "c7fe5df, e6c022a",
+        "ozet": "PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
+        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+        "rapor": "../../outputs/a-notu-purple-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "87/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (13→24). Önceki 76 onceki_denetim'de."
+      }
     }
   ],
   "yeni_maddeler": []
