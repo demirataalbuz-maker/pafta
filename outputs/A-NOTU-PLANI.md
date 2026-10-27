@@ -25,7 +25,7 @@ Kullanıcının isteğiyle paneldeki 01 → 02 → 03 sırası izlenecek; daha �
 | 18 | powershell | 73 | Ayrılmış Windows lab ucu, WinRM ve -ComputerName yok (ASAMA2 istiyor).; Hata ve temizlik akışı (try/finally, Broken durumu, sızan oturum) yok. | tamam: PS29 gerçek VM/WinRM, 8 kontrol temiz; tahmin doğrulandı ve 7 mutant reddedildi |
 | 19 | powershell | 83 | AppLocker olayları elle yazılmış XML; gerçek EVTX yok (ps_evtx_fixtures.py kullanılmamış).; JEA görevleri gerçek .psrc/.pssc okumuyor. | tamam: PS24 14 kontrol temiz; gerçek EVTX/JEA dosyaları, 13 mutant reddedildi |
 | 21 | cmd | 85 | Erişim reddi (korunan anahtar ya da servis) sınanmıyor. | tamam: gerçek Registry DENY, geri yükleme/temizlik; 4 mutant reddedildi |
-| 22 | cmd | 79 | DENY ACE'li dosyanın okunamadığı gösterilmiyor. | bekliyor |
+| 22 | cmd | 79 | DENY ACE'li dosyanın okunamadığı gösterilmiyor. | tamam: gerçek dosya DENY, type/ACL ayrımı ve temizlik; 4 mutant reddedildi |
 | 23 | cmd | 92 | CM25:4'te iki ölü kod satırı.; Araçlar .deps'te değil; kurulum betiği yok. | bekliyor |
 | 24 | http | 76 | Burp kullanımına dair otomatik tanık yok (Burp'ten dışa aktarılan istek/yanıtı ayrıştırmak gibi). | bekliyor |
 | 26 | http | 94 | SameSite gerçek tarayıcıda yalnız tahminde; görevler Python istemcisiyle. | bekliyor |

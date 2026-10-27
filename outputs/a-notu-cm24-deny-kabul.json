@@ -1,0 +1,34 @@
+{
+  "backend": "real Windows cmd.exe / reg.exe / type / icacls / native DACL APIs",
+  "references_passed": 1,
+  "mutants_rejected": 4,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "lesson": "cm24",
+      "mutation": "ignore real type denial",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "cm24",
+      "mutation": "append stale read report",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "cm24",
+      "mutation": "failure exit zero",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "cm24",
+      "mutation": "read wrong source",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ],
+  "fault_cleanup": "Owned Registry and file Deny verified, original DACL restored and owned objects deleted after injected Python exception.",
+  "scope": "New GUID HKCU key and new temporary file only; no system ACL or service change."
+}
