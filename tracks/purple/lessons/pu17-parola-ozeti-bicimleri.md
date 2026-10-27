@@ -122,6 +122,7 @@ for kotu in ("", "8846f7ea", by_id["ntlm-rfc-test"] + "00", " " + by_id["ntlm-rf
              "$2a$5$CCCCCCCCCCCCCCCCCCCCC." + "A" * 31,
              "$2a$05$CCCCCCCCCCCCCCCCCCCCC." + "A" * 30,
              "$6$" + "A" * 17 + "$" + "A" * 86,
+             "$6$$" + "A" * 86,
              "$6$rounds=999$abc$" + "A" * 86,
              "$6$rounds=1000000000$abc$" + "A" * 86,
              "$6$abc$" + "A" * 85,
