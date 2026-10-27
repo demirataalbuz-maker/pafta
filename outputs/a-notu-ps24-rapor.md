@@ -10,6 +10,6 @@ Windows PowerShell 5.1'in ürettiği UTF-16 veri dosyaları, içerikleri korunar
 
 - PS24 hedefli: 1 ders, 14 kontrol TEMİZ.
 - `tools/test_powershell_applocker_jea_files.py`: 2 gerçek referans geçti, 13 yanlış çözüm reddedildi, 0 geçen. Fail/çıkış kodu reddi kanıtta ayrılır.
-- Windows tam PowerShell yolu: 29 ders, 287 kontrol TEMİZ. Git Bash tam yol logu teslim kabulünde ayrıca saklanır.
+- Windows ve Git Bash tam PowerShell yolu: her birinde 29 ders, 287 kontrol TEMİZ. Loglar: a-notu-ps24-full-windows.log ve a-notu-ps24-full-git-bash.log.
 
 Öz değerlendirme: test 24/25, kapsam 24/25, derinlik 22/25, gerçeklik 14/15, yol 9/10 = 93/100 (A). Gerçek okuyucu ve native dosya üretimi var; sentetik olay içeriği nedeniyle gerçeklikten bir puan kırıldı. Önceki bağımsız 83/100 korunur. Bağımsız yeniden denetim yapılmadı.
