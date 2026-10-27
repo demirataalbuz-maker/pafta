@@ -959,18 +959,49 @@
    "dersler": [
     "PS24"
    ],
-   "karar": "Kısmen",
-   "ozet": "Gerçek runspace'te CLM, .psrc üretimi, JEA risk denetimi. Ama AppLocker olayları gerçek EVTX değil.",
-   "tarih": "26.10.2026",
-   "kaynak": "Claude",
+   "karar": "Tam",
+   "ozet": "PS24: gerçek EVTX okuyucusu ve native üretilmiş .psrc/.pssc dosyaları; sağlayıcı/eşik/karar, değişen rol kısıtı ve güvenli veri importu. 14 kontrol temiz, 13 mutant reddedildi. EVTX olay içeriği sentetiktir; politika uygulanması iddia edilmez.",
+   "tarih": "27.10.2026",
+   "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
    "puan": {
     "test": 24,
-    "kapsam": 18,
-    "derinlik": 20,
-    "gerceklik": 12,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
     "yol": 9
    },
-   "eksikler": [
+   "eksikler": [],
+   "onceki_denetim": {
+    "no": 19,
+    "yol": "powershell",
+    "ad": "CLM, JEA ve AppLocker (8002/8004) olayları",
+    "dersler": [
+     "PS24"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Gerçek runspace'te CLM, .psrc üretimi, JEA risk denetimi. Ama AppLocker olayları gerçek EVTX değil.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+     "test": 24,
+     "kapsam": 18,
+     "derinlik": 20,
+     "gerceklik": 12,
+     "yol": 9
+    },
+    "eksikler": [
+     {
+      "metin": "AppLocker olayları elle yazılmış XML; gerçek EVTX yok (ps_evtx_fixtures.py kullanılmamış).",
+      "oncelik": "orta",
+      "etiket": "CDSA"
+     },
+     {
+      "metin": "JEA görevleri gerçek .psrc/.pssc okumuyor.",
+      "oncelik": "orta"
+     }
+    ]
+   },
+   "kapatilanlar": [
     {
      "metin": "AppLocker olayları elle yazılmış XML; gerçek EVTX yok (ps_evtx_fixtures.py kullanılmamış).",
      "oncelik": "orta",
@@ -980,7 +1011,17 @@
      "metin": "JEA görevleri gerçek .psrc/.pssc okumuyor.",
      "oncelik": "orta"
     }
-   ]
+   ],
+   "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "commit": "29d583a",
+    "ozet": "PS24: gerçek EVTX okuyucusu ve native üretilmiş .psrc/.pssc dosyaları; sağlayıcı/eşik/karar, değişen rol kısıtı ve güvenli veri importu. 14 kontrol temiz, 13 mutant reddedildi. EVTX olay içeriği sentetiktir; politika uygulanması iddia edilmez.",
+    "kanit": "../../outputs/a-notu-ps24-files-kabul.json",
+    "rapor": "../../outputs/a-notu-ps24-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "93/100 Codex öz değerlendirmesi; önceki bağımsız 83/100 korundu. Sentetik olay içeriği için gerçeklik 14/15; gerçek AppLocker enforcement/JEA endpoint kabulü değildir."
+   }
   },
   {
    "no": 20,
