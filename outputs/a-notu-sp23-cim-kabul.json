@@ -1,0 +1,94 @@
+{
+  "ders": "sp23",
+  "motor": "Splunk Enterprise 10.6.1 (Docker) + Splunk_SA_CIM 8.5.0",
+  "referans": "geçti",
+  "mutant_reddedilen": 14,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "etiket yanlış model",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "olay türü süzgeci yok: heartbeat modele girer",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "action normalize edilmedi",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "ok/fail ters",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "bilinmeyen sonuç failure sayılır",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "src alias yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "user alias yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Authentication modeline",
+      "mutasyon": "hesap küçük harfe çevrildi",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Endpoint.Processes",
+      "mutasyon": "report etiketi yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Endpoint.Processes",
+      "mutasyon": "process etiketi yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Endpoint.Processes",
+      "mutasyon": "çocuk/ebeveyn ters",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Endpoint.Processes",
+      "mutasyon": "olay türü süzgeci yok: service modele girer",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Endpoint.Processes",
+      "mutasyon": "process_id alias yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "gorev": "Endpoint.Processes",
+      "mutasyon": "user alias yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    }
+  ],
+  "acik": "CIM arşivi Splunkbase hesabıyla elle edinilir; tools/splunk_cim_kur.py yalnız mevcut arşivi doğrular/kurar."
+}

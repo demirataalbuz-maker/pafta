@@ -249,3 +249,130 @@ veri("""2026-10-19 09:01:12 istemci=10.0.1.15 yontem=GET yol=/api/bilet durum=20
 """, "pafta_erisim", "erisim.log")
 ```
 :::
+
+
+::: anlat Authentication ve Endpoint: aynı alan, farklı model kapısı
+Bu ek görevler gerçek Splunk Enterprise ve kurulu resmî **Splunk_SA_CIM 8.5.0** veri modellerini kullanır; model sorgusu Python'da taklit edilmez. Authentication kök kısıtı bu paket sürümünde `tag=authentication NOT (action=success user=*$)` içerir: başarılı makine hesabı kayıtları dışarıda kalırken başarısız makine hesabı kayıtları kalabilir. `Endpoint.Processes` ise `tag=process tag=report` ister; etiketlerden yalnız biri yeterli değildir. Alan eşleme, olay türü seçimi ve etiket kapısı ayrı ayrı doğrulanır.
+
+`Authentication.user/action/src/dest/app` kimlik doğrulama alanlarını, `Processes.dest/user/process_name/parent_process_name/process_id` süreç alanlarını taşır. Alanı FIELDALIAS ile adlandırmak tek başına olayı modele katmaz; modelin etiketini ve alan değerlerini birlikte kontrol et. Bu görevde `ok/fail` kaynak değerleri `success/failure` olarak EVAL-action ile normalize edilir. Geçerli kaynak değerini sabit failure'a çevirmek raporu yanlış üretir.
+
+Kurulum tekrarlanabilirliği: `python tools/splunk_cim_kur.py` mevcut yerel CIM arşivinin kabul edilen SHA256'sını ve kurulu/etkin 8.5.0 sürümünü denetler. Eksikse `--install` mevcut arşivi yalnız Pafta Splunk konteynerine kurar; internetten indirme yapmaz. Yeni bilgisayarda resmî paketi kullanıcı onayıyla edinmek gerekir; Splunkbase hesabı/koşulları betikle atlanmaz. SHA256 depodaki kabul edilen yerel paketi sabitler, üreticinin ayrıca yayımladığı imza diye sunulmaz. Kurulu aynı sürümde komut değişiklik yapmaz. Paket kurulumunu ders/test içinde tekrarlamıyoruz.
+
+Kaynaklar: [Authentication modelini besleyen kaynakları doğrulama](https://docs.splunk.com/Documentation/InfoSec/latest/Admin/ValidateDataSources), [CIM alan/model eşlemesi](https://help.splunk.com/en/splunk-cloud-platform/common-information-model/6.0/data-models/cim-fields-per-associated-data-model), [resmî CIM paketi](https://splunkbase.splunk.com/app/1621). Sürümdeki gerçek model JSON'u da bu dersin testinde kullanılır; başka CIM sürümüne genellemeden kontrol et.
+:::
+
+::: gorev Authentication modeline değerleri ve kapıyı eşle
+Üç bölüm yaz: props.conf `pafta_cim_auth` için kaynak→CIM alias'ları `hesap AS user`, `kaynak AS src`, `hedef AS dest`, `uygulama AS app`. `EVAL-action = case(sonuc="ok","success",sonuc="fail","failure",true(),"unknown")`. eventtypes.conf içinde `pafta_cim_auth_event`, yalnız `sourcetype=pafta_cim_auth tur=auth`; tags.conf içinde bu eventtype'a authentication=enabled. Rapor gerçek `tstats` ile Authentication.user/action/src başına sayar. `tur=heartbeat` ve etiketlenmemiş başka sourcetype modele girmesin. Ham kayıtlardaki hesap harflerini değiştirme.
+
+```meta
+motor: splunk
+girdi: bilgi
+```
+
+```setup
+props('pafta_cim_auth',{'SHOULD_LINEMERGE':'false','TIME_PREFIX':'^','TIME_FORMAT':'%Y-%m-%d %H:%M:%S','MAX_TIMESTAMP_LOOKAHEAD':'19'})
+props('pafta_cim_noise',{'SHOULD_LINEMERGE':'false','TIME_PREFIX':'^','TIME_FORMAT':'%Y-%m-%d %H:%M:%S','MAX_TIMESTAMP_LOOKAHEAD':'19','FIELDALIAS-cim':'hesap AS user kaynak AS src hedef AS dest uygulama AS app','EVAL-action':'"failure"'})
+veri('''2026-10-19 09:01:00 tur=auth hesap=ayse kaynak=198.51.100.1 hedef=dc01 sonuc=fail uygulama=ssh
+2026-10-19 09:01:01 tur=auth hesap=ayse kaynak=198.51.100.1 hedef=dc01 sonuc=fail uygulama=ssh
+2026-10-19 09:01:02 tur=auth hesap=ayse kaynak=198.51.100.1 hedef=dc01 sonuc=ok uygulama=ssh
+2026-10-19 09:01:03 tur=auth hesap=berk kaynak=203.0.113.2 hedef=dc02 sonuc=fail uygulama=vpn
+2026-10-19 09:01:04 tur=auth hesap=svc$ kaynak=10.0.0.9 hedef=dc01 sonuc=ok uygulama=win
+2026-10-19 09:01:05 tur=auth hesap=svc$ kaynak=10.0.0.9 hedef=dc01 sonuc=fail uygulama=win
+2026-10-19 09:01:06 tur=heartbeat hesap=izleme kaynak=10.0.0.8 hedef=dc01 sonuc=fail uygulama=ping
+''','pafta_cim_auth')
+goster('| tstats count from datamodel=Authentication by Authentication.user Authentication.action Authentication.src | rename Authentication.* AS * | sort user action src')
+```
+
+```starter
+# props.conf
+[pafta_cim_auth]
+FIELDALIAS-cim = hesap AS user kaynak AS src
+# eventtypes.conf
+[pafta_cim_auth_event]
+search = sourcetype=pafta_cim_auth
+# tags.conf
+[eventtype=pafta_cim_auth_event]
+web = enabled
+```
+
+```test
+eq(sutunlar,['user','action','src','count'],'gerçek Authentication sütunları')
+eq(sonuc,[('ayse','failure','198.51.100.1',2),('ayse','success','198.51.100.1',1),('berk','failure','203.0.113.2',1),('svc$','failure','10.0.0.9',1)],'başarı/başarısız ayrı; makine başarı ve heartbeat model dışı')
+extra=('2026-10-19 09:02:00 tur=auth hesap=Zeynep kaynak=203.0.113.5 hedef=dc03 sonuc=timeout uygulama=vpn\n','pafta_cim_auth')
+noise=('2026-10-19 09:02:01 tur=auth hesap=Noise kaynak=203.0.113.5 hedef=dc03 sonuc=fail uygulama=vpn\n','pafta_cim_noise')
+y=dene('veri(%r,%r)\nveri(%r,%r)'%(extra+noise))
+eq([r for r in y if r[0] in ('Zeynep','Noise')],[('Zeynep','unknown','203.0.113.5',1)],'bilinmeyen eylem korunur, etiketsiz kaynağa kapı açılmaz')
+```
+
+```solution
+# props.conf
+[pafta_cim_auth]
+FIELDALIAS-cim = hesap AS user kaynak AS src hedef AS dest uygulama AS app
+EVAL-action = case(sonuc="ok","success",sonuc="fail","failure",true(),"unknown")
+# eventtypes.conf
+[pafta_cim_auth_event]
+search = sourcetype=pafta_cim_auth tur=auth
+# tags.conf
+[eventtype=pafta_cim_auth_event]
+authentication = enabled
+```
+
+```hint
+Etiket modelin kapısıdır; action kaynaktaki iki ayrı durumu korumalı. Authentication modelinin başarılı makine hesabı istisnası bu sürümün kendi kısıtıdır.
+```
+:::
+
+::: gorev Endpoint.Processes: iki etiket ve süreç kökeni
+props.conf `pafta_cim_endpoint` için alias'lar `cihaz AS dest`, `hesap AS user`, `cocuk AS process_name`, `ebeveyn AS parent_process_name`, `pid AS process_id`. Eventtype `pafta_cim_process_event` yalnız bu sourcetype ve `tur=process` kayıtlarını alsın; process ve report etiketleri ikisi de enabled olsun. Rapor Processes.dest/process_name/parent_process_name/user başına gerçek tstats sayımıdır. Başka olay türü modele girmesin; ebeveyn ile çocuğu ters eşleme.
+
+```meta
+motor: splunk
+girdi: bilgi
+```
+
+```setup
+props('pafta_cim_endpoint',{'SHOULD_LINEMERGE':'false','TIME_PREFIX':'^','TIME_FORMAT':'%Y-%m-%d %H:%M:%S','MAX_TIMESTAMP_LOOKAHEAD':'19'})
+veri('''2026-10-19 10:00:00 tur=process cihaz=pc01 hesap=ayse cocuk=powershell.exe ebeveyn=winword.exe pid=100
+2026-10-19 10:00:01 tur=process cihaz=pc01 hesap=ayse cocuk=powershell.exe ebeveyn=winword.exe pid=101
+2026-10-19 10:00:02 tur=process cihaz=pc02 hesap=berk cocuk=cmd.exe ebeveyn=explorer.exe pid=102
+2026-10-19 10:00:03 tur=service cihaz=pc03 hesap=svc cocuk=svchost.exe ebeveyn=services.exe pid=103
+''','pafta_cim_endpoint')
+goster('| tstats count from datamodel=Endpoint.Processes by Processes.dest Processes.process_name Processes.parent_process_name Processes.user | rename Processes.* AS * | sort dest process_name parent_process_name user')
+```
+
+```starter
+# props.conf
+[pafta_cim_endpoint]
+FIELDALIAS-cim = cihaz AS dest hesap AS user cocuk AS parent_process_name ebeveyn AS process_name
+# eventtypes.conf
+[pafta_cim_process_event]
+search = sourcetype=pafta_cim_endpoint
+# tags.conf
+[eventtype=pafta_cim_process_event]
+process = enabled
+```
+
+```test
+eq(sutunlar,['dest','process_name','parent_process_name','user','count'],'gerçek Processes model sütunları')
+eq(sonuc,[('pc01','powershell.exe','winword.exe','ayse',2),('pc02','cmd.exe','explorer.exe','berk',1)],'çocuk/ebeveyn kaynağı, tekrar sayımı; service türü dışarıda')
+eq(dene("veri('2026-10-19 10:01:00 tur=process cihaz=pc04 hesap=Can cocuk=notepad.exe ebeveyn=cmd.exe pid=104\\n','pafta_cim_endpoint')")[-1],('pc04','notepad.exe','cmd.exe','Can',1),'yeni cihaz ve farklı süreç çifti')
+eq(dene("goster('| tstats count from datamodel=Endpoint.Processes by Processes.dest Processes.process_id | rename Processes.* AS * | sort dest process_id')"),[('pc01',100,1),('pc01',101,1),('pc02',102,1)],'pid AS process_id: aynı çocuk/ebeveyn çiftinin iki ayrı süreci ayrı kimlik taşır')
+```
+
+```solution
+# props.conf
+[pafta_cim_endpoint]
+FIELDALIAS-cim = cihaz AS dest hesap AS user cocuk AS process_name ebeveyn AS parent_process_name pid AS process_id
+# eventtypes.conf
+[pafta_cim_process_event]
+search = sourcetype=pafta_cim_endpoint tur=process
+# tags.conf
+[eventtype=pafta_cim_process_event]
+process = enabled
+report = enabled
+```
+
+```hint
+Endpoint.Processes modelinin kaynak araması hem process hem report etiketi ister. “Endpoint” adı tek bir genel etiket anlamına gelmez.
+```
+:::
