@@ -35,6 +35,10 @@ range calisma from datetime(2026-10-19 09:00) to datetime(2026-10-19 10:00) step
 
 > [!TUZAK] Çapraz birleştirmede `kind`'ı yaz
 > KQL'de `join`'in varsayılanı `innerunique`dir: sol taraf **anahtar başına tek satıra** indirilir. Bütün satırların anahtarı `k = 1` olduğu için üç çalıştırmadan yalnız biri kalır. Bu derste ölçüldü: `kind` yazılmayan aynı sorgu tek satır verdi, `09:00 | 4`. Çapraz birleştirmede `kind=inner` ya da `kind=leftouter` yaz.
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: tahmin
@@ -53,6 +57,10 @@ range calisma from datetime(2026-10-19 09:00) to datetime(2026-10-19 10:00) step
 **Hiç satır.**
 
 Hata istekleri 09:01, 09:02 ve 09:12'de. Pencereler `(08:45, 09:00]`, `(09:15, 09:30]` ve `(09:45, 10:00]`; üç hatanın hiçbiri bunlara düşmüyor. Geriye bakış sıklıktan kısa olduğu için her yarım saatin ilk on beş dakikası **hiçbir çalıştırmada görülmez**. İkinci ders: `where`'i birleştirmeden sonra koyduğun için olay görmeyen çalıştırmalar da sonuçtan düştü. "Bu çalıştırma sıfır gördü" bilgisi kayboldu. Sıfırları da görmek istiyorsan pencereyi `where` ile değil `countif` ile say.
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: gorev 1 · Kuralın çalıştırmaları
@@ -100,6 +108,10 @@ range calisma from datetime(2026-10-19 09:00) to datetime(2026-10-19 12:00) step
 ```hint
 `kind` yazılmayan birleştirme `innerunique`dir ve sabit anahtarda tek çalıştırma bırakır: `kind=leftouter` ya da `kind=inner` yaz. Pencereyi `where` ile süzersen hata görmeyen çalıştırma kaybolur; `summarize hata = countif(...) by calisma` ile say.
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: gorev 2 · Kaçan ve iki kez sayılan olaylar
@@ -137,6 +149,10 @@ istekler
 
 ```hint
 Çalıştırmaları `let calismalar = range ... | extend k = 1;` ile bir kez tanımla. Olaylara da `k = 1` ekleyip `kind=inner` ile birleştir; iki ayarı aynı `summarize` içinde iki `countif` ile say.
+```
+```meta
+motor: kusto
+timeout: 90
 ```
 :::
 
@@ -195,5 +211,88 @@ olaylar
 
 ```hint
 Alım zamanına göre kuran kural her kaydı ulaştığı pencerede bir kez görür; bedeli, alarmın olaydan değil kaydın gelişinden sonra üretilmesidir. Gerçek kurallarda geriye bakışı beklenen gecikme kadar uzatıp çift sayımı ayrıca ayıklamak da yaygın bir çözümdür.
+```
+```meta
+motor: kusto
+timeout: 90
+```
+:::
+
+::: anlat Yerel gerçek motorun kanıt sınırı
+Bu ders Microsoft'un yerel Kusto Emulator sorgu motorunda çalışır; Azure Sentinel/Defender servisi, ajan alımı veya portal kural önizlemesi değildir. Hazırlık SQL'i yalnız örnek tablo verisini çıkarıp typed datatable/let olarak yollar. Öğrencinin KQL'i gerçek motorda ayrıştırılır ve değerlendirilir; desteklenmeyen ürün fonksiyonu sessiz taklit edilmez. Dersin yerel `_GetWatchlist` yardımcı fonksiyonu yalnız fixture listelerini döndürür; gerçek Sentinel watchlist hizmetine erişildiği iddia edilmez. Üretim kümesindeki izin, connector, ingestion, dcount yaklaşık sayımı ve null/string tür sözleşmesi ayrıca doğrulanmalıdır. Sunucu sorgu sınırı 30 saniye; yanıt sınırı 4 MB. Süre veya boyut aşımı başarı sayılmaz.
+
+[Microsoft Kusto Emulator kapsamı](https://learn.microsoft.com/en-us/azure/data-explorer/kusto-emulator-overview). Kurulum README'dedir. Gerçek Sentinel çalışma alanı olmadan portalın **Test with current data** kabulü tamamlanmış sayılmaz.
+```meta
+motor: kusto
+timeout: 90
+```
+:::
+
+
+::: anlat Entity mapping bir sütun adı listesinden fazlasıdır
+Sentinel kuralındaki `entityMappings`, sorgunun **çıktı sütunlarını** entity identifier'larına bağlar. Account için `Name + UPNSuffix` güçlü tanımlayıcı birleşimlerinden biridir. IP için `Address` alanı vardır; özel adresin bağlamını ve farklı ağlardaki aynı adresleri ayrıca değerlendir. Bu derste IPv4 sözdizimi sınanır; bir IP'nin bir insana ait olduğu iddia edilmez.
+
+Örnek yapılandırma:
+```text
+{"entityMappings":[
+ {"entityType":"Account","fieldMappings":[
+   {"identifier":"Name","columnName":"AccountName"},
+   {"identifier":"UPNSuffix","columnName":"AccountUPNSuffix"}]},
+ {"entityType":"IP","fieldMappings":[
+   {"identifier":"Address","columnName":"IPAddress"}]}]}
+```
+Sorgu `summarize` veya `project` ile bu sütunları kaybederse mapping uygulanabilecek veri kalmaz; alan adını tanımlamak tek başına yeterli değildir. Mapping yapılandırması sorgudaki `pack` ile kendi kendine Sentinel'e kaydedilmez. Son görev mapping'e hazırlanmış **gerçek sorgu çıktısını** ölçer; kuralı yayınlamaz.
+
+**Açık kabul:** Bu makinede Microsoft Sentinel çalışma alanı yok. Portalda Set rule logic → Results simulation → Test with current data, entity mapping seçimi ve Review doğrulaması yapılmadı. Yerel Kusto başarısı bu adımları kapatmaz. Çalışma alanı sağlanınca aynı sorgu ve mapping JSON'u gerçek hizmette yeniden doğrulanmalı; ücretli hizmet onaysız açılmaz.
+
+Kaynaklar: [Entity mapping](https://learn.microsoft.com/en-us/azure/sentinel/map-data-fields-to-entities), [entity identifier'ları](https://learn.microsoft.com/en-us/azure/sentinel/entities-reference), [gerçek kural önizlemesi](https://learn.microsoft.com/en-us/azure/sentinel/detect-threats-custom).
+```meta
+motor: kusto
+timeout: 90
+```
+:::
+
+::: gorev Mapping'in bağlayacağı gerçek çıktı sütunlarını üret
+`entity_girdisi` tablosundan yalnız tam bir @ ayıracı, iki tarafta boş olmayan metin ve geçerli IPv4 IPAddress içeren satırları al. `id,AccountName,AccountUPNSuffix,IPAddress` sütunlarını id sırasında döndür. İsim/suffix harflerini veya adresi değiştirme. Çoklu @, eksik ad/suffix ve hatalı IP dışarıda. Bu ders dar bir UPN parçalayıcısıdır; genel Entra hesap adı doğrulaması değildir. UPN'de whitespace kabulü/normalize etme bu görevde yok; fixture whitespace içermez. Bu çıktı yukarıdaki Account Name/UPNSuffix ve IP Address mapping'ine bağlanır; mapping'i Sentinel'e kaydetme işi ayrıdır.
+
+```meta
+motor: kusto
+timeout: 90
+```
+
+```setup
+CREATE TABLE entity_girdisi(id INTEGER,UserPrincipalName TEXT,IPAddress TEXT);
+INSERT INTO entity_girdisi VALUES
+(1,'Ayse@Pafta.example','198.51.100.9'),(2,'can@pafta.example','203.0.113.5'),
+(3,'ad-yok','203.0.113.5'),(4,'@pafta.example','203.0.113.5'),
+(5,'ayse@','203.0.113.5'),(6,'a@b@c','203.0.113.5'),
+(7,'mert@pafta.example','999.1.1.1'),(8,NULL,'203.0.113.5'),
+(9,'z@p.example',NULL),(10,'a@p.example','2001:db8::1');
+```
+
+```starter
+entity_girdisi | project id,AccountName=UserPrincipalName,AccountUPNSuffix='',IPAddress | sort by id asc
+```
+
+```test
+eq(sutunlar,['id','AccountName','AccountUPNSuffix','IPAddress'],'mapping JSON sütunları gerçekten çıktıdadır')
+eq(sonuc,[(1,'Ayse','Pafta.example','198.51.100.9'),(2,'can','pafta.example','203.0.113.5')],'tek @, boş bileşen ve IPv4 kontrolü')
+eq(dene("INSERT INTO entity_girdisi VALUES (11,'Yeni@Baska.example','0.0.0.0'),(12,'Son@p.example','255.255.255.255');")[-2:],[(11,'Yeni','Baska.example','0.0.0.0'),(12,'Son','p.example','255.255.255.255')],'IPv4 sözdizimi uçları; kamuya yönlenebilirlik iddiası değil')
+eq(dene("INSERT INTO entity_girdisi VALUES (11,'Yeni@p.example','256.0.0.1');"),sonuc,'IPv4 oktet üst komşusu')
+eq(dene('DELETE FROM entity_girdisi;'),[],'boş çıktı; entity uydurma')
+```
+
+```solution
+entity_girdisi
+| extend parts=split(UserPrincipalName,'@')
+| where array_length(parts)==2
+| extend AccountName=tostring(parts[0]),AccountUPNSuffix=tostring(parts[1])
+| where isnotempty(AccountName) and isnotempty(AccountUPNSuffix) and isnotnull(parse_ipv4(IPAddress))
+| project id,AccountName,AccountUPNSuffix,IPAddress
+| sort by id asc
+```
+
+```hint
+Sadece ilk @'dan bölmek çoklu @'ı gizler. Identifier ile columnName farklıdır; gerçek çıktı sütun adları mapping JSON'u ile eşleşmeli.
 ```
 :::

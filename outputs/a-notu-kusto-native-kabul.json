@@ -1,0 +1,341 @@
+{
+  "backend": "Microsoft Kusto Emulator real query engine",
+  "image": "mcr.microsoft.com/azuredataexplorer/kustainer-linux@sha256:093af777e866d79abfaa2cd1f6e10f9509e6eec6ebd229aecb87c9609f26f1e9",
+  "cluster_columns": [
+    {
+      "ColumnName": "NodeId",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Address",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Name",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "StartTime",
+      "DataType": "DateTime",
+      "ColumnType": "datetime"
+    },
+    {
+      "ColumnName": "IsAdmin",
+      "DataType": "Boolean",
+      "ColumnType": "bool"
+    },
+    {
+      "ColumnName": "MachineTotalMemory",
+      "DataType": "Int64",
+      "ColumnType": "long"
+    },
+    {
+      "ColumnName": "MachineAvailableMemory",
+      "DataType": "Int64",
+      "ColumnType": "long"
+    },
+    {
+      "ColumnName": "ProcessorCount",
+      "DataType": "Int32",
+      "ColumnType": "int"
+    },
+    {
+      "ColumnName": "EnvironmentDescription",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "ProductVersion",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Reserved0",
+      "DataType": "Int32",
+      "ColumnType": "int"
+    }
+  ],
+  "cluster_rows": [
+    [
+      "0",
+      "net.tcp://127.0.0.1/",
+      "KustoPersonal",
+      "2026-10-27T05:43:44.6466Z",
+      true,
+      4294967296,
+      3348992000,
+      2,
+      "",
+      "2026.10.26.2230-2643-1299172-master",
+      0
+    ]
+  ],
+  "references_passed": 10,
+  "mutants_rejected": 37,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "count successful logins",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "watchlist UPN not normalized",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "event UPN not normalized",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "outer join unrelated accounts",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "count IP rows rather than distinct",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Office'ten",
+      "mutation": "parent case-sensitive",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Office'ten",
+      "mutation": "child case-sensitive",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Office'ten",
+      "mutation": "OR widens parent/child condition",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Kötü IP",
+      "mutation": "lookup ignored",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Kötü IP",
+      "mutation": "latest timestamp used",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Kötü IP",
+      "mutation": "single row count",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Her kontrolün",
+      "mutation": "one instead of top two",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Her kontrolün",
+      "mutation": "smallest instead of slowest",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Her kontrolün",
+      "mutation": "wrong element cast",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Kaydı kaybetmeden",
+      "mutation": "threshold equal included",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Kaydı kaybetmeden",
+      "mutation": "threshold shifted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Kaydı kaybetmeden",
+      "mutation": "empty input becomes null scalar",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Kaydı kaybetmeden",
+      "mutation": "maximum changed to minimum",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Özellikleri",
+      "mutation": "missing version kept",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Özellikleri",
+      "mutation": "prefix lost",
+      "status": "rejected",
+      "runner_status": "error"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Özellikleri",
+      "mutation": "reverse timestamp order",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Şemayı sabitle",
+      "mutation": "threshold lower equality lost",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Şemayı sabitle",
+      "mutation": "threshold shifted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Şemayı sabitle",
+      "mutation": "wrong OutputSchema numeric type",
+      "status": "rejected",
+      "runner_status": "error"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Şemayı sabitle",
+      "mutation": "schema source column dropped",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Şemayı sabitle",
+      "mutation": "null mislabeled normal",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq23",
+      "task": "Şemayı sabitle",
+      "mutation": "schema decimal not narrowed",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Kuralın çalıştırmaları",
+      "mutation": "left endpoint included",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Kuralın çalıştırmaları",
+      "mutation": "right endpoint excluded",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Kuralın çalıştırmaları",
+      "mutation": "alarm equal excluded",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Geç gelen",
+      "mutation": "ingestion right endpoint excluded",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Geç gelen",
+      "mutation": "ingestion left endpoint included",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "multiple @ accepted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "name empty accepted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "suffix empty accepted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "IPv4 validation omitted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "UPN pieces reversed",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ],
+  "remaining": "No live Sentinel workspace: scheduled-rule portal preview not performed."
+}

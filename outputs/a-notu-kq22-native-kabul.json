@@ -1,0 +1,152 @@
+{
+  "backend": "Microsoft Kusto Emulator real query engine",
+  "image": "mcr.microsoft.com/azuredataexplorer/kustainer-linux@sha256:093af777e866d79abfaa2cd1f6e10f9509e6eec6ebd229aecb87c9609f26f1e9",
+  "cluster_columns": [
+    {
+      "ColumnName": "NodeId",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Address",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Name",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "StartTime",
+      "DataType": "DateTime",
+      "ColumnType": "datetime"
+    },
+    {
+      "ColumnName": "IsAdmin",
+      "DataType": "Boolean",
+      "ColumnType": "bool"
+    },
+    {
+      "ColumnName": "MachineTotalMemory",
+      "DataType": "Int64",
+      "ColumnType": "long"
+    },
+    {
+      "ColumnName": "MachineAvailableMemory",
+      "DataType": "Int64",
+      "ColumnType": "long"
+    },
+    {
+      "ColumnName": "ProcessorCount",
+      "DataType": "Int32",
+      "ColumnType": "int"
+    },
+    {
+      "ColumnName": "EnvironmentDescription",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "ProductVersion",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Reserved0",
+      "DataType": "Int32",
+      "ColumnType": "int"
+    }
+  ],
+  "cluster_rows": [
+    [
+      "0",
+      "net.tcp://127.0.0.1/",
+      "KustoPersonal",
+      "2026-10-27T05:43:44.6466Z",
+      true,
+      4294967296,
+      3348992000,
+      2,
+      "",
+      "2026.10.26.2230-2643-1299172-master",
+      0
+    ]
+  ],
+  "mutants_passed": 0,
+  "remaining": "No live Sentinel workspace: scheduled-rule portal preview not performed.",
+  "cases": [
+    {
+      "lesson": "kq22",
+      "task": "Kuralın çalıştırmaları",
+      "mutation": "left endpoint included",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Kuralın çalıştırmaları",
+      "mutation": "right endpoint excluded",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Kuralın çalıştırmaları",
+      "mutation": "alarm equal excluded",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Geç gelen",
+      "mutation": "ingestion right endpoint excluded",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Geç gelen",
+      "mutation": "ingestion left endpoint included",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "multiple @ accepted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "name empty accepted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "suffix empty accepted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "IPv4 validation omitted",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq22",
+      "task": "Mapping'in",
+      "mutation": "UPN pieces reversed",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ],
+  "mutants_rejected": 10,
+  "scope": "Zaman penceresi sorguları gerçek Kusto’da çalışır. Account Name/UPNSuffix ve IP Address mapping’ine bağlanabilecek gerçek çıktı sütunlarını üreten görev eklendi. Kullanıcıda Sentinel çalışma alanı bulunmadığından gerçek Test with current data/Review portal kabulü yapılmadı; bu eksik açık kalır."
+}
