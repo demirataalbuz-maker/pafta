@@ -41,6 +41,33 @@ class NativeTests(unittest.TestCase):
                         print(lid+': yerel EQL == gerçek Elasticsearch',flush=True)
         self.assertEqual(checked,[f'el{i}' for i in range(13,19)])
 
+    def test_existing_eql_tasks_against_product(self):
+        # Görev çözümü ve başlangıcı da aynı corpus/mapping ile gerçek motorda aynı sonucu vermeli;
+        # yerel motorun reddettiği sorgu gerçek motorda da hata olmalı (sessiz taklit yok).
+        library=Library()
+        checked=[]
+        for lid in [f'el{i}' for i in range(13,19)]:
+            for step in library.lesson('elastic',lid)['steps']:
+                if step['kind']!='gorev':
+                    continue
+                cfg=json.loads(step['stdin'])
+                self.assertEqual((cfg['dil'],cfg.get('backend')),('eql',None),(lid,step['title']))
+                for kind in ('solution','starter'):
+                    with self.subTest(lesson=lid,task=step['title'],kind=kind):
+                        try:
+                            yerel=local(step[kind],cfg)
+                        except ElasticError:
+                            yerel=None
+                        try:
+                            gercek=lab.evaluate(step[kind],dict(cfg,backend='elastic'))['ids']
+                        except ElasticError:
+                            gercek=None
+                        self.assertEqual(yerel,gercek)
+                        checked.append((lid,kind))
+                        print(f'{lid} {kind} «{step["title"][:32]}»: yerel EQL == gerçek Elasticsearch'
+                              +(' (ikisi de hata)' if gercek is None else ''),flush=True)
+        self.assertEqual(len(checked),24)
+
     def test_eql_time_window_is_native_range_filter(self):
         cfg={'backend':'elastic','dil':'eql','mapping':{'@timestamp':'date','event.category':'keyword'},
              'documents':[{'id':str(i),'@timestamp':f'2026-01-01T00:00:00.00{i}Z','event.category':'process'} for i in range(3)],
@@ -171,7 +198,8 @@ if __name__=='__main__':
     parser.add_argument('--eql-predictions',action='store_true',help='Only compare EL13–EL18 with the installed real Elasticsearch')
     args=parser.parse_args()
     if args.scheduled and args.eql_predictions:parser.error('Choose one acceptance scope')
-    suite=(unittest.TestSuite([NativeTests('test_existing_eql_predictions_against_product')]) if args.eql_predictions
+    suite=(unittest.TestSuite([NativeTests('test_existing_eql_predictions_against_product'),
+                               NativeTests('test_existing_eql_tasks_against_product')]) if args.eql_predictions
            else unittest.defaultTestLoader.loadTestsFromTestCase(ScheduledTests if args.scheduled else NativeTests))
     result=unittest.TextTestRunner(verbosity=2).run(suite)
     sys.exit(not result.wasSuccessful())
