@@ -135,9 +135,11 @@ EK = ('akis(tur="http", zaman="2026-10-19 09:31:00", istemci="10.0.1.40", sunucu
       'akis(tur="http", zaman="2026-10-19 09:31:30", istemci="10.0.1.40", sunucu="10.0.5.10", '
       'istek="GET /belgeler/exe.txt HTTP/1.1\\r\\nHost: intranet.ornek.test\\r\\n\\r\\n", yanit="HTTP/1.1 200 OK\\r\\nContent-Length: 2\\r\\n\\r\\nok")\n'
       'akis(tur="http", zaman="2026-10-19 09:31:50", istemci="10.0.1.40", sunucu="10.0.5.10", '
-      'istek="GET /araclar/flexe HTTP/1.1\\r\\nHost: intranet.ornek.test\\r\\n\\r\\n", yanit="HTTP/1.1 200 OK\\r\\nContent-Length: 2\\r\\n\\r\\nok")\n')
+      'istek="GET /araclar/flexe HTTP/1.1\\r\\nHost: intranet.ornek.test\\r\\n\\r\\n", yanit="HTTP/1.1 200 OK\\r\\nContent-Length: 2\\r\\n\\r\\nok")\n'
+      'akis(tur="http", zaman="2026-10-19 09:31:55", istemci="10.0.1.40", sunucu="10.0.5.10", '
+      'istek="GET /yedek/kurulum.exe.bak HTTP/1.1\\r\\nHost: intranet.ornek.test\\r\\n\\r\\n", yanit="HTTP/1.1 200 OK\\r\\nContent-Length: 2\\r\\n\\r\\nok")\n')
 eq([r[0] for r in dene(EK) if r[0] >= "2026-10-19 09:31"], ["2026-10-19 09:31:00"],
-   "SETUP.EXE yakalanır; exe.txt ve noktasız biten /araclar/flexe yakalanmaz")
+   "SETUP.EXE yakalanır; exe.txt, noktasız biten /araclar/flexe ve ortasında .exe geçen kurulum.exe.bak yakalanmaz")
 ```
 
 ```solution

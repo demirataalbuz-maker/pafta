@@ -143,6 +143,10 @@ IKI += "".join(f'akis(tur="dns", zaman="2026-10-19 09:46:{1 + i * 2:02d}", istem
                for i in range(5))
 eq([(r[0], r[4]) for r in dene(IKI) if r[0] >= "2026-10-19 09:45"], [("2026-10-19 09:45:08", "10.0.1.61"), ("2026-10-19 09:46:09", "10.0.1.61")],
    "61. saniyede yeni pencere açılır; ikinci beşlide ikinci alarm (gerçek Suricata'da ölçüldü)")
+YAVAS = "".join(f'akis(tur="dns", zaman="2026-10-19 09:47:{i * 12:02d}", istemci="10.0.1.62", sunucu="10.0.0.2", ad="s{i}.ornek-olmayan.test")\n'
+                for i in range(5))
+eq([(r[0], r[4]) for r in dene(YAVAS) if r[0] >= "2026-10-19 09:47"], [("2026-10-19 09:47:48", "10.0.1.62")],
+   "48 saniyeye yayılan beş hata da 60 saniyelik pencerede alarm verir (gerçek Suricata'da ölçüldü)")
 ```
 
 ```solution
