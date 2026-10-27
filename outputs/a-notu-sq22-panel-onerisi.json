@@ -1,0 +1,61 @@
+{
+  "no": 31,
+  "yol": "sql",
+  "ad": "SQLite dışındaki lehçeler gerçek motorlarda",
+  "dersler": [
+    "SQ22"
+  ],
+  "karar": "Tam",
+  "ozet": "SQ22 gerçek, digest ile sabit MySQL 8.4.8 ve SQL Server 2022 CU23; Unicode/NULL/DIV/TOP ve eşik görevleri. 14 mutant reddedildi; salt okuma hesapları ve hata/timeout temizliği gerçek motorlarda doğrulandı.",
+  "tarih": "27.10.2026",
+  "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+  "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 21,
+    "gerceklik": 15,
+    "yol": 10
+  },
+  "eksikler": [],
+  "onceki_denetim": {
+    "no": 31,
+    "yol": "sql",
+    "ad": "SQLite dışındaki lehçeler gerçek motorlarda",
+    "dersler": [
+      "SQ22"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Gerçek PostgreSQL ve MariaDB; LIMIT/FETCH, ||/CONCAT, ::/CAST, information_schema farkları.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+      "test": 23,
+      "kapsam": 16,
+      "derinlik": 20,
+      "gerceklik": 14,
+      "yol": 9
+    },
+    "eksikler": [
+      {
+        "metin": "MySQL ve SQL Server için sürümü sabit yerel servis yok (ASAMA2 istiyor); TOP yalnız anlatıda.",
+        "oncelik": "orta",
+        "etiket": "CPTS"
+      }
+    ]
+  },
+  "kapatilanlar": [
+    {
+      "metin": "MySQL ve SQL Server için sürümü sabit yerel servis yok (ASAMA2 istiyor); TOP yalnız anlatıda.",
+      "oncelik": "orta",
+      "etiket": "CPTS"
+    }
+  ],
+  "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "kanit": "../../outputs/a-notu-sq22-docker-kabul.json",
+    "rapor": "../../outputs/a-notu-sq22-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "94/A öz değerlendirme; önceki bağımsız 82 korunur. Ortak dosya boşalınca uygulanacak öneri."
+  }
+}

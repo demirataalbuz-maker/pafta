@@ -41,7 +41,7 @@ motor: mariadb
 ```
 
 > [!NOT]
-> **MariaDB, MySQL'in her sürümüyle aynı değildir.** Ortak bir kökten ayrıldılar; JSON türleri, varsayılan `sql_mode` ve karşılaştırma düzenleri sürüme göre farklıdır. Bir sonucu "MySQL'de de böyledir" diye genellemeden önce hedef sürümde dene. SQL Server ise birleştirmede `+` ve satır sınırlamada `TOP` / `OFFSET … FETCH` kullanır; bu tezgahta SQL Server yoktur.
+> **MariaDB, MySQL'in her sürümüyle aynı değildir.** Ortak bir kökten ayrıldılar; JSON türleri, varsayılan `sql_mode` ve karşılaştırma düzenleri sürüme göre farklıdır. Bir sonucu "MySQL'de de böyledir" diye genellemeden önce hedef sürümde dene. SQL Server ise birleştirmede `+` ve satır sınırlamada `TOP` / `OFFSET … FETCH` kullanır; bu dersin sonundaki ek görevde gerçek SQL Server 2022 tezgâhı vardır; önceki MariaDB örnekleri SQL Server sonucu diye genellenmez.
 :::
 
 ::: anlat Motor kendini anlatır: katalog
@@ -254,5 +254,84 @@ ORDER BY c.table_name;
 
 ```hint
 Görünümleri ayırmak için `information_schema.tables` ile birleştir ve `table_type = 'BASE TABLE'` olanları al. Sütun adları MariaDB'de büyük harfle döner; `AS tablo`, `AS sutun` ver.
+```
+:::
+
+
+::: anlat İki ayrı ürün: MySQL ve SQL Server
+MariaDB'de ölçülen sonucu MySQL diye etiketleme. Bu ek görevler **MySQL 8.4.8** ve **SQL Server 2022 CU23 Developer** üzerinde çalışır; imaj digest'leri `sandbox/sql_docker_lab.py` içinde sabittir. Pafta sorguyu gerçek istemciye gönderir, sonucu taklit etmez. İlk hazırlık ve Docker gereksinimleri README'dedir. SQL Server Developer geliştirme/test içindir.
+
+Bu dar adaptör tek SELECT/CTE sonucunu okur; alias'lı ve birbirinden farklı sütun adları kullan. MySQL XML çıktısı ile SQL Server'ın `FOR JSON PATH, INCLUDE_NULL_VALUES` çıktısı isimli sözlüklere çevrilir; SQL Server'da bu son eki Pafta ekler. Sayısal değerler de metin, SQL NULL `None` olur. `dene(ek)` aynı işe ait veritabanına testin ek SQL'ini uygular ve sorguyu yeniden yürütür; değişiklikler sonraki denemede kalır. Her yeni Çalıştır/Test işi ise ayrı geçici veritabanıdır. Hata ve timeout sonrası bu veritabanı ve salt okuma hesabı kaldırılır; konteynerler açık kalır. SQL Server varsayılan NULL sırası ve kolasyonunu başka ürüne genelleme.
+
+MySQL'de `LENGTH` bayt, `CHAR_LENGTH` karakter sayar; `DIV` tam sayı bölümüdür. SQL Server'da `TOP (n)` sıralama olmadan kararlı ilk n kaydı tanımlamaz; eşit puanlarda ikinci anahtarı belirt. `ISNULL` ile `COALESCE` tür seçimi her bağlamda aynı değildir; bu görev sayı türünü açıkça kullanır.
+
+Kaynaklar: [MySQL metin işlevleri](https://dev.mysql.com/doc/refman/8.4/en/string-functions.html), [MySQL DIV](https://dev.mysql.com/doc/refman/8.4/en/arithmetic-functions.html), [SQL Server TOP](https://learn.microsoft.com/en-us/sql/t-sql/queries/top-transact-sql), [FOR JSON NULL](https://learn.microsoft.com/en-us/sql/relational-databases/json/include-null-values-in-json-include-null-values-option).
+:::
+
+::: gorev MySQL: Unicode, NULL ve tam sayı bölümü
+`personel` tablosundan bütün satırları id sırasında getir. `CONCAT_WS(' ',ad,soyad)` ile `tam_ad`, dakikanın 60'a tam bölümü `saat`, adın UTF-8 bayt sayısı `bayt`, karakter sayısı `karakter` olsun. NULL soyad atlanır; boş soyad atlanmaz. LIMIT kullanma.
+
+```meta
+motor: mysql
+timeout: 90
+```
+
+```setup
+CREATE TABLE personel(id INT PRIMARY KEY,ad VARCHAR(40),soyad VARCHAR(40),dakika INT);
+INSERT INTO personel VALUES (1,'Ayşe','Ak',59),(2,'Can',NULL,60),(3,'Ece','',119);
+```
+
+```starter
+SELECT ad AS tam_ad, dakika / 60 AS saat, LENGTH(ad) AS bayt, LENGTH(ad) AS karakter FROM personel ORDER BY id;
+```
+
+```test
+eq(sonuc,[{'tam_ad':'Ayşe Ak','saat':'0','bayt':'5','karakter':'4'},{'tam_ad':'Can','saat':'1','bayt':'3','karakter':'3'},{'tam_ad':'Ece ','saat':'1','bayt':'3','karakter':'3'}],'gerçek MySQL Unicode/NULL ve 59/60/119 sınırları')
+eq(dene("INSERT INTO personel VALUES (4,'Çınar',NULL,120),(5,'Ada','Su',0);")[-2:],[{'tam_ad':'Çınar','saat':'2','bayt':'7','karakter':'5'},{'tam_ad':'Ada Su','saat':'0','bayt':'3','karakter':'3'}],'120 ve 0 dakika; yeni Unicode satır')
+eq(dene('DELETE FROM personel;'),[],'boş tablo sonuçsuzdur')
+```
+
+```solution
+SELECT CONCAT_WS(' ',ad,soyad) AS tam_ad, dakika DIV 60 AS saat,
+       LENGTH(ad) AS bayt, CHAR_LENGTH(ad) AS karakter
+FROM personel ORDER BY id;
+```
+
+```hint
+Tam sayı bölümü için DIV, karakter için CHAR_LENGTH. CONCAT_WS NULL'u atlar, boş metni korur.
+```
+:::
+
+::: gorev SQL Server: TOP ve eşit puanı kararlı sırala
+`bulgular` tablosunda `puan >= 80` olanları `puan DESC, id ASC` sırasıyla ilk iki kayıt olarak getir. `id`, `puan`, `COALESCE(aciklama,N'belirsiz') AS aciklama` sütunları olsun. TOP (2) kullan. NULL puan eşiğe girmez. ISNULL'a zorunlu bağlama yok; aynı sözleşme kabul edilir.
+
+```meta
+motor: mssql
+timeout: 90
+```
+
+```setup
+CREATE TABLE bulgular(id int PRIMARY KEY, puan int NULL, aciklama nvarchar(80) NULL);
+INSERT INTO bulgular VALUES (3,80,N'eşik'),(2,90,NULL),(1,90,N'öncelik'),(4,79,N'alt'),(5,NULL,N'puan yok');
+```
+
+```starter
+SELECT TOP (2) id,puan,aciklama FROM bulgular ORDER BY id DESC;
+```
+
+```test
+eq(sonuc,[{'id':'1','puan':'90','aciklama':'öncelik'},{'id':'2','puan':'90','aciklama':'belirsiz'}],'TOP eşit puanda id ile kararlı; NULL açıklama')
+eq(dene('DELETE FROM bulgular WHERE puan=90;'),[{'id':'3','puan':'80','aciklama':'eşik'}],'tam 80 dahil, 79 ve NULL hariç')
+eq(dene("INSERT INTO bulgular VALUES (7,81,N'yeni'),(6,81,NULL);"),[{'id':'6','puan':'81','aciklama':'belirsiz'},{'id':'7','puan':'81','aciklama':'yeni'}],'yeni eşit puan: azalan puan, artan id')
+eq(dene('DELETE FROM bulgular;'),[],'boş sonuç')
+```
+
+```solution
+SELECT TOP (2) id,puan,COALESCE(aciklama,N'belirsiz') AS aciklama
+FROM bulgular WHERE puan >= 80 ORDER BY puan DESC,id ASC;
+```
+
+```hint
+WHERE önce eşiği uygular; ORDER BY TOP'un hangi iki kaydı alacağını belirler. Puan eşitliğinde id'yi ikinci anahtar yap.
 ```
 :::
