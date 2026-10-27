@@ -250,14 +250,19 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk",
+    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "mysql", "mssql", "splunk",
                      "suricata", "zeek", "velociraptor", "pwsh", "ad-vm", "ad-client"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb, splunk, suricata, zeek, velociraptor, pwsh, ad-vm veya ad-client kullanın.")
+                         "mariadb, mysql, mssql, splunk, suricata, zeek, velociraptor, pwsh, ad-vm veya ad-client kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
         runner = Pcre2Runner() if motor == "pcre2" else RegexMotorRunner(motor)
+    elif motor in ("mysql", "mssql"):
+        if type(runner) is not SqlRunner:
+            raise ValueError(f"motor: {motor} yalnız SQL yolunda tanımlı.")
+        from sandbox.sql_container_runner import ContainerSqlRunner
+        runner = ContainerSqlRunner(motor)
     elif motor == "postgres":
         if type(runner) is not SqlRunner:
             raise ValueError("motor: postgres yalnız SQL yolunda tanımlı.")

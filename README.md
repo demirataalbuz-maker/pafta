@@ -327,3 +327,19 @@ PU04–PU09 için ek indirme, MISP sunucusu, Defender/Intune veya AWS/Entra abon
 BT01–BT06 aynı sentetik `tracks/bitirme/veri` paketini geçici çalışma klasörüne kopyalar; ağ arayüzü veya canlı hesap kullanılmaz. Python 3.11+, mevcut `requirements-detection.txt` bağımlılıkları ve TShark gerekir (Wireshark kurulumu veya `PAFTA_TSHARK` tam yolu). Kusto/SPL mevcut Pafta→SQLite çeviricileri, Sigma gerçek pySigma + yerel backend ile çalışır; üretim Sentinel/Splunk dağıtım kabulü değildir. Paket filtresi native TShark’tır. Desteklenmeyen işlem açık hatadır. Ek paket/abonelik gerekmez.
 
 Doğrulama: `python tools/validate.py --yol bitirme`, `python tools/test_capstone.py`. `python tools/capstone_replay.py --out outputs/bitirme-ornek.json` aynı motorlarla örnek raporu yeniden üretir; çıktı içinde sorgular, araç sürümleri, manifest SHA256 ve alan eksikliği kontrolü vardır. [Örnek anlatı raporu](tracks/bitirme/ornek-rapor.md) ve derslerin insan inceleme rubriği, otomatik yapı/ref testlerini tamamlar; otomatik testin geçmesi serbest metnin doğru yazıldığını veya insan kabulünü kanıtlamaz.
+
+
+### SQL lehçeleri: gerçek MySQL ve SQL Server (SQ22)
+
+Ek SQ22 görevleri Docker Desktop/Linux containers gerektirir. İmajlar kullanıcı onayıyla bir kez indirilir; koşucu otomatik indirme yapmaz:
+
+- `docker pull mysql:8.4.8`
+- `docker pull mcr.microsoft.com/mssql/server:2022-CU23-ubuntu-22.04`
+
+Tam digest'ler `sandbox/sql_docker_lab.py` içinde sabittir; `python sandbox/sql_docker_lab.py` yerel kurulumu denetler, yalnız Pafta etiketli konteynerleri gerekirse oluşturur/başlatır. SQL Server ücretsiz geliştirme/test için Developer edition'dır; üretim lisansı değildir. MySQL 1 GB, SQL Server 3 GB bellek sınırıyla çalışır; Docker'a en az 5 GB bellek ayırın. Bunlar yeni paket gerektirir; PostgreSQL/MariaDB görevleri mevcut Kali WSL motorlarını kullanmayı sürdürür.
+
+İki konteyner `--network none` ile çalışır; host portu/persistent host klasörü bağlanmaz. Yönetici parolası yalnız kullanıcı profilindeki `%LOCALAPPDATA%/Pafta/labs/sql-docker/config.json` dosyasındadır; depoya, ders çıktısına veya komut satırına yazılmaz. Bu dosya kullanıcının yerel sırrıdır; paylaşmayın. Her iş UUID adlı geçici veritabanı ve salt okuma hesabı açar; başarılı/başarısız/timeout iş sonunda veritabanı ve hesap silinir. Konteynerler sonraki dersler için çalışır kalır. Aynı adda etiketsiz/farklı imajlı konteyner varsa koşucu onu değiştirmez, hata verir.
+
+Bu ek tezgah tek SELECT/CTE sonucu içindir. MySQL'in gerçek XML istemci çıktısı, SQL Server'ın gerçek `FOR JSON PATH, INCLUDE_NULL_VALUES` çıktısı okunur; SQL Server sorgusuna bu son ek koşucu tarafından eklenir. İsimli sonuç sütunları gerekir; yinelenen sütun adları ve çoklu sonuç kümeleri bu dar tezgahın kapsamı değildir. Sayı/metin değerleri metin, SQL NULL Python None olarak görev testine gider. Testte `dene(ek)` aynı işe ait veritabanını ek SQL ile değiştirip sorguyu yeniden çalıştırır; SQLite'taki temiz veritabanı semantiği varsayılmamalıdır.
+
+Resmî kaynaklar: https://hub.docker.com/_/mysql ve https://hub.docker.com/r/microsoft/mssql-server/ .
