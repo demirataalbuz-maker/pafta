@@ -59,6 +59,10 @@ INSERT INTO watchlist_YoneticiHesaplar VALUES ('ayse@pafta.example','Global Admi
 CREATE TABLE watchlist_KotuIP (SearchKey TEXT, Kaynak TEXT);
 INSERT INTO watchlist_KotuIP VALUES ('198.51.100.66','tehdit akışı'),('192.0.2.200','olay 2026-114'),('203.0.113.99','tehdit akışı');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: anlat Watchlist: sorguya bir liste katmak
@@ -109,6 +113,10 @@ INSERT INTO watchlist_YoneticiHesaplar VALUES ('ayse@pafta.example','Global Admi
 CREATE TABLE watchlist_KotuIP (SearchKey TEXT, Kaynak TEXT);
 INSERT INTO watchlist_KotuIP VALUES ('198.51.100.66','tehdit akışı'),('192.0.2.200','olay 2026-114'),('203.0.113.99','tehdit akışı');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: tahmin
@@ -129,6 +137,10 @@ _GetWatchlist('YoneticiHesaplar')
 ```setup
 CREATE TABLE watchlist_YoneticiHesaplar (SearchKey TEXT, Rol TEXT);
 INSERT INTO watchlist_YoneticiHesaplar VALUES ('ayse@pafta.example','Global Admin'),('zeynep@pafta.example','Güvenlik Yöneticisi');
+```
+```meta
+motor: kusto
+timeout: 90
 ```
 :::
 
@@ -194,6 +206,10 @@ INSERT INTO SigninLogs VALUES
 CREATE TABLE watchlist_YoneticiHesaplar (SearchKey TEXT, Rol TEXT);
 INSERT INTO watchlist_YoneticiHesaplar VALUES ('ayse@pafta.example','Global Admin'),('zeynep@pafta.example','Güvenlik Yöneticisi');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: gorev 2 · Office'ten açılan kabuk
@@ -240,6 +256,10 @@ INSERT INTO DeviceProcessEvents VALUES
  ('2026-10-19 09:30','pc-can','can','PowerShell.exe','PowerShell.exe -File yedek.ps1','explorer.exe','c3'),
  ('2026-10-19 09:40','pc-mert','mert','cmd.exe','cmd.exe /c rapor.bat','EXCEL.EXE','d4'),
  ('2026-10-19 09:45','pc-zeynep','zeynep','notepad.exe','notepad.exe not.txt','winword.exe','e5');
+```
+```meta
+motor: kusto
+timeout: 90
 ```
 :::
 
@@ -295,5 +315,19 @@ INSERT INTO DeviceNetworkEvents VALUES
  ('2026-10-19 09:50','pc-zeynep','198.51.100.66',443,'guncelle.example','msedge.exe');
 CREATE TABLE watchlist_KotuIP (SearchKey TEXT, Kaynak TEXT);
 INSERT INTO watchlist_KotuIP VALUES ('198.51.100.66','tehdit akışı'),('192.0.2.200','olay 2026-114'),('203.0.113.99','tehdit akışı');
+```
+```meta
+motor: kusto
+timeout: 90
+```
+:::
+
+::: anlat Yerel gerçek motorun kanıt sınırı
+Bu ders Microsoft'un yerel Kusto Emulator sorgu motorunda çalışır; Azure Sentinel/Defender servisi, ajan alımı veya portal kural önizlemesi değildir. Hazırlık SQL'i yalnız örnek tablo verisini çıkarıp typed datatable/let olarak yollar. Öğrencinin KQL'i gerçek motorda ayrıştırılır ve değerlendirilir; desteklenmeyen ürün fonksiyonu sessiz taklit edilmez. Dersin yerel `_GetWatchlist` yardımcı fonksiyonu yalnız fixture listelerini döndürür; gerçek Sentinel watchlist hizmetine erişildiği iddia edilmez. Üretim kümesindeki izin, connector, ingestion, dcount yaklaşık sayımı ve null/string tür sözleşmesi ayrıca doğrulanmalıdır. Sunucu sorgu sınırı 30 saniye; yanıt sınırı 4 MB. Süre veya boyut aşımı başarı sayılmaz.
+
+[Microsoft Kusto Emulator kapsamı](https://learn.microsoft.com/en-us/azure/data-explorer/kusto-emulator-overview). Kurulum README'dedir. Gerçek Sentinel çalışma alanı olmadan portalın **Test with current data** kabulü tamamlanmış sayılmaz.
+```meta
+motor: kusto
+timeout: 90
 ```
 :::

@@ -1,0 +1,159 @@
+{
+  "backend": "Microsoft Kusto Emulator real query engine",
+  "image": "mcr.microsoft.com/azuredataexplorer/kustainer-linux@sha256:093af777e866d79abfaa2cd1f6e10f9509e6eec6ebd229aecb87c9609f26f1e9",
+  "cluster_columns": [
+    {
+      "ColumnName": "NodeId",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Address",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Name",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "StartTime",
+      "DataType": "DateTime",
+      "ColumnType": "datetime"
+    },
+    {
+      "ColumnName": "IsAdmin",
+      "DataType": "Boolean",
+      "ColumnType": "bool"
+    },
+    {
+      "ColumnName": "MachineTotalMemory",
+      "DataType": "Int64",
+      "ColumnType": "long"
+    },
+    {
+      "ColumnName": "MachineAvailableMemory",
+      "DataType": "Int64",
+      "ColumnType": "long"
+    },
+    {
+      "ColumnName": "ProcessorCount",
+      "DataType": "Int32",
+      "ColumnType": "int"
+    },
+    {
+      "ColumnName": "EnvironmentDescription",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "ProductVersion",
+      "DataType": "String",
+      "ColumnType": "string"
+    },
+    {
+      "ColumnName": "Reserved0",
+      "DataType": "Int32",
+      "ColumnType": "int"
+    }
+  ],
+  "cluster_rows": [
+    [
+      "0",
+      "net.tcp://127.0.0.1/",
+      "KustoPersonal",
+      "2026-10-27T05:43:44.6466Z",
+      true,
+      4294967296,
+      3348992000,
+      2,
+      "",
+      "2026.10.26.2230-2643-1299172-master",
+      0
+    ]
+  ],
+  "mutants_passed": 0,
+  "remaining": "No live Sentinel workspace: scheduled-rule portal preview not performed.",
+  "cases": [
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "count successful logins",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "watchlist UPN not normalized",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "event UPN not normalized",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "outer join unrelated accounts",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Yönetici hesaplarına",
+      "mutation": "count IP rows rather than distinct",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Office'ten",
+      "mutation": "parent case-sensitive",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Office'ten",
+      "mutation": "child case-sensitive",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Office'ten",
+      "mutation": "OR widens parent/child condition",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Kötü IP",
+      "mutation": "lookup ignored",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Kötü IP",
+      "mutation": "latest timestamp used",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "lesson": "kq24",
+      "task": "Kötü IP",
+      "mutation": "single row count",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ],
+  "mutants_rejected": 11,
+  "scope": "Sentinel/Defender şemaları ve yerel watchlist yardımcıları artık gerçek Microsoft Kusto motorunda çalışır. Öğrencinin sorgusu SQLite’a çevrilmez; veri kaynağı hâlâ sentetik fixture, gerçek tenant/connector değildir."
+}
