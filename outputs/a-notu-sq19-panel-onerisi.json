@@ -1,0 +1,69 @@
+{
+  "no": 32,
+  "yol": "sql",
+  "ad": "Uygulama girdisinden SQL'e veri akışı ve parametre bağlama",
+  "dersler": [
+    "SQ19"
+  ],
+  "karar": "Tam",
+  "ozet": "SQ19 gerçek sqlite3 execute ikinci argümanında parametre bağlama; literal LIKE, izinli sıralama, NULL ve sınır görevleri. 22 mutant reddedildi. JV10/PH08/CS10 okuma köprüsü eklendi.",
+  "tarih": "27.10.2026",
+  "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+  "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 10
+  },
+  "eksikler": [],
+  "onceki_denetim": {
+    "no": 32,
+    "yol": "sql",
+    "ad": "Uygulama girdisinden SQL'e veri akışı ve parametre bağlama",
+    "dersler": [
+      "SQ19"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Formdan metin gelen eşik, CAST tuzağı, NULL/boş, izinli sıralama alanı, joker kaçırma. Ama uygulama–DB köprüsü yok.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+      "test": 24,
+      "kapsam": 15,
+      "derinlik": 18,
+      "gerceklik": 12,
+      "yol": 10
+    },
+    "eksikler": [
+      {
+        "metin": "Uygulama tarafında gerçek parametre bağlama (Python sqlite3 ile ? ve execute) görevde yok.",
+        "oncelik": "yüksek",
+        "etiket": "CPTS"
+      },
+      {
+        "metin": "Java/PHP/C# güvenli sorgu derslerine köprü yok.",
+        "oncelik": "orta"
+      }
+    ]
+  },
+  "kapatilanlar": [
+    {
+      "metin": "Uygulama tarafında gerçek parametre bağlama (Python sqlite3 ile ? ve execute) görevde yok.",
+      "oncelik": "yüksek",
+      "etiket": "CPTS"
+    },
+    {
+      "metin": "Java/PHP/C# güvenli sorgu derslerine köprü yok.",
+      "oncelik": "orta"
+    }
+  ],
+  "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "kanit": "../../outputs/a-notu-sq19-binding-kabul.json",
+    "rapor": "../../outputs/a-notu-sq19-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "95/A öz değerlendirme; eski bağımsız 79 korunur. Ortak dosya boşalınca uygulanacak öneri."
+  }
+}
