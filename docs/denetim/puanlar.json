@@ -1920,30 +1920,70 @@
       "dersler": [
         "SP23"
       ],
-      "karar": "Kısmen",
-      "ozet": "Gerçek Splunk'ta veri modeli ve tstats, summariesonly karşılaştırması; resmi CIM eklentisi kurulu.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "Authentication ve Endpoint.Processes görevleri gerçek Splunk + CIM 8.5.0 modelinde; makine hesabı istisnası, iki etiket kapısı, etiketsiz kaynak tanığı. 14 mutant reddedildi, 0 geçen.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 22,
-        "kapsam": 15,
-        "derinlik": 21,
+        "test": 24,
+        "kapsam": 23,
+        "derinlik": 23,
         "gerceklik": 15,
         "yol": 9
       },
       "eksikler": [
         {
-          "metin": "ASAMA2 Authentication/Endpoint istiyor; ders Web modelini kullanıyor.",
-          "oncelik": "yüksek",
-          "etiket": "CDSA"
-        },
-        {
-          "metin": "CIM eklentisinin kurulumu otomatik değil.",
+          "metin": "CIM paketi yeni bilgisayarda Splunkbase hesabıyla elle edinilir; tools/splunk_cim_kur.py yalnız mevcut arşivi doğrular/kurar.",
           "oncelik": "düşük"
         }
       ],
       "cikar": true,
-      "not": "Authentication senaryosu bende güvenlik filtresine takıldı; Codex'e."
+      "onceki_denetim": {
+        "karar": "Kısmen",
+        "ozet": "Gerçek Splunk'ta veri modeli ve tstats, summariesonly karşılaştırması; resmi CIM eklentisi kurulu.",
+        "puan": {
+          "test": 22,
+          "kapsam": 15,
+          "derinlik": 21,
+          "gerceklik": 15,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "ASAMA2 Authentication/Endpoint istiyor; ders Web modelini kullanıyor.",
+            "oncelik": "yüksek",
+            "etiket": "CDSA"
+          },
+          {
+            "metin": "CIM eklentisinin kurulumu otomatik değil.",
+            "oncelik": "düşük"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
+        {
+          "metin": "ASAMA2 Authentication/Endpoint istiyor; ders Web modelini kullanıyor. → Authentication ve Endpoint.Processes görevleri gerçek CIM modelinde.",
+          "etiket": "düzeltildi",
+          "oncelik": "yüksek"
+        },
+        {
+          "metin": "CIM eklentisinin kurulumu otomatik değil. → tools/splunk_cim_kur.py SHA256 doğrulamalı yerel kurulum.",
+          "etiket": "düzeltildi",
+          "oncelik": "düşük"
+        }
+      ],
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "aa79f73",
+        "ozet": "Authentication ve Endpoint.Processes görevleri gerçek Splunk + CIM 8.5.0 modelinde; makine hesabı istisnası, iki etiket kapısı, etiketsiz kaynak tanığı. 14 mutant reddedildi, 0 geçen.",
+        "kanit": "../../outputs/a-notu-sp23-cim-kabul.json",
+        "rapor": "../../outputs/a-notu-sp23-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "94/100 öz değerlendirme (Codex taslağı + Claude). Önceki bağımsız 82 korundu."
+      }
     },
     {
       "no": 40,
@@ -2004,27 +2044,28 @@
         "EL20",
         "EL21"
       ],
-      "karar": "Kısmen",
-      "ozet": "EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz. Kalan kapsam eksikleri aşağıda açık.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "EL20'de gerçek Elastic Agent 9.5.5 standalone: filestream, ndjson ayrıştırma, kenarda düşürme, logs-pafta.erisim-lab veri akışı, ECS eşlemesi. 13 mutant reddedildi, 0 geçen.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 21,
-        "kapsam": 22,
+        "test": 23,
+        "kapsam": 24,
         "derinlik": 22,
-        "gerceklik": 14,
+        "gerceklik": 15,
         "yol": 9
       },
       "eksikler": [
         {
-          "metin": "Elastic Agent yok; ajan tabanlı alım öğretilmiyor.",
-          "oncelik": "orta",
+          "metin": "Fleet ve entegrasyon paketleri kapsam dışı; Sysmon/Windows olay kanalı değil, uygulama JSON günlüğü okunur.",
+          "oncelik": "düşük",
           "etiket": "CDSA"
         }
       ],
+      "cikar": true,
       "onceki_denetim": {
-        "karar": "Tam",
-        "ozet": "Gerçek Elasticsearch'te ingest pipeline, _simulate, ECS, hatalı mapping kanıtları.",
+        "karar": "Kısmen",
+        "ozet": "EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz. Kalan kapsam eksikleri aşağıda açık.",
         "puan": {
           "test": 21,
           "kapsam": 22,
@@ -2032,6 +2073,13 @@
           "gerceklik": 14,
           "yol": 9
         },
+        "eksikler": [
+          {
+            "metin": "Elastic Agent yok; ajan tabanlı alım öğretilmiyor.",
+            "oncelik": "orta",
+            "etiket": "CDSA"
+          }
+        ],
         "tarih": "26.10.2026",
         "kaynak": "Claude"
       },
@@ -2040,18 +2088,35 @@
           "metin": "Yük altında zaman aşımı kararsızlığı (EL20/EL21). → EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz.",
           "etiket": "düzeltildi",
           "oncelik": "düşük"
+        },
+        {
+          "metin": "Elastic Agent yok; ajan tabanlı alım öğretilmiyor. → EL20 gerçek ajan görevi, motor: elastic-agent.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
       ],
       "duzeltme": {
-        "tarih": "26.10.2026",
-        "yazar": "Codex",
-        "commit": "b23011f",
-        "ozet": "EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz.",
-        "kanit": "../../outputs/codex-aciklar-elastic-budget.txt",
-        "rapor": "../../outputs/codex-aciklar-teslim.md",
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "759bd36",
+        "ozet": "EL20'de gerçek Elastic Agent 9.5.5 standalone: filestream, ndjson ayrıştırma, kenarda düşürme, logs-pafta.erisim-lab veri akışı, ECS eşlemesi. 13 mutant reddedildi, 0 geçen.",
+        "kanit": "../../outputs/a-notu-el20-ajan-kabul.json",
+        "rapor": "../../outputs/a-notu-el20-ajan-rapor.md",
         "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
-      }
+        "puan_notu": "93/100 Claude öz değerlendirmesi. Önceki bağımsız 88 ve Codex düzeltmesi korundu."
+      },
+      "duzeltme_gecmisi": [
+        {
+          "tarih": "26.10.2026",
+          "yazar": "Codex",
+          "commit": "b23011f",
+          "ozet": "EL20/EL21 native bütçe 120 sn ve en fazla iki eşzamanlı iş; 8 işçiyle iki tur, tam Elastic 27 ders/170 kontrol temiz.",
+          "kanit": "../../outputs/codex-aciklar-elastic-budget.txt",
+          "rapor": "../../outputs/codex-aciklar-teslim.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        }
+      ]
     },
     {
       "no": 42,
@@ -2062,20 +2127,21 @@
         "EL23"
       ],
       "karar": "Tam",
-      "ozet": "Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "ozet": "Yerel EQL ile gerçek Elasticsearch 30 karşılaştırmada eşit (6 tahmin, 12 görev çözümü, 12 başlangıç); EL22/EL23 mutasyonda 15 mutant, 0 geçen.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 23,
-        "kapsam": 17,
+        "test": 24,
+        "kapsam": 24,
         "derinlik": 22,
         "gerceklik": 15,
         "yol": 9
       },
       "eksikler": [],
+      "cikar": true,
       "onceki_denetim": {
-        "karar": "Kısmen",
-        "ozet": "Gerçek _eql API'si; sequence, until, maxspan, eksik olay. Yerel ve gerçek motor karşılaştırması yok.",
+        "karar": "Tam",
+        "ozet": "Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
         "puan": {
           "test": 23,
           "kapsam": 17,
@@ -2083,6 +2149,7 @@
           "gerceklik": 15,
           "yol": 9
         },
+        "eksikler": [],
         "tarih": "26.10.2026",
         "kaynak": "Claude"
       },
@@ -2091,18 +2158,35 @@
           "metin": "EL13–EL18'deki yerel EQL tahminlerini gerçek Elasticsearch'le karşılaştıran otomatik denetim yok. → Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
           "etiket": "düzeltildi",
           "oncelik": "orta"
+        },
+        {
+          "metin": "Görev çözüm ve başlangıçları da gerçek motorla karşılaştırılmıyordu. → --eql-predictions 24 görev karşılaştırması.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
       ],
       "duzeltme": {
-        "tarih": "26.10.2026",
-        "yazar": "Codex",
-        "commit": "0df3a47",
-        "ozet": "Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
-        "kanit": "../../outputs/codex-aciklar-eql-native.txt",
-        "rapor": "../../outputs/codex-aciklar-teslim.md",
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "1d9dc46",
+        "ozet": "Yerel EQL ile gerçek Elasticsearch 30 karşılaştırmada eşit (6 tahmin, 12 görev çözümü, 12 başlangıç); EL22/EL23 mutasyonda 15 mutant, 0 geçen.",
+        "kanit": "../../outputs/a-notu-el13-18-eql-karsilastirma.txt",
+        "rapor": "../../outputs/a-notu-el22-23-rapor.md",
         "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
-      }
+        "puan_notu": "94/100 Claude öz değerlendirmesi. Codex'in 0df3a47 düzeltmesi yeniden puanlanmamıştı; önceki bağımsız 86 korundu."
+      },
+      "duzeltme_gecmisi": [
+        {
+          "tarih": "26.10.2026",
+          "yazar": "Codex",
+          "commit": "0df3a47",
+          "ozet": "Opt-in --eql-predictions ile EL13–EL18 yerel EQL gerçek Elasticsearch ile karşılaştırıldı: altısı temiz.",
+          "kanit": "../../outputs/codex-aciklar-eql-native.txt",
+          "rapor": "../../outputs/codex-aciklar-teslim.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        }
+      ]
     },
     {
       "no": 43,
@@ -2165,24 +2249,19 @@
         "SG19"
       ],
       "karar": "Kısmen",
-      "ozet": "SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz. Kalan kapsam eksikleri aşağıda açık.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "ozet": "SG19'a gerçek sigma-cli 3.1.0 komut görevleri: klasör çevirisi, -s ile yer tutuculu kuralı atlama, splunk_cim + data_model ile CIM tstats. 12 mutant reddedildi. Elastic/Kusto backend'i hâlâ yok.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 20,
-        "kapsam": 13,
-        "derinlik": 20,
-        "gerceklik": 13,
+        "test": 23,
+        "kapsam": 19,
+        "derinlik": 22,
+        "gerceklik": 15,
         "yol": 9
       },
       "eksikler": [
         {
-          "metin": "sigma-cli hiç kullanılmıyor (madde adında var).",
-          "oncelik": "yüksek",
-          "etiket": "CDEP"
-        },
-        {
-          "metin": "Yalnız Splunk; Elastic ve Kusto backend'i yok.",
+          "metin": "Yalnız Splunk; Elastic ve Kusto backend'i yok. pySigma Elastic/Kusto backend kurulumu otomatik izin denetiminden geçmedi; kullanıcı izni bekliyor.",
           "oncelik": "yüksek",
           "etiket": "CDEP"
         }
@@ -2190,7 +2269,7 @@
       "cikar": true,
       "onceki_denetim": {
         "karar": "Kısmen",
-        "ozet": "Gerçek pySigma Splunk backend'i ve pipeline'lar; üretilen sorgu gerçek Splunk'ta sınanıyor.",
+        "ozet": "SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz. Kalan kapsam eksikleri aşağıda açık.",
         "puan": {
           "test": 20,
           "kapsam": 13,
@@ -2198,6 +2277,18 @@
           "gerceklik": 13,
           "yol": 9
         },
+        "eksikler": [
+          {
+            "metin": "sigma-cli hiç kullanılmıyor (madde adında var).",
+            "oncelik": "yüksek",
+            "etiket": "CDEP"
+          },
+          {
+            "metin": "Yalnız Splunk; Elastic ve Kusto backend'i yok.",
+            "oncelik": "yüksek",
+            "etiket": "CDEP"
+          }
+        ],
         "tarih": "26.10.2026",
         "kaynak": "Claude"
       },
@@ -2206,18 +2297,35 @@
           "metin": "SigmaSplunkRunner'ın kendi altyapı testi yok. → SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz.",
           "etiket": "düzeltildi",
           "oncelik": "orta"
+        },
+        {
+          "metin": "sigma-cli hiç kullanılmıyor (madde adında var). → SG19 girdi: komut görevleri, gerçek sigma-cli.",
+          "etiket": "düzeltildi",
+          "oncelik": "yüksek"
         }
       ],
       "duzeltme": {
-        "tarih": "26.10.2026",
-        "yazar": "Codex",
-        "commit": "26cf766",
-        "ozet": "SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz.",
-        "kanit": "../../outputs/codex-aciklar-sigma-runner.txt",
-        "rapor": "../../outputs/codex-aciklar-teslim.md",
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "580deac",
+        "ozet": "SG19'a gerçek sigma-cli 3.1.0 komut görevleri: klasör çevirisi, -s ile yer tutuculu kuralı atlama, splunk_cim + data_model ile CIM tstats. 12 mutant reddedildi. Elastic/Kusto backend'i hâlâ yok.",
+        "kanit": "../../outputs/a-notu-sg19-cli-kabul.json",
+        "rapor": "../../outputs/a-notu-sg19-cli-rapor.md",
         "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        "puan_notu": "88/100 Claude öz değerlendirmesi (B). Elastic/Kusto backend'i olmadan A sayılmadı. Önceki bağımsız 75 korundu."
       },
+      "duzeltme_gecmisi": [
+        {
+          "tarih": "26.10.2026",
+          "yazar": "Codex",
+          "commit": "26cf766",
+          "ozet": "SigmaSplunkRunner taşıma, mod/metadata, hata/timeout ve opt-in gerçek Splunk kabulü: 4 unit + 1 native temiz.",
+          "kanit": "../../outputs/codex-aciklar-sigma-runner.txt",
+          "rapor": "../../outputs/codex-aciklar-teslim.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        }
+      ],
       "inceleme_notlari": [
         {
           "metin": "SG19’daki 100→101 tespit eşiği değil pipeline priority. Kullanılan pipeline + birleştirmesi önceliği sıralamaz; kurulu pySigma’da aynı SPL doğrulandı. Bu geçiş eşdeğer olarak ayrı saklandı.",
@@ -2233,25 +2341,62 @@
       "dersler": [
         "SG20"
       ],
-      "karar": "Kısmen",
-      "ozet": "event_count ve value_count gerçek Splunk'ta; sabit zaman kutusu tuzağı gösteriliyor.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "karar": "Tam",
+      "ozet": "SG20'ye temporal korelasyon: sıra gözetilmez, sabit kutu, tekrar sayılmaz, grup anahtarı; temporal_ordered'ın bu backend'de desteklenmediği ölçülür. 8 mutant reddedildi, 0 geçen.",
+      "tarih": "27.10.2026",
+      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
       "puan": {
-        "test": 20,
-        "kapsam": 14,
-        "derinlik": 21,
+        "test": 23,
+        "kapsam": 22,
+        "derinlik": 23,
         "gerceklik": 15,
         "yol": 9
       },
       "eksikler": [
         {
-          "metin": "Zamansal korelasyon (temporal / temporal_ordered) hiç yok.",
-          "oncelik": "yüksek",
+          "metin": "temporal_ordered Splunk backend 2.1.0'da desteklenmiyor; sıralı korelasyon gerçek hedefte çalıştırılamadı.",
+          "oncelik": "düşük",
           "etiket": "CDEP"
         }
       ],
-      "cikar": true
+      "cikar": true,
+      "onceki_denetim": {
+        "karar": "Kısmen",
+        "ozet": "event_count ve value_count gerçek Splunk'ta; sabit zaman kutusu tuzağı gösteriliyor.",
+        "puan": {
+          "test": 20,
+          "kapsam": 14,
+          "derinlik": 21,
+          "gerceklik": 15,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "Zamansal korelasyon (temporal / temporal_ordered) hiç yok.",
+            "oncelik": "yüksek",
+            "etiket": "CDEP"
+          }
+        ],
+        "tarih": "26.10.2026",
+        "kaynak": "Claude"
+      },
+      "kapatilanlar": [
+        {
+          "metin": "Zamansal korelasyon (temporal / temporal_ordered) hiç yok. → SG20 görev 3 temporal; sıralı türün desteklenmediği ölçüldü.",
+          "etiket": "düzeltildi",
+          "oncelik": "yüksek"
+        }
+      ],
+      "duzeltme": {
+        "yazar": "Claude",
+        "tarih": "27.10.2026",
+        "commit": "580deac",
+        "ozet": "SG20'ye temporal korelasyon: sıra gözetilmez, sabit kutu, tekrar sayılmaz, grup anahtarı; temporal_ordered'ın bu backend'de desteklenmediği ölçülür. 8 mutant reddedildi, 0 geçen.",
+        "kanit": "../../outputs/a-notu-sg20-temporal-kabul.json",
+        "rapor": "../../outputs/a-notu-sg20-temporal-rapor.md",
+        "bagimsiz_denetim": "yeniden yapılmadı",
+        "puan_notu": "92/100 Claude öz değerlendirmesi. Önceki bağımsız 79 korundu."
+      }
     },
     {
       "no": 47,
