@@ -1,0 +1,88 @@
+{
+  "backend": "real Windows Get-WinEvent EVTX / native-generated JEA data files",
+  "event_payload": "synthetic classic EVT converted to real EVTX; not actual AppLocker policy enforcement evidence",
+  "references_passed": 2,
+  "mutants_rejected": 13,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "area": "EVTX",
+      "mutation": "exclusive level",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "EVTX",
+      "mutation": "exclude ID 8002",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "EVTX",
+      "mutation": "exclude ID 8007",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "EVTX",
+      "mutation": "wrong provider",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "EVTX",
+      "mutation": "reverse order",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "EVTX",
+      "mutation": "audit mislabeled block",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "EVTX",
+      "mutation": "hide missing payload fields",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "JEA",
+      "mutation": "wrong selected group",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "JEA",
+      "mutation": "drop provider list",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "JEA",
+      "mutation": "hardcoded virtual account",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "JEA",
+      "mutation": "flatten command constraints",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "JEA",
+      "mutation": "execute configuration instead of data import",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "JEA",
+      "mutation": "string false accepted",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ],
+  "scope": "Offline file reading; no live policy/channel or registered JEA endpoint is changed."
+}
