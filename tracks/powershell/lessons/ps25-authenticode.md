@@ -212,6 +212,11 @@ eq(run(stdin="ornekler\\stub.exe\nMicrosoft\n"), "yayıncı farklı: Microsoft C
 eq(run(stdin="ornekler\\betik.ps1\nMicrosoft Corporation\n"), "imza geçersiz: NotSigned\n", "imzasız betik")
 eq(run(stdin="ornekler\\yok.exe\nMicrosoft Corporation\n"), "HATA\n", "olmayan dosya")
 eq(run(stdin="ornekler\\stub.exe\n"), "HATA\n", "beklenen yayıncı satırı yok")
+
+for value in ('','   '):
+    r=calis(stdin='ornekler\\stub.exe\n'+value+'\n')
+    eq((r['kod'],r['cikti'],r['hata']),(0,'HATA\n',''),'yayıncı satırı var ama boş/boşluk')
+
 ```
 
 ```solution

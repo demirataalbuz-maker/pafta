@@ -22,7 +22,7 @@ sys.path.insert(0, ROOT)
 from engine.lessons import Library  # noqa: E402
 from engine.runners import argv_coz, for_step, get  # noqa: E402
 
-FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat", "packets": "wireshark|bpf|packets|tshark|tcpdump-lab", "ad": "ad|ldap", "elastic": "kibana|lucene|eql"}
+FENCE = {"python": "python|py", "bash": "bash|sh", "powershell": "powershell|ps1?", "regex": "regex", "sql": "sql", "kql": "kql|kusto", "spl": "spl|splunk", "javascript": "javascript|js", "sigma": "sigma", "yara": "yara", "cmd": "cmd|batch|bat", "packets": "wireshark|bpf|packets|tshark|tcpdump-lab", "ad": "ad|ldap|python|py", "elastic": "kibana|lucene|eql|esql|ingest|rule"}
 
 
 def kod_deseni(dil):
@@ -63,7 +63,7 @@ def jobs_for(lib, tid, dil, lid):
             if not st.get("test"):
                 jobs.append(("TESTSİZ", tid, where, None, None))
                 continue
-            if dil in ("sigma", "yara", "elastic") and not st.get("stdin", "").strip():
+            if dil in ("sigma", "yara", "elastic") and not st.get("stdin", "").strip()                     and not (st.get("meta") or {}).get("motor"):        # gerçek hedef adımı: veri hazırlıkta
                 jobs.append(("GİRDİSİZ", tid, where, None, None))
             if not st.get("solution"):
                 jobs.append(("ÇÖZÜMSÜZ", tid, where, None, None))
@@ -75,7 +75,8 @@ def jobs_for(lib, tid, dil, lid):
                 jobs.append(("AÇIKLAMASIZ", tid, where, None, None))
             jobs.append(("tahmin", tid, where, st, st["code"]))
         else:
-            for m in kod_deseni(dil).finditer(st["body"]):
+            ornek_dil = (st.get("meta") or {}).get("dil", dil) if tid in ("ad", "yara") else dil
+            for m in kod_deseni(ornek_dil).finditer(st["body"]):
                 if "norun" in m.group(2):
                     continue
                 kod = m.group(3)

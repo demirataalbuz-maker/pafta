@@ -1,0 +1,16 @@
+{
+  "version": "9.5.5",
+  "license": "basic",
+  "types": [
+    "query",
+    "eql",
+    "threshold"
+  ],
+  "operational_alerts_after_second_window": {
+    "query": 1,
+    "eql": 1,
+    "threshold": 1
+  },
+  "preview_used": false,
+  "second_window_wait_seconds": 80
+}

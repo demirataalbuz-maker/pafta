@@ -161,6 +161,8 @@ DIGER_DEGISKEN=gecici
 PAFTA_ADIM=3
 ```
 
+Yalnız bu girdide atanan `PAFTA_` anahtarlarını raporla; üst süreçten gelen Pafta kurulum ayarlarını rapora katma.
+
 ```starter
 foreach ($satir in $Girdi) {
     # Satırı = işaretinden böl ve Env: sürücüsüne yaz
@@ -174,12 +176,15 @@ eq(run(stdin="PAFTA_SUNUCU=web09\nTEST_YOK=1\n"), "PAFTA_SUNUCU: web09\n", "fark
 ```
 
 ```solution
+$gelen = @()
 foreach ($satir in $Girdi) {
     if ($satir -match '^([^=]+)=(.*)$') {
+        $gelen += $Matches[1]
         Set-Item "Env:\$($Matches[1])" $Matches[2]
     }
 }
 Get-ChildItem Env:\PAFTA_* |
+    Where-Object { $_.Name -in $gelen } |
     Sort-Object Name |
     ForEach-Object { "$($_.Name): $($_.Value)" }
 ```

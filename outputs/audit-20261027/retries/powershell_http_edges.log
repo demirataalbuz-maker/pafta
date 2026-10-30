@@ -1,0 +1,15 @@
+redirect: reference passed
+too few redirects: rejected
+too many redirects: rejected
+exclude zero hops: rejected
+exclude five hops: rejected
+multipart: reference passed
+URL-encoded body instead of multipart: rejected
+filename text instead of file bytes: rejected
+fixed note: rejected
+timeout: reference passed
+two second budget: rejected
+missing body timeout type: rejected
+exception types combined with AND: rejected
+HTTP failures mislabeled timeout: rejected
+exclude zero delay: rejected

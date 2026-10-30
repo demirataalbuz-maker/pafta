@@ -19,7 +19,7 @@ Bu derste gerçek bir OpenSSH sunucusuna bağlanacaksın, ama ağa bir port aç�
 | `known_hosts` | `lab` adının host anahtarı (önceden doğrulanmış) |
 | `ayar` | istemci ayarı: `Host lab` bloğu |
 
-`ayar` içindeki `ProxyCommand /usr/sbin/sshd -i -f .../sshd_config` satırı işin püf noktasıdır: ssh bir TCP bağlantısı açmak yerine bu komutu başlatır ve onunla stdin/stdout üzerinden konuşur. `sshd -i` (inetd kipi) tek bir bağlantıya hizmet edip çıkar. Böylece her `ssh -F ayar lab` gerçek bir SSH el sıkışması, host anahtarı doğrulaması ve anahtarla kimlik doğrulaması yapar; bağlantı bitince sunucu süreci de biter. Uzak taraf aynı makinedeki aynı kullanıcıdır; bu yüzden "uzak" yollar çalışma klasörünün içindedir.
+`ayar` içindeki `ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f .../sshd_config` satırı işin püf noktasıdır: ssh bir TCP bağlantısı açmak yerine bu komutu başlatır ve onunla stdin/stdout üzerinden konuşur. `sshd -i` (inetd kipi) tek bir bağlantıya hizmet edip çıkar. Böylece her `ssh -F ayar lab` gerçek bir SSH el sıkışması, host anahtarı doğrulaması ve anahtarla kimlik doğrulaması yapar; bağlantı bitince sunucu süreci de biter. Uzak taraf aynı makinedeki aynı kullanıcıdır; bu yüzden "uzak" yollar çalışma klasörünün içindedir.
 
 Kaynak: [sshd(8), -i](https://man.openbsd.org/sshd#i), [ssh_config(5), ProxyCommand](https://man.openbsd.org/ssh_config#ProxyCommand).
 :::
@@ -57,8 +57,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 :::
 
@@ -89,8 +90,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 :::
 
@@ -114,8 +116,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 
 ???
@@ -157,8 +160,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 
 ```starter
@@ -242,8 +246,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 U = "/tmp/pafta-bs35"          # aynı anda çalışan denemeler paylaşır: silinmez, yalnız eksikse kurulur
 os.makedirs(U + "/gelen", exist_ok=True)
 os.makedirs(U + "/salt okunur", exist_ok=True)
@@ -272,13 +277,38 @@ os.makedirs(f"{U}/iki kelime", exist_ok=True)
 eq(run(stdin=f"rapor.txt\t{U}/iki kelime\n"), f"tamam {sha('rapor.txt')}\n", "uzak klasör adında boşluk")
 r = calis(stdin=f"rapor.txt\t{U}/olmayan\n")
 eq((r["kod"], r["cikti"]), (1, "gönderilemedi\n"), "uzak klasör yok")
-r = calis(stdin=f"rapor.txt\t{U}/salt okunur\n")
+import uuid
+yasak = "yeni-" + uuid.uuid4().hex + ".txt"
+open(yasak, "w").write("izin denemesi")
+r = calis(stdin=f"{yasak}\t{U}/salt okunur\n")
 eq((r["kod"], r["cikti"]), (1, "gönderilemedi\n"), "uzak klasör yazılamıyor")
 r = calis(stdin=f"olmayan.txt\t{U}/gelen\n")
 eq((r["kod"], r["cikti"]), (2, "HATA\n"), "yerel dosya yok")
 r = calis(stdin="rapor.txt\n")
 eq((r["kod"], r["cikti"]), (2, "HATA\n"), "uzak klasör alanı eksik")
 ok("sha256sum" in src and "ssh" in src, "uzak özet ssh ile hesaplatılır")
+
+# Yalnız uzak sha256sum yanıtını bozan test double; scp/sshd gerçek kalır.
+import pathlib,shutil,shlex
+real_ssh=shutil.which('ssh');old_path=os.environ['PATH']
+bin_dir=pathlib.Path('test_ssh_bin').resolve();bin_dir.mkdir(exist_ok=True)
+shim=bin_dir/'ssh'
+shim.write_text('#!/bin/bash\nfor arg in "$@"; do\n if [[ "$arg" == *sha256sum* ]]; then\n  printf "%s\\n" "$PAFTA_TEST_REMOTE_HASH"\n  exit 0\n fi\ndone\nexec '+shlex.quote(real_ssh)+' "$@"\n',encoding='utf-8')
+shim.chmod(0o755)
+try:
+    os.environ['PATH']=str(bin_dir)+':'+old_path
+    for remote_hash in ('0'*64,''):
+        os.environ['PAFTA_TEST_REMOTE_HASH']=remote_hash
+        r=calis(stdin=f'rapor.txt\t{U}/gelen\n')
+        eq((r['kod'],r['cikti']),(1,'uyuşmazlık\n'),'yanlış veya boş uzak özet başarı değildir')
+finally:
+    os.environ['PATH']=old_path
+    os.environ.pop('PAFTA_TEST_REMOTE_HASH',None)
+
+
+r=calis(stdin=f'rapor.txt\t{U}/olmayan\n')
+eq(r['hata'],'','başarısız scp stderr ayrıntısı dışarı sızmaz')
+
 ```
 
 ```solution
@@ -308,5 +338,93 @@ Satırı `IFS=$'\t' read -r yerel uzak` ile oku: adlardaki boşluklar bölünmez
 
 ```hint
 Uzak özet: `ssh -F ayar lab 'sha256sum -- "$(cat)"' <<< "$uzak/$ad"`. Yol uzakta yalnız bir kez, `"$(cat)"` içinde açılır; boşluklar korunur.
+```
+:::
+
+
+::: anlat SFTP batch: ilk hatada dur ve geri aldığını denetle
+`sftp -b` etkileşimli parola soramaz; mevcut ayar dosyası yalnız laboratuvar anahtarını kullanır ve host anahtarını doğrular. put/get hatası batch'i durdurur. Komutun önüne `-` koymak bu hatayı yoksayar; kabul/dağıtım betiğinde yanlışlıkla yapma. SFTP komut dosyasının kendi alıntılama kuralları vardır: boşluklu yollar çift tırnağa alınır. Genel dosya adlarında glob/backslash/tırnak için ayrıca kaçış gerekir; aşağıdaki kontrollü alt küme bu karakterleri içermez.
+
+Geri indirme yerel dosyanın aynısını tekrar okumak değildir: get gerçekten uzak nesneyi indirir. Sonra cmp baytları karşılaştırır. Bu doğrulama aynı yerel kullanıcıyla çalışan gerçek SSH/SFTP aktarımını ölçer; ayrı sunucu izolasyonu veya erişim politikası iddiası yoktur. Kaynak: [OpenSSH sftp batch, hata davranışı ve yol alıntılama](https://man.openbsd.org/sftp#b).
+:::
+
+::: gorev SFTP batch ile gidiş dönüşü doğrula
+İlk girdi satırı yerel dosya, ikincisi uzak klasör olsun. Yerel dosya yoksa veya klasör alanı boşsa `HATA` yazdır ve 2 ile çık. Gerçek `sftp -F ayar -b` ile dosyayı uzaktaki klasörün `sonuc.bin` adına yükle ve aynı batch içinde `geri.bin` adına indir. Uzak klasörü kendin oluşturma. Batch başarısızsa `AKTARIM_HATA` ve çıkış 1; başarılı ama geri gelen dosya özgün baytlarla aynı değilse `UYUSMAZLIK` ve çıkış 1; aynıysa `OK <yerel SHA256>` ve çıkış 0. Önceki geri.bin dosyasını kullanma. SFTP komut yankısını/hata ayrıntısını bu kısa raporun dışında tut.
+
+Bu görevin yolları çalışma klasöründeki adlardır; boşluk/Unicode içerebilir, fakat tırnak, backslash, glob, satır sonu veya sekme içermez. Bu genel bir SFTP yol kaçış görevi değildir. Yerel/uzak tam yolları `$PWD` ile kur: SSH sunucusunun varsayılan klasörü farklıdır.
+
+```stdin
+kaynak dosya.bin
+uzak klasor
+```
+
+```setup
+import os, subprocess
+L = os.getcwd()
+for ad in ("host_ed25519", "id_lab"):
+    subprocess.run(["ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-C", ad, "-f", ad], check=True)
+os.replace("id_lab.pub", "authorized_keys"); os.chmod("authorized_keys", 0o600)
+open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L}/authorized_keys\nPasswordAuthentication no\n"
+    "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
+open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
+kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
+open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+from pathlib import Path
+Path('kaynak dosya.bin').write_bytes(bytes(range(256))*2+b'\x00\xff\n')
+Path('bos.bin').write_bytes(b'')
+Path('uzak klasor').mkdir()
+Path('diger klasor').mkdir()
+```
+
+```starter
+cat >/dev/null
+echo OK
+```
+
+```test
+import hashlib,os,pathlib,shlex,shutil
+src_file=pathlib.Path('kaynak dosya.bin')
+def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+eq(out,'OK '+digest(src_file)+'\n','gerçek batch gidiş dönüşü')
+eq(pathlib.Path('uzak klasor/sonuc.bin').read_bytes(),src_file.read_bytes(),'uzak dosya gerçekten yazıldı')
+eq(pathlib.Path('geri.bin').read_bytes(),src_file.read_bytes(),'geri indirilen ikili baytlar')
+eq(run(stdin='bos.bin\nuzak klasor\n'),'OK '+digest(pathlib.Path('bos.bin'))+'\n','sıfır bayt da başarılı aktarım')
+src_file.write_bytes(b'degisen icerik\x00')
+eq(run(stdin='kaynak dosya.bin\ndiger klasor\n'),'OK '+digest(src_file)+'\n','kaynak ve hedef sabitlenemez')
+eq(pathlib.Path('diger klasor/sonuc.bin').read_bytes(),src_file.read_bytes(),'ikinci uzak hedef')
+for body,code,text in [('kaynak dosya.bin\nolmayan klasor\n',1,'AKTARIM_HATA\n'),('yok.bin\nuzak klasor\n',2,'HATA\n'),('kaynak dosya.bin\n\n',2,'HATA\n')]:
+    r=calis(stdin=body)
+    eq((r['kod'],r['cikti']),(code,text),'hata türü ve çıkış kodu')
+real=shutil.which('sftp');old_path=os.environ['PATH']
+folder=pathlib.Path('sftp_test_bin').resolve();folder.mkdir(exist_ok=True)
+shim=folder/'sftp'
+shim.write_text('#!/bin/bash\n'+shlex.quote(real)+' "$@"\nrc=$?\nif (( rc == 0 )); then printf X >> geri.bin; fi\nexit "$rc"\n',encoding='utf-8');shim.chmod(0o755)
+try:
+    os.environ['PATH']=str(folder)+':'+old_path
+    r=calis(stdin='kaynak dosya.bin\nuzak klasor\n')
+    eq((r['kod'],r['cikti']),(1,'UYUSMAZLIK\n'),'gerçek aktarım sonrasında bozulan geri indirme başarı değildir')
+finally:os.environ['PATH']=old_path
+```
+
+```solution
+IFS= read -r yerel || true
+IFS= read -r uzak || true
+if [[ ! -f $yerel || -z $uzak ]]; then
+    echo HATA
+    exit 2
+fi
+rm -f geri.bin
+if ! printf 'put "%s" "%s"\nget "%s" "%s"\n' "$PWD/$yerel" "$PWD/$uzak/sonuc.bin" "$PWD/$uzak/sonuc.bin" "$PWD/geri.bin" |
+    sftp -q -F ayar -b - lab >sftp.log 2>sftp.err; then
+    echo AKTARIM_HATA
+    exit 1
+fi
+if ! cmp -s -- "$yerel" geri.bin; then
+    echo UYUSMAZLIK
+    exit 1
+fi
+printf 'OK %s\n' "$(sha256sum -- "$yerel" | cut -d' ' -f1)"
 ```
 :::

@@ -1,0 +1,63 @@
+{
+ "id": "ids",
+ "name": "Ağ Tespiti · Suricata ve Zeek",
+ "status": "active",
+ "group": "savunma",
+ "order": 19,
+ "runner": "ids",
+ "dil": "suricata",
+ "role": "Ağ tabanlı tespit: gerçek Suricata kuralları ve gerçek Zeek betikleriyle trafik kaydında olay aramak.",
+ "tagline": "5 pafta: Suricata kuralının anatomisi, uygulama katmanı tamponları ve değiştiriciler, değişkenler ve eşikler; Zeek günlükleri, olay işleyiciler, tablolar ve NOTICE. Kurallar WSL'deki gerçek Suricata 8, betikler resmi imajdaki gerçek Zeek 9 ile, her görevin ürettiği zararsız sentetik trafik kaydında çalışır.",
+ "kahraman": [
+  "Paketten",
+  "Alarm",
+  "a"
+ ],
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ],
+ "modules": [
+  {
+   "title": "Suricata Kuralları",
+   "rank": "minik",
+   "zen": "Bir kural, neyi aradığı kadar neyi aramadığıyla da yazılır.",
+   "lessons": [
+    "id01",
+    "id02",
+    "id03"
+   ]
+  },
+  {
+   "title": "Zeek ile Gözlem",
+   "rank": "tesviye",
+   "zen": "Önce ne olduğunu kaydet; neyin yanlış olduğunu sonra sor.",
+   "lessons": [
+    "id04",
+    "id05"
+   ]
+  }
+ ]
+}

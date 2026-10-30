@@ -20,6 +20,10 @@ Uçlar
 -----
 POST /giris                 JSON {"kullanici", "parola"} · doğruysa 200 ve
                             `oturum` çerezi, yanlışsa 401 {"hata": "kimlik"}
+POST /giris-form            form gövdesi (application/x-www-form-urlencoded)
+                            {"kullanici", "parola"}; başka içerik türü 415
+                            {"hata": "tur"}; kimlik /giris ile aynı, ayrıca
+                            FORM_KULLANICI / FORM_PAROLA (özel karakterli) kabul edilir
 GET  /api/biletler?sayfa=N  oturum ister; 401 {"hata": "oturum"}
                             200 {"sayfa", "toplam", "sonraki", "kayitlar": [...]}
                             sayfa 1'den başlar, sayfa başına 3 kayıt;
@@ -38,8 +42,22 @@ GET  /eszamanli             {"en_cok": M}: /yavas'ta aynı anda bekleyen en çok
 GET  /bos                   204 No Content: gövdesiz yanıt
 GET  /sayfa/biletler        tablo, bağlantılar ve gizli alanlı form içeren HTML
 GET  /sayfa/bozuk           kapanmamış etiketleri olan bozuk HTML
+
+İsteğe bağlı iki ek hizmet (yalnız çağıran derste başlar):
+
+api.vekil_kur()     kimlik isteyen HTTP vekili (proxy) başlatır: api.VEKIL adresi,
+                    api.VEKIL_KULLANICI / api.VEKIL_PAROLA. Kimliksiz ya da yanlış
+                    kimlikli istek 407; geçen yanıta `Via: 1.1 pafta-vekil` eklenir.
+                    Yalnız 127.0.0.1 hedeflerine iletir. api.vekil_sayac() geçen
+                    istek sayısını verir.
+api.tls_kur()       aynı uygulamayı HTTPS'te başlatır: api.HTTPS_SUNUCU
+                    ("https://127.0.0.1:PORT"), ders CA'sı api.CA (PEM dosyası).
+                    Sertifika yalnız 127.0.0.1 IP adına verilmiştir; `localhost`
+                    adıyla bağlanmak ad uyuşmazlığıdır. CA sistem güven deposuna
+                    eklenmez; geçici klasörde durur.
 """
 import json
+import os
 import sys
 import threading
 import time
@@ -50,6 +68,8 @@ from urllib.parse import parse_qs, urlparse
 TARIH = "Mon, 19 Oct 2026 09:00:00 GMT"
 OTURUM = "pafta-oturum-2026"
 KULLANICI, PAROLA = "analist", "pafta123"
+FORM_KULLANICI, FORM_PAROLA = "nöbetçi analist", "a&b=c d+%"     # elle kodlanırsa bozulur
+VEKIL_KULLANICI, VEKIL_PAROLA = "vekil", "pafta-vekil-2026"
 SAYFA_BOYU = 3
 ONCELIKLER = ("düşük", "orta", "yüksek")
 
@@ -237,6 +257,19 @@ class Isleyici(BaseHTTPRequestHandler):
                 return self._yolla(200, {"durum": "açık", "kullanici": KULLANICI},
                                    ek=[("Set-Cookie", cerez)])
             return self._yolla(401, {"hata": "kimlik"})
+        if yol == "/giris-form":
+            n = int(self.headers.get("Content-Length") or 0)
+            ham = self.rfile.read(n) if 0 < n <= 100_000 else b""
+            tur = (self.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            if tur != "application/x-www-form-urlencoded":
+                return self._yolla(415, {"hata": "tur"})
+            alan = parse_qs(ham.decode("utf-8", "replace"))
+            ikili = ((alan.get("kullanici") or [""])[0], (alan.get("parola") or [""])[0])
+            if ikili in ((KULLANICI, PAROLA), (FORM_KULLANICI, FORM_PAROLA)):
+                cerez = f"oturum={OTURUM}; Path=/; HttpOnly"
+                return self._yolla(200, {"durum": "açık", "kullanici": ikili[0]},
+                                   ek=[("Set-Cookie", cerez)])
+            return self._yolla(401, {"hata": "kimlik"})
         if yol == "/api/bilet":
             if not self._oturum_var():
                 return self._yolla(401, {"hata": "oturum"})
@@ -260,18 +293,158 @@ class Isleyici(BaseHTTPRequestHandler):
         return self._yolla(404, {"hata": "yok"})
 
 
-def _kur():
-    sunucu = ThreadingHTTPServer(("127.0.0.1", 0), Isleyici)
+TEK_ATLAMA = {"connection", "keep-alive", "proxy-authenticate", "proxy-authorization", "te", "trailers",
+              "transfer-encoding", "upgrade"}
+VEKIL_SAYAC = {"n": 0, "kilit": threading.Lock()}
+
+
+class VekilIsleyici(BaseHTTPRequestHandler):
+    """Kimlik isteyen, yalnız 127.0.0.1'e ileten küçük bir HTTP vekili."""
+    server_version = "PaftaVekil/1.0"
+    sys_version = ""
+    protocol_version = "HTTP/1.1"
+
+    def log_message(self, *a):
+        pass
+
+    def date_time_string(self, timestamp=None):
+        return TARIH
+
+    def _cevap(self, kod, govde, ek=()):
+        govde = json.dumps(govde, ensure_ascii=False).encode("utf-8")
+        self.send_response(kod)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(govde)))
+        for ad, deger in ek:
+            self.send_header(ad, deger)
+        self.end_headers()
+        self.wfile.write(govde)
+
+    def _ilet(self):
+        import base64
+        import http.client
+        beklenen = "Basic " + base64.b64encode(f"{VEKIL_KULLANICI}:{VEKIL_PAROLA}".encode()).decode()
+        n = int(self.headers.get("Content-Length") or 0)
+        govde = self.rfile.read(n) if n > 0 else None    # reddedilse de oku: kalan bayt sonraki isteğe karışmasın
+        if self.headers.get("Proxy-Authorization") != beklenen:
+            return self._cevap(407, {"hata": "vekil-kimlik"},
+                               ek=[("Proxy-Authenticate", 'Basic realm="pafta-vekil"')])
+        hedef = urlparse(self.path)
+        if hedef.scheme != "http" or hedef.hostname != "127.0.0.1":
+            return self._cevap(403, {"hata": "vekil-hedef"})
+        basliklar = {k: v for k, v in self.headers.items() if k.lower() not in TEK_ATLAMA}
+        baglanti = http.client.HTTPConnection(hedef.hostname, hedef.port or 80, timeout=10)
+        try:
+            baglanti.request(self.command, hedef.path + (("?" + hedef.query) if hedef.query else ""),
+                             body=govde, headers=basliklar)
+            yanit = baglanti.getresponse()
+            veri = yanit.read()
+        finally:
+            baglanti.close()
+        with VEKIL_SAYAC["kilit"]:
+            VEKIL_SAYAC["n"] += 1
+        self.send_response(yanit.status)
+        for k, v in yanit.getheaders():
+            if k.lower() not in TEK_ATLAMA and k.lower() not in ("content-length", "date", "server"):
+                self.send_header(k, v)
+        self.send_header("Via", "1.1 pafta-vekil")
+        self.send_header("Content-Length", str(len(veri)))
+        self.end_headers()
+        self.wfile.write(veri)
+
+    do_GET = do_POST = _ilet
+
+    def do_CONNECT(self):
+        self._cevap(405, {"hata": "connect"})
+
+
+def _arka_planda(sunucu):
     sunucu.daemon_threads = True
     sunucu.handle_error = lambda istek, adres: None     # iş parçacığı hataları öğrenci çıktısına karışmasın
     threading.Thread(target=sunucu.serve_forever, daemon=True).start()
-    host, port = sunucu.server_address[:2]
+    return sunucu.server_address[:2]
+
+
+def vekil_kur():
+    m = sys.modules["api"]
+    if getattr(m, "VEKIL", None):
+        return m.VEKIL
+    host, port = _arka_planda(ThreadingHTTPServer(("127.0.0.1", 0), VekilIsleyici))
+    m.VEKIL = f"http://{host}:{port}"
+    m.VEKIL_KULLANICI, m.VEKIL_PAROLA = VEKIL_KULLANICI, VEKIL_PAROLA
+    m.vekil_sayac = lambda: VEKIL_SAYAC["n"]
+    return m.VEKIL
+
+
+def tls_kur():
+    """Ders CA'sı ve 127.0.0.1 için sertifika üretip uygulamayı HTTPS'te de açar."""
+    m = sys.modules["api"]
+    if getattr(m, "HTTPS_SUNUCU", None):
+        return m.HTTPS_SUNUCU
+    import atexit
+    import datetime
+    import ipaddress
+    import shutil
+    import ssl
+    import tempfile
+    from cryptography import x509
+    from cryptography.hazmat.primitives import hashes, serialization
+    from cryptography.hazmat.primitives.asymmetric import ec
+    from cryptography.x509.oid import ExtendedKeyUsageOID, NameOID
+
+    simdi = datetime.datetime.now(datetime.timezone.utc)
+    ca_anahtar = ec.generate_private_key(ec.SECP256R1())
+    ca_ad = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "Pafta ders CA")])
+    ca = (x509.CertificateBuilder().subject_name(ca_ad).issuer_name(ca_ad).public_key(ca_anahtar.public_key())
+          .serial_number(x509.random_serial_number())
+          .not_valid_before(simdi - datetime.timedelta(minutes=5)).not_valid_after(simdi + datetime.timedelta(days=2))
+          .add_extension(x509.BasicConstraints(ca=True, path_length=0), critical=True)
+          .add_extension(x509.KeyUsage(False, False, False, False, False, True, True, False, False), critical=True)
+          .add_extension(x509.SubjectKeyIdentifier.from_public_key(ca_anahtar.public_key()), critical=False)
+          .sign(ca_anahtar, hashes.SHA256()))
+    anahtar = ec.generate_private_key(ec.SECP256R1())
+    sertifika = (x509.CertificateBuilder()
+                 .subject_name(x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "127.0.0.1")]))
+                 .issuer_name(ca_ad).public_key(anahtar.public_key()).serial_number(x509.random_serial_number())
+                 .not_valid_before(simdi - datetime.timedelta(minutes=5))
+                 .not_valid_after(simdi + datetime.timedelta(days=1))
+                 .add_extension(x509.BasicConstraints(ca=False, path_length=None), critical=True)
+                 .add_extension(x509.SubjectAlternativeName([x509.IPAddress(ipaddress.ip_address("127.0.0.1"))]),
+                                critical=False)
+                 .add_extension(x509.ExtendedKeyUsage([ExtendedKeyUsageOID.SERVER_AUTH]), critical=False)
+                 .add_extension(x509.AuthorityKeyIdentifier.from_issuer_public_key(ca_anahtar.public_key()),
+                                critical=False)
+                 .sign(ca_anahtar, hashes.SHA256()))
+    klasor = tempfile.mkdtemp(prefix="pafta_api_tls_")
+    atexit.register(shutil.rmtree, klasor, True)
+    ca_yolu = os.path.join(klasor, "pafta-ders-ca.pem")
+    with open(ca_yolu, "wb") as f:
+        f.write(ca.public_bytes(serialization.Encoding.PEM))
+    with open(os.path.join(klasor, "sunucu.pem"), "wb") as f:
+        f.write(sertifika.public_bytes(serialization.Encoding.PEM))
+    with open(os.path.join(klasor, "sunucu.key"), "wb") as f:
+        f.write(anahtar.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8,
+                                      serialization.NoEncryption()))
+    baglam = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    baglam.load_cert_chain(os.path.join(klasor, "sunucu.pem"), os.path.join(klasor, "sunucu.key"))
+    sunucu = ThreadingHTTPServer(("127.0.0.1", 0), Isleyici)
+    sunucu.socket = baglam.wrap_socket(sunucu.socket, server_side=True)
+    host, port = _arka_planda(sunucu)
+    m.HTTPS_SUNUCU, m.HTTPS_PORT, m.CA = f"https://{host}:{port}", port, ca_yolu
+    return m.HTTPS_SUNUCU
+
+
+def _kur():
+    sunucu = ThreadingHTTPServer(("127.0.0.1", 0), Isleyici)
+    host, port = _arka_planda(sunucu)
 
     m = types.ModuleType("api")
     m.__doc__ = __doc__
     m.HOST, m.PORT, m.SUNUCU = host, port, f"http://{host}:{port}"
     m.KULLANICI, m.PAROLA = KULLANICI, PAROLA
+    m.FORM_KULLANICI, m.FORM_PAROLA = FORM_KULLANICI, FORM_PAROLA
     m.SUNUCU_NESNESI = sunucu
+    m.vekil_kur, m.tls_kur = vekil_kur, tls_kur
     sys.modules["api"] = m
     return m
 

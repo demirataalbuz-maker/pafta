@@ -23,7 +23,7 @@ def linux_process(job, stdin="", argv=None, iz=False):
     File-backed output also caps what is loaded back into the JSON result.
     """
     proc = job["proc"]
-    shift = harness._betik_yaz(job)
+    shift = harness._betik_yaz(job, iz=iz)
     cmd = list(proc["iz_cmd"] if iz and proc.get("iz_cmd") else proc["cmd"])
     cmd += [proc["dosya"]] + [str(arg) for arg in (argv or [])]
     env = dict(os.environ, **proc.get("env", {}))

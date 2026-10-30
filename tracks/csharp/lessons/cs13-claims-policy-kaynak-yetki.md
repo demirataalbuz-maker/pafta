@@ -328,6 +328,20 @@ eq(police_degerlendir({"kimlik_dogrulandi": False, "claims": tam_k["claims"]}, p
 eq(police_degerlendir(None, pol), "400:GECERSIZ_POLITIKA_GIRDISI", "None kullanıcı -> 400:GECERSIZ_POLITIKA_GIRDISI")
 eq(police_degerlendir(tam_k, []), "400:GECERSIZ_POLITIKA_GIRDISI", "boş gereksinim listesi -> 400:GECERSIZ_POLITIKA_GIRDISI")
 eq(police_degerlendir(tam_k, [{"tur": "Bilinmeyen"}]), "400:TANIMSIZ_GEREKSINIM", "bilinmeyen gereksinim türü -> 400:TANIMSIZ_GEREKSINIM")
+
+for invalid in (None,False,'',{},()):
+    eq(police_degerlendir(tam_k,invalid),'400:GECERSIZ_POLITIKA_GIRDISI','gereksinimler liste değil veya boş')
+for invalid in (None,False,[],[1],0,'x'):
+    eq(police_degerlendir(invalid,pol),'400:GECERSIZ_POLITIKA_GIRDISI','kullanıcı yanlış tip')
+for invalid in (None,False,0,'x'):
+    eq(police_degerlendir(tam_k,[invalid]),'400:TANIMSIZ_GEREKSINIM','gereksinim sözlük değil')
+
+
+for value in (None,True,'2',2.0):
+    eq(police_degerlendir(tam_k,[{'tur':'EnAzSeviye','alt_sinir':value}]),'400:TANIMSIZ_GEREKSINIM','seviye eşiği tam int değil')
+for value in (None,'SOC',{},True):
+    eq(police_degerlendir(tam_k,[{'tur':'ClaimDeger','claim':'Birim','izinli':value}]),'400:TANIMSIZ_GEREKSINIM','izinli yanlış tip')
+
 ```
 
 ```solution
@@ -456,6 +470,19 @@ eq(kaynak_yetkisi_kontrol({"kimlik_dogrulandi": False, "ad": "ayse"}, b_g1, "Rea
 eq(kaynak_yetkisi_kontrol(ayse, b_g1, "Export"), "400:GECERSIZ_ISLEM", "tanımsız işlem -> 400:GECERSIZ_ISLEM")
 eq(kaynak_yetkisi_kontrol(None, b_g1, "Read"), "400:GECERSIZ_ISTEK", "None kullanıcı -> 400:GECERSIZ_ISTEK")
 eq(kaynak_yetkisi_kontrol(ayse, {"id": "B-1", "yazar": "ayse", "birim": "SOC", "gizlilik": True}, "Read"), "400:GECERSIZ_ISTEK", "bool gizlilik -> 400:GECERSIZ_ISTEK")
+
+for operation in ('','   ',None,False,0,[],{}):
+    eq(kaynak_yetkisi_kontrol(ayse,b_g1,operation),'400:GECERSIZ_ISTEK','işlem boş veya yanlış tip')
+for invalid in (None,False,[],0,'x'):
+    eq(kaynak_yetkisi_kontrol(ayse,invalid,'Read'),'400:GECERSIZ_ISTEK','belge yanlış tip')
+for key in ('yazar','birim','gizlilik'):
+    for invalid in (None,'',[],{}):
+        eq(kaynak_yetkisi_kontrol(ayse,dict(b_g1,**{key:invalid}),'Read'),'400:GECERSIZ_ISTEK','alan tipi')
+for key in ('yazar','birim'):
+    eq(kaynak_yetkisi_kontrol(ayse,dict(b_g1,**{key:'  '}),'Read'),'400:GECERSIZ_ISTEK','yalnız boşluk')
+for name in ('','  ',None,5):
+    eq(kaynak_yetkisi_kontrol(dict(ayse,ad=name),b_g1,'Read'),'401:OTURUM_YOK','kimlik adı geçersiz')
+
 ```
 
 ```solution

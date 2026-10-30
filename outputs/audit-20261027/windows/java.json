@@ -1,0 +1,1540 @@
+{
+  "track": "java",
+  "shell": "windows",
+  "started_utc": "2026-10-27T17:32:46.672022+00:00",
+  "lessons": [
+    "jv01",
+    "jv02",
+    "jv03",
+    "jv04",
+    "jv05",
+    "jv06",
+    "jv07",
+    "jv08",
+    "jv09",
+    "jv10",
+    "jv13",
+    "jv11",
+    "jv12",
+    "jv14",
+    "jv15",
+    "jv16"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "tahmin",
+      "where": "java/jv01:2 tahmin «»",
+      "lesson": "jv01",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv01:3 gorev «Sayfalama özeti»",
+      "lesson": "jv01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.385,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv02:2 tahmin «»",
+      "lesson": "jv02",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv01:3 gorev «Sayfalama özeti»",
+      "lesson": "jv01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.404,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "25 kayıt, 10'luk sayfada 3 sayfa eder",
+          "got": "'Sayfa 1/1 (gecerli=True)'",
+          "exp": "'Sayfa 1/3 (gecerli=true)'"
+        },
+        {
+          "ok": false,
+          "msg": "tam bölünen sınır: 20 kayıt -> 2 sayfa, 2. sayfa geçerli",
+          "got": "'Sayfa 2/1 (gecerli=True)'",
+          "exp": "'Sayfa 2/2 (gecerli=true)'"
+        },
+        {
+          "ok": false,
+          "msg": "üst sınır dışı: 3. sayfa geçersiz",
+          "got": "'Sayfa 3/1 (gecerli=True)'",
+          "exp": "'Sayfa 3/2 (gecerli=false)'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv01:4 gorev «32-bit kota hesabı»",
+      "lesson": "jv01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.404,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv01:4 gorev «32-bit kota hesabı»",
+      "lesson": "jv01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.404,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "eklenen 0 ise false dönmeli",
+          "got": "(500, True)",
+          "exp": "(500, False)"
+        },
+        {
+          "ok": false,
+          "msg": "negatif eklenen false dönmeli",
+          "got": "(490, True)",
+          "exp": "(490, False)"
+        },
+        {
+          "ok": false,
+          "msg": "32-bit taşma sonucu negatif olur ve <= sinirBayt kontrolünü geçer",
+          "got": "(2200000000, False)",
+          "exp": "(-2094967296, True)"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv02:3 gorev «Bearer jetonu ayıklayıcı»",
+      "lesson": "jv02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.447,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv03:2 tahmin «»",
+      "lesson": "jv03",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv02:4 gorev «Dosya uzantısı denetimi (`split` davranı»",
+      "lesson": "jv02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.427,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "son parça gz yasak",
+          "got": "'KABUL:pdf'",
+          "exp": "'YASAK:gz'"
+        },
+        {
+          "ok": false,
+          "msg": "nokta yoksa parcalar.length == 1 -> UZANTISIZ",
+          "got": "'KABUL:pdf'",
+          "exp": "'UZANTISIZ'"
+        },
+        {
+          "ok": false,
+          "msg": "başta nokta varsa ilk parça boş -> GECERSIZ",
+          "got": "'KABUL:pdf'",
+          "exp": "'GECERSIZ'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv02:4 gorev «Dosya uzantısı denetimi (`split` davranı»",
+      "lesson": "jv02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.457,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv02:3 gorev «Bearer jetonu ayıklayıcı»",
+      "lesson": "jv02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.47,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "büyük-küçük harf duyarsız önek ve kenar boşlukları",
+          "got": "'bearer   abc.def.ghi'",
+          "exp": "'abc.def.ghi'"
+        },
+        {
+          "ok": false,
+          "msg": "sınır: yalnızca önek ve boşluk -> None",
+          "got": "''",
+          "exp": "None"
+        },
+        {
+          "ok": false,
+          "msg": "sınır: uzunluk 7 ama boşluksuz -> None",
+          "got": "'BearerX'",
+          "exp": "None"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv03:3 gorev «İstek parametre birleştirici»",
+      "lesson": "jv03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.43,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv04:2 tahmin «»",
+      "lesson": "jv04",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv03:4 gorev «Kusurlu `Integer ==` karşılaştırmasını s»",
+      "lesson": "jv03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.423,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv03:3 gorev «İstek parametre birleştirici»",
+      "lesson": "jv03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.454,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "putIfAbsent aynı anahtarın İLK değerini (sayfa=2) korumalı",
+          "got": "{'sayfa': '9', 'boyut': '20', 'sira': 'ad'}",
+          "exp": "{'sayfa': '2', 'sira': 'ad', 'boyut': '20'}"
+        },
+        {
+          "ok": false,
+          "msg": "esit <= 0 veya boş anahtar atlanmalı, boş değer ('filtre=') kabul edilmeli",
+          "got": "{'sayfa': '1', '': 'boş', 'filtre': ''}",
+          "exp": "{'filtre': '', 'sayfa': '1'}"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv03:4 gorev «Kusurlu `Integer ==` karşılaştırmasını s»",
+      "lesson": "jv03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.417,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "128 önbellek dışında -> False",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "-129 önbellek dışında -> False",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "ikisi de null olduğunda ilk if bloğu false döndürür",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv04:4 gorev «Güvenli profil karşılaştırması (`Objects»",
+      "lesson": "jv04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.389,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv05:2 tahmin «»",
+      "lesson": "jv05",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv04:3 gorev «`Optional` ile zaman aşımı yapılandırmas»",
+      "lesson": "jv04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.414,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv04:4 gorev «Güvenli profil karşılaştırması (`Objects»",
+      "lesson": "jv04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.383,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "boşluk ve None normalize edildiğinde fark yok",
+          "got": "['ad', 'eposta']",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv04:3 gorev «`Optional` ile zaman aşımı yapılandırmas»",
+      "lesson": "jv04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.412,
+      "error": {
+        "type": "ValueError",
+        "msg": "invalid literal for int() with base 10: '30sn'",
+        "frames": [
+          {
+            "line": 4,
+            "func": "zaman_asimi_oku",
+            "text": "return int(ortam[anahtar])"
+          }
+        ],
+        "line": 4,
+        "where": "kod-test"
+      },
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "4 alt sınırın altında -> varsayilan",
+          "got": "4",
+          "exp": "15"
+        },
+        {
+          "ok": false,
+          "msg": "121 üst sınırın üstünde -> varsayilan",
+          "got": "121",
+          "exp": "15"
+        },
+        {
+          "ok": false,
+          "msg": "negatif metin \\d+ ile eşleşmez -> varsayilan",
+          "got": "-10",
+          "exp": "15"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv05:4 gorev «`record` kurucu doğrulaması ve `toString»",
+      "lesson": "jv05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.35,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv06:2 tahmin «»",
+      "lesson": "jv06",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv05:3 gorev «JavaBean setter bağlayıcı»",
+      "lesson": "jv05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.35,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv05:4 gorev «`record` kurucu doğrulaması ve `toString»",
+      "lesson": "jv05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.329,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "normal girdi ve büyük-küçük harf duyarsız azalan",
+          "got": "'AramaKaydi[yol= /api/biletler , limit=25, siralama=Azalan]'",
+          "exp": "'AramaKaydi[yol=/api/biletler, limit=25, siralama=DESC]'"
+        },
+        {
+          "ok": false,
+          "msg": "boşluklu yol varsayılana dönmeli, alt sınır limit=1 korunmalı",
+          "got": "'AramaKaydi[yol=   , limit=1, siralama=artan]'",
+          "exp": "'AramaKaydi[yol=/api/varsayilan, limit=1, siralama=ASC]'"
+        },
+        {
+          "ok": false,
+          "msg": "limit=0 (< 1) ise 10'a çekilmeli, null yol ve sıralama varsayılana dönmeli",
+          "got": "'AramaKaydi[yol=None, limit=0, siralama=None]'",
+          "exp": "'AramaKaydi[yol=/api/varsayilan, limit=10, siralama=ASC]'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv05:3 gorev «JavaBean setter bağlayıcı»",
+      "lesson": "jv05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.351,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnız geçerli setXxx metotlarına karşılık gelen alanlar bağlanmalı, rol elenmeli",
+          "got": "{'kullaniciAdi': 'ali', 'departman': 'BT', 'rol': 'admin', 'set': 1}",
+          "exp": "{'kullaniciAdi': 'ali', 'departman': 'BT'}"
+        },
+        {
+          "ok": false,
+          "msg": "en kısa geçerli setter 'setA' (uzunluk 4) -> özellik 'a'",
+          "got": "{'a': 10, 'A': 20}",
+          "exp": "{'a': 10}"
+        },
+        {
+          "ok": false,
+          "msg": "uzunluğu 3 olan 'set' geçerli bir setter değildir",
+          "got": "{'': 1}",
+          "exp": "{}"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv06:4 gorev «`allMatch` boş liste tuzağı ve düzeltmes»",
+      "lesson": "jv06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.363,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv07:2 tahmin «»",
+      "lesson": "jv07",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv06:3 gorev «Stream boru hattı ile uç nokta raporu»",
+      "lesson": "jv06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.364,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv06:3 gorev «Stream boru hattı ile uç nokta raporu»",
+      "lesson": "jv06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.373,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "durum 200..499 ve sure_ms >= 200 süzülmeli; eşit sürede yol adına göre artan sıralanmalı",
+          "got": "['/api/b:200', '/api/a:200', '/api/c:500', '/api/d:199', '/api/e:350']",
+          "exp": "['/api/e:350', '/api/a:200', '/api/b:200']"
+        },
+        {
+          "ok": false,
+          "msg": "limit(2) en fazla 2 kayıt döndürmeli",
+          "got": "['/api/b:200', '/api/a:200']",
+          "exp": "['/api/e:350', '/api/a:200']"
+        },
+        {
+          "ok": false,
+          "msg": "durum 199 (< 200) elenmeli",
+          "got": "['/x:300']",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv06:4 gorev «`allMatch` boş liste tuzağı ve düzeltmes»",
+      "lesson": "jv06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.373,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "boş listede kusurlu allMatch True döner, güvenli False döner",
+          "got": "(False, False)",
+          "exp": "(True, False)"
+        },
+        {
+          "ok": false,
+          "msg": "boş olmayan ve OKU_ ile başlayan listede her ikisi de True döner",
+          "got": "(False, False)",
+          "exp": "(True, True)"
+        },
+        {
+          "ok": false,
+          "msg": "tümü OKU_ ile başlıyorsa (True, True)",
+          "got": "(False, False)",
+          "exp": "(True, True)"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv07:4 gorev «`try / catch / finally` yürütme izi»",
+      "lesson": "jv07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.384,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tam kapasite sınırında (7 <= 7) başarılı işlenmeli ve KAPANDI eklenmeli",
+          "got": "['ACILDI', 'KAPANDI']",
+          "exp": "['ACILDI', 'ISLENDI:7', 'KAPANDI']"
+        },
+        {
+          "ok": false,
+          "msg": "kapasite 6 iken uzunluk 7 (> 6) -> UYARI:KAPASITE_ASILDI ve KAPANDI",
+          "got": "['ACILDI', 'KAPANDI']",
+          "exp": "['ACILDI', 'UYARI:KAPASITE_ASILDI', 'KAPANDI']"
+        },
+        {
+          "ok": false,
+          "msg": "boş metin ve 0 kapasitede (0 <= 0) başarılı",
+          "got": "['ACILDI', 'KAPANDI']",
+          "exp": "['ACILDI', 'ISLENDI:0', 'KAPANDI']"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv08:2 tahmin «»",
+      "lesson": "jv08",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv07:4 gorev «`try / catch / finally` yürütme izi»",
+      "lesson": "jv07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.394,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv07:3 gorev «HTTP hata eşleyici (`catch` hiyerarşisi)»",
+      "lesson": "jv07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.416,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv07:3 gorev «HTTP hata eşleyici (`catch` hiyerarşisi)»",
+      "lesson": "jv07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.416,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "geçerli sayı",
+          "got": "'200:OK: 25 '",
+          "exp": "'200:OK:25'"
+        },
+        {
+          "ok": false,
+          "msg": "0 (deger <= 0) -> 422:SINIR_DISI",
+          "got": "'200:OK:0'",
+          "exp": "'422:SINIR_DISI'"
+        },
+        {
+          "ok": false,
+          "msg": "negatif sayı -> 422:SINIR_DISI",
+          "got": "'200:OK:-5'",
+          "exp": "'422:SINIR_DISI'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv08:3 gorev «Güvenli `Path` çözümleyici»",
+      "lesson": "jv08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.446,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv09:2 tahmin «»",
+      "lesson": "jv09",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv08:4 gorev «`.properties` yapılandırma satırı okuyuc»",
+      "lesson": "jv08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.428,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv08:4 gorev «`.properties` yapılandırma satırı okuyuc»",
+      "lesson": "jv08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.434,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "# ve ! yorum satırları (içinde = veya : geçse bile) atlanmalı; = varsa : aranmamalı; son değer kazanmalı",
+          "got": "{}",
+          "exp": "{'sunucu.port': '9090', 'sunucu.ip': '127.0.0.1', 'url': 'http://localhost:9000/api'}"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv08:3 gorev «Güvenli `Path` çözümleyici»",
+      "lesson": "jv08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.464,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kardeş dizin (/var/rapor_gizli) reddedilmeli!",
+          "got": "'/var/rapor_gizli/x.pdf'",
+          "exp": "None"
+        },
+        {
+          "ok": false,
+          "msg": "üst dizine çıkış reddedilmeli",
+          "got": "'/var/gizli.txt'",
+          "exp": "None"
+        },
+        {
+          "ok": false,
+          "msg": "mutlak yol tabanı ezeceği için reddedilmeli",
+          "got": "'/etc/passwd'",
+          "exp": "None"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv09:4 gorev «Spring `@RequestParam` bağlayıcı»",
+      "lesson": "jv09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.424,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv10:2 tahmin «»",
+      "lesson": "jv10",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv09:3 gorev «Filtre zinciri simülatörü»",
+      "lesson": "jv09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.434,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv09:3 gorev «Filtre zinciri simülatörü»",
+      "lesson": "jv09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.443,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "OPTIONS isteği doğrudan 204 dönmeli",
+          "got": "(200, True, 'GECIS_ONAYLANDI')",
+          "exp": "(204, False, 'CORS_ONAY')"
+        },
+        {
+          "ok": false,
+          "msg": "/api/saglik öneki anahtarsız geçmeli",
+          "got": "(200, True, 'GECIS_ONAYLANDI')",
+          "exp": "(200, True, 'ACIK_UC_NOKTA')"
+        },
+        {
+          "ok": false,
+          "msg": "7 karakterli anahtar (< 8) reddedilmeli",
+          "got": "(200, True, 'GECIS_ONAYLANDI')",
+          "exp": "(401, False, 'ANAHTAR_YOK_VEYA_KISA')"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv09:4 gorev «Spring `@RequestParam` bağlayıcı»",
+      "lesson": "jv09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.452,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üst sınır sayfa=50 ve etiket normalleştirme",
+          "got": "'200:acik:s=1:e=YOK'",
+          "exp": "'200:kapali:s=50:e=ag_sorunu'"
+        },
+        {
+          "ok": false,
+          "msg": "sayfa=0 (< 1) reddedilmeli",
+          "got": "'200:acik:s=1:e=YOK'",
+          "exp": "'400:GECERSIZ_SAYFA'"
+        },
+        {
+          "ok": false,
+          "msg": "sayfa=51 (> 50) reddedilmeli",
+          "got": "'200:acik:s=1:e=YOK'",
+          "exp": "'400:GECERSIZ_SAYFA'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv10:3 gorev «Beyaz listeli ve parametreli sunucu aram»",
+      "lesson": "jv10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.398,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "min_cpu=70 sınır değeri dahil, ada göre sıralı",
+          "got": "[(1, 'web02', 70), (2, 'web01', 85), (3, 'web03', 50), (4, 'db01', 95)]",
+          "exp": "[(2, 'web01', 85), (1, 'web02', 70)]"
+        },
+        {
+          "ok": false,
+          "msg": "min_cpu=71 olduğunda 70 elenmeli",
+          "got": "[(1, 'web02', 70), (2, 'web01', 85), (3, 'web03', 50), (4, 'db01', 95)]",
+          "exp": "[(2, 'web01', 85)]"
+        },
+        {
+          "ok": false,
+          "msg": "cpu_azalan sırası",
+          "got": "[(1, 'web02', 70), (2, 'web01', 85), (3, 'web03', 50), (4, 'db01', 95)]",
+          "exp": "[(2, 'web01', 85), (1, 'web02', 70), (3, 'web03', 50)]"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv13:2 tahmin «Dört çağrı, dört sayım»",
+      "lesson": "jv13",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv10:4 gorev «Atomik kota aktarımı (`commit` ve `rollb»",
+      "lesson": "jv10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.404,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv10:3 gorev «Beyaz listeli ve parametreli sunucu aram»",
+      "lesson": "jv10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.417,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv10:4 gorev «Atomik kota aktarımı (`commit` ve `rollb»",
+      "lesson": "jv10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.409,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yetersiz kotada (141 > 140) False dönmeli",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "başarısız aktarımda kotalar değişmemeli",
+          "got": "[(1, 141), (2, -1)]",
+          "exp": "[(1, 0), (2, 140)]"
+        },
+        {
+          "ok": false,
+          "msg": "olmayan hedef hesapta (id=99) rollback yapılmalı ve False dönmeli",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv13:4 gorev «Türetilmiş sorguyu oku»",
+      "lesson": "jv13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.469,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv11:2 tahmin «»",
+      "lesson": "jv11",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv13:3 gorev «İşlemin sonu»",
+      "lesson": "jv13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.498,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv13:3 gorev «İşlemin sonu»",
+      "lesson": "jv13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.486,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçüldü: denetimli istisna commit eder (7 → 8)",
+          "got": "'rollback'",
+          "exp": "'commit'"
+        },
+        {
+          "ok": false,
+          "msg": "ölçüldü: self-invocation işlem açmaz",
+          "got": "'commit'",
+          "exp": "'işlem yok'"
+        },
+        {
+          "ok": false,
+          "msg": "içeriden çağrıda rollback da yok",
+          "got": "'rollback'",
+          "exp": "'işlem yok'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv13:4 gorev «Türetilmiş sorguyu oku»",
+      "lesson": "jv13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.448,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "düzenekteki ilk yöntem",
+          "got": "'select b from Bilet b where b.durumorderbyidasc = ?1'",
+          "exp": "'select b from Bilet b where b.durum = ?1 order by b.id asc'"
+        },
+        {
+          "ok": false,
+          "msg": "sayma",
+          "got": "'select b from Bilet b where b.countbyoncelik = ?1'",
+          "exp": "'select count(b) from Bilet b where b.oncelik = ?1'"
+        },
+        {
+          "ok": false,
+          "msg": "In ve Not, iki parametre",
+          "got": "'select b from Bilet b where b.oncelikinanddurumnot = ?1'",
+          "exp": "'select b from Bilet b where b.oncelik in ?1 and b.durum <> ?2'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv11:3 gorev «Jackson DTO bağlayıcı (`@JsonProperty`, »",
+      "lesson": "jv11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.36,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv12:1 tahmin «»",
+      "lesson": "jv12",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv11:4 gorev «XML ayrıştırıcı güvenlik yapılandırması »",
+      "lesson": "jv11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.356,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv11:3 gorev «Jackson DTO bağlayıcı (`@JsonProperty`, »",
+      "lesson": "jv11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.364,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "normal eşleme ve varsayılan değerler",
+          "got": "{'kullanici_adi': 'ayse'}",
+          "exp": "{'kullaniciAdi': 'ayse', 'departman': 'genel', 'icYetki': False}"
+        },
+        {
+          "ok": false,
+          "msg": "bilinmeyende_hata=False iken @JsonIgnore alanı (ic_yetki) yok sayılmalı, varsayılan False kalmalı",
+          "got": "{'kullanici_adi': 'ayse', 'ic_yetki': True}",
+          "exp": "{'kullaniciAdi': 'ayse', 'departman': 'genel', 'icYetki': False}"
+        },
+        {
+          "ok": false,
+          "msg": "bilinmeyende_hata=True iken @JsonIgnore alanının gönderilmesi reddedilmeli -> None",
+          "got": "{'kullanici_adi': 'ayse', 'ic_yetki': True}",
+          "exp": "None"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv11:4 gorev «XML ayrıştırıcı güvenlik yapılandırması »",
+      "lesson": "jv11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.356,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "disallow-doctype-decl=False tek başına güvensiz",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "parameter-entities unutulmuşsa güvensiz",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "general-entities unutulmuşsa güvensiz",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv12:3 gorev «2 · İstek gövdesi doğrulaması (`govdeDog»",
+      "lesson": "jv12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.39,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "geçerli girdi ve alt sınır kod=100",
+          "got": "'200:web01|ORTA|200'",
+          "exp": "'200:srv-01.pafta.local|YUKSEK|100'"
+        },
+        {
+          "ok": false,
+          "msg": "alt sınır kaynak uzunluğu 3, eksik seviyede ORTA, üst sınır kod=999",
+          "got": "'200:web01|ORTA|200'",
+          "exp": "'200:abc|ORTA|999'"
+        },
+        {
+          "ok": false,
+          "msg": "üst sınır kaynak uzunluğu 40; String olmayan seviyede varsayılan ORTA",
+          "got": "'200:web01|ORTA|200'",
+          "exp": "'200:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa|ORTA|500'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv12:2 gorev «1 · Filtre ve zaman penceresi (`filtreKo»",
+      "lesson": "jv12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.403,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv12:2 gorev «1 · Filtre ve zaman penceresi (`filtreKo»",
+      "lesson": "jv12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.403,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "+301 sn -> 401:ZAMAN_ASIMI",
+          "got": "'OK'",
+          "exp": "'401:ZAMAN_ASIMI'"
+        },
+        {
+          "ok": false,
+          "msg": "-301 sn -> 401:ZAMAN_ASIMI",
+          "got": "'OK'",
+          "exp": "'401:ZAMAN_ASIMI'"
+        },
+        {
+          "ok": false,
+          "msg": "yanlış anahtar -> 401:YETKISIZ",
+          "got": "'OK'",
+          "exp": "'401:YETKISIZ'"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv14:2 tahmin «Hangi kurucu, hangi sırayla?»",
+      "lesson": "jv14",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv12:3 gorev «2 · İstek gövdesi doğrulaması (`govdeDog»",
+      "lesson": "jv12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.409,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv14:3 gorev «Geri çağırma sırası»",
+      "lesson": "jv14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.416,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv12:4 gorev «3 · Uçtan uca bildirim uç noktası (Filtr»",
+      "lesson": "jv12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.434,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ilk geçerli bildirim (fark=300, kaynak=3, kod=999) kaydedilmeli",
+          "got": "(201, '#1:web01:ORTA:200')",
+          "exp": "(201, '#1:abc:KRITIK:999')"
+        },
+        {
+          "ok": false,
+          "msg": "zaman aşımında (fark=301) 401 dönmeli ve kaydedilmemeli",
+          "got": "(201, '#1:web01:ORTA:200')",
+          "exp": "(401, 'ZAMAN_ASIMI')"
+        },
+        {
+          "ok": false,
+          "msg": "None başlık -> 401 BASLIK_YOK",
+          "got": "(201, '#1:web01:ORTA:200')",
+          "exp": "(401, 'BASLIK_YOK')"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv12:4 gorev «3 · Uçtan uca bildirim uç noktası (Filtr»",
+      "lesson": "jv12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.434,
+      "checks_passed": 17,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv15:2 tahmin «Zincir ve vekil ne karar verir?»",
+      "lesson": "jv15",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv14:3 gorev «Geri çağırma sırası»",
+      "lesson": "jv14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.424,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen durum: kendi kurucusu yok, Serializable olmayan üstünkü var",
+          "got": "['kurucu', 'readObject']",
+          "exp": "['Ust()', 'readObject', 'readResolve']"
+        },
+        {
+          "ok": false,
+          "msg": "readObject yoksa varsayılan okuma",
+          "got": "[]",
+          "exp": "['Ust()', 'defaultReadObject']"
+        },
+        {
+          "ok": false,
+          "msg": "en yalın durum",
+          "got": "[]",
+          "exp": "['defaultReadObject']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv15:3 gorev «Zincir kararını modelle»",
+      "lesson": "jv15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.395,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen: ayse yönetim yolunda reddedilir",
+          "got": "'KURAL YOK'",
+          "exp": "'RED'"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: mdr geçer",
+          "got": "'KURAL YOK'",
+          "exp": "'IZIN'"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: /onek/** önekin kendisini de tutar",
+          "got": "'KURAL YOK'",
+          "exp": "'RED'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv14:4 gorev «Filtre kararını ver»",
+      "lesson": "jv14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.404,
+      "checks_passed": 6,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen: derinlik 3, sınır 2 -> reddedilir",
+          "got": "'izin'",
+          "exp": "'ret'"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: 5 elemanlı dizi, sınır 4",
+          "got": "'izin'",
+          "exp": "'ret'"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: önce gelen ret kazanır",
+          "got": "'izin'",
+          "exp": "'ret'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv14:4 gorev «Filtre kararını ver»",
+      "lesson": "jv14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.409,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "java/jv16:3 tahmin «Hangi bağlam neyi kaçırır?»",
+      "lesson": "jv16",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv15:3 gorev «Zincir kararını modelle»",
+      "lesson": "jv15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.408,
+      "checks_passed": 17,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv15:4 gorev «Vekil sınırını modelle»",
+      "lesson": "jv15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.393,
+      "checks_passed": 8,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen: dolayli() anotasyonsuz, içindeki rapor() vekili atlar",
+          "got": "'RED'",
+          "exp": "'IZIN'"
+        },
+        {
+          "ok": false,
+          "msg": "hiç yetkisi olmayan da aynı yoldan geçer",
+          "got": "'RED'",
+          "exp": "'IZIN'"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız sil denetlenir; raporun anotasyonu çalışmaz",
+          "got": "'RED'",
+          "exp": "'IZIN'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv16:4 gorev «HTML kaçışını modelle»",
+      "lesson": "jv16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.393,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv15:4 gorev «Vekil sınırını modelle»",
+      "lesson": "jv15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.433,
+      "checks_passed": 12,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv16:4 gorev «HTML kaçışını modelle»",
+      "lesson": "jv16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.429,
+      "checks_passed": 7,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen: th:text çıktısı",
+          "got": "'&amp;lt;b&amp;gt;ad&amp;lt;/b&amp;gt; &amp; \"x\" \\'y\\''",
+          "exp": "'&lt;b&gt;ad&lt;/b&gt; &amp; &quot;x&quot; &#39;y&#39;'"
+        },
+        {
+          "ok": false,
+          "msg": "ve işaretini sonra çevirirsen bu &amp;lt; olur",
+          "got": "'&amp;lt;'",
+          "exp": "'&lt;'"
+        },
+        {
+          "ok": false,
+          "msg": "kapanış köşeli",
+          "got": "'&amp;gt;'",
+          "exp": "'&gt;'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv16:5 gorev «Motor varsayılanlarını modelle»",
+      "lesson": "jv16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.5,
+      "checks_passed": 9,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen: FreeMarker varsayılanı kaçırmaz",
+          "got": "'kacar'",
+          "exp": "'ham'"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: oto-kaçış açıkken ?html ayrıştırma hatası",
+          "got": "'kacar'",
+          "exp": "None"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: kapatacak oto-kaçış yok, ayrıştırma hatası",
+          "got": "'ham'",
+          "exp": "None"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv16:5 gorev «Motor varsayılanlarını modelle»",
+      "lesson": "jv16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.501,
+      "checks_passed": 16,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "java/jv16:6 gorev «Ön işlemeyi modelle»",
+      "lesson": "jv16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.472,
+      "checks_passed": 6,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen: değer ifadeye dönüşür, 42 basılır",
+          "got": "('${2*21}', 'veri')",
+          "exp": "('${2*21}', 'kod')"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: ayse basılır",
+          "got": "('ayse', 'veri')",
+          "exp": "('ayse', 'kod')"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen: xayse basılır",
+          "got": "(\"'x' + ayse\", 'veri')",
+          "exp": "(\"'x' + ayse\", 'kod')"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "java/jv16:6 gorev «Ön işlemeyi modelle»",
+      "lesson": "jv16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.481,
+      "checks_passed": 12,
+      "failed_checks": []
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "",
+  "counts": {
+    "DECLARED": 16,
+    "PASS": 68
+  },
+  "finished_utc": "2026-10-27T17:32:53.746104+00:00",
+  "source_sha256": {
+    "tracks/java/lessons/jv01-sinif-ve-turler.md": "b7a0a3c2e2888eccb430a4074c2411161f18a9b7a5d545cd8952dc61fd5a210b",
+    "tracks/java/lessons/jv02-metinler-ve-esitlik.md": "e1a3e564e4e840eefea89864a8eaba8e8af9cd86dd693dfe4dbb0a340e57ea99",
+    "tracks/java/lessons/jv03-diziler-ve-koleksiyonlar.md": "7ef27cb615443e23fb071e6d4b1a2383fa216244cf3a57b976cdec810be6e04e",
+    "tracks/java/lessons/jv04-null-ve-optional.md": "6f1192ed3e36421ef3fa380828e9210dd28ff81d60140f5a53f3befb98e08063",
+    "tracks/java/lessons/jv05-siniflar-ve-record.md": "a321509257c8932be36f128c27d539c1264a96be42c4b3a0707dc83a00dc3f56",
+    "tracks/java/lessons/jv06-arayuzler-ve-stream.md": "9bedc7739ee9e8e8ab5bd634279aeb77d06d1fa60a49d40886a92b2169a0c174",
+    "tracks/java/lessons/jv07-istisnalar-ve-kaynaklar.md": "8e08dda1ce88fae733578e4e5bd44c8756419a324ab9fa070611f34a0305bacc",
+    "tracks/java/lessons/jv08-dosya-ve-yol.md": "c9aaca9b634bca598ddf38b7a16281ab0fe877ff8048176bb20ca0055a8a00b4",
+    "tracks/java/lessons/jv09-servlet-ve-spring.md": "2b590b2d6b775689b69da96f5cfaecd3af263d57d2759567650855454712a8ff",
+    "tracks/java/lessons/jv10-jdbc-ve-veri.md": "9892d8d35ad60c60ced45f342726f799fedf5f824f86949c1e55d2b0478e7cc3",
+    "tracks/java/lessons/jv11-yansima-ve-json.md": "0345a4b7483fa80fbef03e6dd899922fc642219962bc916e0113c13e2ea62910",
+    "tracks/java/lessons/jv12-proje-denetleyici.md": "8d7bb1d3ad0847af010fac3df32772c33b84e42be9164023412813e97d27d7e0",
+    "tracks/java/lessons/jv13-spring-data-jpa.md": "9029807cff53f5e6419896a41979ae8748c32599d8b7f89b29aae9fe9d9ada77",
+    "tracks/java/lessons/jv14-serialization-callback-filtre.md": "938ee647072f5c930d0f59d537dbc9a062aac87eede811ce32789c7d6d016f4e",
+    "tracks/java/lessons/jv15-spring-security-zincir-metot.md": "3344f9683ae6c0c8cdbb1ff79ac6fd14acc0b9acc602578f4ebe342dda079510",
+    "tracks/java/lessons/jv16-sablon-baglam-kacis-onisleme.md": "357e828590858fd50945939a8c687930d8eeef0219fc82138681e9647e60e63d"
+  }
+}

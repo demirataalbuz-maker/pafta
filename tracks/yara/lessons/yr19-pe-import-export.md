@@ -101,3 +101,80 @@ rule Export_Kimlik { condition: pe.is_pe and pe.number_of_exports == 1 and pe.ex
 Tek export girdisinin ad ve ordinal alanlarını birlikte denetle.
 ```
 :::
+
+
+::: anlat Gerçek derleyici çıktısı: makine türü, PE32/PE32+ ve DLL biti
+Buraya kadarki PE'ler elle kurulmuş küçük başlıklardı. Sonraki görevin örnekleri ise WSL'deki Kali'de **gerçek MinGW-w64** derleyicileriyle (`i686-w64-mingw32-gcc`, `x86_64-w64-mingw32-gcc`) derlenir; `ctypes_lab` P82'de de kullandığın düzenektir. Aynı C kaynağından dört dosya çıkar: 32 ve 64 bit DLL, 32 ve 64 bit program. Dosyalar çalıştırılmaz, yalnız taranır.
+
+| YARA | Başlıkta | 32 bit | 64 bit |
+|---|---|---|---|
+| `pe.machine` | COFF `Machine` | `pe.MACHINE_I386` (0x14c) | `pe.MACHINE_AMD64` (0x8664) |
+| `pe.is_32bit()` / `pe.is_64bit()` | Optional Header `Magic` | PE32 (0x10b) | PE32+ (0x20b) |
+| `pe.is_dll()` | `Characteristics & IMAGE_FILE_DLL` | DLL'de açık | DLL'de açık |
+
+İkisi ayrı alanlardır. Makine türü ile `Magic`'in uyuşmaması bozuk ya da kurcalanmış bir dosyanın işaretidir. Bir dosyanın 32 bit olduğunu tek bir alandan çıkarma. MinGW çıktısı semboller ve ek bölümlerle 80–120 KB'tır; elle kurulmuş başlıktan çok daha fazla yapı taşır. Başlığı bozulmuş (`e_lfanew` dosya dışını gösteren) bir kopya YARA'da `pe.is_pe` olmaz ve modül alanları tanımsız kalır; böyle bir dosyada kural sessizce eşleşmez.
+
+Kaynak: [YARA PE modülü: machine, is_32bit, is_64bit, is_dll](https://yara.readthedocs.io/en/stable/modules/pe.html), [Microsoft PE biçimi](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format).
+:::
+
+::: gorev Gerçek MinGW çıktısında mimari ve rol
+İki kural yaz:
+
+- `Win64_DLL_Export`: **64 bit** (PE32+ ve AMD64) bir **DLL** olup `pafta_topla` adını export ediyor.
+- `Win32_Program`: **32 bit** (PE32 ve I386) ve DLL **olmayan** bir program.
+
+Test aynı kaynaktan gerçek MinGW ile derlenen dört dosyayı ve bunların bozuk kopyalarını tarar.
+
+```starter
+import "pe"
+rule Win64_DLL_Export { condition: pe.is_pe and pe.exports("pafta_topla") }
+rule Win32_Program { condition: pe.is_pe }
+```
+
+```stdin
+base64:TVoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQRQAATAEDAAAAAAAAAAAAAAAAAOAAAiELAQAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAABAAAAQAAAAAgAABAAAAAAAAAAAAAAAAAAAAABAAAAAAgAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAMAAAsAAAAAAgAADQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC50ZXh0AAAAAAEAAAAQAAAAAgAAAAIAAAAAAAAAAAAAAAAAACAAAGAuaWRhdGEAAAABAAAAIAAAAAIAAAAEAAAAAAAAAAAAAAAAAABAAADALmVkYXRhAAAAAQAAADAAAAACAAAABgAAAAAAAAAAAAAAAAAAQAAAQAAAAAAAAAAAAAAAAAAAAABMQUJEQVRBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAAAAAAIAgAABgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAS0VSTkVMMzIuZGxsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAENyZWF0ZUZpbGVXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgDAAAAcAAAABAAAAAQAAAEAwAABQMAAAYDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAACgMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQQUZUQUxBQi5kbGwAAAAAAAAAAAAAAAAAAAAAAAAAAExhYkVudHJ5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+```
+
+```test
+import ctypes_lab
+DLL = "__declspec(dllexport) int pafta_topla(int a, int b) { return a + b; }\n"
+EXE = "int main(void) { return 0; }\n"
+oku = lambda hedef, kaynak: open(ctypes_lab.derle(kaynak, hedef), "rb").read()
+d64, d32, e64, e32 = oku("win64-dll", DLL), oku("win32-dll", DLL), oku("win64", EXE), oku("win32", EXE)
+eq([eslesir(x, "Win64_DLL_Export") for x in (d64, d32, e64, e32)], [True, False, False, False],
+   "yalnız 64 bit DLL; 32 bit DLL aynı exportu taşısa da eşleşmez")
+eq([eslesir(x, "Win32_Program") for x in (d64, d32, e64, e32)], [False, False, False, True],
+   "yalnız 32 bit program; 32 bit DLL program değildir")
+ok(not eslesir(oku("win64-dll", DLL.replace("pafta_topla", "pafta_cikar")), "Win64_DLL_Export"), "başka export adı")
+bozuk = bytearray(d64); bozuk[0x3c:0x40] = (0x7FFFFF00).to_bytes(4, "little")
+ok(not eslesir(bytes(bozuk), "Win64_DLL_Export"), "e_lfanew dosya dışını gösteriyor: PE değil")
+yarim = bytearray(e32)
+yarim[0x3c + 0] = 0  # e_lfanew sıfır: PE imzası MZ başlığının üstüne düşer
+ok(not eslesir(bytes(yarim), "Win32_Program"), "e_lfanew sıfırlanmış 32 bit program")
+ok(not eslesir(b"MZ" + b"pafta_topla" * 50, "Win64_DLL_Export"), "PE olmayan metin")
+ok(not eslesir(oku("win64", DLL + EXE), "Win64_DLL_Export"), "pafta_topla'yı export eden 64 bit program DLL değildir")
+def yama(veri, goreli, deger):
+    b = bytearray(veri); pe = int.from_bytes(b[0x3c:0x40], "little")
+    b[pe + goreli:pe + goreli + 2] = deger.to_bytes(2, "little"); return bytes(b)
+ok(not eslesir(yama(d64, 4, 0x14c), "Win64_DLL_Export") and not eslesir(yama(d64, 4, 0x14c), "Win32_Program"),
+   "Machine I386 ama Magic PE32+: iki kural da eşleşmez")
+ok(not eslesir(yama(e32, 24, 0x20b), "Win32_Program"), "Machine I386 ama Magic PE32+: 32 bit program sayılmaz")
+ok(not eslesir(yama(e32, 4, 0x8664), "Win32_Program"), "Magic PE32 ama Machine AMD64: 32 bit program sayılmaz")
+ok(not eslesir(yama(d64, 24, 0x10b), "Win64_DLL_Export"), "Machine AMD64 ama Magic PE32: 64 bit DLL sayılmaz")
+```
+
+```solution
+import "pe"
+rule Win64_DLL_Export {
+    condition: pe.is_pe and pe.is_64bit() and pe.machine == pe.MACHINE_AMD64
+        and pe.is_dll() and pe.exports("pafta_topla")
+}
+rule Win32_Program {
+    condition: pe.is_pe and pe.is_32bit() and pe.machine == pe.MACHINE_I386 and not pe.is_dll()
+}
+```
+
+```hint
+Mimari için iki alanı birlikte sına: `pe.is_64bit()` (Optional Header Magic) ve `pe.machine == pe.MACHINE_AMD64`. Rol için `pe.is_dll()`; programda `not pe.is_dll()`.
+```
+:::

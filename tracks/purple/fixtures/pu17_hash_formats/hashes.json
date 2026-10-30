@@ -1,0 +1,35 @@
+{
+  "senaryo": "PU17 sentetik ve yayımlanmış test vektörleri; parola kırma verisi değildir",
+  "kayitlar": [
+    {
+      "id": "ntlm-rfc-test",
+      "hash": "8846f7eaee8fb117ad06bdd830b7586c",
+      "not": "password test girdisinin MD4(UTF-16LE) NT özeti"
+    },
+    {
+      "id": "bcrypt-openwall-2a",
+      "hash": "$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW",
+      "not": "Openwall bcrypt test vektörü"
+    },
+    {
+      "id": "bcrypt-openwall-2y",
+      "hash": "$2y$05$/OK.fbVrR/bpIqNJ5ianF.Sa7shbm4.OzKpvFnX1pQLmQW96oUlCq",
+      "not": "Openwall/John bcrypt test vektörü"
+    },
+    {
+      "id": "bcrypt-2b-test",
+      "hash": "$2b$12$zQ4CooEXdGqcwi0PHsgc8eAf0DLXE/XHoBE8kCSGQ97rXwuClaPam",
+      "not": "Yayımlanmış bcrypt 2b test vektörü"
+    },
+    {
+      "id": "sha512crypt-yerel-test",
+      "hash": "$6$pu17testsalt$V.nEVEMhEl2Caf6h6NNnSE1hfDO6j7XL.//JP5o09KSSBlhMxGWirjgYGmITNGI/FCD3.5zISAf8SLOQfmDp/0",
+      "not": "OpenSSL 3.2.3 ile PU17-test-vector girdisinden üretildi"
+    },
+    {
+      "id": "yescrypt-belgelenmis-test",
+      "hash": "$y$j9T$SALT$HIA0o5.HmkE9HhZ4H8X1r0aRYrqdcv0IJEZ2PLpqpz6",
+      "not": "Yayımlanmış PASSWORD yescrypt örneği"
+    }
+  ]
+}

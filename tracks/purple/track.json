@@ -1,0 +1,112 @@
+{
+ "id": "purple",
+ "name": "Purple Team",
+ "status": "active",
+ "group": "her-iki",
+ "order": 28,
+ "runner": "purple",
+ "dil": "python",
+ "role": "Saldırı ile savunmanın buluştuğu yer: tespitleri ATT&CK'e eşlemek, kapsamı ölçmek, olay müdahalesi ve raporlama.",
+ "tagline": "ATT&CK kapsamından IOC avcılığına, sertleştirme kabulüne ve bulut günlüklerinin kanıta dayalı incelenmesine.",
+ "kahraman": [
+  "Kuraldan",
+  "Kapsam",
+  "a"
+ ],
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ],
+ "modules": [
+  {
+   "title": "Kapsamı Ölçmek",
+   "rank": "minik",
+   "zen": "Ne yakaladığını bilmeyen, neyi kaçırdığını da bilmez.",
+   "lessons": [
+    "pu01",
+    "pu02",
+    "pu03"
+   ]
+  },
+  {
+   "title": "İstihbarattan Avcılığa",
+   "rank": "tesviye",
+   "lessons": [
+    "pu04",
+    "pu05"
+   ]
+  },
+  {
+   "title": "Sertleştirme",
+   "rank": "kucuk-orta",
+   "lessons": [
+    "pu06"
+   ]
+  },
+  {
+   "title": "Uygulama Denetimi",
+   "rank": "buyuk-orta",
+   "lessons": [
+    "pu07"
+   ]
+  },
+  {
+   "title": "Bulut Kanıtı",
+   "rank": "basalti",
+   "lessons": [
+    "pu08"
+   ]
+  },
+  {
+   "title": "Kimlik ve Değişiklik Korelasyonu",
+   "rank": "baspehlivan",
+   "lessons": [
+    "pu09"
+   ]
+  },
+  {
+   "title": "Purple Uygulama Laboratuvarları",
+   "rank": "baspehlivan",
+   "zen": "Saldırının izini, savunmanın kanıtıyla oku.",
+   "lessons": [
+    "pu10",
+    "pu11",
+    "pu12",
+    "pu13"
+   ]
+  },
+  {
+   "title": "İş Rolü Boşlukları",
+   "rank": "baspehlivan",
+   "zen": "Kanıtı doğru oku; saldırıyı çalıştırmadan kararı gerekçelendir.",
+   "lessons": [
+    "pu14",
+    "pu15",
+    "pu16",
+    "pu17"
+   ]
+  }
+ ]
+}

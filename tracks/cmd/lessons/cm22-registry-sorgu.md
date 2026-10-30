@@ -13,7 +13,7 @@ reg.exe query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v ProductName
 reg.exe query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber
 ```
 
-`/reg:32` ve `/reg:64` Registry yönlendirmesinin farklı görünümlerini seçer. Her anahtarda farklı veri olacağı garanti değildir. Bu ders yalnız var olan sistem anahtarını okur, kayıt defterini değiştirmez. Kaynak: [reg query](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/reg-query).
+`/reg:32` ve `/reg:64` Registry yönlendirmesinin farklı görünümlerini seçer. Her anahtarda farklı veri olacağı garanti değildir. Öğrenci betiği yalnız okur. Erişim reddi testi ayrıca HKCU/Software altında GUID adlı, yalnız teste ait bir anahtar üretir; sadece QueryValues bitine geçerli kullanıcı Deny kuralı ekler, sonra özgün DACL'yi geri yükleyip o anahtarı siler. Sistem anahtarlarının izinleri değiştirilmez. Kaynak: [reg query](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/reg-query).
 :::
 
 ::: anlat `/f`, `/e` ve `/c` sınırları
@@ -112,6 +112,30 @@ probe('ProductName','bulundu')
 eq(Path('arama.txt').read_bytes().count(b'End of search:'),1,'Rapor eklenmedi')
 r=calis(argv=['ProductName','HKCU\\Software\\PaftaKesinlikleOlmayanAnahtar_2026'])
 eq((r['kod'],r['cikti'],r['hata']),(1,'','anahtar-hatasi\n'),'Olmayan anahtar eşleşmeme değildir')
+
+# Gerçek QueryValues Deny: mevcut anahtar ile olmayan anahtar aynı şey değildir.
+import os,runpy,sys,winreg
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,'__file__',None) or '')=='py_harness.py'))
+fixtures=runpy.run_path(os.path.join(_s,'cmd_deny_fixtures.py'))
+with fixtures['registry_fixture']() as lab:
+    r=calis(argv=['PaftaValue',lab.path])
+    eq((r['kod'],r['cikti'],r['hata']),(0,'bulundu\n',''),'yeni geçici anahtar başlangıçta okunur')
+    lab.deny_read()
+    try:
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER,lab.relative_path,0,winreg.KEY_READ) as key:
+            winreg.QueryValueEx(key,'PaftaValue')
+    except PermissionError as error:
+        eq(error.winerror,5,'bağımsız Registry API gerçek ACCESS_DENIED döndürdü')
+    else:stop('test anahtarı gerçekten korunmadı')
+    r=calis(argv=['PaftaValue',lab.path])
+    eq((r['kod'],r['cikti'],r['hata']),(1,'','anahtar-hatasi\n'),'gerçek erişim reddi eşleşme yok diye geçemez')
+    lab.restore()
+    r=calis(argv=['PaftaValue',lab.path])
+    eq((r['kod'],r['cikti'],r['hata']),(0,'bulundu\n',''),'aynı yol özgün ACL geri yüklenince okunur')
+try:
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER,lab.relative_path):pass
+except FileNotFoundError:pass
+else:stop('geçici Registry anahtarı silinmedi')
 ```
 ```solution
 @echo off

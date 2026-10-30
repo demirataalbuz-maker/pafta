@@ -1,0 +1,195 @@
+{
+  "product": "SpecterOps BloodHound CE",
+  "version": "9.9.0",
+  "timestamp": "2026-10-27T17:37:49Z",
+  "sample_sha256": "d32eb854bfaa1610078681c508a0ff7f2567f089eb9de00429a1cc951bf0b96e",
+  "query": "MATCH p=shortestPath((s:User {objectid:'S-1-5-21-2697957641-2271029196-387917394-2202'})-[:MemberOf|WriteDacl|GenericAll*1..8]->(t:Group {objectid:'S-1-5-21-2697957641-2271029196-387917394-512'})) RETURN p",
+  "response": {
+    "data": {
+      "node_keys": [
+        "admincount",
+        "description",
+        "displayname",
+        "distinguishedname",
+        "domain",
+        "domainsid",
+        "dontreqpreauth",
+        "enabled",
+        "hasspn",
+        "isaclprotected",
+        "lastcollected",
+        "lastlogon",
+        "lastlogontimestamp",
+        "lastseen",
+        "name",
+        "objectid",
+        "ownersid",
+        "passwordnotreqd",
+        "pwdlastset",
+        "pwdneverexpires",
+        "samaccountname",
+        "sensitive",
+        "serviceprincipalnames",
+        "sidhistory",
+        "trustedtoauth",
+        "unconstraineddelegation",
+        "whencreated"
+      ],
+      "edge_keys": [
+        "inheritancehash",
+        "isacl",
+        "isinherited",
+        "isprimarygroup",
+        "lastseen"
+      ],
+      "edges": [
+        {
+          "id": "11210",
+          "source": "43",
+          "target": "1172",
+          "label": "MemberOf",
+          "kind": "MemberOf",
+          "lastSeen": "2026-10-27T17:37:30.281695284Z",
+          "properties": {
+            "isacl": false,
+            "isprimarygroup": false,
+            "lastseen": "2026-10-27T17:37:30.281695284Z"
+          }
+        },
+        {
+          "id": "12432",
+          "source": "1172",
+          "target": "1154",
+          "label": "WriteDacl",
+          "kind": "WriteDacl",
+          "lastSeen": "2026-10-27T17:37:30.281695284Z",
+          "properties": {
+            "inheritancehash": "",
+            "isacl": true,
+            "isinherited": false,
+            "lastseen": "2026-10-27T17:37:30.281695284Z"
+          }
+        }
+      ],
+      "nodes": {
+        "1154": {
+          "label": "DOMAIN ADMINS@PHANTOM.CORP",
+          "kind": "Group",
+          "kinds": [
+            "Base",
+            "Group"
+          ],
+          "objectId": "S-1-5-21-2697957641-2271029196-387917394-512",
+          "isTierZero": false,
+          "isOwnedObject": false,
+          "lastSeen": "2026-10-27T17:37:44.52Z",
+          "properties": {
+            "admincount": true,
+            "description": "Designated administrators of the domain",
+            "distinguishedname": "CN=DOMAIN ADMINS,CN=USERS,DC=PHANTOM,DC=CORP",
+            "domain": "PHANTOM.CORP",
+            "domainsid": "S-1-5-21-2697957641-2271029196-387917394",
+            "isaclprotected": true,
+            "lastcollected": "2026-10-27T17:37:30.281695284Z",
+            "lastseen": "2026-10-27T17:37:44.52Z",
+            "name": "DOMAIN ADMINS@PHANTOM.CORP",
+            "objectid": "S-1-5-21-2697957641-2271029196-387917394-512",
+            "ownersid": "S-1-5-21-2697957641-2271029196-387917394-512",
+            "samaccountname": "Domain Admins",
+            "whencreated": 1653361642
+          }
+        },
+        "1172": {
+          "label": "ADMINISTRATORS@PHANTOM.CORP",
+          "kind": "Group",
+          "kinds": [
+            "ADLocalGroup",
+            "Base",
+            "Group"
+          ],
+          "objectId": "PHANTOM.CORP-S-1-5-32-544",
+          "isTierZero": false,
+          "isOwnedObject": false,
+          "lastSeen": "2026-10-27T17:37:44.436Z",
+          "properties": {
+            "admincount": true,
+            "description": "Administrators have complete and unrestricted access to the computer/domain",
+            "distinguishedname": "CN=ADMINISTRATORS,CN=BUILTIN,DC=PHANTOM,DC=CORP",
+            "domain": "PHANTOM.CORP",
+            "domainsid": "S-1-5-21-2697957641-2271029196-387917394",
+            "isaclprotected": true,
+            "lastcollected": "2026-10-27T17:37:30.281695284Z",
+            "lastseen": "2026-10-27T17:37:44.436Z",
+            "name": "ADMINISTRATORS@PHANTOM.CORP",
+            "objectid": "PHANTOM.CORP-S-1-5-32-544",
+            "ownersid": "S-1-5-21-2697957641-2271029196-387917394-512",
+            "samaccountname": "Administrators",
+            "whencreated": 1653361617
+          }
+        },
+        "43": {
+          "label": "DU001@PHANTOM.CORP",
+          "kind": "User",
+          "kinds": [
+            "Base",
+            "User"
+          ],
+          "objectId": "S-1-5-21-2697957641-2271029196-387917394-2202",
+          "isTierZero": false,
+          "isOwnedObject": false,
+          "lastSeen": "2026-10-27T17:37:42.992Z",
+          "properties": {
+            "admincount": true,
+            "displayname": "du001",
+            "distinguishedname": "CN=DU001,CN=USERS,DC=PHANTOM,DC=CORP",
+            "domain": "PHANTOM.CORP",
+            "domainsid": "S-1-5-21-2697957641-2271029196-387917394",
+            "dontreqpreauth": false,
+            "enabled": true,
+            "hasspn": false,
+            "isaclprotected": true,
+            "lastcollected": "2026-10-27T17:37:30.281695284Z",
+            "lastlogon": 1705180369,
+            "lastlogontimestamp": 1705180369,
+            "lastseen": "2026-10-27T17:37:42.992Z",
+            "name": "DU001@PHANTOM.CORP",
+            "objectid": "S-1-5-21-2697957641-2271029196-387917394-2202",
+            "ownersid": "S-1-5-21-2697957641-2271029196-387917394-512",
+            "passwordnotreqd": false,
+            "pwdlastset": 1698743073,
+            "pwdneverexpires": true,
+            "samaccountname": "du001",
+            "sensitive": false,
+            "serviceprincipalnames": [],
+            "sidhistory": [],
+            "trustedtoauth": false,
+            "unconstraineddelegation": false,
+            "whencreated": 1698717873
+          }
+        }
+      },
+      "literals": []
+    }
+  },
+  "scope": "Actual local CE query on official public sample, not laptop DC AccessCheck",
+  "images": {
+    "app-db": "postgres@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6",
+    "graph-db": "neo4j@sha256:73b5a47eb9952f47fcc42fcc80bdd6bd0d6b71eea9a1a345c216675498c790e4",
+    "bloodhound": "specterops/bloodhound@sha256:9dfb63a77929b2066bc0f2083c8ee4caf2241458432175a5d3da9eb5d6988bb1"
+  },
+  "upload_jobs": [
+    1,
+    2
+  ],
+  "ingestion_note": "ZIP upload followed by original named JSON entry upload; no source data modified.",
+  "comparison": {
+    "status": "PASS",
+    "lesson_path": [
+      "S-1-5-21-2697957641-2271029196-387917394-2202",
+      "PHANTOM.CORP-S-1-5-32-544",
+      "S-1-5-21-2697957641-2271029196-387917394-512"
+    ],
+    "same_directed_typed_edges": true,
+    "lesson_solution_sha256": "56b28bb40057056f0c19178bac4dbe5e6ab0b397fd03862fbfbb4e24a40fd111"
+  }
+}

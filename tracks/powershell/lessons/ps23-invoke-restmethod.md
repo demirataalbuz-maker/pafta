@@ -1,7 +1,7 @@
 ---
 id: ps23
 title: Invoke-RestMethod · Oturumlu API İstekleri
-summary: Invoke-RestMethod ile JSON'u nesne olarak almak, Invoke-WebRequest ile durum kodunu ve başlıkları okumak; -SessionVariable ve -WebSession ile çerez taşımak, JSON gövde göndermek, 4xx/5xx'in sonlandıran hata olması ve hata gövdesini ErrorDetails'tan okumak.
+summary: Invoke-RestMethod ile JSON, WebSession, durum/hata gövdesi; Windows PowerShell 5.1 temelleri ve gerçek PowerShell 7'de yönlendirme sınırı, multipart FileInfo yüklemesi, başlık/gövde süre iptali ayrımı.
 ---
 
 ::: anlat İki komut, iki ayrı iş
@@ -318,6 +318,24 @@ eq(run(stdin="beş yüz\n"), "HATA\n", "tam sayı olmayan girdi istek atılmadan
 bos = calis(stdin="")
 eq(bos["cikti"], "HATA\n", "boş girdi HATA")
 eq(bos["hata"].strip(), "", "boş girdide hata akışına bir şey düşmemeli")
+
+# /durum üretim fixture'ı yalnız 4xx/5xx verir; 2xx dalını ayrı loopback HTTP tanığıyla ölç.
+import http.server,threading
+from pathlib import Path
+class Success(http.server.BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length','2');self.end_headers();self.wfile.write(b'{}')
+    def log_message(self,*args):pass
+server=http.server.ThreadingHTTPServer(('127.0.0.1',0),Success)
+thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+path=Path('api_adres.txt');previous=path.read_bytes()
+try:
+    path.write_text('http://127.0.0.1:'+str(server.server_port),encoding='utf-8')
+    r=calis(stdin='200\n')
+    eq((r['kod'],r['cikti'],r['hata']),(0,'200|-\n',''),'gerçek 2xx yanıt başarı dalını çalıştırır')
+finally:
+    path.write_bytes(previous);server.shutdown();server.server_close();thread.join(timeout=2)
+
 ```
 
 ```solution
@@ -335,5 +353,186 @@ try {
 
 ```hint
 Aralık denetimini sunucu yapıyor; senin işin gelen kodu ve gövdeyi doğru okumak. 400'ün hangi sebeple geldiğini (`istek` mi `kod` mu) yalnızca gövde söyler.
+```
+:::
+
+
+::: anlat Sürüm köprüsü: yönlendirme, multipart ve süre sınırı
+Bu yeni bölüm meta motor: pwsh ile kurulu PowerShell 7.6.8'de çalışır. Önceki Windows PowerShell 5.1 görevleri kendi motorunda kalır. `-Form` 5.1'de yoktur: 5.1'de `-Body` hashtable URL-encoded form üretir; 7'de `-Form` multipart/form-data üretir ve FileInfo değeri dosya baytlarını taşır. Dosya yolunu metin olarak vermek dosyayı yüklemekle aynı şey değildir. Boundary içeren Content-Type'ı istemcinin üretmesine izin ver.
+
+`-MaximumRedirection 2` en çok iki yönlendirmeye izin verir: iki hop başarı, üç hop sınır hatasıdır. Bir yönlendirmede host/protokol değişimi, yöntem ve Authorization davranışını ayrıca değerlendir; burada yalnız aynı loopback sunucusunda GET/302 zinciri kullanılır. Genelde yönlendirme hedefini güvenilir varsayma.
+
+PowerShell 7'nin ConnectionTimeoutSeconds ve OperationTimeoutSeconds parametreleri farklı beklemeleri kapsar. Bu tezgâh yanıt başlıklarını geciktiren ve başlıkları hemen gönderip gövdeyi geciktiren iki ayrı uç sağlar. 0 sınırsız bekleme anlamına gelebilir; açık süre sınırını kaldırmak yerine iptali yakala. Görevde 100 ms hızlı, 1700 ms yavaş örneklerle 1 saniye bütçesi ölçülür; tam bir saniyede zamanlayıcı yarışı için deterministik iddia kurulmaz. Kurulu 7.6.8 üzerinde başlık bekleyişinde TaskCanceledException, gövde bekleyişinde TimeoutException (içinde TaskCanceledException) ölçüldü. İkisini de süre iptali olarak ayır; HTTP hatasını timeout diye etiketleme.
+
+Tezgâh yalnız 127.0.0.1'de rastgele portta çalışır; harici sisteme istek gerekmez. Ham istek tanıkları ps_http_requests.jsonl içindedir. Bu bir PowerShell taklidi değil, gerçek cmdlet ile gerçek HTTP alışverişidir. Kaynak: [Microsoft Invoke-RestMethod 7](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-restmethod?view=powershell-7.5), [Microsoft Invoke-WebRequest 5.1](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/invoke-webrequest?view=powershell-5.1).
+:::
+
+::: tahmin İki hop ile üç hop
+```meta
+motor: pwsh
+timeout: 30
+```
+```setup
+import os,runpy,sys,pathlib
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,"__file__",None) or "")=="py_harness.py"))
+runpy.run_path(os.path.join(_s,"ps_http_edges.py"),run_name="__tezgah__")
+pathlib.Path("dosya adı.bin").write_bytes(bytes(range(256))+b"\x00\xff")
+pathlib.Path("bos.bin").write_bytes(b"")
+```
+```powershell
+$adres=(Get-Content ps_http_adres.txt -Raw).Trim()
+(Invoke-RestMethod "$adres/hop/2" -MaximumRedirection 2).ok
+try { $null=Invoke-RestMethod "$adres/hop/3" -MaximumRedirection 2 -ErrorAction Stop }
+catch { [int]$_.Exception.Response.StatusCode }
+```
+
+???
+`True` ve `302`. İki yönlendirme tamamlanır; üçüncüde kalan 302 yanıtı hata olur.
+:::
+
+::: gorev Yönlendirme sınırının iki tarafı
+Girdide 0–5 tam sayı hop adedi var. Gerçek Invoke-RestMethod ile /hop/<adet> iste; MaximumRedirection **2** olsun. Sonuca ulaşılırsa OK; 302 sınır hatasıysa LIMIT yaz. Diğer HTTP/ağ hatalarını yutma. Sayı değilse veya 0–5 dışındaysa istek göndermeden HATA. API adresini ps_http_adres.txt'den oku.
+```meta
+motor: pwsh
+timeout: 30
+```
+```setup
+import os,runpy,sys,pathlib
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,"__file__",None) or "")=="py_harness.py"))
+runpy.run_path(os.path.join(_s,"ps_http_edges.py"),run_name="__tezgah__")
+pathlib.Path("dosya adı.bin").write_bytes(bytes(range(256))+b"\x00\xff")
+pathlib.Path("bos.bin").write_bytes(b"")
+```
+```stdin
+2
+```
+```starter
+'OK'
+```
+```test
+import json,pathlib
+log=pathlib.Path('ps_http_requests.jsonl')
+def paths():return [json.loads(line)['path'] for line in log.read_text(encoding='utf-8').splitlines()]
+eq(out,'OK\n','tam iki yönlendirme dahil')
+eq(paths(),['/hop/2','/hop/1','/hop/0'],'gerçek GET zinciri tamamlandı')
+for n,text in [(0,'OK'),(1,'OK'),(3,'LIMIT'),(5,'LIMIT')]:
+    old=len(paths())
+    eq(run(stdin=str(n)+'\n'),text+'\n','hop sınırı')
+    expected=['/hop/'+str(n-i) for i in range(min(n,2)+1)]
+    eq(paths()[old:],expected,'istemci gerçekten sınırda durdu')
+for body in ('-1\n','6\n','x\n',''):
+    old=len(paths());eq(run(stdin=body),'HATA\n','girdi sınırı');eq(len(paths()),old,'geçersizde ağ yok')
+```
+```solution
+$adres=(Get-Content ps_http_adres.txt -Raw).Trim()
+$n=0
+if ($Girdi.Count -lt 1 -or -not [int]::TryParse($Girdi[0],[ref]$n) -or $n -lt 0 -or $n -gt 5) { 'HATA'; exit 0 }
+try {
+    $null=Invoke-RestMethod "$adres/hop/$n" -MaximumRedirection 2 -ErrorAction Stop
+    'OK'
+} catch {
+    if ($_.Exception.Response -and [int]$_.Exception.Response.StatusCode -eq 302) { 'LIMIT' }
+    else { throw }
+}
+```
+:::
+
+::: gorev Form ile gerçek dosyayı yükle
+İlk girdi not metni (boş olabilir), ikinci girdi dosya yolu (başındaki/sonundaki boşlukları Trim ile kırp). Dosya yoksa HATA. PowerShell 7 Invoke-RestMethod -Form ile /form'a not ve dosya adlı iki alan gönder; dosya gerçek FileInfo olsun. Sunucunun döndürdüğü note/filename/size/sha256 nesnesini sıkıştırılmış JSON olarak yaz. Dosya hash'ini yerelde uydurarak çıktı üretme; gerçek multipart tanığı da sınanır. Tezgâhın küçük dosyaları kullanılır; hata durumlarını timeout diye gizleme.
+```meta
+motor: pwsh
+timeout: 30
+```
+```setup
+import os,runpy,sys,pathlib
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,"__file__",None) or "")=="py_harness.py"))
+runpy.run_path(os.path.join(_s,"ps_http_edges.py"),run_name="__tezgah__")
+pathlib.Path("dosya adı.bin").write_bytes(bytes(range(256))+b"\x00\xff")
+pathlib.Path("bos.bin").write_bytes(b"")
+```
+```stdin
+a&b=ç
+ dosya adı.bin
+```
+```starter
+'{}'
+```
+```test
+import hashlib,json,pathlib
+# Girdi kutusundaki yolun başındaki boşluk bu görevde Trim ile kaldırılır.
+root=pathlib.Path('.')
+def expected(note,file):
+    data=root.joinpath(file).read_bytes()
+    return {'note':note,'filename':file,'size':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+def records():return [json.loads(line) for line in root.joinpath('ps_http_requests.jsonl').read_text(encoding='utf-8').splitlines()]
+eq(json.loads(out),expected('a&b=ç','dosya adı.bin'),'Unicode not ve gerçek ikili dosya')
+eq(records()[-1]['fields'],{'not':'a&b=ç'},'URL-encoded veya JSON değil gerçek multipart alanı')
+for note,file in [('', 'bos.bin'),('not="yeni" & x=2','dosya adı.bin')]:
+    old=len(records());eq(json.loads(run(stdin=note+'\n'+file+'\n')),expected(note,file),'boş dosya/not ve özel karakterler')
+    eq(len(records()),old+1,'gerçek POST gönderildi')
+    eq(records()[-1]['files']['dosya']['size'],expected(note,file)['size'],'sunucunun gördüğü bayt sayısı')
+old=len(records());eq(run(stdin='x\nyok.bin\n'),'HATA\n','dosya yok');eq(len(records()),old,'olmayan dosyada istek yok')
+eq(run(stdin=''),'HATA\n','eksik girdi')
+```
+```solution
+if ($Girdi.Count -lt 2) { 'HATA'; exit 0 }
+$yol=$Girdi[1].Trim()
+if (-not (Test-Path -LiteralPath $yol -PathType Leaf)) { 'HATA'; exit 0 }
+$adres=(Get-Content ps_http_adres.txt -Raw).Trim()
+$yanit=Invoke-RestMethod "$adres/form" -Method Post -Form @{not=$Girdi[0];dosya=(Get-Item -LiteralPath $yol)} -ErrorAction Stop
+$yanit | ConvertTo-Json -Compress
+```
+:::
+
+::: gorev Başlık ve gövde bekleyişini sınırla
+İlk satır 0–3000 milisaniye, ikinci satır headers veya body. Gerçek Invoke-RestMethod ile headers için /delay/<ms>, body için /body-delay/<ms> iste. ConnectionTimeoutSeconds ve OperationTimeoutSeconds **1** olsun. Başarıda OK|<sunucunun ms alanı>, TaskCanceledException veya TimeoutException iptalinde TIMEOUT; diğer hatalarda throw. Geçersiz girdide istek göndermeden HATA. PowerShell işleminin başlaması için geçen süre HTTP süre bütçesinden ayrıdır.
+```meta
+motor: pwsh
+timeout: 30
+```
+```setup
+import os,runpy,sys,pathlib
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,"__file__",None) or "")=="py_harness.py"))
+runpy.run_path(os.path.join(_s,"ps_http_edges.py"),run_name="__tezgah__")
+pathlib.Path("dosya adı.bin").write_bytes(bytes(range(256))+b"\x00\xff")
+pathlib.Path("bos.bin").write_bytes(b"")
+```
+```stdin
+100
+headers
+```
+```starter
+'OK|100'
+```
+```test
+import json,pathlib
+log=pathlib.Path('ps_http_requests.jsonl')
+def records():return [json.loads(line) for line in log.read_text(encoding='utf-8').splitlines()]
+eq(out,'OK|100\n','hızlı başlık yanıtı')
+for ms,mode,text in [(0,'headers','OK|0'),(100,'body','OK|100'),(1700,'headers','TIMEOUT'),(1700,'body','TIMEOUT')]:
+    old=len(records());eq(run(stdin=str(ms)+'\n'+mode+'\n'),text+'\n','gerçek HTTP süre bütçesi')
+    eq([r['path'] for r in records()[old:]],[('/delay/' if mode=='headers' else '/body-delay/')+str(ms)],'yanıt taklit edilmez, istek tanığı var')
+for body in ('-1\nheaders\n','3001\nheaders\n','1\nother\n','x\nheaders\n',''):
+    old=len(records());eq(run(stdin=body),'HATA\n','girdi sınırları');eq(len(records()),old,'geçersizde ağ yok')
+address=pathlib.Path('ps_http_adres.txt');saved=address.read_text(encoding='utf-8')
+try:
+    address.write_text(saved+'/missing',encoding='utf-8')
+    r=calis(stdin='0\nheaders\n')
+    ok(r['kod']!=0,'gerçek 404 tekrar throw edilir')
+    ok('TIMEOUT' not in r['cikti'],'HTTP hatası süre iptali değildir')
+finally:address.write_text(saved,encoding='utf-8')
+```
+```solution
+$ms=0
+if ($Girdi.Count -lt 2 -or -not [int]::TryParse($Girdi[0],[ref]$ms) -or $ms -lt 0 -or $ms -gt 3000 -or $Girdi[1] -notin @('headers','body')) { 'HATA'; exit 0 }
+$adres=(Get-Content ps_http_adres.txt -Raw).Trim()
+$tip=if ($Girdi[1] -eq 'headers') {'delay'} else {'body-delay'}
+try {
+    $r=Invoke-RestMethod "$adres/$tip/$ms" -ConnectionTimeoutSeconds 1 -OperationTimeoutSeconds 1 -ErrorAction Stop
+    "OK|$($r.ms)"
+} catch {
+    if ($_.Exception -is [System.Threading.Tasks.TaskCanceledException] -or $_.Exception -is [System.TimeoutException]) { 'TIMEOUT' }
+    else { throw }
+}
 ```
 :::

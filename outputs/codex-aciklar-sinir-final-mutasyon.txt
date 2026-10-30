@@ -1,0 +1,10 @@
+ps22:4 «SDDL'yi tabloya çevir» 6 mutant, 6 yakalandı
+ps22:5 «Etkin yetkiyi hesapla» 24 mutant, 23 yakalandı · GEÇEN: ["'-and'→'-or' @23"]
+ps22:6 «Gerçek ACL raporu» 4 mutant, 4 yakalandı
+ps25:3 «İmza envanteri» 5 mutant, 5 yakalandı
+ps25:4 «Güven kararı» 10 mutant, 10 yakalandı
+cs13:3 «1 · Poliçe gereksinimleri (VE), çoklu işleyiciler (VEYA) ve `context.Fail()` değerlendiricisi» 24 mutant, 24 yakalandı
+cs13:4 «2 · `IAuthorizationService.AuthorizeAsync` ile kaynak tabanlı (`Belge`) yetkilendirme» 24 mutant, 24 yakalandı
+cs16:3 «CIL baytlarını çöz» 0 mutant, 0 yakalandı
+cs16:4 «Ansi'ye çevirirken ne kayboluyor?» 1 mutant, 1 yakalandı
+toplam 98 mutant, 1 geçen

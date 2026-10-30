@@ -1,0 +1,78 @@
+{
+  "backend": "real Kali / installed Impacket source and imports",
+  "references_passed": 2,
+  "mutants_rejected": 14,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "function": "secenek_kayitlari",
+      "mutation": "drop positional",
+      "status": "rejected"
+    },
+    {
+      "function": "secenek_kayitlari",
+      "mutation": "reverse order",
+      "status": "rejected"
+    },
+    {
+      "function": "secenek_kayitlari",
+      "mutation": "lose aliases",
+      "status": "rejected"
+    },
+    {
+      "function": "secenek_kayitlari",
+      "mutation": "lose choices",
+      "status": "rejected"
+    },
+    {
+      "function": "secenek_kayitlari",
+      "mutation": "lose false default",
+      "status": "rejected"
+    },
+    {
+      "function": "secenek_kayitlari",
+      "mutation": "lose action",
+      "status": "rejected"
+    },
+    {
+      "function": "secenek_kayitlari",
+      "mutation": "execute source",
+      "status": "rejected"
+    },
+    {
+      "function": "ortam_yokla",
+      "mutation": "missing nested dependency misclassified",
+      "status": "rejected"
+    },
+    {
+      "function": "ortam_yokla",
+      "mutation": "missing parent misclassified",
+      "status": "rejected"
+    },
+    {
+      "function": "ortam_yokla",
+      "mutation": "hide other import errors",
+      "status": "rejected"
+    },
+    {
+      "function": "ortam_yokla",
+      "mutation": "ignore missing API",
+      "status": "rejected"
+    },
+    {
+      "function": "ortam_yokla",
+      "mutation": "None means absent",
+      "status": "rejected"
+    },
+    {
+      "function": "ortam_yokla",
+      "mutation": "incorrect version",
+      "status": "rejected"
+    },
+    {
+      "function": "ortam_yokla",
+      "mutation": "lose metadata distinction",
+      "status": "rejected"
+    }
+  ]
+}

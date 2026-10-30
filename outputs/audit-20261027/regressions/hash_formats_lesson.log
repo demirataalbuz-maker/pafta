@@ -1,0 +1,31 @@
+test_solution_kabul_starter_red (__main__.DersDavranisi.test_solution_kabul_starter_red) ... FAIL
+test_tahmin_ciktisi (__main__.DersDavranisi.test_tahmin_ciktisi) ... ok
+test_uc_gorev_ve_kapsam (__main__.DersDavranisi.test_uc_gorev_ve_kapsam) ... FAIL
+test_yanlis_cozumler_mutasyonla_reddedilir (__main__.DersDavranisi.test_yanlis_cozumler_mutasyonla_reddedilir) ... ok
+test_fixture_kopyalama_ve_vektor_kimlikleri (__main__.LaboratuvarVeFixture.test_fixture_kopyalama_ve_vektor_kimlikleri) ... ok
+test_md4_rfc_ve_ntlm_vektorleri (__main__.LaboratuvarVeFixture.test_md4_rfc_ve_ntlm_vektorleri) ... ok
+test_utf8_lf (__main__.LaboratuvarVeFixture.test_utf8_lf) ... ok
+test_yardimci_guvenli_ice_aktarmalar (__main__.LaboratuvarVeFixture.test_yardimci_guvenli_ice_aktarmalar) ... ok
+
+======================================================================
+FAIL: test_solution_kabul_starter_red (__main__.DersDavranisi.test_solution_kabul_starter_red)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_hash_formats_lesson.py", line 95, in test_solution_kabul_starter_red
+    self.assertEqual(len(tasks), 3)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+AssertionError: 4 != 3
+
+======================================================================
+FAIL: test_uc_gorev_ve_kapsam (__main__.DersDavranisi.test_uc_gorev_ve_kapsam)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_hash_formats_lesson.py", line 115, in test_uc_gorev_ve_kapsam
+    self.assertEqual(kinds.count("gorev"), 3)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 3
+
+----------------------------------------------------------------------
+Ran 8 tests in 16.812s
+
+FAILED (failures=2)

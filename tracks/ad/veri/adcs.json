@@ -1,0 +1,11 @@
+{
+  "aciklama": "Sentetik şablon denetim verisi. *_effective alanları önceden çözümlenmiş etkili izin kanıtıdır; ham DACL değildir.",
+  "sablonlar": [
+    {"ad": "LegacyClient", "name_flags": 1, "enrollment_flags": 0, "ra_signatures": 0, "eku": ["1.3.6.1.5.5.7.3.2"], "published": true, "enroll_effective": ["Domain Users"], "edit_effective": []},
+    {"ad": "WebServer", "name_flags": 1, "enrollment_flags": 0, "ra_signatures": 0, "eku": ["1.3.6.1.5.5.7.3.1"], "published": true, "enroll_effective": ["Domain Users"], "edit_effective": []},
+    {"ad": "ManagerApproved", "name_flags": 1, "enrollment_flags": 2, "ra_signatures": 0, "eku": ["1.3.6.1.5.5.7.3.2"], "published": true, "enroll_effective": ["Domain Users"], "edit_effective": []},
+    {"ad": "SignedClient", "name_flags": 1, "enrollment_flags": 0, "ra_signatures": 1, "eku": ["1.3.6.1.5.5.7.3.2"], "published": true, "enroll_effective": ["Domain Users"], "edit_effective": []},
+    {"ad": "DraftClient", "name_flags": 1, "enrollment_flags": 0, "ra_signatures": 0, "eku": ["1.3.6.1.5.5.7.3.2"], "published": false, "enroll_effective": ["Domain Users"], "edit_effective": []},
+    {"ad": "EditableClient", "name_flags": 0, "enrollment_flags": 0, "ra_signatures": 0, "eku": ["1.3.6.1.5.5.7.3.2"], "published": true, "enroll_effective": [], "edit_effective": ["Domain Users"]}
+  ]
+}

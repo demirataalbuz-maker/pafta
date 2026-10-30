@@ -1,0 +1,143 @@
+{
+ "zaman": "2026-10-30T09:04:38.090723+00:00",
+ "nesne": "CN=svc_sql,OU=PaftaLab,DC=pafta,DC=test",
+ "adimlar": [
+  {
+   "durum": "baslangic: SOC-Analistleri WriteDacl allow + mehmet.yilmaz deny",
+   "sonuclar": [
+    {
+     "kullanici": "ali.kaya",
+     "ldap_result": 0,
+     "description": "success",
+     "karar": "izin"
+    },
+    {
+     "kullanici": "mehmet.yilmaz",
+     "ldap_result": 50,
+     "description": "insufficientAccessRights",
+     "karar": "ret"
+    },
+    {
+     "kullanici": "pf_s4u_user",
+     "ldap_result": 50,
+     "description": "insufficientAccessRights",
+     "karar": "ret"
+    }
+   ]
+  },
+  {
+   "durum": "mehmet deny kaldirildi",
+   "sonuclar": [
+    {
+     "kullanici": "ali.kaya",
+     "ldap_result": 0,
+     "description": "success",
+     "karar": "izin"
+    },
+    {
+     "kullanici": "mehmet.yilmaz",
+     "ldap_result": 0,
+     "description": "success",
+     "karar": "izin"
+    },
+    {
+     "kullanici": "pf_s4u_user",
+     "ldap_result": 50,
+     "description": "insufficientAccessRights",
+     "karar": "ret"
+    }
+   ]
+  },
+  {
+   "durum": "pf_s4u_user icin WriteDacl allow eklendi",
+   "sonuclar": [
+    {
+     "kullanici": "ali.kaya",
+     "ldap_result": 0,
+     "description": "success",
+     "karar": "izin"
+    },
+    {
+     "kullanici": "mehmet.yilmaz",
+     "ldap_result": 0,
+     "description": "success",
+     "karar": "izin"
+    },
+    {
+     "kullanici": "pf_s4u_user",
+     "ldap_result": 0,
+     "description": "success",
+     "karar": "izin"
+    }
+   ]
+  },
+  {
+   "durum": "geri alindi (baslangic ile ayni olmali)",
+   "sonuclar": [
+    {
+     "kullanici": "ali.kaya",
+     "ldap_result": 0,
+     "description": "success",
+     "karar": "izin"
+    },
+    {
+     "kullanici": "mehmet.yilmaz",
+     "ldap_result": 50,
+     "description": "insufficientAccessRights",
+     "karar": "ret"
+    },
+    {
+     "kullanici": "pf_s4u_user",
+     "ldap_result": 50,
+     "description": "insufficientAccessRights",
+     "karar": "ret"
+    }
+   ]
+  }
+ ],
+ "beklenen": [
+  [
+   "izin",
+   "ret",
+   "ret"
+  ],
+  [
+   "izin",
+   "izin",
+   "ret"
+  ],
+  [
+   "izin",
+   "izin",
+   "izin"
+  ],
+  [
+   "izin",
+   "ret",
+   "ret"
+  ]
+ ],
+ "gozlenen": [
+  [
+   "izin",
+   "ret",
+   "ret"
+  ],
+  [
+   "izin",
+   "izin",
+   "ret"
+  ],
+  [
+   "izin",
+   "izin",
+   "izin"
+  ],
+  [
+   "izin",
+   "ret",
+   "ret"
+  ]
+ ],
+ "eslesme": true
+}

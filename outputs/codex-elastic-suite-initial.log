@@ -1,0 +1,16 @@
+...........................................................................F...
+======================================================================
+FAIL: test_solutions_pass_and_starters_do_not (tools.test_elastic_curriculum.ElasticCurriculumTests.test_solutions_pass_and_starters_do_not) (lesson='el27', step=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\albuz\Desktop\📂 Projeler ve Çalışmalar\💻 Web ve Yazılım Projeleri\Pafta\tools\test_elastic_curriculum.py", line 80, in test_solutions_pass_and_starters_do_not
+    self.assertEqual(solution["status"], "pass", solution)
+AssertionError: 'timeout' != 'pass'
+- timeout
++ pass
+ : {'status': 'timeout', 'timeout': 60, 'error': {'type': 'Zaman aşımı', 'line': None, 'frames': [], 'where': 'kod', 'msg': 'Program 60 saniyede bitmedi.'}}
+
+----------------------------------------------------------------------
+Ran 79 tests in 29745.297s
+
+FAILED (failures=1)

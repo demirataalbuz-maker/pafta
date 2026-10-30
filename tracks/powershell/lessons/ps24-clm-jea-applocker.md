@@ -114,7 +114,7 @@ AppLocker kuralları hangi çalıştırılabilir dosyaların, DLL'lerin, yükley
 | **8020–8022** | Info / Warn / Error | `Packaged app-Execution` | Paketlenmiş uygulama (*Packaged app*) çalıştırma: `8020` izin verildi, `8021` denetim uyarısı (*Audit only*), `8022` engellendi (*Enforce*). |
 | **8023–8025** | Info / Warn / Error | `Packaged app-Deployment` | Paketlenmiş uygulama kurulumu: `8023` kurulumuna izin verildi, `8024` denetim uyarısı, `8025` kurulum engellendi. |
 
-Her AppLocker olayı; etkilenen dosyanın adını ve yolunu (`FilePathBuffer`), paket kimliğini, izin/engel durumunu, kural türünü (`path`, `file hash` veya `publisher`), kural adını (`RuleNameBuffer`) ve kullanıcının güvenlik tanımlayıcısını (`TargetUser` SID) kaydeder:
+AppLocker kayıtları olay türüne göre dosya/paket, karar, kural ve kullanıcı bilgileri taşır; her kimliğin aynı XML alanlarını içerdiğini varsayma. Aşağıdaki elle hazırlanmış XML örneğinde FilePathBuffer, RuleNameBuffer ve TargetUser adları kullanılıyor; gerçek kaydın şemasını ToXml ile doğrula:
 
 ```powershell
 $olayXml = [xml]@'
@@ -561,5 +561,128 @@ foreach ($k in $kullaniciSirasi) {
 
 ```hint
 Önce tüm XML satırlarını doğrulayıp `OLAY|...` satırlarını bir dizide biriktir; bozuk bir XML satırı varsa hiçbir şey yazdırmadan `HATA` döndürebilmek için çıktıyı döngü bittikten sonra yazdır.
+```
+:::
+
+
+::: anlat Dosya köprüsü: gerçek okuyucu, üretilmiş olay verisi
+Bu ek bölümün applocker.evtx dosyası metin XML değildir: PS27/28'in EVT hazırlayıcısıyla üretilen eğitim kayıtlarını Windows wevtutil gerçek EVTX'e dönüştürür; Get-WinEvent dosyayı gerçek okuyucuyla açar. **Olay içeriği sentetiktir.** Bu dosya gerçek bir AppLocker ilkesinin dosyayı engellediğinin kanıtı değildir. Host ilkesi, canlı günlük ve servis değiştirilmez. Manifest AppLocker kaydının şeması taklit edilmez: klasik EVT'den geldiği için Data öğeleri adsızdır, burada sözleşme [ilke, dosya, kural, SID] sırasıdır. Gerçek vaka kaydında ToXml ile EventData/UserData ve alan adlarını ayrıca kontrol et.
+
+JEA dosyaları ise New-PSRoleCapabilityFile ve New-PSSessionConfigurationFile ile yerel geçici klasörde gerçekten üretilir. Test-PSSessionConfigurationFile sözdizimini doğrular; endpoint kayıt veya kimlik doğrulama kabulü değildir. Import-PowerShellDataFile veri okur, dosyayı komut olarak çalıştırmaz. Bu görev seçilen RoleDefinitions anahtarının bildirdiği dosyaları envantere alır; AD grup üyeliği çözmez, kullanıcı için etkin rol birleşimi hesaplamaz, JEA endpoint'i açmaz. Rol kısıtını görmek ile o endpoint'in çalıştığını ispatlamak ayrı kabullerdir.
+
+Kaynak: [AppLocker olayları](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/applocker/using-event-viewer-with-applocker), [JEA rol yetenekleri](https://learn.microsoft.com/en-us/powershell/scripting/security/remoting/jea/role-capabilities), [Import-PowerShellDataFile](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/import-powershelldatafile).
+:::
+
+::: gorev EVTX'te izin, denetim ve engeli ayır
+İlk girdi EVTX dosya yolu, ikinci girdi 0–5 dahil en yüksek Level olsun. Geçersiz girdi veya dosya yoksa HATA. Gerçek Get-WinEvent ile yalnız Microsoft-Windows-AppLocker sağlayıcısının 8002–8007 dahil olaylarını ve Level <= eşik olanları dosya sırasıyla oku. Bu kimlikleri karar olarak eşle: 8002/8005 ALLOW, 8003/8006 AUDIT, 8004/8007 BLOCK. Audit, engel değildir.
+
+Her kayıt için record/id/decision/file/rule/sid alanlı nesne üret; veri dizisinde tam dört öğe [ilke, dosya, kural, SID] yoksa throw. JSON listesi yaz; tek kayıt ve boş sonuç da liste olmalı. Bozuk EVTX'i veya eksik alanı boş sonuç diye gizleme. Yerelleştirilmiş Message metnini ayrıştırma. Yalnız verilen dosyayı oku; canlı kanal kullanma.
+
+```stdin
+applocker.evtx
+2
+```
+```setup
+import os,runpy,sys
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,'__file__',None) or '')=='py_harness.py'))
+runpy.run_path(os.path.join(_s,'ps24_file_fixtures.py'),run_name='__tezgah__')
+```
+```starter
+'[]'
+```
+```test
+import json
+all_rows=[{'record':i+1,'id':eid,'decision':('ALLOW','AUDIT','BLOCK')[i%3],'file':rf'C:\Pafta\file {eid}.exe','rule':f'Rule-{eid}','sid':'S-1-5-21-1000-2000-3000-1105'} for i,eid in enumerate(range(8002,8008))]
+eq(json.loads(out),[all_rows[2],all_rows[5]],'Level 2 dahil; EXE ve SCRIPT blokları')
+eq(json.loads(run(stdin='applocker.evtx\n3\n')),[row for i,row in enumerate(all_rows) if i%3 in (1,2)],'audit BLOCK diye etiketlenmez')
+eq(json.loads(run(stdin='applocker.evtx\n4\n')),all_rows,'8002/8007 uçları, sağlayıcı ve kayıt sırası')
+eq(json.loads(run(stdin='applocker.evtx\n0\n')),[],'alt Level ucu ve eşleşme yok')
+eq(json.loads(run(stdin='empty.evtx\n5\n')),[],'üst Level ucu ve boş dosya')
+eq(json.loads(run(stdin='alternate.evtx\n2\n')),[{'record':1,'id':8004,'decision':'BLOCK','file':r'C:\Different\changed.dll','rule':'Changed Rule','sid':'S-1-5-18'}],'dosya, kural ve SID sabit değildir')
+for body in ('applocker.evtx\n-1\n','applocker.evtx\n6\n','applocker.evtx\nx\n','missing.evtx\n2\n',''):
+    eq(run(stdin=body),'HATA\n','dosya ve eşik girdi denetimi')
+for name in ('corrupt.evtx','missing-fields.evtx'):
+    r=calis(stdin=name+'\n2\n');ok(r['kod']!=0,'bozuk dosya/alan hata vermeli')
+```
+```solution
+$level=0
+if ($Girdi.Count -lt 2 -or -not [int]::TryParse($Girdi[1],[ref]$level) -or $level -lt 0 -or $level -gt 5 -or -not (Test-Path -LiteralPath $Girdi[0] -PathType Leaf)) { 'HATA'; exit 0 }
+$query="*[System[Provider[@Name='Microsoft-Windows-AppLocker'] and (EventID>=8002 and EventID<=8007) and Level<=$level]]"
+try { $events=@(Get-WinEvent -Path $Girdi[0] -FilterXPath $query -Oldest -ErrorAction Stop) }
+catch { if ($_.FullyQualifiedErrorId -notlike 'NoMatchingEventsFound*') { throw }; $events=@() }
+try {
+    $result=@(foreach($event in $events) {
+        if ($event.Properties.Count -ne 4) { throw 'Beklenmeyen egitim kaydi semasi' }
+        $decision=switch($event.Id) {8002 {'ALLOW'} 8005 {'ALLOW'} 8003 {'AUDIT'} 8006 {'AUDIT'} 8004 {'BLOCK'} 8007 {'BLOCK'}}
+        [pscustomobject]@{record=[int]$event.RecordId;id=[int]$event.Id;decision=$decision;file=[string]$event.Properties[1].Value;rule=[string]$event.Properties[2].Value;sid=[string]$event.Properties[3].Value}
+    })
+    ConvertTo-Json -InputObject $result -Compress -Depth 5
+} finally { foreach($event in $events) { $event.Dispose() } }
+```
+:::
+
+::: gorev Gerçek PSSC ve PSRC dosyalarındaki rol kapsamını oku
+İlk girdi .pssc dosyası, ikinci girdi RoleDefinitions içindeki tam grup anahtarı. Import-PowerShellDataFile ile oturum ve RoleCapabilities/<rol>.psrc dosyalarını veri olarak oku. Seçilen anahtar yoksa, rol dosyası eksikse, rol adı ^[A-Za-z][A-Za-z0-9_-]*$ biçiminde değilse veya veri dosyası bozuk/dinamikse HATA. SessionType yalnız Default/RestrictedRemoteServer/Empty; RunAsVirtualAccount varsa gerçek boolean olmalı (metin 'false' kabul edilmez). Dosyayı dot-source/Invoke-Expression ile çalıştırma. Tam anahtar üzerinden envanter isteniyor; grup üyeliği sorgulama.
+
+JSON nesnesi: session_type (SessionType), virtual_account (RunAsVirtualAccount bool; yoksa false), roles (bildirim sıralı liste). Her rol name, cmdlets (VisibleCmdlets değerleri; string/hashtable ve Parameters kısıtları korunur), external_commands (VisibleExternalCommands), providers (VisibleProviders) alanlarını taşısın. Eksik listeler [] olmalı. Rol kısıtlarının yürürlükte olduğunu değil, dosyada ne bildirildiğini raporla. Get-Service gibi cmdlet'leri ve harici komutları bu envanter için çalıştırma.
+
+```stdin
+limited.pssc
+PAFTA\Analistler
+```
+```setup
+import os,runpy,sys
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,'__file__',None) or '')=='py_harness.py'))
+runpy.run_path(os.path.join(_s,'ps24_file_fixtures.py'),run_name='__tezgah__')
+```
+```starter
+'{}'
+```
+```test
+import json,pathlib
+reader={'name':'Reader','cmdlets':['Get-Service',{'Name':'Restart-Service','Parameters':{'Name':'Name','ValidateSet':['Dns','Spooler']}}],'external_commands':[r'C:\Windows\System32\whoami.exe'],'providers':[]}
+inventory={'name':'Inventory','cmdlets':['Get-Process'],'external_commands':[],'providers':['FileSystem']}
+eq(json.loads(out),{'session_type':'RestrictedRemoteServer','virtual_account':True,'roles':[reader,inventory]},'gerçek üretilmiş PSSC/PSRC, iki rol ve parametre kısıtı')
+eq(json.loads(run(stdin='limited.pssc\nPAFTA\\SaltOku\n')),{'session_type':'RestrictedRemoteServer','virtual_account':True,'roles':[inventory]},'seçilen grup anahtarı')
+eq(json.loads(run(stdin='alternate.pssc\nPAFTA\\Analistler\n')),{'session_type':'Default','virtual_account':False,'roles':[inventory]},'oturum türü ve varsayılan false sabit değildir')
+for body in ('limited.pssc\nPAFTA\\Yok\n','missing.pssc\nPAFTA\\Analistler\n','dynamic.pssc\nPAFTA\\Analistler\n',''):
+    eq(run(stdin=body),'HATA\n','eksik/bozuk/dinamik veri ve grup yok')
+ok(not pathlib.Path('executed.txt').exists(),'veri dosyasındaki ifade çalıştırılmadı')
+role=pathlib.Path('RoleCapabilities/Inventory.psrc');saved=role.read_bytes()
+try:
+    role.unlink()
+    eq(run(stdin='limited.pssc\nPAFTA\\SaltOku\n'),'HATA\n','bağlı rol dosyası yok')
+finally:role.write_bytes(saved)
+# Rol dosyasının gerçek kısıtı değişince rapor da değişmeli.
+role=pathlib.Path('RoleCapabilities/Reader.psrc');saved=role.read_text(encoding='utf-8-sig')
+try:
+    role.write_text(saved.replace("'Spooler'","'W3SVC'"),encoding='utf-8-sig')
+    changed=json.loads(run(stdin='limited.pssc\nPAFTA\\Analistler\n'))
+    eq(changed['roles'][0]['cmdlets'][1]['Parameters']['ValidateSet'],['Dns','W3SVC'],'dosyadaki değişen kısıt okunur')
+finally:role.write_text(saved,encoding='utf-8-sig')
+pathlib.Path('bad-role.pssc').write_text("@{SessionType='Default';RoleDefinitions=@{'PAFTA\\Analistler'=@{RoleCapabilities=@('../Reader')}}}",encoding='utf-8-sig')
+eq(run(stdin='bad-role.pssc\nPAFTA\\Analistler\n'),'HATA\n','rol adından üst klasöre çıkılmaz')
+pathlib.Path('bad-type.pssc').write_text("@{SessionType='Default';RunAsVirtualAccount='false';RoleDefinitions=@{'PAFTA\\Analistler'=@{RoleCapabilities=@('Inventory')}}}",encoding='utf-8-sig')
+eq(run(stdin='bad-type.pssc\nPAFTA\\Analistler\n'),'HATA\n','metin false gerçek boolean değildir')
+```
+```solution
+$ErrorActionPreference='Stop'
+if ($Girdi.Count -lt 2) { 'HATA'; exit 0 }
+try {
+    $configuration=Import-PowerShellDataFile -LiteralPath $Girdi[0]
+    if ($configuration -isnot [hashtable] -or $configuration.RoleDefinitions -isnot [hashtable] -or $configuration.SessionType -notin @('Default','RestrictedRemoteServer','Empty')) { throw 'Oturum verisi gecersiz' }
+    if ($configuration.ContainsKey('RunAsVirtualAccount') -and $configuration.RunAsVirtualAccount -isnot [bool]) { throw 'Sanal hesap degeri boolean olmali' }
+    $group=$Girdi[1]
+    if (-not $configuration.RoleDefinitions.ContainsKey($group)) { throw 'Grup yok' }
+    $roles=@(foreach($name in @($configuration.RoleDefinitions[$group].RoleCapabilities)) {
+        if ($name -cnotmatch '^[A-Za-z][A-Za-z0-9_-]*$') { throw 'Rol adi kapsam disi' }
+        $rolePath=Join-Path (Split-Path (Resolve-Path -LiteralPath $Girdi[0]).Path -Parent) "RoleCapabilities/$name.psrc"
+        if (-not (Test-Path -LiteralPath $rolePath -PathType Leaf)) { throw 'Rol dosyasi yok' }
+        $role=Import-PowerShellDataFile -LiteralPath $rolePath
+        if ($role -isnot [hashtable]) { throw 'Rol verisi gecersiz' }
+        [pscustomobject]@{name=$name;cmdlets=@($role.VisibleCmdlets | Where-Object { $null -ne $_ });external_commands=@($role.VisibleExternalCommands | Where-Object { $null -ne $_ });providers=@($role.VisibleProviders | Where-Object { $null -ne $_ })}
+    })
+    [pscustomobject]@{session_type=$configuration.SessionType;virtual_account=[bool]$configuration.RunAsVirtualAccount;roles=$roles} | ConvertTo-Json -Depth 10 -Compress
+} catch { 'HATA' }
 ```
 :::

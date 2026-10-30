@@ -1,0 +1,252 @@
+{
+  "classifier_sha256": "86ae691ae2e442b3b681b1e798498726eb5606f3448d812ba65b1f1dd74e38e9",
+  "reports_changed": [
+    {
+      "report": "outputs/audit-20261027/windows/ad.json",
+      "changes": [
+        {
+          "kind": "starter",
+          "where": "ad/ad24:3 gorev «Grup değişiklik isteğini kanıt olarak çı»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "ad/ad25:2 gorev «Sır içermeyen zaman raporu üret»",
+          "before": "FAIL",
+          "after": "PASS"
+        }
+      ]
+    },
+    {
+      "report": "outputs/audit-20261027/windows/asm.json",
+      "changes": [
+        {
+          "kind": "starter",
+          "where": "asm/as06:2 gorev «LIFO `push` / `pop` ve `rsp` simülatörü»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "asm/as13:3 gorev «Dosya ofsetinden sanal adrese»",
+          "before": "FAIL",
+          "after": "PASS"
+        }
+      ]
+    },
+    {
+      "report": "outputs/audit-20261027/windows/bash.json",
+      "changes": [
+        {
+          "kind": "starter",
+          "where": "bash/bs07:3 gorev «Hataları ayır»",
+          "before": "FAIL",
+          "after": "ERROR"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs20:4 gorev «Yerinde düzenle»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs23:3 gorev «Kilitli çalışma»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs25:4 gorev «Ondalık ortalama»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs27:2 gorev «1 · Arşiv al»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs29:5 gorev «Kod, gövde ve boşluk»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs31:3 gorev «/proc'tan süreç kimliği»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs31:4 gorev «ps ile süreç ağacı»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs31:7 gorev «Günlükten kanıt»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs30:7 gorev «Düşen testin çalışma alanını temizle»",
+          "before": "FAIL",
+          "after": "ERROR"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs32:3 gorev «Adlı kullanıcının etkili yetkisi»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs34:3 gorev «Bağlantı özeti»",
+          "before": "FAIL",
+          "after": "PASS"
+        },
+        {
+          "kind": "starter",
+          "where": "bash/bs35:7 gorev «SFTP batch ile gidiş dönüşü doğrula»",
+          "before": "FAIL",
+          "after": "PASS"
+        }
+      ]
+    },
+    {
+      "report": "outputs/audit-20261027/windows/sigma.json",
+      "changes": [
+        {
+          "kind": "solution",
+          "where": "sigma/sg19:5 gorev «3 · Aynı kuralı CIM veri modeline çevir»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        }
+      ]
+    },
+    {
+      "report": "outputs/audit-20261027/windows/spl.json",
+      "changes": [
+        {
+          "kind": "solution",
+          "where": "spl/sp23:1 gorev «1 · Erişim günlüğünü Web modeline bağla»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "starter",
+          "where": "spl/sp23:1 gorev «1 · Erişim günlüğünü Web modeline bağla»",
+          "before": "PASS",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "tahmin",
+          "where": "spl/sp23:2 tahmin «»",
+          "before": "PASS",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "tahmin",
+          "where": "spl/sp23:4 tahmin «»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "solution",
+          "where": "spl/sp23:5 gorev «2 · Modelden sunucu başına hata oranı»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "solution",
+          "where": "spl/sp23:7 gorev «Authentication modeline değerleri ve kap»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "starter",
+          "where": "spl/sp23:7 gorev «Authentication modeline değerleri ve kap»",
+          "before": "PASS",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "solution",
+          "where": "spl/sp23:8 gorev «Endpoint.Processes: iki etiket ve süreç »",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "starter",
+          "where": "spl/sp23:8 gorev «Endpoint.Processes: iki etiket ve süreç »",
+          "before": "PASS",
+          "after": "BLOCKED"
+        }
+      ]
+    },
+    {
+      "report": "outputs/audit-20261027/gitbash/spl.json",
+      "changes": [
+        {
+          "kind": "solution",
+          "where": "spl/sp23:1 gorev «1 · Erişim günlüğünü Web modeline bağla»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "starter",
+          "where": "spl/sp23:1 gorev «1 · Erişim günlüğünü Web modeline bağla»",
+          "before": "PASS",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "tahmin",
+          "where": "spl/sp23:2 tahmin «»",
+          "before": "PASS",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "tahmin",
+          "where": "spl/sp23:4 tahmin «»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "solution",
+          "where": "spl/sp23:5 gorev «2 · Modelden sunucu başına hata oranı»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "solution",
+          "where": "spl/sp23:7 gorev «Authentication modeline değerleri ve kap»",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "starter",
+          "where": "spl/sp23:7 gorev «Authentication modeline değerleri ve kap»",
+          "before": "PASS",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "solution",
+          "where": "spl/sp23:8 gorev «Endpoint.Processes: iki etiket ve süreç »",
+          "before": "FAIL",
+          "after": "BLOCKED"
+        },
+        {
+          "kind": "starter",
+          "where": "spl/sp23:8 gorev «Endpoint.Processes: iki etiket ve süreç »",
+          "before": "PASS",
+          "after": "BLOCKED"
+        }
+      ]
+    }
+  ],
+  "scope": "Auditor classification only; no runtime result, quality score or user progress altered"
+}

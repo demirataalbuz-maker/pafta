@@ -26,9 +26,27 @@ ETIKET = {
     "taslak": "🟧 taslak (commit edilmemiş)",
     "kismen": "🟪 kısmen",
     "codex-onerildi": "🩵 Codex önerildi",
+    "codex-opus": "🟥 Codex / Opus 4.8",
+    "claude-alabilir": "🔵 Claude alabilir",
     "atlandi": "⬜ atlandı",
     "": "· dokunulmadı",
 }
+
+# Excel'deki 104 maddeyi değiştirmeden iş-rolü eklerini paftada göster.
+EK_MADDELER = [
+    {"no": 105, "ad": "İş Rolü: Oltalama e-postası analizi (PU14)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "SPF/DKIM/DMARC, Received, URL ve ek kanıtı; 9/9 test temiz"},
+    {"no": 106, "ad": "İş Rolü: Windows adli izleri (PU15)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "Registry, Prefetch, MFT, LNK ve UTC çizelgesi; 9/9 test temiz"},
+    {"no": 107, "ad": "İş Rolü: Linux yetki yükseltme temelleri (PU16)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "SUID/SGID, sudo, cron/systemd, PATH ve capability; 8/8 test temiz"},
+    {"no": 108, "ad": "İş Rolü: Parola özeti biçimleri (PU17)", "atanan": "Kimi",
+     "excel": "Pafta eki", "durum": "denetime-hazir", "kim": "Kimi", "commit": "0277d48",
+     "not": "NTLM, bcrypt, sha512crypt, yescrypt ve araç modları; 8/8 test temiz"},
+]
 
 
 def git(*args):
@@ -95,6 +113,8 @@ def uret():
         m["kim"] = d.get("kim", "")
         m["commit"] = d.get("commit", "")
         m["not"] = d.get("not", "")
+
+    maddeler.extend(dict(m) for m in EK_MADDELER)
 
     sayac = {}
     for m in maddeler:
@@ -175,7 +195,7 @@ PANEL = r"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root{--kagit:#efe8d6;--kagit2:#e6dcc3;--murekkep:#1e2a33;--soluk:#6d6a5e;--cizgi:#b9ad8e;
- --codex:#13808a;--bitti:#2f5d3a;--hazir:#2d5f8b;--calis:#c98a12;--taslak:#c4561d;--kismen:#6b4c8a;--isaret:#c0261c}
+ --codex:#13808a;--bitti:#2f5d3a;--hazir:#4f8a52;--calis:#c98a12;--taslak:#c4561d;--kismen:#6b4c8a;--isaret:#c0261c;--kirmizi:#b3261e;--mavi:#1f5fbf}
 *{box-sizing:border-box}
 body{margin:0;background:var(--kagit);color:var(--murekkep);font-family:Bahnschrift,"Segoe UI",system-ui,sans-serif;
  background-image:repeating-radial-gradient(circle at 78% 12%,transparent 0 38px,rgba(120,100,60,.09) 38px 39px),
@@ -210,6 +230,8 @@ h1 small{display:block;letter-spacing:.18em;font-size:12px;color:var(--soluk);ma
 .parsel.kismen{background:linear-gradient(135deg,var(--kismen) 50%,transparent 50%);color:var(--murekkep)}
 .parsel.codex{background:repeating-linear-gradient(-45deg,var(--codex) 0 4px,#4fb3bb 4px 8px);color:#f3efe2;border-style:double;border-width:3px}
 .parsel.codex b{background:var(--codex);padding:0 2px}
+.parsel.kirmizi{background:var(--kirmizi);color:#f3efe2}
+.parsel.mavi{background:var(--mavi);color:#f3efe2}
 .parsel.kismen b,.parsel.taslak b{background:var(--kagit);padding:0 2px}
 .parsel.atl{background:#cfc6ae;color:var(--soluk)}
 .parsel.soluk{opacity:.18}
@@ -255,12 +277,13 @@ aside{display:flex;flex-direction:column;gap:18px}
 const V=/*VERI*/null;
 const D={bitti:["bitti","bitti (denetçi)","var(--bitti)"],"denetime-hazir":["hazir","denetime hazır","var(--hazir)"],
  calisiliyor:["calis","çalışılıyor","var(--calis)"],taslak:["taslak","taslak (commit edilmemiş)","var(--taslak)"],
- kismen:["kismen","kısmen","var(--kismen)"],"codex-onerildi":["codex","Codex önerildi","var(--codex)"],atlandi:["atl","atlandı","#cfc6ae"],"":["bos","dokunulmadı","transparent"]};
+ kismen:["kismen","kısmen","var(--kismen)"],"codex-onerildi":["codex","Codex önerildi","var(--codex)"],
+ "codex-opus":["kirmizi","Codex / Opus 4.8","var(--kirmizi)"],"claude-alabilir":["mavi","Claude alabilir","var(--mavi)"],atlandi:["atl","atlandı","#cfc6ae"],"":["bos","dokunulmadı","transparent"]};
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const say={};V.maddeler.forEach(m=>say[m.durum]=(say[m.durum]||0)+1);
 const toplam=V.maddeler.length;
 document.getElementById("kunye").innerHTML=`<span class="nefes"></span>güncellendi <b>${esc(V.zaman)}</b><br>son commit <code>${esc(V.bas)}</code><br>${esc(V.ozet)}`;
-const sira=["bitti","denetime-hazir","kismen","codex-onerildi","calisiliyor","taslak","atlandi",""];
+const sira=["bitti","denetime-hazir","kismen","claude-alabilir","codex-opus","codex-onerildi","calisiliyor","taslak","atlandi",""];
 document.getElementById("olcek").innerHTML=sira.map(k=>say[k]?`<span title="${D[k][1]}: ${say[k]}" style="width:${say[k]/toplam*100}%;background:${D[k][2]}"></span>`:"").join("");
 const ilerleme=(say.bitti||0)+(say["denetime-hazir"]||0);
 document.getElementById("olcekYazi").innerHTML=`<span>0</span><span>ölçek: ${ilerleme} / ${toplam} parsel bitti ya da denetime hazır</span><span>${toplam}</span>`;

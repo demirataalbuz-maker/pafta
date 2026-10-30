@@ -1,0 +1,64 @@
+{
+  "backend": "real Windows PowerShell 5.1 / wevtutil EVTX / Get-WinEvent",
+  "references_passed": 1,
+  "mutants_rejected": 11,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "exclusive level",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "OR instead of AND",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "reverse record order",
+      "status": "rejected",
+      "runner_status": "error"
+    },
+    {
+      "mutation": "exclusive ID zero",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "exclusive ID maximum",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "exclusive level zero",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "exclusive level maximum",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "missing namespace",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "discard Data fields",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "hide corrupt EVTX",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "leak working copy",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ],
+  "reader_limit": "file:// required; ampersand source names are queried through a disposable GUID-named copy; working-directory path must not contain &."
+}

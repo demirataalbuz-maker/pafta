@@ -1,0 +1,73 @@
+{
+  "no": 37,
+  "yol": "kql",
+  "ad": "Avcılık sorgusundan zamanlanan Sentinel kuralına",
+  "dersler": [
+    "KQ22"
+  ],
+  "karar": "Kısmen",
+  "ozet": "Zaman penceresi sorguları gerçek Kusto’da çalışır. Account Name/UPNSuffix ve IP Address mapping’ine bağlanabilecek gerçek çıktı sütunlarını üreten görev eklendi. Kullanıcıda Sentinel çalışma alanı bulunmadığından gerçek Test with current data/Review portal kabulü yapılmadı; bu eksik açık kalır.",
+  "tarih": "27.10.2026",
+  "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+  "puan": {
+    "test": 24,
+    "kapsam": 21,
+    "derinlik": 23,
+    "gerceklik": 12,
+    "yol": 9
+  },
+  "eksikler": [
+    {
+      "metin": "Gerçek Sentinel'de kural önizlemesi yok (abonelik).",
+      "oncelik": "orta",
+      "etiket": "CDEP"
+    }
+  ],
+  "onceki_denetim": {
+    "no": 37,
+    "yol": "kql",
+    "ad": "Avcılık sorgusundan zamanlanan Sentinel kuralına",
+    "dersler": [
+      "KQ22"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Çalıştırma sıklığı ve lookback pencereleri, kaçan ve iki kez sayılan olaylar, ingestion_time, eşik.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+      "test": 24,
+      "kapsam": 18,
+      "derinlik": 22,
+      "gerceklik": 10,
+      "yol": 9
+    },
+    "eksikler": [
+      {
+        "metin": "Gerçek Sentinel'de kural önizlemesi yok (abonelik).",
+        "oncelik": "orta",
+        "etiket": "CDEP"
+      },
+      {
+        "metin": "Entity mapping yalnız anılıyor; görevde yok.",
+        "oncelik": "orta",
+        "etiket": "CDEP"
+      }
+    ]
+  },
+  "kapatilanlar": [
+    {
+      "metin": "Entity mapping yalnız anılıyor; görevde yok.",
+      "oncelik": "orta",
+      "etiket": "CDEP"
+    }
+  ],
+  "cikar": false,
+  "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "kanit": "../../outputs/a-notu-kq22-native-kabul.json",
+    "rapor": "../../outputs/a-notu-kq22-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "89/100 öz değerlendirme; önceki bağımsız puan korundu. Ortak dosya boşalınca uygulanacak öneri. Sentinel portal kontrolü açık."
+  }
+}

@@ -1,0 +1,67 @@
+# Ölçüm: c7fe5df anlık görüntüsü, mutasyon.py --en-cok 400 (tam küme)
+# validate pu02 pu06 pu07 pu10 pu12 pu13 pu14 pu15 pu17 bt05 bt06 id01 id02 id03 (PowerShell)
+14 ders, 90 kontrol · geçen: {'tahmin': 14, 'solution': 38, 'starter': 38}
+TEMİZ
+
+pu13:3 «1 · Planı Atomic/Caldera sözleşmesiyle doğrula» 7 mutant, 7 yakalandı
+pu13:4 «2 · Beklenen telemetriyi ön koşul sonucuyla üret» 2 mutant, 2 yakalandı
+pu13:5 «3 · Detection coverage ve gap ölç» 9 mutant, 9 yakalandı
+pu02:2 «1 · Tek zaman çizelgesi» 3 mutant, 3 yakalandı
+pu02:3 «2 · Kapsamı bulmak» 9 mutant, 6 yakalandı · GEÇEN: ["'1'→'2' @21", "'2026'→'2027' @39", "'10'→'11' @39"]
+pu02:5 «3 · Doğru playbook'u ve adım sırasını seç» 2 mutant, 2 yakalandı
+pu02:6 «4 · Sınırlama ve temizleme adımlarını güvenle uygula» 7 mutant, 7 yakalandı
+pu02:7 «5 · Kanıtı değiştirmeden paketle ve doğrula» 9 mutant, 8 yakalandı · GEÇEN: ["'2'→'3' @31"]
+pu10:2 «1 · Süreçleri normalize et ve kökeni koru» 0 mutant, 0 yakalandı
+pu10:3 «2 · Bağlantıyı doğru süreç örneğine bağla» 10 mutant, 10 yakalandı
+pu10:4 «3 · Bellek ve ağ gerekçelerini birleştir» 34 mutant, 31 yakalandı · GEÇEN: ["'<='→'<' @62", "'=='→'!=' @49", "'1'→'2' @49"]
+pu06:2 «Paralel ASR dizilerini kayıpsız eşle» 6 mutant, 6 yakalandı
+pu06:3 «Pilotun geçiş kapısını değerlendir» 14 mutant, 12 yakalandı · GEÇEN: ["'25'→'26' @2", "'1'→'2' @2"]
+pu07:2 «Koşulu ve istisnayı ayrı envanterle» 0 mutant, 0 yakalandı
+pu07:3 «Önleme iddiası için gerekli kanıtları ayır» 11 mutant, 11 yakalandı
+pu12:3 «1 · Linux kayıtlarında zayıf yetki sınırları» 10 mutant, 10 yakalandı
+pu12:4 «2 · Windows token, DACL ve JEA kanıtı» 19 mutant, 17 yakalandı · GEÇEN: ["'<'→'<=' @41", "'3'→'4' @41"]
+pu12:5 «3 · Parola püskürtme, kaba kuvvet ve başarı geçişi» 23 mutant, 23 yakalandı
+pu12:6 «4 · Logon Type ile kaynak-hedef zinciri» 14 mutant, 13 yakalandı · GEÇEN: ["'2026'→'2027' @20"]
+bt05:2 «İddia defterini doğrula» 8 mutant, 8 yakalandı
+bt05:3 «Veri kaybetmeden taşınabilir rapor eki üret» 1 mutant, 0 yakalandı · GEÇEN: ["'2'→'3' @7"]
+bt06:2 «Bulguyu teslim edilebilir plana dönüştür» 2 mutant, 2 yakalandı
+bt06:3 «Yeniden testin kabul kapısı» 20 mutant, 19 yakalandı · GEÇEN: ["'25'→'26' @5"]
+pu14:4 «1 · Kimlikleri, doğrulama sonuçlarını ve Received aşamasını ilişkilendir» 23 mutant, 18 yakalandı · GEÇEN: ["'and'→'or' @10", "'1'→'2' @6", "'1'→'2' @20", "'1'→'2' @32", "'1'→'2' @55"]
+pu14:6 «2 · HTML bağlantılarında gövde/gerçek hedef ayrımını çıkar» 7 mutant, 7 yakalandı
+pu14:8 «3 · Ek adı, MIME, uzantı ve SHA-256 kanıt paketi üret» 7 mutant, 7 yakalandı
+pu15:3 «1 · Registry ve Prefetch kayıtlarını normalize et» 1 mutant, 1 yakalandı
+pu15:5 «2 · MFT SI/FN ve LNK zamanlarını ayrı koru» 1 mutant, 1 yakalandı
+pu15:7 «3 · UTC olayları ve çelişkileri ayrı raporla» 9 mutant, 9 yakalandı
+pu17:3 «1 · Biçimi katı kurallarla ayrıştır» 15 mutant, 15 yakalandı
+pu17:4 «2 · Shadow alanlarından salt ve cost bulgusu üret» 29 mutant, 29 yakalandı
+pu17:6 «3 · Aracın doğru modunu seç» 3 mutant, 3 yakalandı
+id01:2 «1 · Yasak site sorgusu» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id01:3 «2 · Çalıştırılabilir dosya indirme» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id02:2 «1 · Güncelleme alanı ve alt alanları» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id02:3 «2 · Kurum dışına curl» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id03:2 «1 · İstemci başına NXDOMAIN» 4 mutant, 3 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id03:3 «2 · Pencerede bir kez» 4 mutant, 3 yakalandı · GEÇEN: ["'1'→'2' @1"]
+toplam 327 mutant, 25 geçen
+
+# PU17 e6c022a üzerinde yeniden (boş salt testi eklendikten sonra)
+pu17:3 «1 · Biçimi katı kurallarla ayrıştır» 15 mutant, 15 yakalandı
+pu17:4 «2 · Shadow alanlarından salt ve cost bulgusu üret» 29 mutant, 29 yakalandı
+pu17:6 «3 · Aracın doğru modunu seç» 3 mutant, 3 yakalandı
+toplam 47 mutant, 0 geçen
+
+# Elle yanlış çözümler, e6c022a
+pu14:4 alt alan için noktasız sonek: fail
+pu14:4 alignment tek yönlü: fail
+pu14:4 spoofing kurumsallığa bakmadan: fail
+pu14:6 iç öğe metni ezilir: fail
+pu14:6 her kapanışta kayıt: fail
+pu14:8 çift uzantıda belge şartı yok: fail
+pu15:7 LNK farkı yalnız önce yönünde: fail
+pu15:7 Prefetch eşitliği çelişki sayılır: fail
+pu17:3 boş sha512crypt salt'ı: fail
+pu17:3 rounds alt sınırı dışlanır: fail
+pu17:3 bcrypt cost 04 unutulur: fail
+pu17:4 NTLM digest salt sayılır: fail
+pu17:4 varsayılan rounds yanlış: fail
+pu02:7 sürücüye göreli yol denetimi yok: fail
+toplam 14 elle yanlış çözüm, 14 reddedildi

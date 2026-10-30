@@ -1,0 +1,115 @@
+---
+id: ad22
+title: Gerçek LDAP Bağlantısında TLS ve İmzalama
+summary: Pafta içinden gerçek DC'ye doğrulanmış LDAPS, StartTLS ve imzalı SASL sorguları; sertifika hatasını LDAP filtresiyle karıştırmamak.
+---
+
+::: anlat Filtre doğru, bağlantı neden başarısız?
+AD01–AD12 filtre motoru yalnız dizin eşleşmesini ölçer. Bu derste `ad_lab.probe` gerçek ağ istemcisidir: Kali WSL'deki mevcut OpenLDAP/Impacket ile Pafta'nın `PF-DC01` sunucusuna bağlanır. Hedef ve test kimliği laboratuvara sabittir; parola kullanıcı koduna veya çıktı listesine verilmez. Pafta sunucuyu arka planda açar.
+
+**TLS**, sunucu sertifikası ve bağlantı korumasıdır. **LDAP signing**, TLS dışındaki SASL bağlantısında mesaj bütünlüğü sağlar. İmzalama tek başına gizlilikle aynı şey değildir. LDAPS 636'da TLS'yle başlar; StartTLS, LDAP bağlantısını 389'da TLS'ye yükseltir. StartTLS başarısızken açık bağlantıya devam etmemek gerekir. Laboratuvardaki OpenLDAP çağrısı bunu zorunlu `-ZZ` ile yapar. [Microsoft LDAP signing](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/ldap-signing), [LDAPS sertifika gereksinimleri](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/enable-ldap-over-ssl-3rd-certification-authority), [OpenLDAP ldapsearch](https://www.openldap.org/software/man.cgi?query=ldapsearch&sektion=1).
+
+`probe('valid')` güvenilen CA ve doğru sunucu adıyla LDAPS/SASL bağlantısı kurar. `probe('signed')` TLS olmadan imzalı SASL sorgusu yapar. `unsigned` sunucunun imza zorlamasıyla reddedilir. `bad-ca` güvenilmeyen CA, `bad-name` yanlış sunucu adı deneyidir; ikisinde de kimlik doğrulamadan önce sertifika kontrolü durur. `starttls`, gerçek OpenLDAP simple bind'i zorunlu TLS üzerinden yapar. Simple bind'i SASL channel binding deneyi sanma.
+
+Impacket'in TLS taşıması CA/ad doğrulamasını kendisi sağlamadığı için Pafta önce Python TLS ile zincir ve adı doğrular, ardından LDAP bağlantısındaki **aynı leaf sertifikasını** karşılaştırır ve TLS 1.2/1.3 ister. Bu ek doğrulama [kurulu istemcinin davranışını](https://github.com/fortra/impacket/blob/master/impacket/ldap/ldap.py) tamamlar. Test için `CERT_NONE` veya sertifika doğrulamasını kabul eden callback kullanılmaz.
+:::
+
+::: tahmin Sertifika ve StartTLS
+Üç deneyin başarı alanları ne yazar?
+
+```python
+from ad_lab import probe
+for mode in ("bad-ca", "bad-name", "starttls"):
+    print(mode, probe(mode)["ok"])
+```
+
+???
+
+`bad-ca False`, `bad-name False`, `starttls True`. İlk iki deneyde filtreyi değiştirmek çözüm değildir; sertifika güveni ve sunucu adı düzeltilmelidir.
+
+```meta
+motor: ad-client
+dil: python
+timeout: 180
+```
+:::
+
+::: gorev Gerçek LDAPS sonucunda tam kullanıcıyı ara
+`kullanici_var(ad)` işlevi `probe('valid', filtre)` ile **tam sAMAccountName** filtresi yollasın. Yalnız başarılı bağlantıda `ad` gerçek `names` listesinde bulunursa `True` döndür. Girdideki `*`, `(`, `)`, ters eğik çizgi ve NUL'u RFC 4515'e göre kaçır; bir jokerin bütün kullanıcıları eşleştirmesine izin verme. Mevcut kullanıcı adlarını kodda sabitleme. Gerçek ağ sorgularına ek olarak test, beklenmeyen bir istemci sonucunun başka kullanıcıyı veya başarısız bağlantıyı doğru kullanıcı sanmamasını da sınar. [RFC 4515 kaçış kuralı](https://www.rfc-editor.org/rfc/rfc4515#section-3).
+
+```starter
+from ad_lab import probe
+
+def kullanici_var(ad):
+    return False
+
+print(kullanici_var("ali.kaya"))
+```
+
+```test
+f = need("kullanici_var")
+original = f.__globals__["probe"]
+filters = []
+def audited(mode, filtre):
+    filters.append(filtre)
+    return original(mode, filtre)
+f.__globals__["probe"] = audited
+try:
+    eq(kullanici_var("ali.kaya"), True, "gerçek kullanıcı")
+    eq(kullanici_var("mehmet.yilmaz"), True, "ikinci gerçek kullanıcı")
+    eq(kullanici_var("ali.kay"), False, "eksik son harf")
+    eq(kullanici_var("ali.kayaX"), False, "ek son harf")
+    eq(kullanici_var("*"), False, "yıldız joker değil düz veri")
+    eq(kullanici_var("ali.kaya)(objectClass=*)"), False, "parantez filtreyi değiştirmesin")
+    eq(kullanici_var("ali\\kaya"), False, "ters eğik çizgi")
+    eq(kullanici_var("ali\0kaya"), False, "NUL filtre verisi olarak kaçırılsın")
+finally:
+    f.__globals__["probe"] = original
+for value in [r"(sAMAccountName=\2a)", r"(sAMAccountName=ali.kaya\29\28objectClass=\2a\29)", r"(sAMAccountName=ali\5ckaya)", r"(sAMAccountName=ali\00kaya)"]:
+    ok(value in filters, "sunucuya gerçekten kaçırılmış tam filtre gönder: " + value)
+try:
+    for result, expected in [({"ok": True, "names": ["mehmet.yilmaz"]}, False), ({"ok": False, "names": ["ali.kaya"]}, False), ({"ok": True, "names": []}, False), ({"ok": True, "names": ["ali.kaya"]}, True)]:
+        f.__globals__["probe"] = lambda _mode, _filter, r=result: r
+        eq(f("ali.kaya"), expected, "beklenmeyen istemci sonucunda doğru hesabı ve bağlantı başarısını kontrol et")
+finally:
+    f.__globals__["probe"] = original
+eq(original("signed")["ok"], True, "gerçek imzalı SASL")
+eq(original("unsigned")["ok"], False, "imzasız SASL sunucuda reddedilir")
+```
+
+```solution
+from ad_lab import probe
+
+def kullanici_var(ad):
+    escapes = {"*": r"\2a", "(": r"\28", ")": r"\29", "\\": r"\5c", "\0": r"\00"}
+    value = "".join(escapes.get(ch, ch) for ch in ad)
+    result = probe("valid", "(sAMAccountName=" + value + ")")
+    return result["ok"] and ad in result.get("names", [])
+
+print(kullanici_var("ali.kaya"))
+```
+
+```hint
+Kaçışı karakter karakter yap; daha önce ürettiğin ters eğik çizgileri tekrar kaçırma. Bağlantı başarısı ile sorgunun eşleşme üretmesini ayrı kontrol et.
+```
+
+```meta
+motor: ad-client
+dil: python
+timeout: 240
+```
+:::
+
+::: anlat ldp.exe ile canlı kabul defteri: taşıma, bind ve arama ayrı kanıt
+Bu bölüm gerçek laboratuvar hazırken elle uygulanır; aşağıdaki maddelerin bulunması, bu laptopta uygulanmış oldukları anlamına gelmez. `ldp.exe` Windows AD DS yönetim araçlarıyla gelir. Önce aracın ve yetkili test DC'sinin varlığını doğrula; araç yoksa başka bir LDAP istemcisinin çıktısını ldp.exe kanıtı diye etiketleme. Bu ders sistem/etki alanı ilkesini kendiliğinden değiştirmez.
+
+1. Ldp'yi **test CA'sını ve DC adını zaten güvenle doğrulayabilen laboratuvar makinesinde** aç. Connection → Connect'te sertifikanın DNS adıyla DC'yi ve `636` portunu seç, SSL kutusunu işaretle. Bağlantı çıktısını kaydet. IP adresiyle bağlanıp ad hatasını gizleme; sertifika doğrulamasını kapatma.
+2. Connection → Bind ile yalnız laboratuvarın test hesabını kullan. Başarılı TCP/TLS bağlantısını başarılı LDAP kimlik doğrulamasıyla karıştırma. Oturum türünü (TLS + Simple/SASL) kabul kaydına yaz; LDAPS üzerinde Simple bind, SASL channel binding testi değildir.
+3. Browse → Search'te laboratuvarın Base DN'ini ve `(sAMAccountName=ali.kaya)` filtresini kullan. Bağlantı ve bind başarılarını, aramanın sonuç adedi ve sAMAccountName alanından ayrı kaydet. Aynı oturumda olmayan bir kullanıcı için boş sonuç, TLS/CBT başarısızlığı sayılmaz.
+4. Ayrı bir negatif deneyde Connection → Connect ile `389`, SSL kapalı kullan. Microsoft'un imzalama doğrulama yordamındaki Connection → Bind → Simple bind denemesini **yalnız izole laboratuvar ve hassas olmayan test kimliğiyle** yap. İmza zorlaması olan DC'de beklenen `Strong Authentication Required` reddidir. Normal bir kullanıcının parolasını açık bağlantıya koyma. Bu deney LDAP signing politikasını gözler; TLS sertifikası veya CBT doğrulamasını kanıtlamaz.
+5. AD23'teki doğru/eksik/yanlış CBT deneylerini ayrıca Pafta'nın gerçek SASL istemcisiyle yürüt. ldp.exe'de bir LDAPS aramasının başarılı olması üç CBT durumunun da sınandığı anlamına gelmez.
+
+Kabul kaydında istemci/Windows sürümü, zaman (UTC), DC DNS adı, port/TLS seçimi, bind türü, sonuç/hata kodu, arama filtresi ve sonuç sayısı ayrı sütunlar olsun. Parola veya tokenı kayda yazma. `bad-ca`, `bad-name`, `starttls`, `signed`, `unsigned` Pafta sonuçlarını kendi deneyiyle karşılaştır; **ldp.exe GUI uygulanmadıysa alanı `bekliyor` bırak**. Aynı DC'deki kontroller karşılaştırılır; örnek bir ekran görüntüsü bu makinenin deneyi sayılmaz.
+
+Kaynaklar: [Microsoft'un ldp.exe imzalama doğrulaması](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/enable-ldap-signing-in-windows-server), [LDAP TLS/signing/CBT ayrımı](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/ldap-signing).
+:::

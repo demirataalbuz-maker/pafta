@@ -1,0 +1,93 @@
+{
+ "id": "bitirme",
+ "name": "Bitirme · Savunma ve Rapor",
+ "status": "active",
+ "group": "savunma",
+ "order": 29,
+ "runner": "bitirme",
+ "dil": "python",
+ "role": "Hazır vaka kanıtından tekrarlanabilir inceleme, zaman çizelgesi ve ölçülebilir iyileştirme raporu.",
+ "tagline": "Aynı vakayı Kusto, SPL, Sigma ve gerçek paket filtresiyle incele; kanıtı yorumdan ayır.",
+ "kahraman": [
+  "Kanıttan",
+  "Karara",
+  ""
+ ],
+ "ranks": [
+  {
+   "id": "minik",
+   "name": "Minik"
+  },
+  {
+   "id": "tesviye",
+   "name": "Tesviye"
+  },
+  {
+   "id": "kucuk-orta",
+   "name": "Küçük Orta"
+  },
+  {
+   "id": "buyuk-orta",
+   "name": "Büyük Orta"
+  },
+  {
+   "id": "basalti",
+   "name": "Başaltı"
+  },
+  {
+   "id": "baspehlivan",
+   "name": "Başpehlivan"
+  }
+ ],
+ "modules": [
+  {
+   "title": "Kanıtı Koru",
+   "rank": "minik",
+   "lessons": [
+    "bt01"
+   ]
+  },
+  {
+   "title": "Aramayı Doğrula",
+   "rank": "tesviye",
+   "lessons": [
+    "bt02"
+   ]
+  },
+  {
+   "title": "Tespiti Ölç",
+   "rank": "kucuk-orta",
+   "lessons": [
+    "bt03"
+   ]
+  },
+  {
+   "title": "Vakayı Birleştir",
+   "rank": "buyuk-orta",
+   "lessons": [
+    "bt04"
+   ]
+  },
+  {
+   "title": "Raporu Yaz",
+   "rank": "basalti",
+   "lessons": [
+    "bt05"
+   ]
+  },
+  {
+   "title": "Boşluğu Kapat",
+   "rank": "baspehlivan",
+   "lessons": [
+    "bt06"
+   ]
+  },
+  {
+   "title": "Saldırı Zinciri ve Kanıt Üretimi",
+   "rank": "baspehlivan",
+   "lessons": [
+    "bt07"
+   ]
+  }
+ ]
+}

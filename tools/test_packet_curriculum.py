@@ -97,6 +97,7 @@ def mutations(code, dialect="wireshark"):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--audit-json")
+    parser.add_argument("--progress-jsonl", help="Tamamlanmamış denetimde de ölçülen işleri satır satır kaydet")
     parser.add_argument("--lessons", nargs="*")
     args = parser.parse_args()
     library = Library()
@@ -146,9 +147,15 @@ def main():
         return {"lesson": lid, "step": index, "change": label, "code": code,
                 "status": result["status"], "error": result.get("error"),
                 "failed_checks": [c for c in result.get("checks", []) if not c["ok"]][:2]}
+    progress = Path(args.progress_jsonl).open("w", encoding="utf-8") if args.progress_jsonl else None
     with ThreadPoolExecutor(max_workers=4) as pool:
         for row in pool.map(execute, jobs):
             records.append(row)
+            if progress:
+                progress.write(json.dumps(row, ensure_ascii=False) + "\n")
+                progress.flush()
+                if len(records) % 50 == 0:
+                    print(f"ölçülen {len(records)}/{len(jobs)}", flush=True)
             original = library.lesson("packets", row["lesson"])["steps"][row["step"]].get("solution")
             key = (row["lesson"], row["step"], original, row["code"])
             equivalent = EQUIVALENT.get(key) or boolean_alias(original, row["code"])
@@ -160,6 +167,8 @@ def main():
                 bad = row["status"] in ("pass", "internal", "timeout") and not row.get("equivalent")
             if bad:
                 failures.append(f"{row['lesson']}:{row['step']} {row['change']}: {row['status']} | {row['code']} | {row['error']} {row['failed_checks']}")
+    if progress:
+        progress.close()
     summary = {"lessons": len(set(r["lesson"] for r in records)), "tasks": tasks, "predictions": predictions,
                "mutations": len(records) - 2 * tasks, "equivalent": sum("equivalent" in r for r in records),
                "failures": failures, "records": records}

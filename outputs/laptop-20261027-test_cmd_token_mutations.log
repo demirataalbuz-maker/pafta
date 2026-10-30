@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_cmd_token_mutations.py", line 52, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\demo12\Documents\Pafta\tools\test_cmd_token_mutations.py", line 42, in main
+    assert runner.test(solution, task)["status"] == "pass", (lesson_id, task_index)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('cm23', 0)

@@ -107,6 +107,11 @@ yeni = dene("veri(%r, 'pafta_uygulama', 'uygulama2.log')" % EK)
 eq([(r[0], r[2].strip().split("\n")[0][24:]) for r in yeni[5:]],
    [("2026-10-19 09:06:00.100", "INFO birinci"), ("2026-10-19 09:06:00.900", "INFO ikinci")],
    "aynı saniyedeki iki olay milisaniyeyle sıralanır; girintiyle başlayan tarihli satır yeni olay değildir")
+
+edge='2026-10-19 23:59:59,999 INFO gun-sonu\n2026-10-20 00:00:00,000 INFO yeni-gun\n'
+rows=dene("veri(%r, 'pafta_uygulama', 'saat-siniri.log')" % edge)
+eq([r[0] for r in rows[-2:]],['2026-10-19 23:59:59.999','2026-10-20 00:00:00.000'],'gerçek saat, milisaniye ve gün geçişi pinli')
+
 ```
 
 ```solution
@@ -175,6 +180,11 @@ EK = "[web04] istek=7f3d ext=01.01.2026 00:00:00 t=19.10.2026 10:30:00 durum=200
 yeni = dene("veri(%r, 'pafta_erisim', 'erisim2.log')" % EK)
 eq(yeni[-1][0], "2026-10-19 07:30:00.000",
    "ext= alanındaki damga yakalanmaz: önek t= alanının başını, önündeki boşlukla birlikte tarif etmeli")
+
+edge='[web] ext=01.01.2026 00:00:00 t=20.10.2026 02:59:59 durum=200\n[web] ext=01.01.2026 00:00:00 t=20.10.2026 03:00:00 durum=200\n'
+rows=dene("veri(%r, 'pafta_erisim', 'saat-siniri.log')" % edge)
+eq([r[0] for r in rows[-2:]],['2026-10-19 23:59:59.000','2026-10-20 00:00:00.000'],'İstanbul 03:00 UTC gece yarısı; saat kaydırılmaz')
+
 ```
 
 ```solution

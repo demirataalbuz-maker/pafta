@@ -1,0 +1,126 @@
+{
+  "targets": {
+    "windows-targets": {
+      "exit": 1,
+      "seconds": 69.0,
+      "log": "laptop-20261027-windows-targets.log",
+      "tail": [
+        "12 ders, 138 kontrol · geçen: {'ornek': 27, 'tahmin': 15, 'solution': 47, 'starter': 48}",
+        "  ✗ ÇÖZÜM GEÇMEDİ          cmd/cm23:3 gorev «Kullanıcı ve grupları CSV'ye ayır»  fail [{'ok': False, 'msg': 'ilk whoami başarılı, ikinci hatalı; stderr ayrıntısı sızmaz', 'got': \"(4551, '', 'token-hatasi')\", 'exp': \"(1, '', 'token-hatasi')\"}] None",
+        "1 SORUN"
+      ]
+    },
+    "gitbash-targets": {
+      "exit": 1,
+      "seconds": 95.1,
+      "log": "laptop-20261027-gitbash-targets.log",
+      "tail": [
+        "12 ders, 138 kontrol · geçen: {'ornek': 27, 'tahmin': 15, 'solution': 47, 'starter': 48}",
+        "  ✗ ÇÖZÜM GEÇMEDİ          cmd/cm23:3 gorev «Kullanıcı ve grupları CSV'ye ayır»  fail [{'ok': False, 'msg': 'ilk whoami başarılı, ikinci hatalı; stderr ayrıntısı sızmaz', 'got': \"(4551, '', 'token-hatasi')\", 'exp': \"(1, '', 'token-hatasi')\"}] None",
+        "1 SORUN"
+      ]
+    }
+  },
+  "regressions": {
+    "test_cmd_runtime": {
+      "exit": 0,
+      "seconds": 9.9,
+      "log": "laptop-20261027-test_cmd_runtime.log",
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 12 tests in 9.649s",
+        "",
+        "OK"
+      ]
+    },
+    "test_cmd_token_mutations": {
+      "exit": 1,
+      "seconds": 1.0,
+      "log": "laptop-20261027-test_cmd_token_mutations.log",
+      "tail": [
+        "    ~~~~^^",
+        "  File \"C:\\Users\\demo12\\Documents\\Pafta\\tools\\test_cmd_token_mutations.py\", line 42, in main",
+        "    assert runner.test(solution, task)[\"status\"] == \"pass\", (lesson_id, task_index)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "AssertionError: ('cm23', 0)"
+      ]
+    },
+    "test_powershell_ntfs_deny": {
+      "exit": 0,
+      "seconds": 81.1,
+      "log": "laptop-20261027-test_powershell_ntfs_deny.log",
+      "tail": [
+        "omit rollback: rejected",
+        "restore modified ACL: rejected",
+        "swallow permission denial: rejected",
+        "zero byte incorrectly denied: rejected",
+        "fake restored report: rejected"
+      ]
+    },
+    "test_powershell_applocker_jea_files": {
+      "exit": 0,
+      "seconds": 125.6,
+      "log": "laptop-20261027-test_powershell_applocker_jea_files.log",
+      "tail": [
+        "drop provider list: rejected",
+        "hardcoded virtual account: rejected",
+        "flatten command constraints: rejected",
+        "execute configuration instead of data import: rejected",
+        "string false accepted: rejected"
+      ]
+    }
+  },
+  "tracks": {
+    "track-python": {
+      "exit": 0,
+      "seconds": 140.8,
+      "log": "laptop-20261027-track-python.log",
+      "tail": [
+        "83 ders, 927 kontrol · geçen: {'ornek': 256, 'tahmin': 153, 'solution': 259, 'starter': 259}",
+        "Kazanım (dersi olan madde / bütün maddeler): python: PCEP 15/15 · PCAP 19/21 · PCPP1 21/24",
+        "TEMİZ"
+      ]
+    },
+    "track-bash": {
+      "exit": 0,
+      "seconds": 50.6,
+      "log": "laptop-20261027-track-bash.log",
+      "tail": [
+        "35 ders, 347 kontrol · geçen: {'ornek': 97, 'tahmin': 38, 'solution': 106, 'starter': 106}",
+        "Kazanım (dersi olan madde / bütün maddeler): bash: LPIC1 11/13",
+        "TEMİZ"
+      ]
+    },
+    "track-cmd": {
+      "exit": 0,
+      "seconds": 33.3,
+      "log": "laptop-20261027-track-cmd.log",
+      "tail": [
+        "25 ders, 146 kontrol · geçen: {'tahmin': 25, 'solution': 51, 'starter': 51, 'ornek': 19}",
+        "TEMİZ"
+      ]
+    },
+    "track-powershell": {
+      "exit": 1,
+      "seconds": 161.9,
+      "log": "laptop-20261027-track-powershell.log",
+      "tail": [
+        "29 ders, 287 kontrol · geçen: {'ornek': 75, 'tahmin': 31, 'solution': 89, 'starter': 90}",
+        "Kazanım (dersi olan madde / bütün maddeler): powershell: AZ040 23/30",
+        "  ✗ TAHMİN HATA VERİYOR (bilerek mi?) powershell/ps29:6 tahmin «Komut hatası, oturum hatası değildir»  ADLaboratuvarı: Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "  ✗ ÇÖZÜM GEÇMEDİ          powershell/ps29:7 gorev «WSMan oturumunu başarıda ve iki hata tür»  error [] {'type': 'ADLaboratuvarı', 'msg': 'Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.', 'line': None, 'frames': [], 'where': 'kod'}",
+        "2 SORUN"
+      ]
+    },
+    "track-purple": {
+      "exit": 0,
+      "seconds": 18.5,
+      "log": "laptop-20261027-track-purple.log",
+      "tail": [
+        "17 ders, 117 kontrol · geçen: {'tahmin': 17, 'solution': 50, 'starter': 50}",
+        "TEMİZ"
+      ]
+    }
+  }
+}

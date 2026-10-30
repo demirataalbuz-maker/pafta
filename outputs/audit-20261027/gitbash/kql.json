@@ -1,0 +1,3839 @@
+{
+  "track": "kql",
+  "shell": "gitbash",
+  "started_utc": "2026-10-27T17:51:22.713903+00:00",
+  "lessons": [
+    "kq01",
+    "kq02",
+    "kq03",
+    "kq04",
+    "kq05",
+    "kq06",
+    "kq07",
+    "kq08",
+    "kq09",
+    "kq10",
+    "kq11",
+    "kq12",
+    "kq13",
+    "kq14",
+    "kq15",
+    "kq16",
+    "kq17",
+    "kq18",
+    "kq19",
+    "kq20",
+    "kq21",
+    "kq22",
+    "kq23",
+    "kq24"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "ornek",
+      "where": "kql/kq01:0 anlat «Veri soldan sağa akar»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.739,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq01:0 anlat «Veri soldan sağa akar»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.781,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq01:0 anlat «Veri soldan sağa akar»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.672,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq01:1 anlat «where ile süzmek»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.743,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq01:2 tahmin «»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.807,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq01:3 gorev «İstanbul'daki web sunucuları»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.822,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq01:3 gorev «İstanbul'daki web sunucuları»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.84,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "web01 ve web02",
+          "got": "['web01', 'web02', 'web03']",
+          "exp": "['web01', 'web02']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq01:4 gorev «Orta yük»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.609,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq01:4 gorev «Orta yük»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.9,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "30–60 arası sunucular",
+          "got": "[('cache01', 84), ('db01', 91), ('db02', 47), ('dc01', 33), ('izleme01', 55), ('vpn01', 38), ('web01', 72), ('web02', 65)]",
+          "exp": "[('db02', 47), ('dc01', 33), ('izleme01', 55), ('vpn01', 38)]"
+        },
+        {
+          "ok": false,
+          "msg": "between kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq01:5 gorev «Acil açık biletler»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.843,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq01:5 gorev «Acil açık biletler»",
+      "lesson": "kq01",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.764,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "3 bilet",
+          "got": "[(20,)]",
+          "exp": "[(3,)]"
+        },
+        {
+          "ok": false,
+          "msg": "öncelikleri in ile listele"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq02:0 anlat «Sütunlarla çalışmak»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.951,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq02:0 anlat «Sütunlarla çalışmak»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.858,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq02:0 anlat «Sütunlarla çalışmak»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.591,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq02:0 anlat «Sütunlarla çalışmak»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.993,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq02:0 anlat «Sütunlarla çalışmak»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.809,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq02:1 tahmin «»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.79,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq02:2 gorev «Boş kapasite»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.844,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq02:2 gorev «Boş kapasite»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.855,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: ad, bos",
+          "got": "['ad', 'cpu']",
+          "exp": "['ad', 'bos']"
+        },
+        {
+          "ok": false,
+          "msg": "bos = 100 - cpu",
+          "got": "[('cache01', 84), ('db01', 91), ('db02', 47), ('dc01', 33), ('dc02', 29), ('izleme01', 55), ('test01', 3), ('vpn01', 38), ('web01', 72), ('web02', 65), ('web03', 18), ('yedek01', 12)]",
+          "exp": "[('cache01', 16), ('db01', 9), ('db02', 53), ('dc01', 67), ('dc02', 71), ('izleme01', 45), ('test01', 97), ('vpn01', 62), ('web01', 28), ('web02', 35), ('web03', 82), ('yedek01', 88)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq02:3 gorev «Yük sınıfı»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.874,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq02:3 gorev «Yük sınıfı»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.716,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sınıflar doğru",
+          "got": "[('cache01', 'düşük'), ('db01', 'düşük'), ('db02', 'düşük'), ('dc01', 'düşük'), ('dc02', 'düşük'), ('izleme01', 'düşük'), ('test01', 'düşük'), ('vpn01', 'düşük'), ('web01', 'düşük'), ('web02', 'düşük'), ('web03', 'düşük'), ('yedek01', 'düşük')]",
+          "exp": "[('cache01', 'yüksek'), ('db01', 'yüksek'), ('db02', 'düşük'), ('dc01', 'düşük'), ('dc02', 'düşük'), ('izleme01', 'orta'), ('test01', 'düşük'), ('vpn01', 'düşük'), ('web01', 'orta'), ('web02', 'orta'), ('web03', 'düşük'), ('yedek01', 'düşük')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq02:4 gorev «Etiketler»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.853,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq02:4 gorev «Etiketler»",
+      "lesson": "kq02",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.87,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tek sütun: etiket",
+          "got": "['ad']",
+          "exp": "['etiket']"
+        },
+        {
+          "ok": false,
+          "msg": "üç etiket",
+          "got": "['db02', 'vpn01', 'web03']",
+          "exp": "['db02 (veritabanı)', 'vpn01 (ağ geçidi)', 'web03 (web)']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq03:0 anlat «contains mi has mi?»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.909,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq03:0 anlat «contains mi has mi?»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.81,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq03:1 tahmin «»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.791,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq03:2 gorev «Disk biletleri»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.76,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq03:2 gorev «Disk biletleri»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.727,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "1, 13 ve 20 numaralı biletler",
+          "got": "[]",
+          "exp": "[(1, 'çözüldü'), (13, 'çözüldü'), (20, 'açık')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq03:3 gorev «Debian dışındakiler»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.642,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq03:3 gorev «Debian dışındakiler»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.686,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Debian olmayan sekiz sunucu",
+          "got": "['db01', 'db02', 'vpn01', 'yedek01']",
+          "exp": "['cache01', 'dc01', 'dc02', 'izleme01', 'test01', 'web01', 'web02', 'web03']"
+        },
+        {
+          "ok": false,
+          "msg": "8 sunucu",
+          "got": "4",
+          "exp": "8"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq03:4 gorev «Ubuntu sürümleri»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.612,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq03:4 gorev «Ubuntu sürümleri»",
+      "lesson": "kq03",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.686,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: ad, surum",
+          "got": "['ad', 'isletim']",
+          "exp": "['ad', 'surum']"
+        },
+        {
+          "ok": false,
+          "msg": "altı Ubuntu sunucusu ve sürümleri",
+          "got": "[('cache01', 'Ubuntu 24.04'), ('izleme01', 'Ubuntu 22.04'), ('test01', 'Ubuntu 24.04'), ('web01', 'Ubuntu 24.04'), ('web02', 'Ubuntu 24.04'), ('web03', 'Ubuntu 22.04')]",
+          "exp": "[('cache01', '24.04'), ('izleme01', '22.04'), ('test01', '24.04'), ('web01', '24.04'), ('web02', '24.04'), ('web03', '22.04')]"
+        },
+        {
+          "ok": false,
+          "msg": "extract kullan"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq04:0 anlat «summarize»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.729,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq04:0 anlat «summarize»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.681,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq04:0 anlat «summarize»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.853,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq04:0 anlat «summarize»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.666,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq04:0 anlat «summarize»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.733,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq04:1 tahmin «»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.754,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq04:2 gorev «Rol başına sunucu»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.734,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq04:2 gorev «Rol başına sunucu»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.657,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: rol, adet",
+          "got": "['rol']",
+          "exp": "['rol', 'adet']"
+        },
+        {
+          "ok": false,
+          "msg": "rol başına sayılar",
+          "got": "[('ağ geçidi',), ('dizin',), ('dizin',), ('izleme',), ('test',), ('veritabanı',), ('veritabanı',), ('web',), ('web',), ('web',), ('yedek',), ('önbellek',)]",
+          "exp": "[('ağ geçidi', 1), ('dizin', 2), ('izleme', 1), ('test', 1), ('veritabanı', 2), ('web', 3), ('yedek', 1), ('önbellek', 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq04:3 gorev «Şehir ortalaması»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.691,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq04:3 gorev «Şehir ortalaması»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.657,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "şehir ortalamaları, büyükten küçüğe",
+          "got": "[(None, 47.333333333333336), ('Ankara', 34.333333333333336), ('İstanbul', 65.25), ('İzmir', 20.5)]",
+          "exp": "[('İstanbul', 65.3), ('Ankara', 34.3), ('İzmir', 20.5)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq04:4 gorev «Açık biletlerin öncelikleri»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.716,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq04:4 gorev «Açık biletlerin öncelikleri»",
+      "lesson": "kq04",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.597,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "açık biletlerin öncelik dağılımı",
+          "got": "[('düşük', 6), ('kritik', 3), ('orta', 5), ('yüksek', 6)]",
+          "exp": "[('düşük', 4), ('orta', 2), ('yüksek', 3)]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq05:0 anlat «Sıralamak»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.431,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq05:0 anlat «Sıralamak»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.599,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq05:0 anlat «Sıralamak»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.546,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq05:1 tahmin «»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.804,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq05:2 gorev «En sakin üç sunucu»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.609,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq05:2 gorev «En sakin üç sunucu»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.546,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "test01, yedek01, web03 (bu sırayla)",
+          "got": "[('db01', 91), ('cache01', 84), ('web01', 72)]",
+          "exp": "[('test01', 3), ('yedek01', 12), ('web03', 18)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq05:3 gorev «Son açılan biletler»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.688,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq05:3 gorev «Son açılan biletler»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.685,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "20, 19, 18",
+          "got": "[1, 2, 3]",
+          "exp": "[20, 19, 18]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq05:4 gorev «Role göre, rol içinde CPU'ya göre»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.712,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq05:4 gorev «Role göre, rol içinde CPU'ya göre»",
+      "lesson": "kq05",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.904,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sıralama doğru",
+          "got": "[('önbellek', 'cache01'), ('yedek', 'yedek01'), ('web', 'web01'), ('web', 'web02'), ('web', 'web03'), ('veritabanı', 'db01'), ('veritabanı', 'db02'), ('test', 'test01'), ('izleme', 'izleme01'), ('dizin', 'dc01'), ('dizin', 'dc02'), ('ağ geçidi', 'vpn01')]",
+          "exp": "[('ağ geçidi', 'vpn01'), ('dizin', 'dc01'), ('dizin', 'dc02'), ('izleme', 'izleme01'), ('test', 'test01'), ('veritabanı', 'db01'), ('veritabanı', 'db02'), ('web', 'web01'), ('web', 'web02'), ('web', 'web03'), ('yedek', 'yedek01'), ('önbellek', 'cache01')]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq06:0 anlat «İki tabloyu birleştirmek»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.805,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq06:0 anlat «İki tabloyu birleştirmek»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.652,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq06:0 anlat «İki tabloyu birleştirmek»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.548,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq06:1 tahmin «»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.577,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq06:2 gorev «Açık biletler ve sunucuları»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.597,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq06:2 gorev «Açık biletler ve sunucuları»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.567,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sunucusu olan sekiz açık bilet",
+          "got": "[(3, 'db01'), (5, 'dc01'), (9, 'db02'), (10, 'izleme01'), (12, 'web03'), (17, 'test01')]",
+          "exp": "[(3, 'db01'), (5, 'dc01'), (9, 'db02'), (10, 'izleme01'), (12, 'web03'), (15, 'izleme01'), (17, 'test01'), (20, 'db01')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq06:3 gorev «Sorumlusuz sunucu da listede»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.501,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq06:3 gorev «Sorumlusuz sunucu da listede»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.474,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "12 sunucunun hepsi",
+          "got": "11",
+          "exp": "12"
+        },
+        {
+          "ok": false,
+          "msg": "test01 sorumlusuz olarak listede",
+          "got": "[('web02', 'Kerem'), ('web03', 'Can'), ('yedek01', 'Can')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq06:4 gorev «Kendisine bilet atanmamış çalışanlar»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.729,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq06:4 gorev «Kendisine bilet atanmamış çalışanlar»",
+      "lesson": "kq06",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.675,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Burak, Deniz, Selin",
+          "got": "['Ayşe', 'Burak', 'Can', 'Deniz', 'Ece', 'Elif', 'Kerem', 'Mert', 'Selin', 'Zeynep']",
+          "exp": "['Burak', 'Deniz', 'Selin']"
+        },
+        {
+          "ok": false,
+          "msg": "kind=leftanti kullan"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq07:0 anlat «Zaman her kaydın omurgasıdır»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.678,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq07:0 anlat «Zaman her kaydın omurgasıdır»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.691,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq07:0 anlat «Zaman her kaydın omurgasıdır»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.702,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq07:1 anlat «Görselleştirmek: render»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.545,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq07:2 tahmin «»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.56,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq07:3 gorev «Son 24 saat»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.601,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq07:3 gorev «Son 24 saat»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.63,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "19 ve 20 numaralı biletler",
+          "got": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]",
+          "exp": "[19, 20]"
+        },
+        {
+          "ok": false,
+          "msg": "ago kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq07:4 gorev «Önceliğe göre çözüm süresi»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.553,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq07:4 gorev «Önceliğe göre çözüm süresi»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.438,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: oncelik, ort_saat",
+          "got": "['oncelik', 'adet']",
+          "exp": "['oncelik', 'ort_saat']"
+        },
+        {
+          "ok": false,
+          "msg": "öncelik başına ortalama çözüm süresi",
+          "got": "[('düşük', 6), ('kritik', 3), ('orta', 5), ('yüksek', 6)]",
+          "exp": "[('düşük', 22.3), ('orta', 17.5), ('yüksek', 3.0), ('kritik', 1.4)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq07:5 gorev «Sabah biletleri»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.416,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq07:5 gorev «Sabah biletleri»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.481,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: id, saat",
+          "got": "['id', 'acilis']",
+          "exp": "['id', 'saat']"
+        },
+        {
+          "ok": false,
+          "msg": "beş sabah bileti",
+          "got": "[(1, '2026-10-12 08:15'), (2, '2026-10-12 09:00'), (3, '2026-10-12 14:20'), (4, '2026-10-13 07:05'), (5, '2026-10-13 10:30'), (6, '2026-10-13 16:00'), (7, '2026-10-14 08:40'), (8, '2026-10-14 11:00'), (9, '2026-10-14 15:30'), (10, '2026-10-15 09:10'), (11, '2026-10-15 10:00'), (12, '2026-10-15 13:45…",
+          "exp": "[(1, 8), (4, 7), (7, 8), (13, 7), (20, 6)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq07:6 gorev «Günlük bilet grafiği»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.579,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq07:6 gorev «Günlük bilet grafiği»",
+      "lesson": "kq07",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.52,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: gun, adet",
+          "got": "['acilis', 'adet']",
+          "exp": "['gun', 'adet']"
+        },
+        {
+          "ok": false,
+          "msg": "altı gün; 12 ve 19 Ekim dışarıda",
+          "got": "[('2026-10-12', 1), ('2026-10-12', 1), ('2026-10-12', 1), ('2026-10-13', 1), ('2026-10-13', 1), ('2026-10-13', 1), ('2026-10-14', 1), ('2026-10-14', 1), ('2026-10-14', 1), ('2026-10-15', 1), ('2026-10-15', 1), ('2026-10-15', 1), ('2026-10-16', 1), ('2026-10-16', 1), ('2026-10-16', 1), ('2026-10-17',…",
+          "exp": "[('2026-10-13', 3), ('2026-10-14', 3), ('2026-10-15', 3), ('2026-10-16', 3), ('2026-10-17', 2), ('2026-10-18', 2)]"
+        },
+        {
+          "ok": false,
+          "msg": "13 Ekim 00:00 dahil",
+          "got": "1",
+          "exp": "4"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq08:0 anlat «let: adlandır, tekrar kullan»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.461,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq08:0 anlat «let: adlandır, tekrar kullan»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.536,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq08:0 anlat «let: adlandır, tekrar kullan»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.445,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq08:1 anlat «datatable: sorgunun içinde tablo»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.422,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq08:2 tahmin «»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.534,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq08:3 gorev «Eşikleri let ile tanımla»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.495,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq08:3 gorev «Eşikleri let ile tanımla»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.501,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki let ifadesi"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq08:4 gorev «Genel ortalamanın üstündeki sunucular»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.407,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq08:4 gorev «Genel ortalamanın üstündeki sunucular»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.407,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "genel ortalama (529.4 ms) üstündeki iki sunucu",
+          "got": "[('web01', 788.2), ('web02', 548.9), ('web03', 25.7)]",
+          "exp": "[('web01', 788.2), ('web02', 548.9)]"
+        },
+        {
+          "ok": false,
+          "msg": "genel ortalamayı toscalar ile hesapla"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq08:5 gorev «Hedef tablosu»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.445,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq08:5 gorev «Hedef tablosu»",
+      "lesson": "kq08",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.387,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki yolda hedef aşımı",
+          "got": "[('/', 2), ('/api/bilet', 8), ('/api/bilet/17', 1), ('/api/bilet/42', 2), ('/api/durum', 4), ('/api/rapor', 8), ('/giris', 1)]",
+          "exp": "[('/api/rapor', 4), ('/api/bilet', 2)]"
+        },
+        {
+          "ok": false,
+          "msg": "hedefleri datatable ile tanımla"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq09:0 anlat «union: tabloları alt alta koymak»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.554,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq09:1 anlat «lookup: zenginleştirmek»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.592,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq09:2 tahmin «»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.607,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq09:3 gorev «Dağıtım ve hatalar tek çizelgede»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.52,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq09:3 gorev «Dağıtım ve hatalar tek çizelgede»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.439,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'durum']",
+          "exp": "['zaman', 'Kaynak', 'durum', 'surum']"
+        },
+        {
+          "ok": false,
+          "msg": "dağıtımdan hemen sonra iki hata",
+          "got": "[('2026-10-19 08:02', 200), ('2026-10-19 08:07', 200), ('2026-10-19 08:15', 200), ('2026-10-19 09:01', 500), ('2026-10-19 09:02', 500), ('2026-10-19 09:12', 503), ('2026-10-19 09:20', 200), ('2026-10-19 10:05', 200), ('2026-10-19 10:06', 200), ('2026-10-19 11:05', 200), ('2026-10-19 11:47', 200)]",
+          "exp": "[('2026-10-19 08:55', 'dagitimlar', None, '2.5.0'), ('2026-10-19 09:01', 'istekler', 500, None), ('2026-10-19 09:02', 'istekler', 500, None)]"
+        },
+        {
+          "ok": false,
+          "msg": "kaynağı withsource ile yaz"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq09:4 gorev «Hataları sunucu bilgisiyle zenginleştir»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.527,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq09:4 gorev «Hataları sunucu bilgisiyle zenginleştir»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.57,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'sunucu', 'durum']",
+          "exp": "['zaman', 'sunucu', 'rol', 'sehir', 'durum']"
+        },
+        {
+          "ok": false,
+          "msg": "dört hata, sunucu bilgisiyle",
+          "got": "[('2026-10-19 09:01', 'web01', 500), ('2026-10-19 09:02', 'web01', 500), ('2026-10-19 09:12', 'web01', 503), ('2026-10-19 10:42', 'web02', 500)]",
+          "exp": "[('2026-10-19 09:01', 'web01', 'web', 'İstanbul', 500), ('2026-10-19 09:02', 'web01', 'web', 'İstanbul', 500), ('2026-10-19 09:12', 'web01', 'web', 'İstanbul', 503), ('2026-10-19 10:42', 'web02', 'web', 'İstanbul', 500)]"
+        },
+        {
+          "ok": false,
+          "msg": "lookup kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq09:5 gorev «Sahibi olmayan sunucu»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.554,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq09:5 gorev «Sahibi olmayan sunucu»",
+      "lesson": "kq09",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.535,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['sunucu', 'istek']",
+          "exp": "['sunucu', 'ekip', 'istek']"
+        },
+        {
+          "ok": false,
+          "msg": "web03 de listede",
+          "got": "[('web01', 11), ('web02', 9), ('web03', 6)]",
+          "exp": "[('web01', 'Uygulama', 11), ('web02', 'Uygulama', 9), ('web03', 'atanmamış', 6)]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq10:0 anlat «İki tür: an ve süre»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.629,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq10:0 anlat «İki tür: an ve süre»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.465,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq10:1 anlat «Boş saatleri doldurmak ve zaman pencerel»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.497,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq10:1 anlat «Boş saatleri doldurmak ve zaman pencerel»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.449,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq10:2 tahmin «»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.572,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq10:3 gorev «Bir günden uzun sürenler»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.631,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq10:3 gorev «Bir günden uzun sürenler»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.588,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki bilet, süre biçiminde",
+          "got": "[(6, 'düşük', 2)]",
+          "exp": "[(6, 'düşük', '1.20:00:00'), (2, 'orta', '1.01:00:00')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq10:4 gorev «Saatlik hata takvimi»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.574,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq10:4 gorev «Saatlik hata takvimi»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.446,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört saat, boşlar sıfırla",
+          "got": "[('2026-10-19 09:00', 3), ('2026-10-19 10:00', 1)]",
+          "exp": "[('2026-10-19 08:00', 0), ('2026-10-19 09:00', 3), ('2026-10-19 10:00', 1), ('2026-10-19 11:00', 0)]"
+        },
+        {
+          "ok": false,
+          "msg": "takvimi range ile kur"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq10:5 gorev «Dağıtım sonrası 30 dakika»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.534,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq10:5 gorev «Dağıtım sonrası 30 dakika»",
+      "lesson": "kq10",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.588,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç dağıtımın üçü de",
+          "got": "[('2026-10-19 08:55', 'web01', '2.5.0', 4, 3), ('2026-10-19 10:40', 'web02', '2.5.0', 2, 1)]",
+          "exp": "[('2026-10-19 08:55', 'web01', '2.5.0', 4, 3), ('2026-10-19 10:40', 'web02', '2.5.0', 2, 1), ('2026-10-19 11:40', 'web01', '2.5.1', 1, 0)]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq11:0 anlat «Proje tanımı»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.803,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq11:0 anlat «Proje tanımı»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.522,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq11:1 tahmin «»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.62,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq11:2 gorev «1 · Haftanın özeti»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.456,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq11:2 gorev «1 · Haftanın özeti»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.371,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: acilan, cozulen, acik_kalan",
+          "got": "['Count']",
+          "exp": "['acilan', 'cozulen', 'acik_kalan']"
+        },
+        {
+          "ok": false,
+          "msg": "19 açılan, 10 çözülen, 9 açık kalan",
+          "got": "[(20,)]",
+          "exp": "[(19, 10, 9)]"
+        },
+        {
+          "ok": false,
+          "msg": "veri değişince de doğru saymalı (sabit sayı yazma)",
+          "got": "[(18,)]",
+          "exp": "[(17, 9, 8)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq11:3 gorev «2 · Ekip yükü»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.384,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq11:3 gorev «2 · Ekip yükü»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.393,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: ekip, acik, cozulen_hafta",
+          "got": "['atanan_id', 'adet']",
+          "exp": "['ekip', 'acik', 'cozulen_hafta']"
+        },
+        {
+          "ok": false,
+          "msg": "ekiplere göre sayılar",
+          "got": "[(None, 4), (2, 4), (3, 3), (4, 2), (5, 1), (6, 4), (7, 1), (10, 1)]",
+          "exp": "[('Altyapı', 1, 7), ('Ağ', 2, 1), ('Uygulama', 0, 1), ('Veritabanı', 2, 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq11:4 gorev «3 · Sıcak noktalar»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.586,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq11:4 gorev «3 · Sıcak noktalar»",
+      "lesson": "kq11",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.401,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: ad, bilet",
+          "got": "['sunucu_id', 'bilet']",
+          "exp": "['ad', 'bilet']"
+        },
+        {
+          "ok": false,
+          "msg": "sıcak noktalar",
+          "got": "[(None, 1), (1, 2), (2, 2), (3, 1), (4, 4)]",
+          "exp": "[('db01', 3), ('dc01', 2), ('izleme01', 2), ('web01', 2), ('web02', 2)]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq12:0 anlat «parse: mesajı sütunlara böl»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.532,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq12:0 anlat «parse: mesajı sütunlara böl»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.746,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq12:0 anlat «parse: mesajı sütunlara böl»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.637,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq12:0 anlat «parse: mesajı sütunlara böl»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.511,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq12:1 anlat «extract, extract_all, split, replace_reg»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.446,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq12:1 anlat «extract, extract_all, split, replace_reg»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.503,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq12:2 tahmin «»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.485,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq12:3 gorev «Yavaş sorgular»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.484,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq12:3 gorev «Yavaş sorgular»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.655,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['adet']",
+          "exp": "['tablo', 'adet', 'en_uzun']"
+        },
+        {
+          "ok": false,
+          "msg": "iki tablo",
+          "got": "[(4,)]",
+          "exp": "[('raporlar', 3, 2600), ('biletler', 1, 850)]"
+        },
+        {
+          "ok": false,
+          "msg": "parse ile ayrıştır"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq12:4 gorev «Bağlantı havuzunda bekleyenler»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.704,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq12:4 gorev «Bağlantı havuzunda bekleyenler»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.542,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'sunucu', 'mesaj']",
+          "exp": "['zaman', 'sunucu', 'bekleyen']"
+        },
+        {
+          "ok": false,
+          "msg": "üç kayıt",
+          "got": "[('2026-10-19 09:02', 'web01', 'bağlantı havuzu dolu aktif=50 bekleyen=12'), ('2026-10-19 09:12', 'web01', 'bağlantı havuzu dolu aktif=50 bekleyen=31'), ('2026-10-19 10:43', 'web02', 'bağlantı havuzu dolu aktif=40 bekleyen=5')]",
+          "exp": "[('2026-10-19 09:12', 'web01', 31), ('2026-10-19 09:02', 'web01', 12), ('2026-10-19 10:43', 'web02', 5)]"
+        },
+        {
+          "ok": false,
+          "msg": "extract kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq12:5 gorev «Günlük kalıpları»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.48,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq12:5 gorev «Günlük kalıpları»",
+      "lesson": "kq12",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.472,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['mesaj', 'adet']",
+          "exp": "['kalip', 'adet']"
+        },
+        {
+          "ok": false,
+          "msg": "en sık üç kalıp",
+          "got": "[('hizmet başladı surum=2.5.0', 2), ('bağlantı havuzu dolu aktif=40 bekleyen=5', 1), ('bağlantı havuzu dolu aktif=50 bekleyen=12', 1)]",
+          "exp": "[('hizmet başladı surum=#.#.#', 4), ('bağlantı havuzu dolu aktif=# bekleyen=#', 3), ('disk uyarısı bolum=/var doluluk=#%', 3)]"
+        },
+        {
+          "ok": false,
+          "msg": "replace_regex kullan"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq13:0 anlat «JSON taşıyan sütunlar»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.392,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq13:1 anlat «mv-expand: diziyi satırlara aç»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.534,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq13:1 anlat «mv-expand: diziyi satırlara aç»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.493,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq13:2 tahmin «»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.532,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq13:3 gorev «Bölgeye göre istek»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.483,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq13:3 gorev «Bölgeye göre istek»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.516,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['ayrinti', 'istek']",
+          "exp": "['bolge', 'istek']"
+        },
+        {
+          "ok": false,
+          "msg": "dört bölge",
+          "got": "[('{\"bolge\":\"ank\",\"istemci\":\"tarayici\",\"etiketler\":[\"yeniden-deneme\"]}', 1), ('{\"bolge\":\"ank\",\"istemci\":\"tarayici\",\"etiketler\":[]}', 4), ('{\"bolge\":\"dis\",\"istemci\":\"izleyici\",\"etiketler\":[\"otomatik\"]}', 3), ('{\"bolge\":\"dis\",\"istemci\":\"tarayici\",\"etiketler\":[\"ilk-ziyaret\"]}', 2), ('{\"bolge\":\"dis\",\"is…",
+          "exp": "[('ist', 11), ('dis', 6), ('ank', 5), ('izm', 4)]"
+        },
+        {
+          "ok": false,
+          "msg": "dinamik alanı tostring ile dönüştür"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq13:4 gorev «Uygulama sürümleri»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.481,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq13:4 gorev «Uygulama sürümleri»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.379,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['istemci', 'istek']",
+          "exp": "['surum', 'istek']"
+        },
+        {
+          "ok": false,
+          "msg": "iki sürüm",
+          "got": "[('izleyici', 4), ('tarayici', 18), ('uygulama', 4)]",
+          "exp": "[('2.4.1', 2), ('2.5.0', 2)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq13:5 gorev «Etiket sıklığı»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.476,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq13:5 gorev «Etiket sıklığı»",
+      "lesson": "kq13",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.729,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['Column1', 'adet']",
+          "exp": "['etiket', 'adet']"
+        },
+        {
+          "ok": false,
+          "msg": "beş etiket",
+          "got": "[('[\"ilk-ziyaret\"]', 2), ('[\"mobil\",\"beta\"]', 1), ('[\"mobil\"]', 6), ('[\"otomatik\"]', 4), ('[\"yeniden-deneme\"]', 3), ('[]', 10)]",
+          "exp": "[('mobil', 7), ('otomatik', 4), ('yeniden-deneme', 3), ('ilk-ziyaret', 2), ('beta', 1)]"
+        },
+        {
+          "ok": false,
+          "msg": "diziyi mv-expand ile aç"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq14:0 anlat «Her varlığın son durumu: arg_max»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.614,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq14:1 anlat «Dağılım: ortalama yalan söyleyebilir»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.6,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq14:1 anlat «Dağılım: ortalama yalan söyleyebilir»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.497,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq14:2 tahmin «»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.446,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq14:3 gorev «Her sunucunun son isteği»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.592,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq14:3 gorev «Her sunucunun son isteği»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.854,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['sunucu', 'zaman']",
+          "exp": "['sunucu', 'zaman', 'yol', 'durum']"
+        },
+        {
+          "ok": false,
+          "msg": "üç sunucunun son isteği",
+          "got": "[('web01', '2026-10-19 11:47'), ('web02', '2026-10-19 11:20'), ('web03', '2026-10-19 11:31')]",
+          "exp": "[('web01', '2026-10-19 11:47', '/api/bilet', 200), ('web02', '2026-10-19 11:20', '/api/bilet', 201), ('web03', '2026-10-19 11:31', '/api/durum', 200)]"
+        },
+        {
+          "ok": false,
+          "msg": "arg_max kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq14:4 gorev «Gecikme yüzdelikleri»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.974,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq14:4 gorev «Gecikme yüzdelikleri»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 1.046,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['yol', 'istek', 'ort']",
+          "exp": "['yol', 'istek', 'p50', 'p95']"
+        },
+        {
+          "ok": false,
+          "msg": "iki yolun yüzdelikleri",
+          "got": "[('/api/bilet', 8, 160.0), ('/api/rapor', 8, 1498.75)]",
+          "exp": "[('/api/bilet', 8, 120, 310), ('/api/rapor', 8, 1200, 2600)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq14:5 gorev «Sunucu başına hata oranı»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.954,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq14:5 gorev «Sunucu başına hata oranı»",
+      "lesson": "kq14",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 1.0,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['sunucu', 'hata']",
+          "exp": "['sunucu', 'istek', 'hata', 'oran']"
+        },
+        {
+          "ok": false,
+          "msg": "üç sunucu, hatasız olan da",
+          "got": "[('web01', 3), ('web02', 1)]",
+          "exp": "[('web01', 11, 3, 27.3), ('web02', 9, 1, 11.1), ('web03', 6, 0, 0.0)]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq15:0 anlat «Komşu satıra bakmak»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.02,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq15:0 anlat «Komşu satıra bakmak»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.116,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq15:0 anlat «Komşu satıra bakmak»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.234,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq15:1 anlat «Değişiklikler ve aralar»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.248,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq15:1 anlat «Değişiklikler ve aralar»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.215,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq15:2 tahmin «»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.311,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq15:3 gorev «Sunucu içinde saatlik değişim»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 1.164,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq15:3 gorev «Sunucu içinde saatlik değişim»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 1.388,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "grup sınırında boş",
+          "got": "[None, 18, 14, -3, -7, 13, 16, -3, -18, 1, 13, 6]",
+          "exp": "[None, 18, 14, -3, None, 13, 16, -3, None, 1, 13, 6]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq15:4 gorev «200 sınırını aşan saat»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 1.377,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq15:4 gorev «200 sınırını aşan saat»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 1.092,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['sunucu_id', 'zaman', 'cpu', 'toplam']",
+          "exp": "['sunucu_id', 'zaman', 'toplam']"
+        },
+        {
+          "ok": false,
+          "msg": "her sunucu için bir satır",
+          "got": "[(1, '2026-10-19 11:00', 69, 239), (4, '2026-10-19 08:00', 62, 301), (4, '2026-10-19 09:00', 75, 376), (4, '2026-10-19 10:00', 91, 467), (4, '2026-10-19 11:00', 88, 555), (8, '2026-10-19 08:00', 70, 625), (8, '2026-10-19 09:00', 71, 696), (8, '2026-10-19 10:00', 84, 780), (8, '2026-10-19 11:00', 90,…",
+          "exp": "[(1, '2026-10-19 11:00', 239), (4, '2026-10-19 10:00', 228), (8, '2026-10-19 10:00', 225)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq15:5 gorev «En uzun sessizlik»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 1.287,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq15:5 gorev «En uzun sessizlik»",
+      "lesson": "kq15",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 1.576,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['kullanici', 'ilk', 'son']",
+          "exp": "['kullanici', 'en_uzun']"
+        },
+        {
+          "ok": false,
+          "msg": "dört kullanıcı",
+          "got": "[('ayse', '2026-10-19 08:02', '2026-10-19 11:05'), ('can', '2026-10-19 08:05', '2026-10-19 10:44'), ('mert', '2026-10-19 08:12', '2026-10-19 10:06'), ('selin', '2026-10-19 11:20', '2026-10-19 11:20'), ('zeynep', '2026-10-19 09:01', '2026-10-19 11:47')]",
+          "exp": "[('zeynep', '02:27:00'), ('can', '01:27:00'), ('ayse', '01:02:00'), ('mert', '01:00:00')]"
+        },
+        {
+          "ok": false,
+          "msg": "komşu satıra next ya da prev ile bak"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq16:0 anlat «Olaylardan oturumlara»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.103,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq16:0 anlat «Olaylardan oturumlara»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 1.197,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq16:1 anlat «Seriler: ardışık aynı durumlar»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.984,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq16:2 tahmin «»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.903,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq16:3 gorev «Kullanıcı başına oturum sayısı»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 1.066,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq16:3 gorev «Kullanıcı başına oturum sayısı»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 1.074,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['kullanici', 'istek']",
+          "exp": "['kullanici', 'oturum_sayisi']"
+        },
+        {
+          "ok": false,
+          "msg": "beş kullanıcı",
+          "got": "[('ayse', 5), ('can', 5), ('mert', 4), ('selin', 1), ('zeynep', 4)]",
+          "exp": "[('ayse', 4), ('can', 3), ('mert', 3), ('zeynep', 2), ('selin', 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq16:4 gorev «Oturum özeti»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.938,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq16:4 gorev «Oturum özeti»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.709,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['kullanici', 'bas', 'bit', 'istek']",
+          "exp": "['kullanici', 'bas', 'bit', 'istek', 'sure']"
+        },
+        {
+          "ok": false,
+          "msg": "beş oturum",
+          "got": "[('can', '2026-10-19 08:05', '2026-10-19 10:44', 5), ('zeynep', '2026-10-19 09:01', '2026-10-19 11:47', 4)]",
+          "exp": "[('can', '2026-10-19 08:05', '2026-10-19 08:05', 1, '00:00:00'), ('can', '2026-10-19 08:46', '2026-10-19 09:15', 2, '00:29:00'), ('can', '2026-10-19 10:42', '2026-10-19 10:44', 2, '00:02:00'), ('zeynep', '2026-10-19 09:01', '2026-10-19 09:20', 3, '00:19:00'), ('zeynep', '2026-10-19 11:47', '2026-10-…"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq16:5 gorev «Hata serileri»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.91,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq16:5 gorev «Hata serileri»",
+      "lesson": "kq16",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.807,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'sunucu', 'durum']",
+          "exp": "['bas', 'bit', 'adet']"
+        },
+        {
+          "ok": false,
+          "msg": "üç seri",
+          "got": "[('2026-10-19 09:01', 'web01', 500), ('2026-10-19 09:02', 'web01', 500), ('2026-10-19 09:12', 'web01', 503), ('2026-10-19 10:42', 'web02', 500)]",
+          "exp": "[('2026-10-19 09:01', '2026-10-19 09:02', 2), ('2026-10-19 09:12', '2026-10-19 09:12', 1), ('2026-10-19 10:42', '2026-10-19 10:42', 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq17:0 anlat «Adres, metin değildir»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.778,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq17:0 anlat «Adres, metin değildir»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.932,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq17:1 anlat «Ağlara göre özetlemek»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.738,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq17:1 anlat «Ağlara göre özetlemek»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.743,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq17:2 tahmin «»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.789,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq17:3 gorev «İç ve dış trafik»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.912,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq17:3 gorev «İç ve dış trafik»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.725,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['istemci', 'istek']",
+          "exp": "['ag', 'istek', 'istemci_sayisi']"
+        },
+        {
+          "ok": false,
+          "msg": "iki sınıf",
+          "got": "[('10.0.1.15', 5), ('10.0.1.22', 5), ('10.0.2.8', 4), ('10.0.3.4', 4), ('172.16.5.9', 1), ('192.168.10.5', 1), ('198.51.100.23', 3), ('203.0.113.40', 1), ('203.0.113.7', 2)]",
+          "exp": "[('dış', 6, 3), ('iç', 20, 6)]"
+        },
+        {
+          "ok": false,
+          "msg": "ipv4_is_private kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq17:4 gorev «/24 alt ağları»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.695,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq17:4 gorev «/24 alt ağları»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.641,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['istemci', 'istek']",
+          "exp": "['alt_ag', 'istek']"
+        },
+        {
+          "ok": false,
+          "msg": "beş alt ağ",
+          "got": "[('10.0.1.15', 5), ('10.0.1.22', 5), ('10.0.2.8', 4), ('10.0.3.4', 4), ('172.16.5.9', 1), ('192.168.10.5', 1)]",
+          "exp": "[('10.0.1.0/24', 10), ('10.0.2.0/24', 4), ('10.0.3.0/24', 4), ('172.16.5.0/24', 1), ('192.168.10.0/24', 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq17:5 gorev «Ağ envanteriyle eşleştir»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.856,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq17:5 gorev «Ağ envanteriyle eşleştir»",
+      "lesson": "kq17",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.764,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['istemci', 'istek']",
+          "exp": "['ag_adi', 'istek']"
+        },
+        {
+          "ok": false,
+          "msg": "dört ağ; 10.0.3.4 de /23 içinde",
+          "got": "[('10.0.1.15', 5), ('10.0.1.22', 5), ('10.0.2.8', 4), ('10.0.3.4', 4), ('172.16.5.9', 1), ('192.168.10.5', 1)]",
+          "exp": "[('ofis-ist', 10), ('ofis-izm', 8), ('izleme', 1), ('vpn', 1)]"
+        },
+        {
+          "ok": false,
+          "msg": "aralığı ipv4_is_in_range ile denetle"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq18:0 anlat «Kusto veriyi nasıl okur?»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.957,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq18:0 anlat «Kusto veriyi nasıl okur?»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.835,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq18:2 tahmin «»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.789,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq18:3 gorev «Sorguyu yeniden düzenle»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.657,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq18:3 gorev «Sorguyu yeniden düzenle»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.563,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ilk aşama zaman süzgeci olmalı"
+        },
+        {
+          "ok": false,
+          "msg": "parse'tan önce has ile süz"
+        },
+        {
+          "ok": false,
+          "msg": "parse-where kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq18:4 gorev «Önce özetle, sonra zenginleştir»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.672,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq18:4 gorev «Önce özetle, sonra zenginleştir»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.664,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "birleştirmeden önce özetle"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq18:5 gorev «Büyük-küçük harf»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.807,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq18:5 gorev «Büyük-küçük harf»",
+      "lesson": "kq18",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.808,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki seviye",
+          "got": "[]",
+          "exp": "[('ERROR', 5), ('WARN', 6)]"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq19:1 tahmin «»",
+      "lesson": "kq19",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.784,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq19:2 gorev «1 · Saatlik özet»",
+      "lesson": "kq19",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.643,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq19:2 gorev «1 · Saatlik özet»",
+      "lesson": "kq19",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.603,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['saat', 'istek']",
+          "exp": "['saat', 'istek', 'hata', 'hata_orani', 'p95']"
+        },
+        {
+          "ok": false,
+          "msg": "dört saat",
+          "got": "[('2026-10-19 08:00', 7), ('2026-10-19 09:00', 8), ('2026-10-19 10:00', 7), ('2026-10-19 11:00', 4)]",
+          "exp": "[('2026-10-19 08:00', 7, 0, 0.0, 850), ('2026-10-19 09:00', 8, 3, 37.5, 2410), ('2026-10-19 10:00', 7, 1, 14.3, 2600), ('2026-10-19 11:00', 4, 0, 0.0, 280)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq19:3 gorev «2 · Durum etiketi»",
+      "lesson": "kq19",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.714,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq19:3 gorev «2 · Durum etiketi»",
+      "lesson": "kq19",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.713,
+      "error": {
+        "type": "IndexError",
+        "msg": "tuple index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['saat', 'hata_orani', 'p95']",
+          "exp": "['saat', 'hata_orani', 'p95', 'etiket']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq19:4 gorev «3 · En sorunlu uç noktalar»",
+      "lesson": "kq19",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.736,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq19:4 gorev «3 · En sorunlu uç noktalar»",
+      "lesson": "kq19",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.649,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['yol', 'istek', 'hata', 'p95']",
+          "exp": "['yol_kalibi', 'istek', 'hata', 'p95']"
+        },
+        {
+          "ok": false,
+          "msg": "ilk üç kalıp",
+          "got": "[('/api/rapor', 8, 4, 2600), ('/api/bilet/17', 1, 1, 25), ('/', 2, 0, 40)]",
+          "exp": "[('/api/rapor', 8, 4, 2600), ('/api/bilet/{id}', 3, 1, 180), ('/api/bilet', 8, 0, 310)]"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq20:1 tahmin «»",
+      "lesson": "kq20",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.57,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq20:2 gorev «1 · Önce ve sonra»",
+      "lesson": "kq20",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.698,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq20:2 gorev «1 · Önce ve sonra»",
+      "lesson": "kq20",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.512,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['dagitim', 'sunucu', 'surum', 'istek']",
+          "exp": "['dagitim', 'sunucu', 'surum', 'once_istek', 'once_hata', 'sonra_istek', 'sonra_hata']"
+        },
+        {
+          "ok": false,
+          "msg": "üç dağıtım",
+          "got": "[('2026-10-19 08:55', 'web01', '2.5.0', 11), ('2026-10-19 10:40', 'web02', '2.5.0', 9), ('2026-10-19 11:40', 'web01', '2.5.1', 11)]",
+          "exp": "[('2026-10-19 08:55', 'web01', '2.5.0', 3, 0, 4, 3), ('2026-10-19 10:40', 'web02', '2.5.0', 1, 0, 3, 1), ('2026-10-19 11:40', 'web01', '2.5.1', 1, 0, 1, 0)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq20:3 gorev «2 · İlk hata kaydı»",
+      "lesson": "kq20",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.7,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq20:3 gorev «2 · İlk hata kaydı»",
+      "lesson": "kq20",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.684,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['dagitim', 'sunucu', 'hata_zamani', 'mesaj']",
+          "exp": "['dagitim', 'sunucu', 'gecikme', 'mesaj']"
+        },
+        {
+          "ok": false,
+          "msg": "iki dağıtımdan sonra hata var",
+          "got": "[('2026-10-19 08:55', 'web01', '2026-10-19 09:01', 'yavaş sorgu tablo=raporlar sure=2300ms'), ('2026-10-19 11:40', 'web01', '2026-10-19 09:01', 'yavaş sorgu tablo=raporlar sure=2300ms'), ('2026-10-19 08:55', 'web01', '2026-10-19 09:02', 'bağlantı havuzu dolu aktif=50 bekleyen=12'), ('2026-10-19 11:4…",
+          "exp": "[('2026-10-19 08:55', 'web01', '00:06:00', 'yavaş sorgu tablo=raporlar sure=2300ms'), ('2026-10-19 10:40', 'web02', '00:02:00', 'yavaş sorgu tablo=raporlar sure=2600ms')]"
+        },
+        {
+          "ok": false,
+          "msg": "ilk kaydı arg_min ile al"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq20:4 gorev «3 · Olay zaman çizelgesi»",
+      "lesson": "kq20",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.714,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq20:4 gorev «3 · Olay zaman çizelgesi»",
+      "lesson": "kq20",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.644,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman']",
+          "exp": "['zaman', 'olay']"
+        },
+        {
+          "ok": false,
+          "msg": "yedi olay",
+          "got": "[('2026-10-19 08:00',), ('2026-10-19 08:02',), ('2026-10-19 08:07',), ('2026-10-19 08:15',), ('2026-10-19 08:15',), ('2026-10-19 08:55',), ('2026-10-19 08:55',), ('2026-10-19 09:01',), ('2026-10-19 09:01',), ('2026-10-19 09:02',), ('2026-10-19 09:02',), ('2026-10-19 09:12',), ('2026-10-19 09:12',), …",
+          "exp": "[('2026-10-19 08:55', 'dağıtım 2.5.0'), ('2026-10-19 09:01', 'GET /api/rapor → 500'), ('2026-10-19 09:01', 'yavaş sorgu tablo=raporlar sure=2300ms'), ('2026-10-19 09:02', 'GET /api/rapor → 500'), ('2026-10-19 09:02', 'bağlantı havuzu dolu aktif=50 bekleyen=12'), ('2026-10-19 09:12', 'GET /api/rapor …"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq21:1 anlat «Veriyi taşınabilir yapmak: datatable»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.489,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq21:3 tahmin «»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "ok",
+      "seconds": 0.483,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq21:4 gorev «Şimdiyi sabitle»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.62,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq21:4 gorev «Şimdiyi sabitle»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.64,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ago() ve now() kullanma; şimdiyi datetime ile sabitle"
+        },
+        {
+          "ok": false,
+          "msg": "10:00 dahil; 09:59 ve 12:00 hariç",
+          "got": "[('web01', 4), ('web02', 4), ('web03', 3), ('web08', 1)]",
+          "exp": "[('web01', 4), ('web02', 4), ('web03', 3), ('web09', 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq21:5 gorev «Eşitliği boz»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.599,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq21:5 gorev «Eşitliği boz»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.559,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "en yavaş üç istek",
+          "got": "[('08:02', 'web01', '/api/bilet', 120), ('08:05', 'web02', '/api/bilet/42', 95), ('08:07', 'web01', '/', 40)]",
+          "exp": "[('10:42', 'web02', '/api/rapor', 2600), ('09:02', 'web01', '/api/rapor', 2410), ('09:01', 'web01', '/api/rapor', 2300)]"
+        },
+        {
+          "ok": false,
+          "msg": "2300'de eşitlik: 08:30'daki istek 09:01'dekinden önce gelir",
+          "got": "'/'",
+          "exp": "'/esit-once'"
+        },
+        {
+          "ok": false,
+          "msg": "2300'de eşitlik: 11:59'daki istek dışarıda kalır",
+          "got": "'/'",
+          "exp": "'/api/rapor'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq21:6 gorev «Veriyi datatable ile taşı»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "pass",
+      "seconds": 0.42,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq21:6 gorev «Veriyi datatable ile taşı»",
+      "lesson": "kq21",
+      "status": "PASS",
+      "runner": "kql",
+      "runner_status": "fail",
+      "seconds": 0.376,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar: sunucu, toplam, hata",
+          "got": "['sunucu', 'hata']",
+          "exp": "['sunucu', 'toplam', 'hata']"
+        },
+        {
+          "ok": false,
+          "msg": "beş olay doğru yazılmış; 500 dahil, 499 hariç",
+          "got": "[('web01', 3), ('web02', 1)]",
+          "exp": "[('cache01', 1, 1), ('db01', 2, 1), ('web01', 2, 1)]"
+        },
+        {
+          "ok": false,
+          "msg": "datatable kullan"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq22:0 anlat «Sorgu sonucu alarm değildir»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.782,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq22:0 anlat «Sorgu sonucu alarm değildir»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.907,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq22:1 tahmin «»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.687,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq22:2 gorev «1 · Kuralın çalıştırmaları»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.705,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq22:2 gorev «1 · Kuralın çalıştırmaları»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.513,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['calisma', 'hata']",
+          "exp": "['calisma', 'hata', 'alarm']"
+        },
+        {
+          "ok": false,
+          "msg": "09:00'dan 12:00'ye yarım saatte bir yedi çalıştırma, hata görmeyenler dahil",
+          "got": "0",
+          "exp": "7"
+        },
+        {
+          "ok": false,
+          "msg": "pencere (calisma − 30m, calisma]; 10:42'deki tek hata 11:00 çalıştırmasında",
+          "got": "[]",
+          "exp": "[('2026-10-19 09:00', 0), ('2026-10-19 09:30', 3), ('2026-10-19 10:00', 0), ('2026-10-19 10:30', 0), ('2026-10-19 11:00', 1), ('2026-10-19 11:30', 0), ('2026-10-19 12:00', 0)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq22:3 gorev «2 · Kaçan ve iki kez sayılan olaylar»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.398,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq22:3 gorev «2 · Kaçan ve iki kez sayılan olaylar»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 2.129,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'sunucu']",
+          "exp": "['zaman', 'sunucu', 'gorulme_20dk', 'gorulme_60dk']"
+        },
+        {
+          "ok": false,
+          "msg": "20 dk'da 09:01 ve 09:02 hiçbir pencereye düşmez; 60 dk'da her olay iki kez sayılır",
+          "got": "[('2026-10-19 09:01', 'web01'), ('2026-10-19 09:02', 'web01'), ('2026-10-19 09:12', 'web01'), ('2026-10-19 10:42', 'web02')]",
+          "exp": "[('2026-10-19 09:01', 'web01', 0, 2), ('2026-10-19 09:02', 'web01', 0, 2), ('2026-10-19 09:12', 'web01', 1, 2), ('2026-10-19 10:42', 'web02', 1, 2)]"
+        },
+        {
+          "ok": false,
+          "msg": "pencere sınırları: 10:10 olayı 10:30'un 20 dk penceresinin başında (hariç), 10:30 olayı kendi çalıştırmasında (dahil)",
+          "got": "[('2026-10-19 10:42', 'web02'), ('2026-10-19 10:10', 'web03')]",
+          "exp": "[('2026-10-19 10:10', 'web03', 0, 2), ('2026-10-19 10:30', 'web03', 1, 2)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq22:4 gorev «3 · Geç gelen kayıt»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.44,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq22:4 gorev «3 · Geç gelen kayıt»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.34,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'alim', 'sunucu', 'gecikme']",
+          "exp": "['zaman', 'alim', 'sunucu', 'zamana_gore', 'alima_gore']"
+        },
+        {
+          "ok": false,
+          "msg": "09:08 ve 09:25 kayıtları zamana göre kuran kurala hiç görünmez; alım zamanına göre her kayıt bir kez görülür",
+          "got": "[('2026-10-19 09:03', '2026-10-19 09:04', 'web01', '00:01:00'), ('2026-10-19 09:08', '2026-10-19 09:13', 'web01', '00:05:00'), ('2026-10-19 09:19', '2026-10-19 09:20', 'web02', '00:01:00'), ('2026-10-19 09:25', '2026-10-19 09:41', 'web02', '00:16:00'), ('2026-10-19 09:30', '2026-10-19 09:30', 'web01…",
+          "exp": "[('2026-10-19 09:03', '2026-10-19 09:04', 'web01', 1, 1), ('2026-10-19 09:08', '2026-10-19 09:13', 'web01', 0, 1), ('2026-10-19 09:19', '2026-10-19 09:20', 'web02', 1, 1), ('2026-10-19 09:25', '2026-10-19 09:41', 'web02', 0, 1), ('2026-10-19 09:30', '2026-10-19 09:30', 'web01', 1, 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq22:7 gorev «Mapping'in bağlayacağı gerçek çıktı sütu»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.609,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq22:7 gorev «Mapping'in bağlayacağı gerçek çıktı sütu»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.689,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tek @, boş bileşen ve IPv4 kontrolü",
+          "got": "[(1, 'Ayse@Pafta.example', '', '198.51.100.9'), (2, 'can@pafta.example', '', '203.0.113.5'), (3, 'ad-yok', '', '203.0.113.5'), (4, '@pafta.example', '', '203.0.113.5'), (5, 'ayse@', '', '203.0.113.5'), (6, 'a@b@c', '', '203.0.113.5'), (7, 'mert@pafta.example', '', '999.1.1.1'), (8, '', '', '203.0.11…",
+          "exp": "[(1, 'Ayse', 'Pafta.example', '198.51.100.9'), (2, 'can', 'pafta.example', '203.0.113.5')]"
+        },
+        {
+          "ok": false,
+          "msg": "IPv4 sözdizimi uçları; kamuya yönlenebilirlik iddiası değil",
+          "got": "[(11, 'Yeni@Baska.example', '', '0.0.0.0'), (12, 'Son@p.example', '', '255.255.255.255')]",
+          "exp": "[(11, 'Yeni', 'Baska.example', '0.0.0.0'), (12, 'Son', 'p.example', '255.255.255.255')]"
+        },
+        {
+          "ok": false,
+          "msg": "IPv4 oktet üst komşusu",
+          "got": "[(1, 'Ayse@Pafta.example', '', '198.51.100.9'), (2, 'can@pafta.example', '', '203.0.113.5'), (3, 'ad-yok', '', '203.0.113.5'), (4, '@pafta.example', '', '203.0.113.5'), (5, 'ayse@', '', '203.0.113.5'), (6, 'a@b@c', '', '203.0.113.5'), (7, 'mert@pafta.example', '', '999.1.1.1'), (8, '', '', '203.0.11…",
+          "exp": "[(1, 'Ayse@Pafta.example', '', '198.51.100.9'), (2, 'can@pafta.example', '', '203.0.113.5'), (3, 'ad-yok', '', '203.0.113.5'), (4, '@pafta.example', '', '203.0.113.5'), (5, 'ayse@', '', '203.0.113.5'), (6, 'a@b@c', '', '203.0.113.5'), (7, 'mert@pafta.example', '', '999.1.1.1'), (8, '', '', '203.0.11…"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq22:9 gorev «Kuralı kaynak olarak yaz, 50 çalıştırmad»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "sentinel-kural",
+      "runner_status": "pass",
+      "seconds": 7.039,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq22:9 gorev «Kuralı kaynak olarak yaz, 50 çalıştırmad»",
+      "lesson": "kq22",
+      "status": "PASS",
+      "runner": "sentinel-kural",
+      "runner_status": "fail",
+      "seconds": 1.18,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kural doğrulaması: REST 2025-09-01 şeması ve belgelenmiş sınırlar",
+          "got": "[\"properties.triggerOperator: ['Equal', 'GreaterThan', 'LessThan', 'NotEqual'] değerlerinden biri olmalı\", \"queryFrequency queryPeriod'dan uzun olamaz: pencereler arasında boşluk kalır\", 'properties.suppressionDuration: bastırma açıkken 24 saati aşamaz']",
+          "exp": "[]"
+        },
+        {
+          "ok": false,
+          "msg": "sıklık 10 dk, geriye bakış 10 dk, bastırma 45 dk",
+          "got": "{'queryFrequency': 10.0, 'queryPeriod': 5.0, 'suppressionDuration': 2880.0}",
+          "exp": "{'queryFrequency': 10.0, 'queryPeriod': 10.0, 'suppressionDuration': 45.0}"
+        },
+        {
+          "ok": false,
+          "msg": "her sonuç ayrı alarm, bastırma açık, Medium, CredentialAccess",
+          "got": "('SingleAlert', True, 'Medium', ['CredentialAccess'])",
+          "exp": "('AlertPerResult', True, 'Medium', ['CredentialAccess'])"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq23:0 anlat «Dizinin içinde sorgu»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.216,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq23:0 anlat «Dizinin içinde sorgu»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 0.986,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq23:0 anlat «Dizinin içinde sorgu»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.493,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq23:1 anlat «Boş dizi ve satır başına özet»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.898,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq23:2 tahmin «»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.686,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq23:3 gorev «1 · Her kontrolün en yavaş iki ölçümü»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.438,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq23:3 gorev «1 · Her kontrolün en yavaş iki ölçümü»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.487,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "her kontrolün dizisine ayrı bir top uygulamak için mv-apply kullan",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "web03'ün dizisi boş, top ona satır vermez; web02 10:00'ın tek ölçümü var",
+          "got": "[('2026-10-19 10:00', 'web01', 2410), ('2026-10-19 09:00', 'web01', 2300)]",
+          "exp": "[('2026-10-19 09:00', 'web01', 2300), ('2026-10-19 09:00', 'web01', 140), ('2026-10-19 09:00', 'web02', 130), ('2026-10-19 09:00', 'web02', 110), ('2026-10-19 10:00', 'web01', 2410), ('2026-10-19 10:00', 'web01', 1900), ('2026-10-19 10:00', 'web02', 180)]"
+        },
+        {
+          "ok": false,
+          "msg": "eşit süreler ayrı ayrı sayılır (800 ve bir 500); metin olarak yazılmış süreler cast ile sayıya çevrilmez; null olur",
+          "got": "[]",
+          "exp": "[('2026-10-19 11:00', 'web04', 800), ('2026-10-19 11:00', 'web04', 500), ('2026-10-19 11:00', 'web05', None), ('2026-10-19 11:00', 'web05', None)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq23:4 gorev «2 · Kaydı kaybetmeden özet»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 2.477,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq23:4 gorev «2 · Kaydı kaybetmeden özet»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.617,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'sunucu', 'olcum']",
+          "exp": "['zaman', 'sunucu', 'olcum', 'yavas', 'en_yuksek']"
+        },
+        {
+          "ok": false,
+          "msg": "web03 boş dizisiyle sonuçta kalır: 0 ölçüm, en_yuksek boş",
+          "got": "[('2026-10-19 09:00', 'web01', 4), ('2026-10-19 09:00', 'web02', 2), ('2026-10-19 10:00', 'web01', 3), ('2026-10-19 10:00', 'web02', 1)]",
+          "exp": "[('2026-10-19 09:00', 'web01', 4, 1, 2300), ('2026-10-19 09:00', 'web02', 2, 0, 130), ('2026-10-19 09:00', 'web03', 0, 0, None), ('2026-10-19 10:00', 'web01', 3, 2, 2410), ('2026-10-19 10:00', 'web02', 1, 0, 180)]"
+        },
+        {
+          "ok": false,
+          "msg": "tam 1000 ms yavaş değildir (büyük); sureler sütunu boş olan kontrol de 0 ile kalır",
+          "got": "[]",
+          "exp": "[('2026-10-19 11:00', 'web04', 2, 1, 1001), ('2026-10-19 11:00', 'web05', 0, 0, None)]"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq23:5 anlat «bag_unpack: nesneyi sütunlara aç»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 2.056,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq23:6 gorev «3 · Özellikleri sütunlara aç»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.609,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq23:6 gorev «3 · Özellikleri sütunlara aç»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.697,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['zaman', 'sunucu', 'bolge']",
+          "exp": "['zaman', 'sunucu', 'o_bolge', 'o_surum', 'o_bakim']"
+        },
+        {
+          "ok": false,
+          "msg": "nesneyi evaluate bag_unpack ile aç",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "web03'ün nesnesinde surum yok; bakim yalnız web02 09:00'da",
+          "got": "[('2026-10-19 09:00', 'web01', 'ist'), ('2026-10-19 09:00', 'web02', 'ank'), ('2026-10-19 09:00', 'web03', 'dis'), ('2026-10-19 10:00', 'web01', 'ist'), ('2026-10-19 10:00', 'web02', 'ank')]",
+          "exp": "[('2026-10-19 09:00', 'web01', 'ist', '2.4.1', ''), ('2026-10-19 09:00', 'web02', 'ank', '2.4.1', 'disk'), ('2026-10-19 10:00', 'web01', 'ist', '2.5.0', ''), ('2026-10-19 10:00', 'web02', 'ank', '2.5.0', '')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq23:9 gorev «Şemayı sabitle ve tür uyuşmazlığını görü»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.646,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq23:9 gorev «Şemayı sabitle ve tür uyuşmazlığını görü»",
+      "lesson": "kq23",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.637,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "açık OutputSchema; kaynak alanı ve sabit çıktı",
+          "got": "['id', 'source_zone', 'o', 'b_ms', 'b_zone', 'durum']",
+          "exp": "['id', 'source_zone', 'b_ms', 'b_zone', 'durum']"
+        },
+        {
+          "ok": false,
+          "msg": "tip dönüşümü, bozuk tip, eksik alan ve 999/1000 sınırı",
+          "got": "[(1, 'kaynak-tr', '{\"ms\":999,\"zone\":\"tr\"}', 999, 'tr', 'normal'), (2, 'kaynak-tr', '{\"ms\":1000,\"zone\":\"tr\"}', 1000, 'tr', 'normal'), (3, 'kaynak-de', '{\"ms\":\"1001\",\"zone\":4}', '1001', 4, 'normal'), (4, 'kaynak-x', '{\"ms\":\"oops\",\"zone\":{\"x\":1}}', 'oops', {'x': 1}, 'normal'), (5, 'kaynak-y', '{}', Non…",
+          "exp": "[(1, 'kaynak-tr', 999, 'tr', 'normal'), (2, 'kaynak-tr', 1000, 'tr', 'yavas'), (3, 'kaynak-de', 1001, '4', 'yavas'), (4, 'kaynak-x', None, '{\"x\":1}', 'tip/eksik'), (5, 'kaynak-y', None, '', 'tip/eksik'), (6, 'kaynak-z', 1000, '', 'yavas')]"
+        },
+        {
+          "ok": false,
+          "msg": "yeni anahtar şemayı değiştirmez, sıfır gerçek değer",
+          "got": "(7, 'yeni', '{\"ms\":0,\"zone\":\"\",\"late_key\":123}', 123, 0, '', 'normal')",
+          "exp": "(7, 'yeni', 0, '', 'normal')"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq24:0 anlat «Gerçek tabloların adları»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.724,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq24:1 anlat «Watchlist: sorguya bir liste katmak»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.378,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "kql/kq24:1 anlat «Watchlist: sorguya bir liste katmak»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.312,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "kql/kq24:2 tahmin «»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "ok",
+      "seconds": 1.447,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq24:3 gorev «1 · Yönetici hesaplarına başarısız giriş»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.449,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq24:3 gorev «1 · Yönetici hesaplarına başarısız giriş»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.539,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['UserPrincipalName', 'Rol', 'basarisiz']",
+          "exp": "['upn', 'Rol', 'basarisiz', 'ip_sayisi']"
+        },
+        {
+          "ok": false,
+          "msg": "Ayşe'nin üç başarısız girişi Ayse@ ve AYSE@ biçiminde; can yönetici değil, mert'in kilitli hesabı listede yok",
+          "got": "[('zeynep@pafta.example', 'Güvenlik Yöneticisi', 1)]",
+          "exp": "[('ayse@pafta.example', 'Global Admin', 3, 2), ('zeynep@pafta.example', 'Güvenlik Yöneticisi', 1, 1)]"
+        },
+        {
+          "ok": false,
+          "msg": "watchlist'e eklenen hesap sorgu değişmeden sonuca girer; başarılı giriş (\"0\") sayılmaz",
+          "got": "[('mert@pafta.example', 'Yardım Masası', 1), ('zeynep@pafta.example', 'Güvenlik Yöneticisi', 1)]",
+          "exp": "[('ayse@pafta.example', 'Global Admin', 3, 2), ('zeynep@pafta.example', 'Güvenlik Yöneticisi', 2, 1), ('mert@pafta.example', 'Yardım Masası', 1, 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq24:4 gorev «2 · Office'ten açılan kabuk»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.389,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq24:4 gorev «2 · Office'ten açılan kabuk»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.731,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "WINWORD.EXE ve EXCEL.EXE büyük harfle geliyor; pc-can'ın PowerShell'ini explorer başlattı, pc-zeynep'te başlayan notepad",
+          "got": "[]",
+          "exp": "[('2026-10-19 09:20', 'pc-ayse', 'ayse', 'powershell.exe -nop -w hidden -enc SQBFAFgA'), ('2026-10-19 09:40', 'pc-mert', 'mert', 'cmd.exe /c rapor.bat')]"
+        },
+        {
+          "ok": false,
+          "msg": "iki tarafta da harf büyüklüğü fark etmez; powershell_ise.exe ve winword.exe.bak tam ad değil",
+          "got": "[]",
+          "exp": "[('2026-10-19 09:50', 'pc-can', 'can', 'CMD.EXE /c dir')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "kql/kq24:5 gorev «3 · Kötü IP listesine bağlananlar»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "pass",
+      "seconds": 1.441,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "kql/kq24:5 gorev «3 · Kötü IP listesine bağlananlar»",
+      "lesson": "kq24",
+      "status": "PASS",
+      "runner": "kusto-native",
+      "runner_status": "fail",
+      "seconds": 1.771,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['DeviceName', 'RemoteIP', 'baglanti']",
+          "exp": "['DeviceName', 'RemoteIP', 'Kaynak', 'baglanti', 'ilk']"
+        },
+        {
+          "ok": false,
+          "msg": "adresleri sorguya yazma; _GetWatchlist('KotuIP') ile al",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "203.0.113.99 listede ama hiç bağlantı yok; pc-can'ın 10.0.0.10 bağlantısı listede değil",
+          "got": "[('pc-ayse', '198.51.100.66', 2), ('pc-mert', '192.0.2.200', 1), ('pc-zeynep', '198.51.100.66', 1)]",
+          "exp": "[('pc-ayse', '198.51.100.66', 'tehdit akışı', 2, '2026-10-19 09:22'), ('pc-mert', '192.0.2.200', 'olay 2026-114', 1, '2026-10-19 09:41'), ('pc-zeynep', '198.51.100.66', 'tehdit akışı', 1, '2026-10-19 09:50')]"
+        }
+      ]
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "kql: SC200 15/17",
+  "counts": {
+    "PASS": 251
+  },
+  "finished_utc": "2026-10-27T17:54:54.779955+00:00",
+  "source_sha256": {
+    "tracks/kql/lessons/kq01-boru-where.md": "7bf75176959687f81b9c529380cb0391050f8cf06566631d75c692d18625a1fe",
+    "tracks/kql/lessons/kq02-project-extend.md": "3e6f5bba5c30a3e42ad6169db7bdbf246c436a8b164e8a16bfc2caeaa997fc41",
+    "tracks/kql/lessons/kq03-metin.md": "16527ece3ad04af5d0e3020b04a833313c81a4cc97df51549262a4aa86a6c2f4",
+    "tracks/kql/lessons/kq04-summarize.md": "8558364181e94ece7d3e7b3a41378067022c197822489d20a781784988679d8e",
+    "tracks/kql/lessons/kq05-siralama.md": "e3ec236b5335deb83d58a894ca71d04d3bedcf3a50631845dd943944617628fb",
+    "tracks/kql/lessons/kq06-join.md": "9da65bae4c9456d9aea32828942845d0e605468f224fb3cf29d54e6023bab808",
+    "tracks/kql/lessons/kq07-zaman.md": "8ee83168caba7441e990f88b7439f20a752d0f225863ea9f87bb1c02bb396f6c",
+    "tracks/kql/lessons/kq08-let-datatable.md": "d1b4e8a0ca0b4610e69313e315c49add3ec761e453856980a5a19c8e5f2c48ae",
+    "tracks/kql/lessons/kq09-union-lookup.md": "49d83902eaf184469fdbcc1b83001c59fdaad70535a83426883a1b74570fe621",
+    "tracks/kql/lessons/kq10-zaman-araliklari.md": "b03b4befe9d3010ae46b21f2acb74aa5a94acd3bf3d906301257e717980e75f0",
+    "tracks/kql/lessons/kq11-proje.md": "85a6db16b8db7189c93ecbf55e0a88afd2f1630a7eebc181c0d01a819dcce212",
+    "tracks/kql/lessons/kq12-parse-extract.md": "2f0824b18c820320b464b3580ec71abcde5fa22180f49dc8e416799b31d7576f",
+    "tracks/kql/lessons/kq13-dinamik.md": "7b36af0f0f9a850f5367ed5448af19d0f4d57881ebe42a4bd2af62c1ac75a901",
+    "tracks/kql/lessons/kq14-ileri-toplama.md": "d8b57d1287614955789daba40219620320a87f1e9cc320ed51acb0fd14864839",
+    "tracks/kql/lessons/kq15-sirali-satirlar.md": "f4b2672e353369b43fd4e7430e27b11d62ae7a5fed2775ff7a95a846e1730b27",
+    "tracks/kql/lessons/kq16-oturum-seri.md": "4be093b9b218c4439a49b55475ca2089477982597421d15e1c40bf143e7f5356",
+    "tracks/kql/lessons/kq17-ip-ag.md": "c73d1f8db3f166462ab700c4e692135a685d5d4a2775843d0c9b43647063052f",
+    "tracks/kql/lessons/kq18-performans.md": "ffe69f37ee65dd9f406e741105bb8efa3b0bd9a54eb24eb681a4ff88e7b5db4f",
+    "tracks/kql/lessons/kq19-proje-saglik-panosu.md": "739259b78eb19a7586bb791f1cd8283e0b8ada1ae9b4e6ce59013ba770f50ad7",
+    "tracks/kql/lessons/kq20-proje-dagitim-etkisi.md": "ce9aeb8ea542073810dace92d440d2784b814447428286ff994def5423beebee",
+    "tracks/kql/lessons/kq21-gercek-ortamda-dene.md": "5fee2f289e2e53612dfe23da630029e53afd39b97d3b3b884b611c046a6f567c",
+    "tracks/kql/lessons/kq22-zamanlanmis-kural.md": "9bacb85aeab62bf649db53464d0d2e83678b8f9434b05e4973ec91c1883b1656",
+    "tracks/kql/lessons/kq23-mv-apply-bag-unpack.md": "4a1e42932d8194410e361c3eae4e957880d983eb48f6f6881f170f5a34084c7b",
+    "tracks/kql/lessons/kq24-sentinel-tablolari-watchlist.md": "90107d9429d6041075d1911b4e60ee0570ee26385c13fcce965a71602ca51a33"
+  }
+}

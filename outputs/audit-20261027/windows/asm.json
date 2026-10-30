@@ -1,0 +1,1522 @@
+{
+  "track": "asm",
+  "shell": "windows",
+  "started_utc": "2026-10-27T17:28:46.473592+00:00",
+  "lessons": [
+    "as01",
+    "as02",
+    "as03",
+    "as04",
+    "as05",
+    "as06",
+    "as07",
+    "as08",
+    "as09",
+    "as10",
+    "as11",
+    "as12",
+    "as13",
+    "as14",
+    "as15",
+    "as16"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "tahmin",
+      "where": "asm/as01:2 tahmin «»",
+      "lesson": "as01",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as01:3 gorev «64-bit yazmacı alt dilimlerine ayırmak»",
+      "lesson": "as01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.414,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as02:2 tahmin «»",
+      "lesson": "as02",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as01:4 gorev «Alt yazmaca `mov` yazmasını simüle etmek»",
+      "lesson": "as01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.437,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ax yalnızca alt 16 biti değiştirmeli, üst 48 bit korunmalı",
+          "got": "43690",
+          "exp": "18364758544493095594"
+        },
+        {
+          "ok": false,
+          "msg": "al yalnızca [7:0] bitlerini değiştirmeli",
+          "got": "255",
+          "exp": "18364758544493064959"
+        },
+        {
+          "ok": false,
+          "msg": "ah yalnızca [15:8] bitlerini değiştirmeli, al (0x10) korunmalı",
+          "got": "153",
+          "exp": "18364758544493091088"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as01:3 gorev «64-bit yazmacı alt dilimlerine ayırmak»",
+      "lesson": "as01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.437,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0xAABBCCDDEEFF1122 dilimleri",
+          "got": "(12302652060662173986, 12302652060662173986, 0, 0)",
+          "exp": "(4009693474, 4386, 17, 34)"
+        },
+        {
+          "ok": false,
+          "msg": "yalnızca 32. bit 1 iken alt 32-bit dilimlerin hepsi 0 olmalı",
+          "got": "(4294967296, 4294967296, 0, 0)",
+          "exp": "(0, 0, 0, 0)"
+        },
+        {
+          "ok": false,
+          "msg": "alt 32 bit tamamen 1 iken sınır değerleri",
+          "got": "(4294967295, 4294967295, 0, 0)",
+          "exp": "(4294967295, 65535, 255, 255)"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as01:4 gorev «Alt yazmaca `mov` yazmasını simüle etmek»",
+      "lesson": "as01",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.437,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as02:4 gorev «Mantıksal (`shr`) ve aritmetik (`sar`) s»",
+      "lesson": "as02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.386,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as03:2 tahmin «»",
+      "lesson": "as03",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as02:4 gorev «Mantıksal (`shr`) ve aritmetik (`sar`) s»",
+      "lesson": "as02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.405,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "-16 (0xFFFFFFF0) >> 2: shr soldan 0, sar soldan 1 doldurur",
+          "got": "(1073741820, 1073741820)",
+          "exp": "(1073741820, 4294967292)"
+        },
+        {
+          "ok": false,
+          "msg": "en küçük negatif 0x80000000 >> 1 sınır testi",
+          "got": "(1073741824, 1073741824)",
+          "exp": "(1073741824, 3221225472)"
+        },
+        {
+          "ok": false,
+          "msg": "-1 değerini 31 bit kaydırınca shr=1, sar=0xFFFFFFFF",
+          "got": "(1, 1)",
+          "exp": "(1, 4294967295)"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as02:3 gorev «`lea` adres ve aritmetik hesaplayıcısı»",
+      "lesson": "as02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.412,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "32-bit eax taşmasında alt 32 bite (& 0xFFFFFFFF) sarılmalı",
+          "got": "4294967296",
+          "exp": "0"
+        },
+        {
+          "ok": false,
+          "msg": "negatif sonuç 32-bit işaretsiz değere maskelenmeli",
+          "got": "-1",
+          "exp": "4294967295"
+        },
+        {
+          "ok": false,
+          "msg": "ölçek 3 x86'da geçersizdir -> ValueError",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as02:3 gorev «`lea` adres ve aritmetik hesaplayıcısı»",
+      "lesson": "as02",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.437,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as03:3 gorev «Little-Endian bellek okuyucu (`movzx` / »",
+      "lesson": "as03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.423,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as04:2 tahmin «»",
+      "lesson": "as04",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as03:4 gorev «`movzx` ve `movsx` 32-bit yazmaç karşıla»",
+      "lesson": "as03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.433,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sınır 0x80 (-128): işaret biti 1 olduğu için movsx üstü FF ile doldurur",
+          "got": "('0x00000080', '0x00000080')",
+          "exp": "('0x00000080', '0xFFFFFF80')"
+        },
+        {
+          "ok": false,
+          "msg": "0xFC (-4) için 0x000000FC ve 0xFFFFFFFC",
+          "got": "('0x000000FC', '0x000000FC')",
+          "exp": "('0x000000FC', '0xFFFFFFFC')"
+        },
+        {
+          "ok": false,
+          "msg": "0xFF (-1) için 0x000000FF ve 0xFFFFFFFF",
+          "got": "('0x000000FF', '0x000000FF')",
+          "exp": "('0x000000FF', '0xFFFFFFFF')"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as03:4 gorev «`movzx` ve `movsx` 32-bit yazmaç karşıla»",
+      "lesson": "as03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.444,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as03:3 gorev «Little-Endian bellek okuyucu (`movzx` / »",
+      "lesson": "as03",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.451,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "WORD PTR [0]: 0x34, 0x12 -> 0x1234",
+          "got": "52",
+          "exp": "4660"
+        },
+        {
+          "ok": false,
+          "msg": "movsx BYTE PTR [2]: 0xFC -> -4",
+          "got": "252",
+          "exp": "-4"
+        },
+        {
+          "ok": false,
+          "msg": "movsx sınır: 0x80 (-128) negatif olmalı",
+          "got": "128",
+          "exp": "-128"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as04:3 gorev «8-bit `cmp al, bl` bayrak simülatörü»",
+      "lesson": "as04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.479,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as05:1 tahmin «»",
+      "lesson": "as05",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as04:3 gorev «8-bit `cmp al, bl` bayrak simülatörü»",
+      "lesson": "as04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.467,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "5 - 10 = -5 (0xFB): SF=1 ve işaretsiz borç CF=1, OF=0",
+          "got": "{'ZF': 0, 'SF': 0, 'CF': 0, 'OF': 0}",
+          "exp": "{'ZF': 0, 'SF': 1, 'CF': 1, 'OF': 0}"
+        },
+        {
+          "ok": false,
+          "msg": "-128 (0x80) - 1 = 0x7F (+127): işaretli taşma OF=1, SF=0, CF=0!",
+          "got": "{'ZF': 0, 'SF': 0, 'CF': 0, 'OF': 0}",
+          "exp": "{'ZF': 0, 'SF': 0, 'CF': 0, 'OF': 1}"
+        },
+        {
+          "ok": false,
+          "msg": "+127 (0x7F) - (-1 / 0xFF) = 0x80: hem CF=1 (127 < 255) hem OF=1 (+127 - (-1) = +128 taştı) hem SF=1!",
+          "got": "{'ZF': 0, 'SF': 0, 'CF': 0, 'OF': 0}",
+          "exp": "{'ZF': 0, 'SF': 1, 'CF': 1, 'OF': 1}"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as04:4 gorev «`test eax, edx` komutunun bayrak analizi»",
+      "lesson": "as04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.457,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "test 0, 0 -> sonuc=0, ZF=1, SF=0",
+          "got": "(0, 0, 0)",
+          "exp": "(0, 1, 0)"
+        },
+        {
+          "ok": false,
+          "msg": "0x2C & 0x10 = 0 -> ZF=1, SF=0",
+          "got": "(0, 0, 0)",
+          "exp": "(0, 1, 0)"
+        },
+        {
+          "ok": false,
+          "msg": "en üst bit (bit 31) 1 ise SF=1, ZF=0",
+          "got": "(2147483648, 0, 0)",
+          "exp": "(2147483648, 0, 1)"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as04:4 gorev «`test eax, edx` komutunun bayrak analizi»",
+      "lesson": "as04",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.49,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as05:3 gorev «Geri sıçramalı (`jmp .L_bas`) döngü izle»",
+      "lesson": "as05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.371,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "10 -> 5 -> 2 -> 1: toplam 17, 3 adım",
+          "got": "(0, 0)",
+          "exp": "(17, 3)"
+        },
+        {
+          "ok": false,
+          "msg": "16+8+4+2+1 = 31, 5 adım",
+          "got": "(0, 0)",
+          "exp": "(31, 5)"
+        },
+        {
+          "ok": false,
+          "msg": "8+4 = 12, 2 adım (n=2 olunca jle çıkar)",
+          "got": "(0, 0)",
+          "exp": "(12, 2)"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as06:1 tahmin «»",
+      "lesson": "as06",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as05:2 gorev «İşaretsiz (`ja`/`jb`) ve işaretli (`jg`/»",
+      "lesson": "as05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.403,
+      "checks_passed": 12,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "jmp her zaman sıçrar",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "je eşitlikte sıçrar",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "jne eşit değilse sıçrar",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as05:2 gorev «İşaretsiz (`ja`/`jb`) ve işaretli (`jg`/»",
+      "lesson": "as05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.429,
+      "checks_passed": 29,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as05:3 gorev «Geri sıçramalı (`jmp .L_bas`) döngü izle»",
+      "lesson": "as05",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.404,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as06:3 gorev «Fonksiyon çerçevesi ve yerel `[rbp - ofs»",
+      "lesson": "as06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.487,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as07:1 tahmin «»",
+      "lesson": "as07",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as06:3 gorev «Fonksiyon çerçevesi ve yerel `[rbp - ofs»",
+      "lesson": "as06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.493,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0x20 (32 bayt) yerel alan ve [4, 12] ofsetleri",
+          "got": "(0, [])",
+          "exp": "(32, [4, 12])"
+        },
+        {
+          "ok": false,
+          "msg": "hem onluk hem 0x onaltılık ofsetler küçükten büyüğe sıralanmalı",
+          "got": "(0, [])",
+          "exp": "(48, [4, 16])"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as06:2 gorev «LIFO `push` / `pop` ve `rsp` simülatörü»",
+      "lesson": "as06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.51,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as06:2 gorev «LIFO `push` / `pop` ve `rsp` simülatörü»",
+      "lesson": "as06",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.513,
+      "error": {
+        "type": "KeyError",
+        "msg": "4088",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "LIFO: ilk pop en son itilen rdx (30) değerini almalı",
+          "got": "0",
+          "exp": "30"
+        },
+        {
+          "ok": false,
+          "msg": "LIFO: ikinci pop ilk itilen rcx (12) değerini almalı",
+          "got": "0",
+          "exp": "12"
+        }
+      ],
+      "original_audit_status": "FAIL"
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as07:2 gorev «Windows x64 ve System V AMD64 argüman ko»",
+      "lesson": "as07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.419,
+      "checks_passed": 19,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as08:1 tahmin «»",
+      "lesson": "as08",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as07:3 gorev «Uçucu (caller-saved) ve kalıcı (callee-s»",
+      "lesson": "as07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.417,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as07:2 gorev «Windows x64 ve System V AMD64 argüman ko»",
+      "lesson": "as07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.434,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "win64 2. argüman rdx",
+          "got": "'rcx'",
+          "exp": "'rdx'"
+        },
+        {
+          "ok": false,
+          "msg": "win64 3. argüman r8",
+          "got": "'rcx'",
+          "exp": "'r8'"
+        },
+        {
+          "ok": false,
+          "msg": "win64 4. argüman r9 (sub_rsp etkilemez)",
+          "got": "'rcx'",
+          "exp": "'r9'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as07:3 gorev «Uçucu (caller-saved) ve kalıcı (callee-s»",
+      "lesson": "as07",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.415,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "win64'te rdi ve rsi kalıcıdır (callee-saved)",
+          "got": "{'ucucu': [], 'kalici': []}",
+          "exp": "{'ucucu': ['rax', 'rcx', 'r8'], 'kalici': ['rdi', 'rsi', 'rbx', 'r12']}"
+        },
+        {
+          "ok": false,
+          "msg": "sysv'de rdi ve rsi ilk iki argüman olduğu için uçucudur (caller-saved)",
+          "got": "{'ucucu': [], 'kalici': []}",
+          "exp": "{'ucucu': ['rax', 'rcx', 'rdi', 'rsi', 'r8'], 'kalici': ['rbx', 'r12']}"
+        },
+        {
+          "ok": false,
+          "msg": "bilinmeyen yazmaç için ValueError",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as08:2 gorev «Doğal hizalamalı `struct` alan ofseti ve»",
+      "lesson": "as08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.378,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as09:1 tahmin «»",
+      "lesson": "as09",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as08:3 gorev «Null sonlandırmalı (`\\x00`) C dizgisi ok»",
+      "lesson": "as08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.357,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0. ofsetten PAFTA (uzunluk 5)",
+          "got": "('', 0)",
+          "exp": "('PAFTA', 5)"
+        },
+        {
+          "ok": false,
+          "msg": "6. ofsetten GIZLI (uzunluk 5)",
+          "got": "('', 0)",
+          "exp": "('GIZLI', 5)"
+        },
+        {
+          "ok": false,
+          "msg": "null sonlandırıcı yoksa ValueError",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as08:2 gorev «Doğal hizalamalı `struct` alan ofseti ve»",
+      "lesson": "as08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.364,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "uint8_t (0), 3B pad, uint32_t (4) -> toplam 8",
+          "got": "([], 0)",
+          "exp": "([0, 4], 8)"
+        },
+        {
+          "ok": false,
+          "msg": "son alan 1B olsa da toplam boyut 4'ün katına (12) yuvarlanmalı",
+          "got": "([], 0)",
+          "exp": "([0, 4, 8], 12)"
+        },
+        {
+          "ok": false,
+          "msg": "[1, 1, 2, 8] -> ofsetler [0, 1, 2, 8], toplam 16",
+          "got": "([], 0)",
+          "exp": "([0, 1, 2, 8], 16)"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as08:3 gorev «Null sonlandırmalı (`\\x00`) C dizgisi ok»",
+      "lesson": "as08",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.377,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as09:2 gorev «`istek_degerlendir` disassembly mantığın»",
+      "lesson": "as09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.452,
+      "checks_passed": 12,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as10:1 tahmin «»",
+      "lesson": "as10",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as09:3 gorev «Dallanmasız `cmovcc` koşullu atama simül»",
+      "lesson": "as09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.452,
+      "checks_passed": 28,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as09:2 gorev «`istek_degerlendir` disassembly mantığın»",
+      "lesson": "as09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.469,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "aktif=0 iken erken çıkışla -1 dönmeli",
+          "got": "0",
+          "exp": "-1"
+        },
+        {
+          "ok": false,
+          "msg": "aktif=0 iken rol=2 olsa bile -1 dönmeli",
+          "got": "0",
+          "exp": "-1"
+        },
+        {
+          "ok": false,
+          "msg": "rol=1 ve puan=80 sınırında puan + 20 = 100",
+          "got": "0",
+          "exp": "100"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as09:3 gorev «Dallanmasız `cmovcc` koşullu atama simül»",
+      "lesson": "as09",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.459,
+      "checks_passed": 12,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "cmovge 50 >= 50 doğru -> kaynak (55)",
+          "got": "0",
+          "exp": "55"
+        },
+        {
+          "ok": false,
+          "msg": "cmovg 51 > 50 doğru -> kaynak (55)",
+          "got": "0",
+          "exp": "55"
+        },
+        {
+          "ok": false,
+          "msg": "cmove eşitlikte kaynak (45)",
+          "got": "0",
+          "exp": "45"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as10:2 gorev «Tam sayı taşması (`imul` + `jo`) ve işar»",
+      "lesson": "as10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.435,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as11:1 tahmin «»",
+      "lesson": "as11",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as10:3 gorev «Yığın çerçevesinde kanarya, `saved rbp` »",
+      "lesson": "as10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.436,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as10:3 gorev «Yığın çerçevesinde kanarya, `saved rbp` »",
+      "lesson": "as10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.436,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "65. bayt kanaryanın ilk baytını bozar",
+          "got": "{'kanarya_bozuldu': False, 'rbp_bozuldu': False, 'rip_bozuldu': False}",
+          "exp": "{'kanarya_bozuldu': True, 'rbp_bozuldu': False, 'rip_bozuldu': False}"
+        },
+        {
+          "ok": false,
+          "msg": "72 bayt kanaryayı tamamen ezer ama saved rbp'ye henüz ulaşmaz",
+          "got": "{'kanarya_bozuldu': False, 'rbp_bozuldu': False, 'rip_bozuldu': False}",
+          "exp": "{'kanarya_bozuldu': True, 'rbp_bozuldu': False, 'rip_bozuldu': False}"
+        },
+        {
+          "ok": false,
+          "msg": "73. bayt saved rbp'nin ilk baytını bozar",
+          "got": "{'kanarya_bozuldu': False, 'rbp_bozuldu': False, 'rip_bozuldu': False}",
+          "exp": "{'kanarya_bozuldu': True, 'rbp_bozuldu': True, 'rip_bozuldu': False}"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as10:2 gorev «Tam sayı taşması (`imul` + `jo`) ve işar»",
+      "lesson": "as10",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.457,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "33 * 4 = 132 > 128 sınır aşımı -> -2",
+          "got": "132",
+          "exp": "-2"
+        },
+        {
+          "ok": false,
+          "msg": "65536 * 65536 = 2^32 taşması jo ile yakalanmalı -> -1",
+          "got": "4294967296",
+          "exp": "-1"
+        },
+        {
+          "ok": false,
+          "msg": "2^30 * 2 = 2^31 işaretli pozitif taşma -> -1",
+          "got": "2147483648",
+          "exp": "-1"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as11:3 gorev «RIP-göreli adres ve kısa sıçrama (`eb` /»",
+      "lesson": "as11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.394,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as12:1 tahmin «»",
+      "lesson": "as12",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as11:2 gorev «32-bit `rol` / `ror` bit döndürme ve `as»",
+      "lesson": "as11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.426,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as11:2 gorev «32-bit `rol` / `ror` bit döndürme ve `as»",
+      "lesson": "as11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.41,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "rol 1: en üst bit (bit 31) en alt bite (bit 0) sarılmalı",
+          "got": "2147483649",
+          "exp": "3"
+        },
+        {
+          "ok": false,
+          "msg": "ror 1: en alt bit (bit 0) en üst bite (bit 31) sarılmalı",
+          "got": "3",
+          "exp": "2147483649"
+        },
+        {
+          "ok": false,
+          "msg": "ROR büyük harfle de çalışmalı",
+          "got": "4026531840",
+          "exp": "251658240"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as11:3 gorev «RIP-göreli adres ve kısa sıçrama (`eb` /»",
+      "lesson": "as11",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.401,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0x0 adresindeki komut geçerli olmalı",
+          "got": "5",
+          "exp": "7"
+        },
+        {
+          "ok": false,
+          "msg": "0x40 + 7 + 0x2019 = 0x2060",
+          "got": "8281",
+          "exp": "8288"
+        },
+        {
+          "ok": false,
+          "msg": "je 0x1a: 0x0d + 2 + 11 = 0x1a",
+          "got": "13",
+          "exp": "26"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as12:2 gorev «Adım 1: `as12_baslik_coz` başlık ayrıştı»",
+      "lesson": "as12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.371,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as12:3 gorev «Adım 2: `as12_imza_uret` döngüsü (`xor` »",
+      "lesson": "as12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.366,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as12:3 gorev «Adım 2: `as12_imza_uret` döngüsü (`xor` »",
+      "lesson": "as12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.365,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "[10, 20] ve tohum=5 için imza 103",
+          "got": "5",
+          "exp": "103"
+        },
+        {
+          "ok": false,
+          "msg": "yalnızca ilk 'uzunluk' bayt işlenmeli",
+          "got": "5",
+          "exp": "103"
+        },
+        {
+          "ok": false,
+          "msg": "0x80000000 tam işaretli negatif alt sınır (-2147483648)",
+          "got": "2147483648",
+          "exp": "-2147483648"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as13:2 tahmin «Fonksiyon dosyanın neresinde?»",
+      "lesson": "as13",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as12:2 gorev «Adım 1: `as12_baslik_coz` başlık ayrıştı»",
+      "lesson": "as12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.377,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "geçerli başlık, 0 uzunluk",
+          "got": "-1",
+          "exp": "0"
+        },
+        {
+          "ok": false,
+          "msg": "geçerli başlık, 255 uzunluk",
+          "got": "-1",
+          "exp": "255"
+        },
+        {
+          "ok": false,
+          "msg": "yanlış sürüm (1 != 2) -> -2",
+          "got": "-1",
+          "exp": "-2"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as12:4 gorev «Adım 3: `paket_dogrula` ve geçerli paket»",
+      "lesson": "as12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.304,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as12:4 gorev «Adım 3: `paket_dogrula` ve geçerli paket»",
+      "lesson": "as12",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.314,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "pkt1 doğrulaması 103 dönmeli",
+          "got": "-1",
+          "exp": "103"
+        },
+        {
+          "ok": false,
+          "msg": "pkt3 hatalı sürüm -> -2",
+          "got": "-1",
+          "exp": "-2"
+        },
+        {
+          "ok": false,
+          "msg": "fazladan kuyruk baytları imzayı etkilememeli",
+          "got": "-1",
+          "exp": "103"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as13:3 gorev «Dosya ofsetinden sanal adrese»",
+      "lesson": "as13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.316,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as14:2 tahmin «Hangi çağrı hangi kural?»",
+      "lesson": "as14",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as13:3 gorev «Dosya ofsetinden sanal adrese»",
+      "lesson": "as13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.313,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [
+          {
+            "line": 2,
+            "func": "vaBul",
+            "text": "segOfset, vaddr, fileSiz = segmentler[0]"
+          }
+        ],
+        "line": 2,
+        "where": "kod-test"
+      },
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "segmentin hemen dışı: boşlukta kalır",
+          "got": "4198685",
+          "exp": "None"
+        },
+        {
+          "ok": false,
+          "msg": "hiçbir segmente düşmüyor",
+          "got": "4233625",
+          "exp": "None"
+        },
+        {
+          "ok": false,
+          "msg": "ilk segment 0x488 baytlık: son bayt 0x487",
+          "got": "4195464",
+          "exp": "None"
+        }
+      ],
+      "original_audit_status": "FAIL"
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as14:3 gorev «Çağrı şemasını çıkar»",
+      "lesson": "as14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.328,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as14:3 gorev «Çağrı şemasını çıkar»",
+      "lesson": "as14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.329,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen carp: ret 0x8, çağıranda temizlik yok",
+          "got": "(8, 'ret', 8)",
+          "exp": "(8, 'ret 8', 0)"
+        },
+        {
+          "ok": false,
+          "msg": "tek argümanlı stdcall",
+          "got": "(4, 'ret', 4)",
+          "exp": "(4, 'ret 4', 0)"
+        },
+        {
+          "ok": false,
+          "msg": "beş argüman",
+          "got": "(20, 'ret', 20)",
+          "exp": "(20, 'ret 20', 0)"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as13:4 gorev «PE: RVA'dan dosya ofsetine»",
+      "lesson": "as13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.347,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as15:2 tahmin «ntdll stub'ı ne yapıyor?»",
+      "lesson": "as15",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as13:4 gorev «PE: RVA'dan dosya ofsetine»",
+      "lesson": "as13",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.336,
+      "checks_passed": 7,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sanal boyut içinde ama ham boyutun dışında: sıfırlanmış veri",
+          "got": "1495552",
+          "exp": "'dosyada yok'"
+        },
+        {
+          "ok": false,
+          "msg": "sanal boyutun son baytı da dosyada değil",
+          "got": "1495727",
+          "exp": "'dosyada yok'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as15:3 gorev «Hangi yazmaç, hangi sıra?»",
+      "lesson": "as15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.366,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as14:4 gorev «Yığın dengesini izle»",
+      "lesson": "as14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.393,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as14:4 gorev «Yığın dengesini izle»",
+      "lesson": "as14",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.387,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "doğru stdcall: callee temizler, çağıran karışmaz",
+          "got": "-8",
+          "exp": "0"
+        },
+        {
+          "ok": false,
+          "msg": "uyuşmazlık: stdcall callee'yi cdecl sanmak, iki kez temizlenir",
+          "got": "0",
+          "exp": "8"
+        },
+        {
+          "ok": false,
+          "msg": "ölçülen cagir: iki çağrı da dengeli",
+          "got": "-8",
+          "exp": "0"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "asm/as16:2 tahmin «İz ne söylüyor?»",
+      "lesson": "as16",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as15:3 gorev «Hangi yazmaç, hangi sıra?»",
+      "lesson": "as15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.387,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "syscall kuralında dördüncü r10",
+          "got": "['rdi', 'rsi', 'rdx', 'rcx']",
+          "exp": "['rdi', 'rsi', 'rdx', 'r10']"
+        },
+        {
+          "ok": false,
+          "msg": "altı argüman",
+          "got": "['rdi', 'rsi', 'rdx', 'rcx', 'r8', 'r9']",
+          "exp": "['rdi', 'rsi', 'rdx', 'r10', 'r8', 'r9']"
+        },
+        {
+          "ok": false,
+          "msg": "altıdan sonrası yığına taşar",
+          "got": "['rdi', 'rsi', 'rdx', 'rcx', 'r8', 'r9']",
+          "exp": "['rdi', 'rsi', 'rdx', 'r10', 'r8', 'r9', 'yigin', 'yigin']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as15:4 gorev «Stub'ı çöz»",
+      "lesson": "as15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.466,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as15:4 gorev «Stub'ı çöz»",
+      "lesson": "as15",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.445,
+      "checks_passed": 6,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen Linux exit: rax'e yazılır, r10 köprüsü yoktur",
+          "got": "(None, False, True)",
+          "exp": "(60, False, True)"
+        },
+        {
+          "ok": false,
+          "msg": "ilk syscall'dan sonraki atama numarayı değiştirmez",
+          "got": "(60, False, True)",
+          "exp": "(1, False, True)"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as16:3 gorev «Dolaylı çağrının hedefini çöz»",
+      "lesson": "as16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.45,
+      "checks_passed": 7,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen iz: AT&T yazımı, hedef rcx'te",
+          "got": "None",
+          "exp": "4198714"
+        },
+        {
+          "ok": false,
+          "msg": "başka yazmaç",
+          "got": "None",
+          "exp": "4198690"
+        },
+        {
+          "ok": false,
+          "msg": "doğrudan çağrı: adres komutun içinde",
+          "got": "None",
+          "exp": "4198714"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as16:3 gorev «Dolaylı çağrının hedefini çöz»",
+      "lesson": "as16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.451,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "asm/as16:4 gorev «Adresi sembole çevir»",
+      "lesson": "as16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "pass",
+      "seconds": 0.4,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "asm/as16:4 gorev «Adresi sembole çevir»",
+      "lesson": "as16",
+      "status": "PASS",
+      "runner": "python",
+      "runner_status": "fail",
+      "seconds": 0.401,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen iz: call komutu uygula+32'de",
+          "got": "None",
+          "exp": "'uygula+32'"
+        },
+        {
+          "ok": false,
+          "msg": "bir bayt içeride",
+          "got": "None",
+          "exp": "'topla+1'"
+        },
+        {
+          "ok": false,
+          "msg": "topla'nın son baytı (boyut 0x14)",
+          "got": "None",
+          "exp": "'topla+19'"
+        }
+      ]
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "",
+  "counts": {
+    "DECLARED": 16,
+    "PASS": 66
+  },
+  "finished_utc": "2026-10-27T17:28:53.500024+00:00",
+  "source_sha256": {
+    "tracks/asm/lessons/as01-yazmaclar-ve-mov.md": "b02a979f72f27b14d5397b94e075effc0dd21465841052f8d810a516c2754602",
+    "tracks/asm/lessons/as02-aritmetik-ve-lea.md": "4908fbd9c6029279e5b95e20ebbc5f989f375c28e40682578ced6d8ac37b6934",
+    "tracks/asm/lessons/as03-bellek-ve-endian.md": "3ff6cb410877020b749c9592b57ee289611ac4f66c545569fb7722b8873cf09e",
+    "tracks/asm/lessons/as04-bayraklar-ve-cmp-test.md": "43e6fda5f39a15bb70583565141f8d59c235be3905beb2d7f62e5157a8cfae1f",
+    "tracks/asm/lessons/as05-dallanma-ve-donguler.md": "3c9c8144a6de2dd3b84d65b34140e91698ee3dc442a58409bc73247bc74cb2f2",
+    "tracks/asm/lessons/as06-yigin-ve-cerceve.md": "5bdecf73400146391b752a9649c6dd16fdad832dd51713cf44291d90b415d091",
+    "tracks/asm/lessons/as07-cagri-kurallari.md": "195eb3d313f23b10b1d27d6ccaf7985090de697edacf799889a11af4db8e77cb",
+    "tracks/asm/lessons/as08-diziler-dizgiler-ve-struct.md": "cf4a1fde3b1dad7fa03c2cd13698ddd55af1d09b299749d945d31dd9870b6e64",
+    "tracks/asm/lessons/as09-c-kontrol-kaliplari.md": "f13660b88c83921aa59517b9b527b7eb46fe2494b46f84425480b43e810e3b12",
+    "tracks/asm/lessons/as10-bellek-guvenligi-ve-kanarya.md": "6d0e3883a16c099ac39a61d341ac6d5641dd0f15a0f772b194f35671f3ebf1f9",
+    "tracks/asm/lessons/as11-disassembly-ve-semboller.md": "876a49c4f8a0f3b7d8e0efd7bafac681ced68143673d7a544c9b1756522b7bb2",
+    "tracks/asm/lessons/as12-proje-ikili-dogrulayici.md": "8b411503f3717559ae81d2d13325980de2f3065ad0fcbeee312048dbda17966f",
+    "tracks/asm/lessons/as13-elf-pe-adres-turleri.md": "dd4048634994beaeccb2759b32fbff46ee9b784b11007201bfeb51b2c4e0f013",
+    "tracks/asm/lessons/as14-x86-32-cdecl-stdcall.md": "e077368eaa844746c151768ba3bdbb3650aba4c36bb80d8cfd0555262ea0d158",
+    "tracks/asm/lessons/as15-x86-64-syscall-abi.md": "f43c80ed0609d03edb1d2ee47c06d0f3b8e26fea0cc0dbdc8239fe9b7fa771b8",
+    "tracks/asm/lessons/as16-debugger-izi-dolayli-cagri.md": "2966ce4028df3cd4e87dfb62e4dcc43236558910af649b8c91a15e434b9e3c04"
+  },
+  "original_audit_counts": {
+    "DECLARED": 16,
+    "PASS": 64,
+    "FAIL": 2
+  },
+  "classification_note": "Auditor label corrected; original runner_status/error/checks unchanged. JSONL remains the original chronological ledger.",
+  "classification_updated_utc": "2026-10-27T19:06:44.672991+00:00",
+  "classifier_sha256": "86ae691ae2e442b3b681b1e798498726eb5606f3448d812ba65b1f1dd74e38e9"
+}

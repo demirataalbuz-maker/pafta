@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-"""Java yolundaki JV13'ün gerçek çıktısını üretir: sürümleri kilitli Spring Data JPA düzeneği.
+r"""Java yolundaki JV13'ün gerçek çıktısını üretir: sürümleri kilitli Spring Data JPA düzeneği.
 
 tracks/java/jpa_lab/ (pom.xml + src/Ana.java): Spring Data JPA 4.1.2, Hibernate 7.4.13.Final,
 H2 2.5.252 (bellek içi). JDK 21 gerekir (varsayılan: Android Studio'nun JBR'i; JAVA_HOME ile
 değiştirilebilir). Maven 3.9.16 ve Maven deposu %LOCALAPPDATA%\Pafta altında tutulur: Windows
 komut satırı, proje yolundaki emojili klasör adlarını Java'ya bozuk iletir, bu yüzden araçlar ve
-derleme ASCII bir yolda çalışır. Maven yoksa resmi Apache arşivinden indirilir ve SHA-512 ile
+derleme ASCII bir yolda çalışır. Yalnız --download seçilirse Maven resmi Apache arşivinden indirilir ve SHA-512 ile
 doğrulanır. Her çalıştırma geçici bir klasörde derler; depoya bir şey yazmaz.
 
     python tools/jpa_lab.py
 """
+import argparse
 import hashlib
 import os
 import shutil
@@ -20,6 +21,10 @@ import urllib.request
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+sys.path.insert(0, str(ROOT))
+from engine.runtime_env import refresh_windows_runtime_env
+refresh_windows_runtime_env()
 LAB = os.path.join(ROOT, "tracks", "java", "jpa_lab")
 ARAC = os.path.join(os.environ["LOCALAPPDATA"], "Pafta")
 MAVEN_SURUM = "3.9.16"
@@ -46,31 +51,39 @@ def maven_kur():
         shutil.rmtree(gecici, ignore_errors=True)
 
 
-def calistir():
-    maven_kur()
+def calistir(download=False):
+    if download:
+        maven_kur()
+    elif not os.path.isfile(MAVEN):
+        raise RuntimeError('Maven 3.9.16 yok; indirme için açık onaydan sonra --download kullanın.')
     env = dict(os.environ, JAVA_HOME=JAVA_HOME)
     kok = tempfile.mkdtemp(prefix="pafta_jpa_")
     try:
         shutil.copy(os.path.join(LAB, "pom.xml"), kok)
         shutil.copytree(os.path.join(LAB, "src"), os.path.join(kok, "src"))
         cp_dosya = os.path.join(kok, "cp.txt")
-        subprocess.run([MAVEN, "-q", "-B", "-f", os.path.join(kok, "pom.xml"), f"-Dmaven.repo.local={DEPO}",
-                        "dependency:build-classpath", f"-Dmdep.outputFile={cp_dosya}"], check=True, env=env)
+        args = [MAVEN, "-q", "-B", "-f", os.path.join(kok, "pom.xml"), f"-Dmaven.repo.local={DEPO}",
+                "dependency:build-classpath", f"-Dmdep.outputFile={cp_dosya}"]
+        if not download:
+            args.insert(1, "-o")
+        subprocess.run(args, check=True, env=env, timeout=300)
         cp = open(cp_dosya, encoding="utf-8").read().strip()
         cikis = os.path.join(kok, "out")
         bin_ = os.path.join(JAVA_HOME, "bin")
         subprocess.run([os.path.join(bin_, "javac"), "-encoding", "UTF-8", "-parameters", "-d", cikis, "-cp", cp,
-                        os.path.join(kok, "src", "Ana.java")], check=True, env=env)
-        r = subprocess.run([os.path.join(bin_, "java"), "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8",
+                        os.path.join(kok, "src", "Ana.java")], check=True, env=env, timeout=60)
+        r = subprocess.run([os.path.join(bin_, "java"), "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
                             "-cp", cikis + os.pathsep + cp, "pafta.jpa.Ana"],
-                           env=env, capture_output=True, text=True, encoding="utf-8")
-        sys.stdout.write(r.stdout)
+                           env=env, capture_output=True, timeout=60)
+        sys.stdout.write(r.stdout.decode("utf-8", "strict"))
         if r.returncode != 0:
-            sys.stderr.write(r.stderr[-3000:])
+            sys.stderr.write(r.stderr.decode("utf-8", "replace")[-3000:])
             sys.exit(r.returncode)
     finally:
         shutil.rmtree(kok, ignore_errors=True)
 
 
 if __name__ == "__main__":
-    calistir()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--download', action='store_true', help='Onaylanmış Maven/bağımlılık indirmesine izin verir')
+    calistir(parser.parse_args().download)

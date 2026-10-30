@@ -35,7 +35,7 @@ TRACKS_DIR = os.path.join(ROOT, "tracks")
 
 STEP_KINDS = ("anlat", "tahmin", "gorev")
 KOD_DILLERI = ("python", "py", "", "regex", "bash", "sh", "powershell", "ps1", "sql", "kql", "kusto", "spl", "splunk",
-               "javascript", "js", "c", "php", "java", "csharp", "cs", "asm", "x86", "ad", "ldap", "sigma", "yara", "kibana", "lucene", "eql", "cmd", "batch", "bat", "wireshark", "bpf", "packets", "tshark", "tcpdump-lab")
+               "javascript", "js", "c", "php", "java", "csharp", "cs", "asm", "x86", "ad", "ldap", "sigma", "yara", "kibana", "lucene", "eql", "cmd", "batch", "bat", "wireshark", "bpf", "packets", "tshark", "tcpdump-lab", "suricata", "zeek", "esql", "ingest", "rule", "vql")
 # gercek: çalıştırılamayan dillerde (C, PHP) tahmin adımının gerçek çıktısı, ders yazarınca verilir
 SPECIAL = ("starter", "stdin", "test", "solution", "hint", "setup", "meta", "gercek")
 _STEP_RE = re.compile(r"^:::\s*(anlat|tahmin|gorev)\b\s*(.*)$")
@@ -94,7 +94,7 @@ def _parse_step(kind, title, lines):
     step = {"kind": kind, "title": title, "body": "\n".join(body).strip()}
     if kind == "tahmin":
         step["code"] = code or ""
-        if code_dil in ("kibana", "lucene", "eql", "wireshark", "bpf", "packets", "tshark", "tcpdump-lab"):
+        if code_dil in ("kibana", "lucene", "eql", "esql", "ingest", "rule", "wireshark", "bpf", "packets", "tshark", "tcpdump-lab"):
             step["code_dil"] = code_dil
     for k in ("starter", "stdin", "test", "solution", "setup"):
         if parts[k]:

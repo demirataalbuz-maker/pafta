@@ -1,0 +1,118 @@
+{
+  "backend": "real Python sqlite3.Connection subclass observing actual execute arguments",
+  "references_passed": 2,
+  "mutants_rejected": 22,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "function": "personel_ara",
+      "mutation": "exclude CPU equal lower",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "exclude CPU equal upper",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "accept out-of-range CPU",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "bool accepted as CPU",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "weak direction type",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "threshold exclusive",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "NULL equality broken",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "case-insensitive names",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "direction reversed",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "tie breaker removed",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "constant threshold",
+      "status": "rejected"
+    },
+    {
+      "function": "personel_ara",
+      "mutation": "parameter order reversed",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "exclude limit lower",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "exclude limit upper",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "accept 21 limit",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "bool accepted as limit",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "percent wildcard unescaped",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "underscore wildcard unescaped",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "backslash not escaped",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "substring rather than prefix",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "constant limit",
+      "status": "rejected"
+    },
+    {
+      "function": "onek_ara",
+      "mutation": "reverse id order",
+      "status": "rejected"
+    }
+  ]
+}

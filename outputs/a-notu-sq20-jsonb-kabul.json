@@ -1,0 +1,83 @@
+{
+  "backend": "real Kali WSL PostgreSQL jsonb",
+  "references_passed": 2,
+  "mutants_rejected": 15,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "SQL NULL misclassified",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "object guard lost",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "object guard reversed",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "missing key treated as null",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "JSON null treated as missing",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "wrong nested scope",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "order reversed",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "wrong root type filter",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "case-insensitive labels",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "skip second allowed label",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "zero-based positions",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "reverse positions",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "only first matching entry",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "scalar treated as array",
+      "status": "rejected",
+      "runner_status": "error"
+    },
+    {
+      "mutation": "array guard reversed",
+      "status": "rejected",
+      "runner_status": "error"
+    }
+  ]
+}

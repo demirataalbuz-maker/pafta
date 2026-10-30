@@ -1,0 +1,42 @@
+[
+  {
+    "event_id": "N001",
+    "timestamp": "2026-10-26T09:55:00Z",
+    "source": "web",
+    "host": "ISTEMCI-02",
+    "account": "PAFTA\\can.demo",
+    "action": "health-check",
+    "object": "/saglik",
+    "is_negative": true
+  },
+  {
+    "event_id": "N002",
+    "timestamp": "2026-10-26T10:01:30Z",
+    "source": "ad",
+    "host": "DC-01",
+    "account": "PAFTA\\can.demo",
+    "action": "routine-logon",
+    "object": "interactive-logon",
+    "is_negative": true
+  },
+  {
+    "event_id": "N003",
+    "timestamp": "2026-10-26T10:02:30Z",
+    "source": "web",
+    "host": "ISTEMCI-02",
+    "account": "PAFTA\\can.demo",
+    "action": "profile-view",
+    "object": "/profil",
+    "is_negative": true
+  },
+  {
+    "event_id": "N004",
+    "timestamp": "2026-10-26T10:04:00Z",
+    "source": "ad",
+    "host": "DC-01",
+    "account": "PAFTA\\hizmet.demo",
+    "action": "scheduled-backup-read",
+    "object": "CN=Yedek,OU=Lab,DC=pafta,DC=test",
+    "is_negative": true
+  }
+]

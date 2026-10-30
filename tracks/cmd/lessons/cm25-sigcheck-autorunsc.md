@@ -111,7 +111,7 @@ stub.exe: Signed
 stub_bozuk.exe: The digital signature of the object did not verify.
 ```
 
-`more` UTF-16 raporu düz metne çevirir, `skip=1` başlık satırını atlar. Yol ve doğrulama alanı tırnaklıdır; `%%~nxa` yoldan dosya adını alır, `%%~b` tırnakları atar. Katalog imzalı `notepad.exe`'nin bozuk kopyası `Unsigned` görünür (imza dosyada değil katalogdadır, yeni özet hiçbir katalogda yoktur); gömülü imzalı `stub.exe`'nin bozuk kopyası "did not verify" der. Metin dosyası imza taşıyamaz. Rapor klasörün dışında olduğu için listeye girmez.
+`more` UTF-16 raporu düz metne çevirir, `skip=1` başlık satırını atlar. Yol ve doğrulama alanı tırnaklıdır; `%%~nxa` yoldan dosya adını alır, `%%~b` tırnakları atar. Katalog imzalı `notepad.exe`'nin bozuk kopyası `Unsigned` görünür (imza dosyada değil katalogdadır, yeni özet hiçbir katalogda yoktur); gömülü imzalı `stub.exe`'nin bozuk kopyası "did not verify" der. Türkçe Windows aynı doğrulama hatasını `stub_bozuk.exe: Nesnenin dijital imzası doğrulanmadı.` olarak yazabilir; bu dil farkı, imzanın geçerli olduğu anlamına gelmez. Metin dosyası imza taşıyamaz. Rapor klasörün dışında olduğu için listeye girmez.
 :::
 
 ::: gorev İmzası sorunlu yürütülebilirler
@@ -150,8 +150,17 @@ type "%klasor%\rapor.csv"
 ```test
 from pathlib import Path
 import os, shutil
-eq(out, "notepad_bozuk.exe: Unsigned\nstub_bozuk.exe: The digital signature of the object did not verify.\ntoplam 2\n",
-   "yalnız yürütülebilir ve imzası sorunlu iki dosya; alt klasör dahil; not.txt ve 0 baytlık bos.exe yürütülebilir değil")
+# Native verification messages are localized by Windows. Independently read
+# the actual Sigcheck CSV; still require exactly the two damaged executables.
+import csv, io, subprocess, sys
+raw = subprocess.run([str(Path(sys.modules["__main__"].__file__).resolve().parents[1]/".deps"/"sysinternals"/"sigcheck64.exe"), "-accepteula", "-nobanner", "-c", "-e", "-u", "-s", "ornek"], capture_output=True, check=False).stdout
+text = raw.decode("utf-16" if raw.startswith((b"\xff\xfe", b"\xfe\xff")) else "utf-16-le" if b"\x00" in raw[:100] else "utf-8-sig")
+records = list(csv.reader(io.StringIO(text)))
+rows = [r for r in records[1:] if len(r) >= 2 and r[1].strip()]
+eq(sorted(Path(r[0]).name for r in rows), ["notepad_bozuk.exe", "stub_bozuk.exe"], "yalnız iki bozuk PE; metin, boş dosya ve imzalı kopyalar dışarıda")
+ok(all(r[1] != "Signed" for r in rows), "iki doğrulama da başarısız")
+expected = "".join(Path(r[0]).name + ": " + r[1] + "\n" for r in rows) + "toplam 2\n"
+eq(out, expected, "Sigcheck sırası ve gerçek yerelleştirilmiş Verified alanı korunur")
 ok(not any(p.name.lower().endswith(".csv") for p in Path("ornek").rglob("*")), "rapor taranan klasöre yazılmamış")
 os.makedirs("temiz", exist_ok=True)
 shutil.copy(os.environ["WINDIR"] + r"\System32\notepad.exe", "temiz/notepad.exe")

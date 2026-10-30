@@ -5,6 +5,8 @@ summary: Çalışan sürecin kullanıcı SID'sini, grup SID/özniteliklerini ve 
 timeout: 90
 ---
 
+Bu dersin üç whoami görevinde araç yolu varsayılan olarak `%SystemRoot%\System32\whoami.exe`'dir. `PAFTA_WHOAMI` tanımlıysa yalnız bu yürütülebilir yolu kullan. Böylece hata testleri Windows'un `SystemRoot` değerini bozmadan gerçek bir hata döndüren sorgu aracıyla çalışır; araç çıktısına/çıkış koduna göre karar ver. Sabit sorgu seçenekleriyle `call` kullan: testteki `.cmd` aracı bitince ana betik geri dönebilsin. Bu yol yalnız güvenilen laboratuvar yapılandırmasıdır, kullanıcı girdisinden komut oluşturulmaz.
+
 ::: anlat Hesap adı tek başına yetkiyi anlatmaz
 Windows bir işlem için erişim tokenı kullanır. Token kullanıcı SID'si, grup SID'leri ve ayrıcalıkları taşır. `whoami /user`, `/groups` ve `/priv` bunları mevcut sürecin bağlamında gösterir. `whoami /all` toplu görünümdür. Yönetici grubunun listede görünmesi, **etkin** olduğu anlamına gelmez; UAC altında “deny only” özniteliği bulunabilir. Ayrıcalığın token içinde bulunması da “Enabled” olmasıyla aynı şey değildir.
 
@@ -66,13 +68,44 @@ r=calis()
 eq((r['kod'],r['cikti'],r['hata']),(0,'token-hazir\n',''),'Yeniden sorgu')
 eq(len(read('kullanici.csv')),1,'Rapor eklenmez')
 eq(len(read('gruplar.csv')),len(g),'Grup dosyası da yenilenir, eklenmez')
+
+# Yalnız sorgu aracının yolu değiştirilir; Windows ve .NET SystemRoot gerçek kalır.
+import os,tempfile
+saved_root=os.environ.get('PAFTA_WHOAMI')
+try:
+    with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
+        os.environ['PAFTA_WHOAMI']=str(Path(root)/'missing-whoami.exe')
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
+finally:
+    if saved_root is None:os.environ.pop('PAFTA_WHOAMI',None)
+    else:os.environ['PAFTA_WHOAMI']=saved_root
+
+
+# İkinci çağrıda hata dönen CMD test double: derlenmiş imzasız EXE gerektirmez.
+# Bu makinenin App Control ilkesi yeni derlenen EXE'yi 4551 ile reddediyor.
+with tempfile.TemporaryDirectory(prefix='pafta_whoami_double_') as root:
+    tool=Path(root)/'whoami-double.cmd'
+    tool.write_text('@echo off\nif /i "%~1"=="/user" (echo test-user,test-sid & exit /b 0)\n>&2 echo forced-error\nexit /b 7\n',encoding='ascii')
+    saved_tool=os.environ.get('PAFTA_WHOAMI')
+    try:
+        os.environ['PAFTA_WHOAMI']=str(tool)
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'ilk sorgu başarılı, ikinci hatalı; wrapper geri döner ve stderr ayrıntısı sızmaz')
+    finally:
+        if saved_tool is None:os.environ.pop('PAFTA_WHOAMI',None)
+        else:os.environ['PAFTA_WHOAMI']=saved_tool
+
 ```
 ```solution
 @echo off
 setlocal DisableDelayedExpansion
 set "whoami=%SystemRoot%\System32\whoami.exe"
-("%whoami%" /user /fo CSV /nh >"kullanici.csv") 2>nul || goto hata
-("%whoami%" /groups /fo CSV /nh >"gruplar.csv") 2>nul || goto hata
+if defined PAFTA_WHOAMI set "whoami=%PAFTA_WHOAMI%"
+call "%whoami%" /user /fo CSV /nh >"kullanici.csv" 2>nul
+if errorlevel 1 goto hata
+call "%whoami%" /groups /fo CSV /nh >"gruplar.csv" 2>nul
+if errorlevel 1 goto hata
 echo token-hazir
 exit /b 0
 :hata
@@ -114,13 +147,29 @@ for name in ('SeChangeNotifyPrivilegeX','ChangeNotifyPrivilege','PaftaYokPrivile
     r=calis(argv=[name])
     eq((r['kod'],r['cikti'],r['hata']),(0,'yok\n',''),'Yakın veya eksik ad')
     eq(Path('secim.csv').read_bytes(),b'','Eski seçim kalmadı')
+
+# Yalnız sorgu aracının yolu değiştirilir; Windows ve .NET SystemRoot gerçek kalır.
+import os,tempfile
+saved_root=os.environ.get('PAFTA_WHOAMI')
+try:
+    with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
+        os.environ['PAFTA_WHOAMI']=str(Path(root)/'missing-whoami.exe')
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
+finally:
+    if saved_root is None:os.environ.pop('PAFTA_WHOAMI',None)
+    else:os.environ['PAFTA_WHOAMI']=saved_root
+
 ```
 ```solution
 @echo off
 setlocal DisableDelayedExpansion
+set "whoami=%SystemRoot%\System32\whoami.exe"
+if defined PAFTA_WHOAMI set "whoami=%PAFTA_WHOAMI%"
 set "hedef=%~1"
 if not defined hedef set "hedef=SeChangeNotifyPrivilege"
-("%SystemRoot%\System32\whoami.exe" /priv /fo CSV /nh >"ayricaliklar.csv") 2>nul || goto hata
+call "%whoami%" /priv /fo CSV /nh >"ayricaliklar.csv" 2>nul
+if errorlevel 1 goto hata
 >"secim.csv" type nul
 for /f "usebackq tokens=1,* delims=," %%A in ("ayricaliklar.csv") do if /i "%%~A"=="%hedef%" (
     >>"secim.csv" echo(%%A,%%B
@@ -149,6 +198,8 @@ Birinci satır, SID'i **tam olarak** `S-1-5-32-544` (BUILTIN\Administrators) ola
 - `yonetici-etkin`: öznitelikte `Enabled group` var
 - `yonetici-diger`: satır var ama ikisi de yok
 - `yonetici-yok`: böyle bir satır yok
+
+Bir satırda ikisi birden geçerse `yonetici-reddet` kazanır: deny-only işaretli bir SID olumlu izin için kullanılmaz.
 
 İkinci satır, `S-1-16-` ile başlayan zorunlu etiket SID'ine göre `butunluk=<seviye>`: `S-1-16-4096` `Low`, `S-1-16-8192` `Medium`, `S-1-16-12288` `High`, `S-1-16-16384` `System`. Bu tablodaki dört değerden biri değilse `butunluk=bilinmiyor`, hiç etiket satırı yoksa `butunluk=yok`.
 
@@ -181,7 +232,7 @@ def beklenen(ad):
     return f'{yon}\nbutunluk={seviye}\n'
 
 eq(out, beklenen('gruplar.csv'), 'gerçek token: bu oturumun yönetici durumu ve bütünlük seviyesi')
-ETIKET = '"Mandatory Label\{0} Mandatory Level","Label","S-1-16-{1}",""\n'
+ETIKET = '"Mandatory Label\\{0} Mandatory Level","Label","S-1-16-{1}",""\n'
 EVERYONE = '"Everyone","Well-known group","S-1-1-0","Mandatory group, Enabled by default, Enabled group"\n'
 def yaz(ad, metin):
     Path(ad).write_text(metin, encoding='utf-8')
@@ -200,6 +251,10 @@ yaz('guvenilmez.csv', ETIKET.format('Untrusted', 0) + EVERYONE)
 yaz('sahte.csv', ETIKET.format('Medium', 8192) +
     '"S-1-5-32-544","Alias","S-1-5-21-1-1001","Mandatory group, Enabled by default, Enabled group"\n'
     '"Kopya Yoneticiler","Alias","S-1-5-32-5440","Mandatory group, Enabled by default, Enabled group"\n')
+yaz('sistem.csv', ETIKET.format('System', 16384) + EVERYONE +
+    '"BUILTIN\\Administrators","Alias","S-1-5-32-544","Mandatory group, Enabled by default, Enabled group"\n')
+yaz('ikisi.csv', ETIKET.format('Medium', 8192) + EVERYONE +
+    '"BUILTIN\\Administrators","Alias","S-1-5-32-544","Mandatory group, Enabled group, Group used for deny only"\n')
 for ad, cevap, neden in (
         ('suzulmus.csv', 'yonetici-reddet\nbutunluk=Medium\n', 'UAC süzgeci: grup var ama yalnız reddetmek için'),
         ('yukseltilmis.csv', 'yonetici-etkin\nbutunluk=High\n', 'yükseltilmiş token'),
@@ -207,21 +262,39 @@ for ad, cevap, neden in (
         ('tuzak.csv', 'yonetici-reddet\nbutunluk=Medium\n', 'adı S-1-5-32-544 olan grup ve S-1-5-32-5440 yanıltmamalı'),
         ('etiketsiz.csv', 'yonetici-diger\nbutunluk=yok\n', 'ne etkin ne reddet; etiket yok'),
         ('guvenilmez.csv', 'yonetici-yok\nbutunluk=bilinmiyor\n', 'tablodaki dört seviyenin dışındaki etiket'),
-        ('sahte.csv', 'yonetici-yok\nbutunluk=Medium\n', 'gerçek yönetici satırı yok: yalnız adında ya da önekinde 544 geçenler')):
+        ('sahte.csv', 'yonetici-yok\nbutunluk=Medium\n', 'gerçek yönetici satırı yok: yalnız adında ya da önekinde 544 geçenler'),
+        ('sistem.csv', 'yonetici-etkin\nbutunluk=System\n', 'dördüncü seviye: S-1-16-16384 System'),
+        ('ikisi.csv', 'yonetici-reddet\nbutunluk=Medium\n', 'aynı satırda Enabled group ve deny only: reddet kazanır')):
     r = calis(argv=[ad])
     eq((r['kod'], r['cikti'], r['hata']), (0, cevap, ''), neden)
 yaz('bos.csv', '')
 eq(calis(argv=['bos.csv'])['cikti'], 'yonetici-yok\nbutunluk=yok\n', 'boş dosya')
 r = calis(argv=['yok.csv'])
 eq((r['kod'], r['cikti'], r['hata'].strip()), (1, '', 'dosya-yok'), 'olmayan dosya')
+
+# Yalnız sorgu aracının yolu değiştirilir; Windows ve .NET SystemRoot gerçek kalır.
+import os,tempfile
+saved_root=os.environ.get('PAFTA_WHOAMI')
+try:
+    with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
+        os.environ['PAFTA_WHOAMI']=str(Path(root)/'missing-whoami.exe')
+        r=calis()
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
+finally:
+    if saved_root is None:os.environ.pop('PAFTA_WHOAMI',None)
+    else:os.environ['PAFTA_WHOAMI']=saved_root
+
 ```
 ```solution
 @echo off
 setlocal DisableDelayedExpansion
+set "whoami=%SystemRoot%\System32\whoami.exe"
+if defined PAFTA_WHOAMI set "whoami=%PAFTA_WHOAMI%"
 set "dosya=%~1"
 if defined dosya goto oku
 set "dosya=gruplar.csv"
-("%SystemRoot%\System32\whoami.exe" /groups /fo CSV /nh >"%dosya%") 2>nul || goto hata
+call "%whoami%" /groups /fo CSV /nh >"%dosya%" 2>nul
+if errorlevel 1 goto hata
 :oku
 if not exist "%dosya%" goto yok
 set "yonetici=yonetici-yok"

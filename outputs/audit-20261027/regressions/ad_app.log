@@ -1,0 +1,49 @@
+Fs
+======================================================================
+FAIL: test_outline_offline_check_guess_and_private_tests (__main__.AdApp.test_outline_offline_check_guess_and_private_tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_ad_app.py", line 37, in test_outline_offline_check_guess_and_private_tests
+    self.assertEqual(ids,[f'ad{i:02}' for i in range(1,24)])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['ad0[132 chars]'ad18', 'ad19', 'ad20', 'ad21', 'ad22', 'ad23', 'ad24', 'ad25'] != ['ad0[132 chars]'ad18', 'ad19', 'ad20', 'ad21', 'ad22', 'ad23']
+
+First list contains 2 additional elements.
+First extra element 23:
+'ad24'
+
+  ['ad01',
+   'ad02',
+   'ad03',
+   'ad04',
+   'ad05',
+   'ad06',
+   'ad07',
+   'ad08',
+   'ad09',
+   'ad10',
+   'ad11',
+   'ad12',
+   'ad13',
+   'ad14',
+   'ad15',
+   'ad16',
+   'ad17',
+   'ad18',
+   'ad19',
+   'ad20',
+   'ad21',
+   'ad22',
+-  'ad23',
+?        ^
+
++  'ad23']
+?        ^
+
+-  'ad24',
+-  'ad25']
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.563s
+
+FAILED (failures=1, skipped=1)

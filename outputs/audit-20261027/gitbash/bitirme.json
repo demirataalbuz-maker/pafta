@@ -1,0 +1,708 @@
+{
+  "track": "bitirme",
+  "shell": "gitbash",
+  "started_utc": "2026-10-27T17:43:14.272897+00:00",
+  "lessons": [
+    "bt01",
+    "bt02",
+    "bt03",
+    "bt04",
+    "bt05",
+    "bt06",
+    "bt07"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "tahmin",
+      "where": "bitirme/bt01:1 tahmin «»",
+      "lesson": "bt01",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.261,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt01:3 gorev «Kaynak kimliğiyle tek UTC zaman çizelges»",
+      "lesson": "bt01",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.287,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt01:2 gorev «Manifesti bütün dosya kümesiyle karşılaş»",
+      "lesson": "bt01",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.312,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt01:2 gorev «Manifesti bütün dosya kümesiyle karşılaş»",
+      "lesson": "bt01",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.315,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tek bayt değişiklik",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "eksik dosya",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "ek dosya",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt01:3 gorev «Kaynak kimliğiyle tek UTC zaman çizelges»",
+      "lesson": "bt01",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.319,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "UTC ve eşit başlangıç, tekrar",
+          "got": "[]",
+          "exp": "[('2026-10-26T08:59:59+00:00', 'auth:before', 'ws01', 'alice'), ('2026-10-26T09:00:00+00:00', 'auth:x', 'ws01', 'alice')]"
+        },
+        {
+          "ok": false,
+          "msg": "iki kaynakta aynı id ayrı kanıt",
+          "got": "0",
+          "exp": "2"
+        },
+        {
+          "ok": false,
+          "msg": "kimlik çakışması",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "bitirme/bt02:1 tahmin «»",
+      "lesson": "bt02",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.34,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt02:2 gorev «Kusto inceleme sorgusu»",
+      "lesson": "bt02",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.346,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt02:2 gorev «Kusto inceleme sorgusu»",
+      "lesson": "bt02",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.347,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kayıt kümesi ve sınırlar",
+          "got": "['a-after', 'a-before', 'a-edge', 'a-mid', 'a-ok', 'a-otherhost', 'a-start', 'b-fail', 'non-auth', 'p-maint', 'p-otherimage', 'p-run', 'success-in-window', 'w-get']",
+          "exp": "['a-edge', 'a-mid', 'a-start']"
+        },
+        {
+          "ok": false,
+          "msg": "kayıt kümesi ve sınırlar",
+          "got": "['yeni-a-after', 'yeni-a-before', 'yeni-a-edge', 'yeni-a-mid', 'yeni-a-ok', 'yeni-a-otherhost', 'yeni-a-start', 'yeni-b-fail', 'yeni-non-auth', 'yeni-p-maint', 'yeni-p-otherimage', 'yeni-p-run', 'yeni-success-in-window', 'yeni-w-get']",
+          "exp": "['yeni-a-edge', 'yeni-a-mid', 'yeni-a-start']"
+        },
+        {
+          "ok": false,
+          "msg": "kayıt kümesi ve sınırlar",
+          "got": "['first', 'last', 'out']",
+          "exp": "['first', 'last']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt02:3 gorev «Aynı soruyu SPL ile yeniden üret»",
+      "lesson": "bt02",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.472,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt02:3 gorev «Aynı soruyu SPL ile yeniden üret»",
+      "lesson": "bt02",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.486,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "SPL aynı soruyu cevaplar",
+          "got": "['a-after', 'a-before', 'a-edge', 'a-mid', 'a-ok', 'a-otherhost', 'a-start', 'b-fail', 'non-auth', 'p-maint', 'p-otherimage', 'p-run', 'success-in-window', 'w-get']",
+          "exp": "['a-edge', 'a-mid', 'a-start']"
+        },
+        {
+          "ok": false,
+          "msg": "SPL aynı soruyu cevaplar",
+          "got": "['z-a-after', 'z-a-before', 'z-a-edge', 'z-a-mid', 'z-a-ok', 'z-a-otherhost', 'z-a-start', 'z-b-fail', 'z-non-auth', 'z-p-maint', 'z-p-otherimage', 'z-p-run', 'z-success-in-window', 'z-w-get']",
+          "exp": "['z-a-edge', 'z-a-mid', 'z-a-start']"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "bitirme/bt03:1 tahmin «»",
+      "lesson": "bt03",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.456,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt03:2 gorev «İnceleme seçicisini Sigma olarak yaz»",
+      "lesson": "bt03",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.85,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt03:4 gorev «Bilinmeyeni başarı saymadan ölç»",
+      "lesson": "bt03",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.402,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt03:4 gorev «Bilinmeyeni başarı saymadan ölç»",
+      "lesson": "bt03",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.406,
+      "error": {
+        "type": "KeyError",
+        "msg": "'recall'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tekrar, kaçırma ve bilinmeyen",
+          "got": "{}",
+          "exp": "{'tp': 1, 'fp': 1, 'fn': 1, 'unknown_hits': 1, 'precision': 0.5, 'recall': 0.5}"
+        },
+        {
+          "ok": false,
+          "msg": "boş ölçüm başarı değil",
+          "got": "{}",
+          "exp": "{'tp': 0, 'fp': 0, 'fn': 0, 'unknown_hits': 0, 'precision': None, 'recall': None}"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt03:2 gorev «İnceleme seçicisini Sigma olarak yaz»",
+      "lesson": "bt03",
+      "status": "ERROR",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.723,
+      "error": {
+        "type": "SigmaLogsourceError",
+        "msg": "Sigma rule must have a log source",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "bitirme/bt04:1 tahmin «»",
+      "lesson": "bt04",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.883,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt04:3 gorev «İncelemeyi tek işlevde yeniden üret»",
+      "lesson": "bt04",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.431,
+      "error": {
+        "type": "KeyError",
+        "msg": "'process'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört araç ve tek zaman çizelgesi",
+          "got": "{}",
+          "exp": "{'auth': ['a-edge', 'a-mid', 'a-start'], 'process': ['p-run'], 'frames': [1], 'timeline': [(0, 'auth:a-start'), (60, 'auth:a-mid'), (120, 'auth:a-edge'), (130.0, 'vaka.pcap#frame=1'), (135, 'endpoint:p-run')]}"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt04:3 gorev «İncelemeyi tek işlevde yeniden üret»",
+      "lesson": "bt04",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 1.192,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "bitirme/bt05:1 tahmin «»",
+      "lesson": "bt05",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.452,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt05:2 gorev «İddia defterini doğrula»",
+      "lesson": "bt05",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.377,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt04:2 gorev «İlgili HTTP isteğinin filtresini yaz»",
+      "lesson": "bt04",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 1.987,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt04:2 gorev «İlgili HTTP isteğinin filtresini yaz»",
+      "lesson": "bt04",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 2.05,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç koşul birlikte",
+          "got": "[1, 2, 3, 4]",
+          "exp": "[1]"
+        },
+        {
+          "ok": false,
+          "msg": "frame sırası ezberlenmez",
+          "got": "[1, 2, 3, 4]",
+          "exp": "[4]"
+        },
+        {
+          "ok": false,
+          "msg": "komşu olumsuzlar",
+          "got": "[1, 2, 3]",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt05:2 gorev «İddia defterini doğrula»",
+      "lesson": "bt05",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.519,
+      "error": {
+        "type": "KeyError",
+        "msg": "'c1'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kanıt ve belirsizlik ayrı",
+          "got": "{}",
+          "exp": "{'c1': {'kind': 'observed', 'text': 'Süreç kaydı görüldü', 'refs': ['endpoint:p-run']}, 'c2': {'kind': 'hypothesis', 'text': 'Yetkili bakım olabilir', 'refs': []}, 'c3': {'kind': 'unknown', 'text': 'Dosya özeti bilinmiyor', 'refs': []}}"
+        },
+        {
+          "ok": false,
+          "msg": "bozuk iddia",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        },
+        {
+          "ok": false,
+          "msg": "bozuk iddia",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt05:3 gorev «Veri kaybetmeden taşınabilir rapor eki ü»",
+      "lesson": "bt05",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.469,
+      "checks_passed": 23,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt05:3 gorev «Veri kaybetmeden taşınabilir rapor eki ü»",
+      "lesson": "bt05",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.469,
+      "error": {
+        "type": "KeyError",
+        "msg": "'summary'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tüm içerik geri gelir",
+          "got": "{}",
+          "exp": "{'case': 'PF-2026-102', 'summary': 'İnceleme sürüyor', 'scope': ['ws01', 'alice'], 'timeline': [[0, 'auth:a-start']], 'claims': {'c1': {'kind': 'observed', 'text': 'giriş', 'refs': ['auth:a-start']}}, 'limitations': ['disk imajı yok'], 'recommendations': [{'owner': 'SOC', 'task': 'bakım kaydını doğr…"
+        },
+        {
+          "ok": false,
+          "msg": "Türkçe metin kaçışsız taşınır"
+        },
+        {
+          "ok": false,
+          "msg": "eksik bölüm case",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "bitirme/bt06:1 tahmin «»",
+      "lesson": "bt06",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.419,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt06:2 gorev «Bulguyu teslim edilebilir plana dönüştür»",
+      "lesson": "bt06",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.361,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt06:2 gorev «Bulguyu teslim edilebilir plana dönüştür»",
+      "lesson": "bt06",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.355,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tam plan ve tekrar",
+          "got": "['g1', 'g1']",
+          "exp": "['g1']"
+        },
+        {
+          "ok": false,
+          "msg": "boş alan gap",
+          "got": "['g1']",
+          "exp": "[]"
+        },
+        {
+          "ok": false,
+          "msg": "boş alan expected",
+          "got": "['g1']",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt06:3 gorev «Yeniden testin kabul kapısı»",
+      "lesson": "bt06",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.332,
+      "checks_passed": 22,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt06:3 gorev «Yeniden testin kabul kapısı»",
+      "lesson": "bt06",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.345,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "0.95 altı",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "FP negatif örnek sayısını aşamaz",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "FP bir üstü",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "bitirme/bt07:2 tahmin «Negatif kontrol hangi satırı değiştirir?»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.357,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "bitirme/bt07:1 anlat «Tek üretim, birkaç tüketim biçimi»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "ok",
+      "seconds": 0.382,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt07:3 gorev «1 · Pozitif zinciri normalize et»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.353,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Pozitif kanıtlar zaman/event_id sırasıyla; negatif kontrol yok",
+          "got": "'A001|T1078\\nN001|\\nW001|T1078\\n'",
+          "exp": "'A001|T1078\\nW001|T1078\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "Technique dolu negatif kayıt dışlanmalı; technique boş pozitif kayıt korunmalı",
+          "got": "'A001|T1078\\nN001|\\nW001|T1078\\nX009|T9999\\nW005|\\n'",
+          "exp": "'A001|T1078\\nW001|T1078\\nW005|\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt07:3 gorev «1 · Pozitif zinciri normalize et»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.387,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt07:4 gorev «2 · SHA-256 bütünlüğünü denetle»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.412,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Bozuk hash manifesti sağlam sayılamaz",
+          "got": "'2/2 SAĞLAM\\n'",
+          "exp": "'BUTUNLUK BOZUK\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "İçerik değişip özet aynı kaldığında bütünlük bozulmalı",
+          "got": "'2/2 SAĞLAM\\n'",
+          "exp": "'BUTUNLUK BOZUK\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt07:4 gorev «2 · SHA-256 bütünlüğünü denetle»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.442,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "bitirme/bt07:5 gorev «3 · Beklenen kanıtı kapat»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "pass",
+      "seconds": 0.425,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "bitirme/bt07:5 gorev «3 · Beklenen kanıtı kapat»",
+      "lesson": "bt07",
+      "status": "PASS",
+      "runner": "bitirme",
+      "runner_status": "fail",
+      "seconds": 0.426,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Eksik observed_evidence bulunan adım kimliğiyle reddedilmeli",
+          "got": "'ZINCIR TAM\\n'",
+          "exp": "'REDDEDILDI:derleme\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "İlk eksik adımda durulmalı; sonraki adımlar hatayı gizlememeli",
+          "got": "'ZINCIR TAM\\n'",
+          "exp": "'REDDEDILDI:oturum\\n'"
+        }
+      ]
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "",
+  "counts": {
+    "PASS": 37,
+    "ERROR": 1
+  },
+  "finished_utc": "2026-10-27T17:43:19.393963+00:00",
+  "source_sha256": {
+    "tracks/bitirme/lessons/bt01-kanit-paketi.md": "4b96fe0e2b64edf906486b188495d8ee5a97c2738274a48e71ac44c47e0472f4",
+    "tracks/bitirme/lessons/bt02-arama.md": "d0df92ae9b6b4cd1f90915bbae048665537d3f1797774b343794076f6bdc7851",
+    "tracks/bitirme/lessons/bt03-sigma.md": "191be34c43223f96b4420af94818a383dc365ddf2d93f137f879aa1bd80fcc68",
+    "tracks/bitirme/lessons/bt04-vaka-birlestirme.md": "f2a9110c181bb6ac815ca1b8ea6aa26ed369ebd55d125aeae66c7180232856c7",
+    "tracks/bitirme/lessons/bt05-olay-raporu.md": "1706c39304a2342b17d20487b755aa83bc169d16c0ccb3d83dab141ddd761aa7",
+    "tracks/bitirme/lessons/bt06-tespit-boslugu.md": "696a3ce4e6e0b805eb556e6fc05f7cb09798843a5e6bef0c60e4919140540633",
+    "tracks/bitirme/lessons/bt07-saldiri-zinciri.md": "9dbc7fe026900b4f352a0b83e18f376a9eaddabb7bfd3c923606f1c97d90522f"
+  }
+}

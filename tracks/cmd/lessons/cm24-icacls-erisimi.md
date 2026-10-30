@@ -13,7 +13,7 @@ icacls.exe "delil dosyasi.txt"
 whoami.exe /groups /fo CSV /nh
 ```
 
-Bu ders yalnız koşucunun geçici klasöründe oluşturulan dosyaları **okur**. ACL değiştirme, kalıcı sistem dosyasına yazma veya yükseltilmiş hak gerekmez. Kaynak: [icacls](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls), [AccessCheck](https://learn.microsoft.com/en-us/windows/win32/secauthz/how-dacls-control-access-to-an-object).
+Öğrenci betiği yalnız koşucunun geçici klasöründeki dosyaları **okur**. Denetim düzeneği ayrıca yeni bir geçici dosyada geçerli kullanıcı için yalnız ReadData Deny ekler, gerçek okumayı ölçer, özgün DACL'yi geri yükleyip dosyayı siler. Bu durumda icacls ile DACL okuması başarılıyken type başarısız olabilir; ACL raporu okuma yetkisini kanıtlamaz. Kalıcı sistem dosyası veya üst klasör izni değiştirilmez, yükseltilmiş hak gerekmez. Kaynak: [icacls](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls), [AccessCheck](https://learn.microsoft.com/en-us/windows/win32/secauthz/how-dacls-control-access-to-an-object).
 :::
 
 ::: anlat Birlikte bak, sonra gerçek erişimi ölç
@@ -135,6 +135,28 @@ eq((r['kod'],r['cikti'],r['hata']),(1,'','kanit-hatasi\n'),'Eksik dosya')
 r=calis()
 eq((r['kod'],r['cikti'],r['hata']),(0,'kanit-hazir\n',''),'Hata sonrası toparlanma')
 check(source)
+
+# ACL görünür kalsın, yalnız dosya baytlarını açma ReadData hakkı reddedilsin.
+import os,runpy,sys,subprocess
+_s=os.path.dirname(next(m.__file__ for m in list(sys.modules.values()) if os.path.basename(getattr(m,'__file__',None) or '')=='py_harness.py'))
+fixtures=runpy.run_path(os.path.join(_s,'cmd_deny_fixtures.py'))
+with fixtures['file_fixture']() as lab:
+    expected=lab.path.read_bytes()
+    lab.deny_read()
+    try:lab.path.read_bytes()
+    except PermissionError:pass
+    else:stop('test dosyası gerçek okuma reddi üretmedi')
+    acl=subprocess.run(['icacls.exe',str(lab.path)],capture_output=True)
+    eq(acl.returncode,0,'ReadData Deny ACL raporunu engellemez')
+    ok(b'(DENY)' in acl.stdout,'gerçek icacls ret ACE tanığı')
+    r=calis(argv=[str(lab.path)])
+    eq((r['kod'],r['cikti'],r['hata']),(1,'','kanit-hatasi\n'),'type erişim reddi başarı diye raporlanamaz')
+    eq(Path('okuma.txt').read_bytes(),b'','reddedilen okumada önceki kaynak raporu kalmaz')
+    lab.restore()
+    r=calis(argv=[str(lab.path)])
+    eq((r['kod'],r['cikti'],r['hata']),(0,'kanit-hazir\n',''),'aynı dosya DACL geri yüklenince okunur')
+    eq(Path('okuma.txt').read_bytes(),expected,'gerçek geri yüklenmiş baytlar')
+eq(lab.path.exists(),False,'yalnız teste ait geçici dosya silindi')
 ```
 ```solution
 @echo off

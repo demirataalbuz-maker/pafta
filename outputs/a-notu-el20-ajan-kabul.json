@@ -1,0 +1,79 @@
+{
+  "ders": "el20",
+  "gorev": "Erişim günlüğünü gerçek ajanla al",
+  "ajan": "docker.elastic.co/elastic-agent/elastic-agent:9.5.5@sha256:4610f3c4e8fb1316d4a18290068f0b67ecea220d8b1ccc3267436f27c3cfb15c",
+  "imaj_id": "sha256:4610f3c4e8fb1316d4a18290068f0b67ecea220d8b1ccc3267436f27c3cfb15c",
+  "elasticsearch": "9.5.5",
+  "referans": "geçti",
+  "mutant_reddedilen": 13,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "mutasyon": "bütün dosyalar okunur",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "döndürülmüş dosya da okunur",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "olay zamanı okuma anı",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "bozuk satır işaretlenmez",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "sağlık kontrolü düşmez",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "yanlış alana bakan koşul",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "alanlar json altına",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "yanlış veri kümesi",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "yanlış namespace",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "izleme açık",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "parola dosyada",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "anahtar dosyada",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "eski log girdisi",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    }
+  ],
+  "temizlik": "konteyner, logs-pafta.* veri akışı ve laboratuvar API anahtarı kalmadı",
+  "acik": "Fleet, entegrasyon paketi ve Kibana varlıkları kapsam dışı; standalone politika ve filestream sınanır."
+}

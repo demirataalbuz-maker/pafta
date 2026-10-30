@@ -1,0 +1,58 @@
+{
+  "environment_inventory": {
+    "Git Bash": {
+      "kernel": "MINGW64_NT-10.0-26200",
+      "bash": "5.2.37(1)-release",
+      "linux_release": "unavailable",
+      "shellcheck": "",
+      "bats": "",
+      "journalctl": "",
+      "cygpath": "/usr/bin/cygpath",
+      "windows_tmp": "C:\\Users\\albuz\\AppData\\Local\\Temp"
+    },
+    "Kali WSL": {
+      "kernel": "Linux",
+      "bash": "5.3.9(1)-release",
+      "linux_release": "6.6.87.2-microsoft-standard-WSL2",
+      "shellcheck": "/usr/bin/shellcheck",
+      "bats": "/usr/bin/bats",
+      "journalctl": "/usr/bin/journalctl",
+      "cygpath": "",
+      "bats_version": "Bats 1.13.0",
+      "shellcheck_version": "0.11.0"
+    }
+  },
+  "references_passed": 1,
+  "mutants_rejected": 7,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "no cleanup",
+      "status": "rejected"
+    },
+    {
+      "mutation": "wrong hook name",
+      "status": "rejected"
+    },
+    {
+      "mutation": "remove one file only",
+      "status": "rejected"
+    },
+    {
+      "mutation": "reuse one directory",
+      "status": "rejected"
+    },
+    {
+      "mutation": "first test does not fail",
+      "status": "rejected"
+    },
+    {
+      "mutation": "second test inverted",
+      "status": "rejected"
+    },
+    {
+      "mutation": "fake remaining count",
+      "status": "rejected"
+    }
+  ]
+}

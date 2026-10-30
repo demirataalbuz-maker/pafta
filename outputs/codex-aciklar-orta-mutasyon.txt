@@ -1,0 +1,11 @@
+js13:3 «JSON hata işleyicisi» 14 mutant, 14 yakalandı
+js13:4 «Korunan Router ve kayıt sırası» 11 mutant, 10 yakalandı · GEÇEN: ["'!='→'==' @31"]
+ps23:4 «Sayfaları sonuna kadar gez» 5 mutant, 5 yakalandı
+ps23:5 «Bilet oluştur ve hatayı oku» 7 mutant, 7 yakalandı
+ps23:6 «Durum kodu eşikleri» 6 mutant, 6 yakalandı
+cm23:3 «Kullanıcı ve grupları CSV'ye ayır» 4 mutant, 3 yakalandı · GEÇEN: ["'2'→'3' @5"]
+cm23:4 «Ayrıcalığı tam adla seç» 6 mutant, 6 yakalandı
+cm23:5 «Yönetici grubu etkin mi, bütünlük seviyesi ne?» 14 mutant, 14 yakalandı
+ht22:2 «Dar ve açık bir URL izin politikası» 20 mutant, 17 yakalandı · GEÇEN: ["'>='→'>' @3", "'32'→'33' @3", "'127'→'128' @3"]
+ht22:3 «Her hop'ta doğrula, yöntemi bilinçli taşı» 22 mutant, 17 yakalandı · GEÇEN: ["'<='→'<' @12", "'or'→'and' @12", "'3'→'4' @2", "'32'→'33' @12", "'127'→'128' @12"]
+toplam 109 mutant, 10 geçen

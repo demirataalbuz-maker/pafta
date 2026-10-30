@@ -1,0 +1,12 @@
+{"id": "a-before", "ts": -1, "source": "auth", "host": "ws01", "user": "alice", "event": "login", "outcome": "failure", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "a-start", "ts": 0, "source": "auth", "host": "ws01", "user": "alice", "event": "login", "outcome": "failure", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "a-mid", "ts": 60, "source": "auth", "host": "ws01", "user": "alice", "event": "login", "outcome": "failure", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "a-edge", "ts": 120, "source": "auth", "host": "ws01", "user": "alice", "event": "login", "outcome": "failure", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "a-after", "ts": 121, "source": "auth", "host": "ws01", "user": "alice", "event": "login", "outcome": "failure", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "a-ok", "ts": 125, "source": "auth", "host": "ws01", "user": "alice", "event": "login", "outcome": "success", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "b-fail", "ts": 60, "source": "auth", "host": "ws01", "user": "bob", "event": "login", "outcome": "failure", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "a-otherhost", "ts": 60, "source": "auth", "host": "ws02", "user": "alice", "event": "login", "outcome": "failure", "src": "198.51.100.24", "Image": null, "CommandLine": null}
+{"id": "p-run", "ts": 135, "source": "endpoint", "host": "ws01", "user": "alice", "event": "process", "outcome": "observed", "src": null, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -NoProfile -File C:\\Lab\\health.ps1"}
+{"id": "p-maint", "ts": 136, "source": "endpoint", "host": "ws02", "user": "alice", "event": "process", "outcome": "observed", "src": null, "Image": "C:\\Windows\\powershell.exe", "CommandLine": "powershell.exe -File C:\\Lab\\updates.ps1"}
+{"id": "p-otherimage", "ts": 136, "source": "endpoint", "host": "ws01", "user": "alice", "event": "process", "outcome": "observed", "src": null, "Image": "C:\\Lab\\notpowershell.exe", "CommandLine": "notpowershell.exe health.ps1"}
+{"id": "w-get", "ts": 130, "source": "proxy", "host": "ws01", "user": "alice", "event": "http", "outcome": "200", "src": "10.0.0.10", "Image": null, "CommandLine": null}

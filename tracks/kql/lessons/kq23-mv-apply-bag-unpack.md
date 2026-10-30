@@ -19,7 +19,7 @@ kontroller
 
 ```kql
 kontroller
-| mv-expand s = parse_json(sureler) to typeof(long)
+| mv-expand s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long)
 | top 2 by s desc
 | project zaman, sunucu, s
 ```
@@ -28,18 +28,18 @@ kontroller
 
 ```kql
 kontroller
-| mv-apply s = parse_json(sureler) to typeof(long) on (top 2 by s desc)
+| mv-apply s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long) on (top 2 by s desc)
 | project zaman, sunucu, s
 ```
 
 | Parça | Anlamı |
 |---|---|
-| `s = parse_json(sureler)` | açılacak dizi ve elemana verilecek ad |
-| `to typeof(long)` | elemanın türü; yazmazsan `dynamic` kalır |
+| `s = iff(isempty(sureler), dynamic([]), parse_json(sureler))` | açılacak dizi ve elemana verilecek ad |
+| `to typeof(long)` | elemanın tür cast'i; sayıya çevrilemeyen tür null olur; yazmazsan `dynamic` kalır |
 | `on ( ... )` | her satırın elemanlarına uygulanacak alt sorgu |
 
-> [!NOT] Bu tezgah bir öykünme
-> Sorgular gerçek Kusto'da değil, SQLite'a çevrilerek çalışıyor. `mv-apply`'ın alt sorgusunda yalnız `where`, `extend`, `project`, `summarize`, `top` ve `take` desteklenir; gerçek Kusto'da `sort`, `join` ve başka işleçler de kullanılabilir. Davranışı burada ölçtüklerin; bir sorguyu bir alarma çevirmeden önce KQ21'deki gibi gerçek bir kümede de dene.
+> [!NOT] Bu ders gerçek yerel Microsoft Kusto motorunda çalışır
+> Microsoft Kusto Emulator kullanılır; Sentinel hizmeti veya gerçek uç nokta telemetrisi değildir. Eski SQL fixture metni yalnız örnek veriyi native datatable'a aktarır; öğrencinin sorgusu SQLite'a çevrilmez. Eksik string alanları Kusto'da boş metindir; dynamic null ve boş dizi aynı şey değildir. `to typeof(long)` tür cast'idir: dynamic içindeki metin rakamları için otomatik `tolong` dönüşümü yapmaz. Aşağıdaki testler bu farkları gerçek motorla ölçer.
 
 ```setup
 CREATE TABLE kontroller (zaman TEXT, sunucu TEXT, sureler TEXT, ozellik TEXT);
@@ -50,6 +50,10 @@ INSERT INTO kontroller VALUES
  ('2026-10-19 10:00','web01','[700,2410,1900]','{"bolge":"ist","surum":"2.5.0"}'),
  ('2026-10-19 10:00','web02','[180]','{"bolge":"ank","surum":"2.5.0"}');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: anlat Boş dizi ve satır başına özet
@@ -59,7 +63,7 @@ Alt sorgu bir dış satır için **hiç satır üretmezse** o dış satır sonu�
 
 ```kql
 kontroller
-| mv-apply s = parse_json(sureler) to typeof(long) on (summarize olcum = count(), en_yuksek = max(s))
+| mv-apply s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long) on (summarize olcum = count(), en_yuksek = max(s))
 | project zaman, sunucu, olcum, en_yuksek
 ```
 
@@ -74,6 +78,10 @@ INSERT INTO kontroller VALUES
  ('2026-10-19 10:00','web01','[700,2410,1900]','{"bolge":"ist","surum":"2.5.0"}'),
  ('2026-10-19 10:00','web02','[180]','{"bolge":"ank","surum":"2.5.0"}');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: tahmin
@@ -81,7 +89,7 @@ INSERT INTO kontroller VALUES
 
 ```kql
 kontroller
-| mv-apply s = parse_json(sureler) to typeof(long) on (where s > 1000 | summarize yavas = count())
+| mv-apply s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long) on (where s > 1000 | summarize yavas = count())
 | project zaman, sunucu, yavas
 ```
 
@@ -108,6 +116,10 @@ INSERT INTO kontroller VALUES
  ('2026-10-19 10:00','web01','[700,2410,1900]','{"bolge":"ist","surum":"2.5.0"}'),
  ('2026-10-19 10:00','web02','[180]','{"bolge":"ank","surum":"2.5.0"}');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: gorev 1 · Her kontrolün en yavaş iki ölçümü
@@ -117,7 +129,7 @@ Başlangıç sorgusu `top 2`'yi bütün tabloya uyguluyor; her kontrole uygulanm
 
 ```starter
 kontroller
-| mv-expand s = parse_json(sureler) to typeof(long)
+| mv-expand s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long)
 | top 2 by s desc
 | project zaman, sunucu, s
 ```
@@ -133,19 +145,19 @@ eq(sonuc, [("2026-10-19 09:00", "web01", 2300), ("2026-10-19 09:00", "web01", 14
 eq(dene("INSERT INTO kontroller VALUES ('2026-10-19 11:00','web04','[500,90,500,800]','{}'),"
         "('2026-10-19 11:00','web05','[\"300\",\"40\"]','{}');")[7:],
    [("2026-10-19 11:00", "web04", 800), ("2026-10-19 11:00", "web04", 500),
-    ("2026-10-19 11:00", "web05", 300), ("2026-10-19 11:00", "web05", 40)],
-   "eşit süreler ayrı ayrı sayılır (800 ve bir 500); metin olarak yazılmış süreler long'a çevrilir")
+    ("2026-10-19 11:00", "web05", None), ("2026-10-19 11:00", "web05", None)],
+   "eşit süreler ayrı ayrı sayılır (800 ve bir 500); metin olarak yazılmış süreler cast ile sayıya çevrilmez; null olur")
 ```
 
 ```solution
 kontroller
-| mv-apply s = parse_json(sureler) to typeof(long) on (top 2 by s desc)
+| mv-apply s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long) on (top 2 by s desc)
 | project zaman, sunucu, s
 | sort by zaman asc, sunucu asc, s desc
 ```
 
 ```hint
-`mv-expand ... | top 2` yerine diziyi `mv-apply s = parse_json(sureler) to typeof(long) on (top 2 by s desc)` ile aç. Dış sıralamayı en sona `sort by zaman asc, sunucu asc, s desc` ile koy.
+`mv-expand ... | top 2` yerine diziyi `mv-apply s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long) on (top 2 by s desc)` ile aç. Dış sıralamayı en sona `sort by zaman asc, sunucu asc, s desc` ile koy.
 ```
 
 ```hint
@@ -161,6 +173,10 @@ INSERT INTO kontroller VALUES
  ('2026-10-19 10:00','web01','[700,2410,1900]','{"bolge":"ist","surum":"2.5.0"}'),
  ('2026-10-19 10:00','web02','[180]','{"bolge":"ank","surum":"2.5.0"}');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: gorev 2 · Kaydı kaybetmeden özet
@@ -168,7 +184,7 @@ Her kontrol için üç sayı: `olcum` (dizideki ölçüm sayısı), `yavas` (100
 
 ```starter
 kontroller
-| mv-expand s = parse_json(sureler) to typeof(long)
+| mv-expand s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long)
 | summarize olcum = count() by zaman, sunucu
 ```
 
@@ -186,7 +202,7 @@ eq(dene("INSERT INTO kontroller VALUES ('2026-10-19 11:00','web04','[1000,1001]'
 
 ```solution
 kontroller
-| mv-apply s = parse_json(sureler) to typeof(long) on (
+| mv-apply s = iff(isempty(sureler), dynamic([]), parse_json(sureler)) to typeof(long) on (
     summarize olcum = count(), yavas = countif(s > 1000), en_yuksek = max(s))
 | project zaman, sunucu, olcum, yavas, en_yuksek
 | sort by zaman asc, sunucu asc
@@ -208,6 +224,10 @@ INSERT INTO kontroller VALUES
  ('2026-10-19 09:00','web03','[]','{"bolge":"dis"}'),
  ('2026-10-19 10:00','web01','[700,2410,1900]','{"bolge":"ist","surum":"2.5.0"}'),
  ('2026-10-19 10:00','web02','[180]','{"bolge":"ank","surum":"2.5.0"}');
+```
+```meta
+motor: kusto
+timeout: 90
 ```
 :::
 
@@ -237,6 +257,10 @@ INSERT INTO kontroller VALUES
  ('2026-10-19 10:00','web01','[700,2410,1900]','{"bolge":"ist","surum":"2.5.0"}'),
  ('2026-10-19 10:00','web02','[180]','{"bolge":"ank","surum":"2.5.0"}');
 ```
+```meta
+motor: kusto
+timeout: 90
+```
 :::
 
 ::: gorev 3 · Özellikleri sütunlara aç
@@ -251,12 +275,12 @@ kontroller
 ```test
 eq(sutunlar, ["zaman", "sunucu", "o_bolge", "o_surum", "o_bakim"], "sütunlar")
 eq(kullanir("bag_unpack"), True, "nesneyi evaluate bag_unpack ile aç")
-eq(sonuc, [("2026-10-19 09:00", "web01", "ist", "2.4.1", None), ("2026-10-19 09:00", "web02", "ank", "2.4.1", "disk"),
-           ("2026-10-19 10:00", "web01", "ist", "2.5.0", None), ("2026-10-19 10:00", "web02", "ank", "2.5.0", None)],
+eq(sonuc, [("2026-10-19 09:00", "web01", "ist", "2.4.1", ''), ("2026-10-19 09:00", "web02", "ank", "2.4.1", "disk"),
+           ("2026-10-19 10:00", "web01", "ist", "2.5.0", ''), ("2026-10-19 10:00", "web02", "ank", "2.5.0", '')],
    "web03'ün nesnesinde surum yok; bakim yalnız web02 09:00'da")
 eq(dene("INSERT INTO kontroller VALUES ('2026-10-19 11:00','web04','[]','{\"surum\":\"2.6.0\",\"zaman\":\"x\"}'),"
         "('2026-10-19 11:00','web05','[]',NULL),('2026-10-19 11:00','web06','[]','[1,2]');")[4:],
-   [("2026-10-19 11:00", "web04", None, "2.6.0", None)],
+   [("2026-10-19 11:00", "web04", '', "2.6.0", '')],
    "nesnede zaman anahtarı olsa da önek çakışmayı önler; boş ya da dizi olan ozellik satırları surumsuz düşer")
 ```
 
@@ -285,5 +309,80 @@ INSERT INTO kontroller VALUES
  ('2026-10-19 09:00','web03','[]','{"bolge":"dis"}'),
  ('2026-10-19 10:00','web01','[700,2410,1900]','{"bolge":"ist","surum":"2.5.0"}'),
  ('2026-10-19 10:00','web02','[180]','{"bolge":"ank","surum":"2.5.0"}');
+```
+```meta
+motor: kusto
+timeout: 90
+```
+:::
+
+::: anlat Yerel gerçek motorun kanıt sınırı
+Bu ders Microsoft'un yerel Kusto Emulator sorgu motorunda çalışır; Azure Sentinel/Defender servisi, ajan alımı veya portal kural önizlemesi değildir. Hazırlık SQL'i yalnız örnek tablo verisini çıkarıp typed datatable/let olarak yollar. Öğrencinin KQL'i gerçek motorda ayrıştırılır ve değerlendirilir; desteklenmeyen ürün fonksiyonu sessiz taklit edilmez. Dersin yerel `_GetWatchlist` yardımcı fonksiyonu yalnız fixture listelerini döndürür; gerçek Sentinel watchlist hizmetine erişildiği iddia edilmez. Üretim kümesindeki izin, connector, ingestion, dcount yaklaşık sayımı ve null/string tür sözleşmesi ayrıca doğrulanmalıdır. Sunucu sorgu sınırı 30 saniye; yanıt sınırı 4 MB. Süre veya boyut aşımı başarı sayılmaz.
+
+[Microsoft Kusto Emulator kapsamı](https://learn.microsoft.com/en-us/azure/data-explorer/kusto-emulator-overview). Kurulum README'dedir. Gerçek Sentinel çalışma alanı olmadan portalın **Test with current data** kabulü tamamlanmış sayılmaz.
+```meta
+motor: kusto
+timeout: 90
+```
+:::
+
+
+::: anlat OutputSchema: önce sözleşme, sonra veri
+`evaluate bag_unpack(o,'b_') : (*, b_ms:long, b_zone:string)` çıktıyı açıkça tanımlar. Baştaki `*` kaynak sütunlarını korur; bag sütunu çıkarılır. Bildirilmeyen yeni bag anahtarları sonuç şemasını genişletmez. Kaynakta b_ms zaten varsa ad çakışmasını ayrıca çözmek gerekir; önek tek başına aynı önekli kaynak alanını sihirle düzeltmez.
+
+Bu native motor sürümünde long OutputSchema sayısal metni sayıya dönüştürür (`"1001"` → 1001), sayı olmayan metinde null üretir; `1000.7` long'a geçerken 1000 olur. String şemasında sayı 4 → `"4"`, nesne → JSON metni olur; eksik/null string boş metindir. Bunlar **bag_unpack OutputSchema dönüşümleridir**; mv-apply typeof(long) cast'iyle aynı davranış sanma. Bu örnekler gerçek sabit imajda çalıştırıldı; başka motor/sürümde gerçek çıktıyı yeniden kontrol et. Bilinmeyen tür veya şemada olmayan alana project gerçek Kusto hatası verir; Pafta bunu başarıya çeviremez.
+
+Microsoft açık OutputSchema'yı büyük veri üzerinde şemayı keşfetme maliyetini azaltmak için önerir. Bu emülatörde performans benchmark'ı yapmıyoruz; kabul yalnız semantik sonuçtur. [bag_unpack OutputSchema](https://learn.microsoft.com/en-us/kusto/query/bag-unpack-plugin).
+```meta
+motor: kusto
+timeout: 90
+```
+:::
+
+::: gorev Şemayı sabitle ve tür uyuşmazlığını görünür tut
+`schema_kayitlari` tablosunda o metnini parse_json ile `bag` sütununa aç. Yalnız id,source_zone ve açılan b_ms/b_zone sütunları kalsın; kaynak `source_zone` korunmalı. `bag_unpack(bag,'b_'):(id:long,source_zone:string,b_ms:long,b_zone:string)` OutputSchema kullan. b_ms null ise durum `tip/eksik`; en az 1000 ise `yavas`; altı `normal`. Son sütun durum, id sırasında dön. 1000 eşit uç dahil; 999 hariç. Bozuk tipli değeri 0 yapıp normal sayma, yeni anahtarı otomatik şemaya alma.
+
+```meta
+motor: kusto
+timeout: 90
+```
+
+```setup
+CREATE TABLE schema_kayitlari(id INTEGER,source_zone TEXT,o TEXT);
+INSERT INTO schema_kayitlari VALUES
+(1,'kaynak-tr','{"ms":999,"zone":"tr"}'),
+(2,'kaynak-tr','{"ms":1000,"zone":"tr"}'),
+(3,'kaynak-de','{"ms":"1001","zone":4}'),
+(4,'kaynak-x','{"ms":"oops","zone":{"x":1}}'),
+(5,'kaynak-y','{}'),
+(6,'kaynak-z','{"ms":1000.7,"zone":null}');
+```
+
+```starter
+schema_kayitlari
+| extend bag=parse_json(o)
+| evaluate bag_unpack(bag,'b_')
+| extend durum='normal'
+| sort by id asc
+```
+
+```test
+eq(sutunlar,['id','source_zone','b_ms','b_zone','durum'],'açık OutputSchema; kaynak alanı ve sabit çıktı')
+eq(sonuc,[(1,'kaynak-tr',999,'tr','normal'),(2,'kaynak-tr',1000,'tr','yavas'),(3,'kaynak-de',1001,'4','yavas'),(4,'kaynak-x',None,'{"x":1}','tip/eksik'),(5,'kaynak-y',None,'','tip/eksik'),(6,'kaynak-z',1000,'','yavas')],'tip dönüşümü, bozuk tip, eksik alan ve 999/1000 sınırı')
+eq(dene('''INSERT INTO schema_kayitlari VALUES (7,'yeni','{"ms":0,"zone":"","late_key":123}');''')[-1],(7,'yeni',0,'','normal'),'yeni anahtar şemayı değiştirmez, sıfır gerçek değer')
+eq(dene('''INSERT INTO schema_kayitlari VALUES (7,'yeni','{"ms":null}');''')[-1],(7,'yeni',None,'','tip/eksik'),'JSON null sıfır değildir')
+eq(dene('DELETE FROM schema_kayitlari;'),[],'boş veride de OutputSchema sütunları mevcut')
+```
+
+```solution
+schema_kayitlari
+| extend bag=parse_json(o)
+| evaluate bag_unpack(bag,'b_'):(id:long,source_zone:string,b_ms:long,b_zone:string)
+| extend durum=case(isnull(b_ms),'tip/eksik',b_ms >= 1000,'yavas','normal')
+| sort by id asc
+```
+
+```hint
+Şemanın içindeki id/source_zone kaynak sütunlarını korur; o ve bag'ı dışarıda bırakır. Eksik/bad long null olur; null'u 0'a çevirme.
 ```
 :::

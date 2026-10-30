@@ -63,7 +63,11 @@ Bir dosyaya capability yazmak (`setcap`) normalde `CAP_SETFCAP` ister. **Kullan�
 
 ::: tahmin Kabuk, dosya ve ad alanı
 ```bash
-grep -E '^Cap(Prm|Eff)' /proc/self/status
+if (( EUID == 0 )); then
+    setpriv --reuid=65534 --regid=65534 --clear-groups grep -E '^Cap(Prm|Eff)' /proc/self/status
+else
+    grep -E '^Cap(Prm|Eff)' /proc/self/status
+fi
 /usr/sbin/capsh --decode=0000000000003000
 /usr/sbin/getcap /usr/bin/fping
 unshare -Ur grep CapEff /proc/self/status
@@ -79,7 +83,7 @@ CapEff:	0000000000000000
 CapEff:	000001ffffffffff
 ```
 
-Sıradan kabuğun permitted ve effective kümeleri boştur. `0x3000` 12. ve 13. bitlerdir: `cap_net_admin` ve `cap_net_raw`. `fping` dosyasında `cap_net_raw` permitted ve effective olarak yazılıdır. Kullanıcı ad alanının içinde aynı kullanıcının `CapEff`'i bounding kümesinin tamamıdır, ama bu yetkiler yalnız o ad alanında geçerlidir.
+İlk komut, WSL varsayılan kullanıcısı root olsa da UID/GID 65534 ile ayrı bir süreç açar; bu ayrıcalıksız sürecin permitted ve effective kümeleri boştur. Host kullanıcı/grup ayarları değiştirilmez. `0x3000` 12. ve 13. bitlerdir: `cap_net_admin` ve `cap_net_raw`. `fping` dosyasında `cap_net_raw` permitted ve effective olarak yazılıdır. Kullanıcı ad alanının içinde aynı kullanıcının `CapEff`'i bounding kümesinin tamamıdır, ama bu yetkiler yalnız o ad alanında geçerlidir.
 :::
 
 ::: gorev Bir sürecin yetkilerini çöz
@@ -106,18 +110,21 @@ grep -E '^Cap' "/proc/$pid/status"
 ```
 
 ```test
-import subprocess, time
+import os, subprocess, time
 def coz(pid):
     return run(stdin=f"{pid}\n")
-s = subprocess.Popen(["sleep", "30"])
+drop = ["setpriv", "--reuid=65534", "--regid=65534", "--clear-groups", "--inh-caps=-all", "--ambient-caps=-all"] if os.geteuid() == 0 else []
+s = subprocess.Popen(drop + ["sleep", "30"])
 eq(coz(s.pid), "CapPrm: -\nCapEff: -\nCapAmb: -\n", "sıradan süreç: üç küme de boş")
 s.kill(); s.wait()
-f = subprocess.Popen(["fping", "-c", "40", "-p", "200", "127.0.0.1"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+f = subprocess.Popen(drop + ["fping", "-c", "40", "-p", "200", "127.0.0.1"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 time.sleep(0.6)
 eq(coz(f.pid), "CapPrm: cap_net_raw\nCapEff: cap_net_raw\nCapAmb: -\n", "fping: dosya capability'si (=ep) süreçte görünüyor")
 f.kill(); f.wait()
 ns = subprocess.run(["unshare", "-Ur", "bash", "-c", 'bash betik.sh <<< "$$"'], capture_output=True, text=True)
-tam = subprocess.run(["/usr/sbin/capsh", "--decode=000001ffffffffff"], capture_output=True, text=True).stdout.strip().split("=", 1)[1]
+from pathlib import Path
+bound = next(line.split()[1] for line in Path("/proc/self/status").read_text().splitlines() if line.startswith("CapBnd:"))
+tam = subprocess.run(["/usr/sbin/capsh", "--decode=" + bound], capture_output=True, text=True).stdout.strip().split("=", 1)[1]
 eq(ns.stdout, f"CapPrm: {tam}\nCapEff: {tam}\nCapAmb: -\n", "kullanıcı ad alanındaki kabuk: bounding kümesinin tamamı")
 ok(ns.stdout.startswith("CapPrm: cap_chown,cap_dac_override,"), "adlar capsh sırasında")
 r = calis(stdin="999999999\n")

@@ -1,0 +1,30 @@
+{
+  "version": "9.5.5",
+  "license": "basic",
+  "images": {
+    "docker.elastic.co/elasticsearch/elasticsearch:9.5.5": [
+      "docker.elastic.co/elasticsearch/elasticsearch@sha256:13b4a40bb095774f5fda635e45fd5677cc6a26565e42b24997b0c72b88e75984"
+    ],
+    "docker.elastic.co/kibana/kibana:9.5.5": [
+      "docker.elastic.co/kibana/kibana@sha256:13b72ce7222c36e4213229004ae62a87aeb32fd372ebfa6fb38f7a3285fdbb78"
+    ]
+  },
+  "published_ports": {
+    "pafta-elasticsearch": {
+      "9200/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "19200"
+        }
+      ]
+    },
+    "pafta-kibana": {
+      "5601/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "15601"
+        }
+      ]
+    }
+  }
+}

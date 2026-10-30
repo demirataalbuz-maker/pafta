@@ -1,0 +1,26 @@
+{
+  "host_settings_changed": false,
+  "packages_installed": false,
+  "guest": "PF-APP01",
+  "transport": "real WSMan via New-PSSession -ComputerName localhost",
+  "observed_native_states": {
+    "normal": {
+      "before": "Opened",
+      "after_remove": "Closed"
+    },
+    "command_error": {
+      "before": "Opened",
+      "after_remove": "Closed"
+    },
+    "transport_failure": {
+      "before": "Broken",
+      "after_remove": "Broken"
+    }
+  },
+  "cleanup_acceptance": "Get-PSSession must not contain owned InstanceId; do not equate cleanup with Closed for a Broken object",
+  "budget": {
+    "full_lesson_test_seconds": 240,
+    "individual_guest_job_seconds": 90
+  },
+  "scope": "WinRM loopback inside isolated Windows Server guest; not two-computer Kerberos/double-hop acceptance."
+}

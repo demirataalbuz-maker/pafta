@@ -143,6 +143,47 @@ class PythonRunner(HarnessRunner):
     ozellik = {"roentgen": True, "dis": "Bytecode"}
     modlar = {"run": "run", "test": "test", "trace": "trace", "dis": "dis"}
 
+    def execute(self, job, timeout=None):
+        prefix = f"import sys; sys.path.insert(0, {os.path.join(ROOT, '.deps')!r})\n"
+        return super().execute(dict(job, setup=prefix + (job.get("setup") or "")), timeout)
+
+
+class PurpleRunner(PythonRunner):
+    """Purple Team yolu: Python; her çalıştırmada MITRE ATT&CK özeti (tracks/purple/veri/attack.json,
+    tools/attack_ozet.py) çalışma klasörüne attack.json olarak kopyalanır."""
+    name = "purple"
+    ek = {"kopyala": [os.path.join(ROOT, "tracks", "purple", "veri", "attack.json")]}
+
+
+class CapstoneRunner(PythonRunner):
+    """Shared offline case files and explicit adapters for the capstone track."""
+    name = "bitirme"
+    default_timeout = 20
+    test_timeout = 45
+    ek = {"kopyala": [os.path.join(ROOT, "tracks", "bitirme", "veri", name)
+                      for name in ("olaylar.jsonl", "vaka.json", "vaka.pcap", "manifest.json")]}
+
+    def execute(self, job, timeout=None):
+        setup = ("import sys, importlib\n"
+                 f"sys.path.insert(0, {ROOT!r})\n"
+                 f"sys.path.insert(0, {os.path.join(ROOT,'.deps')!r})\n"
+                 "sys.modules['vaka_lab'] = importlib.import_module('sandbox.capstone_lab')\n")
+        return super().execute(dict(job, setup=setup+(job.get("setup") or "")), timeout)
+
+
+class VqlRunner(HarnessRunner):
+    """Purple yolu, adım meta'sında motor: velociraptor → WSL'de gerçek Velociraptor (sandbox/vql_lab.py,
+    py_harness vql_*). Hazırlık disk/ altında dosya ağacı kurar; kod bir VQL sorgusudur (Kok değişkeni)."""
+    name = "vql"
+    ozellik = {"roentgen": False, "dis": None}
+    modlar = {"run": "vql_run", "test": "vql_test"}
+    default_timeout = 60
+    test_timeout = 180
+
+    def available(self):
+        from sandbox.vql_lab import durum
+        return durum() is None
+
 
 class WslRunner(HarnessRunner):
     """Opt-in Linux Python/Bash, with the guardian owning timeout and cleanup."""
@@ -164,7 +205,8 @@ class WslRunner(HarnessRunner):
             self.ek = {"proc": {
                 "cmd": ["/bin/bash", "--noprofile", "--norc"],
                 "iz_cmd": ["/bin/bash", "--noprofile", "--norc", "-x"],
-                "dosya": "betik.sh", "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"},
+                "dosya": "betik.sh", "iz_on_ek": "PS4='+ ${LINENO}: '\n",
+                "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"},
                 "satir_deseni": r"betik\.sh: (?:line|satır) (\d+)",
                 "iz_deseni": r"^(?P<derinlik>\++) (?P<satir>\d+): (?P<komut>.*)$",
             }}
@@ -213,13 +255,41 @@ def for_step(runner, step):
     elif backend == "native" and isinstance(runner, WslRunner):
         runner = RUNNERS[runner.language]
     motor = meta.get("motor")
-    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "splunk"):
+    if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "mysql", "mssql", "kusto",
+                     "sentinel-kural", "elastic-agent", "sigma-hedef", "splunk", "suricata", "zeek", "velociraptor", "pwsh", "ad-vm",
+                     "ad-client"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
-                         "mariadb veya splunk kullanın.")
+                         "mariadb, mysql, mssql, kusto, sentinel-kural, elastic-agent, sigma-hedef, splunk, suricata, zeek, "
+                         "velociraptor, pwsh, ad-vm veya ad-client kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
         runner = Pcre2Runner() if motor == "pcre2" else RegexMotorRunner(motor)
+    elif motor == "kusto":
+        if type(runner) is not KqlRunner:
+            raise ValueError("motor: kusto yalnız KQL (Kusto) yolunda tanımlı.")
+        from sandbox.kusto_runner import KustoRunner
+        runner = KustoRunner()
+    elif motor == "sentinel-kural":
+        if type(runner) is not KqlRunner:
+            raise ValueError("motor: sentinel-kural yalnız KQL (Kusto) yolunda tanımlı.")
+        from sandbox.sentinel_kural_lab import SentinelKuralRunner
+        runner = SentinelKuralRunner(meta.get("son", ""), meta.get("kosu", 50), meta.get("pencere", "SigninLogs"))
+    elif motor == "elastic-agent":
+        if not isinstance(runner, ElasticRunner):
+            raise ValueError("motor: elastic-agent yalnız Elastic yolunda tanımlı.")
+        from sandbox.elastic_agent_lab import ElasticAgentRunner
+        runner = ElasticAgentRunner()
+    elif motor == "sigma-hedef":
+        if not (isinstance(runner, DetectionRunner) and runner.name == "sigma"):
+            raise ValueError("motor: sigma-hedef yalnız Sigma yolunda tanımlı.")
+        from sandbox.sigma_hedef_lab import SigmaHedefRunner
+        runner = SigmaHedefRunner()
+    elif motor in ("mysql", "mssql"):
+        if type(runner) is not SqlRunner:
+            raise ValueError(f"motor: {motor} yalnız SQL yolunda tanımlı.")
+        from sandbox.sql_container_runner import ContainerSqlRunner
+        runner = ContainerSqlRunner(motor)
     elif motor == "postgres":
         if type(runner) is not SqlRunner:
             raise ValueError("motor: postgres yalnız SQL yolunda tanımlı.")
@@ -229,9 +299,42 @@ def for_step(runner, step):
             raise ValueError("motor: mariadb yalnız SQL yolunda tanımlı.")
         runner = MariadbRunner()
     elif motor == "splunk":
-        if type(runner) is not SplRunner:
-            raise ValueError("motor: splunk yalnız SPL yolunda tanımlı.")
-        runner = SplunkRunner(meta.get("girdi", "arama"))
+        if isinstance(runner, DetectionRunner) and runner.name == "sigma":
+            runner = SigmaSplunkRunner(meta.get("girdi", "kural"), meta.get("pipeline", ""))
+        elif type(runner) is SplRunner:
+            runner = SplunkRunner(meta.get("girdi", "arama"))
+        else:
+            raise ValueError("motor: splunk yalnız SPL ve Sigma yollarında tanımlı.")
+    elif motor in ("suricata", "zeek"):
+        if not isinstance(runner, IdsRunner):
+            raise ValueError(f"motor: {motor} yalnız Ağ Tespiti yolunda tanımlı.")
+        runner = IdsRunner(motor)
+    elif motor == "velociraptor":
+        if not isinstance(runner, PurpleRunner):
+            raise ValueError("motor: velociraptor yalnız Purple yolunda tanımlı.")
+        runner = VqlRunner()
+    elif motor == "pwsh":
+        if getattr(runner, "name", None) != "powershell":
+            raise ValueError("motor: pwsh yalnız PowerShell yolunda tanımlı.")
+        runner = RUNNERS["powershell-7"]
+    elif motor == "python" and isinstance(runner, DetectionRunner) and runner.name == "yara":
+        runner = YaraApiRunner()
+    elif motor == "python" and isinstance(runner, AdRunner):
+        runner = AdAuditRunner()
+    elif motor == "python" and type(runner) is SqlRunner:
+        # Application/DB binding exercises execute real Python sqlite3 calls.
+        runner = PythonRunner()
+    elif motor == "python" and isinstance(runner, DetectionRunner) and runner.name == "sigma":
+        # SG21: Windows'un EVTX/XML'ini Python'da normalleştir; sandbox/sigma_evtx_lab.py gerçek Splunk'a götürür.
+        runner = SigmaPythonRunner()
+    elif motor == "ad-vm":
+        if not isinstance(runner, AdRunner) and getattr(runner, "name", None) != "powershell":
+            raise ValueError("motor: ad-vm yalnız AD ve PowerShell yollarında tanımlı.")
+        runner = AdVmRunner(meta.get("guest", "PF-DC01"))
+    elif motor == "ad-client":
+        if not isinstance(runner, AdRunner):
+            raise ValueError("motor: ad-client yalnız AD yolunda tanımlı.")
+        runner = AdClientRunner()
     if "timeout" in meta:
         from sandbox.wsl_process import seconds
         timeout = seconds(meta["timeout"])
@@ -314,7 +417,27 @@ class ElasticRunner(HarnessRunner):
     name = "elastic"
     default_timeout = 20
     test_timeout = 60
+    tavan = 300
+    # Native ingest/index/refresh operations are expensive under validation's
+    # eight workers. Keep this product's pressure bounded without serializing
+    # local KQL/Lucene/EQL or hiding failed operations behind retries.
+    native_gate = threading.BoundedSemaphore(2)
     modlar = {"run": "elastic_run", "test": "elastic_test"}
+
+    def execute(self, job, timeout=None):
+        try:
+            config=json.loads(job.get('stdin') or '{}')
+        except (ValueError,TypeError):
+            config={}
+        if not isinstance(config,dict) or config.get('backend')!='elastic':
+            return super().execute(job,timeout)
+        budget=timeout if timeout is not None else 120
+        if not self.native_gate.acquire(timeout=180):
+            return {'status':'timeout','error':{'type':'Elastic meşgul','msg':'Yerel Elastic iş kuyruğu 180 saniyede açılmadı.'}}
+        try:
+            return super().execute(job,budget)
+        finally:
+            self.native_gate.release()
 
     def available(self):
         from sandbox.elastic_lucene import available
@@ -325,6 +448,42 @@ class AdRunner(HarnessRunner):
     name = "ad"
     ozellik = {"roentgen": False, "dis": "LDAP"}
     modlar = {"run": "ad_run", "test": "ad_test", "dis": "ad_dis"}
+
+
+class YaraApiRunner(PythonRunner):
+    """YR23–24 use real yara-python through the explicit bundle API."""
+    name = "yara-api"
+    default_timeout = 20
+    test_timeout = 45
+
+    def execute(self, job, timeout=None):
+        setup = ("import sys, importlib\n"
+                 f"sys.path.insert(0, {ROOT!r})\n"
+                 f"sys.path.insert(0, {os.path.join(ROOT,'.deps')!r})\n"
+                 "sys.modules['yara_lab'] = importlib.import_module('sandbox.yara_bundle')\n")
+        return super().execute(dict(job, setup=setup+(job.get("setup") or "")), timeout)
+
+
+class AdAuditRunner(PythonRunner):
+    """AD güvenlik denetimi eklerinde çevrimdışı kanıtları yorumlayan Python tezgahı."""
+    name = "ad-audit"
+    ozellik = {"roentgen": True, "dis": None}
+    ek = {"kopyala": [os.path.join(ROOT, "tracks", "ad", "veri", name)
+                      for name in ("acl.json", "s4u.json", "adcs.json")]}
+
+
+class AdClientRunner(PythonRunner):
+    """Learner Python calls real, fixed-lab LDAP clients; no Python LDAP model."""
+    name = "ad-client"
+    default_timeout = 110
+    test_timeout = 240
+    tavan = 240
+
+    def execute(self, job, timeout=None):
+        setup = ("import sys, importlib\n"
+                 f"sys.path.insert(0, {ROOT!r})\n"
+                 "sys.modules['ad_lab'] = importlib.import_module('sandbox.ad_ldap_client')\n")
+        return super().execute(dict(job, setup=setup+(job.get("setup") or "")), timeout)
 
 
 class SqlRunner(HarnessRunner):
@@ -447,6 +606,47 @@ class SplunkRunner(HarnessRunner):
             return super().execute(job, timeout)
 
 
+class IdsRunner(HarnessRunner):
+    """Ağ Tespiti: görevin trafik tarifinden üretilen PCAP üstünde gerçek Suricata (WSL) ya da Zeek (Docker).
+    Adım meta'sında motor: suricata (varsayılan; kod bir kural dosyası) ya da zeek (kod bir Zeek betiği)."""
+    name = "ids"
+    ozellik = {"roentgen": False, "dis": None}
+    modlar = {"run": "ids_run", "test": "ids_test"}
+    default_timeout = 60
+    test_timeout = 180
+    tavan = 300
+
+    def __init__(self, motor="suricata"):
+        if motor not in ("suricata", "zeek"):
+            raise ValueError(f"Bilinmeyen motor: {motor!r}; suricata veya zeek kullanın.")
+        self.ek = {"motor": motor}
+
+    def available(self):
+        from sandbox.ids_lab import durum
+        return not durum()
+
+
+class SigmaSplunkRunner(SplunkRunner):
+    """Sigma yolu, adım meta'sında motor: splunk → kural gerçek pySigma Splunk backend'iyle çevrilir ve gerçek
+    Splunk laboratuvarında çalışır (py_harness sgs_*). girdi: kural (kod bir Sigma kuralı ya da korelasyonlu
+    koleksiyon) ya da pipeline (kod bir processing pipeline YAML'ı; kural hazırlıkta). pipeline: hazır
+    pipeline adları, virgülle (sysmon, windows, splunk_windows)."""
+    name = "sigma-splunk"
+    modlar = {"run": "sgs_run", "test": "sgs_test"}
+
+    def __init__(self, girdi="kural", pipeline=""):
+        if girdi not in ("kural", "pipeline", "komut"):
+            raise ValueError(f"Bilinmeyen girdi: {girdi!r}; kural, pipeline veya komut kullanın.")
+        self.ek = {"girdi": girdi, "pipeline": pipeline}
+
+
+class SigmaPythonRunner(PythonRunner):
+    """Sigma yolunda motor: python → Python görevi; testi gerçek Splunk'a yükleme yaptığı için süre tavanı geniş."""
+    name = "sigma-python"
+    test_timeout = 150
+    tavan = 180
+
+
 class HttpRunner(PythonRunner):
     """Python; her çalıştırmadan önce sandbox/http_tezgah.py demo web uygulamasını (127.0.0.1, boş port)
     başlatır ve kullanıcı koduna `tezgah` modülünü (SUNUCU, gonder, yanit) açar."""
@@ -454,7 +654,10 @@ class HttpRunner(PythonRunner):
     tezgah = os.path.join(ROOT, "sandbox", "http_tezgah.py")
 
     def execute(self, job, timeout=None):
-        on = f"import runpy as _r\n_r.run_path({self.tezgah!r}, run_name='__tezgah__')\n"
+        on = (f"import runpy as _r, sys as _sys\n"
+              f"_sys.path.insert(0, {os.path.join(ROOT, 'sandbox')!r})\n"
+              f"_sys.path.insert(0, {os.path.join(ROOT, '.deps')!r})\n"
+              f"_r.run_path({self.tezgah!r}, run_name='__tezgah__')\n")
         return super().execute(dict(job, setup=on + (job.get("setup") or "")), timeout)
 
 
@@ -483,9 +686,47 @@ class ProcRunner(HarnessRunner):
         return bool(self.ek["proc"]["cmd"][0])
 
 
+class AdVmRunner(ProcRunner):
+    """Real AD PowerShell in the managed guest, transparently started by Pafta."""
+    _locks = {name: threading.Lock() for name in ("PF-DC01", "PF-APP01")}
+    tavan = 240
+
+    def __init__(self, guest="PF-DC01"):
+        if guest not in self._locks:
+            raise ValueError("AD guest: PF-DC01 veya PF-APP01 olmalı.")
+        self.guest = guest
+        super().__init__("ad-vm", {
+            "cmd": [python_exe(), "-X", "utf8", os.path.join(ROOT, "sandbox", "ad_vm_process.py"), "--guest", guest],
+            "dosya": "betik.ps1", "bom": True, "sure": 90,
+        }, default_timeout=110, test_timeout=240, iz=False)
+
+    def available(self):
+        from sandbox.ad_vm_process import LAB
+        return (LAB / "config.json").is_file()
+
+    def execute(self, job, timeout=None):
+        from sandbox.ad_vm_process import ensure_ready
+        with self._locks[self.guest]:
+            try:
+                if self.guest == "PF-APP01":
+                    ensure_ready("PF-DC01")
+                ensure_ready(self.guest)
+            except Exception as exc:
+                return {"status": "error", "error": {"type": "ADLaboratuvarı", "msg": str(exc), "line": None, "frames": [], "where": "kod"}, "segs": []}
+            return super().execute(job, timeout)
+
+
+def _pwsh7_yolu():
+    r"""PowerShell 7: .deps\pwsh\<sürüm>\pwsh.exe (taşınabilir paket; yönetici gerektirmez), yoksa PATH."""
+    yerel = os.path.join(ROOT, ".deps", "pwsh", PWSH7_SURUM, "pwsh.exe")
+    return yerel if os.path.isfile(yerel) else (shutil.which("pwsh") or "")
+
+
+PWSH7_SURUM = "7.6.8"
 BASH = _bash_yolu()
 NODE = shutil.which("node") or (r"C:\Program Files\nodejs\node.exe" if os.path.isfile(r"C:\Program Files\nodejs\node.exe") else None)
 CMD = shutil.which("cmd.exe") if os.name == "nt" else None
+PWSH7 = _pwsh7_yolu()
 # Sarmalayıcı: UTF-8 çıktı, Girdi kutusunu $Girdi dizisine okur, betiği argümanlarıyla çağırır.
 PS_SARMAL = (
     "[Console]::OutputEncoding = [Text.Encoding]::UTF8\n"
@@ -509,11 +750,15 @@ RUNNERS = {
     "sigma": DetectionRunner("sigma", "sigma"),
     "yara": DetectionRunner("yara", "yara"),
     "packets": PacketRunner(),
+    "ids": IdsRunner(),
+    "purple": PurpleRunner(),
+    "bitirme": CapstoneRunner(),
     "elastic": ElasticRunner(),
     "ad": AdRunner(),
     "bash": ProcRunner("bash", {
         "cmd": [BASH or ""], "iz_cmd": [BASH or "", "-x"], "dosya": "betik.sh",
-        "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"}, "sure": 10,
+        "iz_on_ek": "PS4='+ ${LINENO}: '\n",
+                "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"}, "sure": 10,
         "satir_deseni": r"betik\.sh: (?:line|satır) (\d+)",
         "iz_deseni": r"^(?P<derinlik>\++) (?P<satir>\d+): (?P<komut>.*)$",
     }, default_timeout=15, test_timeout=30),
@@ -524,9 +769,18 @@ RUNNERS = {
         "sure": 20, "satir_deseni": r"betik\.ps1:(\d+)",
         "iz_deseni": r"^DEBUG:\s+(?P<satir>\d+)\+\s*(?P<komut>.*)$",
         # Proje kapsamında sabitlenen modüller (Pester 5.9.0) önce aransın: .deps\psmodules
-        "env": {"PSModulePath": os.path.join(ROOT, ".deps", "psmodules") + os.pathsep + os.environ.get("PSModulePath", "")},
+        "env": {"PSModulePath": os.path.join(ROOT, ".deps", "psmodules") + os.pathsep + os.path.join(os.environ.get("SystemRoot", r"C:\Windows"), "System32", "WindowsPowerShell", "v1.0", "Modules")},
     }, default_timeout=25, test_timeout=50,
         kopyala=[os.path.join(ROOT, "tracks", "powershell", "veri", "olaylar.json")]),
+    # Adım meta'sında motor: pwsh → aynı tezgah, PowerShell 7'nin taşınabilir paketiyle (New-PSSession
+    # -UseWindowsPowerShell gibi yalnız 7'de olan özellikler için). Yönetici, WinRM ve ağ dinleyicisi yok.
+    "powershell-7": ProcRunner("powershell-7", {
+        "cmd": [PWSH7 or "", "-NoLogo", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File"],
+        "dosya": "betik.ps1", "bom": True, "sarmal": PS_SARMAL, "sarmal_dosya": "_pafta.ps1",
+        "iz_satiri": "Set-PSDebug -Trace 1; ", "iz_disla": ["betik.ps1", "LASTEXITCODE"],
+        "sure": 60, "satir_deseni": r"betik\.ps1:(\d+)",
+        "iz_deseni": r"^DEBUG:\s+(?P<satir>\d+)\+\s*(?P<komut>.*)$",
+    }, default_timeout=60, test_timeout=120),
     "javascript": ProcRunner("javascript", {
         "cmd": [NODE or ""], "dosya": "betik.js", "sure": 10,
         # Proje kapsamında sabitlenen npm paketleri (Express 5.3.0): tools/js_bagimlilik_kur.py

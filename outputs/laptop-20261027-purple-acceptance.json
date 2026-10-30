@@ -1,0 +1,119 @@
+{
+  "scope": "Author self-acceptance; independent auditor rerun required",
+  "lessons": {
+    "pu14": {
+      "reference": "pass",
+      "starter": "fail",
+      "wrong_solutions": [
+        {
+          "case": "wrong gateway",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "allow duplicate trusted result",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "constant raw hash",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "omit missing auth finding",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "invert Received check",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "omit attachment findings",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "omit attachment hashes",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "omit URL mismatch",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "omit URL userinfo",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "claim whole campaign coverage",
+          "rejected": true,
+          "status": "fail"
+        }
+      ],
+      "sha256": "e924b0fd1f43217ecef0e877077b761bad61af3dd841a13817af2ba14bae1c20"
+    },
+    "pu17": {
+      "reference": "pass",
+      "starter": "fail",
+      "wrong_solutions": [
+        {
+          "case": "assume NTLM without provenance",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "accept NTDS/bcrypt mismatch",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "wrong cost boundary",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "ignore caller threshold",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "claim password known",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "leak parsed hash",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "lose work parameters",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "lose yescrypt verification warning",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "reject min valid threshold",
+          "rejected": true,
+          "status": "fail"
+        },
+        {
+          "case": "reject max valid threshold",
+          "rejected": true,
+          "status": "fail"
+        }
+      ],
+      "sha256": "e652ed123b54bd29b93a623e1578359231bd19405ca0e4c24d5127d4afbf7d9b"
+    }
+  }
+}

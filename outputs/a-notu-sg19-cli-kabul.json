@@ -1,0 +1,93 @@
+{
+  "ders": "sg19",
+  "motor": "sigma-cli 3.1.0 (pySigma 1.5.1, Splunk backend 2.1.0) + Splunk Enterprise 10.6.1 + CIM 8.5.0",
+  "referans": "geçti",
+  "mutant_reddedilen": 12,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "gorev": "Kural klasörünü",
+      "mutasyon": "hazır sysmon pipeline",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": ""
+    },
+    {
+      "gorev": "Kural klasörünü",
+      "mutasyon": "atlama yok: yer tutucu işi durdurur",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "sigma-cli çıkış kodu 1: Error: Error while converting: Attempt to convert unhandled placeholder 'yonetici_makineleri' into query."
+    },
+    {
+      "gorev": "Kural klasörünü",
+      "mutasyon": "pipeline yok",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": ""
+    },
+    {
+      "gorev": "Kural klasörünü",
+      "mutasyon": "yalnız ilk kural",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": "list index out of range"
+    },
+    {
+      "gorev": "Kural klasörünü",
+      "mutasyon": "yalnız son kural",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": "list index out of range"
+    },
+    {
+      "gorev": "Kural klasörünü",
+      "mutasyon": "Splunk Windows pipeline",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": ""
+    },
+    {
+      "gorev": "Kural klasörünü",
+      "mutasyon": "başka hedef",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "bu laboratuvarda hedef yalnız splunk: çıktı gerçek Splunk'ta çalıştırılır"
+    },
+    {
+      "gorev": "CIM veri modeline",
+      "mutasyon": "biçim yok: ham SPL",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": ""
+    },
+    {
+      "gorev": "CIM veri modeline",
+      "mutasyon": "düz biçim",
+      "durum": "reddedildi",
+      "runner_status": "fail",
+      "hata": ""
+    },
+    {
+      "gorev": "CIM veri modeline",
+      "mutasyon": "CIM pipeline yok",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "sigma-cli çıkış kodu 1: Error: Error while converting: No data model specified by processing pipeline"
+    },
+    {
+      "gorev": "CIM veri modeline",
+      "mutasyon": "pipeline yok",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "sigma-cli çıkış kodu 1: Error: Error while converting: No data model specified by processing pipeline"
+    },
+    {
+      "gorev": "CIM veri modeline",
+      "mutasyon": "savedsearches biçimi",
+      "durum": "reddedildi",
+      "runner_status": "error",
+      "hata": "biçim default ya da data_model olmalı: çalıştırılabilir sorgu gerekir"
+    }
+  ]
+}

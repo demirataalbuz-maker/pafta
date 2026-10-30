@@ -1,0 +1,61 @@
+{
+  "no": 34,
+  "yol": "sql",
+  "ad": "SQL içinden JSON kayıtlarını sorgulamak",
+  "dersler": [
+    "SQ20"
+  ],
+  "karar": "Tam",
+  "ozet": "SQ20 gerçek PostgreSQL jsonb görevleri: SQL/JSON NULL, nesne türü, ? ve @>, LATERAL/ordinality, dizi olmayan ve tekrarlı elemanlar. 15 mutant reddedildi, 0 geçen.",
+  "tarih": "27.10.2026",
+  "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+  "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 15,
+    "yol": 10
+  },
+  "eksikler": [],
+  "onceki_denetim": {
+    "no": 34,
+    "yol": "sql",
+    "ad": "SQL içinden JSON kayıtlarını sorgulamak",
+    "dersler": [
+      "SQ20"
+    ],
+    "karar": "Kısmen",
+    "ozet": "SQLite json_extract, ->/->>, json_each; NULL ayrımları, bozuk JSON. PostgreSQL jsonb görevi yok.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+      "test": 23,
+      "kapsam": 16,
+      "derinlik": 20,
+      "gerceklik": 13,
+      "yol": 8
+    },
+    "eksikler": [
+      {
+        "metin": "PostgreSQL jsonb görevi yok; projede gerçek PostgreSQL varken yalnız tabloda.",
+        "oncelik": "orta",
+        "etiket": "CDSA"
+      }
+    ]
+  },
+  "kapatilanlar": [
+    {
+      "metin": "PostgreSQL jsonb görevi yok; projede gerçek PostgreSQL varken yalnız tabloda.",
+      "oncelik": "orta",
+      "etiket": "CDSA"
+    }
+  ],
+  "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "kanit": "../../outputs/a-notu-sq20-jsonb-kabul.json",
+    "rapor": "../../outputs/a-notu-sq20-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "95/A öz değerlendirme; eski bağımsız 80 korunur. Ortak dosya boşalınca uygulanacak öneri."
+  }
+}

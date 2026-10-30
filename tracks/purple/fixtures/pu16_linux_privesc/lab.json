@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "scenario": "PU16 sentetik CPTS Linux yetki yükseltme saldırısız kayıt analizi",
+  "identity": {
+    "user": "analyst",
+    "uid": 1000,
+    "groups": ["analyst", "operators"],
+    "evidence": "uid=1000(analyst) gid=1000(analyst) groups=1000(analyst),1001(operators)"
+  },
+  "files": [
+    {
+      "path": "/usr/bin/passwd",
+      "kind": "regular",
+      "suid": true,
+      "sgid": false,
+      "owner": "root",
+      "group": "root",
+      "executable": true,
+      "caller_write": false,
+      "parent_replace": false,
+      "find_evidence": "find: /usr/bin/passwd mode=4755",
+      "stat_evidence": "stat: Uid=0/root Gid=0/root Access=0755"
+    },
+    {
+      "path": "/opt/pafta/root-report",
+      "kind": "regular",
+      "suid": true,
+      "sgid": false,
+      "owner": "root",
+      "group": "root",
+      "executable": true,
+      "caller_write": true,
+      "parent_replace": false,
+      "find_evidence": "find: /opt/pafta/root-report mode=4777",
+      "stat_evidence": "stat: Uid=0/root Gid=0/root Access=0777 caller=write"
+    },
+    {
+      "path": "/opt/pafta/replace-root",
+      "kind": "regular",
+      "suid": true,
+      "sgid": false,
+      "owner": "root",
+      "group": "root",
+      "executable": true,
+      "caller_write": false,
+      "parent_replace": true,
+      "find_evidence": "find: /opt/pafta/replace-root mode=4755",
+      "stat_evidence": "stat: file=0555 parent=/opt/pafta caller=write"
+    },
+    {
+      "path": "/opt/pafta/legacy-sgid",
+      "kind": "regular",
+      "suid": false,
+      "sgid": true,
+      "owner": "root",
+      "group": "admins",
+      "executable": true,
+      "caller_write": true,
+      "parent_replace": false,
+      "find_evidence": "find: /opt/pafta/legacy-sgid mode=2775",
+      "stat_evidence": "stat: Gid=1002/admins Access=0775 caller=write"
+    },
+    {
+      "path": "/opt/pafta/user-tool",
+      "kind": "regular",
+      "suid": true,
+      "sgid": false,
+      "owner": "analyst",
+      "group": "analyst",
+      "executable": true,
+      "caller_write": true,
+      "parent_replace": true,
+      "find_evidence": "find: /opt/pafta/user-tool mode=4777",
+      "stat_evidence": "stat: Uid=1000/analyst caller=write"
+    },
+    {
+      "path": "/opt/pafta/nonexec",
+      "kind": "regular",
+      "suid": true,
+      "sgid": false,
+      "owner": "root",
+      "group": "root",
+      "executable": false,
+      "caller_write": true,
+      "parent_replace": true,
+      "find_evidence": "find: /opt/pafta/nonexec mode=4644",
+      "stat_evidence": "stat: Uid=0/root Access=0644"
+    },
+    {
+      "path": "/opt/pafta/sgid-other",
+      "kind": "regular",
+      "suid": false,
+      "sgid": true,
+      "owner": "root",
+      "group": "operators",
+      "executable": true,
+      "caller_write": true,
+      "parent_replace": false,
+      "find_evidence": "find: /opt/pafta/sgid-other mode=2777",
+      "stat_evidence": "stat: Gid=1001/operators caller=write"
+    },
+    {
+      "path": "/opt/pafta/socket",
+      "kind": "socket",
+      "suid": true,
+      "sgid": false,
+      "owner": "root",
+      "group": "root",
+      "executable": true,
+      "caller_write": true,
+      "parent_replace": true,
+      "find_evidence": "find: /opt/pafta/socket mode=4777 type=socket",
+      "stat_evidence": "stat: type=socket"
+    }
+  ],
+  "file_capabilities": [
+    {
+      "path": "/usr/bin/ping",
+      "kind": "regular",
+      "executable": true,
+      "capabilities": {"cap_net_raw": "ep"},
+      "evidence": "getcap: /usr/bin/ping cap_net_raw=ep"
+    },
+    {
+      "path": "/opt/pafta/reader",
+      "kind": "regular",
+      "executable": true,
+      "capabilities": {"cap_dac_override": "ep"},
+      "evidence": "getcap: /opt/pafta/reader cap_dac_override=ep"
+    },
+    {
+      "path": "/opt/pafta/identity",
+      "kind": "regular",
+      "executable": true,
+      "capabilities": {"cap_setuid": "ep"},
+      "evidence": "getcap: /opt/pafta/identity cap_setuid=ep"
+    },
+    {
+      "path": "/opt/pafta/permitted",
+      "kind": "regular",
+      "executable": true,
+      "capabilities": {"cap_setuid": "p"},
+      "evidence": "getcap: /opt/pafta/permitted cap_setuid=p"
+    },
+    {
+      "path": "/opt/pafta/inherit-only",
+      "kind": "regular",
+      "executable": true,
+      "capabilities": {"cap_setuid": "i"},
+      "evidence": "getcap: /opt/pafta/inherit-only cap_setuid=i"
+    },
+    {
+      "path": "/opt/pafta/cap-nonexec",
+      "kind": "regular",
+      "executable": false,
+      "capabilities": {"cap_sys_admin": "ep"},
+      "evidence": "getcap: /opt/pafta/cap-nonexec cap_sys_admin=ep mode=0644"
+    }
+  ],
+  "process_capabilities": [
+    {
+      "pid": 410,
+      "user": "analyst",
+      "namespace": "initial",
+      "effective": [],
+      "permitted": [],
+      "evidence": "proc/410/status: Uid=1000 CapEff=0x0 CapPrm=0x0 NSpid=410"
+    },
+    {
+      "pid": 512,
+      "user": "analyst",
+      "namespace": "user",
+      "effective": ["cap_sys_admin"],
+      "permitted": ["cap_sys_admin"],
+      "evidence": "proc/512/status: Uid=1000 CapEff=cap_sys_admin NSpid=512,8 userns=child"
+    },
+    {
+      "pid": 620,
+      "user": "analyst",
+      "namespace": "initial",
+      "effective": [],
+      "permitted": ["cap_dac_override"],
+      "evidence": "proc/620/status: Uid=1000 CapEff=0x0 CapPrm=cap_dac_override userns=initial"
+    },
+    {
+      "pid": 730,
+      "user": "analyst",
+      "namespace": "initial",
+      "effective": ["cap_sys_admin"],
+      "permitted": ["cap_sys_admin"],
+      "evidence": "proc/730/status: Uid=1000 CapEff=cap_sys_admin CapPrm=cap_sys_admin userns=initial"
+    },
+    {
+      "pid": 731,
+      "user": "svc-other",
+      "namespace": "initial",
+      "effective": ["cap_sys_admin"],
+      "permitted": ["cap_sys_admin"],
+      "evidence": "proc/731/status: Uid=1003 CapEff=cap_sys_admin userns=initial"
+    }
+  ],
+  "sudo_rules": [
+    {
+      "rule_id": "S1",
+      "principal": "analyst",
+      "runas_users": ["root"],
+      "runas_groups": [],
+      "auth": "NOPASSWD",
+      "command": "/usr/bin/less",
+      "arguments": "*",
+      "noexec": false,
+      "dangerous_if_unrestricted": true,
+      "evidence": "sudo -l: analyst (root) NOPASSWD: /usr/bin/less *"
+    },
+    {
+      "rule_id": "S2",
+      "principal": "analyst",
+      "runas_users": ["root"],
+      "runas_groups": [],
+      "auth": "PASSWD",
+      "command": "/usr/bin/less",
+      "arguments": "*",
+      "noexec": false,
+      "dangerous_if_unrestricted": true,
+      "evidence": "sudo -l: analyst (root) PASSWD: /usr/bin/less *"
+    },
+    {
+      "rule_id": "S3",
+      "principal": "%operators",
+      "runas_users": ["svc-backup"],
+      "runas_groups": [],
+      "auth": "NOPASSWD",
+      "command": "/usr/bin/tar",
+      "arguments": "*",
+      "noexec": false,
+      "dangerous_if_unrestricted": true,
+      "evidence": "sudo -l: %operators (svc-backup) NOPASSWD: /usr/bin/tar *"
+    },
+    {
+      "rule_id": "S4",
+      "principal": "analyst",
+      "runas_users": ["root"],
+      "runas_groups": [],
+      "auth": "NOPASSWD",
+      "command": "/usr/bin/systemctl",
+      "arguments": "restart pafta-agent",
+      "noexec": false,
+      "dangerous_if_unrestricted": false,
+      "evidence": "sudo -l: analyst (root) NOPASSWD: /usr/bin/systemctl restart pafta-agent"
+    },
+    {
+      "rule_id": "S5",
+      "principal": "%admins",
+      "runas_users": ["root"],
+      "runas_groups": [],
+      "auth": "NOPASSWD",
+      "command": "/usr/bin/less",
+      "arguments": "*",
+      "noexec": false,
+      "dangerous_if_unrestricted": true,
+      "evidence": "sudo -l: %admins (root) NOPASSWD: /usr/bin/less *"
+    },
+    {
+      "rule_id": "S6",
+      "principal": "analyst",
+      "runas_users": [],
+      "runas_groups": ["root"],
+      "auth": "NOPASSWD",
+      "command": "/usr/bin/less",
+      "arguments": "/var/log/pafta/*.log",
+      "noexec": true,
+      "dangerous_if_unrestricted": true,
+      "evidence": "sudo -l: analyst (:root) NOPASSWD:NOEXEC: /usr/bin/less /var/log/pafta/*.log"
+    },
+    {
+      "rule_id": "S7",
+      "principal": "analyst",
+      "runas_users": ["root"],
+      "runas_groups": [],
+      "auth": "NOPASSWD",
+      "command": "/usr/bin/systemctl",
+      "arguments": "restart pafta-*",
+      "noexec": false,
+      "dangerous_if_unrestricted": false,
+      "evidence": "sudo -l: analyst (root) NOPASSWD: /usr/bin/systemctl restart pafta-*"
+    },
+    {
+      "rule_id": "S8",
+      "principal": "other",
+      "runas_users": ["root"],
+      "runas_groups": [],
+      "auth": "NOPASSWD",
+      "command": "/usr/bin/less",
+      "arguments": "*",
+      "noexec": false,
+      "dangerous_if_unrestricted": true,
+      "evidence": "sudo -l: other (root) NOPASSWD: /usr/bin/less *"
+    }
+  ],
+  "path_entries": [
+    {
+      "directory": "/opt/shared/bin",
+      "absolute": true,
+      "owner": "root",
+      "caller_write": true,
+      "evidence": "PATH=/opt/shared/bin:...; stat: /opt/shared/bin caller=write"
+    },
+    {
+      "directory": "/usr/bin",
+      "absolute": true,
+      "owner": "root",
+      "caller_write": false,
+      "evidence": "stat: /usr/bin Uid=0/root mode=0755"
+    },
+    {
+      "directory": "/bin",
+      "absolute": true,
+      "owner": "root",
+      "caller_write": false,
+      "evidence": "stat: /bin Uid=0/root mode=0755"
+    },
+    {
+      "directory": "./tools",
+      "absolute": false,
+      "owner": "root",
+      "caller_write": false,
+      "evidence": "PATH=./tools; stat: relative component"
+    },
+    {
+      "directory": "",
+      "absolute": false,
+      "owner": "root",
+      "caller_write": false,
+      "evidence": "PATH=:/usr/bin; empty component means current directory"
+    }
+  ],
+  "jobs": [
+    {
+      "job_id": "J1",
+      "source": "cron",
+      "name": "/etc/cron.d/pafta-report",
+      "user": "root",
+      "trigger_active": true,
+      "command": "pafta-report --daily",
+      "command_absolute": false,
+      "script": null,
+      "caller_script_write": false,
+      "caller_parent_replace": false,
+      "path": ["/opt/shared/bin", "/usr/bin", "/bin"],
+      "evidence": "crontab: root pafta-report --daily; PATH=/opt/shared/bin:/usr/bin:/bin"
+    },
+    {
+      "job_id": "J2",
+      "source": "cron",
+      "name": "/etc/cron.d/pafta-clean",
+      "user": "root",
+      "trigger_active": true,
+      "command": "/opt/pafta/clean.sh",
+      "command_absolute": true,
+      "script": "/opt/pafta/clean.sh",
+      "caller_script_write": true,
+      "caller_parent_replace": false,
+      "path": ["/usr/bin", "/bin"],
+      "evidence": "crontab: root /opt/pafta/clean.sh; stat: caller=write"
+    },
+    {
+      "job_id": "J3",
+      "source": "systemd",
+      "name": "pafta-rotate.service",
+      "user": "root",
+      "trigger_active": true,
+      "command": "/usr/sbin/logrotate /etc/logrotate.conf",
+      "command_absolute": true,
+      "script": null,
+      "caller_script_write": false,
+      "caller_parent_replace": false,
+      "path": ["/usr/bin", "/bin"],
+      "evidence": "systemctl: active; ExecStart=/usr/sbin/logrotate /etc/logrotate.conf; User=root"
+    },
+    {
+      "job_id": "J4",
+      "source": "systemd",
+      "name": "pafta-legacy.service",
+      "user": "root",
+      "trigger_active": false,
+      "command": "legacy-report",
+      "command_absolute": false,
+      "script": null,
+      "caller_script_write": false,
+      "caller_parent_replace": false,
+      "path": ["./tools", "/usr/bin"],
+      "evidence": "systemctl: inactive; ExecStart=legacy-report; Environment=PATH=./tools:/usr/bin"
+    },
+    {
+      "job_id": "J5",
+      "source": "cron",
+      "name": "analyst-user-crontab",
+      "user": "analyst",
+      "trigger_active": true,
+      "command": "own-report",
+      "command_absolute": false,
+      "script": null,
+      "caller_script_write": false,
+      "caller_parent_replace": false,
+      "path": ["/opt/shared/bin", "/usr/bin"],
+      "evidence": "crontab -l: analyst own-report; same security principal"
+    },
+    {
+      "job_id": "J6",
+      "source": "systemd",
+      "name": "pafta-env.service",
+      "user": "root",
+      "trigger_active": true,
+      "command": "/opt/pafta/root-only.sh",
+      "command_absolute": true,
+      "script": "/opt/pafta/root-only.sh",
+      "caller_script_write": false,
+      "caller_parent_replace": true,
+      "path": ["/usr/bin", "/bin"],
+      "evidence": "systemctl: active; User=root; ExecStart=/opt/pafta/root-only.sh; stat: parent caller=write"
+    },
+    {
+      "job_id": "J7",
+      "source": "systemd",
+      "name": "pafta-path-safe.service",
+      "user": "root",
+      "trigger_active": true,
+      "command": "pafta-agent --check",
+      "command_absolute": false,
+      "script": null,
+      "caller_script_write": false,
+      "caller_parent_replace": false,
+      "path": ["/usr/bin", "/bin"],
+      "evidence": "systemctl: active; User=root; ExecStart=pafta-agent --check; PATH=/usr/bin:/bin"
+    },
+    {
+      "job_id": "J8",
+      "source": "cron",
+      "name": "/etc/cron.d/pafta-relative",
+      "user": "root",
+      "trigger_active": true,
+      "command": "relative-report",
+      "command_absolute": false,
+      "script": null,
+      "caller_script_write": false,
+      "caller_parent_replace": false,
+      "path": ["./tools", "/usr/bin"],
+      "evidence": "crontab: root relative-report; PATH=./tools:/usr/bin"
+    },
+    {
+      "job_id": "J9",
+      "source": "cron",
+      "name": "/etc/cron.d/pafta-empty",
+      "user": "root",
+      "trigger_active": true,
+      "command": "empty-report",
+      "command_absolute": false,
+      "script": null,
+      "caller_script_write": false,
+      "caller_parent_replace": false,
+      "path": ["", "/usr/bin"],
+      "evidence": "crontab: root empty-report; PATH=:/usr/bin"
+    }
+  ]
+}

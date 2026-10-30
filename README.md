@@ -1,31 +1,36 @@
 # Pafta
 
+**Laptop kabulü (27.10.2026):** 23 yol, 543 kayıtlı ders ve 108 denetim maddesi için [bu laptopun durum paneli](docs/denetim/LAPTOP_DURUM.html), [eksik/kabul raporu](docs/denetim/laptop-tam-denetim-20261027.md) ve [ham ölçümler](outputs/audit-20261027/summary.json). [Kalite puanları](docs/denetim/DENETIM_SAYFASI.html) ayrı kayıttır. Aşağıdaki tablo içerik envanteridir; makinenin motor ve canlı kabul durumu laptop panelinde bulunur.
+
 Ders ders öğreten, önce anlatıp sonra yazdıran yerel bir dil öğrenme uygulaması. Motor çok dilli; her dil bir **yol**:
 
-| Yol | Pafta | Koşucu | Durum |
+| Yol | Pafta | Koşucu | İçerik |
 |---|---|---|---|
-| **Python** | 73 (6 rütbe, Minik → Başpehlivan; sıfırdan CPython'un içine; PCAP ve PCPP1'in GUI dışındaki konuları) | `python`: run, test, Röntgen (değişkenlerle adım adım), Bytecode | hazır |
-| **Regex** | 22 (6 rütbe; Unicode, lehçeler, günlük biçimleri, iki proje) | `regex`: eşleşme tablosu, test, Ağaç (`re.DEBUG`) | hazır |
-| **Bash** | 28 (6 rütbe; awk, sed, getopts, iki proje, kabuk ortamı: başlangıç dosyaları, alias, sha256sum, nice) | `bash`: Git Bash, test, Röntgen (`bash -x` izi) | hazır |
-| **PowerShell** | 21 (6 rütbe; Windows olay günlükleri, gelişmiş fonksiyonlar, sınıflar, XML, sağlayıcılar, CIM, modüller, Security ve Sysmon telemetrisi) | `powershell`: Windows PowerShell 5.1, test, Röntgen (`Set-PSDebug -Trace 1`); her çalıştırmada `olaylar.json` hazır | hazır |
-| **HTTP ve HTML** | 15 (6 rütbe; HTTP net, HTML okuma; ham istek ve yanıt, kodlama, yöntem/durum/başlıklar, gövde, yönlendirme/çerez/kimlik, kaynak ve formlar, bağlantı/chunked; HT14 kendi istemcin, HT15 formdan kayda projeleri) | `http`: Python; her çalıştırmada [sandbox/http_tezgah.py](sandbox/http_tezgah.py) yerel Pafta Bilet Masası başlatır; projelerde gerçek soket, katı çerçeveleme, yönlendirme ve form akışı sınanır | hazır |
-| **SQL** | 18 (6 rütbe; pencere çerçeveleri, boşluk-ada, oturumlar, özyineleme, görünümler ve veri sözlüğü) | `sql`: bellek içi SQLite, sonuç tabloları, test, Plan (`EXPLAIN QUERY PLAN`) | hazır |
-| **KQL (Kusto)** | 20 (6 rütbe; let, parse, dinamik veri, arg_max, sıralı satırlar, oturumlar, IP, render, iki proje) | `kql`: [sandbox/kql.py](sandbox/kql.py) KQL alt kümesini SQLite'a çevirir; SQL düğmesi karşılığı gösterir | hazır |
-| **SPL** | 19 (6 rütbe; timechart, chart, eventstats/streamstats, lookup, transaction, append, bilgi nesneleri ve CIM, iki proje) | `spl`: [sandbox/spl.py](sandbox/spl.py) Splunk arama dilinin alt kümesini SQLite'a çevirir | hazır |
-| **JavaScript** (okuma) | 12 (6 rütbe; Map ve Set, kapsam ve this, sınıflar, hatalar, Node sunucu kodu, küçültülmüş kod, proje) | `javascript`: Node.js | hazır |
-| **C** (okuma) | 13 (6 rütbe; taşma, yapı düzeni, bayt tamponları, fonksiyon işaretçileri, önişlemci ve çok dosyalı programlar, dosya G/Ç, Windows API, ayrıştırıcı projesi) | `python`: C kodu okunur, tahminin cevabı derste sabit (`gercek` bloğu); görevlerde davranış Python'da kurulur | hazır |
-| **PHP** (okuma) | 11 (6 rütbe; metinler ve baytlar, closure'lar, sınıflar, namespace ve trait'ler, PDO, oturumlar ve parolalar, JSON ve hatalar, uç nokta projesi) | `python`: C ile aynı düzen, PHP 8 kuralları | hazır |
-| **Java** (okuma) | 12 (6 rütbe; ilkel türler ve taşma, String havuzu ve equals, koleksiyonlar ve kutulama, Optional, record ve JavaBeans, Stream, istisnalar, Path ve dizin aşımı, Servlet filtreleri ve Spring, JDBC, yansıma/JSON/XML, denetleyici projesi) | `python`: C ile aynı düzen, Java 21 kuralları | hazır |
-| **C# (.NET)** (okuma) | 12 (6 rütbe; değer/referans türleri ve checked, string == ve Substring(başlangıç, uzunluk), null güvenliği ?/??, Dictionary ve TryGetValue, özellikler ve record, LINQ ve ertelenmiş çalıştırma, Path.Combine tuzağı, async/await, ASP.NET Core ara katmanı ve denetleyiciler, EF Core FromSqlInterpolated/FromSqlRaw, DI/IConfiguration/System.Text.Json, Web API projesi) | `python`: C ile aynı düzen, .NET 8 / C# 12 kuralları | hazır |
-| **Assembly (x86/x64)** (okuma) | 12 (6 rütbe; 64/32/16/8-bit yazmaç dilimleri ve mov, aritmetik/bit/lea, little-endian bellek ve movzx/movsx, RFLAGS ve cmp/test, işaretsiz ja/jb ile işaretli jg/jl dallanmaları ve cmovcc, yığın/push-pop ve prolog/epilog, Windows x64 ve System V ABI çağrı kuralları, diziler/dizgiler/struct hizalaması, C kontrol kalıpları, yığın kanaryası ve jo taşma denetimi, objdump/RIP-göreli adresleme ve rol/ror, ikili paket doğrulayıcı projesi) | `python`: C ile aynı düzen, x86-64 Intel sözdizimi kuralları | hazır |
-| **Sigma** | 18 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma ayrıştırıcısı + JSON olaylarında yerel test backend'i | hazır |
-| **YARA** | 22 (6 rütbe; metin/hex, regex, sayım/konum, PE import/export ve bölümler, ELF/.NET metadata, hash/math ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
-| **Elastic / Kibana** | 19 (6 rütbe; Kibana KQL, Lucene query string, Elastic EQL; sorgu yazma, mapping, zaman, olay dizileri ve gerçek ortam dersi) | `elastic`: KQL/Lucene gerçek Apache Lucene 9.12.3 üzerinde; EQL açık sınırları olan yerel yorumlayıcı | hazır |
-| **CMD / Batch** | 24 (6 rütbe; parametreler, değişken açılımı, for/for /f, dosya ve metin akışı, EVTX, yapılandırma, token ve DACL sorguları) | `cmd`: gerçek Windows cmd.exe; run/test, UTF-8 girdi/çıktı | hazır |
-| **Wireshark / tcpdump** | 29 (6 rütbe; filtreler, PCAPNG, TLS/HTTP2/QUIC, TCP iş akışı, SMB2/Kerberos/LDAP, CLI raporu ve kontrollü yakalama) | `packets`: gerçek TShark 4.6.8 + libpcap 1.10.6; PK29 için Kali WSL tcpdump loopback laboratuvarı | hazır |
-| **Active Directory ve LDAP** | 12 (6 rütbe; DN/OU/CN ağacı, RFC 4515 LDAP filtreleri, joker/varlık/kaçış dizileri, userAccountControl bit eşleşmesi 803/804, Get-ADUser/Get-ADComputer/Get-ADGroup/Get-ADGroupMember -Recursive ve 1941 zincir kuralı, SPN/temsil/hesap denetimi, AD güvenlik günlükleri, GPO/Kerberos/AdminSDHolder/çoğaltma okuma ve Windows Server AD laboratuvar kurulumu) | `ad`: [sandbox/ad_engine.py](sandbox/ad_engine.py) `DC=pafta,DC=local` dizini üzerinde RFC 4515 LDAP ve `Get-AD*` değerlendiricisi; LDAP düğmesi etkin filtreyi gösterir | hazır |
+| **Python** | 83 (6 rütbe, Minik → Başpehlivan; sıfırdan CPython'un içine; PCAP ve PCPP1'in GUI dışındaki konuları) | `python`: run, test, Röntgen (değişkenlerle adım adım), Bytecode | hazır |
+| **Regex** | 24 (6 rütbe; Unicode, lehçeler, günlük biçimleri, iki proje) | `regex`: eşleşme tablosu, test, Ağaç (`re.DEBUG`) | hazır |
+| **Bash** | 35 (6 rütbe; awk, sed, getopts, iki proje, kabuk ortamı: başlangıç dosyaları, alias, sha256sum, nice) | `bash`: Git Bash, test, Röntgen (`bash -x` izi) | hazır |
+| **PowerShell** | 29 (6 rütbe; Windows olay günlükleri, gelişmiş fonksiyonlar, sınıflar, XML, sağlayıcılar, CIM, modüller, Security ve Sysmon telemetrisi) | `powershell`: Windows PowerShell 5.1, test, Röntgen (`Set-PSDebug -Trace 1`); her çalıştırmada `olaylar.json` hazır | hazır |
+| **HTTP ve HTML** | 24 (6 rütbe; HTTP net, HTML okuma; HT17–HT24 Burp, TLS, gerçek tarayıcı CORS/SameSite, CSRF, nesne yetkisi, yönlendirme, WebSocket ve GraphQL) | `http`: Python; eski Bilet Masası korunur. Ek derslerde gerçek HTTP/TLS, kurulu Edge/Chromium ve graphql-core; [kurulum, sınırlar ve elle Burp kabulü](docs/http-lab.md) | hazır |
+| **SQL** | 22 (6 rütbe; pencere çerçeveleri, boşluk-ada, oturumlar, özyineleme, görünümler ve veri sözlüğü) | `sql`: SQLite; ek derslerde gerçek PostgreSQL/MariaDB/MySQL/SQL Server; sonuç tabloları ve motor planları | hazır |
+| **KQL (Kusto)** | 24 (6 rütbe; let, parse, dinamik veri, arg_max, sıralı satırlar, oturumlar, IP, render, iki proje) | `kql`: gerçek Microsoft Kusto Emulator; SQL yalnız örnek veriyi datatable olarak hazırlayan fixture kaynağıdır | hazır |
+| **SPL** | 23 (6 rütbe; timechart, chart, eventstats/streamstats, lookup, transaction, append, bilgi nesneleri ve CIM, iki proje) | `spl`: temel dersler [yerel alt küme](sandbox/spl.py); SP19–SP23 gerçek Splunk Enterprise, SP23 resmi CIM veri modelleri | hazır |
+| **JavaScript** (okuma) | 16 (6 rütbe; Map ve Set, kapsam ve this, sınıflar, hatalar, Node sunucu kodu, küçültülmüş kod, proje) | `javascript`: Node.js | hazır |
+| **C** (okuma) | 17 (6 rütbe; taşma, yapı düzeni, bayt tamponları, fonksiyon işaretçileri, önişlemci ve çok dosyalı programlar, dosya G/Ç, Windows API, ayrıştırıcı projesi) | `python`: C kodu okunur, tahminin cevabı derste sabit (`gercek` bloğu); görevlerde davranış Python'da kurulur | hazır |
+| **PHP** (okuma) | 16 (6 rütbe; metinler ve baytlar, closure'lar, sınıflar, namespace ve trait'ler, PDO, oturumlar ve parolalar, JSON ve hatalar, uç nokta projesi) | `python`: C ile aynı düzen, PHP 8 kuralları | hazır |
+| **Java** (okuma) | 16 (6 rütbe; ilkel türler ve taşma, String havuzu ve equals, koleksiyonlar ve kutulama, Optional, record ve JavaBeans, Stream, istisnalar, Path ve dizin aşımı, Servlet filtreleri ve Spring, JDBC, yansıma/JSON/XML, denetleyici projesi) | `python`: C ile aynı düzen, Java 21 kuralları | hazır |
+| **C# (.NET)** (okuma) | 17 (6 rütbe; değer/referans türleri ve checked, string == ve Substring(başlangıç, uzunluk), null güvenliği ?/??, Dictionary ve TryGetValue, özellikler ve record, LINQ ve ertelenmiş çalıştırma, Path.Combine tuzağı, async/await, ASP.NET Core ara katmanı ve denetleyiciler, EF Core FromSqlInterpolated/FromSqlRaw, DI/IConfiguration/System.Text.Json, Web API projesi) | `python`: C ile aynı düzen, .NET 8 / C# 12 kuralları | hazır |
+| **Assembly (x86/x64)** (okuma) | 16 (6 rütbe; 64/32/16/8-bit yazmaç dilimleri ve mov, aritmetik/bit/lea, little-endian bellek ve movzx/movsx, RFLAGS ve cmp/test, işaretsiz ja/jb ile işaretli jg/jl dallanmaları ve cmovcc, yığın/push-pop ve prolog/epilog, Windows x64 ve System V ABI çağrı kuralları, diziler/dizgiler/struct hizalaması, C kontrol kalıpları, yığın kanaryası ve jo taşma denetimi, objdump/RIP-göreli adresleme ve rol/ror, ikili paket doğrulayıcı projesi) | `python`: C ile aynı düzen, x86-64 Intel sözdizimi kuralları | hazır |
+| **Sigma** | 22 (6 rütbe; seçimler, modifier'lar, veri kalitesi, yanlış pozitifler, dağıtım/korelasyon okuma ve iki proje) | `sigma`: resmi pySigma + yerel JSON backend; ileri derslerde sigma-cli ve gerçek Splunk/Kusto/Elastic hedefleri | hazır |
+| **YARA** | 24 (6 rütbe; metin/hex, regex, sayım/konum, PE import/export ve bölümler, ELF/.NET metadata, hash/math ve iki proje) | `yara`: gerçek yara-python/libyara; bellek içindeki örnek baytları tarar | hazır |
+| **Elastic / Kibana** | 27 (6 rütbe; KQL/Lucene/EQL, gerçek ingest/ECS, Security kuralları ve ES\|QL) | `elastic`: temel dersler Lucene/yerel EQL; EL20–EL27 gerçek Elasticsearch/Kibana 9.5.5 Basic API | hazır |
+| **CMD / Batch** | 25 (6 rütbe; parametreler, değişken açılımı, for/for /f, dosya ve metin akışı, EVTX, yapılandırma, token ve DACL sorguları) | `cmd`: gerçek Windows cmd.exe; run/test, UTF-8 girdi/çıktı | hazır |
+| **Wireshark / tcpdump** | 29 (6 rütbe; filtreler, PCAPNG, TLS/HTTP2/QUIC, TCP iş akışı, SMB2/Kerberos/LDAP, CLI raporu ve kontrollü yakalama) | `packets`: gerçek kurulu TShark + libpcap 1.10.6; PK29 için Kali WSL tcpdump loopback laboratuvarı | hazır |
+| **Active Directory ve LDAP** | 25 (6 rütbe; LDAP/Get-AD*, ACL ve erişim yolu, S4U, AD CS, TLS/imzalama/CBT) | `ad`: AD01–AD12 yerel filtre motoru, AD13–AD14/AD16–AD17/AD19–AD20 çevrimdışı kanıt analizi; AD15/AD18/AD21–AD23 Pafta içinden gerçek Windows Server AD/KDC/CA | hazır |
+| **Ağ Tespiti · Suricata ve Zeek** | 5 | `ids`: Kali WSL Suricata ve resmi Zeek Docker imajı; zararsız sentetik PCAP üzerinde gerçek kurallar/betikler | hazır |
+| **Purple Team** | 17 (6 rütbe; ATT&CK kapsamı, MISP/IOC yaşam döngüsü, SQLite avcılığı, ASR/AppLocker kabulü, CloudTrail/Entra kayıt analizi) | `purple`: Python/SQLite/XML; PU04–PU09 belgelenmiş biçimlerde sentetik çevrimdışı kayıtlar | hazır |
+| **Bitirme · Savunma ve Rapor** | 7 (6 rütbe; ortak kanıt, Kusto/SPL/Sigma/paket incelemesi, UTC çizelgesi, olay raporu ve tespit boşluğu) | `bitirme`: Python, mevcut yerel sorgu motorları ve gerçek TShark; insan rapor kabulü ayrıca | hazır |
 
-SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çalışır: [tracks/sql/ornek.sql](tracks/sql/ornek.sql) (küçük bir şirketin BT operasyonu: ekipler, personel, sunucular, biletler, ölçümler). Her çalıştırmada bellekte sıfırdan kurulur. KQL ve SPL çevirileri gerçek Kusto ve Splunk'ın inceliklerine sadık kalır (KQL'de varsayılan `sort` yönü azalan, `join`'in varsayılanı `innerunique`; SPL'de aramada büyük-küçük harf duyarsızlığı, OR'un AND'den önce bağlanması, `!=` ile `NOT` farkı, `join`'in `max=1` davranışı), ama tam bir motor değildir: desteklenmeyen işleç anlaşılır bir hatayla reddedilir. KQL'de "şimdi" sabittir (2026-10-19 12:00), böylece `ago()` her gün aynı sonucu verir. KQL ve SPL yolları bu veritabanının üstüne günlük tablolarını yükler: [tracks/kql/veri.sql](tracks/kql/veri.sql) (`istekler`: web istek günlüğü, `ayrinti` sütunu JSON; `gunluk`: serbest metinli uygulama günlüğü; `dagitimlar`: sürüm dağıtımları); SPL bunlara Splunk'taki gibi bir `_time` alanı da ekler ([tracks/spl/veri.sql](tracks/spl/veri.sql)). SPL'de `eval` bölmesi her zaman ondalıklıdır ve `count(eval(...)) as ad`, `earliest`, `latest`, `stdev` desteklenir. Splunk'ın bilgi nesneleri de [tracks/spl/veri.sql](tracks/spl/veri.sql)'deki tablolardan okunur: makrolar (ters tırnakla çağrılır, ayrıştırmadan önce metin olarak açılır), olay türleri (`eventtype=`), etiketler (`tag=`, `tag::alan=`), alan takma adları ve hesaplanan alanlar (her `sourcetype=` aramasında kendiliğinden, Splunk'ın arama zamanı sırasıyla). Son ikisi varsayılan olarak boştur; dersler kendi hazırlık bloklarında doldurur. Çevirici süre (`timespan`), bool ve dinamik türleri izler ve çıktıyı KQL biçiminde gösterir (`1.02:30:00`, `true`); `datetime_diff` gerçek Kusto gibi birim sınırlarını sayar; `prev`/`next`/`row_cumsum` serileştirilmemiş girdide hata verir.
+Örnek operasyon verileri [SQLite tohumu](tracks/sql/ornek.sql), [KQL fixture verisi](tracks/kql/veri.sql) ve [SPL fixture verisi](tracks/spl/veri.sql) içinde bulunur. SQL temel dersleri iş başına bellek içi SQLite kullanır; motor seçilen ek dersler gerçek veritabanlarını çalıştırır. KQL sorguları gerçek Kusto Emulator'da çalışır; eski SQL tohumu yalnız veriyi Kusto `datatable` biçimine dönüştürmek içindir. Temel SPL dersleri yerel alt kümeyi kullanır; SP19–SP23 gerçek Splunk laboratuvarına bağlanır. Hangi motorun çalışacağı ders/adım metadata'sıyla seçilir. Kurulum veya gerçek hizmet kabulü eksikse laptop denetiminde ayrı gösterilir.
 
 ## Çalıştırma
 
@@ -33,7 +38,9 @@ SQL, KQL ve SPL yollarının bütün sorguları aynı örnek veritabanında çal
 - Elle: `pythonw Pafta.pyw` (Edge uygulama penceresi açılır; pencere kapanınca sunucu ~40 sn sonra kendini kapatır)
 - Geliştirme: `python server.py --port 8765` (tarayıcıda `http://127.0.0.1:8765/`; `--veri KLASOR` ile ayrı bir ilerleme klasörü)
 
-Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java, C# ve Assembly okuma yolları için derleyici gerekmez. Elastic tezgahı JDK 17+ ve `python tools/install_elastic_runtime.py` ile kurulan pinli Lucene JAR'larını kullanır; son gerçek ortam dersi dışında Elasticsearch/Kibana kurulumu gerekmez. Python bileşenleri Sigma/YARA bağımlılıkları dışında standart kütüphaneyi kullanır.
+Gereksinim: Python 3.11+, Microsoft Edge (yoksa varsayılan tarayıcı açılır). Bash yolu için Git for Windows (`C:\Program Files\Git\bin\bash.exe`); PowerShell ve CMD yolları Windows'la gelen Windows PowerShell 5.1 ve cmd.exe'yi, JavaScript yolu Node.js'i kullanır. C, PHP, Java, C# ve Assembly okuma yolları için derleyici gerekmez. Elastic tezgahı JDK 17+ ve `python tools/install_elastic_runtime.py` ile kurulan pinli Lucene JAR'larını kullanır; EL01–EL19 görevleri için Elasticsearch/Kibana kurulumu gerekmez; EL20–EL27 gerçek Docker laboratuvarını ister. Python bileşenleri Sigma/YARA bağımlılıkları dışında standart kütüphaneyi kullanır.
+
+Pafta başlatıcısı ve yerel sunucu, yeni kurulan Windows araçlarının kayıtlı yollarını kendi süreçlerine ekler. Açık oturumdan devralınan eski PATH böylece tamamlanır; açıkça verdiğin süreç ayarlarının önceliği korunur ve kalıcı Windows ayarı yazılmaz.
 
 ### Kali WSL Linux koşucusu
 
@@ -78,7 +85,7 @@ python tools/validate.py
 
 Wireshark / tcpdump yolunda öğrenci gerçek filtre ve CLI komutu yazar. Wireshark görüntü filtreleri `tshark -n -r - -Y FILTRE` ile, BPF ise libpcap'in `pcap_compile` ve `pcap_offline_filter` işlevleriyle çalışır. Bu iki filtre motoru yalnız çevrimdışı kayıt okur. TShark'ın `-f` seçeneği kayıtlı dosyada BPF uygulamaz; iki dil birbirine çevrilmez. PK29 ayrıca yalnız kendi ürettiği localhost UDP trafiğinde gerçek tcpdump yakalaması yapar.
 
-TShark 4.6.8 bu bilgisayarda kuruludur. Başka yerde TShark PATH'te, standart Wireshark klasöründe veya `PAFTA_TSHARK` tam yolunda bulunmalı. BPF bağımlılığı: `python -m pip install --target .deps -r requirements-packets.txt`. Windows x64'te paketin sürücü gerektirmeyen tcpdump DLL'i (libpcap 1.10.6) kullanılır; Npcap kurulması gerekmez. Python paket sürümü ile C kütüphanesi sürümü ayrıdır. Eksik araç hata verir; filtreyi tahminen değerlendiren bir yedek motor yoktur.
+Bu laptopta ölçülen araç sürümleri [sürüm kaydında](outputs/audit-20261027/versions.json) bulunur. TShark PATH'te, standart Wireshark klasöründe veya `PAFTA_TSHARK` tam yolunda bulunmalı. BPF bağımlılığı: `python -m pip install --target .deps -r requirements-packets.txt`. Windows x64'te paketin sürücü gerektirmeyen tcpdump DLL'i (libpcap 1.10.6) kullanılır; Npcap kurulması gerekmez. Python paket sürümü ile C kütüphanesi sürümü ayrıdır. Eksik araç hata verir; filtreyi tahminen değerlendiren bir yedek motor yoktur.
 
 Girdi JSON'unda `dil` (`wireshark`, `bpf` veya `tshark`) ve `kayit` seçilir; ilk ikisinde filtre, sonuncusunda sınırlı gerçek TShark komutu yazılır. `kayit` yerine `pcap_base64` ile kayıt baytları verilebilir (en fazla 8 MiB). Classic PCAP 2.4 ve PCAPNG 1.0 Enhanced Packet Block; Ethernet/RAW/SLL/SLL2 desteklenir. PCAPNG eski Packet Block/Simple Packet Block ve başka linktype'lar açık hata verir. Her arayüzün gerçek DLT'siyle BPF derlenir; zaman çözünürlüğü tam kesirle saklanır. Hostname/servis adı çözülmez; IP operandları sayısal IP/CIDR kullanır. `anahtar` yalnız `yok`, `yanlis`, `tls-h2`, `quic-lab` eğitim profillerini alır; kullanıcıdan keylog dosya yolu alınmaz. Gerçek protokol/anahtar korpusları ve üreticileri [kayıt dökümünde](tracks/packets/captures/README.md) açıklanır.
 
@@ -112,11 +119,13 @@ python tools/test_yara_runtime.py
 python tools/test_detection_integration.py
 ```
 
+SG19'un `girdi: komut` görevlerinde kod bir `sigma convert ...` komut satırıdır. `.deps` içindeki gerçek sigma-cli 3.1.0, hazırlığın `dosya(...)` ile verdiği kural ve pipeline dosyalarıyla geçici klasörde çalışır. Hedef yalnız `splunk`, biçim `default` ya da `data_model`; çıktı gerçek Splunk'ta (gerekirse CIM 8.5.0 veri modelinde) koşar. Kabul: `python -X utf8 tools/test_sigma_cli.py`.
+
 Resmi dayanaklar: [Sigma şartnamesi](https://sigmahq.io/sigma-specification/specification/sigma-rules-specification.html), [pySigma](https://github.com/SigmaHQ/pySigma), [YARA Python API](https://yara.readthedocs.io/en/stable/yarapython.html).
 
 ### Elastic / Kibana sorgu tezgahı
 
-Bu yol **KQL (Kusto)** yolundan ayrıdır. Öğrenci Kibana KQL, Lucene ve EQL sorgusu yazar; sorgu JSON girdisindeki mapping ve sentetik belgeler üzerinde değerlendirilir. Tahmin yanıtı da aynı motorla hesaplanır. KQL gerçek Lucene sorgularına ayrılır; Lucene yolu gerçek Classic QueryParser, analyzer, phrase/slop/fuzzy/regex kullanır. EQL sınırlı yerel yorumlayıcıdır; sequence anahtarları, maxspan ve until sınırları test edilir. Desteklenmeyen özellikler açık hatadır. Gerçek Elasticsearch sunucusu başlatılmaz; EL19 ücretsiz yerel Elasticsearch/Kibana üzerinde aynı sorguları denemeyi öğretir. JDK 17+ gerekir (Android Studio JBR kullanılabilir); JAR'lar SHA-512 ile doğrulanır. Ayrıntılar, destek sınırları ve resmi kaynaklar: [yolun sözleşmesi](tracks/elastic/README.md).
+Bu yol **KQL (Kusto)** yolundan ayrıdır. Öğrenci Kibana KQL, Lucene ve EQL sorgusu yazar; sorgu JSON girdisindeki mapping ve sentetik belgeler üzerinde değerlendirilir. Tahmin yanıtı da aynı motorla hesaplanır. KQL gerçek Lucene sorgularına ayrılır; Lucene yolu gerçek Classic QueryParser, analyzer, phrase/slop/fuzzy/regex kullanır. EQL sınırlı yerel yorumlayıcıdır; sequence anahtarları, maxspan ve until sınırları test edilir. Desteklenmeyen özellikler açık hatadır. Temel motor sunucu başlatmaz; EL19 karşılaştırma yönergesidir. EL20–EL27 için aşağıdaki gerçek laboratuvar gerekir. JDK 17+ gerekir (Android Studio JBR kullanılabilir); JAR'lar SHA-512 ile doğrulanır. Ayrıntılar, destek sınırları ve resmi kaynaklar: [yolun sözleşmesi](tracks/elastic/README.md).
 
 ```text
 python tools/install_elastic_runtime.py
@@ -126,6 +135,41 @@ python tools/test_elastic_integration.py
 python tools/audit_elastic_mutations.py
 node --test tools/test_elastic_ui.mjs
 ```
+
+#### Elastic 41–44: gerçek yerel laboratuvar
+
+Docker Desktop açık olmalı; iki resmi imaj sürüm ve SHA-256 digest ile
+`tools/elastic_lab_setup.py` içinde sabitlenir. İndirme yalnız açık kurulum
+komutuyla yapılır; ders çalıştırmak paket indirmez veya Docker başlatmaz:
+
+```powershell
+python tools/elastic_lab_setup.py --pull --start
+# Sonraki açılışlar (indirme yapmadan):
+python tools/elastic_lab_setup.py --start
+# Çalışmayı bitirince:
+python tools/elastic_lab_setup.py --stop
+```
+
+Elasticsearch 9.5.5: `http://127.0.0.1:19200`; Kibana aynı sürüm:
+`http://127.0.0.1:15601`. Basic lisans, kimlik doğrulama ve API anahtarları
+etkindir; trial açılmaz. Her konteynere 2 GiB sınır ayrılır; Docker'a diğer
+çalışan laboratuvarlarla birlikte yeterli RAM verin. Otomatik açılış yoktur.
+Parola ve şifreleme anahtarları Git dışında `.deps/elastic-lab/` içinde
+üretilir; Kibana kullanıcı adı `elastic`, parola `password` dosyasındadır.
+Bu **yalnız localhost HTTP öğretim ortamıdır**: konteynerler arasındaki HTTP
+TLS kullanmaz. EL19'un gerçek dağıtım TLS yönergesini karşılamaz; internete
+veya yerel ağa port açmayın. Üretimde TLS ve en az yetki gerekir.
+
+EL20'nin ajan görevi (`motor: elastic-agent`, [sandbox/elastic_agent_lab.py](sandbox/elastic_agent_lab.py)) ayrıca Elastic Agent 9.5.5 imajını ister; bir kez `docker pull docker.elastic.co/elastic-agent/elastic-agent:9.5.5` (digest koşucuda sabit). Ajan standalone çalışır, yalnız `pafta-elastic` ağına bağlanır, host klasörü bağlanmaz. 5 dakikalık ve yalnız `logs-pafta.*-*` yazabilen API anahtarı ortam değişkeniyle verilir. Konteyner, veri akışı ve anahtar her çalıştırmadan sonra silinir. Kabul: `python -X utf8 tools/test_elastic_agent.py`.
+
+Gerçek pipeline + bulk alımı, EQL, Security create/preview ve ES|QL API'leri
+kullanılır. Her işin rastgele indeksi/kuralı/pipeline'ı temizlenir. Security
+önizlemesi operational alarm diye gösterilmez; gerçek zamanlayıcı kabulü ayrı
+betikle sınanır. ES|QL için okuma anahtarı yalnız işin indeksine yetkilidir.
+İleri dersler `stdin.backend: elastic` ile seçilir; yerel motora fallback yoktur.
+Elastic Agent kurulmaz: EL20 gerçek üst süreç gözlemini NDJSON dosyasından
+pipeline'a alır; bu gözlem Sysmon/EVTX/Agent olayı olarak sunulmaz.
+
 
 ### CMD / Batch tezgahı
 
@@ -228,6 +272,8 @@ SQL çıktısı (`out`, tahmin karşılaştırması) sqlite3 kabuğunun liste bi
 
 **KQL ve SPL** dersleri SQL'in test yardımcılarını aynen kullanır (`sonuc`, `sutunlar`, `sorgu`, `dene`, `kullanir`); kod blokları ` ``kql ` ve ` ``spl `, boş değer çıktıda boş görünür. Boş satırla ayrılmış her sorgu ayrı bir sonuç tablosu verir.
 
+**PowerShell PS29 WinRM ek bölümü:** `meta: motor: ad-vm, guest: PF-APP01` mevcut yönetilen AD VM koşucusunu kullanır. Bu adımlar için aşağıdaki VMware/Windows Server laboratuvarı hazır olmalı; `PF-APP01` içinde çalışan WinRM ve `Microsoft.PowerShell` endpoint'i gerekir. Pafta kodu konukta çalıştırır; `New-PSSession -ComputerName localhost` konuk içinde gerçek WSMan bağlantısı açar. Windows host'ta WinRM, TrustedHosts veya güvenlik duvarı ayarı değiştirilmez. Bu iki farklı fiziksel bilgisayar arasında Kerberos/delegation deneyi değildir. Önceki `motor: pwsh` oturum adımları VMware olmadan çalışmaya devam eder. Girdi yeni VM adımlarında `[Console]::ReadLine()` ile okunur; konuk taşıması `$Girdi` sarmalayıcısı kullanmaz. VM otomatik hazır edilir, kurulum eksikse açık hata verilir; paket veya ISO indirilmez.
+
 **JavaScript** dersleri Bash/PowerShell gibi süreç olarak koşar (`out`, `run`, `calis`); girdi `require("fs").readFileSync(0, "utf8")` ile okunur.
 
 **CMD / Batch** dersleri de süreç testlerini kullanır. Kod blokları `cmd` (`batch`/`bat` takma adları), betik değişkenleri `%%I` biçimindedir. Tahmin veya görevde `meta` içindeki `argv` gerçek çalıştırmaya aktarılır. Beklenen hata kodunu `calis()` sonucu üzerinden sınamak için görevin ilk çalışmasının başarılı olmasını sağlayan varsayılan veya meta argümanları verilir.
@@ -264,3 +310,58 @@ CMD CM19–CM20: yerleşik wevtutil ile çevrimdışı EVTX sorgu ve aktarımı.
 CMD CM21–CM22: yerleşik `sc.exe`, `schtasks.exe` ve `reg.exe` ile salt okunur servis, görev ve kayıt defteri sorguları. Sonuçlar canlı makineye göre değişir; testler sabit hizmet adlarını ve başarısız sorgu sınırlarını denetler.
 
 CMD CM23–CM24: `whoami.exe` ile canlı tokenın kullanıcı, grup ve ayrıcalık CSV'si; `icacls.exe` ile yalnız geçici dosyaların DACL görünümü ve ayrıca gerçek dosya okuma tanığı. ACL değiştirilmez.
+
+### Pafta içinden gerçek Active Directory laboratuvarı
+
+AD15 (ACL), AD18 (S4U), AD21 (CA) ve AD22–AD23 (LDAP bağlantısı) gerçek ürün üzerinde çalışır. **Dersin Çalıştır/Kontrol düğmeleri yeterlidir:** Pafta gerekli konukları arka planda açar, kodu VMware Tools ile aktarır ve sonucu ders ekranına getirir. Öğrencinin VM konsoluna girip komut kopyalaması gerekmez. İlk soğuk açılış için konuk başına 180 saniye hazırlık payı vardır; görev testleri toplam 240 saniyeyle sınırlıdır. Öğrenci PowerShell kodu yalnız bu laboratuvarda Domain Admin hesabıyla çalışır; bu bir kısıtlı yetki sandbox'ı değildir. İş bitince Windows Job Object çocuk süreçleri de kapatır; VM'ler sonraki ders için açık kalır.
+
+Gereksinimler: Windows, kurulu VMware Workstation ve onun `vmrun.exe`, `vmware-vdiskmanager.exe`, `windows.iso` dosyaları; [resmî Windows Server 2025 Evaluation ISO](https://www.microsoft.com/en-us/evalcenter/download-windows-server-2025); iki konuk için toplam 6 GB ayrılmış RAM ve sanal disk başına 60 GB büyüyebilen boş disk alanı (ISO ayrıca yaklaşık 8,2 GB). Host ve diğer uygulamalar için ek RAM gerekir. Workstation konumu kurulum betiğindeki `VMWARE` sabitidir. VMware VMnet1 host-only ağı /24 olmalıdır; betik bu ağın .10/.11 adreslerini yalnız yeni Pafta konuklarına ayırır. Bu adreslerin başka bir cihazda kullanılmaması gerekir.
+
+Bir defalık hazırlık: ISO'yu `%LOCALAPPDATA%\Pafta\labs\ad\media\WindowsServer2025-eval-en-us.iso` konumuna koyup depo kökünde `python tools/setup_ad_vm.py --provision` çalıştır. Betik yeni `PF-DC01` (AD DS/DNS/KDC/Enterprise CA) ve `PF-APP01` üye sunucusunu kurar; `pafta.test` etki alanını ve sabit deney hesaplarını hazırlar. Windows kurulumu ve yeniden başlatmalar süre alır. Komut yeniden çalıştırıldığında kaydedilmiş aşamalardan devam eder. Betik ISO veya paket indirmez; eksik gereksinim açık hata verir. VM, özel parola ve kurulum medyası depoya girmez; özel durum `%LOCALAPPDATA%\Pafta\labs\ad` altında saklanır. Bu klasörü veya VM disklerini paylaşma. Yeni konuklar host-only ağdadır; ana bilgisayarın etki alanı, DNS ve güvenlik duvarı ayarları değiştirilmez. Mevcut VM'ler kullanılmaz.
+
+AD22–AD23 ayrıca WSL 2 ve `PAFTA_WSL_DISTRO` (varsayılan `kali-linux`) içinde mevcut Python 3, Impacket (`LDAPConnection` signing/CBT alanlarını destekleyen sürüm), pyOpenSSL ve OpenLDAP `ldapsearch` ister. Bu teslimde mevcut Kali Python 3.14.7, Impacket 0.14.0.dev0, pyOpenSSL 26.4.0, cryptography 49.0.0 ve OpenLDAP 2.6.14 kullanıldı; kurulum betiği paket kurmaz. CA yalnız istemcinin o bağlantısına güvenilir; Windows veya Kali'nin genel güven deposu değiştirilmez. LDAPS istemcisi CA/ad kontrolü ve aynı yaprak sertifikanın karşılaştırmasını yapar; Always CBT ve zorunlu LDAP signing politikaları yalnız laboratuvar DC'sindedir. Bu laboratuvar genel bir uzak AD istemcisi değildir.
+
+**Evaluation süresi:** Microsoft bu sürümü 180 günle sınırlar ve otomatik kapanmayı önlemek için ilk 10 gün içinde internetten etkinleştirme ister ([resmî koşullar](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2025)). Host-only kurulum internet etkinleştirmesini yapmaz; bu teslimde etkinleştirme doğrulanmış değildir. Süresiz laboratuvar lisansı vaat edilmez. Etkinleştirme veya lisanslı imaja geçiş ayrı bakım işidir; süresi dolmuş bir VM'de ders başarısı beklenmemelidir.
+
+Yazar doğrulaması: `python tools/test_ad_vm_runtime.py` taşıma/parola gizleme ve gerçek Windows Job Object yaşam döngüsünü; `python tools/test_ad_advanced.py` çevrimdışı tahminleri ve mutasyonları sınar. `PAFTA_AD_LIVE=1` ayarıyla aynı betik canlı tahmin/görevleri ve ek mutasyonları da çalıştırır. `tools/test_ad_app.py` API yönlendirmesini geçici ilerleme dosyasıyla; `tools/capture_ad_evidence.py` gerçek S4U/LDAP cevaplarını ve aynı zaman aralığındaki DC 4769 XML'ini ölçer. `python tools/validate.py --yol ad` canlı dersleri de gerçek konuklarda çalıştırır; bu kontrol VM'leri başlatabilir ve yalnız deney nesnelerini geçici değiştirip geri alır. AD01–AD12 için VMware/WSL gerekmez. AD13–AD14, AD16–AD17 ve AD19–AD20 sentetik normalize kesitlerdir; gerçek ACL/S4U/CA kabulünün yerine geçtikleri iddia edilmez.
+
+YR23–YR24 `motor: python` ile gerçek yara-python paket/tarama API'sini kullanır (`sandbox/yara_bundle.py`); include yalnız verilen kaynak sözlüğünden gelir, normal YARA tezgahı disk include'ı açmaz. AD24–AD25 çevrimdışı SYSVOL/LAPS kanıt ayrıştırma dersleridir; VM veya LAPS dağıtımı gerektirmez.
+
+### Purple Team ek derslerinin sınırı
+
+PU04–PU09 için ek indirme, MISP sunucusu, Defender/Intune veya AWS/Entra aboneliği gerekmez. Gerçek Python, SQLite ve XML ayrıştırması kullanılır; MISP decay, AppLocker karar motoru ve bulut API’leri taklit edilmez. Pilot/teslim eşikleri eğitim politikasıdır. Ürün üzerinde etkin önleme veya tenant erişimi doğrulandığı iddia edilmez. LAPS okuma kanıtının devamı AD25’tedir.
+
+### Bitirme vaka tezgâhı
+
+BT01–BT06 aynı sentetik `tracks/bitirme/veri` paketini geçici çalışma klasörüne kopyalar; ağ arayüzü veya canlı hesap kullanılmaz. Python 3.11+, mevcut `requirements-detection.txt` bağımlılıkları ve TShark gerekir (Wireshark kurulumu veya `PAFTA_TSHARK` tam yolu). Kusto/SPL mevcut Pafta→SQLite çeviricileri, Sigma gerçek pySigma + yerel backend ile çalışır; üretim Sentinel/Splunk dağıtım kabulü değildir. Paket filtresi native TShark’tır. Desteklenmeyen işlem açık hatadır. Ek paket/abonelik gerekmez.
+
+Doğrulama: `python tools/validate.py --yol bitirme`, `python tools/test_capstone.py`. `python tools/capstone_replay.py --out outputs/bitirme-ornek.json` aynı motorlarla örnek raporu yeniden üretir; çıktı içinde sorgular, araç sürümleri, manifest SHA256 ve alan eksikliği kontrolü vardır. [Örnek anlatı raporu](tracks/bitirme/ornek-rapor.md) ve derslerin insan inceleme rubriği, otomatik yapı/ref testlerini tamamlar; otomatik testin geçmesi serbest metnin doğru yazıldığını veya insan kabulünü kanıtlamaz.
+
+
+### SQL lehçeleri: gerçek MySQL ve SQL Server (SQ22)
+
+Ek SQ22 görevleri Docker Desktop/Linux containers gerektirir. İmajlar kullanıcı onayıyla bir kez indirilir; koşucu otomatik indirme yapmaz:
+
+- `docker pull mysql:8.4.8`
+- `docker pull mcr.microsoft.com/mssql/server:2022-CU23-ubuntu-22.04`
+
+Tam digest'ler `sandbox/sql_docker_lab.py` içinde sabittir; `python sandbox/sql_docker_lab.py` yerel kurulumu denetler, yalnız Pafta etiketli konteynerleri gerekirse oluşturur/başlatır. SQL Server ücretsiz geliştirme/test için Developer edition'dır; üretim lisansı değildir. MySQL 1 GB, SQL Server 3 GB bellek sınırıyla çalışır; Docker'a en az 5 GB bellek ayırın. Bunlar yeni paket gerektirir; PostgreSQL/MariaDB görevleri mevcut Kali WSL motorlarını kullanmayı sürdürür.
+
+İki konteyner `--network none` ile çalışır; host portu/persistent host klasörü bağlanmaz. Yönetici parolası yalnız kullanıcı profilindeki `%LOCALAPPDATA%/Pafta/labs/sql-docker/config.json` dosyasındadır; depoya, ders çıktısına veya komut satırına yazılmaz. Bu dosya kullanıcının yerel sırrıdır; paylaşmayın. Her iş UUID adlı geçici veritabanı ve salt okuma hesabı açar; başarılı/başarısız/timeout iş sonunda veritabanı ve hesap silinir. Konteynerler sonraki dersler için çalışır kalır. Aynı adda etiketsiz/farklı imajlı konteyner varsa koşucu onu değiştirmez, hata verir.
+
+Bu ek tezgah tek SELECT/CTE sonucu içindir. MySQL'in gerçek XML istemci çıktısı, SQL Server'ın gerçek `FOR JSON PATH, INCLUDE_NULL_VALUES` çıktısı okunur; SQL Server sorgusuna bu son ek koşucu tarafından eklenir. İsimli sonuç sütunları gerekir; yinelenen sütun adları ve çoklu sonuç kümeleri bu dar tezgahın kapsamı değildir. Sayı/metin değerleri metin, SQL NULL Python None olarak görev testine gider. Testte `dene(ek)` aynı işe ait veritabanını ek SQL ile değiştirip sorguyu yeniden çalıştırır; SQLite'taki temiz veritabanı semantiği varsayılmamalıdır.
+
+Resmî kaynaklar: https://hub.docker.com/_/mysql ve https://hub.docker.com/r/microsoft/mssql-server/ .
+
+
+### KQL ek görevleri: Microsoft Kusto Emulator
+
+`motor: kusto` adımları Docker Desktop/Linux containers ve Microsoft Kusto Emulator gerektirir. Kullanıcı onayıyla `mcr.microsoft.com/azuredataexplorer/kustainer-linux:latest` indirildi; kabul edilen digest `sandbox/kusto_lab.py` içinde sabittir. Belgede geçen stable tag'i kayıt defterinde bulunmadığından latest indirildi ve digest ile sabitlendi. Koşucu eksik imajı kendiliğinden indirmez. Yeni bilgisayarda önce sabit IMAGE değerini `docker pull` ile indirin; `python sandbox/kusto_lab.py` kurulumu doğrular/başlatır.
+
+Dört GB Docker belleği ve AVX2/SSE4.2 destekleyen x64 işlemci gerekir. `pafta-kusto` yalnız **127.0.0.1:18780** üzerinden HTTP açar; kimlik doğrulaması/HTTPS yoktur, dış ağ arayüzüne yayınlanmaz ve host klasörü bağlanmaz. Bu ücretsiz geliştirme/test motorudur; Sentinel veya Defender hizmeti, Microsoft Entra yetkilendirmesi ve üretim güvenlik modeli değildir. Konteynerdeki NetDefaultDB sorgulanır; ders verileri sorgu içi datatable/let ile taşınır, kalıcı müşteri verisi alınmaz. Çalışan konteyner dersler arasında açık kalır.
+
+Eski ders fixture'larının SQL CREATE/INSERT metni yalnız hazırlık verisini okumak için SQLite'a yüklenip yerel Kusto datatable'ına çevrilir; **öğrencinin KQL'i SQLite'a çevrilmez**, Microsoft motoruna gider. Fixture tamsayısı long, real/float real, ISO zaman metni datetime, diğer metin string olarak açıkça aktarılır; SQL NULL string alanı Kusto'nun boş string'ine dönüşür. Sonuç datetime'ı dersin dakika/saniye gösterimine çevrilir, sayılar/dynamic/bool native kalır. Watchlist yardımcı fonksiyonu yalnız dersin yerel listelerine bağlanır; gerçek Sentinel _GetWatchlist hizmeti değildir. Sorgu 30 saniye sunucu sınırı/4 MB yanıt sınırı taşır; büyük veya kısmi hatalı sonuç sessiz başarı sayılmaz. Yerel endpoint'i internete veya güvenilmeyen kullanıcılara açmayın.
+
+Resmî kurulum ve kapsam: https://learn.microsoft.com/en-us/azure/data-explorer/kusto-emulator-install ve https://learn.microsoft.com/en-us/azure/data-explorer/kusto-emulator-overview .
+
+`motor: sentinel-kural` ([sandbox/sentinel_kural_lab.py](sandbox/sentinel_kural_lab.py)) aynı Kusto Emulator'ı kullanır; öğrenci kodu bir Sentinel zamanlanmış kuralının ARM şablonudur. Koşucu kaynağı `Microsoft.SecurityInsights/alertRules` REST 2025-09-01 özellik adları/enum'ları ve Microsoft Learn'de belgelenmiş sınırlarla denetler (5 dk–14 gün, sıklık ≤ geriye bakış, bastırma ≤ 24 saat, 150 alarm, 10 eşleme/3 identifier, 500 entity/64 KB, 10.000 karakter). Sonra kuralın sorgusunu portalın sonuç benzetimi gibi son 50 planlı çalıştırmada gerçek motorda koşturur: her çalıştırma planlanan andan 5 dakika sonra, yalnız o ana kadar ulaşmış (`alim`) kayıtları görür. Meta: `son` (son planlanan an), `kosu` (varsayılan 50), `pencere` (geriye bakışın uygulanacağı tablolar). Takvim, eşik, gruplama, bastırma ve entity çıkarımı belgelere göre yazılmış yerel modeldir; Sentinel çalışma alanı gerektirmez ve gerçek portalın Test with current data/Review doğrulamasının yerine geçmez. Kabul: `python -X utf8 tools/test_sentinel_kural.py`.

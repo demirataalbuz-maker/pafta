@@ -1,0 +1,51 @@
+{
+  "ders": "sg20",
+  "gorev": "3 · Başarısız girişin ardından başarılı giriş",
+  "motor": "pySigma 1.5.1 + Splunk backend 2.1.0 + Splunk Enterprise 10.6.1",
+  "referans": "geçti",
+  "mutant_reddedilen": 8,
+  "mutant_gecen": 0,
+  "mutasyonlar": [
+    {
+      "mutasyon": "pencere 10 dk: kutu sınırı kayar",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "pencere 2 dk",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "grup anahtarı yok",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "cihaza göre grupla",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "tek kurala başvuru",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "başarılı kural yanlış olay",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "iki kural da başarısız",
+      "durum": "reddedildi",
+      "runner_status": "fail"
+    },
+    {
+      "mutasyon": "sayım korelasyonu",
+      "durum": "reddedildi",
+      "runner_status": "error"
+    }
+  ],
+  "acik": "temporal_ordered bu backend sürümünde desteklenmiyor; görev bunu çeviri hatasıyla ölçer."
+}

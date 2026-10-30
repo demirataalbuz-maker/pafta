@@ -1,0 +1,49 @@
+{
+  "backend": "real Windows PowerShell 5.1 / NTFS / current token",
+  "references_passed": 1,
+  "mutants_rejected": 8,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "allow instead of deny",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "always deny read",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "do not apply ACL",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "omit rollback",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "restore modified ACL",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "swallow permission denial",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "zero byte incorrectly denied",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "mutation": "fake restored report",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ],
+  "witness": "Actual Set-Acl plus independent File.ReadAllBytes; fault after applying Deny; original SDDL and bytes restored."
+}

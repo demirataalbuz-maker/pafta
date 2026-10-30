@@ -1,0 +1,81 @@
+{
+  "backend": "real PowerShell 7.6.8 / loopback HTTP",
+  "prediction_stdout": "True\n302\n",
+  "references_passed": 3,
+  "mutants_rejected": 12,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "area": "redirect",
+      "mutation": "too few redirects",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "redirect",
+      "mutation": "too many redirects",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "redirect",
+      "mutation": "exclude zero hops",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "redirect",
+      "mutation": "exclude five hops",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "multipart",
+      "mutation": "URL-encoded body instead of multipart",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "multipart",
+      "mutation": "filename text instead of file bytes",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "multipart",
+      "mutation": "fixed note",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "timeout",
+      "mutation": "two second budget",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "timeout",
+      "mutation": "missing body timeout type",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "timeout",
+      "mutation": "exception types combined with AND",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "timeout",
+      "mutation": "HTTP failures mislabeled timeout",
+      "status": "rejected",
+      "runner_status": "fail"
+    },
+    {
+      "area": "timeout",
+      "mutation": "exclude zero delay",
+      "status": "rejected",
+      "runner_status": "fail"
+    }
+  ]
+}

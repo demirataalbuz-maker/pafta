@@ -1,0 +1,63 @@
+{
+  "no": 35,
+  "yol": "kql",
+  "ad": "Sentinel/Defender şemaları ve watchlist",
+  "dersler": [
+    "KQ24"
+  ],
+  "karar": "Tam",
+  "ozet": "Sentinel/Defender şemaları ve yerel watchlist yardımcıları artık gerçek Microsoft Kusto motorunda çalışır. Öğrencinin sorgusu SQLite’a çevrilmez; veri kaynağı hâlâ sentetik fixture, gerçek tenant/connector değildir.",
+  "tarih": "27.10.2026",
+  "kaynak": "Codex öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+  "puan": {
+    "test": 24,
+    "kapsam": 24,
+    "derinlik": 22,
+    "gerceklik": 14,
+    "yol": 9
+  },
+  "eksikler": [],
+  "cikar": false,
+  "onceki_denetim": {
+    "no": 35,
+    "yol": "kql",
+    "ad": "Sentinel/Defender şemaları ve watchlist",
+    "dersler": [
+      "KQ24"
+    ],
+    "karar": "Kısmen",
+    "ozet": "Gerçek alan adlarıyla SigninLogs, DeviceProcessEvents, DeviceNetworkEvents; watchlist karşılığı.",
+    "tarih": "26.10.2026",
+    "kaynak": "Claude",
+    "puan": {
+      "test": 23,
+      "kapsam": 17,
+      "derinlik": 20,
+      "gerceklik": 10,
+      "yol": 9
+    },
+    "eksikler": [
+      {
+        "metin": "Gerçek Sentinel/Kusto'da hiç çalıştırılmadı (abonelik gerekiyor); yerel çeviri motorunda.",
+        "oncelik": "orta",
+        "etiket": "CDEP"
+      }
+    ],
+    "cikar": true
+  },
+  "kapatilanlar": [
+    {
+      "metin": "Gerçek Sentinel/Kusto'da hiç çalıştırılmadı (abonelik gerekiyor); yerel çeviri motorunda.",
+      "oncelik": "orta",
+      "etiket": "CDEP"
+    }
+  ],
+  "duzeltme": {
+    "yazar": "Codex",
+    "tarih": "27.10.2026",
+    "kanit": "../../outputs/a-notu-kq24-native-kabul.json",
+    "rapor": "../../outputs/a-notu-kq24-rapor.md",
+    "bagimsiz_denetim": "yeniden yapılmadı",
+    "puan_notu": "93/100 öz değerlendirme; önceki bağımsız puan korundu. Ortak dosya boşalınca uygulanacak öneri. Native sorgu kabulü gerçek tenant verisi/connector kabulü değildir."
+  }
+}

@@ -84,7 +84,7 @@ Boş dizi (`[]`), olmayan yol ya da `NULL` kayıt hiç satır vermez: o olay bir
 
 JSON alanı sıradan bir sütun gibi birleştirmede de kullanılır: `JOIN sunucular AS s ON s.ad = o.kayit ->> 'sunucu'`.
 
-PostgreSQL'de aynı iş **jsonb** türüyle yapılır. Bu tezgah SQLite'tır; aşağıdakiler PostgreSQL'de karşılıklardır, burada çalışmaz:
+PostgreSQL'de aynı iş **jsonb** türüyle yapılır. İlk görevler SQLite'tır; tablodaki PostgreSQL ifadelerini ders sonundaki `motor: postgres` adımlarında gerçek motorla çalıştıracağız:
 
 | İş | SQLite | PostgreSQL (jsonb) |
 |---|---|---|
@@ -304,5 +304,112 @@ Sıra önemlidir: önce `kayit IS NULL`, sonra `NOT json_valid(kayit)`. JSON'a d
 
 ```hint
 `json_type(kayit, '$.kullanici')` anahtar yoksa SQL `NULL`, değer JSON `null` ise `'null'` metni döner. `->>` bu ikisini ayıramaz.
+```
+:::
+
+
+::: anlat jsonb artık gerçek PostgreSQL'de
+Aşağıdaki iki görev mevcut **Kali WSL PostgreSQL** kümesini kullanır; SQLite çevirisi değildir. `motor: postgres` her denemeye gerçek geçici veritabanı kurar. Ek paket kurulmaz; SQ21'in PostgreSQL gereksinimi geçerlidir. JSONB'ye bozuk JSON yazmak PostgreSQL'de hata verir; SQLite metin sütunundaki bozuk kayıt stratejisini buraya taşımayız.
+
+`jsonb_typeof` SQL NULL ile JSON null'u aynı şey saymaz: SQL NULL için NULL, JSON null için `'null'` metni verir. `?` yalnız nesne anahtarlarını değil dizideki üst düzey metin elemanlarını da sınayabilir; “nesnede kullanıcı alanı var” sınıflandırmasından önce nesne türünü denetle. `@>` yapısal içerme sınamasıdır, JSON metninin içinde sözcük aramak değildir. Bir JSON sayısı ile aynı rakamları içeren JSON metni aynı tür değildir.
+
+`jsonb_array_elements_text` yalnız dizi ister. Dizi olmayanı CASE ile `'[]'::jsonb` yapıp fonksiyona ver; WHERE filtresinin fonksiyondan önce çalışacağına güvenme. `WITH ORDINALITY` dizi sırasını **1'den** numaralar. Aynı etiket iki konumda varsa ikisini de koru; containment testi dizi tekrar sayısını ölçmenin yerine geçmez.
+
+Kaynak: [PostgreSQL 18 JSON işlev ve operatörleri](https://www.postgresql.org/docs/18/functions-json.html), [JSONB içerme](https://www.postgresql.org/docs/18/datatype-json.html#JSON-CONTAINMENT).
+:::
+
+::: gorev PostgreSQL jsonb: olmayan alan ve iki ayrı null
+`pg_olaylar(id,kayit jsonb)` satırlarını id sırasında `id,durum` sütunlarıyla döndür. Önce SQL NULL → `kayit yok`; kökü object olmayan her JSON → `nesne degil`; nesnede üst düzey kullanici anahtarı yok → `alan yok`; anahtarın JSON değeri null → `json null`; diğer bütün değerler → `var`. `->>` ile tek başına null sınıflandırma. Array içinde aynı sözcüğün bulunması nesne anahtarı değildir.
+
+```meta
+motor: postgres
+timeout: 90
+```
+
+```setup
+CREATE TABLE pg_olaylar(id int PRIMARY KEY,kayit jsonb);
+INSERT INTO pg_olaylar VALUES
+(1,NULL),(2,'null'),(3,'{}'),(4,'{"kullanici":null}'),
+(5,'{"kullanici":""}'),(6,'{"kullanici":false}'),(7,'{"kullanici":0}'),
+(8,'["kullanici"]'),(9,'{"meta":{"kullanici":"x"}}'),(10,'"kullanici"');
+```
+
+```starter
+SELECT id,CASE WHEN kayit->>'kullanici' IS NULL THEN 'alan yok' ELSE 'var' END AS durum FROM pg_olaylar ORDER BY id;
+```
+
+```test
+eq(sutunlar,['id','durum'],'rapor sütunları')
+eq(sonuc,[(1,'kayit yok'),(2,'nesne degil'),(3,'alan yok'),(4,'json null'),(5,'var'),(6,'var'),(7,'var'),(8,'nesne degil'),(9,'alan yok'),(10,'nesne degil')],'SQL NULL, JSON kök türü ve üst düzey anahtar ayrı')
+for payload,expected in [('{"kullanici":[]}','var'),('{"kullanici":{}}','var'),('[]','nesne degil'),('false','nesne degil'),('0','nesne degil'),('{"Kullanici":null}','alan yok'),('{"kullanici":"null"}','var')]:
+    sql="INSERT INTO pg_olaylar VALUES (11,'"+payload+"'::jsonb);"
+    eq(dene(sql)[-1],(11,expected),'gerçek jsonb türü: '+payload)
+eq(dene('DELETE FROM pg_olaylar;'),[],'boş tablo')
+```
+
+```solution
+SELECT id,CASE
+  WHEN kayit IS NULL THEN 'kayit yok'
+  WHEN jsonb_typeof(kayit) <> 'object' THEN 'nesne degil'
+  WHEN NOT (kayit ? 'kullanici') THEN 'alan yok'
+  WHEN jsonb_typeof(kayit->'kullanici') = 'null' THEN 'json null'
+  ELSE 'var' END AS durum
+FROM pg_olaylar ORDER BY id;
+```
+
+```hint
+Kök nesne türünü ? operatöründen önce sınayıp iki null'u ayır. Metin 'null' JSON null değildir.
+```
+:::
+
+::: gorev PostgreSQL: yapısal filtre, LATERAL ve dizi konumu
+`pg_olaylar` içinde üst düzey `tur` değeri tam `giris_hata` olan kayıtların `etiketler` dizisini aç. Yalnız metin değeri tam `auth` veya `basarisiz` olan elemanları `id,sira,etiket` sütunlarıyla `id,sira` sırasında döndür. sira WITH ORDINALITY'nin 1 tabanlı konumudur; tekrarları koru. Etiketler eksik, SQL/JSON null veya dizi değilse satır üretmesin. Nesnenin başka yerindeki benzer sözcük, büyük harfli etiket ve JSON nesne/dizi elemanı eşleşmez. JSONB @> ile yapısal tür filtresini ve LATERAL dizi açmayı kullan.
+
+```meta
+motor: postgres
+timeout: 90
+```
+
+```setup
+CREATE TABLE pg_olaylar(id int PRIMARY KEY,kayit jsonb);
+INSERT INTO pg_olaylar VALUES
+(1,'{"tur":"giris_hata","etiketler":["auth","basarisiz","auth"]}'),
+(2,'{"tur":"normal","etiketler":["auth"]}'),
+(3,'{"tur":"giris_hata","etiketler":null}'),
+(4,'{"tur":"giris_hata"}'),
+(5,'{"tur":"giris_hata","etiketler":"auth"}'),
+(6,'{"tur":"giris_hata","etiketler":["AUTH",3,null,{},["auth"]]}'),
+(7,NULL),
+(8,'{"meta":{"tur":"giris_hata"},"etiketler":["auth"]}');
+```
+
+```starter
+SELECT id,1::bigint AS sira,kayit->>'etiketler' AS etiket FROM pg_olaylar ORDER BY id;
+```
+
+```test
+eq(sutunlar,['id','sira','etiket'],'açılmış dizi sütunları')
+eq(sonuc,[(1,1,'auth'),(1,2,'basarisiz'),(1,3,'auth')],'tekrarlar ve 1 tabanlı konumlar korunur')
+eq(dene('''INSERT INTO pg_olaylar VALUES (9,'{"tur":"giris_hata","etiketler":["skip","auth","skip","basarisiz"]}');''')[-2:],[(9,2,'auth'),(9,4,'basarisiz')],'konum filtrelenmeden önce atanır')
+eq(dene('''INSERT INTO pg_olaylar VALUES (9,'{"tur":"GIRIS_HATA","etiketler":["auth"]}');'''),sonuc,'tür değeri harfe duyarlı')
+eq(dene('''INSERT INTO pg_olaylar VALUES (9,'{"tur":"giris_hata","etiketler":[]}');'''),sonuc,'boş dizi')
+eq(dene('''INSERT INTO pg_olaylar VALUES (9,'{"tur":"giris_hata","etiketler":{"auth":true}}');'''),sonuc,'nesne dizi değildir')
+eq(dene('DELETE FROM pg_olaylar;'),[],'boş tablo')
+```
+
+```solution
+SELECT o.id,e.sira,e.etiket
+FROM pg_olaylar AS o
+CROSS JOIN LATERAL jsonb_array_elements_text(
+  CASE WHEN jsonb_typeof(o.kayit->'etiketler')='array'
+       THEN o.kayit->'etiketler' ELSE '[]'::jsonb END
+) WITH ORDINALITY AS e(etiket,sira)
+WHERE o.kayit @> '{"tur":"giris_hata"}'::jsonb
+  AND e.etiket IN ('auth','basarisiz')
+ORDER BY o.id,e.sira;
+```
+
+```hint
+Dizi açmadan önce CASE ile dizi/diğer ayrımı yap. DISTINCT eklemek tekrarlı kanıt konumunu siler.
 ```
 :::

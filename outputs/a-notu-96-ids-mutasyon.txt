@@ -1,0 +1,37 @@
+# Ölçüm: 8ea29d5 anlık görüntüsü; Docker 29.4.0, zeek/zeek@sha256:70733f4e540b..., gerçek Suricata
+# validate Git Bash: 5 ders, 25 kontrol, TEMİZ
+# validate (PowerShell)
+5 ders, 25 kontrol · geçen: {'tahmin': 5, 'solution': 10, 'starter': 10}
+TEMİZ
+# mutasyon --en-cok 400
+id01:2 «1 · Yasak site sorgusu» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id01:3 «2 · Çalıştırılabilir dosya indirme» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id02:2 «1 · Güncelleme alanı ve alt alanları» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id02:3 «2 · Kurum dışına curl» 1 mutant, 0 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id03:2 «1 · İstemci başına NXDOMAIN» 4 mutant, 3 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id03:3 «2 · Pencerede bir kez» 4 mutant, 3 yakalandı · GEÇEN: ["'1'→'2' @1"]
+id04:2 «1 · Var olmayan adlar» 2 mutant, 2 yakalandı
+id04:3 «2 · curl ile yapılan istekler» 1 mutant, 1 yakalandı
+id05:2 «1 · Eşiği aşan istemciler» 4 mutant, 4 yakalandı
+id05:3 «2 · notice.log'a bildir» 4 mutant, 3 yakalandı · GEÇEN: ["'5'→'6' @11"]
+toplam 23 mutant, 7 geçen
+# elle yanlış çözümler
+id01:2 endswith yok: alt alan da eşleşir: fail
+id01:2 nocase yok: büyük harfli sorgu kaçar: fail
+id01:3 uri sonu yerine her yerde .exe: fail
+id02:2 dotprefix yok: kotuguncelle.example eşleşir: fail
+id02:3 startswith yok: UA içinde curl/ geçen tarayıcı: fail
+id03:2 istemci yerine DNS sunucusu izlenir: fail
+id03:2 eşik 5 yerine 4: fail
+id03:2 detection_filter penceresi 30 saniye: fail
+id03:3 threshold both yerine limit: fail
+id03:3 pencere 60 yerine 30 saniye: fail
+id04:2 alan varlığı sorulmaz: fail
+id04:2 yanıt kodu sayıyla yanlış (2): fail
+id04:3 curl/ başta değil her yerde: fail
+id04:3 user_agent varlığı sorulmaz: fail
+id05:2 bütün DNS yanıtları sayılır: fail
+id05:2 eşik dışlayıcı: fail
+id05:3 her hatada bildirim (>= 5): fail
+id05:3 istemci yerine tek genel sayaç: fail
+toplam 18 elle yanlış çözüm, 18 reddedildi

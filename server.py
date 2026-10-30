@@ -24,9 +24,13 @@ from urllib.parse import parse_qs, unquote, urlparse
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 
+from engine.runtime_env import refresh_windows_runtime_env  # noqa: E402
+refresh_windows_runtime_env()
+
 from engine import runners, sinav  # noqa: E402
 from engine.lessons import Library, public_step  # noqa: E402
 from engine.progress import Progress, data_dir, today  # noqa: E402
+from engine.rota import Rota  # noqa: E402
 from engine.sinav import normalize  # noqa: E402,F401  (eski içe aktarımlar için)
 
 WEB = os.path.join(ROOT, "web")
@@ -39,6 +43,7 @@ class App:
     def __init__(self, token=None):
         self.lib = Library()
         self.prog = Progress()
+        self.rota = Rota()
         self.token = token or secrets.token_urlsafe(24)
         self.port = None
         self.last_ping = time.time()
@@ -304,6 +309,8 @@ def make_handler(app):
                 if parts == ["playground"]:
                     dil = (parse_qs(urlparse(self.path).query).get("dil") or ["python"])[0]
                     return self._send(200, {"code": app.prog.playground(dil)})
+                if parts == ["rota"]:
+                    return self._send(200, app.rota.gorunum(app.state()["tracks"]))
                 if parts == ["sinav"]:
                     return self._send(200, app.sinav_ozeti())
                 if parts == ["sinav", "aktif"]:
@@ -448,6 +455,10 @@ def make_handler(app):
                 return self._send(400, {"error": "bilinmeyen ayar"})
             app.prog.set_setting(b["key"], b.get("value"))
             return self._send(200, {"ok": True})
+
+        def _post_rota(self, b):
+            k = app.rota.guncelle(b["platform"], b["id"], b.get("yuzde"), b.get("sertifika"))
+            return self._send(200, k)
 
         def _post_reset(self, b):
             if b.get("confirm") != "SIFIRLA":

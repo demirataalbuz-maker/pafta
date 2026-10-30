@@ -1,0 +1,2162 @@
+{
+  "track": "purple",
+  "shell": "gitbash",
+  "started_utc": "2026-10-27T17:53:50.869251+00:00",
+  "lessons": [
+    "pu01",
+    "pu02",
+    "pu03",
+    "pu04",
+    "pu05",
+    "pu06",
+    "pu07",
+    "pu08",
+    "pu09",
+    "pu10",
+    "pu11",
+    "pu12",
+    "pu13",
+    "pu14",
+    "pu15",
+    "pu16",
+    "pu17"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "solution",
+      "where": "purple/pu01:2 gorev «1 · Etiketten tekniğe»",
+      "lesson": "pu01",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.719,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu01:2 gorev «1 · Etiketten tekniğe»",
+      "lesson": "pu01",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.719,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "on kuralın teknikleri: T1086 yerine T1059.001, T1026 kullanım dışı, T9999 yok",
+          "got": "{'PowerShell kodlanmış komut': ['T1059.001'], 'Eski PowerShell kuralı': ['T1086'], 'LSASS bellek erişimi': ['T1003.001'], 'Zamanlanmış görev': [], 'Eski kural, kullanım dışı teknik': ['T1026'], 'Hatalı etiketler': ['T1059.01', 'T9999'], 'Geçerli hesap kullanımı': ['T1078'], 'Oltalama eki': ['T1566.0…",
+          "exp": "{'PowerShell kodlanmış komut': ['T1059.001'], 'Eski PowerShell kuralı': ['T1059.001'], 'LSASS bellek erişimi': ['T1003.001'], 'Zamanlanmış görev': ['T1053.005'], 'Eski kural, kullanım dışı teknik': [], 'Hatalı etiketler': [], 'Geçerli hesap kullanımı': ['T1078'], 'Oltalama eki': ['T1566.001'], 'Komu…"
+        },
+        {
+          "ok": false,
+          "msg": "grup, yazılım, taktik ve biçimi bozuk kimlikler teknik değildir",
+          "got": "['T105', 'T1059.0011']",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu01:1 tahmin «»",
+      "lesson": "pu01",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.75,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu01:3 gorev «2 · Taktik başına kapsam»",
+      "lesson": "pu01",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.772,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu02:1 tahmin «»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.55,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu01:4 gorev «3 · Navigator katmanı ve boşluk raporu»",
+      "lesson": "pu01",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.603,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu01:3 gorev «2 · Taktik başına kapsam»",
+      "lesson": "pu01",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.604,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ATT&CK 19.2 matris sırası; T1078 dört taktikte, T1053 ile T1547 alt teknikleriyle sayılır",
+          "got": "[('reconnaissance', 0, 0), ('resource-development', 0, 0), ('initial-access', 0, 0), ('execution', 0, 0), ('persistence', 0, 0), ('privilege-escalation', 0, 0), ('stealth', 0, 0), ('defense-impairment', 0, 0), ('credential-access', 0, 0), ('discovery', 0, 0), ('lateral-movement', 0, 0), ('collection…",
+          "exp": "[('reconnaissance', 0, 12), ('resource-development', 0, 9), ('initial-access', 2, 11), ('execution', 2, 20), ('persistence', 3, 22), ('privilege-escalation', 3, 13), ('stealth', 1, 30), ('defense-impairment', 0, 18), ('credential-access', 1, 17), ('discovery', 0, 34), ('lateral-movement', 0, 9), ('c…"
+        },
+        {
+          "ok": false,
+          "msg": "tek bir T1078 kuralı dört taktikte görünür",
+          "got": "[]",
+          "exp": "['initial-access', 'persistence', 'privilege-escalation', 'stealth']"
+        },
+        {
+          "ok": false,
+          "msg": "aynı üst teknik (T1059) üç etiketle de bir kez sayılır",
+          "got": "0",
+          "exp": "1"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu01:4 gorev «3 · Navigator katmanı ve boşluk raporu»",
+      "lesson": "pu01",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.645,
+      "error": {
+        "type": "StopIteration",
+        "msg": "",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yedi teknik; T1059.001'i iki kural (biri eski T1086 etiketiyle) kapsıyor",
+          "got": "[]",
+          "exp": "[('T1003.001', 1), ('T1053.005', 1), ('T1059', 1), ('T1059.001', 2), ('T1078', 1), ('T1547.001', 1), ('T1566.001', 1)]"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu02:2 gorev «1 · Tek zaman çizelgesi»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.86,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç kaynaktan on üç kayıt",
+          "got": "6",
+          "exp": "13"
+        },
+        {
+          "ok": false,
+          "msg": "yerel saat UTC'ye çevrildi: 12:03:40 → 09:03:40, indirmeden (09:02:10) sonra",
+          "got": "[('19.10.2026 11:50:00', 'guvenlik'), ('19.10.2026 12:03:40', 'guvenlik'), ('19.10.2026 12:07:15', 'guvenlik'), ('19.10.2026 12:09:02', 'guvenlik'), ('19.10.2026 12:15:30', 'guvenlik')]",
+          "exp": "[('2026-10-19 08:50:00', 'guvenlik'), ('2026-10-19 09:02:10', 'proxy'), ('2026-10-19 09:02:30', 'edr'), ('2026-10-19 09:03:40', 'guvenlik'), ('2026-10-19 09:04:05', 'proxy')]"
+        },
+        {
+          "ok": false,
+          "msg": "EDR kaydı: epoch → UTC, adlar küçük harf",
+          "got": "('19.10.2026 12:07:15', 'guvenlik', 'SRV-DOSYA', 'ayse', 'ağ oturumu, kaynak PC-AYSE')",
+          "exp": "('2026-10-19 09:02:30', 'edr', 'pc-ayse', 'ayse', 'dosya oluşturuldu: fatura.zip')"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu02:3 gorev «2 · Kapsamı bulmak»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.862,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "`zaman_cizelgesi` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "zaman_cizelgesi"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu02:3 gorev «2 · Kapsamı bulmak»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.995,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu02:2 gorev «1 · Tek zaman çizelgesi»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.998,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu02:5 gorev «3 · Doğru playbook'u ve adım sırasını se»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.537,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "öncelik 10 seçilir; kanıt → sınırlama → temizleme → doğrulama → geri açma",
+          "got": "['yanlis-playbook']",
+          "exp": "['kanit-topla', 'agdan-ayir', 'hesabi-kilitle', 'kaliciligi-kaldir', 'temizligi-dogrula', 'geri-ac']"
+        },
+        {
+          "ok": false,
+          "msg": "oltalama playbook'u; oturum iptali hesap kilidinden sonra",
+          "got": "['oturumlari-iptal-et', 'kanit-topla', 'hesabi-kilitle']",
+          "exp": "['kanit-topla', 'hesabi-kilitle', 'oturumlari-iptal-et']"
+        },
+        {
+          "ok": false,
+          "msg": "doğrulanmamış olayda henüz containment yok",
+          "got": "['oturumlari-iptal-et', 'kanit-topla', 'hesabi-kilitle']",
+          "exp": "['kanit-topla', 'dogrula']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu02:5 gorev «3 · Doğru playbook'u ve adım sırasını se»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.614,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu02:6 gorev «4 · Sınırlama ve temizleme adımlarını gü»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.531,
+      "checks_passed": 23,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu02:6 gorev «4 · Sınırlama ve temizleme adımlarını gü»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.541,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başarılı çağrı bile girdiyi değiştirmez",
+          "got": "{'cihazlar': {'pc-ayse': {'izole': True}, 'srv-dosya': {'izole': True}}, 'hesaplar': {'ayse': {'kilitli': False}, 'yedek_svc': {'kilitli': False}}, 'kalicilik': [], 'zararlilar': ['fatura.exe'], 'kanit_toplandi': False, 'temizlik_dogrulandi': False}",
+          "exp": "{'cihazlar': {'pc-ayse': {'izole': False}, 'srv-dosya': {'izole': False}}, 'hesaplar': {'ayse': {'kilitli': False}, 'yedek_svc': {'kilitli': False}}, 'kalicilik': ['GuncellemeKontrol', 'guncelle.lnk'], 'zararlilar': ['fatura.exe'], 'kanit_toplandi': False, 'temizlik_dogrulandi': False}"
+        },
+        {
+          "ok": false,
+          "msg": "kanıt adımı uygulandı",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "temizlik tamam ve doğrulu",
+          "got": "([], ['fatura.exe'], False)",
+          "exp": "([], [], True)"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu02:7 gorev «5 · Kanıtı değiştirmeden paketle ve doğr»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 1.006,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "alt klasör dahil, yola göre sıralı",
+          "got": "[]",
+          "exp": "['edr.json', 'guvenlik.csv', 'notlar/olay.txt']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu02:7 gorev «5 · Kanıtı değiştirmeden paketle ve doğr»",
+      "lesson": "pu02",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 1.355,
+      "checks_passed": 25,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu03:1 tahmin «»",
+      "lesson": "pu03",
+      "status": "PASS",
+      "runner": "vql",
+      "runner_status": "ok",
+      "seconds": 7.761,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu03:2 gorev «1 · Açılışta ne başlıyor?»",
+      "lesson": "pu03",
+      "status": "PASS",
+      "runner": "vql",
+      "runner_status": "fail",
+      "seconds": 8.885,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki kullanıcı klasörü ve bütün kullanıcılar klasörü; desktop.ini yok",
+          "got": "[('Users/ayse/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/desktop.ini', '2025-06-01T08:00:00Z'), ('Users/ayse/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/guncelle.lnk', '2026-10-19T09:03:50Z'), ('Users/can/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Star…",
+          "exp": "[('ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/yedek.bat', '2026-10-19T09:10:05Z'), ('Users/ayse/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/guncelle.lnk', '2026-10-19T09:03:50Z'), ('Users/can/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/OneNote.lnk',…"
+        },
+        {
+          "ok": false,
+          "msg": "yeni kullanıcının başlangıç dosyası gelir; büyük harfli Desktop.ini gelmez; adı Startup olan başka bir klasör gelmez",
+          "got": "['Users/mert/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/Desktop.ini', 'Users/mert/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/not.txt.lnk']",
+          "exp": "['Users/mert/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/not.txt.lnk']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu03:3 gorev «2 · Olay penceresindeki dosyalar ve özet»",
+      "lesson": "pu03",
+      "status": "PASS",
+      "runner": "vql",
+      "runner_status": "pass",
+      "seconds": 8.842,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu03:3 gorev «2 · Olay penceresindeki dosyalar ve özet»",
+      "lesson": "pu03",
+      "status": "PASS",
+      "runner": "vql",
+      "runner_status": "fail",
+      "seconds": 2.406,
+      "error": {
+        "type": "IndexError",
+        "msg": "tuple index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sütunlar",
+          "got": "['Ad', 'Mtime']",
+          "exp": "['Ad', 'Mtime', 'SHA256']"
+        },
+        {
+          "ok": false,
+          "msg": "pencerede beş dosya; can'ın 08:10'daki kurulumu ve eski dosyalar değil",
+          "got": "[('rapor.pdf', '2026-09-30T14:00:00Z'), ('kurulum.msi', '2026-10-19T08:10:00Z'), ('fatura.zip', '2026-10-19T09:02:30Z'), ('fatura.exe', '2026-10-19T09:03:40Z')]",
+          "exp": "[('fatura.zip', '2026-10-19T09:02:30Z'), ('fatura.exe', '2026-10-19T09:03:40Z'), ('guncelle.lnk', '2026-10-19T09:03:50Z'), ('GuncellemeKontrol', '2026-10-19T09:10:00Z'), ('yedek.bat', '2026-10-19T09:10:05Z')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu03:2 gorev «1 · Açılışta ne başlıyor?»",
+      "lesson": "pu03",
+      "status": "PASS",
+      "runner": "vql",
+      "runner_status": "pass",
+      "seconds": 10.207,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu04:1 tahmin «»",
+      "lesson": "pu04",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.413,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu04:2 gorev «Tespit kullanımına uygun öznitelikleri a»",
+      "lesson": "pu04",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.413,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tür, silme ve to_ids ayrı",
+          "got": "[]",
+          "exp": "[('a', 'ip-dst', '192.0.2.1'), ('c', 'domain', 'x.test'), ('f', 'sha256', 'ab')]"
+        },
+        {
+          "ok": false,
+          "msg": "0 kapalı",
+          "got": "[]",
+          "exp": "[('x', 'domain', 'x.test')]"
+        },
+        {
+          "ok": false,
+          "msg": "belirsiz bool hata",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu04:3 gorev «Tazelik kararını eşikte geri çek»",
+      "lesson": "pu04",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.363,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu04:2 gorev «Tespit kullanımına uygun öznitelikleri a»",
+      "lesson": "pu04",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.453,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu04:3 gorev «Tazelik kararını eşikte geri çek»",
+      "lesson": "pu04",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.376,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tam sona erme artık geçersiz",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "gelecek gözlem",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "sıfır TTL",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu05:1 tahmin «»",
+      "lesson": "pu05",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.436,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu05:2 gorev «Türü kaybetmeden IOC'yi normalleştir»",
+      "lesson": "pu05",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.438,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu05:2 gorev «Türü kaybetmeden IOC'yi normalleştir»",
+      "lesson": "pu05",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.435,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "harf, boşluk, son nokta",
+          "got": "' x.test. '",
+          "exp": "'x.test'"
+        },
+        {
+          "ok": false,
+          "msg": "IPv6 kanonik",
+          "got": "'2001:0db8::1'",
+          "exp": "'2001:db8::1'"
+        },
+        {
+          "ok": false,
+          "msg": "yanlış tür veya sınır",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu05:3 gorev «Gerçek sorguyu bağlanmış parametrelerle »",
+      "lesson": "pu05",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.456,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu05:3 gorev «Gerçek sorguyu bağlanmış parametrelerle »",
+      "lesson": "pu05",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.416,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki sınır, aynı tür ve tekrar",
+          "got": "[]",
+          "exp": "['a', 'b']"
+        },
+        {
+          "ok": false,
+          "msg": "tırnak SQL değil veridir",
+          "got": "[]",
+          "exp": "['g']"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek SQLite API kullan"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu06:1 tahmin «»",
+      "lesson": "pu06",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.423,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu06:2 gorev «Paralel ASR dizilerini kayıpsız eşle»",
+      "lesson": "pu06",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.413,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu06:2 gorev «Paralel ASR dizilerini kayıpsız eşle»",
+      "lesson": "pu06",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.387,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört kip ayrı",
+          "got": "[]",
+          "exp": "[('a', 'Block'), ('b', 'Audit'), ('c', 'Warn'), ('d', 'Disabled')]"
+        },
+        {
+          "ok": false,
+          "msg": "yapılandırılmamış kip block değil",
+          "got": "[]",
+          "exp": "[('a', 'NotConfigured')]"
+        },
+        {
+          "ok": false,
+          "msg": "zip kırpmasın",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu06:3 gorev «Pilotun geçiş kapısını değerlendir»",
+      "lesson": "pu06",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.498,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bağımsız kapı age_hours",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "bağımsız kapı age_hours",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "bağımsız kapı samples",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu06:3 gorev «Pilotun geçiş kapısını değerlendir»",
+      "lesson": "pu06",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.519,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu07:1 tahmin «»",
+      "lesson": "pu07",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.544,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu07:2 gorev «Koşulu ve istisnayı ayrı envanterle»",
+      "lesson": "pu07",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.516,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu07:3 gorev «Önleme iddiası için gerekli kanıtları ay»",
+      "lesson": "pu07",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.367,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu07:2 gorev «Koşulu ve istisnayı ayrı envanterle»",
+      "lesson": "pu07",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.38,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kapsam, kip, deny ve exception ayrı",
+          "got": "[]",
+          "exp": "[('Exe', 'AuditOnly', [('p', 'Allow', 'S-1-1-0', ['FilePathCondition'], ['FilePathCondition']), ('h', 'Deny', 'S-1-1-0', ['FileHashCondition'], [])]), ('Script', 'NotConfigured', [])]"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu07:3 gorev «Önleme iddiası için gerekli kanıtları ay»",
+      "lesson": "pu07",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.345,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ölçülen yasak ve tekrar",
+          "got": "['a', 'a']",
+          "exp": "['a']"
+        },
+        {
+          "ok": false,
+          "msg": "eksik kabul kanıtı mode",
+          "got": "['a']",
+          "exp": "[]"
+        },
+        {
+          "ok": false,
+          "msg": "eksik kabul kanıtı mode",
+          "got": "['a']",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu08:1 tahmin «»",
+      "lesson": "pu08",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.345,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu08:3 gorev «Oturum ve MFA belirsizliğini koru»",
+      "lesson": "pu08",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.482,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu08:2 gorev «Kayıtları UTC ve eventID ile düzenle»",
+      "lesson": "pu08",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.495,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu08:2 gorev «Kayıtları UTC ve eventID ile düzenle»",
+      "lesson": "pu08",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.509,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "UTC eşit zaman, kimlikle sıra ve tekrar",
+          "got": "[]",
+          "exp": "[('a', '2026-10-26T00:00:00+00:00', 'iam.amazonaws.com', 'CreateUser', 'no-error-recorded'), ('b', '2026-10-26T00:00:00+00:00', 'iam.amazonaws.com', 'CreateUser', 'AccessDenied')]"
+        },
+        {
+          "ok": false,
+          "msg": "aynı id farklı kayıt çakışması",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        },
+        {
+          "ok": false,
+          "msg": "bilinmeyen major",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu08:3 gorev «Oturum ve MFA belirsizliğini koru»",
+      "lesson": "pu08",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.511,
+      "error": {
+        "type": "KeyError",
+        "msg": "'mfa'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "rol/oturum/hizmet kaynağı",
+          "got": "{}",
+          "exp": "{'actor': 'session', 'issuer': 'role', 'mfa': False, 'source': 'ec2.amazonaws.com'}"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu09:2 gorev «Başarı ve eksik sonucu ayır»",
+      "lesson": "pu09",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.595,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu09:1 tahmin «»",
+      "lesson": "pu09",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.603,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu09:2 gorev «Başarı ve eksik sonucu ayır»",
+      "lesson": "pu09",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.679,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "CA farklı alan",
+          "got": "('success', 'success')",
+          "exp": "('success', 'notApplied')"
+        },
+        {
+          "ok": false,
+          "msg": "MFA gereksinimi hatası",
+          "got": "('success', 'success')",
+          "exp": "('failure', 'failure')"
+        },
+        {
+          "ok": false,
+          "msg": "eksik başarı değil",
+          "got": "('success', 'success')",
+          "exp": "('unknown', 'unknown')"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu09:3 gorev «Dizin değişikliğini doğru kullanıcı ve p»",
+      "lesson": "pu09",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.671,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu09:3 gorev «Dizin değişikliğini doğru kullanıcı ve p»",
+      "lesson": "pu09",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.483,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki eşit sınır ve tekrar; hedef değil başlatan",
+          "got": "[]",
+          "exp": "[('s', 'edge'), ('s', 'zero')]"
+        },
+        {
+          "ok": false,
+          "msg": "sıfır pencere yalnız aynı an",
+          "got": "[]",
+          "exp": "[('s', 'zero')]"
+        },
+        {
+          "ok": false,
+          "msg": "negatif pencere",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu10:1 tahmin «»",
+      "lesson": "pu10",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.484,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu10:2 gorev «1 · Süreçleri normalize et ve kökeni kor»",
+      "lesson": "pu10",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.6,
+      "error": {
+        "type": "KeyError",
+        "msg": "'baslangic'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "PID yeniden kullanımı birleştirilmedi",
+          "got": "[(4, 'System'), (512, 'services.exe'), (900, 'svchost.exe'), (4242, 'rundll32.exe'), (4242, 'eski.exe')]",
+          "exp": "[(4, 'system'), (512, 'services.exe'), (900, 'svchost.exe'), (4242, 'eski.exe'), (4242, 'rundll32.exe')]"
+        },
+        {
+          "ok": false,
+          "msg": "alan adları, UTC yazımı ve iki köken",
+          "got": "{'pid': 4242, 'ad': 'rundll32.exe'}",
+          "exp": "{'pid': 4242, 'ppid': 900, 'ad': 'rundll32.exe', 'baslangic': '2026-10-19 09:02:00', 'bitis': '', 'kaynaklar': ['memprocfs', 'volatility']}"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu10:2 gorev «1 · Süreçleri normalize et ve kökeni kor»",
+      "lesson": "pu10",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.61,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu10:3 gorev «2 · Bağlantıyı doğru süreç örneğine bağl»",
+      "lesson": "pu10",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.645,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "`surecler` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "surecler"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu10:3 gorev «2 · Bağlantıyı doğru süreç örneğine bağl»",
+      "lesson": "pu10",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.711,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu10:4 gorev «3 · Bellek ve ağ gerekçelerini birleştir»",
+      "lesson": "pu10",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.646,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "`surecler` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "surecler"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu10:4 gorev «3 · Bellek ve ağ gerekçelerini birleştir»",
+      "lesson": "pu10",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.713,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu11:3 gorev «2 · SQLi: değeri bağla, sıralamayı allow»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.639,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu11:3 gorev «2 · SQLi: değeri bağla, sıralamayı allow»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.55,
+      "error": {
+        "type": "OperationalError",
+        "msg": "near \"Reilly\": syntax error",
+        "frames": [
+          {
+            "line": 3,
+            "func": "ara",
+            "text": "return db.execute(sql).fetchall()"
+          }
+        ],
+        "line": 3,
+        "where": "kod-test"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu11:4 gorev «3 · XSS: güvenli DOM sink'ini seç»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.801,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu11:4 gorev «3 · XSS: güvenli DOM sink'ini seç»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.711,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "girdi tek bir literal metin düğümü",
+          "got": "[('html', '<script>window.__paftaCanary=1</script>')]",
+          "exp": "[('text', '<script>window.__paftaCanary=1</script>')]"
+        },
+        {
+          "ok": false,
+          "msg": "zararsız canary metin olarak yazılınca çalışmaz"
+        },
+        {
+          "ok": false,
+          "msg": "serileştirmede markup değil kaçamaklı metin",
+          "got": "'<script>window.__paftaCanary=1</script>'",
+          "exp": "'&lt;script&gt;window.__paftaCanary=1&lt;/script&gt;'"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu11:1 tahmin «»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 3.317,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu11:2 gorev «1 · IDOR ve API: durum kodu ile kalıcı d»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 3.296,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu11:2 gorev «1 · IDOR ve API: durum kodu ile kalıcı d»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 3.26,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "gerçek HTTP: oturumsuz 401, başkasının nesnesi 403; yalnız sahip PATCH'i 200",
+          "got": "{'oturumsuz': 200, 'kendi_oku': 200, 'baskasini_oku': 200, 'kendi_yaz': 200, 'baskasini_yaz': 200, 'kaydedilen': 'değişmedi', 'revizyon_artisi': 0}",
+          "exp": "{'oturumsuz': 401, 'kendi_oku': 200, 'baskasini_oku': 403, 'kendi_yaz': 200, 'baskasini_yaz': 403, 'kaydedilen': 'PU05 kalıcı', 'revizyon_artisi': 1}"
+        },
+        {
+          "ok": false,
+          "msg": "başarılı API yazması sunucuda kalıcı",
+          "got": "'Ayşe taslağı'",
+          "exp": "'PU05 kalıcı'"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız başarılı bir yazma revizyonu artırdı",
+          "got": "0",
+          "exp": "1"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu11:5 gorev «4 · Komut enjeksiyonu: çalıştırma, planı»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.654,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu12:2 tahmin «Başarılı bilet isteği yatay hareket mi?»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.516,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu12:3 gorev «1 · Linux kayıtlarında zayıf yetki sınır»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.576,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu11:5 gorev «4 · Komut enjeksiyonu: çalıştırma, planı»",
+      "lesson": "pu11",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.788,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ayrı argv öğeleri; kabuk metni değil",
+          "got": "'durum web01'",
+          "exp": "['pafta-durum', '--format', 'json', '--hedef', 'web01']"
+        },
+        {
+          "ok": false,
+          "msg": "ikinci izinli plan",
+          "got": "'liste /lab/raporlar'",
+          "exp": "['pafta-liste', '--dizin', '/lab/raporlar']"
+        },
+        {
+          "ok": false,
+          "msg": "allowlist dışı reddedilir: 'durum', 'web01;whoami'",
+          "got": "hata yükselmedi",
+          "exp": "ValueError"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu12:3 gorev «1 · Linux kayıtlarında zayıf yetki sınır»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.662,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört kaynak türü, kesin ve sıralı bulgular",
+          "got": "[]",
+          "exp": "['CAP:/opt/lab/okuyucu:cap_dac_override', 'CAP:/opt/lab/yardimci:cap_setuid', 'CRON:/etc/cron.d/gecici:sahip-root-degil', 'CRON:/etc/cron.d/rapor:yazabilir=users', 'PATH:./araclar:goreceli', 'PATH:/opt/ortak/bin:yazabilir=users', 'PATH:<bos>:goreceli', 'SUDO:operator:/usr/bin/less /var/log/*']"
+        },
+        {
+          "ok": false,
+          "msg": "effective/permitted riskli capability yakalanır",
+          "got": "[]",
+          "exp": "['CAP:/x:cap_sys_admin']"
+        },
+        {
+          "ok": false,
+          "msg": "boş PATH iki ayrı bulgu üretir; boş etiket yalnız göreli bulguda kullanılır",
+          "got": "[]",
+          "exp": "['CAP:/opt/lab/okuyucu:cap_dac_override', 'CAP:/opt/lab/yardimci:cap_setuid', 'CRON:/etc/cron.d/gecici:sahip-root-degil', 'CRON:/etc/cron.d/rapor:yazabilir=users', 'PATH::yazabilir=users', 'PATH:<bos>:goreceli', 'SUDO:operator:/usr/bin/less /var/log/*']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu12:4 gorev «2 · Windows token, DACL ve JEA kanıtı»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.753,
+      "checks_passed": 12,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu12:5 gorev «3 · Parola püskürtme, kaba kuvvet ve baş»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.658,
+      "checks_passed": 15,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu12:4 gorev «2 · Windows token, DACL ve JEA kanıtı»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.712,
+      "checks_passed": 8,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "deny-only Administrators olumlu izin vermez",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "kullanıcı deny, grup FullControl allow'u aşar",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "token, iki geniş DACL ve üç JEA bulgusu",
+          "got": "[]",
+          "exp": "['DACL:C:\\\\Yonetim\\\\Korunan.ps1:S-1-5-32-545:yazma', 'DACL:C:\\\\Yonetim\\\\Ortak.ps1:S-1-5-32-545:yazma', 'JEA:PortalYonetim:DIS:whoami.exe', 'JEA:PortalYonetim:FONKSIYON:Set-Portal:Invoke-Expression', 'JEA:PortalYonetim:KOMUT:Invoke-Expression', 'TOKEN:yonetici-deny-only']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu12:5 gorev «3 · Parola püskürtme, kaba kuvvet ve baş»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.596,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "çok hesaba azar deneme ile tek hesaba çok deneme ayrılır",
+          "got": "[]",
+          "exp": "[('10.20.30.40', 'parola-puskurtme', 5, 5), ('10.20.30.50', 'kaba-kuvvet', 4, 1)]"
+        },
+        {
+          "ok": false,
+          "msg": "tam eşikteki kaynak dahil, altındaki hariç",
+          "got": "[]",
+          "exp": "[('10.20.30.40', 'parola-puskurtme', 5, 5)]"
+        },
+        {
+          "ok": false,
+          "msg": "iki başarısızdan başarılıya geçiş, en eski hata ve Logon Type",
+          "got": "[]",
+          "exp": "[('10.20.30.40', 'ayse', '2026-10-26T09:00:00Z', '2026-10-26T09:05:00Z', 'SRV-PORTAL', 3), ('10.20.30.50', 'can', '2026-10-26T09:10:00Z', '2026-10-26T09:14:00Z', 'SRV-ADM', 10)]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu12:6 gorev «4 · Logon Type ile kaynak-hedef zinciri»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.508,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu13:2 tahmin «Ön koşulu olmayan adım beklenen telemetr»",
+      "lesson": "pu13",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.475,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu12:6 gorev «4 · Logon Type ile kaynak-hedef zinciri»",
+      "lesson": "pu12",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.539,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": " üç zamanlı sıçrama; Kerberos ve ilgisiz trafik kenar değil",
+          "got": "[]",
+          "exp": "[('2026-10-26T09:05:00Z', 'ayse', 'PC-AYSE', 'SRV-PORTAL', 'ag'), ('2026-10-26T09:08:00Z', 'ayse', 'SRV-PORTAL', 'SRV-DB', 'ag'), ('2026-10-26T09:09:00Z', 'svc_yedek', 'SRV-DB', 'SRV-YEDEK', 'ag')]"
+        },
+        {
+          "ok": false,
+          "msg": "Type 10 RDP etiketi",
+          "got": "[]",
+          "exp": "[('2026-10-26T09:14:00Z', 'can', 'PC-CAN', 'SRV-ADM', 'rdp')]"
+        },
+        {
+          "ok": false,
+          "msg": "Type 2 yerel oturum atlanır",
+          "got": "[]",
+          "exp": "[('2026-10-26T09:16:00Z', 'mert', 'PC-MERT', 'SRV-DOSYA', 'ag')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu13:3 gorev «1 · Planı Atomic/Caldera sözleşmesiyle d»",
+      "lesson": "pu13",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.529,
+      "checks_passed": 14,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu13:3 gorev «1 · Planı Atomic/Caldera sözleşmesiyle d»",
+      "lesson": "pu13",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.474,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "şema sürümü",
+          "got": "[]",
+          "exp": "['plan:schema']"
+        },
+        {
+          "ok": false,
+          "msg": "bilinmeyen Atomic kimliği alt alan okumaz",
+          "got": "[]",
+          "exp": "['step-001:atomic-bilinmiyor']"
+        },
+        {
+          "ok": false,
+          "msg": "bilinmeyen ability kimliği alt alan okumaz",
+          "got": "[]",
+          "exp": "['step-001:ability-bilinmiyor']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu13:4 gorev «2 · Beklenen telemetriyi ön koşul sonucu»",
+      "lesson": "pu13",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.468,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu13:4 gorev «2 · Beklenen telemetriyi ön koşul sonucu»",
+      "lesson": "pu13",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.416,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "unmet ikinci adım beklenen telemetri üretmez",
+          "got": "3",
+          "exp": "2"
+        },
+        {
+          "ok": false,
+          "msg": "gözlem alanları ve kararlı sıra",
+          "got": "[('step-001', 'process', 1), ('step-001', 'artifact', 11), ('step-002-prereq-yok', 'process', 1)]",
+          "exp": "[('step-001', 'artifact', 11), ('step-001', 'process', 1)]"
+        },
+        {
+          "ok": false,
+          "msg": "unknown da met değildir",
+          "got": "['step-001', 'step-001', 'step-002-prereq-yok']",
+          "exp": "[]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu13:5 gorev «3 · Detection coverage ve gap ölç»",
+      "lesson": "pu13",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.469,
+      "checks_passed": 14,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu13:5 gorev «3 · Detection coverage ve gap ölç»",
+      "lesson": "pu13",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.41,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki olaydan yalnız process kuralı tespit; artifact gap",
+          "got": "{'toplam': 2, 'gozlenen': 3, 'tespit': 1, 'kapsam_yuzdesi': 100.0, 'bosluklar': []}",
+          "exp": "{'toplam': 2, 'gozlenen': 2, 'tespit': 1, 'kapsam_yuzdesi': 50.0, 'bosluklar': [{'step_id': 'step-001', 'kind': 'artifact', 'source': 'synthetic_artifact', 'event_id': 11, 'technique': 'T1059.001', 'neden': 'kural-yok'}]}"
+        },
+        {
+          "ok": false,
+          "msg": "eksik olay gözlenen ve tespit sayılmaz",
+          "got": "(2, 2, 1, 100.0)",
+          "exp": "(2, 1, 1, 50.0)"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu14:3 tahmin «Bütün doğrulamalar geçerse kurumsal gönd»",
+      "lesson": "pu14",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.34,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu14:4 gorev «1 · Kimlikleri, doğrulama sonuçlarını ve»",
+      "lesson": "pu14",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.614,
+      "checks_passed": 22,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu14:4 gorev «1 · Kimlikleri, doğrulama sonuçlarını ve»",
+      "lesson": "pu14",
+      "status": "ERROR",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.647,
+      "error": {
+        "type": "KeyError",
+        "msg": "'from'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu14:6 gorev «2 · HTML bağlantılarında gövde/gerçek he»",
+      "lesson": "pu14",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.632,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki HTML anchor, ekler ve metin taramasına karışmaz",
+          "got": "0",
+          "exp": "2"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu14:6 gorev «2 · HTML bağlantılarında gövde/gerçek he»",
+      "lesson": "pu14",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.725,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu14:8 gorev «3 · Ek adı, MIME, uzantı ve SHA-256 kanı»",
+      "lesson": "pu14",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.659,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu14:8 gorev «3 · Ek adı, MIME, uzantı ve SHA-256 kanı»",
+      "lesson": "pu14",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.583,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki MIME eki",
+          "got": "0",
+          "exp": "2"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu14:10 gorev «4 · Güven sınırı ve ham EML bütünlüğüyle»",
+      "lesson": "pu14",
+      "status": "ERROR",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.573,
+      "error": {
+        "type": "KeyError",
+        "msg": "'eml_sha256'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu14:10 gorev «4 · Güven sınırı ve ham EML bütünlüğüyle»",
+      "lesson": "pu14",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.633,
+      "checks_passed": 20,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu15:2 tahmin «Hangi zaman en yeni saklanan çalıştırmad»",
+      "lesson": "pu15",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.461,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu15:3 gorev «1 · Registry ve Prefetch kayıtlarını nor»",
+      "lesson": "pu15",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.459,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu15:5 gorev «2 · MFT SI/FN ve LNK zamanlarını ayrı ko»",
+      "lesson": "pu15",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.446,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu15:3 gorev «1 · Registry ve Prefetch kayıtlarını nor»",
+      "lesson": "pu15",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.448,
+      "error": {
+        "type": "KeyError",
+        "msg": "'yurutulebilir'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "+03:00 UTC'ye çevrilir; LastWriteTime anahtara ait",
+          "got": "{'hive': 'NTUSER.DAT', 'deger_ad': 'Updater', 'last_write_utc': '2026-10-20T11:15:00+03:00'}",
+          "exp": "{'hive': 'NTUSER.DAT', 'anahtar': 'Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run', 'deger_ad': 'Updater', 'deger_turu': 'REG_SZ', 'last_write_utc': '2026-10-20 08:15:00', 'kapsam': 'anahtar-last-write'}"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu15:5 gorev «2 · MFT SI/FN ve LNK zamanlarını ayrı ko»",
+      "lesson": "pu15",
+      "status": "ERROR",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.437,
+      "error": {
+        "type": "KeyError",
+        "msg": "'data_depo'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu15:7 gorev «3 · UTC olayları ve çelişkileri ayrı rap»",
+      "lesson": "pu15",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.466,
+      "checks_passed": 14,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu16:2 tahmin «Hangi SUID satırı eyleme dönük bulgudur?»",
+      "lesson": "pu16",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.365,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu15:7 gorev «3 · UTC olayları ve çelişkileri ayrı rap»",
+      "lesson": "pu15",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.453,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "`registry_izleri` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "registry_izleri"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu16:3 gorev «1 · SUID/SGID ve capability güvenlik sın»",
+      "lesson": "pu16",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.471,
+      "checks_passed": 26,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu16:3 gorev «1 · SUID/SGID ve capability güvenlik sın»",
+      "lesson": "pu16",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.555,
+      "checks_passed": 6,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "SUID/SGID sahip, grup ve değiştirme sınırları",
+          "got": "[]",
+          "exp": "[('SGID:/opt/pafta/legacy-sgid', 'yuksek'), ('SUID:/opt/pafta/replace-root', 'kritik'), ('SUID:/opt/pafta/root-report', 'kritik')]"
+        },
+        {
+          "ok": false,
+          "msg": "dosya/süreç, e/p ve kullanıcı ad alanı ayrımı",
+          "got": "[]",
+          "exp": "[('CAP-DOSYA:/opt/pafta/identity:cap_setuid', 'kritik'), ('CAP-DOSYA:/opt/pafta/permitted:cap_setuid', 'yuksek'), ('CAP-DOSYA:/opt/pafta/reader:cap_dac_override', 'yuksek'), ('CAP-SUREC:620:cap_dac_override', 'orta'), ('CAP-SUREC:730:cap_sys_admin', 'kritik')]"
+        },
+        {
+          "ok": false,
+          "msg": "üst dizinden değiştirme eşdeğer önkoşul",
+          "got": "[]",
+          "exp": "['SUID:/opt/pafta/root-report']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu16:4 gorev «2 · sudo kullanıcı/grup, kimlik doğrulam»",
+      "lesson": "pu16",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.506,
+      "checks_passed": 18,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu16:4 gorev «2 · sudo kullanıcı/grup, kimlik doğrulam»",
+      "lesson": "pu16",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.502,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kullanıcı/grup, root hedefi, parola, NOEXEC ve argüman kararları",
+          "got": "[]",
+          "exp": "[('SUDO:S1', 'kritik'), ('SUDO:S2', 'yuksek'), ('SUDO:S3', 'yuksek'), ('SUDO:S6', 'yuksek'), ('SUDO:S7', 'orta')]"
+        },
+        {
+          "ok": false,
+          "msg": "üye olunmayan %operators kuralı uygulanmaz",
+          "got": "[]",
+          "exp": "['SUDO:S1', 'SUDO:S2', 'SUDO:S6', 'SUDO:S7']"
+        },
+        {
+          "ok": false,
+          "msg": "parola koşulu önceliği düşürür",
+          "got": "[]",
+          "exp": "['yuksek']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu16:5 gorev «3 · cron/systemd betiği ve PATH hijack ö»",
+      "lesson": "pu16",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.551,
+      "checks_passed": 20,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "purple/pu17:2 tahmin «UTF-16LE kodlaması neden önemli?»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "ok",
+      "seconds": 0.471,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu16:5 gorev «3 · cron/systemd betiği ve PATH hijack ö»",
+      "lesson": "pu16",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.505,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "aktif ayrıcalıklı iş, betik ve PATH kararları",
+          "got": "[]",
+          "exp": "[('IS:J1:path-yazilabilir:/opt/shared/bin', 'kritik'), ('IS:J2:betik', 'kritik'), ('IS:J6:betik', 'kritik'), ('IS:J8:path-goreceli:./tools', 'orta'), ('IS:J9:path-goreceli:<bos>', 'orta')]"
+        },
+        {
+          "ok": false,
+          "msg": "üst dizinden betik değiştirme yakalanır",
+          "got": "[]",
+          "exp": "['IS:J2:betik']"
+        },
+        {
+          "ok": false,
+          "msg": "root olmayan hizmet hesabı kritik değil",
+          "got": "[]",
+          "exp": "['yuksek']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu17:3 gorev «1 · Biçimi katı kurallarla ayrıştır»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.47,
+      "checks_passed": 32,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu17:3 gorev «1 · Biçimi katı kurallarla ayrıştır»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.472,
+      "error": {
+        "type": "KeyError",
+        "msg": "'surum'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "NTLM 32 hex",
+          "got": "{'tur': 'bilinmiyor', 'digest': '8846f7eaee8fb117ad06bdd830b7586c'}",
+          "exp": "{'tur': 'ntlm', 'digest': '8846f7eaee8fb117ad06bdd830b7586c'}"
+        },
+        {
+          "ok": false,
+          "msg": "hex normalize edilir",
+          "got": "{'tur': 'bilinmiyor', 'digest': '8846F7EAEE8FB117AD06BDD830B7586C'}",
+          "exp": "{'tur': 'ntlm', 'digest': '8846f7eaee8fb117ad06bdd830b7586c'}"
+        },
+        {
+          "ok": false,
+          "msg": "bcrypt 22 salt + 31 digest",
+          "got": "{'tur': 'bilinmiyor', 'digest': '$2a$05$CCCCCCCCCCCCCCCCCCCCC.E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW'}",
+          "exp": "{'tur': 'bcrypt', 'surum': '2a', 'cost': 5, 'salt': 'CCCCCCCCCCCCCCCCCCCCC.', 'digest': 'E5YPO9kmyuRGyh0XouQYb4YMJKvyOeW'}"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu17:6 gorev «3 · Aracın doğru modunu seç»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.33,
+      "checks_passed": 28,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu17:4 gorev «2 · Shadow alanlarından salt ve cost bul»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.432,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "`ozet_ayristir` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "ozet_ayristir"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu17:4 gorev «2 · Shadow alanlarından salt ve cost bul»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.435,
+      "checks_passed": 22,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu17:6 gorev «3 · Aracın doğru modunu seç»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.341,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "araç ve biçim modu: ('hashcat', 'ntlm')",
+          "got": "'crypt'",
+          "exp": "'1000'"
+        },
+        {
+          "ok": false,
+          "msg": "kurulu sürüm/derleme desteği doğrulanır",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "araç ve biçim modu: ('hashcat', 'bcrypt')",
+          "got": "'crypt'",
+          "exp": "'3200'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "purple/pu17:8 gorev «4 · Kaynak bağlamı, politika eşiği ve öz»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "pass",
+      "seconds": 0.385,
+      "checks_passed": 32,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "purple/pu17:8 gorev «4 · Kaynak bağlamı, politika eşiği ve öz»",
+      "lesson": "pu17",
+      "status": "PASS",
+      "runner": "purple",
+      "runner_status": "fail",
+      "seconds": 0.373,
+      "error": {
+        "type": "KeyError",
+        "msg": "'bulgular'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "32 hex tek başına NTLM kanıtı değildir",
+          "got": "{'tur': 'ntlm', 'parola_dogrulandi': True}",
+          "exp": "{'tur': 'belirsiz-32hex', 'kaynak': 'bilinmiyor', 'bulgular': ['algoritma-baglamla-dogrulanmadi'], 'parametreler': {}, 'parola_dogrulandi': False}"
+        },
+        {
+          "ok": false,
+          "msg": "32 hex tek başına NTLM kanıtı değildir",
+          "got": "{'tur': 'ntlm', 'parola_dogrulandi': True}",
+          "exp": "{'tur': 'belirsiz-32hex', 'kaynak': 'linux-shadow', 'bulgular': ['algoritma-baglamla-dogrulanmadi'], 'parametreler': {}, 'parola_dogrulandi': False}"
+        }
+      ]
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "",
+  "counts": {
+    "PASS": 114,
+    "ERROR": 3
+  },
+  "finished_utc": "2026-10-27T17:54:18.187472+00:00",
+  "source_sha256": {
+    "tracks/purple/lessons/pu01-attack-kapsam.md": "9590679f187c2915021994732dd34d8216f3a2d671fb5ef4ff3cc3dcb735d8aa",
+    "tracks/purple/lessons/pu02-olay-mudahale.md": "adea74d8fa892d086f56753b57c170a342dcae746bbd570d83b5a6fae9a61bf9",
+    "tracks/purple/lessons/pu03-velociraptor.md": "4a79540bbecf5a89ffd784bff038380f8fbac2158c56fc78465f778f5e0820bb",
+    "tracks/purple/lessons/pu04-misp-yasam-dongusu.md": "361f37edd37e41a4b51562c9c96b4dacf747ae0dec6039e55b81afeab1c1dd66",
+    "tracks/purple/lessons/pu05-ioc-avcilik.md": "f60884100093322e785a9494f5fe559e6c95fcb7859974ec05b441f136091532",
+    "tracks/purple/lessons/pu06-sertlestirme-asr.md": "9701779e2979908ba96c390807da672fc0909c5f46833c277508703ac2a82da3",
+    "tracks/purple/lessons/pu07-applocker-politika.md": "d53e53c00e7c293310815d8236d65842bbd095efa6414f16fa03e68320f3a4c3",
+    "tracks/purple/lessons/pu08-cloudtrail-kayit.md": "63efb71254fb082cedfed53890fa464363de05654cbb104487a04e1299828a34",
+    "tracks/purple/lessons/pu09-entra-korelasyon.md": "d4935f17b719ecf47f830d31621bf7189abd7594fe6ee76e5a24e0bb5a5cf59d",
+    "tracks/purple/lessons/pu10-bellek-analizi.md": "da7a7ac550670b1c11af979d642b2751bf5960d7b0c5661658f896bf0b659cbb",
+    "tracks/purple/lessons/pu11-web-uygulama-guvenligi.md": "c5348d1d6ecf03a9a22cb70b021dafd9a8acd5e13183ad2d927a62b410eda4ee",
+    "tracks/purple/lessons/pu12-saldiri-zinciri-analizi.md": "6a3230e805c0180b798f7798971682da21a871e928d00055fcdd88eb46d45636",
+    "tracks/purple/lessons/pu13-atomic-caldera-rakip-oykunmesi.md": "bb5fadc457145b76c4ec6cd24504f0033e78d9e1b858467c369acefeefceef49",
+    "tracks/purple/lessons/pu14-oltalama-email-analizi.md": "56fee61e3c93d7c8d2c113c7ff5fde04f47e7b693adaf95ef42b0ffefb6b8966",
+    "tracks/purple/lessons/pu15-windows-adli-izler.md": "ddf087b5f4cd3d77521fdd4ff1018f319487e1176f4453bebdf3f3de3932e344",
+    "tracks/purple/lessons/pu16-linux-yetki-yukseltme-analizi.md": "87348c0706e3ed4e6be7bf99319d856e1cee5a9cd3f510959de0cb55ec7746ec",
+    "tracks/purple/lessons/pu17-parola-ozeti-bicimleri.md": "e652ed123b54bd29b93a623e1578359231bd19405ca0e4c24d5127d4afbf7d9b"
+  }
+}

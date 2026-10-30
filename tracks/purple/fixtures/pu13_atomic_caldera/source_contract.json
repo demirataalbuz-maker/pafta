@@ -1,0 +1,22 @@
+{
+  "uyari": "YAML dosyalarından ders için elle çıkarılmış sözleşme dizinidir; araç çıktısı değildir.",
+  "atomics": {
+    "7f2f9c88-73f4-4e8c-b5fd-18a0c13a9201": {
+      "technique": "T1059.001",
+      "platforms": ["windows"],
+      "executors": ["powershell"],
+      "required_arguments": ["output_file"],
+      "prerequisites": ["powershell-present"],
+      "cleanup_declared": true
+    }
+  },
+  "abilities": {
+    "9b7b3e20-98ec-4c2c-a3db-18a0c13a9202": {
+      "technique": "T1059.001",
+      "tactic": "execution",
+      "platforms": ["windows"],
+      "executors": ["psh"],
+      "cleanup_declared": true
+    }
+  }
+}

@@ -81,7 +81,7 @@ class ImpacketLessons(unittest.TestCase):
         self.assertLess(order.index("p78"), order.index("p79"))
         for lid in IDS:
             les = LIB.lesson("python", lid)
-            self.assertEqual(len(steps(lid, "gorev")), 2)
+            self.assertEqual(len(steps(lid, "gorev")), 4 if lid == "p78" else 2)
             self.assertEqual(len(steps(lid, "tahmin")), 1)
             self.assertTrue(all(s["meta"]["backend"] == "wsl" for s in les["steps"]))
             path, = (ROOT / "tracks/python/lessons").glob(lid + "-*.md")
@@ -107,7 +107,10 @@ class ImpacketLessons(unittest.TestCase):
                 with self.subTest(lid=lid, title=st["title"]):
                     result = runner(st).test(st["solution"], st)
                     self.assertEqual(result["status"], "pass", result)
-                    self.assertGreater(len(result["checks"]), 10)
+                    if lid == "p78" and st["title"] == "Eksik paket ile eksik API'yi ayır":
+                        self.assertEqual(len(result["checks"]), 8)
+                    else:
+                        self.assertGreater(len(result["checks"]), 10)
                     bad = runner(st).test(st["starter"], st)
                     self.assertIn(bad["status"], ("fail", "error"), bad)
 

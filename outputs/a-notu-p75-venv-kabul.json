@@ -1,0 +1,21 @@
+{
+  "backend": "real Kali Python / pip / venv / local wheels",
+  "references_passed": 2,
+  "mutants_rejected": 3,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "missing --no-index",
+      "status": "rejected"
+    },
+    {
+      "mutation": "lexical version ordering",
+      "status": "rejected"
+    },
+    {
+      "mutation": "inverted downgrade comparison",
+      "status": "rejected"
+    }
+  ],
+  "scope": "Targeted non-equivalent regressions, not an exhaustive mutation score."
+}

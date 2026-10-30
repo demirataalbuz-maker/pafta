@@ -234,7 +234,10 @@ def main():
     args = parser.parse_args()
     lib = Library()
     tasks = [(f'{lid}:{i}', step) for lid in lib.outline('elastic')['order'] if not args.lessons or lid in args.lessons
-             for i, step in enumerate(lib.lesson('elastic', lid)['steps']) if step['kind'] == 'gorev']
+             for i, step in enumerate(lib.lesson('elastic', lid)['steps']) if step['kind'] == 'gorev'
+             and json.loads(step.get('stdin', '{}')).get('backend') != 'elastic']
+    if args.lessons and not tasks:
+        parser.error('Gerçek API dersleri için tools/audit_elastic_native.py kullanın; bu araç EL01–EL19 içindir.')
     runner = get('elastic')
     with ThreadPoolExecutor(max_workers=4) as pool:
         baseline = list(pool.map(lambda pair: (pair[0], runner.test(pair[1]['solution'], pair[1])), tasks))

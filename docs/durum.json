@@ -86,15 +86,16 @@
    "not": "PCRE2 motoru + RX23"
   },
   "Python: Scapy ile paket kaydını Python'dan okumak ve üretmek": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "commit": "9128368 (P80, okuma)",
-   "not": "P80 okuma dersi Yazar 2'de denetime hazır. Kalan: Scapy ile paket ÜRETME ve wrpcap + TShark doğrulaması dersi (1 ders/2 görev); Yazar 2'de güvenlik filtresine takıldı. Ölçümler: Kali Scapy 2.7.0, TShark 4.6.6; MAC/IP açıkça verilmeli (yoksa uyarı ve makineye bağlı adres)"
+   "durum": "bitti",
+   "kim": "Yazar 2 (P80 okuma) · Yazar 1 (P81 üretme)",
+   "commit": "9128368, fc11f0d",
+   "not": "Denetlendi (25-10, Denetçi · Yazar 2): iki ortamda validate temiz, tahminler uyuşuyor, 3 yanlış çözüm reddedildi"
   },
   "Python: ctypes ile native API/ABI okuma ve küçük çağrılar": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; 2 ders/4 görev hiç yazılmadı. Ölçümler: Win64 Python 3.11 c_long 4, c_void_p 8, c_wchar 2; FileTimeToSystemTime 0x7FFFFFFFFFFFFFFF → 30828-09-14, 0x8000... → hata 87; get_last_error başarıdan sonra sıfırlanmaz; Kali gcc 16.2 long 8; struct {char,int32,double,uint16} 24 bayt (0/4/8/16); restype verilmeyen int64 dönüşü 32 bite kırpılır; c_int32(2**31) sessizce -2**31; Python 3.14'te _pack_ uyarı verir"
+   "durum": "bitti",
+   "kim": "Yazar 1 (P82–P83)",
+   "commit": "fc11f0d",
+   "not": "Denetlendi (25-10, Denetçi · Yazar 2): A40 bulundu ve düzeltildi (imza kontrolü yalnız kaynak metnindeydi, yorumla geçiliyordu); c_void_p kontrolü kaynakta kalıyor, görevin dönüşü kırpılmayı göstermiyor"
   },
   "Bash: rwx sonrası POSIX ACL ve Linux capabilities": {
    "durum": "denetime-hazir",
@@ -121,44 +122,52 @@
    "not": "PS26; Pester 5.9.0 .deps\\psmodules'e (tools/pester_kur.ps1: SHA-256 + imzacı parmak izi doğrulamalı); runners.py PowerShell koşucusuna PSModulePath. Görevler mutasyon testli"
   },
   "PowerShell: Gerçek PSSession yaşam döngüsü ve uzak çıktı": {
-   "durum": "atlandi",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Yazar 2'de; WinRM için bir kez yönetici onayı (UAC) bekliyor; yalnız localhost dinleyici"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "PS29; WinRM'siz çözüldü: PowerShell 7.6.8 taşınabilir paketi (.deps/pwsh, sha256 b9f074f9..., tools/pwsh7_kur.ps1) ve New-PSSession -UseWindowsPowerShell ile gerçek oturum, ayrı süreç ve gerçek serileştirme; yönetici, servis, ağ dinleyicisi ve başlangıç girdisi yok. Uzak makineye bağlanma ve Disconnect/Reconnect WinRM gerektirdiği için dersin dışında (anlatımda belirtildi)"
   },
   "HTTP ve HTML: SSRF, URL ayrıştırıcı farkları ve yönlendirme (301/302/307) zinciri": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Excel'de Antigravity (10-24 03:33'te HT16 commit etti, aktif olabilir)"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "HT22; iki yerel hizmet, her hopta origin kontrolu, 301/302/307 sinirlari. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "4f6ad7d"
   },
   "C: Heap sahipliği, alias ve realloc başarısızlığını izlemek": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı (heap/ASan konusu); ders yazılmadı. Excel'de zaten Codex"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C14; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. sahiplik/alias/sarkma, realloc sözleşmesi ve p=realloc(p,n) sızıntısı; ölçülen kenar durumlar realloc(p,0), malloc(0), free(NULL); tanımsız davranış için tek çıktı tahmini yok. C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "2b4dc17"
   },
   "C: POSIX fd, kısa I/O ve hata akışı": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Yazar 2'de güvenlik filtresine takıldı; ders yazılmadı. Ölçümler (Kali gcc 16.2): pipe'ta 7 bayta 64 istenince read 7; yazan uç kapanınca 0; okuyucusuz pipe'a write -1 EPIPE (SIGPIPE yok sayılınca); kapalı fd'de read -1 EBADF; engellemeyen socketpair'e 1 MB write kısa, ikincisi -1 EAGAIN"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C15; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. read/write dönüşü gerçekleşendir; ölçülen 100 bayt→64+36+0, iki write(3)+read(10)→6 (pipe bayt akışı), EPIPE(32), EBADF(9); tam okuma döngüsü. C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "2b4dc17"
   },
   "C: Yol adı ile açılmış dosya nesnesi arasındaki güven sınırı": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C16; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. stat/lstat/fstat, TOCTOU aralığı, önce aç sonra fstat ile doğrula, openat; ölçülen O_NOFOLLOW yalnız son bileşeni kapsıyor (ELOOP 40), ara bileşen bağ olsa da açılıyor. C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "cfe268d"
   },
   "Assembly: ELF/PE yükleyici bağlamı ve adres türlerini okumak": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS13; okuma düzeyi korundu (assembly okunur, görevler Python'da modellenir), gercek blokları Kali binutils 2.47 / nasm 3.01 ve gerçek ntdll.dll üzerinde ölçüldü. ölçülen: LOAD segmentleri (0x1000->0x401000), kare VA 0x401106 -> dosya ofseti 0x1106, .o'da adres yerine R_X86_64_PLT32 yer değiştirmesi, gerçek ntdll .text VMA 0x180001000 / ham ofset 0x1000 (ImageBase 0x180000000). RVA ile ham ofsetin çakışmasının rastlantı olduğu vurgulandı. asm yolu 15 ders/77 kontrol temiz; mutasyon as13 8/8, as14 7/7, as15 8/8.",
+   "commit": "c0ef467"
   },
   "Assembly: x86-32 cdecl/stdcall çağrı kurallarını okumak": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS14; okuma düzeyi korundu (assembly okunur, görevler Python'da modellenir), gercek blokları Kali binutils 2.47 / nasm 3.01 ve gerçek ntdll.dll üzerinde ölçüldü. ölçülen (gcc -m32 -O0): push 0x3/0x2/0x1 + call + add esp,0xc (cdecl, çağıran temizler, düz ret c3); push 0x5/0x4 + call ve temizlik yok (stdcall, callee ret 0x8 = c2 08 00). asm yolu 15 ders/77 kontrol temiz; mutasyon as13 8/8, as14 7/7, as15 8/8.",
+   "commit": "c0ef467"
   },
   "Assembly: x86-64 syscall (0f 05) ABI'si ve Windows ntdll sistem çağrısı şablonunu okumak": {
-   "durum": "",
-   "kim": "Claude (Yazar 2) · sırada",
-   "not": "Kullanıcı ile Codex arasındaki paylaşımda Yazar 2'ye ayrıldı (10-24); başlarken 'calisiliyor' yapılacak"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS15; okuma düzeyi korundu (assembly okunur, görevler Python'da modellenir), gercek blokları Kali binutils 2.47 / nasm 3.01 ve gerçek ntdll.dll üzerinde ölçüldü. ölçülen: nasm ile Linux write/exit (0f 05, rax numara); gerçek ntdll stub'ı mov r10,rcx / mov eax,0xf / test 0x7ffe0308 / syscall / ret / int 0x2e. Dördüncü argümanın rcx yerine r10 olmasının nedeni (syscall rcx ve r11'i ezer) açıklandı. asm yolu 15 ders/77 kontrol temiz; mutasyon as13 8/8, as14 7/7, as15 8/8.",
+   "commit": "c0ef467"
   },
   "Java: Spring Data JPA ve transaction proxy akışı": {
    "durum": "denetime-hazir",
@@ -179,64 +188,76 @@
    "not": "JS13; Express 5.3.0 .deps/npm'e (tools/js_bagimlilik_kur.py, kilit dosyası tools/js_bagimliliklar, npm ci --ignore-scripts); javascript koşucusuna NODE_PATH"
   },
   "Java: Serialization nesne grafiği, callback ve filtre sınırlarını okumak": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JV14; okuma düzeyi korundu, gercek blokları OpenJDK 25.0.4te ölçüldü. Ölçülen: okurken sınıfın kendi kurucusu çalışmıyor ama Serializable olmayan üst sınıfınki çalışıyor; readObject başında alanlar boş; filtre eşikleri dahil (maxdepth=3 kabul / 2 ret, maxarray=5 kabul / 4 ret); ilk eşleşen kalıp karar veriyor; ret InvalidClassException (REJECTED). Java yolu 14 ders/72 kontrol temiz; mutasyon 9/10 (biri eşdeğer).",
+   "commit": "9595373"
   },
   "C#: Nesne grafiği serializer'larında güvenilmeyen veri akışı": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "CS15; okuma düzeyi korundu (C# kodu okunur, görevler Python'da modellenir), gercek blokları Windows .NET 8.0.31'de birebir ölçüldü. ölçülen: BinaryFormatter .NET 8'de derleme hatası + NotSupportedException; System.Text.Json türü veriye seçtirmiyor ($type tek başına NotSupportedException), [JsonDerivedType] ile kapalı liste dışındaki gerçek alt sınıf bile JsonException. API'nin kapalılığı saklanmadı, binder çözüm diye sunulmadı. C# yolu 17 ders/87 kontrol temiz; mutasyon cs15 7/7, cs16 8/8, cs17 7/7.",
+   "commit": "24a9ded"
   },
   "PHP: unserialize callback ve autoload grafiğini izlemek": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH12; okuma düzeyi korundu (PHP kodu okunur, görevler Python'da modellenir), gercek blokları Kali PHP 8.4.24'te birebir ölçüldü. unserialize sınıf kurar, __construct çağrılmaz; ölçülen: __unserialize varsa __wakeup hiç çalışmaz, bilinmeyen ad autoload'u tetikler, allowed_classes=false'ta __PHP_Incomplete_Class ve hiç geri çağırma yok, bozuk veri false. allowed_classes 'güvenli yapar' diye sunulmadı. PHP yolu 14 ders/79 kontrol temiz; mutasyon ph12 8/8, ph13 8/8, ph14 10/10.",
+   "commit": "60e5d8d"
   },
   "JavaScript: Prototype pollution: kaynak→kalıtılan özellik→karar": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JS14; görevler gerçek Node'da çalışıyor. ölçülen: JSON.parse __proto__'yu own yapıyor, naif birleşme prototipi kirletiyor, kirli alan Object.keys ve JSON.stringify'da görünmüyor; savunmalar (anahtar süzgeci, null prototipli hedef, freeze, Object.hasOwn) ölçüldü. JS yolu 16 ders/132 kontrol temiz; mutasyon js14 7/7, js15 7/7, js16 8/8.",
+   "commit": "bd37450"
   },
   "Active Directory: Nesne ACL'leri ve etkili yetkilerden erişim yolu çıkarmak": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "AD13–AD15: normalize ACL/grafik + gerçek svc_sql, gerçek kullanıcı token'ı ve Windows AccessCheck; canlı allow/deny değişiminde karar değişiyor. BloodHound CE kurulmadı; grafik sınırı derste açık. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "af22836"
   },
   "Active Directory: Mevcut devir türlerinin üzerine gerçek S4U/bilet akışı ve yapılandırma doğrulaması": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "AD16–AD18: gerçek KDC/S4U ve SMB erişimi; classic/rbcd başarı, missing/blocked ret; gerçek klist ve zaman aralıklı 4769 kanıtı. Nonforwardable RBCD özel durumu ayrıca doğrulanmış değildir. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "df2bc40"
   },
   "Active Directory: AD CS ve sertifika şablonu/izin denetimi": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "AD19–AD21: gerçek AD öznitelikleri/CA yayım listesi ve test kullanıcısının gerçek CSR'sine issued/pending/denied; enrollment ve değiştirme hakkı ayrımı. Bit alanının canlı birleşik uçları ve CA politikası değişimi sınandı; PKINIT başarısı iddiası yok. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "1cd906d"
   },
   "HTTP ve HTML: Burp Proxy → History → Repeater iş akışı": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "HT17; kalici/resetlenebilir gercek HTTP hedefi. Burp GUI kabul listesi denetimde elle uygulanacak. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "a18fda3"
   },
   "HTTP ve HTML: curl ile HTTPS, CA ve hostname doğrulaması": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "HT18; gercek curl CA/hostname ve HTTP hata ayrimi. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "943e502"
   },
   "HTTP ve HTML: Gerçek tarayıcıda CORS/preflight ve oturuma bağlı CSRF": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "HT19-HT20; gercek Edge CORS/preflight, farkli site SameSite, oturuma bagli CSRF. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "029ad94"
   },
   "HTTP ve HTML: İki hesaplı nesne yetkilendirme matrisi": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "HT21; 12 hucreli okuma/yazma matrisi, yanit ve durum degisimi taniklari. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "dd73bae"
   },
   "HTTP ve HTML: WebSocket el sıkışması (101) ve GraphQL sorgu/yetki okuma": {
-   "durum": "codex-onerildi",
-   "kim": "Codex (önerildi)",
-   "not": "Paylaşımda Codex'e önerildi (10-24): Yazar 2'de güvenlik filtresi riski yüksek"
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "HT23-HT24; gercek TCP/Edge WebSocket, graphql-core 3.3.0 sorgu ve alan yetkisi. Windows ve Git Bash HTTP: 24 ders/175 kontrol temiz; 52 mutasyon reddedildi. Rapor: outputs/codex-http-24-30-teslim.md.",
+   "commit": "62639c8"
   },
   "PowerShell: Offline EVTX ve PowerShell 4104 kayıtlarını incelemek": {
    "durum": "denetime-hazir",
@@ -317,29 +338,232 @@
    "not": "SP22; girdi: alarm (savedsearches.conf), çalıştırma anları cron'dan, dispatch.now + trigger_actions; tetikleme _audit alert_fired, bastırma zamanlayıcı günlüğünden; sabah tam gün yarına kaydırılır (geçmiş tarihli bastırma kayıtları temizleniyordu); özet modu tahmininde ~1/8 açıklanamayan sapma görüldü, notlanan testler 10/10"
   },
   "purple: Rakip öykünmesi: Atomic Red Team / Caldera ile kontrollü teknik çalıştırıp tespiti ölçmek (purple team karşılaştırması, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "codex-opus",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
   },
   "purple: Web uygulama güvenliği uygulaması: IDOR, XSS, SQLi, komut enjeksiyonu, API (purple team karşılaştırması, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "bitti",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
   },
   "purple: Saldırı tarafı laboratuvarı: Windows/Linux yetki yükseltme, AD kimlik doğrulama saldırıları, yatay hareket (purple team karşılaştırması, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "bitti",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı tekniklerinin uygulamalı anlatımı Claude'un güvenlik filtresine takılıyor; Codex'e ya da kullanıcının Web Pentest Lab / Agent Lab tarafına önerildi (10-24)"
   },
   "bitirme: Bitirme tatbikatı (saldırı zinciri): laboratuvarda zinciri canlandırıp kayıtlarını üretmek (Aşama 3, 10-24)": {
-   "durum": "codex-onerildi",
+   "durum": "bitti",
    "kim": "Claude (Denetçi · Yazar 2)",
-   "not": "Saldırı zincirinin uygulanması Claude'un güvenlik filtresine takılıyor; Codex/Opus 4.8'e önerildi (10-24)"
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25); önceki not: Saldırı zincirinin uygulanması Claude'un güvenlik filtresine takılıyor; Codex/Opus 4.8'e önerildi (10-24)"
   },
   "purple: Ağ tespit sistemleri: Suricata kuralları, Zeek günlükleri ve C2 işaretleşmesini tespit (purple team karşılaştırması, 10-24)": {
-   "durum": "calisiliyor",
+   "durum": "denetime-hazir",
    "kim": "Claude (Yazar 2)",
-   "not": "Kullanıcı 10-24'te 'yapabileceğin her şeyi yap' dedi; Suricata ve Zeek WSL'de kurulacak, açılışta başlamayacak"
+   "commit": "(bu commit)",
+   "not": "Yeni yol tracks/ids (5 pafta, runner ids): Suricata 8.0.6 WSL Kali paketi (servis devre dışı, yalnız -r), Zeek 9.0.0 resmi imaj (özetle sabit, --network none); trafik Scapy ile sentetik (sandbox/ids_trafik.py). Ölçülen tuzaklar: nocase/endswith, dotprefix, content:! + endswith, NXDOMAIN yanıtında track by_dst, detection_filter/threshold, Zeek'te ?$ olmadan reporter.log hatası, == ile tek NOTICE. Gerçek olay PCAP'leri yok; C2 işaretleşmesi ve Suricata SSH kuralı yazılmadı (SSH uygulama katmanı alarmı aynı akışta tekrarlıyordu)"
+  },
+  "Elastic: Gerçek telemetri alımı, ECS ve ingest eşlemesi": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "bd44e96",
+   "not": "EL20–EL21: gerçek alt süreç gözlemi NDJSON, native ingest/simulate/bulk; strict mapping, 32/64 bit ve tarih sınırları. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+  },
+  "Elastic: EQL işlevleri ve mevcut alt kümenin dışında kalan sorgular için gerçek backend": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "e3dab5e",
+   "not": "EL22–EL23: gerçek EQL API; functions, baştaki eksik olay, by/maxspan/until. Altı eski tahmin gerçek üründe aynı. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+  },
+  "Elastic: KQL/EQL sorgusunu Elastic Security tespit kuralı olarak işletmek": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "c923b11",
+   "not": "EL24–EL25: gerçek query/EQL/threshold ve exception list; preview ayrımı. Task Manager üç türde operational alarm verdi; ikinci pencerede query/EQL yinelenmedi. Öğrenci kendi JSON dosyasını canlı araçla çalıştırabilir. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+  },
+  "Elastic: ES|QL ile toplama ve olay tablosunu dönüştürme": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "ebfe74c",
+   "not": "EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+  },
+  "purple: MITRE ATT&CK ile tespit kapsamı haritası: tekniği kurala eşlemek, Navigator katmanı, boşluk listesi (purple team karşılaştırması, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "Yeni yol tracks/purple (runner purple = Python + attack.json). PU01: resmi MITRE ATT&CK Enterprise 19.2 (attack-stix-data, sha256 dc1639ca...) özetiyle (tools/attack_ozet.py): Sigma etiketinden tekniğe, emekli (T1086→T1059.001) / kullanım dışı, taktik başına kapsam, Navigator katmanı, öncelik listesinden boşluk. Navigator'a yükleme denenmedi (versions alanı yok)"
+  },
+  "purple: Olay müdahale süreci: doğrula, kapsamla, sınırla, temizle; playbook ve olay zaman çizelgesi (purple team karşılaştırması, 10-24)": {
+   "durum": "bitti",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "PU02 (purple yolu): IR adımları; yerel saatli CSV + UTC ISO + epoch kaynaklarından tek UTC zaman çizelgesi, ad normalleştirme, başlangıçtan itibaren cihaz-hesap kapsamlama. Sınırlama/temizleme ve playbook yazımı uygulamalı değil (anlatımda); rapor 104'te"
+  },
+  "purple: Uç nokta avcılığı: Velociraptor ve osquery ile canlı sorgu ve kalıcılık taraması (purple team karşılaştırması, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "PU03: Velociraptor 0.77.3 resmi Linux ikilisi (sha256 c2c4eb58..., .deps/velociraptor, WSL'de velociraptor query) ile laboratuvar disk kopyasında VQL avcılığı: başlangıç klasörleri, olay penceresi ve SHA256. Ölçülen: glob ve =~ büyük-küçük harfe duyarsız. osquery ve canlı uç nokta sorgusu yazılmadı (canlı tablolar tekrarlanabilir değil)"
+  },
+  "Elastic: ES": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "commit": "ebfe74c",
+   "not": "Madde 44: Excel satırının adı ES|QL içindeki ayraç nedeniyle Elastic: ES diye kesilmiş; Excel değiştirilmedi. EL26–EL27: gerçek _query, WHERE/EVAL/STATS/SORT/KEEP, null/eksik ölçüm/çok değerli gruplar. ES|QL anahtarı yalnız ders indeksini okur. Ortak gerçek Elasticsearch/Kibana 9.5.5 Basic; 27 ders/170 kontrol (Windows ve Git Bash özel yol taramaları temiz), 16 yeni görev/106 mutasyon: 105 ret, 1 kanıtlı eşdeğer, zayıf test yok; 10 runtime testi ve 21 UI testi temiz. İki tam tarama tamamlandı (471 ders/3931 kontrol): Elastic iki ortamda temiz; Windows 6 PowerShell, Git Bash 9 PowerShell + 1 Splunk bulgusu. Diğer yollara dokunulmadı. Rapor outputs/codex-elastic-asama2-teslim.md. Push yok."
+  },
+  "Active Directory: Gerçek LDAP bağlantısında TLS, imzalama ve channel binding": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "AD22–AD23: gerçek OpenLDAP/Impacket; CA/ad doğrulamalı LDAPS, zorunlu StartTLS, signed/unsigned ve valid/none/wrong CBT. Gerçek bağlantı ve beklenmeyen sonuç sınırları sınandı. AD: Windows taraması + AD15/AD21 hedefli tekrar temiz; Git Bash 23 ders/156 kontrol temiz. Toplam 46 mutasyon reddi, 11 ek tahmin doğru; API ve süreç testleri temiz. Evaluation internet etkinleştirmesi bakım gereği olarak bekliyor. Rapor: outputs/codex-ad-60-63-teslim.md.",
+   "commit": "9832298"
+  },
+  "Java: Şablon motorlarında (Thymeleaf / FreeMarker) bağlam, otomatik kaçış ve ifadeleri okumak": {
+   "durum": "bitti",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25) | Claude (Yazar 1): m2 önbelleğinde spring-security/thymeleaf/freemarker yok; Maven indirmesi için kullanıcı onayı bekleniyor. Madde 67 (JV14) 9595373te bitti."
+  },
+  "C#: XML ayrıştırıcı ayarlarında (XmlReaderSettings / DtdProcessing) DTD ve dış varlık sınırlarını okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "CS17; okuma düzeyi korundu (C# kodu okunur, görevler Python'da modellenir), gercek blokları Windows .NET 8.0.31'de birebir ölçüldü. ölçülen: varsayılan DtdProcessing.Prohibit; Prohibit ve Ignore XmlException; Parse + çözücüsüz DIŞ varlık hata vermeden sessizce boş geliyor; dış kaynak için Parse ve XmlResolver birlikte gerekiyor; XmlResolver yalnız yazılabilir. C# yolu 17 ders/87 kontrol temiz; mutasyon cs15 7/7, cs16 8/8, cs17 7/7.",
+   "commit": "24a9ded"
+  },
+  "C: Çalışma zamanında dinamik sembol çözme (dlopen/dlsym ve LoadLibrary/GetProcAddress) akışını okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "C17; okuma düzeyi korundu (C kodu okunur, görevler Python'da modellenir), gercek blokları Kali gcc 16.2.0'da birebir ölçüldü. dlopen/dlsym/dlerror protokolü, RTLD bayrakları, LoadLibrary/GetProcAddress karşılığı; ölçülen ./ad yüklenir, çıplak ad yüklenmez (çalışma dizini arama sırasında yok). C yolu 17 ders/96 kontrol temiz; mutasyon c14 7/7, c15 7/7, c16 8/8, c17 6/6.",
+   "commit": "cfe268d"
+  },
+  "PHP: Twig/Blade şablon kaçışı ({{ }} vs {!! !!}) ve parse_url / filter_var doğrulama sınırlarını okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH14; okuma düzeyi korundu (PHP kodu okunur, görevler Python'da modellenir), gercek blokları Kali PHP 8.4.24'te birebir ölçüldü. Blade {{ }} ve {!! !!}, Twig |raw; htmlspecialchars 8.1'den beri tek tırnağı da kaçırıyor; ölçülen: yetkide son @ host'u belirler ve https://good:80@evil/ filter_var'dan geçer, host'u boş adresler parse_url'de false. PHP yolu 14 ders/79 kontrol temiz; mutasyon ph12 8/8, ph13 8/8, ph14 10/10.",
+   "commit": "60e5d8d"
+  },
+  "JavaScript: Browser/SPA içinde postMessage ve ham HTML güven sınırı": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JS15; görevler gerçek Node'da çalışıyor. gerçek tarayıcıda ölçüldü (127.0.0.1 ve localhost farklı köken): hedefOrigin tutmayan mesaj sessizce teslim edilmiyor, e.origin gönderenin kökeni, veri yapılandırılmış kopya, e.source contentWindow'a eşit; innerHTML'de script çalışmıyor ama img onerror ve iframe srcdoc çalışıyor, svg onload çalışmıyor. JS yolu 16 ders/132 kontrol temiz; mutasyon js14 7/7, js15 7/7, js16 8/8.",
+   "commit": "bd37450"
+  },
+  "Assembly: Debugger izi, register/bellek kanıtı ve dolaylı çağrı hedefi": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "AS16; GDB 17.2 kullanıcı onayıyla kuruldu. Okuma düzeyi korundu, iz gerçek GDB'den. Ölçülen: call rcx noktasında rcx=0x40113a ve info symbol -> carp, rdi=6 rsi=7; GDB AT&T ile 'call *%rcx' yazıyor; stepi sonrası prolog çalışmadığı için GDB argümanları a=0 b=0 gösteriyor; finish 42 veriyor. asm yolu 16 ders/82 kontrol temiz; mutasyon 8/9 (biri eşdeğer).",
+   "commit": "6f1daab"
+  },
+  "purple: Bellek analizi: Volatility 3 / MemProcFS ile süreç, ağ bağlantısı ve enjeksiyon izleri (purple team karşılaştırması, 10-24)": {
+   "durum": "bitti",
+   "kim": "Claude (Denetçi · Yazar 2)",
+   "not": "Codex / Opus 4.8 alacak (kullanıcı 10-25)"
+  },
+  "Sigma: sigma-cli ile gerçek backend ve processing pipeline kullanımı": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SG19: processing pipeline (girdi: pipeline); gerçek pySigma 1.5.1 + Splunk backend 2.1.0 (.deps), gerçek Splunk laboratuvarı; motor: splunk"
+  },
+  "Sigma: Çalıştırılan korelasyon kuralları": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SG20: event_count/value_count; backend korelasyonu sabit bin _time kutusuyla çeviriyor (ölçüldü); gerçek pySigma 1.5.1 + Splunk backend 2.1.0 (.deps), gerçek Splunk laboratuvarı; motor: splunk"
+  },
+  "Sigma: Gerçek olaydan kurala telemetri doğrulaması": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SG21: source::WinEventLog KV_MODE=none tuzağı, 4688 alanları, exists:false tanık kuralı; gerçek pySigma 1.5.1 + Splunk backend 2.1.0 (.deps), gerçek Splunk laboratuvarı; motor: splunk"
+  },
+  "Sigma: İleri modifierları gerçek hedefte uygulamak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 2)",
+   "commit": "(bu commit)",
+   "not": "SG22: modifier'ların Splunk backend çevirisi ve gerçek Splunk davranışı ölçüldü: yalnız base64offset UTF-16LE -enc yükünü kaçırır, wide|base64offset bulur; windash /enc ve tire benzerlerini yakalar; cidr Splunk'ta doğru eşlenir; fieldref harfe duyarlı where'e dönüşür (anlam farkı); cased desteklenmiyor"
+  },
+  "YARA: Dış değişkenler, include ve namespace ile çok dosyalı kural kullanımı": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "YR23: gerçek libyara sources/externals/include_callback, namespace kimliği; include yalnız verilen sözlük. YARA 24 ders/144 kontrol Windows ve Git Bash temiz, 4 bundle testi/10 yeni mutasyon ve 15 eski motor testi temiz. Madde 52 devamında YR24 kaydedilecek.",
+   "commit": "e6d0254"
+  },
+  "YARA: Dosya kümesinde toplu tarama, çıktı ve maliyet ölçümü": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "YR24: gerçek dosya okuma/libyara toplu tarama, eşleşmeyen dosya/timeout ayrımı, ölçülen perf_counter_ns maliyet; sınır korpusu, 4 bundle testi/10 mutasyon reddi; 15 eski motor testi temiz. Windows ve Git Bash YARA 24 ders/144 kontrol temiz. CLI kurulmadı; API dersi.",
+   "commit": "893ae19"
+  },
+  "Active Directory: GPO/SYSVOL yapılandırma dosyalarını (GptTmpl.inf, Groups.xml) ve LAPS özniteliklerini denetlemek": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "AD24–AD25: UTF-16 GptTmpl.inf, Groups.xml SID/eylem/targeting kanıtı, Registry.pol ikili başlık ve LAPS JSON/FILETIME/görünürlük-yetki ayrımı. Beş görev, iki gerçek Python tahmini, 14 mutasyon reddi. Windows ve Git Bash hedefli 2 ders/12 kontrol temiz. Offline kanıt okuma; GPO uygulaması, gerçek LAPS parola döndürme ve BloodHound kabulü iddia edilmez.",
+   "commit": "7fa4b29"
+  },
+  "Java: Gerçek Spring Security zinciri ve method authorization": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "Mevcut JV15 (f915717, Claude) yeniden yazılmadı; depoya pinli security_lab Java/Maven düzeneği ve tools/security_lab.py eklendi. Varsayılan offline, --download kullanıcı onaylı Maven Central paketleri. Gerçek Spring Security 7.0.2 + Framework 7.0.10/JDK21 çıktısının 21 satırı dersle uyuştu; 8 kaynak mutasyonu reddedildi, birebir yol harf durumu tanığı eklendi. Windows/Git Bash Java 16 ders/84 kontrol temiz. Okuma düzeyi korundu.",
+   "commit": "4e70d2c"
+  },
+  "C#: Assembly/CIL ve P/Invoke sınırını okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "CS16; okuma düzeyi korundu (C# kodu okunur, görevler Python'da modellenir), gercek blokları Windows .NET 8.0.31'de birebir ölçüldü. ölçülen: Topla IL 02 03 58 2a, P/Invoke yönteminin gövdesi null ve bayrağı PinvokeImpl; CharSet.Ansi'de ğ/ı sessizce 0x3f oluyor ama uzunluk değişmiyor; handle 32 biti aşıyor, olmayan modülde hata 126. Gerçek yerel kütüphane: kernel32 (Windows PE DLL + Windows dotnet). C# yolu 17 ders/87 kontrol temiz; mutasyon cs15 7/7, cs16 8/8, cs17 7/7.",
+   "commit": "24a9ded"
+  },
+  "PHP: Laravel istek ve yetki zincirini gerçek framework kodunda okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH15; okuma düzeyi korundu (kod okunur, görevler Python'da modellenir), gercek blokları gerçek kurulumda birebir ölçüldü. sağlayıcı boot süreç başına bir kez; ölçülen: yetki denetleyici içindeyken gövde yetkisiz istekte de çalışıyor, rotaya bağlı can ara katmanında girilmiyor (ikisi de 403); 403'te ara katmanın sonra evresi yine çalışıyor; konukta yetenek geri çağrısı hiç çağrılmadan reddediliyor. Laravel 13.38.0 kuruldu. PHP yolu 16 ders/89 kontrol temiz; mutasyon ph15 8/8, ph16 8/9 (kalan eşdeğer).",
+   "commit": "509fd0a"
+  },
+  "PHP: WordPress eklentisi/REST endpoint yetkileri": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH16; okuma düzeyi korundu (kod okunur, görevler Python'da modellenir), gercek blokları gerçek kurulumda birebir ölçüldü. ölçülen: aynı ret anonimde 401 oturumluda 403, WP_Error kendi status'unu (451) herkese dayatıyor, permission_callback verilmezse yalnız _doing_it_wrong uyarısı çıkıp uç nokta anonime 200 dönüyor, geçerli nonce ile yetkisizlik yan yana durabiliyor. WordPress 7.1.3 + MariaDB kuruldu. PHP yolu 16 ders/89 kontrol temiz; mutasyon ph15 8/8, ph16 8/9 (kalan eşdeğer).",
+   "commit": "509fd0a"
+  },
+  "JavaScript: Bundle/source map ile çalışan kodu kaynağa eşlemek": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "JS16; görevler gerçek Node'da çalışıyor. bundle + .map fikstürü VLQ ile üretildi, doğruluğu Node eşlemesiyle kanıtlandı; ölçülen: haritasız bundle.js:1:32, --enable-source-maps ile src/hesap.js:2:16 ve özgün satır metni, fonksiyon adı küçültülmüş kalıyor. JS yolu 16 ders/132 kontrol temiz; mutasyon js14 7/7, js15 7/7, js16 8/8.",
+   "commit": "bd37450"
+  },
+  "purple: Tehdit istihbaratı: MISP, IOC yaşam döngüsü, istihbarattan avcılık sorgusuna (purple team karşılaştırması, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "PU04–PU05: MISP Event.Attribute seçimi, silme/to_ids ve eşik dahil TTL; IOC tür normalleştirme ve gerçek parametrik SQLite avcılığı. Sentetik kayıtlar; MISP sunucusu/decay motoru taklit edilmez. Purple son kabulü: 9 ders/47 kontrol, 6 gerçek tahmin ve 38 reddedilen mutasyon (PU04–09).",
+   "commit": "07e3c5a"
+  },
+  "purple: Sertleştirme ve önleme: LAPS, ASR kuralları, Exploit Guard, AppLocker politika tasarımı (purple team karşılaştırması, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "PU06–PU07: ASR 0/1/2/5/6 kipleri, pilot kapılarının sınırları, LAPS AD25 köprüsü, Exploit Guard katmanları, gerçek XML ile AppLocker koleksiyon/koşul/istisna envanteri ve enforcement kabul kanıtı. Canlı Defender/AppLocker politikası uygulanmaz; eğitim kabul politikası ürün motorundan açıkça ayrılır.",
+   "commit": "2debc74"
+  },
+  "purple: Bulut güvenlik günlükleri: AWS CloudTrail ile Entra ID oturum ve denetim kayıtları (purple team karşılaştırması, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "PU08–PU09: CloudTrail eventID/UTC/rol oturumu/MFA belirsizliği, Graph signIn ve directoryAudit, doğru aktör ve iki eşit uçlu zaman korelasyonu. Gerçek belgelenmiş biçimlerde sentetik çevrimdışı kayıtlar; AWS/Entra aboneliği veya canlı API yok. Purple Windows/Git Bash: 9 ders/47 kontrol; 6 gerçek tahmin, 38 mutant reddi.",
+   "commit": "fb93fa3"
+  },
+  "bitirme: Bitirme tatbikatı (savunma): hazır kayıtlarla uçtan uca olay incelemesi; KQL, SPL, Sigma, paket kaydı ve zaman çizelgesi (Aşama 3, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "BT01–BT04: ortak hash manifestli sentetik vaka, kaynak kimlikli UTC çizelgesi, mevcut Kusto/SPL motorlarında gerçek sorgu değerlendirme, gerçek pySigma/yerel backend, native TShark ve tek inceleme işlevi. 4 ders/20 kontrol Windows ve Git Bash temiz. Yeni runner bitirme; paket/abonelik kurulmadı. Üretim SIEM veya saldırı zinciri üretimi iddia edilmez.",
+   "commit": "e1f59b7"
+  },
+  "bitirme: Olay raporu ve purple team bulgu yazımı: yönetici özeti, zaman çizelgesi, kanıt, tespit boşluğu ve öneri (Aşama 3, 10-24)": {
+   "durum": "denetime-hazir",
+   "kim": "Codex",
+   "not": "BT05–BT06: gözlem/hipotez/bilinmeyen defteri, kanıt referans doğrulama, taşınabilir rapor eki, sorumlu/tarihli tespit boşluğu planı ve eşit uçlu replay kabulü. İnsan metin incelemesi ayrı zorunlu kabul olarak yazıldı. Yol toplam 6 ders/30 kontrol Windows/Git Bash temiz; 6 gerçek tahmin ve 12 görevde 52 mutasyon reddi. Örnek Markdown raporu ve gerçek araç çıktılı replay JSON eklendi.",
+   "commit": "2518fe5"
+  },
+  "PHP: Upload ve stream-wrapper dosya akışını okumak": {
+   "durum": "denetime-hazir",
+   "kim": "Claude (Yazar 1)",
+   "not": "PH13; okuma düzeyi korundu (PHP kodu okunur, görevler Python'da modellenir), gercek blokları Kali PHP 8.4.24'te birebir ölçüldü. $_FILES'ta name/type istemciden; UPLOAD_ERR sıralı değil (5 yok); ölçülen: .jpg adlı PHP dosyasında mime_content_type text/x-php, pathinfo son uzantıyı verir ve harf büyüklüğünü korur, php://filter base64'leyerek okur, allow_url_fopen açık / allow_url_include kapalı. PHP yolu 14 ders/79 kontrol temiz; mutasyon ph12 8/8, ph13 8/8, ph14 10/10.",
+   "commit": "60e5d8d"
   }
  }
 }

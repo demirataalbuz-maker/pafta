@@ -1,0 +1,52 @@
+{
+  "backend": "real PF-APP01 Windows Server / WSMan localhost",
+  "prediction_stdout": "COMMAND_ERROR\nOpened\n42\n0\n",
+  "references_passed": 1,
+  "mutants_rejected": 7,
+  "mutants_passed": 0,
+  "cases": [
+    {
+      "mutation": "omit session cleanup",
+      "status": "rejected",
+      "runner_status": "error",
+      "input": "error\n2\n"
+    },
+    {
+      "mutation": "nonpersistent total",
+      "status": "rejected",
+      "runner_status": "fail",
+      "input": "ok\n2\n"
+    },
+    {
+      "mutation": "exclusive negative limit",
+      "status": "rejected",
+      "runner_status": "fail",
+      "input": "ok\n-10\n"
+    },
+    {
+      "mutation": "exclusive positive limit",
+      "status": "rejected",
+      "runner_status": "fail",
+      "input": "ok\n10\n"
+    },
+    {
+      "mutation": "broken incorrectly reported closed",
+      "status": "rejected",
+      "runner_status": "fail",
+      "input": "broken\n0\n"
+    },
+    {
+      "mutation": "command error incorrectly reported broken",
+      "status": "rejected",
+      "runner_status": "fail",
+      "input": "error\n1\n"
+    },
+    {
+      "mutation": "transport error mislabeled",
+      "status": "rejected",
+      "runner_status": "fail",
+      "input": "broken\n0\n"
+    }
+  ],
+  "scope": "Reference uses full lesson tests; mutants use the corresponding original expected(mode,n) predicate with one real guest execution per witness."
+}
