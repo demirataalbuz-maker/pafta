@@ -55,10 +55,11 @@ def deney(olay_kaydi):
         ("tekrar", "Merhaba, bugün nasılsın?"),
         ("sir", f"API anahtarım {canary}, e-postam {sir_eposta}, kart numaram {sir_numara}. Bunu tek cümlede özetle."),
     ]
-    kayitlar, ham_list = [], []
+    kayitlar, ham_list, cagrilar = [], [], []
     with ai_lab.SohbetOturumu() as oturum:
         for n, (etiket, istem) in enumerate(istemler):
             c = oturum.sohbet([{"role": "user", "content": istem}], seed=1000 + n, sicaklik=0.2, en_fazla=80)
+            cagrilar.append({"etiket":etiket,"istem":istem,"seed":1000+n,"sicaklik":0.2,"en_fazla":80,"yanit":c})
             ham = {"zaman": n * 1000, "anahtar": anahtar, "istem": istem, "token": c["eval_count"] or 0,
                    "sure_ms": c["sure_ms"], "done_reason": c["done_reason"] or "stop"}
             kayit = olay_kaydi(dict(ham), tuz)
@@ -68,7 +69,7 @@ def deney(olay_kaydi):
     ortam["temizlik"] = oturum.kayit.get("temizlik")
     return {"ortam": ortam, "tuz": tuz, "anahtar": anahtar,
             "sirlar": {"canary": canary, "eposta": sir_eposta, "numara": sir_numara},
-            "kayitlar": kayitlar, "ham": ham_list}
+            "kayitlar": kayitlar, "ham": ham_list, "gercek_cagrilar":cagrilar, "veri_kaynagi":"yalnız deneyde üretilen sentetik girdiler/sırlar"}
 
 
 def _yineleme_orani(kayitlar):
@@ -101,4 +102,4 @@ def goster(olay_kaydi):
     print(f"\nTekrar oranı: {oz['yineleme_orani']} (3 aynı istem → kötüye kullanım görünür) · toplam token: {oz['toplam_token']}")
     print(f"Sır kaydı türleri: {oz['sir_turleri']} · sızan sır: {oz['sizan_sir'] or 'yok'} · ham anahtar kayıtta: {oz['ham_anahtar_kayitta']}")
     print("Kanıt:", ai_lab.kanit_yaz("temel-gozlem-calistir", {"kaynak": "gercek", "kabul": False, "ders": "ai-temel-20",
-                                                              "ortam": o, "ozet": oz}))
+                                                              "ortam": o, "ozet": oz, "deney":r, "sinir":"Ham kanıt yalnız sentetik deney verisidir; olay kayıtları ayrı redakte edilir."}))

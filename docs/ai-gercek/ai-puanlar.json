@@ -422,19 +422,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/38 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 271 kelime anlatım · 188 satır test"
+    "yapı": "4 görev · 946 kelime anlatım · 214 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 24,
     "kapsam": 22,
-    "derinlik": 14,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 7
    },
    "ozet": "Plan: Temel ve ince ayarlı modeli aynı test setinde karşılaştırarak davranış kazancını ve güvenlik regresyonunu ölçmeyi öğretir. Görevler: Güvenlik kazancını ve regresyonu karşılaştır / Vaka kimlikleriyle regresyon raporu üret / Sabit eşikli yayın kapısı uygula / Gerçek uyarlayıcılarda eşlenmiş regresyon ve yayın kapısı.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: codex, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -448,8 +451,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: codex); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 76
   },
   {
    "id": "ai-temel-13",
@@ -603,19 +605,27 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/85 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 619 kelime anlatım · 248 satır test"
+    "yapı": "4 görev · 1266 kelime anlatım · 252 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 25,
-    "kapsam": 20,
-    "derinlik": 20,
-    "gerceklik": 9,
+    "kapsam": 21,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 7
    },
    "ozet": "Plan: İstek doğrulama, token sınırı, zaman aşımı, sürekli batching ve akışlı yanıt yaşam döngüsünü üretim tipi yerel sunucularda öğretir. Görevler: Sohbet isteğini bağlam bütçesine göre kabul et / SSE akışını parçalardan yanıta birleştir / Sürekli batching zamanlayıcısını adım adım benzet / Akışı çöz, TTFT'yi ve token sınırını ölç.",
    "eksikler": [
+    {
+     "metin": "Plan 'üretim tipi yerel sunucular' diyor; sürekli batching yalnız benzetim. Gerçek deney Ollama'ya 4 ardışık + 2 eşzamanlı istek; sunucu içi sürekli batching kanıtlanmadı (ders sınırı açıkça yazıyor).",
+     "oncelik": "düşük"
+    }
+   ],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: codex, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -633,8 +643,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "kapsam-disi",
-   "kaynak": "claude-opus ölçümü; bu dersi claude-opus yazdı/düzeltti, puan geçicidir — bağımsız denetçi kesinleştirmeli (yazar: claude)"
+   "onceki_puan": 81
   },
   {
    "id": "ai-temel-18",
@@ -677,19 +686,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/74 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 571 kelime anlatım · 265 satır test"
+    "yapı": "4 görev · 1101 kelime anlatım · 307 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 25,
     "kapsam": 22,
-    "derinlik": 20,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 7
    },
    "ozet": "Plan: Model ve veri kartlarındaki kullanım sınırlarını kaynak, sürüm ve bütünlük kanıtlarıyla ilişkilendirmeyi öğretir. Görevler: Git LFS işaretçisini içerikle doğrula / Safetensors başlığını yüklemeden denetle / Kart sınırlarını sürüm ve özet kanıtıyla birleştir / Önbellekteki model dosyalarını Hub kaydıyla doğrula.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: codex, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -703,8 +715,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "kapsam-disi",
-   "kaynak": "claude-opus ölçümü; bu dersi claude-opus yazdı/düzeltti, puan geçicidir — bağımsız denetçi kesinleştirmeli (yazar: claude)"
+   "onceki_puan": 83
   },
   {
    "id": "ai-temel-20",
@@ -714,19 +725,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/85 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 721 kelime anlatım · 192 satır test"
+    "yapı": "4 görev · 1410 kelime anlatım · 204 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 24,
     "kapsam": 22,
-    "derinlik": 20,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 7
    },
    "ozet": "Plan: Kimlik doğrulama, hız sınırlama ve gizliliği koruyan kayıtlarla API kötüye kullanımını görünür kılmayı öğretir. Görevler: Bearer başlığını katı ayrıştır ve özeti sabit zamanlı karşılaştır / Anahtar başına jeton kovasıyla 429 ve Retry-After üret / Takma adlı olaylardan kötüye kullanım alarmları çıkar / Gizliliği koruyan gözlemlenebilirlik kaydı.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: codex, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -740,8 +754,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "kapsam-disi",
-   "kaynak": "claude-opus ölçümü; bu dersi claude-opus yazdı/düzeltti, puan geçicidir — bağımsız denetçi kesinleştirmeli (yazar: claude)"
+   "onceki_puan": 82
   },
   {
    "id": "ai-temel-21",
@@ -1072,19 +1085,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/15 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 500 kelime anlatım · 317 satır test"
+    "yapı": "4 görev · 949 kelime anlatım · 324 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 25,
     "kapsam": 22,
-    "derinlik": 18,
-    "gerceklik": 10,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 9
    },
-   "ozet": "Plan: Gizli sistem talimatlarının doğrudan ve dolaylı çıkarım yollarını sistematik olarak değerlendirmeyi öğretir. Görevler: Düz, normalize ve Base64 sızıntısını ayırt et / İç içe deney kaydındaki bütün sırları maskele / Doğrudan ve dolaylı extraction sonuçlarını raporla / Promptfoo extraction sonuçlarını sınıflandır ve güvenle kaydet. Denetçi: Gerçek Promptfoo kampanyası koşuyor.",
-   "eksikler": [
+   "ozet": "Plan: Gizli sistem talimatlarının doğrudan ve dolaylı çıkarım yollarını sistematik olarak değerlendirmeyi öğretir. Görevler: Düz, normalize ve Base64 sızıntısını ayırt et / İç içe deney kaydındaki bütün sırları maskele / Doğrudan ve dolaylı extraction sonuçlarını raporla / Promptfoo extraction sonuçlarını sınıflandır ve güvenle kaydet.",
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: claude-yazar, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -1098,8 +1114,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: codex); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 84
   },
   {
    "id": "ai-saldiri-07",
@@ -1377,19 +1392,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/22 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 400 kelime anlatım · 301 satır test"
+    "yapı": "4 görev · 914 kelime anlatım · 308 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 25,
     "kapsam": 22,
-    "derinlik": 18,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 9
    },
    "ozet": "Plan: Sorgu ve belge özelliklerini değiştirerek getirilen bağlamı ve model kararlarını etkilemeyi öğretir. Görevler: Sorgunun özgün ve normalize biçimini birlikte kaydet / Skor sıralı belgeleri karakter bütçesiyle bağlama seç / Manipüle bağlamda giren, çıkan ve kaybolan kanıtı raporla / Gömme skorundan bütçeli bağlama.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: claude-yazar, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -1403,8 +1421,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: codex); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 83
   },
   {
    "id": "ai-saldiri-16",
@@ -1484,19 +1501,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/21 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 392 kelime anlatım · 259 satır test"
+    "yapı": "4 görev · 993 kelime anlatım · 266 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 25,
     "kapsam": 22,
-    "derinlik": 16,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 9
    },
    "ozet": "Plan: Ajanın kendi yetkilerini daha düşük yetkili kullanıcı veya güvenilmeyen içerik adına kullanmasını öğretir. Görevler: Kimliği oturumdan, içeriği güvenilmez belgeden ayır / Kullanıcı ve ajan kapsamlarının kesişimiyle delegasyonu süz / Ajanın kullanıcıyı aşan çalıştırılmış eylemlerini raporla / Kullanıcıyı aşan vekil işlemini diskte durdur.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: claude-yazar, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -1510,8 +1530,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: codex); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 81
   },
   {
    "id": "ai-saldiri-19",
@@ -2711,19 +2730,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/38 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 291 kelime anlatım · 201 satır test"
+    "yapı": "4 görev · 844 kelime anlatım · 223 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 24,
     "kapsam": 22,
-    "derinlik": 14,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 8
    },
    "ozet": "Plan: Modelin çağırabileceği araçları dar kapsamlı şemalar, izinli parametreler ve ayrı yetkilerle sınırlandırmayı öğretir. Görevler: Dar araç kayıt şemasını doğrula / Araç çağrısını şema ve güvenli argümanlarla doğrula / İstenen ve oturum yetkilerini en az ayrıcalıkla karşılaştır / Gerçek araç çağrısını en az ayrıcalıkla doğrula.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: claude-yazar, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -2737,8 +2759,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: claude); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 77
   },
   {
    "id": "ai-savunma-12",
@@ -2896,19 +2917,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/38 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 284 kelime anlatım · 207 satır test"
+    "yapı": "4 görev · 850 kelime anlatım · 226 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 24,
     "kapsam": 22,
-    "derinlik": 14,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 8
    },
    "ozet": "Plan: Her getirilen parçayı kaynak, sürüm ve güven düzeyiyle ilişkilendirerek doğrulanabilir provenance sağlamayı öğretir. Görevler: RAG kaynak defterini doğrula / RAG parçalarına provenance üret / Doğrulanabilir parçaları güven eşiğiyle seç / Gerçek skorlarla provenance seçimi.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: claude-yazar, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -2922,8 +2946,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: claude); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 77
   },
   {
    "id": "ai-savunma-17",
@@ -3013,19 +3036,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/51 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 298 kelime anlatım · 220 satır test"
+    "yapı": "4 görev · 814 kelime anlatım · 239 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
     "test": 24,
     "kapsam": 22,
-    "derinlik": 14,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 8
    },
    "ozet": "Plan: Getirme sorgularına kullanıcı ve kiracı kapsamındaki yetki filtrelerini zorunlu kılarak veri sızıntısını önlemeyi öğretir. Görevler: Vektör erişim politikasını doğrula / Vektör sorgularını yetki açısından denetle / Yalnız yetkili vektör kayıtlarını getir / Gerçek skorlarla kiracı yalıtımı.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: claude-yazar, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -3039,8 +3065,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: claude); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 77
   },
   {
    "id": "ai-savunma-20",
@@ -3269,19 +3294,22 @@
     "validate": "TEMİZ (gerçek deney dahil)",
     "mutasyon": "0/30 geçen",
     "tahmin": "0 şüpheli",
-    "yapı": "4 görev · 229 kelime anlatım · 178 satır test"
+    "yapı": "4 görev · 758 kelime anlatım · 202 satır test"
    },
-   "karar": "Kısmen",
+   "karar": "Tam",
    "tarih": "30.10.2026",
    "puan": {
-    "test": 23,
+    "test": 24,
     "kapsam": 22,
-    "derinlik": 12,
-    "gerceklik": 9,
+    "derinlik": 25,
+    "gerceklik": 14,
     "yol": 8
    },
    "ozet": "Plan: Kapsam belirleme, erişimi sınırlama, kanıt koruma, sürüm geri alma ve güvenli toparlanma akışını öğretir. Görevler: Kanıt manifestosunu doğrula / Olaylardan öncelikli müdahale planı üret / Kanıt devir zincirini doğrula ve özetle / Gerçek kanıt dosyasının manifestosunu doğrula.",
-   "eksikler": [
+   "eksikler": [],
+   "durum": "puanlandi",
+   "kaynak": "claude-opus bağımsız denetim (düzelten: claude-yazar, iyileştirme kuyruğu); ölçümler 30.10.2026 bu makinede",
+   "duzeltilenler": [
     {
      "metin": "Görünür örnek veri yok: görevler 1-3 yalnız test içindeki sabitlerle çalışıyor; tracks/<yol>/fixtures/<ders>/ + hazirla() ve gerçekçi kusurlu başlangıç kodu eklenmeli.",
      "oncelik": "orta"
@@ -3295,8 +3323,7 @@
      "oncelik": "orta"
     }
    ],
-   "durum": "puanlandi",
-   "kaynak": "claude-opus toplu denetim (dersin yazarı/kilidi: claude); ölçümler 30.10.2026 bu makinede"
+   "onceki_puan": 74
   },
   {
    "id": "ai-savunma-26",

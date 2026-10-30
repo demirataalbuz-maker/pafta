@@ -34,7 +34,11 @@ Güncel kullanıcı görevi 30 Ekim: IYILESTIRME.md ve CODEX-IYILESTIRME-GOREV.m
 | ai-savunma-29 | kabul | [rapor](CODEX-IYILESTIRME-ai-savunma-29.md) |
 | ai-temel-09 | kabul | [rapor](CODEX-IYILESTIRME-ai-temel-09.md) |
 | ai-temel-13 | kabul | [rapor](CODEX-IYILESTIRME-ai-temel-13.md) |
-| ai-temel-14 | teslim | [rapor](CODEX-IYILESTIRME-ai-temel-14.md) |
+| ai-temel-14 | kabul | [rapor](CODEX-IYILESTIRME-ai-temel-14.md) |
+| ai-temel-12 | teslim | [rapor](CODEX-IYILESTIRME-ai-temel-12.md) |
+| ai-temel-17 | teslim | [rapor](CODEX-IYILESTIRME-ai-temel-17.md) |
+| ai-temel-20 | teslim | [rapor](CODEX-IYILESTIRME-ai-temel-20.md) |
+| ai-temel-19 | teslim | [rapor](CODEX-IYILESTIRME-ai-temel-19.md) |
 
 Her rapor dört kendi kontrolünü ve UI kabulünün tam kapsamını söyler. Teslim A notu veya bağımsız kabul değildir. Genel engine/web değiştirilmedi; Onaysız indirme/kurulum veya commit/push yok. Kullanıcı onayıyla ders23 Q8 modeli resmî Ollama üzerinden kuruldu; paket kurulumu yok. Ders28 kanıt başlığının model alanı metne çevrildi; özgün model listesi ayrıca saklanır. Ders28 ilk Ollama500 başarısızlığı gizlenmedi; tekrar geçti, kök neden çözülmüş sayılmaz.
 
@@ -44,4 +48,4 @@ Kendi test sunucusu: 127.0.0.1:18800, yeni fazda outputs/iyilestirme-codex-20261
 
 Görsel kabul sınırı: son devam mesajında CUA Work ayarlarında yerel tarayıcı kontrolü kapalı bildirdi. Ders23 yeni GGUF görsel başarı kabulü ve 25/21/22 görsel kabulleri yapılmadı. HTTP uçları, validate ve kanıtlar ayrı doğrulandı; görsel kabul yerine sayılmaz. Raporlar açık eksiği içerir.
 
-Güncel Temel14 ek kaydı: mevcut tarayıcı bağlantısıyla gerçek UI kabul16/16, Run iki gerçek ham JSON çıktısı, ilk görünür dosya UI Run doğrulandı. Run kanıt yazmaz; kabul Check üzerinden. Kendi18800 test sunucusu kapandı. Önceki derslerin görsel açıkları devam eder. Ders14 Opus denetimine teslim.
+Güncel Temel19:TEMİZ9,tahmin0,sonmutant0/74,kopya korunuyor;sonUI16/16,8gerçekdosya/272tensör/134515008parametre;Run gerçek/kabulfalse;3görünürveriUI. Duplicatekey/dolgu/dtype ve dosya okuma sınırı güçlendirildi. İlk75mutantta yalnız gösterim kesiti1eşdeğer geçti; gösterim boyu struct alanından türetilip74/0yenilendi. Hub manifesti kayıtlı/offline,kartlar sentetik;genel tedarikzinciri/lisans kabulü değil. Kendi18800 kapandı;eski görsel açıklar sürer. Opus denetimine teslim.

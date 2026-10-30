@@ -6,15 +6,39 @@ timeout: 45
 ---
 
 ::: anlat Kabul denetimi isteği kuyruğa girmeden önce sınırlar
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Yerel inference sunucusu akış parçaları ve tamamlanma metrikleri üretir | İlk üç görev sentetik istek/SSE/FIFO dosyaları; final gerçek Ollama NDJSON, dört ardışık ve iki eşzamanlı HTTP isteği | SSE ile Ollama NDJSON aynı protokol değildir; ilk görev gerçek tokenizer değildir |
+| Üretim zamanlayıcıları kaynakları ve kuyrukları yönetir | Slot/FIFO/deadline benzetimi ve gerçek istemci eşzamanlılık zaman çizelgesi | vLLM/llama.cpp kurulumu, iç sürekli batching, backend KV yalıtımı ve üretim ölçek kabulü yapılmış sayılmaz |
+
+> [!NOT]
+> `veri/istekler.json`, `veri/openai_sse.txt` ve `veri/openai_sse_yarim.txt` elle yazılmış sentetik örneklerdir; canlı sunucudan kaydedilmemiştir. Setup her Run/Check için geçici kopya oluşturur; değişiklikler kalıcı değildir. Kaynak dosyaları editörde aç veya koddan yüklenen kopyayı değiştirip Run ile dene. Gizli testler ayrıdır. Son adım kurulu yerel Ollama'yı gerçekten çağırır; yeni model/araç indirmez.
+
 OpenAI uyumlu yerel sunucular (`vllm serve` ile açılan vLLM sunucusu ve llama.cpp'nin `llama-server` programı) `/v1/chat/completions` uç noktasında `model`, `messages`, `max_tokens` ve `stream` gibi alanlar alır. Kabul denetimi bu alanları istek zamanlayıcıya ulaşmadan doğrular: model kimliği izinli listede olmalı, her mesaj `role` ve `content` taşımalı, `max_tokens` pozitif bir tam sayı olmalıdır. Belirleyici kural bağlam penceresidir: istem tokenları ile `max_tokens` toplamı modelin bağlam uzunluğunu aşamaz. vLLM bu sınırı `--max-model-len` ile alır ve aşan isteği üretime başlamadan HTTP 400 ile reddeder; llama.cpp'de `-c` ile verilen bağlam `-np`/`--parallel` slotları arasında paylaşılır ve slot başına düşen pay sürüme göre değiştiği için sınırı sunucunun bildirdiği değerden okumak gerekir. Sohbet şablonu (chat template) her mesajın çevresine rol ve ayraç tokenları ekler, sonuna da yanıtı başlatan bir üretim istemi koyar; yalnız içerik kelimelerini sayan istemci bütçeyi olduğundan küçük hesaplar.
 
 Kabul denetimi gevşekse tek bir istek devasa bir mesaj listesi veya sınırsız `max_tokens` ile GPU zamanını ve önbellek belleğini tekelleştirir; OWASP LLM Top 10 (2025) bunu LLM10 "Unbounded Consumption" başlığında toplar. Bu yüzden ucuz yapısal denetim önce, token bütçesi sonra gelir ve bütçeyi aşan istek sessizce kırpılmaz, reddedilir; kırpma istemcinin beklemediği `length` bitişleri üretir. Zaman aşımı iki ayrı saatle ölçülür: toplam süre sınırı (deadline) ve akışta iki parça arasındaki boşluk sınırı. Yalnız boşluk sınırı olan istemci yavaş ama sürekli damlayan bir yanıtı sonsuza kadar bekler, yalnız toplam sınırı olan istemci ise takılan bağlantıyı geç fark eder. Bu derste vLLM veya llama.cpp çalıştırılmaz: token sayımı "boşlukla ayrılmış kelime + mesaj başına 4 şablon tokenı + üretim istemi için 2 token" biçiminde sentetik bir kuraldır, gerçek tokenizer ve şablonlar modele göre farklı sayılar üretir ve zaman duvar saatiyle değil adım numarasıyla temsil edilir.
 :::
 
 ::: anlat Sürekli batching ve akış isteği adım adım yönetir
+
+Önce görünür dosyaları incele. `istekler.json` izinli model adlarını, bağlam sınırını, sohbet isteğini ve zamanlayıcı işlerini taşır. Bu adlar örnek kimliklerdir; kurulu modele otomatik yönlendirilmez. İlk görev sohbet isteğinin yapısını ve sentetik bütçesini doğrular, üçüncü görev aynı dosyadaki işleri slotlara yerleştirir. İkinci görev `openai_sse.txt` dosyasını olduğu gibi okur. Yorum satırı, boş olay ve yalnız ilk boşluğun atılması veri üzerinde görülebilir. Tam ve yarım dosyayı karşılaştır: aynı içerik gelmiş olsa bile kapanış işareti işlenmemişse tamamFalse kalır. Dosyayı strip ile temizlemek olay sınırını veya anlamlı boşluğu kaybettirebilir.
+
+SSE genel bir olay taşıma biçimidir; görevdeki chat chunk şeması bunun üstünde bir uygulama sözleşmesidir. Öğretim ayrıştırıcısı standarttaki bütün alanları ve satır sonlarını desteklemez. Bu kısıt bilinçlidir; gerçek bir EventSource yerine kullanılmamalıdır. Ollama'nın yerel generate akışıysa her satırında bir JSON nesnesi taşır: data öneki ve DONE metni yoktur. Bitiş doneTrue ile, üretilen token sayısı eval_count ile gelir. Satır sayısını token sayısı sanma; boş içerikli veya birden çok karakter içeren parçalar olabilir. Gerçek finalin TTFT alanı ilk doneFalse NDJSON parçasının gelişidir; parça boş da olabilir. Bu bir ilk yanıt parçası gecikmesi vekilidir, cihazdaki ilk token çekirdeğinin kesin zaman ölçümü değildir.
+
+İstemci zaman çizelgesi istekten önce başlayan monoton saatle tutulur. Soğuk model yükleme ve sunucu kuyruğu ilk parçaya kadar geçen süreye dahil olabilir; sıcak ve soğuk koşuları doğrudan aynı performans sonucu gibi yorumlama. Son parçanın geliş süresi, doneTrue bitiş nesnesinin toplam süresi ve sunucunun eval_duration değeri farklı saatlerdir. token/sn hesaplamasında sunucunun değerlendirme süresi kullanılır; istemcinin bütün uçtan uca süresiyle aynı ölçüm değildir. Birinci görevin kelime sayısı da gerçek tokenizer sayısı değildir; sohbet şablonları dahil gerçek bütçe için ilgili modelin tokenizer ve şablonu gerekir.
+
+Sürekli batching benzetimi gerçek GPU zamanlayıcısını çalıştırmaz. Her adımda önce FIFO kabulü, sonra bir token üretimi ve bitiş uygulanır; boşalan slot sonraki adımda kullanılır. Deadline hem aktif hem bekleyen istek için geçerlidir. Aynı anda hedefe ulaşan ve deadline'a gelen iş tamam sayılır. Sıra değişirse kısa bir istek bir adım erken başlayıp yanlış sonuç verebilir. Öğrenci slot sayısını değiştirerek kuyruğu gözler ama buradan gerçek model hızlanma katsayısı çıkaramaz; prefill, KV blokları ve gerçek token bütçesi benzetimde yoktur.
+
+Final önce dört gerçek akış isteğini ardışık, sonra iki isteği istemci iş parçacıklarında birlikte başlatır. Her isteğin başlangıç/bitiş aralığı ve ham NDJSON kayıtları kanıtta kalır. İstemci aralıklarının çakışması aynı anda açık HTTP çağrılarını gösterir. Sunucu bunları sıraya koyabilir; bu gözlem iki isteğin GPU'da aynı decode adımında yürüdüğünü kanıtlamaz. İç batching kabulü ayrı backend telemetrisi ve uygun sunucu deneyi gerektirir. Kapsam ve kalan sınırlar TEMEL-17-SUNUCU-KAPSAMI.md dosyasında da yazılıdır.
+
+Bir taşıma hatası varken diğer isteklerin başarılı olması tüm deneyi başarılı yapmaz. Altı planlı isteğin tamamı hatasız bitmeli; ham yanıtlar öğrencinin ayrıştırıcısıyla ve bağımsız hesapla aynı olmalıdır. Boş/sabit sonuçlar, ilk yerine son parçanın gecikmesini döndüren veya parça sayısını token diye veren çözümler reddedilir. Üretilen cümlenin sabit bir metne eşit olması istenmez. Sonuç model sürümüne, cihaza, istemlere ve örnekleme ayarlarına bağlıdır. Zaman çizelgesi bu bilgisayardaki sınırlı gözlemdir, genel performans veya hizmet güvencesi değildir.
+
+Kaynaklar: [Ollama generate API](https://docs.ollama.com/api/generate) ve [WHATWG SSE ayrıştırma standardı](https://html.spec.whatwg.org/multipage/server-sent-events.html#parsing-an-event-stream). İlk kaynak gerçek API alanlarını, ikinci kaynak genel olay biçimini tanımlar; dersin katı altkümesi ayrıca görev sözleşmesinde yazılıdır.
+
 Statik batching bir grup isteği birlikte başlatır ve en uzun dizi bitene kadar bütün slotları tutar; kısa yanıtı biten slot boşta bekler. Orca (Yu ve diğ., OSDI 2022) ile yaygınlaşan yineleme düzeyinde zamanlamada her çözme (decode) adımında biten diziler çıkarılır ve kuyrukta bekleyenler boşalan yerlere alınır; vLLM bu sürekli batching yaklaşımını kullanır. vLLM'de `--max-num-seqs` bir adımdaki eşzamanlı dizi sayısını, `--max-num-batched-tokens` bir adımda işlenen token sayısını sınırlar. Slotlar doluyken gelen istek kuyrukta bekler ve süre sınırı kuyrukta da işler; bu nedenle bir istek tek token üretmeden zaman aşımına uğrayabilir. Zamanlayıcıyı adım adım benzetmek, bir saldırganın uzun istekleri art arda göndererek kısa istekleri kuyrukta zaman aşımına düşürmesinin nasıl görüneceğini de açıklar. Bu derste vLLM zamanlayıcısı çalıştırılmaz; görevdeki benzetim prefill, KV blokları ve token bütçesini yok sayıp yalnız slot sayısını, FIFO kabulünü ve süre sınırını modeller.
 
-`"stream": true` istendiğinde yanıt Server-Sent Events (SSE) olarak gelir: bir olay bir veya daha çok `data:` satırı ve onu bitiren boş satırdır, aynı olaydaki `data:` değerleri `\n` ile birleştirilir, `data:` sonrasındaki tek boşluk atılır ve `:` ile başlayan satırlar canlı tutma için kullanılan yorumlardır. OpenAI uyumlu sunucularda her olay bir `chat.completion.chunk` JSON nesnesidir; metin `choices[0].delta.content` içinde parça parça gelir, son parçada `finish_reason` çoğunlukla `stop` (doğal bitiş) veya `length` (`max_tokens` sınırı) olur, araç çağrısında `tool_calls`, içerik filtresinde `content_filter` de görülebilir ve akış `data: [DONE]` ile kapanır. OpenAI API'sinde ve bunu destekleyen sunucularda `stream_options` içinde `include_usage` açıkken `[DONE]` öncesinde `choices` listesi boş, `usage` alanı dolu ek bir parça gelir. `[DONE]` gelmeden kopan akış eksik yanıttır; onu tam yanıt gibi işlemek yarım bir JSON'u veya kesilmiş bir talimatı sonraki adıma taşır. Sunucu tarafında istemci koptuğunda üretim durdurulmalıdır, yoksa terk edilmiş istekler slotları ve KV bloklarını tüketmeye devam eder: FastAPI'de `StreamingResponse` üretecinin içinde `await request.is_disconnected()` denetlenir, vLLM'in OpenAI sunucusu da kopan isteği motor tarafında iptal eder. Bu derste ağ bağlantısı kurulmaz, FastAPI çalıştırılmaz ve akış hazır bir metin olarak işlenir; görevdeki ayrıştırıcı bilerek katıdır: gerçek SSE istemcileri `event:`, `id:` ve `retry:` alanlarını da işler, tanımadıkları alanları yok sayar, CR ve CRLF satır sonlarını da kabul eder, burada ise yalnız `data:`, yorum ve boş satırlar ile `stop`/`length` bitişleri geçerlidir.
+`"stream": true` istendiğinde yanıt Server-Sent Events (SSE) olarak gelir: bir olay bir veya daha çok `data:` satırı ve onu bitiren boş satırdır, aynı olaydaki `data:` değerleri `\n` ile birleştirilir, `data:` sonrasındaki tek boşluk atılır ve `:` ile başlayan satırlar canlı tutma için kullanılan yorumlardır. OpenAI uyumlu sunucularda her olay bir `chat.completion.chunk` JSON nesnesidir; metin `choices[0].delta.content` içinde parça parça gelir, son parçada `finish_reason` çoğunlukla `stop` (doğal bitiş) veya `length` (`max_tokens` sınırı) olur, araç çağrısında `tool_calls`, içerik filtresinde `content_filter` de görülebilir ve akış `data: [DONE]` ile kapanır. OpenAI API'sinde ve bunu destekleyen sunucularda `stream_options` içinde `include_usage` açıkken `[DONE]` öncesinde `choices` listesi boş, `usage` alanı dolu ek bir parça gelir. `[DONE]` gelmeden kopan akış eksik yanıttır; onu tam yanıt gibi işlemek yarım bir JSON'u veya kesilmiş bir talimatı sonraki adıma taşır. Sunucu tarafında istemci koptuğunda üretim durdurulmalıdır, yoksa terk edilmiş istekler slotları ve KV bloklarını tüketmeye devam eder: FastAPI'de `StreamingResponse` üretecinin içinde `await request.is_disconnected()` denetlenir, vLLM'in OpenAI sunucusu da kopan isteği motor tarafında iptal eder. Görevler1–3 ağ bağlantısı kurmadan sentetik dosyaları işler; final yerel Ollama HTTP akışlarını gerçekten çağırır. FastAPI çalıştırılmaz; görevdeki ayrıştırıcı bilerek katıdır: gerçek SSE istemcileri `event:`, `id:` ve `retry:` alanlarını da işler, tanımadıkları alanları yok sayar, CR ve CRLF satır sonlarını da kabul eder, burada ise yalnız `data:`, yorum ve boş satırlar ile `stop`/`length` bitişleri geçerlidir.
 :::
 
 ::: tahmin Bütçe, SSE, batching ve süre sınırı sonucunu tahmin et
@@ -45,15 +69,31 @@ print([(max(b - a for a, b in zip([0] + z, z)) > 3, z[-1] > 10) for z in (damla,
 :::
 
 ::: gorev 1 · Sohbet isteğini bağlam bütçesine göre kabul et
-`istek_dogrula(istek, modeller, baglam)` işlevini yaz; bu bir `/v1/chat/completions` isteğinin kabul denetimidir. `modeller` izinli model kimliklerinin listesidir: öğeleri boş olmayan ve yinelenmeyen stringlerdir. `baglam` 16–32768 aralığında bir tam sayıdır (bool olamaz) ve `--max-model-len` karşılığıdır. `istek` bir sözlüktür: `model` ve `messages` anahtarları zorunlu, `max_tokens` ve `stream` anahtarları isteğe bağlıdır, başka anahtar olamaz. `model` değeri `modeller` içinde olmalıdır.
+`istek_dogrula(istek, modeller, baglam)` işlevini yaz; bu `/v1/chat/completions` biçimini izleyen sınırlı sentetik bir isteğin kabul denetimidir. `modeller` izinli model kimliklerinin listesidir: öğeleri boş olmayan ve yinelenmeyen stringlerdir. `baglam` 16–32768 aralığında bir tam sayıdır (bool olamaz) ve `--max-model-len` karşılığıdır. `istek` bir sözlüktür: `model` ve `messages` anahtarları zorunlu, `max_tokens` ve `stream` anahtarları isteğe bağlıdır, başka anahtar olamaz. `model` değeri `modeller` içinde olmalıdır.
 
 `messages` 1–64 öğeli bir listedir; her öğe tam `role` ve `content` anahtarlı bir sözlüktür, `role` `system`, `user` veya `assistant` olur, `content` en az bir boşluk dışı karakter içeren bir stringdir. Sentetik sayım: her mesaj `len(content.split())` + 4 şablon tokenı tutar, toplama üretim istemi için 2 eklenir; sonuç `istem_tokenlari` değeridir. `max_tokens` verildiyse en az 1 olan bir tam sayı (bool olamaz) olmalı ve `istem_tokenlari + max_tokens <= baglam` sağlanmalıdır; verilmediyse `baglam - istem_tokenlari` kullanılır ve bu değer de en az 1 olmalıdır. Bütçeyi aşan istek kırpılmaz, reddedilir. `stream` verildiyse bool olmalıdır, verilmediyse `False` kabul edilir. Geçersiz veride `ValueError` yükselt.
 
 Tam `model`, `messages`, `max_tokens`, `stream`, `istem_tokenlari` anahtarlı yeni bir sözlük döndür; `messages` aynı sırada, yalnız `role` ve `content` içeren yeni sözlüklerden oluşan yeni bir liste olmalıdır; `role` ve `content` değerleri aynen (boşlukları kırpılmadan) kopyalanır. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-17")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def istek_dogrula(istek, modeller, baglam):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: şablon tokenlarını yok sayar, taşan isteği sessizce kırpar.
+    import copy
+    istem=sum(len(m["content"].split()) for m in istek["messages"])
+    return dict(copy.deepcopy(istek),max_tokens=min(istek.get("max_tokens",baglam-istem),baglam-istem),stream=istek.get("stream",False),istem_tokenlari=istem)
+
+v=json_yukle("veri/istekler.json")
+print("Sentetik istek:",v["istek"])
+print("Kabul:",istek_dogrula(v["istek"],v["modeller"],v["baglam"]))
 ```
 
 ```test
@@ -130,6 +170,7 @@ for ad, mutant in [("şablon yükünü yok sayan", m_sablon), ("taşan isteği k
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def istek_dogrula(istek, modeller, baglam):
     if not isinstance(modeller, list) or any(not isinstance(m, str) or not m for m in modeller) or len(set(modeller)) != len(modeller):
         raise ValueError("modeller")
@@ -151,6 +192,10 @@ def istek_dogrula(istek, modeller, baglam):
     if type(akis) is not bool or type(cikti) is not int or cikti < 1 or istem + cikti > baglam:
         raise ValueError("bütçe")
     return {"model": istek["model"], "messages": temiz, "max_tokens": cikti, "stream": akis, "istem_tokenlari": istem}
+
+v=json_yukle("veri/istekler.json")
+print("Sentetik istek:",v["istek"])
+print("Kabul:",istek_dogrula(v["istek"],v["modeller"],v["baglam"]))
 ```
 
 ```hint
@@ -165,9 +210,33 @@ Olay verisi tam olarak `[DONE]` ise akış tamamlanır; daha önce bitiş nedeni
 
 `{"metin": ..., "bitis": ..., "tamam": ...}` döndür: `metin` içerik parçalarının geliş sırasıyla birleşimi, `bitis` gelen bitiş nedeni ya da gelmediyse `None`, `tamam` `[DONE]` işlendiyse `True`, değilse `False` olur.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-17")
+```
+
 ```starter
+from ai_temel_veri import metin_yukle
 def sse_ayristir(akis):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: olay sınırını ve kapanışın gerçekten gelmesini yok sayar.
+    import json
+    parcalar=[];bitis=None
+    for line in akis.splitlines():
+        if not line.startswith("data:"):continue
+        data=line[5:].strip()
+        if data=="[DONE]":continue
+        obj=json.loads(data); c=obj["choices"][0]
+        parcalar.append(c["delta"].get("content") or "")
+        bitis=c.get("finish_reason") or bitis
+    return {"metin":"".join(parcalar),"bitis":bitis,"tamam":True}
+
+for yol in ("veri/openai_sse.txt","veri/openai_sse_yarim.txt"):
+    ham=metin_yukle(yol)
+    print("Sentetik ham dosya:",yol,repr(ham))
+    print("Ayrıştırma:",sse_ayristir(ham))
 ```
 
 ```test
@@ -223,6 +292,7 @@ for ad, mutant in [("eksik akışı tamam sayan", m_tamam), ("parça sırasını
 ```
 
 ```solution
+from ai_temel_veri import metin_yukle
 def sse_ayristir(akis):
     import json
     if not isinstance(akis, str) or not 1 <= len(akis) <= 20000:
@@ -259,6 +329,11 @@ def sse_ayristir(akis):
         parcalar.append(icerik or "")
         bitis = secim["finish_reason"]
     return {"metin": "".join(parcalar), "bitis": bitis, "tamam": bitti}
+
+for yol in ("veri/openai_sse.txt","veri/openai_sse_yarim.txt"):
+    ham=metin_yukle(yol)
+    print("Sentetik ham dosya:",yol,repr(ham))
+    print("Ayrıştırma:",sse_ayristir(ham))
 ```
 
 ```hint
@@ -267,15 +342,29 @@ Satırları bir durum makinesi gibi işle: `data:` satırları tampona girer, ol
 :::
 
 ::: gorev 3 · Sürekli batching zamanlayıcısını adım adım benzet
-`surekli_batch(istekler, azami_dizi)` işlevini yaz. `azami_dizi` 1–64 aralığında bir tam sayıdır (bool olamaz) ve `--max-num-seqs` karşılığıdır. `istekler` 1–50 öğeli bir listedir; her öğe tam `id`, `varis`, `hedef`, `son_adim` anahtarlı bir sözlüktür. `id` boş olmayan ve yinelenmeyen bir stringdir; `varis` 0–1000, `hedef` 1–100 aralığında, `son_adim` ise `varis` veya daha büyük bir tam sayıdır (üçü de bool olamaz). Geçersiz veride `ValueError` yükselt.
+`surekli_batch(istekler, azami_dizi)` işlevini yaz. `azami_dizi` 1–64 aralığında bir tam sayıdır (bool olamaz) ve benzetimde azami slot sayısını temsil eder; gerçek bir sunucu ayarını değiştirmez. `istekler` 1–50 öğeli bir listedir; her öğe tam `id`, `varis`, `hedef`, `son_adim` anahtarlı bir sözlüktür. `id` boş olmayan ve yinelenmeyen bir stringdir; `varis` 0–1000, `hedef` 1–100 aralığında, `son_adim` ise `varis` veya daha büyük bir tam sayıdır (üçü de bool olamaz). Geçersiz veride `ValueError` yükselt.
 
 Benzetim `t = 0` adımından başlar ve her adımda şu sırayı izler. Kabul: kuyrukta bekleyen ve `varis <= t` olan istekler, boş slot kaldıkça FIFO sırasıyla alınır; FIFO sırası `varis` değerine göre artan, eşitlikte girdi sırasıdır. Üretim: slottaki her istek bir token üretir. Bitiş: üretilen token sayısı `hedef` değerine ulaşan istek `tamam` olur; ulaşamamış ve `t == son_adim` olan istek `zaman_asimi` olur. Slottan çıkan isteğin yeri bir sonraki adımın kabulünde kullanılır. Kuyrukta bekleyen (slot alamamış) istek de `t == son_adim` olduğunda sıfır tokenla `zaman_asimi` olur. Benzetim bütün istekler sonuçlanınca durur.
 
 `{id: (durum, bitis_adimi, uretilen)}` sözlüğü döndür; `durum` `"tamam"` veya `"zaman_asimi"`, `bitis_adimi` isteğin sonuçlandığı `t`, `uretilen` ürettiği token sayısıdır. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-17")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def surekli_batch(istekler, azami_dizi):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: slotları sınırsız sayar, kuyruk beklemesini yok sayar.
+    return {i["id"]:("tamam",i["varis"]+i["hedef"]-1,i["hedef"]) for i in istekler}
+
+v=json_yukle("veri/istekler.json")
+print("Sentetik işler:",v["batch"])
+print("Slot sonucu:",surekli_batch(v["batch"],v["azami_dizi"]))
 ```
 
 ```test
@@ -335,6 +424,7 @@ for ad, mutant in [("slot sınırını yok sayan", m_slot), ("süre sınırını
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def surekli_batch(istekler, azami_dizi):
     if type(azami_dizi) is not int or not 1 <= azami_dizi <= 64 or not isinstance(istekler, list) or not 1 <= len(istekler) <= 50:
         raise ValueError("girdi")
@@ -361,6 +451,10 @@ def surekli_batch(istekler, azami_dizi):
                 kuyruk.remove(i)
         t += 1
     return sonuc
+
+v=json_yukle("veri/istekler.json")
+print("Sentetik işler:",v["batch"])
+print("Slot sonucu:",surekli_batch(v["batch"],v["azami_dizi"]))
 ```
 
 ```hint
@@ -371,10 +465,10 @@ Kuyruğu `varis` değerine göre kararlı biçimde sırala; Python'un `sorted` i
 ::: gorev Gerçek deney · Akışı çöz, TTFT'yi ve token sınırını ölç
 `akis_raporu(satirlar, gelisler)` işlevini yaz.
 
-- Doğrulama, aksi hâlde `ValueError`: `satirlar` 1–4096 öğeli, her öğesi JSON nesnesine ayrışan string; her nesnede bool `done` var. Tam **bir** satırda `done` True ve o **son** satır; o satırda string `done_reason` ve bool olmayan negatif olmayan tam sayı `eval_count` var. `done` False satırlarda string `response` var. `gelisler`, `done` False satır sayısına eşit uzunlukta liste; her öğe bool olmayan sonlu, negatif olmayan, azalmayan sayı.
+- Doğrulama, aksi hâlde `ValueError`: `satirlar` 1–4096 öğeli, her öğesi JSON nesnesine ayrışan string; her nesnede bool `done` var. Tam **bir** satırda `done` True ve o **son** satır; o satırda boş olmayan string `done_reason` ve bool olmayan negatif olmayan tam sayı `eval_count` var. `done` False satırlarda string `response` var. `gelisler`, `done` False satır sayısına eşit uzunlukta liste; her öğe bool olmayan sonlu, negatif olmayan, azalmayan sayı.
 - Döndür: `{"metin": response birleşimi, "parca": done False satır sayısı, "done_reason": bitiş satırından, "ttft_ms": gelisler[0] (parça yoksa None), "sure_ms": gelisler[-1] (parça yoksa None), "tokens": bitiş satırının eval_count'u, "kesildi": done_reason == "length"}`.
 
-Test işlevini sentetik akışlarda sınar; sonra yerel sunucuya gerçek akışlı istekler atıp sonucunu bağımsız hesapla karşılaştırır, TTFT'nin ölçüldüğünü ve en az bir isteğin `num_predict` ile kesildiğini doğrular. Çalıştır düğmesi bütün istekleri ve ölçülerini gösterir.
+Test işlevini sentetik akışlarda sınar; sonra yerel sunucuya gerçek akışlı istekler atıp sonucunu bağımsız hesapla karşılaştırır, TTFT'nin ölçüldüğünü ve en az bir isteğin `num_predict` ile kesildiğini doğrular. Çalıştır düğmesi dört ardışık ve iki eşzamanlı gerçek HTTP isteğini ve ölçülerini gösterir. Eşzamanlı istemci aralıkları iç sürekli batching kanıtı değildir. TTFT burada ilk yanıt parçası gecikmesidir.
 
 ```meta
 motor: ai-gercek
@@ -403,8 +497,14 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans/deney kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak=("referans","kanit_yaz","getattr")
+sorun=ai_lab.kod_denetimi(src,yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in _yasak or a.name=="*" for a in n.names):
+        sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi akış raporunu yaz: "+"; ".join(sorun)):
+    stop()
 fn = need("akis_raporu")
 from sandbox import ai_gercek_ai_temel_17 as D
 rnd = random.Random()
@@ -413,7 +513,7 @@ def kur(parcalar, done_reason, eval_count, bas, artis):
     satir.append(json.dumps({"response": "", "done": True, "done_reason": done_reason, "eval_count": eval_count}))
     gelis = [bas + i * artis for i in range(len(parcalar))]
     return satir, gelis
-vakalar = [kur(["a ", "b ", "c "], "stop", 9, 50, 10), kur(["x ", "y "], "length", 4, 30, 20), kur(["solo "], "stop", 1, 40, 0)]
+vakalar = [kur([],"stop",0,0,0),kur(["", "x"],"stop",2,0,0),kur(["a ", "b ", "c "], "stop", 9, 50, 10), kur(["x ", "y "], "length", 4, 30, 20), kur(["solo "], "stop", 1, 40, 0)]
 for _ in range(5):
     m = rnd.randint(1, 8)
     vakalar.append(kur(["t%d " % i for i in range(m)], rnd.choice(["stop", "length"]), rnd.randint(m, m + 5), rnd.randint(20, 200), rnd.randint(5, 40)))
@@ -425,9 +525,9 @@ def sozlesme(f):
             s2, g2 = list(satir), list(gelis)
             if not ayni(f(s2, g2), D.referans(satir, gelis)) or s2 != satir or g2 != gelis:
                 return False
-        satir, gelis = vakalar[0]
+        satir, gelis = vakalar[2]
         tdone = satir[-1]
-        for arg in [(None, gelis), (satir, None), ([], []), (satir, gelis[:-1]), (satir, gelis + [80]), (satir[:-1], gelis),
+        for arg in [(satir,[float("nan"),60,70]),(satir,[50,60,float("inf")]),(satir[:-1]+[json.dumps({"done":True,"done_reason":"stop","eval_count":True})],gelis),(satir[:-1]+[json.dumps({"done":True,"done_reason":"","eval_count":3})],gelis),(None, gelis), (satir, None), ([], []), (satir, gelis[:-1]), (satir, gelis + [80]), (satir[:-1], gelis),
                     (satir + [json.dumps({"response": "z", "done": False})], gelis + [80]),
                     ([tdone] + satir[:-1], gelis), (satir, [50, 40, 70]), (satir, [True, 60, 70]), (satir, [50, 60, "70"]), (satir, [-1, 60, 70]),
                     (["düz metin"] + satir[1:], gelis), ([json.dumps({"response": "a"})] + satir[1:], gelis),
@@ -455,16 +555,14 @@ if all(sonuclar):
         kontrol(False, f"GERÇEK SUNUCU YOK, deney yapılmadı: {e}")
         stop()
     g = [k for k in r["kayitlar"] if k["hata"] is None]
-    kontrol(len(g) > 0, f"yerel sunucu akışlı yanıt verdi ({len(g)}/{len(r['kayitlar'])} istek hatasız)")
+    kontrol(len(g) == r["ayarlar"]["istek_sayisi"] == 6, f"yerel sunucu akışlı yanıt verdi ({len(g)}/{len(r['kayitlar'])} istek hatasız)")
     esit = all(all(k[x] == D.referans(k["_satirlar"], k["_gelisler"])[x] for x in ("metin", "parca", "done_reason", "ttft_ms", "sure_ms", "tokens", "kesildi")) for k in g)
     kontrol(esit, "akış çözümü, TTFT ve token sayısı bağımsız hesapla aynı")
     kesilen = sum(1 for k in g if k["kesildi"])
     kontrol(kesilen > 0, f"num_predict token sınırı en az bir isteği kesti (done_reason=length): {kesilen}")
     kontrol(all(isinstance(k["ttft_ms"], int) and k["ttft_ms"] >= 0 for k in g), "her geçerli istekte ilk token süresi (TTFT) ölçüldü")
+    kontrol(r["eszamanli"]["istek_sayisi"]==2 and r["eszamanli"]["cakisan_araliklar"],"iki gerçek HTTP istemci çağrısı çakışan aralıklarda tamamlandı; iç batching kanıtı değil")
     oz = D.ozet(r)
-    for k in r["kayitlar"]:
-        k.pop("_satirlar", None)
-        k.pop("_gelisler", None)
 yol = ai_lab.kanit_yaz("temel-akis", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-temel-17",
                                       "ortam": (r or {}).get("ortam"), "deney": r, "ozet": oz})
 if oz:

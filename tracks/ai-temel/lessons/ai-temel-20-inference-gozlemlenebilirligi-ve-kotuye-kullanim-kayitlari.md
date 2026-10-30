@@ -6,15 +6,39 @@ timeout: 45
 ---
 
 ::: anlat Kimlik ve hız sınırı isteği modele ulaşmadan durdurur
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Bir inference ağ geçidi kimlik, hız sınırı ve kayıt üretir | İlk üç görev görünür sentetik HTTP alanları, zamanlı olaylar ve HMAC alarmları | FastAPI üzerinde gerçek401/429 ağ geçidi veya dağıtık kova çalıştırıldığı anlamına gelmez |
+| Yerel model gerçek token ve gecikme ölçüleri verir | Final kurulu Ollama'ya altı gerçek istek ve sentetik sırlar üzerinde kayıt redaksiyonu | Genel kişisel veri tespiti, tam anonimlik veya üretim gizlilik kabulü değildir |
+
+> [!NOT]
+> `veri/trafik.json` elle hazırlanmış sentetik veridir; gerçek sunucu kaydı değildir. İlk üç görev aynı dosyayı okur. Setup her Run/Check için geçici kopya oluşturur; kalıcılık yoktur. Kaynak dosyayı editörle aç veya kodda yüklenen kopyayı değiştirip Run ile dene. Gizli testler ayrıdır. Final gerçek yerel modeli çağırır; hiçbir gerçek kullanıcı anahtarı veya özel dosya kullanmaz.
+
 RFC 6750'ye göre bearer jetonu `Authorization: Bearer <b64token>` biçiminde gelir; dilbilgisi `"Bearer" 1*SP b64token` şeklindedir ve b64token yalnız ASCII harf, rakam, `-._~+/` karakterlerinden en az birini ve sonda isteğe bağlı `=` dolgusunu içerir. Şema adı büyük/küçük harf duyarsızdır (RFC 9110 §11.1), ama `Bearerabc` bearer kimliği değildir ve şemayı jetondan yalnız boşluk (SP) ayırır, sekme ayırmaz; baştaki ve sondaki boşluklar ise uygulamaya hiç ulaşmaz, çünkü RFC 9110 §5.5'e göre alan değeri onları içermez ve HTTP ayrıştırıcısı değeri değerlendirmeden önce atar. Hata yanıtları ayrışır: kimlik bilgisi hiç yoksa ya da başka bir şema kullanılmışsa `401` ve hata kodu taşımayan `WWW-Authenticate: Bearer`; biçimi bozuk istekte `400` ve `error="invalid_request"`; tanınmayan jetonda `401` ve `error="invalid_token"`; kimliği doğru ama yetkisi yetmeyen istekte `403` ve `error="insufficient_scope"`. Gerçek yanıtlar çoğu zaman `realm` parametresi de taşır; bu derste yalnız hata kodu tutulur. Sunucu anahtarın kendisini değil SHA-256 özetini saklar: rastgele üretilmiş yüksek entropili API anahtarı için hızlı özet yeterlidir (düşük entropili parolalar ise Argon2 ya da scrypt gibi tuzlu, yavaş türetme ister), böylece sızan bir veritabanı doğrudan kullanılabilir anahtar vermez.
 
 Özetler `hmac.compare_digest` ile karşılaştırılır; Python belgeleri bu işlevin içeriğe bağlı erken çıkışı önleyecek biçimde tasarlandığını, farklı uzunlukta girdilerde yalnız tür ve uzunluk bilgisinin sızabileceğini söyler. Saldırgan özetin önekini seçemediği için özet karşılaştırması zaten zamanlama sızıntısını zayıflatır; bütün kayıtları eşleşme bulunduktan sonra da gezmek, hangi kaydın eşleştiğini süreden okumayı ayrıca zorlaştıran ek bir katmandır. Kimliği doğrulanan istek jeton kovasından geçer: kapasite kadar jeton birikebilir, her `aralik` milisaniyede bir jeton sürekli (kesirli olarak) dolar, her istek bir jeton harcar ve kova boşsa `429 Too Many Requests` (RFC 6585) döner. `Retry-After` alanı RFC 9110'a göre ya HTTP tarihi ya da negatif olmayan tamsayı saniyedir; bir jetonun dolmasına kalan süre yukarı yuvarlanır ki istemci erken dönüp yeniden reddedilmesin, reddedilen istek jeton harcamaz. Sınırın anahtarı da önemlidir: geçersiz jetonla gelen `401` fırtınasında geçerli anahtar yoktur, o yüzden istemci (IP ya da mTLS kimliği) başına sayılır; çalınmış bir anahtar ise yüzlerce IP'den kullanılabilir ve yalnız anahtar başına sınırla yakalanır, NAT arkasındaki çok sayıda meşru kullanıcıyı da salt IP sınırı cezalandırır. Bu derste saat okunmaz, zaman tamsayı milisaniye olarak verilir; çok kopyalı bir dağıtımda kova durumunun kopyalar arasında paylaşılan bir depoda tutulması gerekir.
 :::
 
 ::: anlat Kayıt kötüye kullanımı göstermeli, ikinci bir sızıntı olmamalı
+
+Önce `veri/trafik.json` dosyasını incele. `kimlik` bölümü örnek Authorization değeri, kayıt kimlikleri ve SHA256 özetlerini taşır. README'de yazan anahtar eğitim örneğidir, gerçek bir servise erişim sağlamaz. İlk görev başlığın biçimini ve kapsamını kontrol eder. `kova` bölümündeki zamanlı olaylar ikinci göreve gider; JSON dizilerini bu görevin istediği tuple biçimine dönüştürürsün. `alarmlar` aynı örnek anahtar ve istemci kimlikleriyle üçüncü görevin izleme penceresidir. Örnekte beş401, beş429 ve üç normalize aynı istem ayrı sinyaller üretir; bir kayıt tek başına saldırının kanıtı değildir.
+
+Bearer jetonu kimlik bilgisidir, kapsam ise izin verilen işlemdir. Tanınan bir anahtarın yetkisi yetersizse kimliği tanınmamış gibi davranmak veya izin vermek farklı hatalardır. Özetleri sabit zamanlı karşılaştırmak yalnız bu karşılaştırma işleminin içeriğe bağlı erken çıkışını azaltır; bütün HTTP hizmetinin süresini sabitlemez. Döngüde eşleşince çıkmamak da tüm programın yan kanal güvenliği kanıtı değildir. Hız sınırı ise kimlik doğrulamadan ayrı bir karardır. Sürekli dolan kova anlık patlamaya kapasite kadar izin verir; reddedilen bir istek fazladan jeton harcamamalıdır. RetryAfter saniye birimindedir, olay zamanları milisaniyedir; birim karışıklığı istemciyi gereksiz yere bekletir veya erken tekrar ettirir.
+
+Alarm kuralları bir izleme penceresi içindir; görev kendi kendine süre tutmaz veya dosyadan akış izlemeye başlamaz.401 istemciye,429 ve başarılı token tüketimi anahtara bağlanır. Aynı anahtar farklı istemcilerde kullanılsa da anahtar bazlı hız alarmında birleşir. Aynı IP arkasındaki farklı meşru anahtarlar ise birbirine karıştırılmamalıdır. Normalizasyon yalnız lower ve boşluk birleştirmedir; benzer anlamlı bütün istemleri yakalayan bir anlamsal tespit değildir. Tekrar alarmında aynı anahtarın en büyük istem grubu alınır, farklı grupların sayıları toplanmaz. Girdi sırasını ters çevirmen alarm sonucunu değiştirmemelidir.
+
+Üçüncü görevde takma ad gerçek HMACSHA256'dır. Finaldeki mevcut eğitim sözleşmesi ise gizli önek ile anahtarın SHA256 özetinin ilk16 hanesini kullanır; bu HMAC değildir ve bir üretim önerisi gibi aktarılmamalıdır. Anahtarın kendisi yerine kısa bir kimlik yazmak kayıtları ilişkilendirir, anonimlik sağlamaz. Finalde kullanılan tuz ve tüm sırlar deneyin ürettiği sentetik değerlerdir. Tuzun herkesin bildiği sabit bir değer olması başka bir gizlilik varsayımıdır. Bu ayrımı kodda kullanılan algoritmanın adına bakarak doğrula; başlıkta hash yazması tek başına yeterli değildir.
+
+Redaksiyon yalnız görevde açıkça verilen üç regex desenini uygular. Anahtar deseni önce çalışır; uzun rakam içeren bir anahtarın parçası yanlışlıkla numara sayılmaz. Ardından eposta ve12ve üzeri rakam dizileri işlenir. İstem uzunluğu ham metinden hesaplanır; redakte metnin uzunluğu değildir. Regex dışında yazılmış bir sır gözden kaçabilir. Dolayısıyla bu deneyde sızıntı yok sonucu sadece üretilen sentetik örneklere ve belirtilen desenlere aittir; sınırsız kişisel veri temizleme garantisi değildir. Kimlik özeti alanında dahi ham anahtar görünmemelidir. Girdiyi yerinde değiştirmek sonraki doğrulama için ham örneği kaybettireceğinden yasaktır.
+
+Gerçek final altı yerel model çağrısının token,gecikme ve bitiş nedenini kullanır. Önce iki normal istem, sonra üç aynı istem ve bir sentetik sır içeren istem gönderilir. Başarılı tek çağrı yeterli değildir; altısında da gerçek ölçüm gerekir. Aynı istemin üç kez gönderilmesi tekrar oranını0.5 yapar ama bunun saldırı olduğunu kendi başına kanıtlamaz. Test ölçülerin doğruluğunu ve kayıt biçimini denetler, modelin belli bir cümleyi üretmesini istemez. Çalıştır çıktısı kayıtları gösterir; kabul Check ile ayrı verilir.
+
+Öğrenciye sunulan redakte olay kaydı ile laboratuvar kanıtı farklı amaçlar taşır. Olay kaydında yalnız izinli alanlar vardır. Yerel deney kanıtında ise deneyin ürettiği sentetik girdiler, modelin gerçek yanıtları, tohumlar ve tekil ölçümler izlenebilirlik için saklanır. Bu sentetik ham kayıtların bulunması gerçek kullanıcı sırlarını toplama izni değildir. Başka kişilerin anahtarını veya özel belgelerini bu dosyalara ekleme. Eksik model, sıfır ölçüm veya başarısız kontrol geçme sayılmaz.
+
 İstek başına tek satırlık yapılandırılmış JSON kaydı yeterli sinyali taşır: zaman, takma ad (`kim`), model, durum kodu, giriş ve çıkış token sayısı, gecikme ve bitiş nedeni. OpenAI uyumlu sunucular (vLLM'in OpenAI uyumlu sunucusu dahil) bu sayıları yanıtta `usage.prompt_tokens`, `usage.completion_tokens` ve `choices[].finish_reason` (`stop`, `length` gibi) alanlarıyla verir, kayıt bunları kopyalayabilir. Ham istem, ham tamamlama, `Authorization` başlığı ve anahtar ise kayda girmez: istemler kişisel veri ve sır taşır, kayıtlar da çoğu zaman uygulamadan daha fazla sisteme, daha geniş erişimle ve daha uzun süre kopyalanır. Kimliği düz SHA-256 ile gizlemek yetmez; müşteri numarası ya da IPv4 adresi (en çok 2^32 değer) gibi düşük entropili bir değerin özeti bütün adaylar denenerek geri bulunur. Sunucu tarafındaki bir sırla hesaplanan HMAC-SHA256 takma adı bu numaralandırmayı sır sızmadıkça engeller; aynı yöntemle normalize edilmiş istemin izi de yazılabilir (eşit izler eşit istemleri ele verir, içerik ise sır olmadan geri bulunamaz), sırrın dönemsel değiştirilmesi de dönemler arası ilişkilendirmeyi keser; takma adlandırılmış veri GDPR'a göre (Gerekçe 26) yine kişisel veri sayıldığından saklama süresi ayrıca politika ile sınırlanır, örneğin istek satırları kısa süre, toplu sayaçlar daha uzun tutulur.
 
-Kötüye kullanım bu kayıtların toplamında görünür: bir istemciden art arda gelen `401`'ler anahtar tahmini ya da çalıntı anahtar listesi denemesidir, bir anahtarın süren `429`'ları kazıma ya da sızmış anahtarın toplu kullanımıdır, ani token artışı maliyet saldırısına ve Tramèr ve arkadaşlarının (USENIX Security 2016) tahmin API'leri üzerinden model çalma çalışmasında anlatılan çıkarım trafiğine işaret eder, neredeyse aynı istemlerin tekrarı ise otomatik jailbreak aramasının izidir. Bu derste "neredeyse aynı" yalnız küçük harfe çevirip boşlukları tekleştirerek yaklaşık hesaplanır; gerçek sistemler MinHash/SimHash ya da gömme benzerliği gibi daha güçlü yöntemler kullanır; ham alanlar yalnız ağ geçidinin kısa ömürlü bellek penceresinde durur, kalıcı kayda yalnız takma adlı satırlar ve alarmlar yazılır. FastAPI'de doğrulama bir bağımlılık (`Depends` ya da `Security`) olarak yazılır ve reddi `HTTPException(status_code=401, headers={"WWW-Authenticate": "Bearer"})` ile bildirir; `@app.middleware("http")` ara katmanı `call_next` çağrısının çevresinde gecikmeyi ölçüp tek JSON satırı yazar. Hazır `fastapi.security.HTTPBearer` gibi güvenlik yardımcıları FastAPI 0.122.0 öncesinde başarısız kimlik doğrulamada `403`, 0.122.0 ve sonrasında `401` ve `WWW-Authenticate` döndürür; eski davranış `make_not_authenticated_error` yeniden tanımlanarak geri getirilir. Bu derste FastAPI sunucusu çalıştırılmaz, ağ isteği yapılmaz ve model çağrılmaz; üç işlev bu katmanların karar çekirdeğini sentetik anahtarlarla ve verilen zaman damgalarıyla deterministik olarak sınar.
+Kötüye kullanım bu kayıtların toplamında görünür: bir istemciden art arda gelen `401`'ler anahtar tahmini ya da çalıntı anahtar listesi denemesidir, bir anahtarın süren `429`'ları kazıma ya da sızmış anahtarın toplu kullanımıdır, ani token artışı maliyet saldırısına ve Tramèr ve arkadaşlarının (USENIX Security 2016) tahmin API'leri üzerinden model çalma çalışmasında anlatılan çıkarım trafiğine işaret eder, neredeyse aynı istemlerin tekrarı ise otomatik jailbreak aramasının izidir. Bu derste "neredeyse aynı" yalnız küçük harfe çevirip boşlukları tekleştirerek yaklaşık hesaplanır; gerçek sistemler MinHash/SimHash ya da gömme benzerliği gibi daha güçlü yöntemler kullanır; ham alanlar yalnız ağ geçidinin kısa ömürlü bellek penceresinde durur, kalıcı kayda yalnız takma adlı satırlar ve alarmlar yazılır. FastAPI'de doğrulama bir bağımlılık (`Depends` ya da `Security`) olarak yazılır ve reddi `HTTPException(status_code=401, headers={"WWW-Authenticate": "Bearer"})` ile bildirir; `@app.middleware("http")` ara katmanı `call_next` çağrısının çevresinde gecikmeyi ölçüp tek JSON satırı yazar. Hazır `fastapi.security.HTTPBearer` gibi güvenlik yardımcıları FastAPI 0.122.0 öncesinde başarısız kimlik doğrulamada `403`, 0.122.0 ve sonrasında `401` ve `WWW-Authenticate` döndürür; eski davranış `make_not_authenticated_error` yeniden tanımlanarak geri getirilir. Görevler1–3 bu katmanların karar çekirdeğini sentetik anahtarlar ve verilen zamanlarla sınar. Son adım kurulu yerel Ollama modeline altı gerçek HTTP isteği gönderir ve ölçüleri kayda dönüştürür. FastAPI ağ geçidi bu derste çalıştırılmaz.
 :::
 
 ::: tahmin Takma ad ve bekleme süresini tahmin et
@@ -46,9 +70,28 @@ False 64 16
 
 `{"durum": ..., "anahtar": ..., "www_authenticate": ...}` döndür. Şema, değerin ilk boşluk (U+0020) karakterine kadar olan kısmıdır (boşluk yoksa değerin tamamı) ve büyük/küçük harf duyarsız karşılaştırılır; sekme ve diğer beyaz boşluk karakterleri ayırıcı değildir. Başlık yoksa ya da şema `bearer` değilse `401`, `None`, `"Bearer"`. Şemadan sonra bir ya da daha çok boşluk (U+0020) ve ardından jeton gelir; jeton ASCII harf, rakam ya da `-._~+/` karakterlerinden en az birini, sonra sıfır ya da daha çok `=` içermelidir. Jeton yoksa ya da başka herhangi bir karakter varsa (sekme, satır sonu, ara boşluk, ortada `=`, ASCII olmayan harf, virgül) `400`, `None`, `'Bearer error="invalid_request"'`. Biçimi geçerli jetonun (dolgu dahil) SHA-256 özetini her kaydın özetiyle `hmac.compare_digest(...)` çağrısıyla karşılaştır: çağrıyı bu modül adıyla yaz, her kayıt için tam bir kez yap ve eşleşme bulsan da döngüden çıkma. Eşleşme yoksa `401`, `None`, `'Bearer error="invalid_token"'`; eşleşen kaydın kapsamlarında `gerekli` yoksa `403`, kayıt kimliği, `'Bearer error="insufficient_scope"'`; varsa `200`, kayıt kimliği, `None`. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-20")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def bearer_dogrula(baslik, anahtarlar, gerekli):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: normal eşitlik kullanır, kapsamı yok sayar, ilk eşleşmede döner.
+    import hashlib
+    jeton=(baslik or "").removeprefix("Bearer ")
+    for kim,k in anahtarlar.items():
+        if hashlib.sha256(jeton.encode()).hexdigest()==k["ozet"]:
+            return {"durum":200,"anahtar":kim,"www_authenticate":None}
+    return {"durum":401,"anahtar":None,"www_authenticate":"Bearer"}
+
+v=json_yukle("veri/trafik.json")["kimlik"]
+print("Sentetik kimlik girdisi:",v)
+print("Kimlik sonucu:",bearer_dogrula(v["baslik"],v["anahtarlar"],v["gerekli"]))
 ```
 
 ```test
@@ -116,6 +159,7 @@ for ad, mutant in [("kapsamı yok sayan", m_kapsam), ("şemayı harf duyarlı ok
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 import hashlib
 import hmac
 import string
@@ -153,6 +197,10 @@ def bearer_dogrula(baslik, anahtarlar, gerekli):
     if gerekli not in anahtarlar[bulunan]["kapsamlar"]:
         return {"durum": 403, "anahtar": bulunan, "www_authenticate": 'Bearer error="insufficient_scope"'}
     return {"durum": 200, "anahtar": bulunan, "www_authenticate": None}
+
+v=json_yukle("veri/trafik.json")["kimlik"]
+print("Sentetik kimlik girdisi:",v)
+print("Kimlik sonucu:",bearer_dogrula(v["baslik"],v["anahtarlar"],v["gerekli"]))
 ```
 
 ```hint
@@ -165,9 +213,27 @@ def bearer_dogrula(baslik, anahtarlar, gerekli):
 
 Her anahtarın kendi kovası vardır ve anahtar ilk göründüğünde kova doludur (`kapasite` jeton). Kovaya her `aralik_ms` milisaniyede bir jeton, araya düşen süreyle orantılı ve kesirli olarak dolar; kova `kapasite` jetonu aşamaz. Kesirleri tam hesapla (ör. jetonu `aralik_ms` birime bölen tamsayı aritmetiği ya da `fractions.Fraction`), kayan nokta kullanma. Olay anında kovada en az bir tam jeton varsa bir jeton harca ve `(200, None)` üret; yoksa jeton harcamadan `(429, s)` üret: `s`, bir tam jetona eksik milisaniyenin saniyeye yukarı yuvarlanmış değeridir. Sonuçları olay sırasıyla liste olarak döndür. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-20")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def kova_sinirla(olaylar, kapasite, aralik_ms):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: bütün anahtarları tek kovada sayar ve zamanla doldurmaz.
+    kalan=kapasite;sonuc=[]
+    for t,anahtar in olaylar:
+        sonuc.append((200,None) if kalan>0 else (429,1))
+        kalan=max(0,kalan-1)
+    return sonuc
+
+v=json_yukle("veri/trafik.json")["kova"]
+print("Sentetik kova olayları:",v)
+print("Kova sonucu:",kova_sinirla([tuple(x) for x in v["olaylar"]],v["kapasite"],v["aralik_ms"]))
 ```
 
 ```test
@@ -206,6 +272,7 @@ for ad, mutant in [("tek ortak kova kullanan", m_ortak), ("kapasiteyi aşan", m_
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def kova_sinirla(olaylar, kapasite, aralik_ms):
     for sayi, ust in ((kapasite, 10), (aralik_ms, 60000)):
         if type(sayi) is not int or not 1 <= sayi <= ust:
@@ -230,6 +297,10 @@ def kova_sinirla(olaylar, kapasite, aralik_ms):
             kovalar[anahtar] = (seviye, t)
             sonuc.append((429, -(-(aralik_ms - seviye) // 1000)))
     return sonuc
+
+v=json_yukle("veri/trafik.json")["kova"]
+print("Sentetik kova olayları:",v)
+print("Kova sonucu:",kova_sinirla([tuple(x) for x in v["olaylar"]],v["kapasite"],v["aralik_ms"]))
 ```
 
 ```hint
@@ -242,9 +313,25 @@ Jetonu milisaniye birimiyle say: bir jeton `aralik_ms` birimdir, tavan `kapasite
 
 Takma ad, değerin UTF-8 baytları üzerinde `gizli` anahtarıyla hesaplanan HMAC-SHA256 onaltılık özetinin ilk 16 karakteridir. Dört kural uygula: `kimlik_tarama` bir istemcinin en az 5 `401` olayı (`sayi` bu olayların sayısı, `kim` istemcinin takma adı); `hiz_asimi` bir anahtarın en az 5 `429` olayı; `tekrar_istem` bir anahtarın `200` olaylarında küçük harfe çevrilip boşlukları tekleştirilmiş (`" ".join(istem.lower().split())`) aynı istemin en az 3 kez geçmesi (`sayi` o anahtarın en sık istem grubunun büyüklüğü); `token_artisi` bir anahtarın yalnız `200` olaylarındaki token toplamının en az 20000 olması (`sayi` bu toplam). Son üç kuralda `kim` anahtarın takma adıdır. `{"tur": ..., "kim": ..., "sayi": ...}` sözlüklerini önce `tur`, sonra `kim` alfabetik sırasıyla liste olarak döndür; çıktıda ham istemci, anahtar ya da istem bulunmaz. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-20")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def alarm_uret(olaylar, gizli):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: HMAC yerine ham kimliği yazar,401 dışındaki alarmları yok sayar.
+    from collections import Counter
+    c=Counter(x["istemci"] for x in olaylar if x["durum"]==401)
+    return [{"tur":"kimlik_tarama","kim":k,"sayi":n} for k,n in sorted(c.items()) if n>=5]
+
+v=json_yukle("veri/trafik.json")["alarmlar"]
+print("Sentetik alarm penceresi:",v["olaylar"])
+print("Alarmlar:",alarm_uret(v["olaylar"],v["gizli"].encode()))
 ```
 
 ```test
@@ -291,6 +378,7 @@ for ad, mutant in [("olay düşüren", m_esik), ("tekrar gruplarını bozan", m_
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 import hashlib
 import hmac
 from collections import Counter
@@ -321,6 +409,10 @@ def alarm_uret(olaylar, gizli):
     alarmlar += [("tekrar_istem", k, n) for k, n in tekrar.items() if n >= 3]
     alarmlar += [("token_artisi", k, n) for k, n in token.items() if n >= 20000]
     return [{"tur": t, "kim": k, "sayi": n} for t, k, n in sorted(alarmlar)]
+
+v=json_yukle("veri/trafik.json")["alarmlar"]
+print("Sentetik alarm penceresi:",v["olaylar"])
+print("Alarmlar:",alarm_uret(v["olaylar"],v["gizli"].encode()))
 ```
 
 ```hint
@@ -331,7 +423,7 @@ Her kural için ayrı bir `Counter` tut: `401`'leri istemcinin, `429` ve `200`'l
 ::: gorev Gerçek deney · Gizliliği koruyan gözlemlenebilirlik kaydı
 `olay_kaydi(ham, tuz)` işlevini yaz.
 
-- Doğrulama, aksi hâlde `ValueError`: `ham` tam `zaman`, `anahtar`, `istem`, `token`, `sure_ms`, `done_reason` anahtarlı sözlük; `anahtar` boş olmayan str, `istem` str, `token` bool olmayan negatif olmayan int, `sure_ms` bool olmayan negatif olmayan sayı, `done_reason` str, `zaman` bool olmayan negatif olmayan sayı. `tuz` boş olmayan str.
+- Doğrulama, aksi hâlde `ValueError`: `ham` tam `zaman`, `anahtar`, `istem`, `token`, `sure_ms`, `done_reason` anahtarlı sözlük; `anahtar` boş olmayan str, `istem` str, `token` bool olmayan negatif olmayan int, `sure_ms` bool olmayan sonlu, negatif olmayan sayı, `done_reason` str, `zaman` bool olmayan sonlu, negatif olmayan sayı. `tuz` boş olmayan str.
 - Döndür: `{"zaman": ham["zaman"], "anahtar_hash": sha256((tuz + anahtar) baytları) onaltılık özetinin ilk 16 hanesi, "istem_uzunluk": len(istem), "istem_redakte": istemdeki sırlar redakte edilmiş: sırayla önce **anahtar** (`sk-` ardından 16+ ASCII harf/rakam ya da `PAFTA-` ardından 8 onaltılık büyük harf/rakam), sonra **eposta** (`[\w.+-]+@[\w-]+\.[\w.-]+`), sonra **numara** (12+ ardışık rakam) bulunur ve her eşleşme `[GIZLI:tür]` olur, "turler": bulunan türler (alfabetik), "token": ham["token"], "sure_ms": ham["sure_ms"], "done_reason": ham["done_reason"]}`. Ham anahtarı ve ham istemi **kayda koyma**.
 
 Test işlevini sentetik ham kayıtlarda sınar; sonra yerel modele gerçek istekler atıp senin kaydının sırrı sızdırmadığını ve ölçülerin gerçek olduğunu doğrular. Çalıştır düğmesi bütün kayıtları gösterir.
@@ -345,6 +437,7 @@ timeout: 300
 ```starter
 import hashlib
 import re
+import math
 import ai_lab
 
 def olay_kaydi(ham, tuz):
@@ -361,8 +454,14 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_olay", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak=("referans","referans_olay","_redakte","kanit_yaz","getattr")
+sorun=ai_lab.kod_denetimi(src,yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in _yasak or a.name=="*" for a in n.names):
+        sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi olay kaydını yaz: "+"; ".join(sorun)):
+    stop()
 fn = need("olay_kaydi")
 from sandbox import ai_gercek_ai_temel_20 as D
 TUZ = "tuz-123"
@@ -374,8 +473,14 @@ def sozlesme(f):
         for h in hamlar:
             if f(dict(h), TUZ) != D.referans_olay(dict(h), TUZ):
                 return False
-        h0 = hamlar[0]
-        for arg in [(None, TUZ), ("x", TUZ), (dict(h0, ek=1), TUZ), ({k: h0[k] for k in h0 if k != "token"}, TUZ),
+        import copy
+        h0=hamlar[0]
+        ek=[dict(h0,zaman=10**400),dict(h0,istem="sk-ABCDEFGHIJKLMNOP1234 ve PAFTA-12345678 ve 123456789012"),dict(h0,istem=""),dict(h0,istem="mail a.b+x@firma.test!")]
+        for h in ek+hamlar:
+            once=copy.deepcopy(h)
+            for tuz in (TUZ,"farkli-tuz"):
+                if f(h,tuz)!=D.referans_olay(once,tuz) or h!=once: return False
+        for arg in [(dict(h0,zaman=float("nan")),TUZ),(dict(h0,sure_ms=float("inf")),TUZ),(dict(h0,zaman=True),TUZ),(None, TUZ), ("x", TUZ), (dict(h0, ek=1), TUZ), ({k: h0[k] for k in h0 if k != "token"}, TUZ),
                     (dict(h0, anahtar=""), TUZ), (dict(h0, anahtar=5), TUZ), (dict(h0, istem=5), TUZ),
                     (dict(h0, token=-1), TUZ), (dict(h0, token=True), TUZ), (dict(h0, token=1.0), TUZ),
                     (dict(h0, sure_ms=-1), TUZ), (dict(h0, sure_ms=True), TUZ), (dict(h0, zaman=-1), TUZ), (dict(h0, done_reason=5), TUZ),
@@ -407,11 +512,11 @@ if all(sonuclar):
     kontrol(not sizan, f"gizli istek kaydı hiçbir sırrı sızdırmıyor (sızan: {sizan or 'yok'}); türler {sir['turler']}")
     kontrol(all(r["anahtar"] not in str(k["kayit"]) for k in r["kayitlar"]), "ham API anahtarı hiçbir kayıtta yok (tuzlanmış hash kullanıldı)")
     gecerli = [k for k in r["kayitlar"] if k["kayit"]["token"] and k["kayit"]["token"] > 0]
-    kontrol(len(gecerli) > 0, f"token ve gecikme gerçek ölçüldü ({len(gecerli)}/{len(r['kayitlar'])} istekte token>0)")
+    kontrol(len(gecerli) == len(r["kayitlar"]) == 6, f"token ve gecikme gerçek ölçüldü ({len(gecerli)}/{len(r['kayitlar'])} istekte token>0)")
     oz = D.ozet(r)
     kontrol(oz["yineleme_orani"] >= 0.5, f"tekrarlı istem kayıtlarda görünür (tekrar oranı {oz['yineleme_orani']})")
 yol = ai_lab.kanit_yaz("temel-gozlem", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-temel-20",
-                                        "ortam": (r or {}).get("ortam"), "ozet": oz})
+                                        "ortam": (r or {}).get("ortam"), "ozet": oz, "deney": r, "sinir": "ham kanıt yalnız üretilmiş sentetik sırları taşır; öğrenci olay kaydıyla ayrı, regex redaksiyonu genel gizlilik garantisi değil"})
 if oz:
     ok(True, f"BULGU ({r['ortam']['model']['ad']}): {oz['istek']} gerçek istek, toplam {oz['toplam_token']} token; sır kaydı türleri {oz['sir_turleri']}, "
              f"sızan sır: {oz['sizan_sir'] or 'yok'}, ham anahtar kayıtta: {oz['ham_anahtar_kayitta']}; tekrar oranı {oz['yineleme_orani']} (kötüye kullanım görünür).")
@@ -420,6 +525,7 @@ if oz:
 ```solution
 import hashlib
 import re
+import math
 import ai_lab
 
 def olay_kaydi(ham, tuz):
@@ -433,8 +539,8 @@ def olay_kaydi(ham, tuz):
         raise ValueError("token negatif olmayan tamsayı olmalı")
     for a in ("zaman", "sure_ms"):
         v = ham[a]
-        if isinstance(v, bool) or not isinstance(v, (int, float)) or v < 0:
-            raise ValueError(f"{a} negatif olmayan sayı olmalı")
+        if isinstance(v, bool) or not isinstance(v, (int, float)) or (isinstance(v,float) and not math.isfinite(v)) or v < 0:
+            raise ValueError(f"{a} sonlu, negatif olmayan sayı olmalı")
     if not isinstance(ham["done_reason"], str):
         raise ValueError("done_reason string olmalı")
     if not isinstance(tuz, str) or not tuz:

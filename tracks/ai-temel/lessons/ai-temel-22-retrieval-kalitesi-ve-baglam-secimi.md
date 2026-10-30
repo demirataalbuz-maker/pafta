@@ -6,12 +6,36 @@ timeout: 45
 ---
 
 ::: anlat Modele hangi kanıtın ulaşacağını retrieval kalitesi belirler
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Retrieval değerlendiricisi etiketli sıralamanın kalitesini ölçer | İlk3 görev görünür sentetik parça/derece,RRF listeleri ve MMR tablosu | FAISS,BM25 veya cross-encoder'ın gerçekten çalıştığı anlamına gelmez |
+| Yerel gömme modeli metni gerçek vektörlere dönüştürür | Final Ollama all-minilm:22m ile10parça+6soru;kosinüs arama,k1/k3 karşılaştırması | Üretim RAG başarısı,zehirlenme savunması veya Türkçe için genel model kalitesi kanıtı değildir |
+
+> [!NOT]
+> `veri/retrieval.json` elle yazılmış sentetik sıralama ve puan örneğidir; model çıktısı değildir. İlk3görev aynı dosyayı okur. Setup her Run/Check için geçici kopya hazırlar; kalıcılık yoktur. Kaynağı editörde aç veya kodda yüklenen kopyayı değiştirip Run dene. Gizli testler ayrı. Final kurulu gömme modelini gerçekten çağırır; yeni indirme yoktur.
+
 RAG hattında model yalnız retriever'ın ilk k sonucunu görür; doğru belge k'nın dışında kalırsa model kanıtsız yanıt üretir, içeride ilgisiz ya da saldırganın yerleştirdiği bir parça varsa onu kanıt sanar. Bu yüzden retrieval, etiketli bir değerlendirme kümesiyle (sorgu → ilgili belge kimlikleri ve ilgililik dereceleri) ölçülür. recall@k ilgili belgelerin ne kadarının ilk k'ya girdiğini, precision@k ilk k'nın ne kadarının ilgili olduğunu, reciprocal rank (RR) ilk ilgili belgenin 1/sıra değerini verir; RR'nin sorgular üzerindeki ortalaması MRR'dir. Dereceli ilgililikte nDCG@k kullanılır: DCG@k = Σ rel_i / log2(i + 1) (i sıra numarasıdır, 1'den başlar), IDCG@k aynı toplamın dereceler büyükten küçüğe dizilmiş ideal sıralamadaki değeridir ve nDCG@k = DCG@k / IDCG@k. Literatürde kazanç için 2^rel − 1 biçimi de yaygındır; iki sürümün sayıları karşılaştırılamaz, raporda hangisinin kullanıldığı yazılmalıdır.
 
-Chunking ve embedding kararları bu sayıları doğrudan değiştirir. Büyük parçada kanıt cümlesi konu dışı cümlelerle tek vektöre ortalanır (Sentence Transformers modellerinin çoğu mean pooling kullanır) ve sorguya benzerliği düşer; küçük parça ise koşul ya da istisna cümlesini komşu parçada bırakıp yanıltıcı kanıt üretebilir. Model ayrıca `max_seq_length` sınırını aşan metni sessizce keser (örneğin `all-MiniLM-L6-v2` varsayılan olarak 256 word piece'ten sonrasını almaz), yani parçanın sonundaki kanıt embedding'e hiç girmez. FAISS'te `IndexFlatIP` kesin iç çarpım araması yapar ve kosinüs için vektörler önce `faiss.normalize_L2` ile normalize edilir; `IndexHNSWFlat` (`hnsw.efSearch`) ve `IndexIVFFlat` (`nprobe`) gibi yaklaşık indeksler hız için recall'dan feragat eder, bu kayıp da Flat sonuçlarına göre recall@k ile ölçülür. Parça düzeyindeki indeks aynı belgenin birden çok parçasını döndürebildiğinden belge düzeyinde ölçerken her belge ilk parçasının sırasında bir kez sayılır; aksi hâlde aynı kanıtın kopyaları ilk k'yı doldurup recall ve precision'ı şişirir. Bu derste model ya da FAISS çalıştırılmaz; sıralamalar, dereceler ve benzerlikler sentetik sabit girdilerdir ve görevler değerlendirmenin ve seçimin hesap tarafını belirlenimli olarak uygular.
+Chunking ve embedding kararları bu sayıları doğrudan değiştirir. Büyük parçada kanıt cümlesi konu dışı cümlelerle tek vektöre ortalanır (Sentence Transformers modellerinin çoğu mean pooling kullanır) ve sorguya benzerliği düşer; küçük parça ise koşul ya da istisna cümlesini komşu parçada bırakıp yanıltıcı kanıt üretebilir. Model ayrıca `max_seq_length` sınırını aşan metni sessizce keser (örneğin `all-MiniLM-L6-v2` varsayılan olarak 256 word piece'ten sonrasını almaz), yani parçanın sonundaki kanıt embedding'e hiç girmez. FAISS'te `IndexFlatIP` kesin iç çarpım araması yapar ve kosinüs için vektörler önce `faiss.normalize_L2` ile normalize edilir; `IndexHNSWFlat` (`hnsw.efSearch`) ve `IndexIVFFlat` (`nprobe`) gibi yaklaşık indeksler hız için recall'dan feragat eder, bu kayıp da Flat sonuçlarına göre recall@k ile ölçülür. Parça düzeyindeki indeks aynı belgenin birden çok parçasını döndürebildiğinden belge düzeyinde ölçerken her belge ilk parçasının sırasında bir kez sayılır; aksi hâlde aynı kanıtın kopyaları ilk k'yı doldurup recall ve precision'ı şişirir. Görevler1–3 sentetik sıralama,derece ve benzerlik dosyalarında çalışır. Final kurulu all-minilm:22m gömme modelini gerçek Ollama API üzerinden çağırır. FAISS ve cross-encoder bu derste çalıştırılmaz.
 :::
 
 ::: anlat Füzyon, yeniden sıralama ve çeşitlilik bağlama gireni seçer
+
+Önce retrieval.json içindeki üç bölümü incele. olcutler bölümünde aynı belgenin iki parçası sıralamada bulunur; bunları iki ayrı ilgili belge saymamalısın. rrf bölümünde lexical ve dense diye etiketlenmiş listeler vardır ama puanlar gerçek arama motorundan alınmamıştır. mmr bölümü sorgu benzerliklerini ve simetrik belge benzerliklerini taşır. İlk görev ölçer,ikinci iki sıralamayı birleştirir,üçüncü çeşitlilik ve bağlam sırası seçer. Bu dosyayı kurcalayarak aynı belgenin yeni bir parçasını eklemenin belge düzeyindeki recall'u neden değiştirmediğini gözleyebilirsin.
+
+Metriklerin paydası ve hangi düzeyde ölçüldüğü açık olmalıdır. İlk görev belge düzeyinde ve dereceli ilgililikte çalışır; aynı belgenin sonraki parçaları k kesmesinden önce atılır. Precision paydası liste kısa olsa da k'dır. RR yalnız ilk k içindedir; sorguların RR ortalaması MRR olur. Gerçek final ise tek sorguda parça kimliklerini kullanır ve MRR'yi bütün sıralamada arar. Finalin nDCG'si ikili,ilk görevin nDCG'si1–3dereceli doğrusal kazançtır. İkisini aynı ölçüm sanarak yan yana sonuç kıyaslama. Makro ortalama önce hesaplanır,sonra yuvarlanır; her sorguyu önce yuvarlamak küçük ama sistematik hata üretir.
+
+RRF listelerin özgün puanını kullanmaz. İki listede de iyi sırada olan belge tek listede birinci olanı geçebilir; bu kaynak güvenliği kontrolü değildir. Altı ondalıkta puan eşitliği ve alfabetik kimlik sırası bu görevde belirlenimlilik sağlar. MMR seçimi de sonraki bağlam sıralamasıyla aynı liste değildir. Önce ilgililik/çeşitlilik puanıyla seçim yapılır,sonra seçilenler kenarlara dizilir. λyüz olduğunda çeşitlilik cezası kalkar,λsıfır olduğunda ilk seçimde bütün MMR puanları eşitlenir ve sözleşmedeki ek eşitlik kuralı önem kazanır. Bağlamın kenarına dizmenin bu görevde hesaplanması,yanıt kalitesinin gerçekten arttığını göstermez; burada üretici model karşılaştırması yapılmaz.
+
+Finalde gerçek gömme modeli iki toplu istekte metinleri işler. Parçalar ve sorular aynı model ve boyut uzayında olmalıdır. API'nin beklenen sayıda vektör döndürdüğü,tüm değerlerin sonlu olduğu ve vektörlerin sıfır olmadığı denetlenir; eksik toplu yanıt zip ile sessizce kısaltılıp kabul edilmez. Kosinüs,vektör uzunluğunu değil yönünü karşılaştırır. Çok büyük veya çok küçük sayılarda doğrudan kareleri toplamak taşabilir veya sıfıra yuvarlanabilir. Ölçekleyerek normalleştirmek bu sayısal sorunu giderir. Eşit skorda küçük giriş indeksi önce gelir; alfabetik kimlik sırasını burada kullanma.
+
+Etiketli derlem küçük ve sentetiktir. all-minilm gömmeleri kullanmak veriyi gerçek yapmaz; gerçek olan metinden vektör üreten model hesabıdır. kbirdenküçe çıkarıldığında altın parçanın ilk kümede bulunma oranı düşmemelidir; bu iç içe topk kümelerinin özelliğidir. Kesinlikle artması istenmez,aynı da kalabilir. Daha fazla parça bağlama daha fazla gereksiz veya güvensiz metin de taşıyabilir; bu ders kaynak yetkisi veya prompt enjeksiyon savunması sınamaz. Ortalama recall tek başına her sorgunun başarılı olduğunu söylemez; kanıtta her sorunun altın kimliği,sıralaması ve k1/k3 metriklerini oku.
+
+Kanıt,derlemin tam metnini,iki API çağrısını,model özeti/digestini,ham vektörleri ve sonuçları saklar. Yeniden dosyadan okunması yeni model çağrısı sayılmaz. Çalıştır sonuçları inceletir ve kabulfalse kanıtı üretir; görevin kabulü Check ile ayrıca verilir. Eksik model veya bozuk toplu yanıt geçme değildir. Yalnız deneyin yüklediği gömme modeli boşaltılır; önceden yüklü model korunur.
+
+Kaynak: [Ollama embed API](https://docs.ollama.com/api/embed). API metin veya metin listesi alır; dersin etiketleri ve metrik sözleşmesi bu API'nin garantisi değildir.
+
 Lexical arama (örneğin BM25) hata kodu, CVE kimliği veya ürün adı gibi tam terimlerde, dense arama ise eşanlamlı ve yeniden ifade edilmiş sorularda güçlüdür; iki puan ölçeği doğrudan karşılaştırılamadığından hibrit sistemler ya puanları normalize edip ağırlıklı toplar (convex combination) ya da yalnız sıraları birleştirir; RRF ikinci yoldur ve ayar ya da etiketli veri gerektirmediği için yaygın bir varsayılandır. Reciprocal Rank Fusion (Cormack, Clarke ve Büttcher, SIGIR 2009) bir belgeye geçtiği her listede 1/(k + sıra) ekler; sıra 1'den başlar ve makalede k = 60 alınır. Bu yapı tek bir listeyi ele geçirmenin etkisini sınırlar: anahtar kelimeyle doldurulmuş zehirli belge BM25'te birinci olsa bile 1/61 alır, iki listede de ikinci olan belge 2/62 ile onu geçer. Füzyondan sonra bir cross-encoder sorgu ile pasajı birlikte kodlayarak daha isabetli ilgililik puanı üretir (Sentence Transformers'ta `CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2").predict([(sorgu, pasaj), ...])`); her çift için tam model çalıştığından yalnız ilk birkaç düzine adaya uygulanır. Bu derste cross-encoder çalıştırılmaz, yalnız füzyon hesaplanır.
 
 Yakın kopyalar ilk k'yı doldurursa bağlam bütçesi tek kaynağa harcanır ve aynı içeriği çoğaltan saldırgan modele tek sesli bir kanıt seti sunar. Maximal Marginal Relevance (Carbonell ve Goldstein, SIGIR 1998) her adımda λ·sim(d, q) − (1 − λ)·max_{s∈S} sim(d, s) değerini en büyük yapan belgeyi seçilmişler kümesi S'ye ekler; λ = 1 saf ilgililik, küçük λ daha fazla çeşitlilik demektir. MMR güven kararı vermez, farklı ama zehirli bir kaynağı da seçebilir; kaynak politikası ayrı bir katmandır. Seçilen kanıtın bağlamdaki yeri de önemlidir: "Lost in the Middle" (Liu ve diğ., 2023) uzun bağlamda ilgili bilgi başta veya sondayken başarının en yüksek, ortadayken belirgin biçimde düşük olduğunu gösterdi. Görev 3 bu nedenle MMR'nin önce seçtiği kanıtları kenarlara yerleştirir; benzerlikler tamsayı yüzde ölçeğinde verildiğinden eşitlik kırma float gürültüsü olmadan belirlenimlidir.
@@ -48,9 +72,27 @@ True
 
 Her sorguda önce parça sıralamasını belge sıralamasına indir: her belge ilk parçasının geçtiği yerde bir kez yer alır, aynı belgenin sonraki parçaları atılır. Sonra bu belge sıralamasının ilk k öğesine bak (k'dan kısaysa tamamına): `recall` = ilk k'daki ilgili belge sayısı / ilgili belge sayısı; `precision` = aynı sayı / k (liste kısa olsa da payda k); `rr` = ilk k içindeki ilk ilgili belgenin sırası r ise 1/r, yoksa 0; `ndcg` = DCG/IDCG, burada DCG = Σ derece_i / log2(i + 1) (i = 1, 2, ... sıra; ilgisiz belgenin derecesi 0), IDCG ise aynı formülün o sorgunun dereceleri büyükten küçüğe dizilip ilk k tanesine uygulanmış hâlidir. `{"sorgular": {sorgu: {"recall": ..., "precision": ..., "rr": ..., "ndcg": ...}}, "ortalama": {"recall": ..., "precision": ..., "mrr": ..., "ndcg": ...}}` döndür. Ortalama her sorguya eşit ağırlık veren makro ortalamadır (`mrr` = `rr` ortalaması) ve yuvarlanmamış sorgu değerlerinden hesaplanır. Bütün çıktı değerlerini `round(x, 4)` ile yuvarla. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-22")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def retrieval_olcutleri(siralamalar, ilgililer, k):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: aynı belgenin parçalarını ayrı isabet sayar ve diğer ölçütleri kopyalar.
+    rows={}
+    for q,liste in siralamalar.items():
+        hit=sum(p.split("#")[0] in ilgililer[q] for p in liste[:k])
+        rows[q]={"recall":hit/len(ilgililer[q]),"precision":hit/k,"rr":1.0 if hit else 0.0,"ndcg":1.0 if hit else 0.0}
+    return {"sorgular":rows,"ortalama":{a:sum(v[b] for v in rows.values())/len(rows) for a,b in [("recall","recall"),("precision","precision"),("mrr","rr"),("ndcg","ndcg")]}}
+
+v=json_yukle("veri/retrieval.json")["olcutler"]
+print("Sentetik sıralama/dereceler:",v)
+print("Ölçütler:",retrieval_olcutleri(v["siralamalar"],v["ilgililer"],v["k"]))
 ```
 
 ```test
@@ -107,6 +149,7 @@ for ad, mutant in [("sıralamayı ters çeviren", m_sira), ("dereceyi yok sayan"
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def retrieval_olcutleri(siralamalar, ilgililer, k):
     import math
     def metin(x):
@@ -138,6 +181,10 @@ def retrieval_olcutleri(siralamalar, ilgililer, k):
         ham[q] = {"recall": isabet / len(ilgili), "precision": isabet / k, "rr": rr, "ndcg": dcg / idcg}
     ortalama = {a: round(sum(o[b] for o in ham.values()) / len(ham), 4) for a, b in [("recall", "recall"), ("precision", "precision"), ("mrr", "rr"), ("ndcg", "ndcg")]}
     return {"sorgular": {q: {a: round(v, 4) for a, v in o.items()} for q, o in ham.items()}, "ortalama": ortalama}
+
+v=json_yukle("veri/retrieval.json")["olcutler"]
+print("Sentetik sıralama/dereceler:",v)
+print("Ölçütler:",retrieval_olcutleri(v["siralamalar"],v["ilgililer"],v["k"]))
 ```
 
 ```hint
@@ -150,9 +197,23 @@ def retrieval_olcutleri(siralamalar, ilgililer, k):
 
 Her belgenin puanı, geçtiği her listedeki sırası r için 1/(60 + r) değerlerinin toplamıdır; belgenin geçmediği liste puan katmaz. Sıralama anahtarı `round(puan, 6)` değeridir: belgeleri bu değere göre büyükten küçüğe, bu değer eşitse belge kimliğine göre alfabetik (Python string sırası, küçükten büyüğe) sırala. Böylece toplama sırasından doğan float farkı ya da altıncı ondalıktan sonraki fark eşitlik kırmayı değiştirmez. İlk n belgeyi `(belge, round(puan, 6))` demetlerinin (tuple) listesi olarak döndür; n'den az belge varsa hepsini döndür. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-22")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def rrf_birlestir(siralamalar, n):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: füzyon yerine yalnız ilk sıralamanın sonuçlarını kullanır.
+    return [(d,round(1/(60+r),6)) for r,d in enumerate(siralamalar[0],1)][:n]
+
+v=json_yukle("veri/retrieval.json")["rrf"]
+print("Sentetik lexical/dense:",v)
+print("RRF:",rrf_birlestir(v["siralamalar"],v["n"]))
 ```
 
 ```test
@@ -200,6 +261,7 @@ for ad, mutant in [("sırayı ters çeviren", m_sira), ("tek listeye düşen", m
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def rrf_birlestir(siralamalar, n):
     if type(n) is not int or not 1 <= n <= 20:
         raise ValueError("n geçersiz")
@@ -214,6 +276,10 @@ def rrf_birlestir(siralamalar, n):
     yuvarlak = {d: round(p, 6) for d, p in puan.items()}
     secim = sorted(yuvarlak, key=lambda d: (-yuvarlak[d], d))[:n]
     return [(d, yuvarlak[d]) for d in secim]
+
+v=json_yukle("veri/retrieval.json")["rrf"]
+print("Sentetik lexical/dense:",v)
+print("RRF:",rrf_birlestir(v["siralamalar"],v["n"]))
 ```
 
 ```hint
@@ -226,9 +292,24 @@ Puanları bir sözlükte biriktir; `enumerate(liste, 1)` sırayı 1'den başlat�
 
 Seçimi adım adım yap. S seçilmişler olmak üzere her adımda seçilmemiş her d için puan = lam · sorgu_benzerligi(d) − (100 − lam) · max_{s∈S} benzerlik[d][s] hesapla (S boşken ceza 0). En yüksek puanlıyı S'ye ekle; eşit puanda sorgu benzerliği yüksek olan, o da eşitse alfabetik olarak küçük kimlik seçilir. min(adet, aday sayısı) belge seçince dur. `{"secim": [...], "baglam": [...]}` döndür: `secim` seçim sırasıdır; `baglam` önce secim'in 1., 3., 5., ... öğelerini sırayla, ardından 2., 4., ... öğelerini sondan başa içerir (MMR'nin ilk seçtiği iki kanıt başta ve sonda, son seçilenler ortada kalır). Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-22")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def mmr_sec(adaylar, benzerlik, adet, lam):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: benzerlik cezasını ve kenar dizilimini yok sayar.
+    s=sorted(adaylar,key=lambda d:(-adaylar[d],d))[:adet]
+    return {"secim":s,"baglam":list(s)}
+
+v=json_yukle("veri/retrieval.json")["mmr"]
+print("Sentetik MMR tablosu:",v)
+print("Seçim:",mmr_sec(v["adaylar"],v["benzerlik"],v["adet"],v["lam"]))
 ```
 
 ```test
@@ -288,6 +369,7 @@ for ad, mutant in [("çeşitliliği kapatan", m_lam), ("benzerlik cezasını sı
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def mmr_sec(adaylar, benzerlik, adet, lam):
     def puan(x):
         return type(x) is int and 0 <= x <= 100
@@ -306,6 +388,10 @@ def mmr_sec(adaylar, benzerlik, adet, lam):
             return (-(lam * adaylar[d] - (100 - lam) * ceza), -adaylar[d], d)
         secim.append(min([d for d in adaylar if d not in secim], key=deger))
     return {"secim": secim, "baglam": secim[::2] + secim[1::2][::-1]}
+
+v=json_yukle("veri/retrieval.json")["mmr"]
+print("Sentetik MMR tablosu:",v)
+print("Seçim:",mmr_sec(v["adaylar"],v["benzerlik"],v["adet"],v["lam"]))
 ```
 
 ```hint
@@ -345,14 +431,20 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_getir", "getattr", "_sirala", "_metrik"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak=("referans","referans_getir","getattr","_birim","_sirala","_metrik","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in _yasak or a.name=="*" for a in n.names): sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi retrieval ölçümünü yaz: "+"; ".join(sorun)): stop()
 fn = need("getir_ve_olc")
 from sandbox import ai_gercek_ai_temel_22 as D
 idler = ["p0", "p1", "p2", "p3"]
 vek = [[1.0, 0.0], [0.9, 0.1], [0.0, 1.0], [-1.0, 0.0]]
 vakalar = [([1.0, 0.0], idler, vek, ["p0"], 2), ([1.0, 0.0], idler, vek, ["p2", "p3"], 3),
            ([0.0, 1.0], idler, vek, ["p0"], 1), ([1.0, 1.0], idler, vek, ["p1", "p2"], 2)]
+vakalar += [([s,s],["z","a"],[[s,0],[0,s]],["z","a"],1) for s in (1e300,1e-300,10**400)]
+
 def ayni(a, b):
     return isinstance(a, dict) and set(a) == set(b) and a["sirali"] == b["sirali"] and all(a[x] == b[x] for x in ("isabet", "anma", "mrr", "ndcg"))
 def sozlesme(f):
@@ -362,7 +454,7 @@ def sozlesme(f):
             if not ayni(f(qq, ii, vv, aa, k), D.referans_getir(q, idl, vk, alt, k)) or qq != q or ii != idl or vv != vk or aa != alt:
                 return False
         q, idl, vk, alt, k = vakalar[0]
-        for arg in [(q, [], [], alt, 1), (q, idl, vk[:-1], alt, 2), (q, idl + ["x"], vk, alt, 2),
+        for arg in [(q,idl,vk,[["p0"]],1),(q,idl,vk,None,1),(q, [], [], alt, 1), (q, idl, vk[:-1], alt, 2), (q, idl + ["x"], vk, alt, 2),
                     (q, ["p0", "p0", "p2", "p3"], vk, alt, 2), (q, idl, vk, ["yok"], 2), (q, idl, vk, [], 2), (q, idl, vk, ["p0", "p0"], 2),
                     (q, idl, vk, alt, 0), (q, idl, vk, alt, 5), (q, idl, vk, alt, True), (q, idl, vk, alt, 1.0),
                     ([0.0, 0.0], idl, vk, alt, 2), (q, idl, [[1.0, 0.0], [0.9, 0.1], [0.0, 1.0], [0.0, 0.0]], alt, 2),
@@ -390,18 +482,20 @@ if all(sonuclar):
         kontrol(False, f"GERÇEK MODEL YOK, deney yapılmadı: {e}")
         stop()
     pv, sv = r["vektorler"]["parca"], r["vektorler"]["soru"]
+    kontrol(len(pv)==len(D.PARCALAR) and len(sv)==len(D.SORULAR) and len(r["kayitlar"])==len(D.SORULAR),"iki gerçek embed çağrısının tüm10parça ve6soru sonuçları mevcut")
+    kontrol(r["ortam"]["gomme"]["once_yukluydu"] or r["ortam"]["gomme"]["model_bosaltildi"],"deney yalnız kendi yüklediği gömme modelini bıraktı")
     kontrol(len(pv[0]) == 384 and r["ortam"]["gomme"]["model"] == D.GOMME_MODELI, f"gerçek gömmeler: {len(pv)} parça × {len(pv[0])} boyut")
-    esit = all(ayni({x: k["k3"][x] for x in ("sirali", "isabet", "anma", "mrr", "ndcg")},
-                    D.referans_getir(q, r["idler"], pv, k["altin"], D.K)) for k, q in zip(r["kayitlar"], sv))
+    esit = all(ayni(k["k"+str(adet)],D.referans_getir(q,r["idler"],pv,k["altin"],adet))
+               for k,q in zip(r["kayitlar"],sv) for adet in (1,D.K))
     kontrol(esit, "gerçek vektörlerde sıralama ve metrikler bağımsız hesapla aynı")
     oz = D.ozet(r)
     kontrol(oz["anma_k3"] >= oz["anma_k1"], f"büyük k anma'yı düşürmez: recall@3 {oz['anma_k3']} ≥ recall@1 {oz['anma_k1']}")
 yol = ai_lab.kanit_yaz("temel-retrieval", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-temel-22",
-                                           "ortam": (r or {}).get("ortam"), "ozet": oz})
+                                           "ortam": (r or {}).get("ortam"), "ozet": oz, "deney": r, "sinir":"sentetik derlem üzerinde gerçek gömmeler;genel RAG kalite/güvenlik kabulü değil"})
 if oz:
     ok(True, f"BULGU ({D.GOMME_MODELI}, {oz['boyut']} boyut): {oz['soru']} soruda recall@3 {oz['anma_k3']} vs recall@1 {oz['anma_k1']}, "
              f"MRR {oz['mrr']}, nDCG@3 {oz['ndcg_k3']}; isabet@3 {oz['isabet_k3']}/{oz['soru']} vs isabet@1 {oz['isabet_k1']}/{oz['soru']}. "
-             f"Büyük k anma'yı artırır ama bağlama daha çok parça sokar.")
+             f"Büyük k anma'yı düşürmez ama bağlama daha çok parça sokar.")
 ```
 
 ```solution
@@ -418,14 +512,16 @@ def getir_ve_olc(sorgu_vek, parca_idler, parca_vekleri, altin, k):
         raise ValueError("sorgu_vek 2-4096 uzunlukta liste olmalı")
     def birim(v):
         if not isinstance(v, list) or len(v) != len(sorgu_vek) \
-                or any(isinstance(x, bool) or not isinstance(x, (int, float)) or not math.isfinite(x) for x in v):
+                or any(isinstance(x, bool) or not isinstance(x, (int, float)) or (isinstance(x,float) and not math.isfinite(x)) for x in v):
             raise ValueError("vektör geçersiz")
-        boy = math.sqrt(sum(x * x for x in v))
-        if not boy:
-            raise ValueError("sıfır vektör")
-        return [x / boy for x in v]
-    if not isinstance(altin, list) or not altin or len(set(altin)) != len(altin) \
-            or any(not isinstance(x, str) or not x or x not in parca_idler for x in altin):
+        from fractions import Fraction
+        olcek=max(abs(x) for x in v)
+        if not olcek: raise ValueError("sıfır vektör")
+        vv=[float(Fraction(x)/Fraction(olcek)) for x in v]
+        boy=math.hypot(*vv)
+        return [x/boy for x in vv]
+    if not isinstance(altin, list) or not altin \
+            or any(not isinstance(x, str) or not x or x not in parca_idler for x in altin) or len(set(altin)) != len(altin):
         raise ValueError("altin, parca_idler içinde yinelenmeyen kimlikler olmalı")
     if isinstance(k, bool) or not isinstance(k, int) or not 1 <= k <= len(parca_idler):
         raise ValueError("k 1 ile parça sayısı arası tamsayı olmalı")

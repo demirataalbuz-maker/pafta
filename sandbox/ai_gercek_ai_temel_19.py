@@ -77,7 +77,16 @@ def referans_baslik(yol, *, kapsama=True, endian="<", parametre="eleman"):
             raise ValueError("başlık boyu")
         ham = f.read(n)
     try:
-        baslik = json.loads(ham.decode("utf-8"))
+        def nesne(ciftler):
+            out={}
+            for key,value in ciftler:
+                if key in out: raise ValueError("yinelenen anahtar")
+                out[key]=value
+            return out
+        metin=ham.decode("utf-8")
+        if not metin.startswith("{") or not metin.rstrip(" ").endswith("}"):
+            raise ValueError("başlık dolgu/başlangıç")
+        baslik = json.loads(metin,object_pairs_hook=nesne)
     except (UnicodeDecodeError, json.JSONDecodeError) as e:
         raise ValueError("başlık JSON değil") from e
     if not isinstance(baslik, dict):
@@ -87,7 +96,7 @@ def referans_baslik(yol, *, kapsama=True, endian="<", parametre="eleman"):
         raise ValueError("metadata")
     tensorler = []
     for ad, t in baslik.items():
-        if not isinstance(t, dict) or set(t) != {"dtype", "shape", "data_offsets"} or t["dtype"] not in DTYPE_BOYU:
+        if not isinstance(t, dict) or set(t) != {"dtype", "shape", "data_offsets"} or not isinstance(t["dtype"],str) or t["dtype"] not in DTYPE_BOYU:
             raise ValueError(f"{ad}: alanlar/dtype")
         sh, off = t["shape"], t["data_offsets"]
         if not isinstance(sh, list) or any(type(x) is not int or x < 0 for x in sh):

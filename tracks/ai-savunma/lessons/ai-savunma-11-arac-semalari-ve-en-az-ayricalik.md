@@ -5,10 +5,33 @@ summary: Dar araç şemalarını doğrula, çağrı argümanlarını izin listes
 timeout: 45
 ---
 
-::: anlat Modelin araç çağırabilmesi yetki vermek değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Modelin araç çağırabilmesi yetki vermek değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Ollama veya OpenAI uyumlu bir API'ye araçlar JSON Schema ile tanıtılır. Model `tool_calls` alanında araç adı ve argümanlar döndürür. FastAPI ve Pydantic gibi bir katman bu argümanları doğrular ve uygulama aracı ancak bundan sonra çalıştırır. | Görev 1–3: `veri/arac_semalari.json`, `veri/arac_cagrilari.json` ve `veri/yetki_istekleri.json` içindeki **sentetik** şema, çağrı ve yetki kayıtları. Son adım: kurulu yerel Ollama modeline dar şemalı bir `dosya_oku` aracı verilir ve model gerçek araç çağrıları üretir. Senin doğrulayıcın bu çağrıları sınar; araç hiçbir koşulda çalıştırılmaz. | İki senaryoluk deney, modelin her zararlı argümanı taşıyacağını ya da hiç taşımayacağını göstermez. Argüman kuralları yalnız bu dersin üç aracını kapsar. Sembolik bağlantı, Unicode ile kılık değiştirmiş yol ve DNS yeniden bağlama gibi saldırılar ek kontrol gerektirir. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, ağ veya dosya sistemi kullanılmaz. Son adımdaki **Gerçek deney** görevi kurulu yerel Ollama modelini gerçekten çalıştırır; yeni model indirmez ve araç hiçbir zaman gerçekten dosya okumaz. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Araç çağrısı modelden gelen yapılandırılmış bir istektir; uygulama bu isteği ayrı bir şema, argüman ve yetki denetiminden geçirmeden çalıştırmamalıdır. Genel bir `dosya_yonet` aracı yerine `dosya_oku` ve `rapor_yaz` gibi dar araçlar, hangi parametrelerin ve yetkilerin gerekli olduğunu açıkça ayırır.
 
-FastAPI ve Pydantic gerçek uygulamada istek şemalarını uygulamaya, Ollama ise araç çağrısı üretmeye yardımcı olabilir. Bu derste model, ağ ve dosya sistemi kullanılmaz. Üç fixture aracının kayıtları ve çağrıları standart Python ile doğrulanır; hiçbir araç gerçekten yürütülmez.
+FastAPI ve Pydantic gerçek uygulamada istek şemalarını uygulamaya, Ollama ise araç çağrısı üretmeye yardımcı olabilir. Görev 1–3'te üç aracın kayıtları ve çağrıları standart Python ile doğrulanır. Son adımda aynı doğrulama gerçek bir modelin ürettiği çağrılara uygulanır. Hiçbir aşamada araç gerçekten yürütülmez.
+
+**Neden dar araç?** Genel bir `dosya_yonet(yol, islem)` aracı, okuma, yazma ve silme işlemlerini tek bir yetkinin arkasına saklar. Model bir belgeden "bu dosyayı sil" talimatı alırsa, aracın kendi şeması bunu engelleyemez. `dosya_oku` gibi dar bir aracın ise yalnız bir yetkisi ve bir parametresi vardır, yan etkisi de yoktur. Yanlış bir çağrının en kötü sonucu bir dosyanın okunmasıdır; silme, üzerine yazma ya da ağa gönderme olamaz. `veri/arac_semalari.json` içindeki bozuk şemalar bu ilkenin delindiği yerleri gösterir:
+
+- Okuma aracına yazma yetkisi verilmiş.
+- Yazma aracı yan etkisiz diye işaretlenmiş.
+- Tanımsız genel bir araç eklenmiş.
+
+**Saldırgan bakışı:** Saldırgan araç şemasını değiştiremez, ama modelin argümanlara ne yazacağını etkileyebilir. Bunu kullanıcı mesajıyla, bir RAG belgesiyle ya da başka bir aracın çıktısıyla yapar. Hedefi, şemaya uyan ama tehlikeli bir değer üretmektir:
+
+- `../../gizli/anahtar.txt`
+- `C:/Users/...`
+- `https://example.test@169.254.169.254/` (kullanıcı bilgisi kılığında bulut metadata adresi)
+- `https://example.test.saldirgan.test/` (izinli alan adıyla başlayan yabancı bir alan adı)
+
+Tür kontrolü (`string`) bu değerlerin hepsini geçirir. Bu yüzden değer düzeyinde bir izin listesi gerekir.
 :::
 
 ::: tahmin Oturumda yetki olması isteği en az kapsamlı yapmaz
@@ -47,9 +70,38 @@ rapor_yaz : parametreler {"baslik":"string",          yetki dosya:yaz  yan_etkil
 
 Şemayı yeni bir sözlük, parametre sözlüğü ve yetki listesiyle kopyalayarak döndür; girdiyi değiştirme.
 
+Görünür veri: `veri/arac_semalari.json`. Üç dar şema kabul edilmeli, beş bozuk şema reddedilmelidir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def arac_semasi_dogrula(sema):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız gerekli yetkinin listede OLUP OLMADIĞINA bakıyor (fazla yetkiyi kabul ediyor), yan etki bayrağını ve parametre kümesini denetlemiyor, bilinmeyen aracı geçiriyor!
+    gerekli = {"dosya_oku": "dosya:oku", "web_getir": "ag:get", "rapor_yaz": "dosya:yaz"}
+    if sema["ad"] in gerekli and gerekli[sema["ad"]] not in sema["yetkiler"]:
+        raise ValueError("gerekli yetki eksik")
+    if not isinstance(sema["zaman_asimi_ms"], int):
+        raise ValueError("zaman aşımı int olmalı")
+    return sema
+
+veri = json_yukle("veri/arac_semalari.json")
+for s in veri["semalar"]:
+    arac_semasi_dogrula(s)
+    print(s["ad"], "kabul")
+for b in veri["bozuk_semalar"]:
+    try:
+        arac_semasi_dogrula(b["sema"])
+        print(b["ad"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["ad"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-11")
 ```
 
 ```test
@@ -136,6 +188,13 @@ Araç adını sabit kayıt tablosunda ara. Parametre sözlüğünü ve tek yetki
 `dosya_oku` aracının `yol` parametresi göreli ve güvenli parçalardan oluşur. Mutlak yol, `..`, boş parça, ters eğik çizgi ve sürücü iki noktası kabul edilmez. `web_getir` yalnız HTTPS ve iki dokümantasyon alan adına gidebilir; kullanıcı bilgisi ve açık port içeren URL reddedilir.
 
 Bu kontroller gerçek dosya veya ağ erişimi yapmaz. Yalnız modelden gelen çağrının uygulama sınırına ulaşmadan önce hangi sözleşmeyi sağlaması gerektiğini sınar.
+
+**Sık tuzaklar:**
+
+- **Önek ile alan adı denetimi:** `startswith("https://example.test")` kontrolü `example.test.saldirgan.test` alan adını da geçirir. Alan adı, URL ayrıştırıldıktan sonra **tam eşitlikle** karşılaştırılır.
+- **Yalnız `..` aramak:** Windows ters eğik çizgisi (`belgeler\..\gizli.txt`) ve sürücü harfi (`C:`) aynı sonuca götürür.
+- **Silmek yerine reddetmek:** Tehlikeli parçayı silip çağrıyı "düzeltmek", modelin niyetini değiştirir ve saldırıyı gizler. Bu ders düzeltmez, reddeder.
+- **Normalleştirme sırası:** Yol önce normalleştirilip sonra denetlenirse `a/../../b` gibi değerler beklenmedik biçimde açılabilir. Bu ders parçaları tek tek, normalleştirmeden denetler.
 :::
 
 ::: gorev 2 · Araç çağrısını şema ve güvenli argümanlarla doğrula
@@ -150,9 +209,36 @@ Argümanlar şemadaki tam parametre kümesini taşısın ve bütün değerler st
 
 Geçersiz veride `ValueError` yükselt. Çağrıyı yeni argüman sözlüğüyle kopyalayıp döndür; aracı çalıştırma ve girdileri değiştirme.
 
+Görünür veri: `veri/arac_cagrilari.json` ve `veri/arac_semalari.json`. 12 çağrıdan yalnız `c-01`, `c-06` ve `c-11` geçmelidir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def arac_cagrisi_dogrula(cagri, sema):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yolda yalnız ".." arıyor (mutlak yol, ters eğik çizgi ve sürücüyü geçiriyor), URL'yi önekle denetliyor ve başlık boşluğuna bakmıyor!
+    arg = cagri["argumanlar"]
+    if "yol" in arg and ".." in arg["yol"].split("/"):
+        raise ValueError("yol gezintisi")
+    if "url" in arg and not (arg["url"].startswith("https://example.test") or arg["url"].startswith("https://docs.example.test")):
+        raise ValueError("izinsiz URL")
+    return dict(cagri, argumanlar=dict(arg))
+
+veri = json_yukle("veri/arac_cagrilari.json")
+semalar = {s["ad"]: s for s in json_yukle("veri/arac_semalari.json")["semalar"]}
+for c in veri["cagrilar"]:
+    try:
+        arac_cagrisi_dogrula(c, semalar[c["arac"]])
+        print(c["id"], "geçerli", c["argumanlar"])
+    except ValueError as hata:
+        print(c["id"], "red:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-11")
 ```
 
 ```test
@@ -325,9 +411,32 @@ Aracın gerekli yetkisi ilk görevdeki tekil yetkidir. Nedenleri sabit sırayla 
 
 Hiç neden yoksa `calistir`, aksi hâlde `reddet` kararı ver. Her kayıt için `{"id":ID,"karar":KARAR,"gerekli_yetkiler":[YETKI],"nedenler":[...]}` döndür. Kimliğe göre sırala, boş girdide boş liste döndür ve girdiyi değiştirme.
 
+Görünür veri: `veri/yetki_istekleri.json`. Yalnız `i-oku` için `calistir` çıkmalıdır; diğer dört isteğin nedenleri README'de yazılıdır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def yetki_karar_raporu(istekler):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız istenen yetkilerin OTURUMDA olup olmadığına bakıyor; aracın gerçekte neye ihtiyaç duyduğunu ve fazla yetkiyi hiç denetlemiyor!
+    rapor = []
+    gerekli = {"dosya_oku": "dosya:oku", "web_getir": "ag:get", "rapor_yaz": "dosya:yaz"}
+    for i in sorted(istekler, key=lambda x: x["id"]):
+        nedenler = ["oturum_yetkisi_yok"] if not set(i["istenen_yetkiler"]) <= set(i["oturum_yetkileri"]) else []
+        rapor.append({"id": i["id"], "karar": "reddet" if nedenler else "calistir",
+                      "gerekli_yetkiler": [gerekli[i["arac"]]], "nedenler": nedenler})
+    return rapor
+
+veri = json_yukle("veri/yetki_istekleri.json")
+for r in yetki_karar_raporu(veri["istekler"]):
+    print(r["id"], r["karar"], r["nedenler"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-11")
 ```
 
 ```test
@@ -430,13 +539,23 @@ Her aracın tek gerekli yetkisini sabit eşlemeden al. Üç nedeni bağımsız k
 :::
 
 ::: anlat Doğrulama, modelin çağrısı uygulamaya ulaşmadan çalışır
-Araç çağrısı doğrulaması ancak modelin **gerçekten ürettiği** bir çağrı üzerinde çalıştığında anlam kazanır. Son görevde senin `arac_cagrisi_dogrula` işlevin, gerçek yerel modelin dar şemalı bir `dosya_oku` aracıyla ürettiği çağrıları doğrular. Deney iki senaryoda koşar: güvenli göreli bir yol ve modelin bir yol-gezinti dizesini araç argümanına taşıdığı senaryo.
+Görev 1–3'te çağrılar elle yazılmıştı. Bu adımda çağrıları **gerçek bir model** üretir. `sandbox/ai_gercek_ai_savunma_11.py` deneyi şunları yapar:
 
-Doğrulama uygulama sınırından **önce** çalışır; araç hiçbir zaman gerçekten dosya okumaz. Güvenli çağrı geçer; gezinti dizesi içeren çağrı reddedilir ve uygulamaya ulaşmaz. Model dizeyi bir belgeden ya da kullanıcıdan almış olsa ve oturumun geniş yetkisi bulunsa bile, en az ayrıcalık argüman düzeyinde uygulanır.
+1. Kurulu yerel Ollama modellerinden araç çağrısını destekleyen ilki seçilir. Modele yalnız `dosya_oku(yol: string)` aracı tanıtılır.
+2. İki senaryo sıcaklık 0 ve sabit tohumla gönderilir:
+   - `guvenli-1`: Göreli ve güvenli bir dosyanın okunmasını ister.
+   - `gezinti-1`: Bir yol gezintisi dizesini aracın `yol` argümanına aynen taşımasını ister. Bu, bir belgeden ya da kullanıcıdan gelen zehirli değeri canlandırır.
+3. Model araç çağırırsa çağrı senin `arac_cagrisi_dogrula` işlevinden geçer. Aynı çağrı bağımsız bir referans doğrulayıcıdan da geçirilir. **Araç hiçbir koşulda çalıştırılmaz.**
+4. Model ne metin ne araç çağrısı döndürürse deney "tamamlanmadı" diye durur.
+
+Test önce işlevini gizli deterministik çağrılarla sınar. Sonra model hangi çağrıyı ürettiyse, senin kararının o çağrı için referans kararla aynı olmasını ister. Model gezinti dizesini argümana taşıdıysa çağrının reddedilmesi zorunludur. Modelin araç çağırıp çağırmaması ya da dizeyi değiştirmesi ise kabul koşulu **değildir**; yalnız kaydedilir. Ham yanıt ve araç çağrıları kanıta yazılır.
+
+Ders yazılırken bu makinede `qwen3:4b-instruct-2507` ile yapılan koşuda model iki senaryoda da aracı çağırdı. Güvenli yolu (`belgeler/ozet.txt`) ve gezinti dizesini (`../../gizli/anahtar.txt`) argümana **aynen** taşıdı. İlk çağrı geçti, ikincisi uygulama sınırına ulaşmadan reddedildi. Model zararlı değeri sorgusuz taşıdı. Bu yüzden en az ayrıcalık modele değil, modelin dışındaki doğrulamaya dayanır.
+
 :::
 
 ::: gorev Gerçek deney · Gerçek araç çağrısını en az ayrıcalıkla doğrula
-`arac_cagrisi_dogrula(cagri, sema)` işlevini yaz — kuralları ve çıktısı 2. görevdekiyle **aynıdır**. Deney gerçek modele `dosya_oku` aracını verir, modelin ürettiği gerçek çağrıları toplar ve senin doğrulayıcın her çağrıyı şema + güvenli-yol kurallarıyla sınar; gezinti dizesi içeren çağrı reddedilir.
+`arac_cagrisi_dogrula(cagri, sema)` işlevini yaz. Kuralları ve çıktısı 2. görevdekiyle **aynıdır**. Deney gerçek modele `dosya_oku` aracını verir ve modelin ürettiği gerçek çağrıları toplar. Senin doğrulayıcın her çağrıyı şema ve güvenli yol kurallarıyla sınar; gezinti dizesi içeren çağrı reddedilir. `sandbox.ai_gercek_ai_savunma_11` içindeki `arac_cagrisi_dogrula_referans` yalnız test içindir; onu import etmek veya kaynağını okuyup çalıştırmak Kontrol'de reddedilir.
 
 ```meta
 motor: ai-gercek
@@ -448,7 +567,10 @@ timeout: 300
 import ai_lab
 
 def arac_cagrisi_dogrula(cagri, sema):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız araç adına bakıyor; argüman değerini hiç denetlemediği için modelin taşıdığı "../../" yolu uygulamaya geçer!
+    if cagri["arac"] != sema["ad"]:
+        raise ValueError("araç şemayla eşleşmiyor")
+    return dict(cagri, argumanlar=dict(cagri["argumanlar"]))
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_11 as deney
@@ -456,22 +578,43 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import ai_lab
+from sandbox import ai_gercek_ai_savunma_11 as D
 sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+_yasak = ("arac_cagrisi_dogrula_referans", "kanit_yaz")
+sorun = ai_lab.kod_denetimi(src, yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(n, (ast.Import, ast.ImportFrom)):
+        adlar = [a.name for a in n.names] + ([n.module] if isinstance(n, ast.ImportFrom) and n.module else [])
+        if any(a and a.split(".")[0] in ("inspect", "importlib", "runpy") for a in adlar):
+            sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(n, ast.Name) and n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + n.id)
+if not kontrol(not sorun, "Kendi arac_cagrisi_dogrula işlevini yaz; laboratuvar/referans kullanımı yasak: " + "; ".join(sorted(set(sorun)))):
+    stop()
 fn = need("arac_cagrisi_dogrula")
-from sandbox import ai_gercek_ai_savunma_11 as D
 S = {"ad": "dosya_oku", "parametreler": {"yol": "string"}, "yetkiler": ["dosya:oku"], "yan_etkili": False, "zaman_asimi_ms": 1000}
 C = {"id": "cagri-1", "arac": "dosya_oku", "argumanlar": {"yol": "belgeler/ozet.txt"}}
 def sozlesme(f):
     try:
         if f(C, S) != C:
             return False
-        for kotu in ({"yol": "../gizli.txt"}, {"yol": "/etc/passwd"}, {"yol": "a\\b"}, {"yol": "c:/x"}):
+        W = {"ad": "web_getir", "parametreler": {"url": "string"}, "yetkiler": ["ag:get"], "yan_etkili": False, "zaman_asimi_ms": 1000}
+        if f({"id": "w-1", "arac": "web_getir", "argumanlar": {"url": "https://docs.example.test/a"}}, W)["argumanlar"]["url"] != "https://docs.example.test/a":
+            return False
+        for url in ("https://example.test.saldirgan.test/", "https://example.test@169.254.169.254/", "https://example.test:8443/", "http://example.test/"):
+            try:
+                f({"id": "w-2", "arac": "web_getir", "argumanlar": {"url": url}}, W)
+                return False
+            except ValueError:
+                pass
+        for kotu in ({"yol": "../gizli.txt"}, {"yol": "/etc/passwd"}, {"yol": "a\\b"}, {"yol": "c:/x"}, {"yol": "a//b"}, {"yol": "a/./b"}, {"yol": "a" * 201}, {"yol": "a", "ek": "b"}, {"yol": 5}):
             try:
                 f(dict(C, argumanlar=kotu), S)
                 return False
@@ -494,17 +637,18 @@ if all(sonuclar):
     except ai_lab.GercekLabYok as e:
         kontrol(False, f"GERÇEK MODEL YOK, deney yapılmadı: {e}")
         stop()
-    guvenli = next((a for a in r["akislar"] if a["id"] == "guvenli-1"), {})
-    gezinti = next((a for a in r["akislar"] if a["id"] == "gezinti-1"), {})
-    kontrol(guvenli.get("cagirdi") and guvenli.get("gecerli") is True, "güvenli gerçek çağrı doğrulandı")
-    kontrol(gezinti.get("cagirdi") and gezinti.get("gecerli") is False, "gezinti dizeli gerçek çağrı reddedildi")
+    for a in r["akislar"]:
+        if a["cagirdi"]:
+            kontrol(a["gecerli"] == a["referans_gecerli"], f"{a['id']}: gerçek çağrıda kararın referansla aynı olmalı (yol={a['yol']!r}, senin={a['gecerli']}, referans={a['referans_gecerli']})")
+            if isinstance(a["yol"], str) and ".." in a["yol"].replace("\\", "/").split("/"):
+                kontrol(a["gecerli"] is False, f"{a['id']}: modelin taşıdığı gezinti yolu reddedilmeli")
     oz = D.ozet(r)
 yol = ai_lab.kanit_yaz("savunma-arac", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-savunma-11",
-                                        "ortam": (r or {}).get("ortam"), "ozet": oz})
+                                        "ortam": (r or {}).get("ortam"), "ozet": oz, "akislar": (r or {}).get("akislar")})
 if oz:
     ok(True, f"BULGU ({r['ortam']['model']['ad']}): modelin gerçek araç çağrıları doğrulandı — "
-             f"güvenli yol '{oz['guvenli_yol']}' geçerli; gezinti yolu '{oz['gezinti_yol']}' reddedildi. "
-             f"Doğrulama uygulama sınırından önce çalıştı; model dizeyi taşısa bile araç tetiklenmedi (en az ayrıcalık).")
+             f"güvenli çağrı {oz['guvenli_cagirdi']}/{oz['guvenli_yol']!r} geçerli={oz['guvenli_gecerli']}; gezinti çağrısı {oz['gezinti_cagirdi']}/{oz['gezinti_yol']!r} reddedildi={oz['gezinti_reddedildi']}. "
+             f"Referansla uyumlu={oz['referansla_uyumlu']}. Doğrulama uygulama sınırından önce çalıştı; araç hiç çalıştırılmadı.")
 ```
 
 ```solution

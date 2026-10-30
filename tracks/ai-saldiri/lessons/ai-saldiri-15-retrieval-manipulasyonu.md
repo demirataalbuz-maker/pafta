@@ -5,7 +5,15 @@ summary: Sorgu varyantlarını izlenebilir normalize et, skor ve karakter bütç
 timeout: 45
 ---
 
-::: anlat Bağlam, modelden önce şekillendirilir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Bağlam, modelden önce şekillendirilir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| ChromaDB gibi bir vektör veritabanı, sorgu ve belgeleri bir gömme modeliyle vektöre çevirir. En yakın komşuları benzerlik skoruyla döndürür. Uygulama bunları bağlam penceresine sığdığı kadar ekler ve modele gönderir. | Görev 1–3: `veri/sorgular.json`, `veri/aday_belgeler.json` ve `veri/baglam_kayitlari.json` içindeki **sentetik** sorgu, skor ve bağlam kayıtları. Son adım: kurulu `all-minilm:22m` gömme modeli sorgu ve belgeleri gerçekten gömer, cosine skoru hesaplanır, iki bağlam da kurulu sohbet modeline gerçekten gönderilir. | Karakter bütçesi token bütçesi değildir. Tek bir sorgu ve birkaç belge, retrieval sisteminin genel dayanıklılığını göstermez. Kanıtın bağlamdan düşmesi, model yanıtının yanlış olacağını garanti etmez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde gömme modeli, ChromaDB veya sohbet modeli çağrılmaz. Son adımdaki **Gerçek deney** görevi kurulu yerel Ollama gömme ve sohbet modellerini gerçekten çalıştırır; ChromaDB çalıştırılmaz, yeni model indirilmez. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın düzenlenebilir bağlam dosyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 RAG sisteminde model yalnız kendisine verilen bağlamı görür. Sorgunun yeniden yazılması, belgelerin skorlanması ve sınırlı bağlam penceresine seçim yapılması, modelden önceki üç etki noktasıdır. Retrieval manipülasyonu bu aşamalarda istenmeyen belgenin öne çıkması veya kanıt belgesinin dışarıda kalmasıdır.
 
 Ölçüm için üç kayıt gerekir:
@@ -14,7 +22,23 @@ RAG sisteminde model yalnız kendisine verilen bağlamı görür. Sorgunun yenid
 - **Seçim izi:** Skor sırası, bütçe ve seçilen/elenen belgeler.
 - **Fark izi:** Temiz ve manipüle bağlamlar arasında giren ve çıkan belgeler.
 
-Bağlamdan kanıtın düşmesi model yanıtının değişeceğini garanti etmez; yalnız modelin gördüğü verinin değiştiğini gösterir. Bu derste Python fixture'ları kullanılır, ChromaDB veya gerçek model çalıştırılmaz.
+Bağlamdan kanıtın düşmesi model yanıtının değişeceğini garanti etmez; yalnız modelin gördüğü verinin değiştiğini gösterir. Görev 1–3 bu üç izi sentetik kayıtlarla kurar. Son adım aynı ölçümü gerçek gömme skorları ve gerçek model yanıtlarıyla yapar.
+
+**Saldırgan bakışı:** Retrieval manipülasyonunda saldırganın modele doğrudan erişimi yoktur. Hedefi, modelin **göreceği** metni değiştirmektir. Bunun üç yolu vardır:
+
+- **Sıralamayı ele geçirmek:** Sorguyla aşırı örtüşen anahtar kelimelerle doldurulmuş bir belge yazar ve en üst sıraya çıkar.
+- **Bütçeyi doldurmak:** Uzun bir belgeyle bağlam penceresini doldurur, küçük kanıt belgelerini dışarıda bırakır.
+- **Skoru dışarıdan sağlamak:** Uygulama skoru belgeyle gelen metadata'dan okuyorsa yüksek bir sayı yazar. Gerçek deneydeki manipüle kol bu kusuru canlandırır.
+
+Kanıt belgesi bağlamdan düştüğünde model "bilmiyorum" diyebilir, eski ve çelişkili bir belgeye dayanabilir ya da saldırganın belgesini doğru sanabilir.
+
+**Savunucu tarafı ve sık tuzaklar:**
+
+- **Sorgu izi:** Normalize edilmiş sorgu ile özgün sorgu birlikte kaydedilmelidir. Yalnız normalize biçim saklanırsa, sorgudaki talimat görünümlü bir ekleme incelemede görünmez.
+- **Kırpma yok:** Bütçeye sığmayan belgeyi kesip eklemek, belgenin ortasından anlamsız ya da yanıltıcı bir parça bırakır. Bu ders kırpmaz, atlar.
+- **Atlama sonrası devam:** İlk büyük belge sığmadı diye seçimi durdurmak, bütün bağlamı boş bırakır. Bu da kanıt kaybıdır.
+- **Skor kaynağı:** Skoru uygulama kendi hesaplamalıdır. Belgeyle gelen skor güvenilmez veridir.
+- **Sıra değişimi:** Küme farkı sıra değişimini göstermez. `veri/baglam_kayitlari.json` içindeki `q-kargo` vakasında sıra değişmiş ama küme aynıdır. Bazı modeller bağlamdaki ilk belgeye daha çok ağırlık verdiği için bu ayrıca izlenmelidir.
 :::
 
 ::: tahmin
@@ -58,9 +82,36 @@ Dönüş şu nesnenin kanonik JSON stringidir (`ensure_ascii=False`, `sort_keys=
 
 `normalize`, sorgunun `casefold()` uygulanmış ve ardışık boşlukları tek boşluğa indirgenmiş biçimidir; baş ve sondaki boşluklar da giderilir. `terimler`, normalize sorguda `re.findall(r"\w+", ...)` ile bulunan farklı terimlerin alfabetik listesidir. Özgün sorguyu değiştirme; normalize metindeki talimat görünümlü ifadeleri silme veya yetki alanına taşıma.
 
+Görünür veri: `veri/sorgular.json`. Tablar ve ardışık boşluklar tek boşluğa inmeli, talimat görünümlü sorgu silinmeden izlenmeli, bozuk sorgular reddedilmelidir. İlk iki sorgunun çıktısını karşılaştır. Türkçe büyük `İ` harfi `casefold()` ile `i̇` (i ve birleşik nokta) olur ve terim listesi `"i", "ade"` diye bölünür. Bu yüzden iki sorgu aynı biçime ulaşmaz. Kural gereği normalize biçim değiştirilmez; özgün sorgunun izde korunması bu tür farkları incelemeyi mümkün kılar.
+
 ```starter
+import json
+import re
+from ai_saldiri_veri import json_yukle
+
 def sorgu_izi(sorgu):
-    return ""
+    # KUSURLU BAŞLANGIÇ KODU: yalnız lower() ve strip() uyguluyor (iç boşlukları ve sekmeleri birleştirmiyor), özgün sorguyu kaydetmiyor ve uzunluk/boşluk denetimi yapmıyor!
+    normalize = sorgu.lower().strip()
+    veri = {"orijinal": normalize, "normalize": normalize, "terimler": sorted(set(re.findall(r"\w+", normalize)))}
+    return json.dumps(veri, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+veri = json_yukle("veri/sorgular.json")
+for s in veri["sorgular"]:
+    print(sorgu_izi(s))
+for s in veri["bozuk_sorgular"]:
+    try:
+        sorgu_izi(s)
+        print(repr(s[:10]), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(s[:10]), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-15")
 ```
 
 ```test
@@ -139,9 +190,40 @@ Belgeleri azalan skor, eşitlikte artan kimlikle sırala. Sırayla her belgeyi y
 
 Listeler seçim sırasını korur. `kullanilan`, seçilen metinlerin toplam `len` değeridir. Boş metin seçilebilir; `butce=0` iken yalnız boş metinler seçilir. Girdiyi değiştirme.
 
+Görünür veri: `veri/aday_belgeler.json`, bütçe 120 karakter. En yüksek skorlu `kampanya-sayfasi` 160 karakterdir ve sığmaz. Doğru seçim onu atlar ve sıradaki dört belgeyle devam eder.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def baglam_sec(belgeler, butce):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: ilk sığmayan belgede seçimi DURDURUYOR (sonraki küçük belgeleri denemiyor) ve belge/bütçe doğrulaması yapmıyor!
+    sonuc = {"secilen": [], "elenen": [], "kullanilan": 0}
+    durdu = False
+    for b in sorted(belgeler, key=lambda x: (-x["skor"], x["id"])):
+        if not durdu and sonuc["kullanilan"] + len(b["metin"]) <= butce:
+            sonuc["secilen"].append(b["id"])
+            sonuc["kullanilan"] += len(b["metin"])
+        else:
+            durdu = True
+            sonuc["elenen"].append(b["id"])
+    return sonuc
+
+veri = json_yukle("veri/aday_belgeler.json")
+print(baglam_sec(veri["belgeler"], veri["butce"]))
+for b in veri["bozuk_belgeler"]:
+    try:
+        baglam_sec([b], veri["butce"])
+        print(repr(b["id"]), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(b["id"]), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-15")
 ```
 
 ```test
@@ -241,9 +323,38 @@ Dönüş:
 
 `giren = manipule - temiz`, `cikan = temiz - manipule` küme farklarıdır. `degisen`, iki bağlam kimlik kümesi farklı olan bütün vakalardır. `kanit_kaybolan`, kanıt kimliği temizde olup manipülede olmayan vakalardır. Vaka ve kimlik listelerini alfabetik sırala; her vaka için `giren` ve `cikan` listesi üret. Boş girdi için boş rapor dön. Girdi sırası sonucu etkilememeli ve veri değişmemelidir.
 
+Görünür veri: `veri/baglam_kayitlari.json`, kanıt kimliği `iade-politikasi`. Doğru raporda `q-iade` ve `q-saat` değişmiş görünür. Yalnız `q-iade` kanıt kaybına uğrar. `q-kargo` vakasında yalnız sıra değişmiştir; küme farkı boştur.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def baglam_farki(kayitlar, kanit_id):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: bağlamları kümeyle değil SIRALI listeyle karşılaştırıyor ve eksik/yinelenen kolu denetlemiyor!
+    temiz = {k["vaka_id"]: k["baglam"] for k in kayitlar if k["kume"] == "temiz"}
+    manipule = {k["vaka_id"]: k["baglam"] for k in kayitlar if k["kume"] == "manipule"}
+    vakalar = sorted(temiz)
+    return {"vaka": len(vakalar),
+            "giren": {v: sorted(set(manipule.get(v, [])) - set(temiz[v])) for v in vakalar},
+            "cikan": {v: sorted(set(temiz[v]) - set(manipule.get(v, []))) for v in vakalar},
+            "degisen": [v for v in vakalar if temiz[v] != manipule.get(v)],
+            "kanit_kaybolan": [v for v in vakalar if kanit_id in temiz[v] and kanit_id not in manipule.get(v, [])]}
+
+veri = json_yukle("veri/baglam_kayitlari.json")
+print(baglam_farki(veri["kayitlar"], veri["kanit_id"]))
+for i, k in enumerate(veri["bozuk_kayitlar"]):
+    try:
+        baglam_farki(k, veri["kanit_id"])
+        print("bozuk", i, "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print("bozuk", i, "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-15")
 ```
 
 ```test
@@ -354,7 +465,9 @@ Her kolu kimlik kümesine çevir. Küme farklarıyla `giren` ve `cikan` listeler
 
 Kurulu `all-minilm:22m` modeli sorgu ve belgeleri gerçekten gömer. Cosine benzerliği `round((cosine+1)*50)` ile dersin0–100 tamsayı skoruna taşınır; bu olasılık veya güven puanı değildir. Temiz kol bu gerçek skorları kullanır. Manipüle kol ek belgenin **dış kaynaklı sahte skoruna** güvenen kusurlu uygulamayı temsil eder; sahte skor gerçek embedding skoru diye sunulmaz. Bu, skor metadata güven sınırı deneyidir; her retrieval sisteminin bu kusura sahip olduğu iddiası yoktur.
 
-Öğrencinin karakter bütçeli seçimi gerçek skorlu belgelerde çalışır; karakter bütçesi token bütçesi değildir, JSON/şablon maliyeti bu dar sözleşmenin dışında kalır. Temiz ve manipüle seçimler gerçek modele ayrı gider. Kanıtın bağlamdan düşmesi, yanıttaki işaret ve modelin talimata uyması farklı gözlemlerdir; bunların gerçekleşmesi geçme şartı değildir. Ham vektörler öğrenci alanında JSON dosyasına yazılır. Model/araç yoksa deney geçmez; ders indirme yapmaz. `PAFTA_AI_EMBED_MODELI` ile kurulu gömme modeli seçilebilir.
+Görev 1–3'teki sentetik skorlar bu adımda yerini gerçek gömme skorlarına bırakır. Cosine benzerliği iki vektör arasındaki açının kosinüsüdür. 1'e yakınsa vektörler aynı yöne bakar, yani metinler anlamca yakındır. Bu ölçek gömme modeline bağlıdır: `all-minilm` ile 0.6 çıkan bir benzerlik, başka bir modelde aynı anlama gelmez. Öğrencinin karakter bütçeli seçimi gerçek skorlu belgelerde çalışır; karakter bütçesi token bütçesi değildir, JSON/şablon maliyeti bu dar sözleşmenin dışında kalır. Temiz ve manipüle seçimler gerçek modele ayrı gider. Kanıtın bağlamdan düşmesi, yanıttaki işaret ve modelin talimata uyması farklı gözlemlerdir; bunların gerçekleşmesi geçme şartı değildir. Ham vektörler öğrenci alanında JSON dosyasına yazılır. Model/araç yoksa deney geçmez; ders indirme yapmaz. `PAFTA_AI_EMBED_MODELI` ile kurulu gömme modeli seçilebilir.
+
+Ders yazılırken bu makinede yapılan bir koşuda `all-minilm:22m` kanıt belgesine 0.635 (82), saldırı belgesine 0.624 (81) cosine benzerliği verdi; iki belge gerçekte neredeyse eşit yakınlıktaydı. Manipüle kolda ek belgenin dış skoru 100 olarak okundu, belge en üste çıktı ve bütçe yüzünden kanıt belgesi elendi. `qwen3:4b-instruct-2507` temiz bağlamla doğru süreyi (14 gün) söyledi. Manipüle bağlamla ise belgedeki talimata uyup canary'yi yazdı. Bu tek koşuluk bir gözlemdir; tohum her koşuda değişir ve sonuç farklı çıkabilir. Kabul koşulu bu sızıntı değil, seçim ve fark ölçümünün doğruluğudur.
 :::
 
 ::: gorev Gerçek deney · Gömme skorundan bütçeli bağlama
@@ -368,12 +481,28 @@ timeout: 300
 
 ```starter
 import ai_lab
+import json
+import re
 
-def sorgu_izi(sorgu):return ""
+def sorgu_izi(sorgu):
+    normalize = " ".join(sorgu.casefold().split())
+    return json.dumps({"orijinal": sorgu, "normalize": normalize, "terimler": sorted(set(re.findall(r"\w+", normalize)))},
+                      ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
-def baglam_sec(belgeler,butce):return {}
+def baglam_sec(belgeler, butce):
+    # KUSURLU BAŞLANGIÇ KODU: bütçe dolunca belgeyi KIRPIP ekliyor; seçilen metin bütçeyi tam doldurur ama yarım belge modele gider ve referans seçimle uyuşmaz!
+    sonuc = {"secilen": [], "elenen": [], "kullanilan": 0}
+    for b in sorted(belgeler, key=lambda x: (-x["skor"], x["id"])):
+        kalan = butce - sonuc["kullanilan"]
+        if kalan > 0:
+            sonuc["secilen"].append(b["id"])
+            sonuc["kullanilan"] += min(len(b["metin"]), kalan)
+        else:
+            sonuc["elenen"].append(b["id"])
+    return sonuc
 
-def baglam_farki(kayitlar,kanit_id):return {}
+def baglam_farki(kayitlar, kanit_id):
+    return {"vaka": 0, "giren": {}, "cikan": {}, "degisen": [], "kanit_kaybolan": []}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_15 as deney
@@ -530,7 +659,14 @@ for ad, mutant in [("kanıt kaybını gizleyen", m_kanit), ("giren ve çıkanı 
 from sandbox import ai_gercek_ai_saldiri_15 as deney
 import json,secrets,tempfile,re
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('secim_referans','fark_referans')), 'laboratuvar/bağımsız ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('secim_referans','fark_referans','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/bağımsız ölçüm yamalanmamalı, referans kullanılmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 for i in range(4):
     q='  Q'+secrets.token_hex(4)+'  NOTE  ';normal=' '.join(q.casefold().split())
     if not ok(json.loads(sorgu_izi(q))==dict(orijinal=q,normalize=normal,terimler=sorted(set(re.findall(r'\w+',normal)))),'yeni sorguda özgün/normalize iz'):stop()

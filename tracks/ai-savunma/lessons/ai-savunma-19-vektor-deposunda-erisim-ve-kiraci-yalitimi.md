@@ -5,16 +5,41 @@ summary: Vektör getirme politikasını doğrula, kiracı filtresi ve sonuç sı
 timeout: 45
 ---
 
-::: anlat Benzerlik araması yetki kontrolünün yerine geçmez
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Benzerlik araması yetki kontrolünün yerine geçmez
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Qdrant çok kiracılı kullanımda her noktanın payload'ına bir kiracı alanı koyar. Arama isteği bu alana bir `filter` ekler (ör. `must: [{key: "tenant", match: {value: ...}}]`). Ayrı koleksiyon ya da ayrı sunucu da kullanılabilir. Uygulama katmanı kiracıyı oturumdan alır, istemciden almaz. | Görev 1–3: `veri/vektor_politikasi.json`, `veri/vektor_sorgulari.json` ve `veri/vektor_kayitlari.json` içindeki **sentetik** politika, sorgu ve ham arama sonuçları. Son adım: kurulu `all-minilm:22m` gömme modeli bir sorgu ve üç kayıt için gerçek vektör üretir. Kosinüs skorlarıyla sıralanan kayıtlar senin işlevinle kiracı yalıtımından geçer. | Bu ders veritabanı düzeyinde filtrelemeyi değil, getirme sonrasındaki ikinci kontrolü uygular. Üç kayıtlık deney, gerçek bir depodaki indeks ayrımını, yedekleri ya da gömme vektörlerinden veri sızmasını kapsamaz. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde gömme modeli, Qdrant veya FastAPI çağrılmaz. Son adımdaki **Gerçek deney** görevi kurulu yerel Ollama gömme modelini gerçekten çalıştırır; Qdrant çalıştırılmaz, yeni model indirilmez. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Qdrant gibi bir vektör deposu en yakın kayıtları bulabilir; ancak yüksek benzerlik skoru, kaydı görmeye yetkili olunduğunu göstermez. Sorgu kimliği doğrulanır, kiracı filtresi zorunlu tutulur ve getirme sonrasında da kiracı eşleşmesi yeniden denetlenir.
 
-Bu derste Qdrant, FastAPI, ağ veya model kullanılmaz. Sorgular ve vektör deposu kayıtları deterministik fixture olarak verilir. Amaç, erişim politikasının gerçek servise bağlanmadan önce fail-closed biçimde sınanmasıdır.
+Görev 1–3'te sorgular ve depo kayıtları sentetiktir; son adımda skorlar gerçek bir gömme modelinden gelir. Amaç, erişim politikasının fail-closed biçimde sınanmasıdır.
+
+**Neden iki kez filtrelenir?** Çok kiracılı RAG sistemlerinde en sık hata, kiracı filtresinin "çoğu" sorguya eklenip birine eklenmemesidir. Bu, yeni eklenen bir uç nokta, bir hata ayıklama aracı ya da bir toplu yeniden indeksleme betiği olabilir. Filtre eksik kaldığında arama bütün kiracıların vektörlerinde yapılır. En benzer kayıt başka bir müşterinin sözleşmesi ise modele o gider ve yanıtta görünür. Getirme sonrasında kiracıyı yeniden denetlemek bu hatayı ikinci bir kapıda yakalar (defense in depth).
+
+**Saldırgan bakışı:** Bir kiracının kullanıcısı başka kiracının verisini görmek ister. Bunun yolları:
+
+- İstemcinin gönderdiği `filtre_kiraci` değerini değiştirmek (`veri/vektor_sorgulari.json` içindeki `q-filtre-oyunu`).
+- Çok büyük bir `top_k` isteyerek eşiğin altındaki ya da filtrede kaçak kalan kayıtları da çekmek (`q-genis`).
+- Sorguyu başka kiracının belgelerine çok benzeyecek biçimde yazmak, böylece o belgelerin skorunu yükseltmek.
+
+İlk iki yolu politika kapatır. Üçüncüsü yalnız kiracı filtresinin skordan **önce** uygulanmasıyla kapanır. `veri/vektor_kayitlari.json` içinde en yüksek skorlu iki kayıt başka kiracıya aittir.
 :::
 
 ::: anlat Kiracı kimlikleri ve skorlar katı biçimde doğrulanır
 Kiracı ve kayıt kimlikleri ASCII harf/rakamla başlar; yalnız ASCII harf, rakam, alt çizgi ve tire içerir. Skor bool olmayan, sonlu ve 0–1 aralığında bir sayıdır. Alt skor eşiğine eşit kayıt kabul edilir.
 
 `top_k` pozitif bir tam sayıdır. Politika üst sınırını aşan sorgu kırpılmaz; reddedilir. Böylece istemci geniş bir sonuç kümesi isteyerek veri maruziyetini artıramaz.
+
+**Sık tuzaklar:**
+
+- **Filtreyi istemciden almak:** Doğru kiracı oturumdan gelir. İstemcinin gönderdiği filtre yalnız oturumla **eşleşiyorsa** kabul edilir.
+- **Aşırı `top_k` değerini sessizce kırpmak:** Kırpma, istemciye "sınırı zorlamak zararsız" mesajı verir ve kötüye kullanımı loglarda görünmez kılar. Ret ise görünür bir olaydır.
+- **Eşiği filtreden önce uygulamak:** Sıra fark etmez gibi görünür. Ancak önce `top_k` ile kesip sonra kiracı filtresi uygulanırsa, en yüksek skorlu yabancı kayıtlar kotayı doldurur ve meşru kayıtlar hiç dönmez.
+- **Eşitlik:** Skoru eşiğe eşit olan kayıt kabul edilir (`a-sinir`). Eşit skorlu kayıtlar kimlik sırasıyla dizilir; sonuç deterministik olur.
 :::
 
 ::: tahmin Kiracı ve skor sıralamasını tahmin et
@@ -46,9 +71,32 @@ Skor eşiği bool olmayan, sonlu ve 0–1 aralığında int veya float; sonuç s
 
 Politikayı yeni listeyle döndür; girdiyi değiştirme.
 
+Görünür veri: `veri/vektor_politikasi.json`. Asıl politika kabul edilmeli, beş bozuk politika reddedilmelidir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def vektor_politikasi_dogrula(politika):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız kiracı listesinin boş olmadığına bakıyor; bayrakları, joker kiracıyı, top_k sınırını ve bool skoru denetlemiyor, girdinin kendisini döndürüyor!
+    if not politika.get("izinli_kiracilar"):
+        raise ValueError("kiracı listesi boş olamaz")
+    return politika
+
+veri = json_yukle("veri/vektor_politikasi.json")
+for ad, p in [("asil", veri["politika"])] + [(b["ad"], b["politika"]) for b in veri["bozuk_politikalar"]]:
+    try:
+        vektor_politikasi_dogrula(p)
+        print(ad, "kabul")
+    except ValueError as hata:
+        print(ad, "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-19")
 ```
 
 ```test
@@ -158,9 +206,35 @@ Filtre alanının bulunması yeterli değildir; doğru kiracıya eşit olması g
 
 Yukarıdaki üç yetki nedenini sırayla uygula. Her kayıt için `{"id":ID,"karar":"reddet" if nedenler else "kabul","nedenler":[...]}` döndür. Kimliğe göre sırala, boş sorguda boş liste döndür ve girdileri değiştirme.
 
+Görünür veri: `veri/vektor_sorgulari.json`. Beklenen kararlar README tablosundadır. `q-filtre-oyunu` reddedilmeli, `q-sinir` ise kabul edilmelidir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def vektor_sorgularini_denetle(sorgular, politika):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: kiracı olarak istemcinin gönderdiği FİLTREYİ denetliyor (oturum kiracısını değil), filtre-oturum eşleşmesine bakmıyor ve top_k sınırına eşitliği ihlal sayıyor!
+    rapor = []
+    for q in sorted(sorgular, key=lambda x: x["id"]):
+        nedenler = []
+        if q["filtre_kiraci"] not in politika["izinli_kiracilar"]:
+            nedenler.append("kiraci")
+        if q["top_k"] >= politika["max_top_k"]:
+            nedenler.append("top_k")
+        rapor.append({"id": q["id"], "karar": "reddet" if nedenler else "kabul", "nedenler": nedenler})
+    return rapor
+
+politika = json_yukle("veri/vektor_politikasi.json")["politika"]
+veri = json_yukle("veri/vektor_sorgulari.json")
+for r in vektor_sorgularini_denetle(veri["sorgular"], politika):
+    print(r["id"], r["karar"], r["nedenler"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-19")
 ```
 
 ```test
@@ -302,9 +376,36 @@ Sonuçlar skor azalan, eşitlikte kimlik artan sıralanır ve istenen `top_k` ka
 
 Sorgu kiracısı izinli değilse, filtre kiracıdan farklıysa veya `top_k` politika sınırını aşıyorsa boş liste döndür. Aksi hâlde yalnız aynı kiracıdaki ve skor eşiğini geçen kayıtları skor azalan, kimlik artan sırayla ilk `top_k` kadar döndür. Her sonuç `{"id":ID,"kiraci":KIRACI,"skor":SKOR,"metin":METIN}` olsun. Girdileri değiştirme.
 
+Görünür veri: `veri/vektor_kayitlari.json` ve `getirme_sorgusu`. Doğru sonuç `a-iade`, `a-sss`, `a-kargo` olur. En yüksek skorlu iki `globex` kaydı sonuçta yer almamalıdır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def yetkili_vektorleri_getir(kayitlar, sorgu, politika):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: önce skora göre top_k ile kesiyor, SONRA kiracıyı filtreliyor; yabancı kiracının yüksek skorlu kayıtları kotayı doldurup meşru kayıtları siliyor ve kayıt doğrulaması yapmıyor!
+    sirali = sorted(kayitlar, key=lambda x: (-x["skor"], x["id"]))[:sorgu["top_k"]]
+    return [{"id": x["id"], "kiraci": x["kiraci"], "skor": x["skor"], "metin": x["metin"]}
+            for x in sirali if x["kiraci"] == sorgu["kiraci"] and x["skor"] >= politika["min_skor"]]
+
+politika = json_yukle("veri/vektor_politikasi.json")["politika"]
+sorgu = json_yukle("veri/vektor_sorgulari.json")["getirme_sorgusu"]
+veri = json_yukle("veri/vektor_kayitlari.json")
+for s in yetkili_vektorleri_getir(veri["kayitlar"], sorgu, politika):
+    print(s["id"], s["kiraci"], s["skor"])
+for b in veri["bozuk_kayitlar"]:
+    try:
+        yetkili_vektorleri_getir([b], sorgu, politika)
+        print(b["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-19")
 ```
 
 ```test
@@ -484,13 +585,26 @@ def yetkili_vektorleri_getir(kayitlar, sorgu, politika):
 :::
 
 ::: anlat Benzerlik sıralaması kiracı sınırını aşamaz
-Çok kiracılı bir vektör deposunda asıl risk, bir kiracının sorgusunun başka bir kiracının en benzer kaydını getirmesidir. Son görevde senin `yetkili_vektorleri_getir` işlevin, gerçek gömme modelinin (all-minilm:22m) ürettiği kosinüs skorlarıyla sıralanan kayıtları kiracı yalıtımına göre filtreler. Kayıtlardan biri sorguya en benzer olandır ama başka bir kiracıya aittir.
+Görev 1–3'te skorlar elle yazılmıştı. Bu adımda skorları **gerçek bir gömme modeli** üretir. `sandbox/ai_gercek_ai_savunma_19.py` deneyi şunları yapar:
 
-Deney şunu gösterir: en yüksek **gerçek embedding skoruna** sahip kayıt sorgunun kiracısına ait değilse sonuca girmez; getirilen bütün kayıtlar aynı kiracıdandır. Yani benzerlik tek başına erişim vermez; kiracı sınırı skordan önce gelir ve çapraz kiracı sızıntısı olmaz.
+1. Kurulu `all-minilm:22m` gömme modeli bir kiracı-a sorgusunu ("İade süresi kaç gündür?") ve üç kaydı vektöre çevirir. Vektörler eksik ya da geçersizse deney "tamamlanmadı" diye durur.
+2. Kayıtlardan ikisi kiracı-a'ya, biri kiracı-b'ye aittir. Kiracı-b'nin kaydı sorgunun kelimelerini tekrar ettiği için sorguya çok benzer.
+3. Senin `yetkili_vektorleri_getir` işlevin iki sorguyla çağrılır: olağan kiracı-a sorgusu ve filtresi kiracı-b'ye çevrilmiş manipüle bir sorgu. Olağan sorgunun sonucu bağımsız bir referans getirmeyle de karşılaştırılır.
+
+Test önce işlevini gizli deterministik kayıtlarla sınar. Ardından şu üç koşulu ister:
+
+- Gerçek skorlarla getirdiğin sonuç referansla birebir aynı olmalı.
+- Sonuçta başka kiracının kaydı bulunmamalı.
+- Manipüle sorgu boş dönmeli.
+
+En yüksek skorlu kaydın hangi kiracıya ait olduğu kabul koşulu değildir; bulgu olarak kaydedilir.
+
+Ders yazılırken bu makinede kiracı-b'nin kaydı 0.910 skorla en yüksek sırada çıktı. Kiracı-a'nın kayıtları 0.761 ve 0.496 aldı. Doğru getirme kiracı-b'nin kaydını dışarıda bıraktı ve kiracı-a'nın iki kaydını döndürdü. Yalnız skora göre sıralayan bir sistem kiracı-a'nın kullanıcısına önce kiracı-b'nin verisini gösterirdi. Saldırganın sorguyu hedef belgeye benzeterek skoru yükseltebileceğini unutma: benzerlik, erişim hakkı değildir.
+
 :::
 
 ::: gorev Gerçek deney · Gerçek skorlarla kiracı yalıtımı
-`yetkili_vektorleri_getir(kayitlar, sorgu, politika)` işlevini yaz — kuralları ve çıktısı 3. görevdekiyle **aynıdır**. Deney gerçek gömme modeliyle skorları üretir; senin işlevin yalnız aynı kiracının skor eşiğini geçen kayıtlarını getirir; çapraz kiracı kaydı en yüksek skorlu olsa bile dışarıda kalır.
+`yetkili_vektorleri_getir(kayitlar, sorgu, politika)` işlevini yaz. Kuralları ve çıktısı 3. görevdekiyle **aynıdır**. Deney gerçek gömme modeliyle skorları üretir. Senin işlevin yalnız aynı kiracıya ait ve skor eşiğini geçen kayıtları getirir; başka kiracının kaydı en yüksek skorlu olsa bile dışarıda kalır. `sandbox.ai_gercek_ai_savunma_19` içindeki `yetkili_vektorleri_getir_referans` yalnız test içindir; onu import etmek veya kaynağını okuyup çalıştırmak Kontrol'de reddedilir.
 
 ```meta
 motor: ai-gercek
@@ -502,7 +616,10 @@ timeout: 300
 import ai_lab
 
 def yetkili_vektorleri_getir(kayitlar, sorgu, politika):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: kiracı olarak istemcinin gönderdiği FİLTREYİ kullanıyor; filtresi kiracı-b'ye çevrilmiş sorgu kiracı-b'nin kaydını getirir!
+    uygun = [x for x in kayitlar if x["kiraci"] == sorgu["filtre_kiraci"] and x["skor"] >= politika["min_skor"]]
+    uygun.sort(key=lambda x: (-x["skor"], x["id"]))
+    return [{"id": x["id"], "kiraci": x["kiraci"], "skor": x["skor"], "metin": x["metin"]} for x in uygun[:sorgu["top_k"]]]
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_19 as deney
@@ -510,15 +627,27 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import ai_lab
+from sandbox import ai_gercek_ai_savunma_19 as D
 sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+_yasak = ("yetkili_vektorleri_getir_referans", "kanit_yaz")
+sorun = ai_lab.kod_denetimi(src, yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(n, (ast.Import, ast.ImportFrom)):
+        adlar = [a.name for a in n.names] + ([n.module] if isinstance(n, ast.ImportFrom) and n.module else [])
+        if any(a and a.split(".")[0] in ("inspect", "importlib", "runpy") for a in adlar):
+            sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(n, ast.Name) and n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + n.id)
+if not kontrol(not sorun, "Kendi yetkili_vektorleri_getir işlevini yaz; laboratuvar/referans kullanımı yasak: " + "; ".join(sorted(set(sorun)))):
+    stop()
 fn = need("yetkili_vektorleri_getir")
-from sandbox import ai_gercek_ai_savunma_19 as D
 P = {"izinli_kiracilar": ["a", "b"], "min_skor": 0.3, "max_top_k": 5, "filtre_zorunlu": True, "capraz_kiraci": False}
 Q = {"id": "q-1", "kiraci": "a", "filtre_kiraci": "a", "top_k": 3}
 K = [
@@ -535,7 +664,15 @@ def sozlesme(f):
             return False
         if f(K, dict(Q, filtre_kiraci="b"), P) != []:
             return False
-        for bozuk in (None, [None], [dict(K[0], ek=1)], [dict(K[0], kiraci="a b")]):
+        esit = [dict(K[0], id="e-2", skor=0.5), dict(K[0], id="e-1", skor=0.5), dict(K[0], id="e-0", skor=0.3)]
+        if [x["id"] for x in f(esit, dict(Q, top_k=2), P)] != ["e-1", "e-2"]:
+            return False
+        if f(K, dict(Q, top_k=6), P) != [] or f(K, dict(Q, top_k=5), P) != BEKLENEN:
+            return False
+        dolu = [dict(K[1], id="b-%d" % i, skor=0.95) for i in range(3)] + [K[0]]
+        if f(dolu, Q, P) != BEKLENEN:
+            return False
+        for bozuk in (None, [None], [dict(K[0], ek=1)], [dict(K[0], kiraci="a b")], [K[0], K[0]], [dict(K[0], skor=1.2)], [dict(K[0], skor=True)], [dict(K[0], metin="a\0b")]):
             try:
                 f(bozuk, Q, P)
                 return False
@@ -552,16 +689,15 @@ if all(sonuclar):
     except ai_lab.GercekLabYok as e:
         kontrol(False, f"GERÇEK MODEL YOK, deney yapılmadı: {e}")
         stop()
-    kontrol(r["sonuc_kiracilar"] == ["a"] and not r["capraz_sizinti"],
-            "getirilen gerçek kayıtların hepsi sorgu kiracısına ait, çapraz sızıntı yok")
-    kontrol(r["en_yuksek_kiraci"] == "b" and r["en_yuksek_dislandi"],
-            "en yüksek gerçek skorlu kayıt çapraz kiracıydı ve dışlandı")
+    kontrol(not r["capraz_sizinti"], "getirilen gerçek kayıtların hepsi sorgu kiracısına ait, çapraz sızıntı yok")
+    kontrol(r["sonuc_dogru"], f"gerçek skorlarla getirme bağımsız referansla aynı olmalı: senin {r['sonuc']} · beklenen {r['beklenen']}")
+    kontrol(r["filtre_sonuc"] == [], f"filtresi başka kiracıya çevrilmiş sorgu boş dönmeli: {r['filtre_sonuc']}")
     oz = D.ozet(r)
 yol = ai_lab.kanit_yaz("savunma-kiraci", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-savunma-19",
-                                          "ortam": (r or {}).get("ortam"), "ozet": oz})
+                                          "ortam": (r or {}).get("ortam"), "ozet": oz, "kayitlar": (r or {}).get("kayitlar")})
 if oz:
     ok(True, f"BULGU ({(r['ortam'].get('gomme') or {}).get('model')}): gerçek skorlar {oz['skorlar']}; getirilen {oz['sonuc_idler']} (kiracılar {oz['sonuc_kiracilar']}). "
-             f"En yüksek skorlu kayıt {oz['en_yuksek_id']} kiracı '{oz['en_yuksek_kiraci']}' idi ve dışlandı ({oz['en_yuksek_dislandi']}); çapraz kiracı sızıntısı {oz['capraz_sizinti']}. "
+             f"En yüksek skorlu kayıt {oz['en_yuksek_id']} kiracı '{oz['en_yuksek_kiraci']}' (dışlandı: {oz['en_yuksek_dislandi']}); çapraz kiracı sızıntısı {oz['capraz_sizinti']}; manipüle filtreli sorgu boş: {oz['filtre_sorgusu_bos']}. "
              f"Benzerlik sıralaması kiracı sınırını aşamadı.")
 ```
 

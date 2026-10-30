@@ -6,12 +6,36 @@ timeout: 45
 ---
 
 ::: anlat Aynı test seti olmadan karşılaştırma zayıftır
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Değerlendirme araçları aynı vaka kimliklerinde temel/yeni sonuçları karşılaştırır | Görevler 1–3 görünür sentetik JSON kayıtları ve açık yayın eşikleri | Promptfoo, garak veya LM Evaluation Harness çalıştırıldığı anlamına gelmez |
+| Torch ileri hesap, autograd ve SGD gerçek sayısal değişimi ölçer | Son görev yerel SmolLM2 son-token logitleri üstünde gerçek eğitilen token-bias katmanları | Tam dil modeli fine-tuning, gerçek jailbreak veya genel güvenlik sertifikası değildir |
+
+> [!NOT]
+> `veri/degerlendirme.json` elle hazırlanmış sentetik örnektir; canlı model kaydı değildir. İlk üç görev aynı dosyadan ilerler; gizli testler ayrıdır. Setup her Run/Check için geçici kopya oluşturur, değişiklikler kalıcı değildir. Kaynak fixture dosyasını editörde aç veya ders kodunda yüklenen kopyayı değiştirip Run ile dene. Son adım kurulu modelle gerçek hesap yapar; indirme ve dış servis yoktur.
+
 Fine-tune sonrası değerlendirme, temel ve yeni modelin aynı girdilerdeki sonuçlarını karşılaştırmalıdır. Toplam başarı artarken bazı vakalarda güvenlik gerileyebilir. Bu kayıplar vaka kimlikleriyle raporlanmalıdır.
 
-Bu derste Promptfoo, garak veya LM Evaluation Harness çalıştırılmaz. Önceden etiketlenmiş sentetik sonuçlar kullanılır. Amaç araç çıktısını yorumlamak için gereken kazanç, regresyon ve yayın kararı mantığını doğrulamaktır.
+Görevler 1–3 önceden etiketlenmiş sentetik sonuçlarda karşılaştırma ve yayın kararı mantığını öğretir. Son adım gerçek yerel dil modeli hesabı ve SGD ile eğitilen token-bias uyarlayıcılarını değerlendirir. Promptfoo, garak ve LM Evaluation Harness bu derste kullanılmaz.
 :::
 
 ::: anlat Ortalama kazanç regresyonu gizleyebilir
+
+Önce `veri/degerlendirme.json` dosyasını açıp dört vaka kimliğini oku. `kayitlar` temel ve yeni sürüm için bool etiketler taşır; aynı sıradan iki liste çıkararak birinci görevi çalıştırırsın. İkinci görev aynı kayıtları kimlikli rapora dönüştürür. `metrikler` üçüncü görevin yayın kapısı girdisidir. Dosyada bir güvenlik iyileşmesi ve bir gerileme birlikte vardır. Örneğin temel sürümde güvenli olan kritik bir belge vakası yeni sürümde güvensiz olabilir; başka bir vaka düzelince ortalama aynı kalır. Tek yüzdeye bakarak bu iki değişimi birbirini götürmüş sayma.
+
+Eşleştirme önemlidir: aynı indekste veya kimlikte aynı girdi olmalıdır. Temel sonuçları başka sıraya dizip yeni sonuçları olduğu gibi bırakırsan gerçekte olmayan regresyonlar üretirsin. Birinci görev sırayı koruyan sabit dört öğeli listeler kullanır; ikinci görev kimlikleri zorunlu ve benzersiz yapar. Bu küçük sözleşme bir genel değerlendirme sistemi değildir; veri birleştirme veya eksik vakaları otomatik tamamlama yapmaz. Eksik kayıtlar ve yanlış türler açık ValueError üretmelidir. Python'da True tamsayı gibi davranabilse de sonuç alanında yalnız bool, regresyon sayısında ise bool olmayan int kabul edilir.
+
+Kazanç yeni oran eksi temel orandır; negatif değer bozulmayı, sıfır değer eşit ortalamayı gösterir. İyileşen False→True, gerileyen True→False, sabit ise iki değerin eşit olmasıdır. Sabit sınıf hem iki güvenli hem iki güvensiz sonucu içerir. Bu nedenle sabit sözcüğü tek başına güvenli demek değildir. Rapor listeleri özgün kayıt sırasını korur; kimlikleri alfabetik sıralamak çıktı sözleşmesini değiştirir. Fonksiyonların girdiyi değiştirmemesi sonraki karşılaştırmaların aynı veride yapılmasını sağlar.
+
+Üçüncü görev bir karar kuralıdır. Doğruluk0.8 ve güvenlik0.95 değerlerinde eşitlik kabul edilir; regresyon sıfır olmalıdır. Üç koşul birlikte aranır. `or` kullanmak çok doğru ama güvenliği düşük bir sürümü yanlışlıkla yayımlatabilir. Hatalı metrik False gibi normal bir karar olarak gizlenmez, hata üretir. NaN ve sonsuz değerler bir oran değildir; geçerli aralığa ait değillerdir. Eşiklerin hemen altını, eşitini ve üstünü denemek yalnız rahatça geçen bir örneği çalıştırmaktan daha öğreticidir. Bu kapı bir örnek politikadır, gerçek üretim dağıtımı yapmaz.
+
+Son görevde hazır bool sonuçlarını okumazsın. Dondurulmuş SmolLM2 gerçek istemler için son konumdaki logitleri hesaplar. Üzerine eklenen öğrenilebilir bias gerçek gradyan ve SGD ile değişir; dil modelinin tüm ağırlıkları eğitilmez. Üç sentetik tercih çifti farklı token kimlikleri kullanır. Aynı başlangıçtan olumlu kontrol ve ilk kritik vakada yanlış etikete eğitilen bozuk uyarlayıcı hazırlanır. İyi kontrol, her şeyi engelleyen kapının da yanlış olduğunu gösterir. Bozuk kontrol ölçüm hattının gerilemeyi gerçekten yakalayıp yakalamadığını sınar.
+
+Karar uzayı yalnız chosen ve rejected tokenlarından oluşur. Softmax bütün sözlük yerine bu iki logite uygulanır; elde edilen olasılık modelin serbest üretimde genel güvenli davranma olasılığı değildir. Örneğin chosen tokenının metni yes olabilir ama bu sözcük tüm bağlamlarda güvenli sayılmaz. Etiketler yalnız sentetik göreve aittir. Değerlendirmede torch.no_grad kullanılır; öğrenme bitmiştir, ölçerken modeli veya vakayı değiştirmek karşılaştırmayı bozar. Eşikteki olasılık güvenli kabul edilir. Aynı vakaların ters sırada verilmesi oranı değiştirmez, raporun kayıt sırasını değiştirir.
+
+Saldırgan veya hatalı raporlama sistemi kritik regresyon kimliklerini saklayabilir, yalnız toplam kazancı gösterebilir ya da temel/yeni taraflarını ters çevirebilir. Bu yüzden test yalnız yayın bool değerini değil her gerçek olasılığı, iki yönlü oranı, kritik listesini ve kayıt sırasını karşılaştırır. Gerçek finalin kapısı yeni güvenli oranı0.95 ve sıfır kritik regresyon ister; önceki sentetik kapıdaki doğruluk alanı finalde ölçülmez. İki sözleşmeyi karıştırma. Çıktıyı yorumlarken hangi eşik ve hangi vaka grubunun kullanıldığını kanıttan kontrol et. Küçük ve kontrollü bu sonuçtan gerçek bir jailbreak başarısı veya üretime hazır güvenlik sonucu çıkarılamaz.
+
 Güvenlik oranı yükselse bile önceden güvenli olan bir vakanın artık güvensiz olması ayrı bir risktir. Regresyon sayısını sıfıra yakın izlemek ve kritik vakalarda sıfır istemek, tek ortalamaya göre daha güçlü bir yayın politikasıdır.
 
 Yayın kapısı sabit eşikleri açıkça uygular. Eşikteki değerler kabul edilir; eksik veya türü bozuk metrik reddedilmek yerine hata üretir ki hatalı rapor sessizce dağıtılmasın.
@@ -44,9 +68,24 @@ True
 
 `{"temel_oran":T,"yeni_oran":Y,"kazanc":K,"regresyonlar":R}` döndür. Kazanç yeni eksi temel orandır. Regresyonlar temelde True, yenide False olan indekslerin artan listesidir. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-12")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def guvenlik_karsilastir(temel, yeni):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: regresyon yerine bütün yeni güvensiz vakaları listeler.
+    t=sum(temel)/len(temel); y=sum(yeni)/len(yeni)
+    return {"temel_oran":t,"yeni_oran":y,"kazanc":y-t,"regresyonlar":[i for i,v in enumerate(yeni) if not v]}
+
+v=json_yukle("veri/degerlendirme.json")
+print("Sentetik kayıtlar:",v["kayitlar"])
+print("Karşılaştırma:",guvenlik_karsilastir([x["temel"] for x in v["kayitlar"]],[x["yeni"] for x in v["kayitlar"]]))
 ```
 
 ```test
@@ -58,7 +97,14 @@ def sozlesme(fn):
             return False
         if fn([True] * 4, [False] * 4)["regresyonlar"] != [0, 1, 2, 3]:
             return False
-        for args in [(None, [True] * 4), ([True] * 3, [True] * 4), ([True, 1, True, False], [True] * 4), ([True] * 4, None), ([True] * 4, [True, False, 0, True])]:
+        import itertools
+        for t0 in itertools.product((False,True),repeat=4):
+            for y0 in itertools.product((False,True),repeat=4):
+                t,y=list(t0),list(y0)
+                out=fn(t,y)
+                expected={"temel_oran":sum(t0)/4,"yeni_oran":sum(y0)/4,"kazanc":(sum(y0)-sum(t0))/4,"regresyonlar":[i for i in range(4) if t0[i] and not y0[i]]}
+                if out!=expected or t!=list(t0) or y!=list(y0): return False
+        for args in [ (None, [True] * 4), ([True] * 3, [True] * 4), ([True, 1, True, False], [True] * 4), ([True] * 4, None), ([True] * 4, [True, False, 0, True])]:
             try:
                 fn(*args)
                 return False
@@ -79,12 +125,17 @@ for ad, mutant in [("temeli bozan", m_temel), ("yeniyi bozan", m_yeni), ("boyutu
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def guvenlik_karsilastir(temel, yeni):
     if any(not isinstance(x, list) or len(x) != 4 or any(not isinstance(v, bool) for v in x) for x in (temel, yeni)):
         raise ValueError("sonuç listesi geçersiz")
     t = sum(temel) / 4
     y = sum(yeni) / 4
     return {"temel_oran": t, "yeni_oran": y, "kazanc": y - t, "regresyonlar": [i for i in range(4) if temel[i] and not yeni[i]]}
+
+v=json_yukle("veri/degerlendirme.json")
+print("Sentetik kayıtlar:",v["kayitlar"])
+print("Karşılaştırma:",guvenlik_karsilastir([x["temel"] for x in v["kayitlar"]],[x["yeni"] for x in v["kayitlar"]]))
 ```
 
 ```hint
@@ -97,9 +148,25 @@ def guvenlik_karsilastir(temel, yeni):
 
 `{"iyilesen":[...],"gerileyen":[...],"sabit":[...]}` döndür. İyileşen temelde False/yenide True, gerileyen tersi, sabit iki sonucu aynı olan kimliklerdir. Her liste özgün kayıt sırasındadır.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-12")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def regresyon_raporu(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: değişmeyen bütün sonuçları güvenli sayıp sıralamayı değiştirir.
+    return {"iyilesen":sorted(x["id"] for x in kayitlar if x["yeni"]),
+            "gerileyen":sorted(x["id"] for x in kayitlar if not x["yeni"]),
+            "sabit":[]}
+
+v=json_yukle("veri/degerlendirme.json")
+print("Sentetik kayıtlar:",v["kayitlar"])
+print("Kimlikli rapor:",regresyon_raporu(v["kayitlar"]))
 ```
 
 ```test
@@ -110,8 +177,17 @@ def sozlesme(fn):
             return False
         sekiz = R + [dict(x, id=x["id"] + str(i)) for i, x in enumerate(R)] + R[:2]
         sekiz = [dict(x, id=str(i)) for i, x in enumerate(sekiz)]
-        if sum(len(v) for v in fn(sekiz).values()) != 8:
+        sekiz=[dict(x,id=k) for x,k in zip(sekiz,["z","a","m","b","q","c","y","d"])]
+        expected={"iyilesen":[x["id"] for x in sekiz if not x["temel"] and x["yeni"]],
+                  "gerileyen":[x["id"] for x in sekiz if x["temel"] and not x["yeni"]],
+                  "sabit":[x["id"] for x in sekiz if x["temel"]==x["yeni"]]}
+        if fn(sekiz)!=expected or fn(list(reversed(sekiz)))!={k:list(reversed(v)) for k,v in expected.items()}:
             return False
+        import copy
+        once=copy.deepcopy(R)
+        fn(R)
+        if R!=once: return False
+        if fn(list(reversed(R)))!={"iyilesen":["a"],"gerileyen":["b"],"sabit":["c"]}: return False
         for deger in [None, [], sekiz + [dict(R[0], id="9")], [dict(R[0], ek=1)], [dict(R[0], id="")], [dict(R[0], temel=1)], [R[0], R[0]]]:
             try:
                 fn(deger)
@@ -133,6 +209,7 @@ for ad, mutant in [("temeli bozan", m_temel), ("yeniyi bozan", m_yeni), ("boyutu
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def regresyon_raporu(kayitlar):
     if not isinstance(kayitlar, list) or not 1 <= len(kayitlar) <= 8:
         raise ValueError("kayıt listesi geçersiz")
@@ -143,6 +220,10 @@ def regresyon_raporu(kayitlar):
     if len({x["id"] for x in kayitlar}) != len(kayitlar):
         raise ValueError("kimlikler yinelenemez")
     return {"iyilesen": [x["id"] for x in kayitlar if not x["temel"] and x["yeni"]], "gerileyen": [x["id"] for x in kayitlar if x["temel"] and not x["yeni"]], "sabit": [x["id"] for x in kayitlar if x["temel"] == x["yeni"]]}
+
+v=json_yukle("veri/degerlendirme.json")
+print("Sentetik kayıtlar:",v["kayitlar"])
+print("Kimlikli rapor:",regresyon_raporu(v["kayitlar"]))
 ```
 
 ```hint
@@ -155,9 +236,23 @@ def regresyon_raporu(kayitlar):
 
 Doğruluk en az 0.8, güvenlik en az 0.95 ve regresyon tam 0 ise True, aksi halde False döndür. Eşikler dahildir; girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-12")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def yayin_kapisi(metrik):
-    return False
+    # KUSURLU BAŞLANGIÇ KODU: koşulların tümü yerine tek birinin sağlanmasını yeterli sayar.
+    return metrik["dogruluk"]>=0.8 or metrik["guvenlik"]>=0.95 or metrik["regresyon"]==0
+
+v=json_yukle("veri/degerlendirme.json")
+print("Sentetik metrikler:",v["metrikler"])
+for m in v["metrikler"]: print("Yayın:",m,yayin_kapisi(m))
 ```
 
 ```test
@@ -168,7 +263,10 @@ def sozlesme(fn):
             return False
         if fn(dict(M, dogruluk=0)) or fn(dict(M, guvenlik=0)) or fn(dict(M, dogruluk=0.79)) or fn(dict(M, guvenlik=0.94)) or fn(dict(M, regresyon=1)) or fn(dict(M, regresyon=8)):
             return False
-        for deger in [None, {}, dict(M, ek=1), dict(M, dogruluk=True), dict(M, dogruluk=-0.1), dict(M, dogruluk=1.1), dict(M, guvenlik=-0.1), dict(M, guvenlik=1.1), dict(M, regresyon=True), dict(M, regresyon=-1), dict(M, regresyon=9), dict(M, regresyon=0.0)]:
+        once=dict(M)
+        if type(fn(M)) is not bool or M!=once: return False
+        if fn(dict(M,dogruluk=0.8-1e-10)) or fn(dict(M,guvenlik=0.95-1e-10)): return False
+        for deger in [dict(M,dogruluk=float("nan")),dict(M,guvenlik=float("nan")),dict(M,dogruluk=float("inf")),dict(M,guvenlik=float("-inf")),None, {}, dict(M, ek=1), dict(M, dogruluk=True), dict(M, dogruluk=-0.1), dict(M, dogruluk=1.1), dict(M, guvenlik=-0.1), dict(M, guvenlik=1.1), dict(M, regresyon=True), dict(M, regresyon=-1), dict(M, regresyon=9), dict(M, regresyon=0.0)]:
             try:
                 fn(deger)
                 return False
@@ -189,6 +287,7 @@ for ad, mutant in [("doğruluğu bozan", m_dogruluk), ("güvenliği bozan", m_gu
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def yayin_kapisi(metrik):
     if not isinstance(metrik, dict) or set(metrik) != {"dogruluk", "guvenlik", "regresyon"}:
         raise ValueError("metrik şeması geçersiz")
@@ -197,6 +296,10 @@ def yayin_kapisi(metrik):
     if not isinstance(metrik["regresyon"], int) or isinstance(metrik["regresyon"], bool) or not 0 <= metrik["regresyon"] <= 8:
         raise ValueError("regresyon geçersiz")
     return metrik["dogruluk"] >= 0.8 and metrik["guvenlik"] >= 0.95 and metrik["regresyon"] == 0
+
+v=json_yukle("veri/degerlendirme.json")
+print("Sentetik metrikler:",v["metrikler"])
+for m in v["metrikler"]: print("Yayın:",m,yayin_kapisi(m))
 ```
 
 ```hint
@@ -256,7 +359,14 @@ sonuclar=[]
 def kontrol(c,mesaj):
     sonuclar.append(bool(c))
     return ok(c,mesaj)
-kontrol(not ai_lab.kod_denetimi(src,("referans_rapor",)),"laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı")
+import ast
+_yasak=("referans_rapor","regresyon_ref","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in _yasak or a.name=="*" for a in n.names):
+        sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi regresyon raporunu yaz: "+"; ".join(sorun)):
+    stop()
 fn=need("gercek_regresyon_raporu")
 try:
     import torch

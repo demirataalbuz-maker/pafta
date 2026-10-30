@@ -37,8 +37,13 @@ K = 3
 
 
 def _birim(v, normalize=True):
-    boy = math.sqrt(sum(x * x for x in v))
-    return [x / boy for x in v] if (normalize and boy) else list(v)
+    if not normalize: return list(v)
+    from fractions import Fraction
+    olcek=max(abs(x) for x in v)
+    if not olcek: return list(v)
+    vv=[float(Fraction(x)/Fraction(olcek)) for x in v]
+    boy=math.hypot(*vv)
+    return [x/boy for x in vv]
 
 
 def _sirala(sorgu_vek, idler, vekler, normalize):
@@ -89,7 +94,12 @@ class _Gomucu:
             yuklu = [m["name"] for m in json.loads(r.read())["models"]]
         self.once_yukluydu = GOMME_MODELI in yuklu
         det = bilgi.get("details", {})
-        self.kayit = {"model": GOMME_MODELI, "parametre": det.get("parameter_size"),
+        with urllib.request.urlopen(adres+"/api/tags",timeout=30) as r:
+            etiketler=json.loads(r.read()).get("models",[])
+        secili=next((m for m in etiketler if m.get("name")==GOMME_MODELI),{})
+        self.kayit = {"digest":secili.get("digest"),"boyut_bayt":secili.get("size"),
+                      "lisans_ilk_satir":str(bilgi.get("license","")).splitlines()[:1],"cagrilar":[],
+                      "model": GOMME_MODELI, "parametre": det.get("parameter_size"),
                       "num_ctx": " ".join((bilgi.get("parameters") or "").split()), "once_yukluydu": self.once_yukluydu}
 
     def __call__(self, metinler):
@@ -97,7 +107,24 @@ class _Gomucu:
         if not self.once_yukluydu:
             govde["keep_alive"] = 0
         try:
-            return _istek(self.adres, "/api/embed", govde)["embeddings"]
+            sonuc=_istek(self.adres,"/api/embed",govde)
+            self.kayit["cagrilar"].append({"istek":govde,"yanit":sonuc})
+            vectors=sonuc.get("embeddings")
+            if not isinstance(vectors,list) or len(vectors)!=len(metinler):
+                raise ai_lab.GercekLabYok("embed yanıtında eksik/fazla vektör")
+            for v in vectors:
+                if not isinstance(v,list) or len(v)!=384 or not any(v) or any(type(x) not in (int,float) or not math.isfinite(x) for x in v):
+                    raise ai_lab.GercekLabYok("embed boyutu/değerleri geçersiz")
+            if not self.once_yukluydu:
+                import time
+                son=time.monotonic()+20
+                while True:
+                    with urllib.request.urlopen(self.adres+"/api/ps",timeout=30) as r:
+                        yuklu=[m["name"] for m in json.loads(r.read())["models"]]
+                    self.kayit["model_bosaltildi"]=GOMME_MODELI not in yuklu
+                    if self.kayit["model_bosaltildi"] or time.monotonic()>=son: break
+                    time.sleep(0.1)
+            return vectors
         except urllib.error.HTTPError as e:
             raise RuntimeError(f"Ollama /api/embed HTTP {e.code}") from e
 
@@ -117,8 +144,14 @@ def deney(getir_ve_olc):
         ortam = dict(oturum.kayit)
     ortam["temizlik"] = oturum.kayit.get("temizlik")
     ortam["gomme"] = gom.kayit
+    ortam["sohbet_oturumu_modeli"]=ortam.get("model")
+    ortam["sohbet_oturumu_temizligi"]=ortam.get("temizlik")
+    ortam["model_once_yukluydu"]=gom.once_yukluydu
+    ortam["temizlik"]={"model_bosaltildi":gom.kayit.get("model_bosaltildi") if not gom.once_yukluydu else "korundu: kullanıcı önceden yüklemişti"}
+    ortam["model"]={"ad":GOMME_MODELI,"digest":gom.kayit.get("digest"),"boyut":gom.kayit.get("boyut_bayt")}
+    ortam["sinir"]="Ortak oturum sunucu sahipliği için kullanılır;sohbet modelinden yanıt üretilmez."
     return {"ortam": ortam, "k": K, "parca_sayisi": len(PARCALAR), "soru_sayisi": len(SORULAR),
-            "kayitlar": kayitlar, "vektorler": {"parca": pv, "soru": sv}, "idler": idler}
+            "kayitlar": kayitlar, "vektorler": {"parca": pv, "soru": sv}, "idler": idler, "parcalar":PARCALAR,"sorular":SORULAR}
 
 
 def _ort(xs):
@@ -146,4 +179,4 @@ def goster(getir_ve_olc):
     print(f"\nOrtalama: recall@3 {oz['anma_k3']} vs recall@1 {oz['anma_k1']} · MRR {oz['mrr']} · nDCG@3 {oz['ndcg_k3']} "
           f"· isabet@3 {oz['isabet_k3']}/{oz['soru']} vs isabet@1 {oz['isabet_k1']}/{oz['soru']}")
     print("Kanıt:", ai_lab.kanit_yaz("temel-retrieval-calistir", {"kaynak": "gercek", "kabul": False, "ders": "ai-temel-22",
-                                                                 "ortam": o, "ozet": oz}))
+                                                                 "ortam": o, "ozet": oz, "deney":r, "sinir":"Sentetik derlemde gerçek gömme;genel RAG kalite/güvenlik kabulü değil."}))

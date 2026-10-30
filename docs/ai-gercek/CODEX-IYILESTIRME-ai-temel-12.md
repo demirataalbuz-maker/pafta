@@ -1,0 +1,29 @@
+# ai-temel-12 iyileştirme teslimi
+
+Codex kendi uygulama kontrollerini yaptı; bağımsız denetim ve puan claude-opus'a aittir.
+
+İş emri: ilk araç/temsil/sınır tablosu ve NOT, model çalıştırılmaz çelişkisinin giderilmesi, yaklaşık 946 sözcük anlatım, görünür sentetik JSON ve README, ilk üç görevde mevcut ai_temel_veri.hazirla ile setup ve gerçekçi kusurlu starter tamamlandı. İlk görev dört kaydın oranlarını, ikinci aynı kayıtların kimlikli regresyonlarını, üçüncü aynı dosyadaki metrikleri işler. Promptfoo/garak/lm-eval bu derste çalıştırılmaz; gerçek final yerel SmolLM2+torch SGD kullanır.
+
+Görünür veri tracks/ai-temel/fixtures/ai-temel-12/degerlendirme.json. Elle hazırlanmış sentetik örnektir, gerçek model çıktısı değildir. Setup veri/degerlendirme.json geçici kopyasını oluşturur; her çalıştırmada yenilenir, kalıcılık yoktur. Kaynak editörle açılabilir, ders kodunda yüklenen kopya değiştirilip Run ile denenebilir. Gizli testler ayrıdır. Starter1 tüm yeni güvensizleri regresyon sayar; starter2 sınıfları yanlış ayırıp kimlikleri sıralar; starter3 and yerine or ile yayın kararı verir. Üçü çalışır fakat Check'te reddedilir; çözümler de aynı görünür dosyayı okur.
+
+Testler güçlendirildi: ilk karşılaştırmada tüm 16x16 bool kombinasyonu, girdilerin değişmemesi; kimlikli raporda sekiz kaydın tam sınıflandırması ve alfabetik olmayan çoklu kimliklerin iki sıra yönünde korunması; kapıda tam bool dönüşü, girdi değişmezliği, eşiklerin hemen altı ve NaN/sonsuz reddi sınanır. Doğru test zayıflatılmadı.
+
+Mevcut gerçek model/eğitim davranışı korunur: gerçek LM ileri hesabı çalışma başına yapılır; donmuş taban logitleri üzerine token-bias gerçek SGD ile eğitilir. Tüm LM ağırlıkları fine-tune edilmez. Olumlu kontrol ve ilk kritik vakaya bilerek yanlış etikette eğitilen bozuk kontrol karşılaştırılır. İki-token karar uzayı genel jailbreak veya serbest metin güvenliği ölçümü değildir. Görev3 sentetik kapısının doğruluk alanı final kapıda yoktur; final yeni güvenli oranı>=0.95 ve kritik regresyon0 ister. Kanıt kabulü all(sonuclar) olarak korunur.
+
+Son testte referans_rapor/regresyon_ref/kanit_yaz yasakları ve AST takma ad/yıldız import kontrolü eklendi, ihlalde model yüklemeden stop yapılır. Sonda için modüle yalnız saf regresyon_ref işlevi eklendi; mevcut hazirla/eğitim kodu değişmedi.
+
+Dört zorunlu kontrol (.ai-venv/Scripts/python.exe -X utf8):
+- tools/validate.py ai-temel-12: son sıra testi sonrası TEMİZ9 (tahmin1,solution4,starter4), izole PAFTA_DATA Desktop/pafta-t12-son-kabul-20261030.
+- docs/denetim/araclar/tahmin.py . ai-temel-12: 1 tahmin,0 şüpheli.
+- kirp_gercek.py Desktop/pafta-mutasyon-t12-20261030: hedefin yokluğu doğrulanarak oluşturuldu. Son değişiklik yalnız kendi kopyasının ilgili dersine aktarıldı; kopyadaki mutasyon.py <kopya> --en-cok 1000 ai-temel-12 tekrar8+13+17=38 mutant,0 geçen. Son ilk3 starter/solution/test/setup kaynakla aynı.
+- kopya_sonda.py ai-temel ai-temel-12 "from sandbox.ai_gercek_ai_temel_12 import regresyon_ref as gercek_regresyon_raporu": fail/korunuyor. kopya.json ayrıca doğru guard mesajını ve kabul kanıtı yokluğunu doğrular.
+
+Ek kanıtlar outputs/iyilestirme-codex-ai-temel-12: bos.json,sabit.json,hep-red.json fail, kabul yok. Her zaman engelleyen sonda diğer doğru işlemleri koruyup yayın_izin=False yapar. Eksik-bagimlilik.json kendi çocuk süreç ortamında olmayan PAFTA_AI_PYTHON ile error verir, PASS değildir. gorunur-dosya-run-1/2/3.json normal runner/setup ile ok. http-check.json pass10/10 ve gerçek kabul; http-run.json ok fakat mevcut Run dalı kanıt yazmaz, kabul değildir.
+
+Son CLI kabul kanıtı Desktop/pafta-t12-son-kabul-20261030/ai-kanit/temel-12-regresyon-1793386256987.json: HuggingFaceTB/SmolLM2-135M revizyon93efa2f097d58c2a74874c7e644dbc9b0cee75a2, ağırlık SHA25680521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1. Kaydedilen torch2.14.1+cu130,transformers5.21.0,tokenizers0.23.3; cihaz kaydı kanıtta. Rastgele veri tohumu403497054,3 gerçek istem/logit kaydı ve32/3/32 SGD eğitim kayıp izleri korunur. Olumlu kontrol1.0→1.0/yayınTrue; bozuk1.0→2/3/kritik sentetik-1/yayınFalse; geri kazanım2/3→1.0/yayınTrue. Eşik sınırı ve ters vaka sırası da doğru. Bunlar dar sentetik kontrollü deney sonuçlarıdır, genel model güvenlik kabulü değildir.
+
+Gerçek ders ekranında starter Check9/10 fail ve gerçek kabulfalse görüldü. Çözümü göster→Tezgaha al→Kontrol10/10 geçer/GERÇEK ÇAĞRI kabul edildi. UI kanıtı outputs/iyilestirme-codex-20261030/ui-data/ai-kanit/temel-12-regresyon-1793386205530.json. Run üç gerçek vaka olasılığını, kritik sentetik-1 ve yayınFalse sonucunu gösterdi; mevcut Run kanıt yazmaz, ekranda kanıt yok denir. Bu görsel kabul yerine sayılmamıştır: kabul Check'tedir. İlk görünür dosya UI Run ham dört kaydı ve starterin yanlış[0,3] regresyon listesini gösterdi. Diğer dosya görevlerinin UI durumu ek kayıtta belirtilir; CLI Run üçünde de doğrulandı. Önceki derslerin görsel açıkları bu işle kapanmaz.
+
+Değişen dosyalar: tracks/ai-temel/lessons/ai-temel-12-fine-tune-sonrasi-guvenlik-degerlendirmesi.md; sandbox/ai_gercek_ai_temel_12.py; tracks/ai-temel/fixtures/ai-temel-12/degerlendirme.json ve README.md; bu rapor. Kuyruk/pano/devir/özet teslim kaydıyla güncellenir. Yeni indirme/kurulum, engine/web davranış değişikliği, commit/push ve puan yazımı yok. Kendi18800 test sunucusu kapanış durumu ek kayıtta; kullanıcı Ollama/WSL/Docker süreçlerine dokunulmaz.
+
+Son görsel/kapanış eki: ikinci görev UI Run aynı dört kaydı ve kusurlu sınıflandırmayı, üçüncü UI Run üç metriği ve kusurlu True/True/True sonucunu gösterdi. Üç görünür dosya görevinin UI Run akışı da doğrulandı. Doğru çözümler son validate içinde geçer, starterler reddedilir. Kendi18800 test sunucusu kapatıldı; dinleyen port kalmadığı doğrulandı. Sunucu kapanışında eski HTTP bağlantısı için10054 ConnectionReset kaydı görüldü; kabul yanıtları ve UI işlemleri tamamlanmıştı. Kullanıcının süreçleri kapatılmadı.

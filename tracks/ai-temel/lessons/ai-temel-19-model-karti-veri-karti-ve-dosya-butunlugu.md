@@ -6,15 +6,37 @@ timeout: 45
 ---
 
 ::: anlat Kart bir beyandır; commit ve özet onu belirli baytlara bağlar
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| LFS içeriği boyut/özetle, safetensors başlığı tensör aralıklarıyla tanımlar | İlk3 görev görünür sentetik işaretçi,küçük ikili dosya ve kart/politika JSON'u | Genel LFS/safetensors uygulamasının tamamı veya lisans konusunda hukuki kabul değildir |
+| Sabit model dosyaları önceden alınmış manifestle karşılaştırılabilir | Final yerel SmolLM2 önbelleğini, başlığını ve kendi geçici kurcalama kopyalarını gerçekten okur | Ders sırasında Hub'a yeniden sorgu atılmaz; gerçek model/veri kartı içerik denetimi ve imzalı tedarik zinciri kabulü yoktur |
+
+> [!NOT]
+> `veri/ornek.safetensors`, `veri/model.lfs`, `veri/kartlar.json` ve `veri/baslik.json` kontrollü üretilmiş **sentetik** örneklerdir; indirilen gerçek model ağırlığı değildir. Setup her Run/Check için geçici kopya hazırlar; kalıcılık yoktur. Kaynağı editörle aç veya kodda yüklenen kopyayı değiştirip Run ile dene. Gizli testler ayrıdır. Son görev kurulu gerçek model dosyalarını kullanır; ağ/indirme yoktur.
+
 Hugging Face Hub'da model kartı deponun kökündeki `README.md` dosyasıdır: başta `---` satırları arasında YAML meta verisi (`license`, `base_model`, `datasets`, `language`, `pipeline_tag`, `library_name`), ardından amaçlanan kullanım, kapsam dışı kullanım (`Out-of-Scope Use`) ve sınırlamalar gibi düz yazı bölümleri gelir. Veri kartı aynı düzeni veri deposunda izler; `license`, `language`, `task_categories` ve `source_datasets` alanları verinin kaynağını ve kullanım koşulunu anlatır. Bu belgeleme fikri Mitchell ve arkadaşlarının "Model Cards for Model Reporting" (2019) ve Gebru ve arkadaşlarının "Datasheets for Datasets" çalışmalarına dayanır. Kart kanıt değil beyandır: model lisansı serbest olsa bile eğitim verisinin kartı ticari olmayan bir lisans taşıyabilir ya da istenen kullanım kartta kapsam dışı sayılmış olabilir. Bu yüzden dağıtım kararı iki kartı, istenen kullanımı ve kartın gerçekten yüklenen dosyaları anlattığına dair kanıtı birlikte değerlendirir; 17. ve 18. derslerdeki sunucu ile konteyner yanlış dosyayı yüklüyorsa bütün sınırlar yanlış nesneyi korur.
 
-Hub deposu bir git deposudur ve `revision` bir dal (`main`), etiket ya da commit olabilir; dal her yeni commit'le ilerler, etiket de silinip yeniden oluşturulursa başka içeriği gösterir. Tekrarlanabilir dağıtım 40 karakterlik commit kimliğini sabitler, örneğin `hf_hub_download(repo_id, filename, revision=<commit>)`, ve kartı da ağırlıklarla aynı commit'ten okur. Büyük dosyalar git'te Git LFS işaretçisi olarak durur: `version https://git-lfs.github.com/spec/v1`, `oid sha256:<64 küçük harfli onaltılık>` ve `size <bayt>` satırları bu sırayla ve her biri LF ile biterek yazılır. Belirtim `ext-` ile başlayan uzantı satırlarına da izin verir (`version` dışındaki anahtarlar alfabetik sıralanır, bilinmeyen anahtarlar korunur) ve işaretçinin 1024 bayttan küçük olmasını ister; 1. görev yalnız uzantısız kanonik üç satırlık işaretçiyi kabul eden katı bir politika uygular. Commit işaretçiyi, işaretçi de içeriğin sha256 özetini ve boyutunu sabitlediği için kart, işaretçi ve indirilen baytlar tek bir doğrulanabilir zincire bağlanır. Bu derste huggingface_hub, git veya ağ çağrısı çalışmaz; işaretçi metni, dosya baytları ve önceden ayrıştırılmış kart meta verisi fonksiyonlara doğrudan verilir.
+Hub deposu bir git deposudur ve `revision` bir dal (`main`), etiket ya da commit olabilir; dal her yeni commit'le ilerler, etiket de silinip yeniden oluşturulursa başka içeriği gösterir. Tekrarlanabilir dağıtım 40 karakterlik commit kimliğini sabitler, örneğin `hf_hub_download(repo_id, filename, revision=<commit>)`, ve kartı da ağırlıklarla aynı commit'ten okur. Büyük dosyalar git'te Git LFS işaretçisi olarak durur: `version https://git-lfs.github.com/spec/v1`, `oid sha256:<64 küçük harfli onaltılık>` ve `size <bayt>` satırları bu sırayla ve her biri LF ile biterek yazılır. Belirtim `ext-` ile başlayan uzantı satırlarına da izin verir (`version` dışındaki anahtarlar alfabetik sıralanır, bilinmeyen anahtarlar korunur) ve işaretçinin 1024 bayttan küçük olmasını ister; 1. görev yalnız uzantısız kanonik üç satırlık işaretçiyi kabul eden katı bir politika uygular. Commit işaretçiyi, işaretçi de içeriğin sha256 özetini ve boyutunu sabitlediği için kart, işaretçi ve indirilen baytlar tek bir doğrulanabilir zincire bağlanır. Görevler1–3 görünür sentetik işaretçi,dosya baytları ve ayrıştırılmış kart örneklerini işler. Final huggingface_hub yerel önbellek çözümlemesi ve gerçek SmolLM2 dosyalarıyla çalışır; local_files_only=True kullanılır,ağ ve git süreci yoktur.
 :::
 
 ::: anlat Biçim yüklemede neyin çalışacağını, özet algoritması kanıtın gücünü belirler
+
+Önce veri klasöründeki dosyaları incele. model.lfs yalnız üç satırlık metindir; ornek.safetensors küçük bir F32 tensörünü taşıyan kontrollü ikili örnektir. baslik.json aynı dosyanın okunabilir başlık görünümüdür. İlk görev gerçek baytları işaretçinin boyut ve özetiyle karşılaştırır; ikinci görev aynı baytların başlığını açar; üçüncü görev kartlar.json içindeki manifesti,hesaplanan özeti ve yerel dağıtım politikasını karşılaştırır. Örnek karttaki commit benzeri değer sentetiktir,gerçek bir Hub revizyonu olduğu iddia edilmez. Bu dosyaları değiştirmek gizli testin beklenen cevabını değiştirmez.
+
+Başlık geçerli diye içerik değişmemiş sayılmaz. Tensörün veri bölümündeki tek bir baytı değiştirirsen aralıklar ve boyutlar aynı kalabilir; başlık denetimi bunu yakalamaz ama SHA256 değişir. Tersine yanlış başlık uzunluğu veya kesilmiş dosya yapısal hatadır. İki kontrol birbirinin yerine geçmez. Boş tensör ve skaler de farklıdır: shape[0] sıfır öğe,shape[] bir öğe sayılır. Parametre sayısı bayt sayısı değildir; dtype boyu ile ayrı hesaplanır. İlk küçük görev4096bayt başlık sınırı kullanır,gerçek dosya görevi bir milyon bayt sınırı kullanır; aynı eşiği körlemesine kopyalama.
+
+Başlıkta aynı anahtarın iki kez geçmesi belirsizliktir. Varsayılan Python json son değeri seçer; katı doğrulayıcı çiftleri sözlüğe dönüşmeden görüp reddeder. Başlık solunda boşluk veya sonunda satır sonu da bu görevde geçerli dolgu değildir; yalnız son ASCII boşlukları kabul edilir. Dosyanın ilk sekiz baytını büyük endian okursan küçük başlık çok büyük görünebilir. Yapısal sınırı doğrulamadan o kadar bayt okumaya kalkmak kaynak tüketimine yol açar. Veri aralıkları başlığa değil veri tamponuna göredir; başlık uzunluğunu ofsetlere ikinci kez ekleme.
+
+Kart kapısının lisans alanı bir izinli liste karşılaştırmasıdır. Kartın yazarı yanlış veya eksik beyanda bulunmuş olabilir; kod bu beyanın doğruluğunu ispatlamaz. Manifesti saldırgan da değiştirebiliyorsa dosya ile özeti birlikte değiştirebilir. Güvenilir kaynaktan alınmış ve sabit revizyona bağlanmış beklenen değerler gerekir; imza zinciri bu derste kurulmaz. MD5 kaydını zayıf saymak ile SHA256 eşleşmesini görmek de kaynağın kimliğini kriptografik olarak doğrulamakla aynı şey değildir.
+
+Gerçek final yeni bir Hub bağlantısı açmaz. Kodda kaynağı ve tarihi belirtilen manifestin sabit sürümüyle kurulu önbellek dosyalarını karşılaştırır. Doğrulama dosyaları okur; kurcalama yalnız kendi geçici kopyasında yapılır. Öğrencinin dosyasını veya model önbelleğini bozmaz. Parametre karşılaştırması için güvenilir mevcut model açılır; bu güvenilmeyen rastgele bir pickle dosyasını çalıştırma örneği değildir. Eksik önbellek,uyuşmayan özet veya başarısız başlık kontrolü geçme değildir. Çalıştır inceleme raporu verir; kabul Check ile ayrıca sınanır.
+
+Kaynaklar: [safetensors biçimi](https://github.com/safetensors/safetensors/blob/main/README.md#format) ve [Git LFS belirtimi](https://github.com/git-lfs/git-lfs/blob/main/docs/spec.md). Ders küçük bir biçim altkümesini uygular; gerçek dosyaların içerik kalitesi,lisans koşullarının tam yorumu veya model davranış güvenliği bu yapısal denetimden çıkarılamaz.
+
 PyTorch'un klasik `.bin` ve `.pt` kontrol noktaları pickle tabanlıdır ve pickle akışı `__reduce__` gibi yollarla yükleme anında keyfi bir çağrılabilir nesneyi çalıştırabilir. PyTorch 2.6'dan beri `torch.load` varsayılan olarak `weights_only=True` kısıtlı yükleyicisini kullanır; eski sürümler ve açıkça `weights_only=False` veren kod ise bu riski taşımaya devam eder. Safetensors dosyası yalnız veri taşır: ilk 8 bayt başlık uzunluğu N'yi işaretsiz 64 bit little-endian tamsayı olarak verir, ardından `{` ile başlayan ve sonu boşlukla doldurulabilen N baytlık UTF-8 JSON başlık, en sonda da ham bayt tamponu gelir. Her tensör `dtype`, `shape` ve tamponun başına göre `data_offsets: [begin, end]` taşır; isteğe bağlı `__metadata__` yalnız string→string haritasıdır ve imzalı olmadığı için kanıt değil beyandır. Belirtim tamponun deliksiz ve çakışmasız tamamen indekslenmesini isteyerek aynı baytların başka bir biçim olarak da yorumlanabildiği polyglot dosyaları engeller. Yinelenen anahtarlar da yasaktır, ama belirtim her ayrıştırıcının buna uymayabileceğini not eder; doğrulayıcı ile yükleyici farklı tensör tablosu görürse denetim anlamını yitirir.
 
-DVC büyük veri ve model dosyalarını git dışında tutar; `.dvc` dosyasındaki ve `dvc.lock` içindeki `outs` girdileri `path`, `md5` ve `size` alanlarını taşır (DVC 3 kayıtlarında ayrıca `hash: md5` alanı bulunur) ve yerel önbellek bu md5 değerine göre adreslenir. Bu kayıt kazara bozulmayı ve önbellek tutarsızlığını yakalamak için yeterlidir; ancak MD5 için pratik çakışma saldırıları bilindiğinden, dosyayı üretebilen bir saldırgana karşı bütünlük garantisi vermez. Bu yüzden dağıtım kapısı md5 girdisini zayıf kanıt sayar ve sabitlenmiş commit'e ya da imzalı bir manifeste bağlı sha256 özeti ister. Bu derste DVC, safetensors kütüphanesi veya PyTorch çalıştırılmaz; dosyalar `struct` ve `json` ile üretilen baytlardır, özetler `hashlib` ile hesaplanır. LFS işaretçisi ve safetensors başlığı gerçek biçimin katı bir alt kümesini izler; 3. görevdeki `md5:` önekli manifest değeri ise DVC `outs` girdisindeki `md5` alanının bu derse özgü sadeleştirilmiş gösterimidir.
+DVC büyük veri ve model dosyalarını git dışında tutar; `.dvc` dosyasındaki ve `dvc.lock` içindeki `outs` girdileri `path`, `md5` ve `size` alanlarını taşır (DVC 3 kayıtlarında ayrıca `hash: md5` alanı bulunur) ve yerel önbellek bu md5 değerine göre adreslenir. Bu kayıt kazara bozulmayı ve önbellek tutarsızlığını yakalamak için yeterlidir; ancak MD5 için pratik çakışma saldırıları bilindiğinden, dosyayı üretebilen bir saldırgana karşı bütünlük garantisi vermez. Bu yüzden dağıtım kapısı md5 girdisini zayıf kanıt sayar ve sabitlenmiş commit'e ya da imzalı bir manifeste bağlı sha256 özeti ister. Görevler1–3 struct/json/hashlib ile sentetik baytları işler; final gerçek model dosyalarını okuyup parametre sayısını transformers/torch modeliyle karşılaştırır. DVC çalıştırılmaz; öğrenci başlığı hazır safetensors yükleyicisi kullanmadan ayrıştırır. LFS işaretçisi ve safetensors başlığı gerçek biçimin katı bir alt kümesini izler; 3. görevdeki `md5:` önekli manifest değeri ise DVC `outs` girdisindeki `md5` alanının bu derse özgü sadeleştirilmiş gösterimidir.
 :::
 
 ::: tahmin Katı ayrıştırma çıktısını tahmin et
@@ -46,9 +68,26 @@ b'\x07\x00\x00\x00\x00\x00\x00\x00'
 
 `{"oid": oid, "boyut": boyut, "durum": durum}` döndür; `boyut` tamsayıdır. İçeriğin bayt uzunluğu boyuttan farklıysa durum `boyut_farkli`, uzunluk tutup içeriğin sha256 özeti oid'den farklıysa `ozet_farkli`, ikisi de tutuyorsa `tamam` olur.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-19")
+```
+
 ```starter
+from pathlib import Path
+from ai_temel_veri import json_yukle,metin_yukle
 def lfs_dogrula(isaretci, icerik):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: biçimi normalleştirir, içerik özetini hiç karşılaştırmaz.
+    satirlar=isaretci.strip().splitlines()
+    return {"oid":satirlar[1].split(":")[-1].lower(),"boyut":int(satirlar[2].split()[-1]),"durum":"tamam"}
+
+ham=Path("veri/ornek.safetensors").read_bytes()
+ptr=metin_yukle("veri/model.lfs")
+print("Sentetik LFS:",repr(ptr),"bayt:",len(ham))
+print("Doğrulama:",lfs_dogrula(ptr,ham))
 ```
 
 ```test
@@ -95,6 +134,8 @@ for ad, mutant in [("satır sonunu normalleştiren", m_crlf), ("büyük harfli o
 ```
 
 ```solution
+from pathlib import Path
+from ai_temel_veri import json_yukle,metin_yukle
 def lfs_dogrula(isaretci, icerik):
     import hashlib
     import string
@@ -116,6 +157,11 @@ def lfs_dogrula(isaretci, icerik):
     else:
         durum = "tamam"
     return {"oid": oid, "boyut": boyut, "durum": durum}
+
+ham=Path("veri/ornek.safetensors").read_bytes()
+ptr=metin_yukle("veri/model.lfs")
+print("Sentetik LFS:",repr(ptr),"bayt:",len(ham))
+print("Doğrulama:",lfs_dogrula(ptr,ham))
 ```
 
 ```hint
@@ -130,9 +176,28 @@ Satırları `split("\n")` ile ayır, oid ve boyutu öneklerinden sonra al; ardı
 
 Tensörleri `begin` değerine, eşitlikte `end` değerine, o da eşitse ada göre artan sırala. Bu sırada ilk aralık 0'dan başlamalı, her aralık bir öncekinin bittiği yerden başlamalı ve son `end` başlıktan sonraki tampon uzunluğuna eşit olmalıdır; tensör yoksa tampon boş olmalıdır. Geçersiz veride `ValueError` yükselt. `{"metadata": ..., "tensorler": [...]}` döndür: `metadata` başlıktaki `__metadata__` nesnesi ya da yoksa `{}` olur; `tensorler` bu sırada `{"ad": ad, "dtype": dtype, "shape": shape, "baslangic": begin, "bitis": end}` sözlüklerinden oluşur.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-19")
+```
+
 ```starter
+from pathlib import Path
+from ai_temel_veri import json_yukle,metin_yukle
 def safetensors_oku(veri):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: başlığı okuyup ofset, boyut ve tür denetimlerini atlar.
+    import json,struct
+    n=struct.unpack("<Q",veri[:8])[0];h=json.loads(veri[8:8+n])
+    return {"metadata":h.get("__metadata__",{}),"tensorler":list(h)}
+
+ham=Path("veri/ornek.safetensors").read_bytes()
+print("Sentetik başlık görünümü:",json_yukle("veri/baslik.json"))
+import struct
+print("Uzunluk alanı:",repr(ham[:struct.calcsize("<Q")]))
+print("Başlık:",safetensors_oku(ham))
 ```
 
 ```test
@@ -198,6 +263,8 @@ for ad, mutant in [("hatayı yutan", m_yut), ("ada göre sıralayan", m_ad), ("m
 ```
 
 ```solution
+from pathlib import Path
+from ai_temel_veri import json_yukle,metin_yukle
 def safetensors_oku(veri):
     import json
     import math
@@ -237,6 +304,12 @@ def safetensors_oku(veri):
     if konum != len(veri) - 8 - n:
         raise ValueError("tampon tam kapsanmıyor")
     return {"metadata": meta, "tensorler": tablo}
+
+ham=Path("veri/ornek.safetensors").read_bytes()
+print("Sentetik başlık görünümü:",json_yukle("veri/baslik.json"))
+import struct
+print("Uzunluk alanı:",repr(ham[:struct.calcsize("<Q")]))
+print("Başlık:",safetensors_oku(ham))
 ```
 
 ```hint
@@ -251,9 +324,24 @@ Engelleri şu sırayla içeren liste döndür: kanıt revizyonu 40 küçük harf
 
 Ardından manifest ve hesaplanan anahtarlarının birleşimini `sorted` sırasıyla gez ve her dosya için en çok bir engel ekle; öncelik şöyledir: hesaplananda yoksa `eksik:<ad>`, manifestte yoksa `beklenmeyen:<ad>`, manifest değeri md5 ise `zayif_ozet:<ad>`, manifestteki sha256 özeti hesaplanandan farklıysa `ozet_farkli:<ad>`. Engel yoksa boş liste döndür. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-19")
+```
+
 ```starter
+from pathlib import Path
+from ai_temel_veri import json_yukle,metin_yukle
 def dagitim_engelleri(model_karti, veri_karti, kanit, politika):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız model lisansını denetler, veri kartı ve özetleri yok sayar.
+    return [] if model_karti["license"] in politika["lisanslar"] else ["model_lisansi"]
+
+v=json_yukle("veri/kartlar.json")
+print("Sentetik kart/kanıt:",v)
+print("Engeller:",dagitim_engelleri(v["model"],v["veri"],v["kanit"],v["politika"]))
 ```
 
 ```test
@@ -325,6 +413,8 @@ for ad, mutant in [("kart revizyonunu kanıta eşitleyen", m_kart), ("md5'i yete
 ```
 
 ```solution
+from pathlib import Path
+from ai_temel_veri import json_yukle,metin_yukle
 def dagitim_engelleri(model_karti, veri_karti, kanit, politika):
     import string
     def metin_mi(x):
@@ -359,6 +449,10 @@ def dagitim_engelleri(model_karti, veri_karti, kanit, politika):
         elif man[ad] != "sha256:" + hes[ad]:
             engeller.append("ozet_farkli:" + ad)
     return engeller
+
+v=json_yukle("veri/kartlar.json")
+print("Sentetik kart/kanıt:",v)
+print("Engeller:",dagitim_engelleri(v["model"],v["veri"],v["kanit"],v["politika"]))
 ```
 
 ```hint
@@ -373,7 +467,7 @@ def dagitim_engelleri(model_karti, veri_karti, kanit, politika):
 
 **`safetensors_baslik(yol)`**: yalnız başlığı oku, veri bölümünü okuma; dosya boyutunu `os.path.getsize` ile al. Geçersiz durumda `ValueError`:
 - Dosya 8 bayttan kısa; ilk 8 baytın işaretsiz little-endian 64 bit değeri N, 1.000.000'dan büyük ya da `8 + N` dosya boyunu aşıyor.
-- Başlık UTF-8 JSON nesnesi değil. İsteğe bağlı `__metadata__` bütün anahtar ve değerleri str olan nesne değil.
+- Başlık UTF-8 JSON nesnesi değil, ilk baytı { değil, sonunda ASCII boşluk dışında dolgu var veya herhangi bir düzeyde yinelenen anahtar var. İsteğe bağlı `__metadata__` bütün anahtar ve değerleri str olan nesne değil.
 - Bir tensörün alanları tam `dtype`, `shape`, `data_offsets` değil; dtype şu tabloda değil: `F64` 8, `F32` 4, `F16` 2, `BF16` 2, `I64` 8, `I32` 4, `I16` 2, `I8` 1, `U8` 1, `BOOL` 1; `shape` negatif olmayan int listesi değil; `data_offsets` `[bas, son]`, `0 <= bas <= son` int ikilisi değil ya da `son - bas` eleman sayısı × dtype boyuna eşit değil.
 - Tensörler `(bas, son, ad)` sırasında 0'dan başlayıp boşluksuz, çakışmasız ilerlemiyor ya da son `son` değeri `dosya boyu - 8 - N`'ye eşit değil.
 
@@ -419,8 +513,14 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans_ozetler", "referans_baslik", "git_blob_bayt", "getattr", "safe_open", "load_file"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans/safetensors kütüphanesi kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak=("referans_ozetler","referans_baslik","git_blob_bayt","kanit_yaz","getattr","safe_open","load_file")
+sorun=ai_lab.kod_denetimi(src,yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in _yasak or a.name=="*" for a in n.names):
+        sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi dosya doğrulayıcını yaz: "+"; ".join(sorun)):
+    stop()
 ozet_fn = need("ozetler")
 baslik_fn = need("safetensors_baslik")
 from sandbox import ai_gercek_ai_temel_19 as D
@@ -456,9 +556,37 @@ try:
         "fazla_tampon": st({"w": {"dtype": "U8", "shape": [1], "data_offsets": [0, 1]}}, b"xy"),
         "meta_str_degil": st({"__metadata__": {"n": 1}}, b""),
     }
+    gecersiz.update({"liste_dtype":st({"w":{"dtype":["U8"],"shape":[1],"data_offsets":[0,1]}},b"x"),"ikiz":st({},b"",ham=b'{"__metadata__":{},"__metadata__":{}}'),
+                     "ic_ikiz":st({},bytes(1),ham=b'{"w":{"dtype":"U8","dtype":"U8","shape":[1],"data_offsets":[0,1]}}'),
+                     "basta_bosluk":st({},b"",ham=b' {}'),"sonda_lf":st({},b"",ham=b'{}\n')})
     g_yol = {ad: dosya(ad + ".safetensors", b) for ad, b in gecerli.items()}
     h_yol = {ad: dosya(ad + "_x.safetensors", b) for ad, b in gecersiz.items()}
+    def sinirli_cagir(fn,yol,yalniz_baslik=False):
+        if not isinstance(yol,str) or not os.path.isfile(yol): return fn(yol)
+        import builtins,io
+        from unittest.mock import patch
+        asil=builtins.open
+        with asil(yol,"rb") as f:
+            ilk=f.read(8)
+        son=min(os.path.getsize(yol),8+struct.unpack("<Q",ilk)[0]) if len(ilk)==8 else len(ilk)
+        class Okuyucu:
+            def __init__(self,f): self.f=f
+            def __enter__(self): return self
+            def __exit__(self,*a): return self.f.__exit__(*a)
+            def __getattr__(self,ad): return getattr(self.f,ad)
+            def read(self,n=-1):
+                if type(n) is not int or n<0 or n>(1<<20): raise ValueError("okuma parça sınırı")
+                if yalniz_baslik and self.f.tell()+n>son: raise ValueError("tensör veri bölümü okunamaz")
+                return self.f.read(n)
+        def ac(dosya,*args,**kwargs):
+            f=asil(dosya,*args,**kwargs)
+            return Okuyucu(f) if os.fspath(dosya)==yol else f
+        with patch("builtins.open",ac),patch("io.open",ac):
+            return fn(yol)
     def sozlesme(oz, bas):
+        asil_oz,asil_bas=oz,bas
+        oz=lambda y:sinirli_cagir(asil_oz,y)
+        bas=lambda y:sinirli_cagir(asil_bas,y,True)
         try:
             if not all(oz(y) == D.referans_ozetler(y) for y in ozet_dosyalari):
                 return False
@@ -475,6 +603,14 @@ try:
         except Exception:
             return False
     kontrol(sozlesme(ozet_fn, baslik_fn), "sentetik dosyalar: akışlı sha256/git blob, başlık sözleşmesi ve bütün geçersiz durumlar doğru")
+    def tum_dosyayi_oku(y):
+        with open(y,"rb") as f: f.read()
+        return D.referans_ozetler(y)
+    def veri_tamponunu_oku(y):
+        with open(y,"rb") as f: f.read(os.path.getsize(y))
+        return D.referans_baslik(y)
+    kontrol(not sozlesme(tum_dosyayi_oku,baslik_fn),"hatalı çözüm reddedilmeli: dosyanın tümünü belleğe alan")
+    kontrol(not sozlesme(ozet_fn,veri_tamponunu_oku),"hatalı çözüm reddedilmeli: başlık için veri tamponunu okuyan")
     for ad, oz, bas in [("git blob başlığı yok", lambda y: D.referans_ozetler(y, blob_basligi=False), D.referans_baslik),
                         ("tampon kapsaması denetlenmiyor", D.referans_ozetler, lambda y: D.referans_baslik(y, kapsama=False)),
                         ("başlık boyu big-endian okunuyor", D.referans_ozetler, lambda y: D.referans_baslik(y, endian=">")),
@@ -545,7 +681,16 @@ def safetensors_baslik(yol):
             raise ValueError("başlık uzunluğu geçersiz")
         ham = f.read(n)
     try:
-        baslik = json.loads(ham.decode("utf-8"))
+        def nesne(ciftler):
+            out={}
+            for key,value in ciftler:
+                if key in out: raise ValueError("yinelenen anahtar")
+                out[key]=value
+            return out
+        metin=ham.decode("utf-8")
+        if not metin.startswith("{") or not metin.rstrip(" ").endswith("}"):
+            raise ValueError("başlık dolgu/başlangıç")
+        baslik = json.loads(metin,object_pairs_hook=nesne)
     except (UnicodeDecodeError, json.JSONDecodeError):
         raise ValueError("başlık UTF-8 JSON değil")
     if not isinstance(baslik, dict):
@@ -555,7 +700,7 @@ def safetensors_baslik(yol):
         raise ValueError("__metadata__ str→str olmalı")
     tensorler = []
     for ad, t in baslik.items():
-        if not isinstance(t, dict) or set(t) != {"dtype", "shape", "data_offsets"} or t["dtype"] not in BOY:
+        if not isinstance(t, dict) or set(t) != {"dtype", "shape", "data_offsets"} or not isinstance(t["dtype"],str) or t["dtype"] not in BOY:
             raise ValueError(f"{ad}: alanlar ya da dtype geçersiz")
         sekil, ofs = t["shape"], t["data_offsets"]
         if not isinstance(sekil, list) or any(type(x) is not int or x < 0 for x in sekil):

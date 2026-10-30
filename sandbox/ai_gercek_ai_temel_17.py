@@ -46,7 +46,7 @@ def referans(satirlar, gelisler, *, birlestirme="hepsi", ttft="ilk", kesildi=Tru
     }
 
 
-def _akis_cagir(oturum, istem, num_predict, seed, sicaklik=0.2, sure=120):
+def _akis_cagir(oturum, istem, num_predict, seed, sicaklik=0.2, sure=120, denemeler=None):
     """Gerçek akışlı /api/generate çağrısı. Ham NDJSON satırlarını ve her yanıt parçasının istekten
     itibaren milisaniye cinsinden varış anını döndürür. Taşıma hatası yükseltilir; çağıran kaydeder."""
     govde = {"model": oturum.model, "prompt": istem, "stream": True,
@@ -78,37 +78,63 @@ def _akis_cagir(oturum, istem, num_predict, seed, sicaklik=0.2, sure=120):
                         gelisler.append(t_ms)
             return satirlar, gelisler, meta
         except (urllib.error.HTTPError, urllib.error.URLError, ConnectionError) as e:
+            if denemeler is not None:
+                denemeler.append({"hata":f"{type(e).__name__}: {e}","yeniden_bekle_sn":bekle,
+                                  "alinan_satir":len(satirlar)})
             if (isinstance(e, urllib.error.HTTPError) and e.code < 500) or bekle is None:
                 raise
             time.sleep(bekle)
 
 
 def deney(akis_raporu, sicaklik=0.2):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
     taban = int(time.time()) % (10 ** 6)
     kayitlar = []
+    saat = time.perf_counter()
     with ai_lab.SohbetOturumu() as oturum:
-        for n, (etiket, istem, np) in enumerate(ISTEKLER):
-            kayit = {"etiket": etiket, "istem": istem, "num_predict": np, "hata": None}
+        def calistir(n, etiket, istem, np, kip, bariyer=None):
+            if bariyer is not None:
+                bariyer.wait(timeout=20)
+            kayit = {"etiket":etiket,"istem":istem,"num_predict":np,"seed":taban+n,
+                     "kip":kip,"hata":None,"yeniden_denemeler":[],
+                     "istem_bas_ms":(time.perf_counter()-saat)*1000}
             try:
-                satirlar, gelisler, meta = _akis_cagir(oturum, istem, np, seed=taban + n, sicaklik=sicaklik)
-                r = akis_raporu(list(satirlar), list(gelisler))
-                kayit.update(
-                    metin=r["metin"], parca=r["parca"], done_reason=r["done_reason"], ttft_ms=r["ttft_ms"],
-                    sure_ms=r["sure_ms"], tokens=r["tokens"], kesildi=r["kesildi"],
-                    satir_sayisi=len(satirlar), prompt_token=(meta or {}).get("prompt_eval_count"),
-                    eval_sure_ms=round((meta or {}).get("eval_duration", 0) / 1e6) or None,
-                    yukleme_ms=round((meta or {}).get("load_duration", 0) / 1e6) or None,
-                    _satirlar=satirlar, _gelisler=gelisler)
+                satirlar, gelisler, meta = _akis_cagir(oturum, istem, np, seed=taban+n,
+                                                     sicaklik=sicaklik,denemeler=kayit["yeniden_denemeler"])
+                # Öğrenci ayrıştırması hata verse de alınan ham sunucu verisini sakla.
+                kayit.update(_satirlar=satirlar,_gelisler=gelisler,bitis_nesnesi=meta)
+                sonuc = akis_raporu(list(satirlar),list(gelisler))
+                kayit.update(sonuc)
+                kayit.update(satir_sayisi=len(satirlar),prompt_token=(meta or {}).get("prompt_eval_count"),
+                             eval_sure_ms=round((meta or {}).get("eval_duration",0)/1e6) or None,
+                             yukleme_ms=round((meta or {}).get("load_duration",0)/1e6) or None)
             except ai_lab.GercekLabYok:
                 raise
             except Exception as e:
-                kayit["hata"] = f"{type(e).__name__}: {e}"
-            kayitlar.append(kayit)
-        ortam = dict(oturum.kayit)
-    ortam["temizlik"] = oturum.kayit.get("temizlik")
-    return {"ortam": ortam, "ayarlar": {"sicaklik": sicaklik, "taban_seed": taban,
-                                        "istek_sayisi": len(ISTEKLER), "num_ctx": 4096},
-            "kayitlar": kayitlar}
+                kayit["hata"]=f"{type(e).__name__}: {e}"
+            finally:
+                kayit["istem_son_ms"]=(time.perf_counter()-saat)*1000
+            return kayit
+        for n,(etiket,istem,np) in enumerate(ISTEKLER):
+            kayitlar.append(calistir(n,etiket,istem,np,"ardisik"))
+        bariyer=Barrier(2)
+        with ThreadPoolExecutor(max_workers=2) as havuz:
+            futures=[havuz.submit(calistir,len(ISTEKLER)+i,f"paralel-{i+1}",
+                      istem,24,"eszamanli",bariyer) for i,istem in enumerate([
+                      "Birden başlayarak kırka kadar say, aralarına virgül koy.",
+                      "On farklı bitkinin adını sırayla yaz."])]
+            paralel=[f.result() for f in futures]
+        kayitlar.extend(paralel)
+        bellek=oturum.bellek()
+        ortam=dict(oturum.kayit)
+    ortam["temizlik"]=oturum.kayit.get("temizlik")
+    overlap=max(k["istem_bas_ms"] for k in paralel)<min(k["istem_son_ms"] for k in paralel)
+    return {"ortam":ortam,"bellek":bellek,
+            "ayarlar":{"sicaklik":sicaklik,"taban_seed":taban,"istek_sayisi":len(kayitlar),"num_ctx":4096},
+            "eszamanli":{"istek_sayisi":len(paralel),"cakisan_araliklar":overlap,
+                          "sinir":"İstemcide çakışan gerçek HTTP çağrıları; backend sürekli batching kanıtı değil."},
+            "kayitlar":kayitlar}
 
 
 def ozet(r):
@@ -141,8 +167,6 @@ def goster(akis_raporu):
         print(f"   TTFT {k['ttft_ms']} ms · toplam {k['sure_ms']} ms · {k['tokens']} token · ~{hiz} token/sn")
         print(f"   yanıt: {k['metin'][:120].strip().replace(chr(10), ' ')}")
     print("\nÖzet:", ozet(r))
-    for k in r["kayitlar"]:
-        k.pop("_satirlar", None)
-        k.pop("_gelisler", None)
+    print("Eşzamanlı HTTP:",r["eszamanli"])
     print("\nKanıt:", ai_lab.kanit_yaz("temel-akis-calistir", {"kaynak": "gercek", "kabul": False,
                                                               "ders": "ai-temel-17", "ortam": o, "deney": r, "ozet": ozet(r)}))

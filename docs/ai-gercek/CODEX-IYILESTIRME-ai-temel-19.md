@@ -1,0 +1,33 @@
+# ai-temel-19 iyileştirme teslimi
+
+Codex kendi uygulama kontrollerini tamamladı; bağımsız denetim ve puan claude-opus'a aittir.
+
+İş emrinin bütün maddeleri uygulandı: ilk araç/temsil/sınır tablosu+NOT; ağ/PyTorch kullanılmaz çelişkisinin ilk3 sentetik/final gerçek ayrımıyla giderilmesi; yaklaşık1101sözcük anlatım; görünür işaretçi,küçük ikili örnek,başlık ve kart JSON dosyaları; ilk3görevde mevcut ai_temel_veri.hazirla setup; üç gerçekçi kusurlu başlangıç. Kartların kapsamı ve gerçek finalin sınırları açık yazıldı. Yeni indirme yok; final HF local_files_only=True ile çalışır.
+
+Görünür veri tracks/ai-temel/fixtures/ai-temel-19: ornek.safetensors128bayt,model.lfs,baslik.json,kartlar.json,README.md. İkili örnek kontrollü oluşturulmuş2F32 değeri1.0 ve2.0 taşır; indirilen model ağırlığı değildir. LFS bu küçük dosyanın gerçekten hesaplanan sha256/boyutunu gösterir. Karttaki aaaa commit değeri sentetiktir. İlk2görev aynı dosyayı,3görev kartları/manifesti okur. Dosyalar editörle açılabilir; ikili dosya kodda bytearray kopyasında değiştirilip bytes olarak sınanabilir. Setup veri/altına her Run/Check'te geçici kopya kurar; kalıcılık yok. Gizli testler ayrıdır.
+
+Starter1 biçimi normalize eder ve içerik özetini karşılaştırmadan tamam döndürür; starter2 başlığı okuyup ofset/tür/kapsama denetimlerini atlar; starter3 yalnız model lisansına bakıp veri kartı ve dosya kanıtını atlar. Üçü Run'da çalışır fakat Check'te reddedilir; doğru çözümler de aynı görünür veriyi okur.
+
+Gerçek finaldeki zayıf başlık kontrolü düzeltildi: ilk{,son yalnız ASCII boşluk dolgusu ve her düzeyde yinelenen anahtar reddi öğrenci çözümü ve bağımsız referansta uygulanır. Geçersiz dtype listesi TypeError yerine ValueError üretir. Sentetik dosya testleri bunları içerir. Kod denetimi referans_ozetler/referans_baslik/git_blob_bayt/kanit_yaz/getattr/safe_open/load_file ve AST takmaad/yıldız ithalini engeller; ihlalde geçici dosya veya model hazırlamadan stop yapılır. Kanıt kabulü all(sonuclar) kalır.
+
+Son görevde okuma sözleşmesi de artık sınanır: gerçek geçici dosyalar üzerinde builtins.open ve io.open dar kapsamlı sarmalanır; read(-1) veya1MiBüstü okuma reddedilir; başlık işlevinde8+Nsonrasına okuma reddedilir. Dosyaları bütünüyle alan özetleyici ve başlık için tensör tamponunu okuyan iki anlamlı yanlış çözüm test içinde ayrıca reddedilir. Deneydeki model dosyası yerine fixture kullanılmaz; sarmalayıcı yalnız başlangıçtaki sentetik dosya sözleşmesini sınar. Gerçek dosya deneyi mevcut okumalarıyla devam eder. Bu sarmalayıcı bütün olası düşük seviye dosya API'leri için genel sandbox değildir.
+
+Dört zorunlu kontrol (.ai-venv/Scripts/python.exe -X utf8):
+- tools/validate.py ai-temel-19: son I/O kontrolü sonrası TEMİZ9:tahmin1,solution4,starter4. Son izole PAFTA_DATA Desktop/pafta-t19-io-kabul-20261030.
+- docs/denetim/araclar/tahmin.py . ai-temel-19:1tahmin,0şüpheli.
+- kirp_gercek.py Desktop/pafta-mutasyon-t19-20261030:yokluğu doğrulanmış yeni hedef; mevcut klasör silinmedi. Kopyadaki mutasyon.py <kopya> --en-cok1000 ai-temel-19:son14+36+24=74mutant,0geçen. Kaynakta son ilk3starter/solution/test/setup blokları kopyayla aynı.
+- kopya_sonda.py ai-temel ai-temel-19 "from sandbox.ai_gercek_ai_temel_19 import referans_ozetler as ozetler, referans_baslik as safetensors_baslik":fail/korunuyor. Son negatif sonda da aynı guardı ve kabul yokluğunu doğrular.
+
+İlk mutasyon75varyantta1geçen gösterdi; bu yeni demo print'inde yalnız gösterilen ilk8baytı9yapan,öğrenci işlevinin davranışını değiştirmeyen varyanttı. Gösterim uzunluğu sabit sayı yerine struct.calcsize('<Q') ile biçimden türetildi; test/işlev sözleşmesi zayıflatılmadı. Kendi mutasyon kopyası güncellenip son74varyantın hepsi reddedildi. Son I/O değişikliği yalnız finaltesttedir ve mutasyonun hedeflediği ilk3görevi değiştirmez.
+
+Ek kanıt dizini outputs/iyilestirme-codex-ai-temel-19:kopya.json,bos.json,sabit.json,ikiz-kabul.json ve eksik-bagimlilik.json geçmez/kabul yok. İkiz sonda diğer doğru kodu koruyup duplicatekey kontrolünü kaldırır. Eksik bağımlılık yalnız kendi çocuk süreç ortamında olmayan PAFTA_AI_PYTHON ile sınanır,error PASS değildir. gorunur-dosya-run-1/2/3.json normal runner/setup ile ok. Negatifler son I/O testleriyle tekrar edildi. http-check.json14/14pass ve gerçek kabul,http-run.jsonok/gerçek/kabulfalse; bunlar iki son I/O kontrolünden öncedir. Son kabul hem validate hem UI16/16ile ayrıca doğrulandı.
+
+Gerçek son CLI kanıtı Desktop/pafta-t19-io-kabul-20261030/ai-kanit/temel-dosya-butunlugu-1793391557026.json. Kurulu HuggingFaceTB/SmolLM2-135M@93efa2f097d58c2a74874c7e644dbc9b0cee75a2:8dosya kayıtlı Hub manifestiyle aynı; başlık30528bayt,272BF16tensör,134515008parametre ve transformers model sayımı aynı. Veri bölümündeki tek bayt değişince başlık geçer ama SHA256uyuşmaz; kesik dosya ve bozuk başlık boyu ValueError. Yalnız kendi kurcalama kopyaları silinir; gecici_silindiTrue. Cache dosyaları değiştirilmez. Gerçek model/cihaz/sürüm,boyut/özetler ve kurcalama çıktıları kanıtta.
+
+Hub manifesti kodda2026-10-28kaynak tarihli sabit kayıttır; bu derste taze Hub sorgusu yapılmış sayılmaz. Manifest kaynağına güvenme varsayımı imzalı tedarik zinciri kabulü değildir. Gerçek model/veri kartı metni denetlenmez; kart kapısı sentetik ayrıştırılmış beyanlardadır. Lisans izinli liste kontrolü hukuki uygunluk kanıtı değildir; gerçek model davranış güvenliği de bu biçim kontrolünden çıkarılamaz.
+
+Gerçek ders ekranı starter6/7fail/kabulfalse; ilk referans14/14; son iki I/O kontrolü sonrası16/16gerçek kabul edildi. Son UI kanıtı outputs/iyilestirme-codex-20261030/ui-data/ai-kanit/temel-dosya-butunlugu-1793391575955.json. Run gerçek8dosya,tensör/parametre ve üç kurcalama sonucunu gösterdi; temel-dosya-butunlugu-calistir-1793391458730.json gerçek/kabulfalse,Run kabul sayılmaz. Görünür veri UI sonuçları ve kendi sunucu kapanışı son ek kayıtta. Önceki derslerin görsel açıkları kapanmaz.
+
+Değişen dosyalar: tracks/ai-temel/lessons/ai-temel-19-model-karti-veri-karti-ve-dosya-butunlugu.md; sandbox/ai_gercek_ai_temel_19.py; beş fixture dosyası; bu rapor. Kuyruk/pano/devir/özet teslim kaydı güncellenir. Yeni indirme/kurulum,engine/web değişikliği,commit/push ve puan yazımı yok. Kullanıcı süreçleri/kurulumları/verileri silinmez.
+
+Son görsel/kapanış eki: üç görünür veri görevi UI Run ile doğrulandı. İlkinde128bayt ikili ve LFS metni,ikincide okunabilir başlık/ilk uzunluk alanı ve kusurlu tensör listesi,üçüncüde sentetik kart/manifest ve engel listesi görüldü. Starterlerin kusurları örnekte her zaman tetiklenmez; doğru çözümler ve reddedilen starterler son validate içinde doğrulandı. Kendi18800 test sunucusu kapatıldı; dinleyen port kalmadı. Kullanıcı süreçleri kapatılmadı.

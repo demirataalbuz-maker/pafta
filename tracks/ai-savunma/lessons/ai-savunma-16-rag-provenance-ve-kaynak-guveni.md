@@ -5,14 +5,40 @@ summary: Kaynak defterini doğrula, RAG parçalarını kaynak sürümü ve imzay
 timeout: 45
 ---
 
-::: anlat Provenance parçanın doğrulanabilir kimliğidir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Provenance parçanın doğrulanabilir kimliğidir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Qdrant gibi bir vektör veritabanı her noktayı bir vektör ve bir metadata yükü (`payload`) ile saklar. Arama, benzerlik skoru ve payload döndürür. Kaynak, sürüm ve imza bilgisi payload'da taşınır; uygulama bunları ayrı bir kaynak defteriyle karşılaştırır. | Görev 1–3: `veri/kaynak_defteri.json`, `veri/getirilen_parcalar.json` ve `veri/provenance_kayitlari.json` içindeki **sentetik** defter, parça ve skorlar. Son adım: kurulu `all-minilm:22m` gömme modeli sorgu ve üç parça için gerçek vektör üretir ve kosinüs benzerliği hesaplanır. Senin seçimin bu gerçek skorlarla çalışır. | `metin_sha256` alanı yalnız biçim olarak doğrulanır. Bu ders özeti metinden yeniden hesaplamaz, imzayı kriptografik olarak doğrulamaz. Gerçek bir sistemde ikisi de gerekir. Üç parçalık deney, bir retrieval sisteminin genel davranışını göstermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde gömme modeli, Qdrant veya FastAPI çağrılmaz. Son adımdaki **Gerçek deney** görevi kurulu yerel Ollama gömme modelini gerçekten çalıştırır; Qdrant çalıştırılmaz, yeni model indirilmez. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 RAG yanıtındaki her parça kaynak, belge sürümü ve içerik özetiyle ilişkilendirilir. Qdrant benzerlik skoru parçanın konuyla ilgisini ölçer; kaynağın güvenilir veya doğrulanabilir olduğunu kanıtlamaz. Bu nedenle skor ile kaynak güveni ayrı alanlardır.
 
-Bu derste FastAPI veya Qdrant çağrısı yapılmaz. Kaynak defteri ve getirilen parçalar deterministik kayıtlar olarak işlenir. Kaynağı bulunmayan, sürümü uyuşmayan, imzasız veya pasif kaynaktan gelen parça doğrulanabilir sayılmaz.
+Görev 1–3'te kaynak defteri ve getirilen parçalar sentetik kayıtlardır; son adımda skorlar gerçek bir gömme modelinden gelir. Kaynağı bulunmayan, sürümü uyuşmayan, imzasız veya pasif kaynaktan gelen parça doğrulanabilir sayılmaz.
+
+**Saldırgan bakışı:** Bir saldırgan RAG deposuna sahte içerik sokmak ister. Bunu genellikle şöyle yapar:
+
+- Güvenilir bir kaynağın adını taşıyan ama yeni ya da farklı sürüm numaralı bir belge yükler (`p-tahrif`).
+- Defterde hiç olmayan bir kaynaktan belge ekler (`p-yetim`).
+- Eskimiş ama hâlâ indekste duran bir belgeyi hedefler (`p-eski`).
+- İmzasız bir kullanıcı notunu kurumsal belge gibi gösterir (`p-not`).
+
+Saldırgan metni sorguya çok benzeyecek biçimde yazdığı için bu parçalar yüksek benzerlik skoru alır. `veri/getirilen_parcalar.json` içinde en yüksek skorlu dört parçanın üçü doğrulanamaz.
+
+**Neden skor güven değildir?** Benzerlik skoru iki vektörün yakınlığını ölçer, yani "bu metin soruyla ilgili mi?" sorusunu cevaplar. "Bu metin kimden geldi?" ya da "değiştirildi mi?" sorularını cevaplamaz. Skora göre sıralayıp ilk N parçayı almak, saldırganın en çok emek verdiği parçayı ödüllendirir. Provenance kapısı bu yüzden skor sıralamasından **önce** çalışır.
 :::
 
 ::: anlat Güven eşiği sıralama skorundan bağımsızdır
 Güven düzeyleri `yuksek`, `orta`, `dusuk` sırasıyla değerlendirilir. `orta` eşiği yüksek ve orta kaynakları kapsar; düşük kaynağı kapsamaz. Yüksek benzerlik skoru, doğrulanamayan veya eşiğin altındaki parçayı yeniden güvenli yapmaz.
+
+**Sık tuzaklar:**
+
+- **Sürümü sayı gibi karşılaştırmak:** `1.0.12` ile `1.0.2` metin olarak karşılaştırılırsa sıra yanlış çıkar. Bu ders sürümü yalnız **tam eşitlikle** karşılaştırır. Biçim kuralı da başında sıfır olan (`3.01.0`) ve önekli (`v3.1.0`) yazımları reddeder. Böylece aynı sürüm iki farklı biçimde yazılamaz.
+- **Bilinmeyen kaynağa varsayılan güven vermek:** Defterde olmayan kaynak `bilinmiyor` alır ve hiçbir eşikte seçilmez. "Orta sayalım" demek, saldırgana defter dışı içerik ekleme yolunu açar.
+- **Pasif kaynağı unutmak:** Bir kaynak kaldırıldığında indeksteki parçaları hemen silinmeyebilir. Defterdeki `aktif=false` bayrağı bu parçaları kapının dışında tutar.
+- **Çelişkili kayıt:** `dogrulanabilir=true` ama neden listesi dolu bir kayıt, ya yanlış üretilmiş ya da sonradan değiştirilmiştir. Seçim aşaması bu kaydı "doğrulanabilir" diye kabul etmez, biçim hatası olarak reddeder.
 :::
 
 ::: tahmin Güven eşiğini tahmin et
@@ -42,9 +68,34 @@ Tür `kurumsal`, `acik`, `kullanici`; güven `yuksek`, `orta`, `dusuk` olmalıd�
 
 Kayıtları `kaynak_id` değerine göre sıralanmış yeni sözlükler olarak döndür. Boş defterde boş liste döndür ve girdiyi değiştirme.
 
+Görünür veri: `veri/kaynak_defteri.json`. Beş kaynak geçerlidir (`1.0.12` sürümü dahil). `bozuk_defterler` içindeki beş defter reddedilmelidir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def kaynak_defteri_dogrula(kaynaklar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: sürümü yalnız "üç parça var mı" diye denetliyor (3.01.0 ve v3.1.0 geçer), güven/tür değerini, bool alanları ve yinelenen kimliği denetlemiyor!
+    for k in kaynaklar:
+        if len(k["surum"].split(".")) != 3:
+            raise ValueError("sürüm üç parçalı olmalı")
+    return sorted([dict(k) for k in kaynaklar], key=lambda x: x["kaynak_id"])
+
+veri = json_yukle("veri/kaynak_defteri.json")
+print([k["kaynak_id"] for k in kaynak_defteri_dogrula(veri["kaynaklar"])])
+for i, d in enumerate(veri["bozuk_defterler"]):
+    try:
+        kaynak_defteri_dogrula(d)
+        print("bozuk", i, "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print("bozuk", i, "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-16")
 ```
 
 ```test
@@ -141,9 +192,34 @@ Getirilen parçanın kaynak kimliği defterde yoksa `kaynak`, sürümü farklıy
 
 Yukarıdaki sırayla `kaynak`, `surum`, `imza`, `durum` nedenlerini topla. Her kayıt için `{"id":ID,"kaynak_id":KAYNAK,"guven":GUVEN,"dogrulanabilir":not nedenler,"skor":SKOR,"nedenler":[...]}` döndür. Kimliğe göre sırala, boş parçada boş liste döndür ve girdileri değiştirme.
 
+Görünür veri: `veri/getirilen_parcalar.json` ve `veri/kaynak_defteri.json`. Doğru provenance README tablosundadır; özellikle `p-tahrif` için `surum`, `p-yetim` için `kaynak` nedeni beklenir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def provenance_uret(parcalalar, kaynaklar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız kaynağın defterde olup olmadığına bakıyor; sürüm, imza ve aktiflik denetlenmiyor, bilinmeyen kaynağa "orta" güven veriyor!
+    defter = {k["kaynak_id"]: k for k in kaynaklar}
+    sonuc = []
+    for p in parcalalar:
+        k = defter.get(p["kaynak_id"])
+        nedenler = [] if k else ["kaynak"]
+        sonuc.append({"id": p["id"], "kaynak_id": p["kaynak_id"], "guven": k["guven"] if k else "orta",
+                      "dogrulanabilir": not nedenler, "skor": p["skor"], "nedenler": nedenler})
+    return sorted(sonuc, key=lambda x: x["id"])
+
+kaynaklar = json_yukle("veri/kaynak_defteri.json")["kaynaklar"]
+veri = json_yukle("veri/getirilen_parcalar.json")
+for r in provenance_uret(veri["parcalar"], kaynaklar):
+    print(r["id"], r["guven"], r["dogrulanabilir"], r["nedenler"], r["skor"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-16")
 ```
 
 ```test
@@ -288,9 +364,36 @@ Yalnız doğrulanabilir ve güven düzeyi eşiği karşılayan kayıtları seç.
 
 Her seçim için `{"id":ID,"kaynak_id":KAYNAK,"guven":GUVEN,"skor":SKOR}` döndür. Boş girdide boş liste döndür ve girdiyi değiştirme.
 
+Görünür veri: `veri/provenance_kayitlari.json`. `orta` eşiğinde doğru seçim `p-politika` ve `p-sss` olur. En yüksek skorlu `p-tahrif` ve `p-yetim` seçime girmemelidir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def guvenli_rag_secimi(provenance, minimum_guven):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız güven eşiğine bakıyor, doğrulanabilirliği yok sayıyor ve çelişkili kaydı denetlemiyor; yüksek skorlu tahrif edilmiş parça en üste çıkar!
+    sira = ("yuksek", "orta", "dusuk")
+    izinli = sira[:sira.index(minimum_guven) + 1]
+    secilen = [{"id": p["id"], "kaynak_id": p["kaynak_id"], "guven": p["guven"], "skor": p["skor"]}
+               for p in provenance if p["guven"] in izinli]
+    return sorted(secilen, key=lambda x: (-x["skor"], x["id"]))
+
+veri = json_yukle("veri/provenance_kayitlari.json")
+for s in guvenli_rag_secimi(veri["provenance"], veri["minimum_guven"]):
+    print(s["id"], s["guven"], s["skor"])
+for b in veri["bozuk_kayitlar"]:
+    try:
+        guvenli_rag_secimi([b], "orta")
+        print(b["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-16")
 ```
 
 ```test
@@ -398,13 +501,24 @@ def guvenli_rag_secimi(provenance, minimum_guven):
 :::
 
 ::: anlat Alakalılık sıralaması güven vermez; seçim gerçek skorlarla sınanır
-RAG provenance'ının değeri ancak **gerçek** retrieval skorları üzerinde görülür. Son görevde senin `guvenli_rag_secimi` işlevin, gerçek gömme modelinin (all-minilm:22m) bir sorgu ile aday parçalar arasında ürettiği kosinüs benzerliklerini kullanan provenance kayıtlarını seçer. Parçalardan biri sorguya alakalıdır ama tampered bir kaynaktan gelir (sürüm uyuşmazlığı) ve içinde enjeksiyon talimatı taşır.
+Görev 1–3'te skorlar elle yazılmıştı. Bu adımda skorları **gerçek bir gömme modeli** üretir. `sandbox/ai_gercek_ai_savunma_16.py` deneyi şunları yapar:
 
-Deney şunu gösterir: tampered parça, seçilen başka bir parçadan **daha yüksek gerçek embedding skoruna** sahip olsa bile, doğrulanabilir olmadığı için seçime girmez. Yani en alakalı içerik otomatik olarak güvenilir sayılmaz; provenance ve güven eşiği, poison'lu içeriği yüksek skora rağmen bağlam dışında tutar.
+1. Kurulu `all-minilm:22m` gömme modeli (Ollama `/api/embed`) sorguyu ("İade süresi kaç gündür?") ve üç parçayı 384 boyutlu vektörlere çevirir. Vektörler eksik ya da geçersizse deney "tamamlanmadı" diye durur.
+2. Her parça için sorguyla kosinüs benzerliği hesaplanır. Bu, iki vektörün açısının kosinüsüdür; 1'e yakınsa anlam yakındır.
+3. Parçalar şunlardır:
+   - Güncel kurumsal politika.
+   - Aynı kaynağın sahte `9.9.9` sürümünü iddia eden ve içinde bir enjeksiyon talimatı taşıyan tahrif edilmiş parça.
+   - Açık kaynaklı bir kargo bilgisi.
+4. Provenance kaynak defterine göre bağımsız olarak üretilir. Senin `guvenli_rag_secimi` işlevin `orta` eşiğiyle seçim yapar. Aynı provenance bağımsız bir referans seçimden de geçirilir.
+
+Test önce işlevini gizli deterministik kayıtlarla sınar. Ardından gerçek skorlarla yaptığın seçimin referans seçimle birebir aynı olmasını ve tahrif edilmiş parçanın seçime girmemesini ister. Tahrif edilmiş parçanın skor sıralamasındaki yeri kabul koşulu değildir; bulgu olarak kaydedilir. Metinler, provenance ve skorlar kanıta yazılır.
+
+Ders yazılırken bu makinede elde edilen skorlar şunlardı: güncel politika 0.761, tahrif edilmiş parça 0.579, kargo parçası 0.496. Tahrif edilmiş parça, seçilen kargo parçasından daha alakalı bulundu ama `surum` nedeniyle elendi. Yalnız skora göre ilk iki parçayı alan bir sistem, enjeksiyon talimatlı bu parçayı modele verirdi. Dikkat: tahrif edilmiş metin doğru cevabı da içeriyor. Saldırgan çoğu zaman doğru bilginin yanına talimat ekler. Bu yüzden içerik "doğru görünüyor" diye güvenilir sayılmaz.
+
 :::
 
 ::: gorev Gerçek deney · Gerçek skorlarla provenance seçimi
-`guvenli_rag_secimi(provenance, minimum_guven)` işlevini yaz — kuralları ve çıktısı 3. görevdekiyle **aynıdır**. Deney gerçek gömme modeliyle skorları üretir, provenance'ı kaynak defterine göre kurar ve senin seçimin yalnız doğrulanabilir ve güven eşiğini karşılayan parçaları alır; tampered parça yüksek skorlu olsa bile elenir.
+`guvenli_rag_secimi(provenance, minimum_guven)` işlevini yaz. Kuralları ve çıktısı 3. görevdekiyle **aynıdır**. Deney gerçek gömme modeliyle skorları üretir ve provenance'ı kaynak defterine göre kurar. Senin seçimin yalnız doğrulanabilir ve güven eşiğini karşılayan parçaları almalıdır; tahrif edilmiş parça yüksek skorlu olsa bile elenir. `sandbox.ai_gercek_ai_savunma_16` içindeki `guvenli_rag_secimi_referans` ve `referans_provenance` yalnız test içindir; onları import etmek veya kaynaklarını okuyup çalıştırmak Kontrol'de reddedilir.
 
 ```meta
 motor: ai-gercek
@@ -416,7 +530,9 @@ timeout: 300
 import ai_lab
 
 def guvenli_rag_secimi(provenance, minimum_guven):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: güveni ve doğrulanabilirliği yok sayıp en yüksek skorlu iki parçayı alıyor; tahrif edilmiş parça kargo parçasının yerine bağlama girer!
+    return [{"id": p["id"], "kaynak_id": p["kaynak_id"], "guven": p["guven"], "skor": p["skor"]}
+            for p in sorted(provenance, key=lambda x: (-x["skor"], x["id"]))[:2]]
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_16 as deney
@@ -424,15 +540,27 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import ai_lab
+from sandbox import ai_gercek_ai_savunma_16 as D
 sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_provenance", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+_yasak = ("guvenli_rag_secimi_referans", "referans_provenance", "kanit_yaz")
+sorun = ai_lab.kod_denetimi(src, yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(n, (ast.Import, ast.ImportFrom)):
+        adlar = [a.name for a in n.names] + ([n.module] if isinstance(n, ast.ImportFrom) and n.module else [])
+        if any(a and a.split(".")[0] in ("inspect", "importlib", "runpy") for a in adlar):
+            sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(n, ast.Name) and n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + n.id)
+if not kontrol(not sorun, "Kendi guvenli_rag_secimi işlevini yaz; laboratuvar/referans kullanımı yasak: " + "; ".join(sorted(set(sorun)))):
+    stop()
 fn = need("guvenli_rag_secimi")
-from sandbox import ai_gercek_ai_savunma_16 as D
 P = [
     {"id": "y-1", "kaynak_id": "kurum", "guven": "yuksek", "dogrulanabilir": True, "skor": 0.7, "nedenler": []},
     {"id": "o-1", "kaynak_id": "acik", "guven": "orta", "dogrulanabilir": True, "skor": 0.5, "nedenler": []},
@@ -455,7 +583,14 @@ def sozlesme(f):
             return False
         except ValueError:
             pass
-        for bozuk in (None, [None], [dict(P[0], ek=1)], [dict(P[0], dogrulanabilir=False)], [dict(P[0], nedenler=["bilinmeyen"])]):
+        esit = [dict(P[0], id="b-2", skor=0.5), dict(P[1], id="b-1")]
+        if [x["id"] for x in f(esit, "orta")] != ["b-1", "b-2"]:
+            return False
+        bilinmeyen = [{"id": "u-1", "kaynak_id": "yok", "guven": "bilinmiyor", "dogrulanabilir": False, "skor": 0.99, "nedenler": ["kaynak"]}]
+        if f(bilinmeyen, "dusuk") != []:
+            return False
+        for bozuk in (None, [None], [dict(P[0], ek=1)], [dict(P[0], dogrulanabilir=False)], [dict(P[0], nedenler=["bilinmeyen"])],
+                      [P[0], P[0]], [dict(P[0], skor=1.5)], [dict(P[0], skor=True)], [dict(P[2], nedenler=["surum", "surum"])], [dict(P[0], guven="kritik")]):
             try:
                 f(bozuk, "orta")
                 return False
@@ -474,11 +609,11 @@ if all(sonuclar):
         stop()
     kontrol(not r["zehirli_secildi"] and r["zehirli_dogrulanabilir"] is False,
             "tampered parça doğrulanamadı ve seçime girmedi")
-    kontrol(r["zehirli_daha_alakali_secilenden"],
-            "tampered parça seçilen bir parçadan daha yüksek gerçek skora sahipti ama yine elendi")
+    kontrol(r["secim_dogru"], f"gerçek skorlarla seçim bağımsız referansla aynı olmalı: senin {r['secim']} · beklenen {r['beklenen_secim']}")
     oz = D.ozet(r)
 yol = ai_lab.kanit_yaz("savunma-rag", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-savunma-16",
-                                       "ortam": (r or {}).get("ortam"), "ozet": oz})
+                                       "ortam": (r or {}).get("ortam"), "ozet": oz,
+                                       "provenance": (r or {}).get("provenance"), "metinler": (r or {}).get("metinler")})
 if oz:
     ok(True, f"BULGU ({(r['ortam'].get('gomme') or {}).get('model')}): gerçek skorlar {oz['skorlar']}; seçilen {oz['secilen']}. "
              f"Tampered parça nedenler {oz['zehirli_nedenler']} ile seçilmedi; seçilen bir parçadan daha alakalı olsa bile elendi "
