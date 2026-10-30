@@ -1,0 +1,164 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-10",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [
+   "HTTPError: HTTP Error 500: Internal Server Error"
+  ],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ayarlar": {
+  "log_sayisi": 4
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [
+    "HTTPError: HTTP Error 500: Internal Server Error"
+   ],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "ayarlar": {
+   "log_sayisi": 4
+  },
+  "canli_yanit": "Kaynak IP bazında özetleme ve olay_id'leri belirtmek için verilen JSONL log akışını analiz ediyorum:\n\n---\n\n### 🔍 Kaynak IP Bazında Özet\n\n#### **10.10.4.21**\n- **Olay Türü:** Başarısız Girişi (2 adet)\n  - Olay ID: `log-101` → Kullanıcı: `admin`\n  - Olay ID: `log-102` → Kullanıcı: `root`\n-",
+  "ozet_sonuc": {
+   "onaylanan_iddialar": [
+    "id-1"
+   ],
+   "reddedilen_iddialar": {
+    "id-2": "uydurma_olay_id",
+    "id-3": "ip_uyumsuzlugu"
+   },
+   "toplam_olay": 4
+  },
+  "kontroller": {
+   "kumeleme_uyumu": true,
+   "tek_iddia_uyumu": true,
+   "soc_ozet_uyumu": true,
+   "halusinasyon_ve_ip_uyumsuzlugu_elendi": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "onaylanan": [
+    "id-1"
+   ],
+   "reddedilen": {
+    "id-2": "uydurma_olay_id",
+    "id-3": "ip_uyumsuzlugu"
+   }
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "onaylanan": [
+   "id-1"
+  ],
+  "reddedilen": {
+   "id-2": "uydurma_olay_id",
+   "id-3": "ip_uyumsuzlugu"
+  }
+ },
+ "pilot": "ile-guvenlik-10-log",
+ "zaman": "2026-10-29T19:05:43+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "fa71a404a5e37211f09a172ebe0cf42ee41e2b319491ae2cad38ac9bbcc03977",
+ "mod": "test"
+}

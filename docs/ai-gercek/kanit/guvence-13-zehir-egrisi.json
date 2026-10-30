@@ -1,0 +1,156 @@
+{
+ "oranlar": [
+  {
+   "toplam": 160,
+   "zehirli": 0,
+   "temiz": 160,
+   "oran": 0.0
+  },
+  {
+   "toplam": 160,
+   "zehirli": 8,
+   "temiz": 152,
+   "oran": 0.05
+  },
+  {
+   "toplam": 160,
+   "zehirli": 16,
+   "temiz": 144,
+   "oran": 0.1
+  },
+  {
+   "toplam": 160,
+   "zehirli": 24,
+   "temiz": 136,
+   "oran": 0.15
+  },
+  {
+   "toplam": 160,
+   "zehirli": 32,
+   "temiz": 128,
+   "oran": 0.2
+  },
+  {
+   "toplam": 160,
+   "zehirli": 40,
+   "temiz": 120,
+   "oran": 0.25
+  },
+  {
+   "toplam": 160,
+   "zehirli": 48,
+   "temiz": 112,
+   "oran": 0.3
+  }
+ ],
+ "egri": {
+  "satirlar": [
+   {
+    "oran": 0.0,
+    "dogruluk": 0.970588,
+    "kayip": 0.0
+   },
+   {
+    "oran": 0.05,
+    "dogruluk": 0.941176,
+    "kayip": 0.029412
+   },
+   {
+    "oran": 0.1,
+    "dogruluk": 0.882353,
+    "kayip": 0.088235
+   },
+   {
+    "oran": 0.15,
+    "dogruluk": 0.647059,
+    "kayip": 0.323529
+   },
+   {
+    "oran": 0.2,
+    "dogruluk": 0.176471,
+    "kayip": 0.794117
+   },
+   {
+    "oran": 0.25,
+    "dogruluk": 0.029412,
+    "kayip": 0.941176
+   },
+   {
+    "oran": 0.3,
+    "dogruluk": 0.0,
+    "kayip": 0.970588
+   }
+  ],
+  "taban_dogruluk": 0.970588,
+  "maksimum_kayip": 0.970588,
+  "maksimum_oran": 0.3
+ },
+ "esik_doyum": {
+  "esik_orani": 0.2,
+  "doyum_orani": 0.05,
+  "maksimum_kayip": 0.970588
+ },
+ "kontroller": {
+  "oran_uyumu": true,
+  "egri_uyumu": true,
+  "esik_doyum_uyumu": true,
+  "etki_gozlendi": true
+ },
+ "ozet": {
+  "sklearn_surum": "1.9.1",
+  "egri": [
+   {
+    "oran": 0.0,
+    "hedef_dogruluk": 0.970588,
+    "kayip": 0.0
+   },
+   {
+    "oran": 0.05,
+    "hedef_dogruluk": 0.941176,
+    "kayip": 0.029412
+   },
+   {
+    "oran": 0.1,
+    "hedef_dogruluk": 0.882353,
+    "kayip": 0.088235
+   },
+   {
+    "oran": 0.15,
+    "hedef_dogruluk": 0.647059,
+    "kayip": 0.323529
+   },
+   {
+    "oran": 0.2,
+    "hedef_dogruluk": 0.176471,
+    "kayip": 0.794117
+   },
+   {
+    "oran": 0.25,
+    "hedef_dogruluk": 0.029412,
+    "kayip": 0.941176
+   },
+   {
+    "oran": 0.3,
+    "hedef_dogruluk": 0.0,
+    "kayip": 0.970588
+   }
+  ],
+  "esik_orani": 0.2,
+  "doyum_orani": 0.05,
+  "maksimum_kayip": 0.970588
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-13-zehir-egrisi",
+ "zaman": "2026-10-29T20:28:42+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "4f603387d54f102f5598ff055d49b096fb72b318d00094e19c66af05a56971b6",
+ "mod": "test"
+}

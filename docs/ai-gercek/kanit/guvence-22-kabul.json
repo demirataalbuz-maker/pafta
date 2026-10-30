@@ -1,0 +1,236 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "deneyler": [
+  {
+   "egitim": {
+    "seed": 7122,
+    "adim": 45,
+    "loss": [
+     0.7249341011047363,
+     0.023871304467320442
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "safetensors": "0.8.0",
+   "dosya_sha256": "f7b4ca55244f5fe313f7bffe49c0b7d15891c2ce371a2225dd5c78ccbfa90b83",
+   "pickle_opcodes": [
+    "PROTO",
+    "FRAME",
+    "EMPTY_DICT",
+    "MEMOIZE",
+    "SHORT_BINUNICODE",
+    "MEMOIZE",
+    "BININT2",
+    "SETITEM",
+    "STOP"
+   ],
+   "pickle_yuklendi": false,
+   "gercek_tensor_yuklemeleri": 1,
+   "vakalar": [
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "00010000000000007b22302e62696173223a7b2264747970",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": true,
+     "beklenen": true
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "474755460300000000000000000000000000000000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": true,
+     "beklenen": true
+    },
+    {
+     "bicim": "pickle",
+     "baslik_hex": "80049519000000000000007d948c0f73656e746574696b5f",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "424144210300000000000000000000000000000000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "474755460200000000000000000000000000000000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "626164",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "a186010000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "00010000000000007b22302e62696173223a7b2264747970",
+     "template": "{{ user }} [SYSTEM_OVERRIDE]",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "474755460300000000000000000000000000000000000000",
+     "template": "yalniz sistem",
+     "karar": false,
+     "beklenen": false
+    }
+   ],
+   "kontroller": {
+    "kapi": true,
+    "gercek_safetensors": true,
+    "inert_pickle": true
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Safetensors gercek kitaplikla yuklenir. GGUF sadece v3 basligi/metadata siniri kontroludur; GGUF model inference yapilmaz. Pickle disassemble edilir, hic unpickle edilmez. Template sezgisi genel enjeksiyon tespiti degildir."
+  },
+  {
+   "egitim": {
+    "seed": 9222,
+    "adim": 45,
+    "loss": [
+     0.7464750409126282,
+     0.019769063219428062
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "safetensors": "0.8.0",
+   "dosya_sha256": "8cbee828d70d904db09e718dbab693c824b21c71cb293a129298f20c2f0674f8",
+   "pickle_opcodes": [
+    "PROTO",
+    "FRAME",
+    "EMPTY_DICT",
+    "MEMOIZE",
+    "SHORT_BINUNICODE",
+    "MEMOIZE",
+    "BININT2",
+    "SETITEM",
+    "STOP"
+   ],
+   "pickle_yuklendi": false,
+   "gercek_tensor_yuklemeleri": 1,
+   "vakalar": [
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "00010000000000007b22302e62696173223a7b2264747970",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": true,
+     "beklenen": true
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "474755460300000000000000000000000000000000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": true,
+     "beklenen": true
+    },
+    {
+     "bicim": "pickle",
+     "baslik_hex": "80049519000000000000007d948c0f73656e746574696b5f",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "424144210300000000000000000000000000000000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "474755460200000000000000000000000000000000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "626164",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "a186010000000000",
+     "template": "system: sinirli; user: {{ user }}",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "safetensors",
+     "baslik_hex": "00010000000000007b22302e62696173223a7b2264747970",
+     "template": "{{ user }} [SYSTEM_OVERRIDE]",
+     "karar": false,
+     "beklenen": false
+    },
+    {
+     "bicim": "gguf",
+     "baslik_hex": "474755460300000000000000000000000000000000000000",
+     "template": "yalniz sistem",
+     "karar": false,
+     "beklenen": false
+    }
+   ],
+   "kontroller": {
+    "kapi": true,
+    "gercek_safetensors": true,
+    "inert_pickle": true
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Safetensors gercek kitaplikla yuklenir. GGUF sadece v3 basligi/metadata siniri kontroludur; GGUF model inference yapilmaz. Pickle disassemble edilir, hic unpickle edilmez. Template sezgisi genel enjeksiyon tespiti degildir."
+  }
+ ],
+ "ortam": {
+  "python": "3.13.14",
+  "cihaz": "cpu",
+  "torch": "2.14.1+cu130"
+ },
+ "temizlik": "Gorev temp dosyalari kapsam sonunda temizlenir; JSON kaniti kalicidir.",
+ "pilot": "guvence-22-kabul",
+ "zaman": "2026-10-29T22:42:12+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 536 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "4dbd55d0b1ce12998145e764f4c15ba8a669ce6a90b03f46e280c383895cda07",
+ "mod": "test"
+}

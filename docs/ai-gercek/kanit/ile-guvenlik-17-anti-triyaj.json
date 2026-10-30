@@ -1,0 +1,172 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-17",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [
+   "HTTPError: HTTP Error 500: Internal Server Error"
+  ],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ayarlar": {
+  "azami_karakter": 180,
+  "ornek_sayisi": 3
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [
+    "HTTPError: HTTP Error 500: Internal Server Error"
+   ],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "ayarlar": {
+   "azami_karakter": 180,
+   "ornek_sayisi": 3
+  },
+  "canli_yanit": "Kullanıcıdan gelen ifade doğrudan eval fonksiyonuna geçirilmesi, kullanıcı tarafından kontrol edilemeyen ve zararlı kod çalıştırma riski taşıyan bir tehlikeli çağrıdır.",
+  "triyaj_sonuc": {
+   "yakalanan_evyeler": [
+    "adv-101",
+    "adv-102"
+   ],
+   "anti_triyaj_ornekleri": [
+    "adv-101",
+    "adv-102",
+    "adv-103"
+   ],
+   "toplam_ornek": 3
+  },
+  "kontroller": {
+   "iz_tarama_uyumu": true,
+   "kod_normalizasyon_uyumu": true,
+   "dayanikli_triyaj_uyumu": true,
+   "gizlenen_evyeler_yakalandi": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "yakalanan_evyeler": [
+    "adv-101",
+    "adv-102"
+   ],
+   "anti_triyaj_ornekleri": [
+    "adv-101",
+    "adv-102",
+    "adv-103"
+   ]
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "yakalanan_evyeler": [
+   "adv-101",
+   "adv-102"
+  ],
+  "anti_triyaj_ornekleri": [
+   "adv-101",
+   "adv-102",
+   "adv-103"
+  ]
+ },
+ "pilot": "ile-guvenlik-17-anti-triyaj",
+ "zaman": "2026-10-29T19:33:51+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "6e8eaef7a08931f37cbe550d5f9ec84dfdcd43b8071bb64ea919ab85345de788",
+ "mod": "test"
+}

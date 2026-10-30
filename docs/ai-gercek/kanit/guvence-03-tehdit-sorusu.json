@@ -1,0 +1,92 @@
+{
+ "kart": {
+  "id": "tehdit-poisoning-01",
+  "kategori": "poisoning",
+  "varlik": "sklearn_logistic_regression",
+  "aktor": "etiket_zehirleyici",
+  "varsayim": "egitim_kumesinin_yuzde_on_besi_tetikleyici_ile_cevrilir"
+ },
+ "soru": {
+  "tehdit_id": "tehdit-poisoning-01",
+  "olcut": "asr",
+  "yon": "artis",
+  "esik": 0.15,
+  "soru": "tehdit-poisoning-01 icin asr artis esigi 0.150000"
+ },
+ "olcumler": [
+  {
+   "tekrar": 3,
+   "taban": 0.114286,
+   "deney": 1.0
+  },
+  {
+   "tekrar": 1,
+   "taban": 0.0,
+   "deney": 1.0
+  },
+  {
+   "tekrar": 2,
+   "taban": 0.0,
+   "deney": 1.0
+  }
+ ],
+ "degerlendirme": {
+  "tehdit_id": "tehdit-poisoning-01",
+  "karar": "desteklendi",
+  "ortalama_delta": 0.961905,
+  "bulgular": [
+   {
+    "tekrar": 1,
+    "delta": 1.0
+   },
+   {
+    "tekrar": 2,
+    "delta": 1.0
+   },
+   {
+    "tekrar": 3,
+    "delta": 0.885714
+   }
+  ]
+ },
+ "kontroller": {
+  "kart_uyumu": true,
+  "soru_uyumu": true,
+  "degerlendirme_uyumu": true,
+  "canli_fark_pozitif": true
+ },
+ "ozet": {
+  "sklearn_surum": "1.9.1",
+  "soru": "tehdit-poisoning-01 icin asr artis esigi 0.150000",
+  "karar": "desteklendi",
+  "ortalama_delta": 0.961905,
+  "bulgular": [
+   {
+    "tekrar": 1,
+    "delta": 1.0
+   },
+   {
+    "tekrar": 2,
+    "delta": 1.0
+   },
+   {
+    "tekrar": 3,
+    "delta": 0.885714
+   }
+  ]
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-03-tehdit-sorusu",
+ "zaman": "2026-10-29T20:08:35+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "26121261a9a0eb6649c048452429207982cf95ff9b016456a5d6f1f5ff64299b",
+ "mod": "test"
+}

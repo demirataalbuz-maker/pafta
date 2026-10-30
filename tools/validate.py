@@ -14,6 +14,7 @@ import json
 import os
 import re
 import sys
+import threading
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -175,6 +176,24 @@ def run_job(job):
     return (False, kind, where, "")
 
 
+def run_jobs(jobs):
+    """Light checks stay parallel; real AI models share one slot in this run.
+
+    This only schedules checks. It does not change their assertions or status.
+    """
+    ai_slot = threading.Lock()
+
+    def scheduled(job):
+        step = job[3] or {}
+        if (step.get("meta") or {}).get("motor") == "ai-gercek":
+            with ai_slot:
+                return run_job(job)
+        return run_job(job)
+
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        return list(ex.map(scheduled, jobs))
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -201,8 +220,7 @@ def main():
         eksikler += [f"{tid}/{l['id']}" for m in outline["modules"] for l in m["lessons"] if l.get("missing")]
         for lid in order:
             jobs.extend(jobs_for(lib, tid, dil, lid))
-    with ThreadPoolExecutor(max_workers=8) as ex:
-        results = list(ex.map(run_job, jobs))
+    results = run_jobs(jobs)
     bad = [r for r in results if not r[0]]
     kz_ozet = []
     if not wanted:

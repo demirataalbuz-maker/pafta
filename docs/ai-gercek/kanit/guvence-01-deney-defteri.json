@@ -1,0 +1,147 @@
+{
+ "plan": {
+  "id": "canli-yelkovan-01",
+  "veri": "sentetik_ikili_siniflama_v1",
+  "model": "sklearn_logistic_regression",
+  "tehdit": "tetikleyici_etiket_kaydirma",
+  "olcutler": [
+   "dogruluk",
+   "f1",
+   "asr",
+   "fpr"
+  ],
+  "tohum": 42
+ },
+ "olcumler": [
+  {
+   "olcut": "asr",
+   "tekrar": 1,
+   "deger": 1.0
+  },
+  {
+   "olcut": "asr",
+   "tekrar": 2,
+   "deger": 0.875
+  },
+  {
+   "olcut": "asr",
+   "tekrar": 3,
+   "deger": 0.921053
+  },
+  {
+   "olcut": "dogruluk",
+   "tekrar": 1,
+   "deger": 0.775
+  },
+  {
+   "olcut": "dogruluk",
+   "tekrar": 2,
+   "deger": 0.775
+  },
+  {
+   "olcut": "dogruluk",
+   "tekrar": 3,
+   "deger": 0.9
+  },
+  {
+   "olcut": "f1",
+   "tekrar": 1,
+   "deger": 0.775
+  },
+  {
+   "olcut": "f1",
+   "tekrar": 2,
+   "deger": 0.75
+  },
+  {
+   "olcut": "f1",
+   "tekrar": 3,
+   "deger": 0.894737
+  },
+  {
+   "olcut": "fpr",
+   "tekrar": 1,
+   "deger": 0.205128
+  },
+  {
+   "olcut": "fpr",
+   "tekrar": 2,
+   "deger": 0.125
+  },
+  {
+   "olcut": "fpr",
+   "tekrar": 3,
+   "deger": 0.095238
+  }
+ ],
+ "eksik_rapor": {
+  "plan_id": "canli-yelkovan-01",
+  "karar": "eksik",
+  "beklenen": 12,
+  "kayitli": 11,
+  "eksikler": [
+   {
+    "olcut": "fpr",
+    "tekrar": 3
+   }
+  ]
+ },
+ "tam_rapor": {
+  "plan_id": "canli-yelkovan-01",
+  "karar": "tamam",
+  "beklenen": 12,
+  "kayitli": 12,
+  "eksikler": []
+ },
+ "kontroller": {
+  "plan_dogrulama_uyumu": true,
+  "olcum_siralama_uyumu": true,
+  "eksik_kapsam_uyumu": true,
+  "tam_kapsam_uyumu": true
+ },
+ "ozet": {
+  "sklearn_surum": "1.9.1",
+  "torch_surum": "2.14.1+cu130",
+  "plan_id": "canli-yelkovan-01",
+  "beklenen_kayit": 12,
+  "kayitli": 12,
+  "eksik_senaryo_karar": "eksik",
+  "tam_senaryo_karar": "tamam",
+  "tekrar_1_olcumleri": [
+   {
+    "olcut": "asr",
+    "tekrar": 1,
+    "deger": 1.0
+   },
+   {
+    "olcut": "dogruluk",
+    "tekrar": 1,
+    "deger": 0.775
+   },
+   {
+    "olcut": "f1",
+    "tekrar": 1,
+    "deger": 0.775
+   },
+   {
+    "olcut": "fpr",
+    "tekrar": 1,
+    "deger": 0.205128
+   }
+  ]
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-01-deney-defteri",
+ "zaman": "2026-10-29T20:02:52+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "8c4da53b85c58092bab48c40b7f3c78e330704a7b3b61fa58fbd759449a36190",
+ "mod": "test"
+}

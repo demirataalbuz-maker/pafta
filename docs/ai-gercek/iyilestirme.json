@@ -1,0 +1,3705 @@
+{
+ "surum": 1,
+ "kural": "docs/ai-gercek/IYILESTIRME.md",
+ "emirler": [
+  {
+   "id": "ai-guvence-27",
+   "yol": "ai-guvence",
+   "puan": 67,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:10",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:18",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ (9 kontrol, gerçek CPU dahil); tahmin 0 şüpheli; mutasyon 0/60 geçen; kopya korunuyor (temperature_ref/score_ref takma adları, hedeflenen ret doğrulandı). Tablo+NOT, görünür JSON/setup, kusurlu başlangıçlar, derin anlatım ve çelişki düzeltildi. UI dosya okuma ve gerçek görev 2/2 geçti. Rapor: docs/ai-gercek/CODEX-IYILESTIRME-ai-guvence-27.md. Puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:32",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/60 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 67→92. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-18",
+   "yol": "ai-guvence",
+   "puan": 68,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:18",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:23",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/58 geçen; kopya korunuyor ref18 as olc (hedeflenen ret ve kanıt yokluğu doğrulandı). Tablo+NOT, fixture/setup, kusurlu başlangıçlar, 484 kelime ek anlatım, çelişki düzeltmesi; gerçek kanıt kabul=all(checks). UI dosya okuma ve gerçek görev 9/9 geçti. Rapor CODEX-IYILESTIRME-ai-guvence-18.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:29",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/58 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 68→93. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-guvence-26",
+   "yol": "ai-guvence",
+   "puan": 68,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:23",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:27",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/118 geçen; kopya korunuyor attack_ref/ozet_ref takma adları, hedeflenen ret doğrulandı. Tablo+NOT, fixture/setup, kusurlu başlangıç, 477 kelime ek anlatım, çelişki düzeltildi. UI dosya okuma ve gerçek görev 3/3 geçti. Rapor CODEX-IYILESTIRME-ai-guvence-26.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:31",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/118 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 68→93. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-guvence-17",
+   "yol": "ai-guvence",
+   "puan": 69,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:27",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:31",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/81 geçen; kopya korunuyor ref17 as olc, hedeflenen ret doğrulandı. Tablo+NOT, fixture/setup, kusurlu başlangıç, 484 kelime ek anlatım, çelişki düzeltildi; kabul=all(checks). UI dosya okuma ve gerçek görev 7/7 geçti. Rapor CODEX-IYILESTIRME-ai-guvence-17.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:25",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/81 · kopya sondası 3/3 engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 899 kelime anlatım. 69→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-guvence-19",
+   "yol": "ai-guvence",
+   "puan": 70,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:31",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:36",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/92 geçen; kopya korunuyor ref19clip/ref19budget takma adları. Tablo+NOT, fixture/setup, kusurlu başlangıçlar, 459 kelime ek anlatım, ölçek ve çelişki düzeltmesi; kabul=all(checks). UI dosya okuma ve gerçek görev 7/7 geçti. Rapor CODEX-IYILESTIRME-ai-guvence-19.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:29",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/92 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 70→93. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-guvence-20",
+   "yol": "ai-guvence",
+   "puan": 70,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:36",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:40",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/65 geçen; kopya korunuyor ref20 as olc. Tablo+NOT, fixture/setup, kusurlu başlangıçlar, 489 kelime ek anlatım, çelişki ve epoch karıştırıcı faktörü açıklandı; kabul=all(checks). UI dosya okuma ve gerçek görev 7/7 geçti. Rapor CODEX-IYILESTIRME-ai-guvence-20.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:30",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/65 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 70→92. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-28",
+   "yol": "ai-guvence",
+   "puan": 70,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar.",
+    "Gerçek deney ayar.json'da opt_in=true ister (tasarım gereği; ilk koşuda kapalıydı, açılınca geçti). Öğrenciye bu adım ekranda daha görünür söylenmeli."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:40",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:52",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol (opt-in açık izole test, iki kurulu model8çağrı); tahmin 0; mutasyon 0/108 geçen; kopya korunuyor üç referans takma adı. Tablo+NOT, fixture/setup, kusurlu başlangıçlar, 491 kelime ek anlatım, çelişki ve belirgin opt-in adımları. Dersin model kanıt başlığı metinle uyumlandı, liste ayrıntıları korundu. UI kapalı onay eksik; açık3/3 geçti. İlk HTTP500 PASS sayılmadı ve korundu. Rapor CODEX-IYILESTIRME-ai-guvence-28.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:32",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/108 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 70→93. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-guvence-29",
+   "yol": "ai-guvence",
+   "puan": 70,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:52",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 08:57",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/104 geçen; kopya korunuyor redact_ref/manifest_ref takma adları. Tablo+NOT, fixture/setup, kusurlu başlangıçlar, 467 kelime ek anlatım ve kapsam ayrımı. UI dosya okuma ve gerçek maskeli ZIP 6/6 geçti; bildirim gönderilmedi. Rapor CODEX-IYILESTIRME-ai-guvence-29.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:32",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/104 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 70→92. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-30",
+   "yol": "ai-guvence",
+   "puan": 70,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 08:57",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 09:03",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/109 geçen; kopya korunuyor policy_ref/report_ref takma adları. Tablo+NOT, fixture/setup, kusurlu başlangıçlar, 464 kelime ek anlatım ve çelişki düzeltildi. UI dosya okuma ve gerçek üç eğitim/dosya etkisi/ZIP 4/4 geçti. Rapor CODEX-IYILESTIRME-ai-guvence-30.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:33",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/109 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 70→93. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-savunma-31",
+   "yol": "ai-savunma",
+   "puan": 71,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 09:03",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 09:14",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "Son validate TEMİZ 9 kontrol; tahmin 0; mutasyon 0/61 geçen; doğrulama sarmalayıcılı referans kopyası korunuyor. Tuple, uzunluk1000/1001, tek-token, sıfır fiyat ve 6basamak hassasiyeti eklendi; ilk9/67geçen kaydı korundu. Tablo+NOT, fixture/setup, kusurlu başlangıçlar, 486kelime ek anlatım. UIgerçek9/9;512->32token. Ham yanıt/seed/sıcaklık kanıtta. Rapor CODEX-IYILESTIRME-ai-savunma-31.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:33",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/61 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 71→93. Kalan düşük öncelikli: []"
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-guvence-23",
+   "yol": "ai-guvence",
+   "puan": 72,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar.",
+    "Plan GGUF quantization seviyelerinde güvenlik regresyonu diyor; deney küçük sınıflandırıcıda fake-quant yapıyor, GGUF/LLM yok (ders bunu dürüstçe belirtiyor)."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 09:14",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 09:59",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ11kontrol (CPU+gercekGGUF16cagri); tahmin0; mutasyon0/78; CPU ve GGUF gercek referans aliaslari korunuyor. Onayli Q8 indirildi/SHA256dogrulandi; gorunurfixture/setup,kusurlubaslangic,460kelimeanlatim,kapsam+celiski tamam. HTTPKontrol8/8/Runok; GORSELsonGGUFkabul Worktarayicikapali nedeniyle EKSİK, tamamlandi sayilmadi. CPUUI2/2/bosGGUFret goruldu. IlkHTTP500korundu; genelleme yok. Rapor CODEX-IYILESTIRME-ai-guvence-23.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:31",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/78 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 72→94. Kalan düşük öncelikli: ['Ders ekranında görsel kabul yapılmadı (düzelten tarayıcı kapalı olduğu']"
+    }
+   ],
+   "son_puan": 94
+  },
+  {
+   "id": "ai-guvence-25",
+   "yol": "ai-guvence",
+   "puan": 72,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 09:59",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 10:03",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9kontrol; tahmin0; mutasyon0/34; kopya korunuyor kapi_ref aliasi. Tablo+NOT,gorunurJSON/hazirla,kusurlubaslangiclar,465kelimeanlatim,celiski tamam. GercekCPU/safetensorsHTTPKontrol4/4 ve Runok; GORSELkabul Worktarayicikapali nedeniyle YAPILMADI, PASS sayilmadi. Rapor CODEX-IYILESTIRME-ai-guvence-25.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:31",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/34 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 72→92. Kalan düşük öncelikli: ['Ders ekranında görsel kabul yapılmadı (düzelten tarayıcı kapalı olduğu']"
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-21",
+   "yol": "ai-guvence",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 10:03",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 10:07",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9kontrol; tahmin0; mutasyon0/39; kopya korunuyor envanter_ref aliasi. Tablo+NOT,gorunurSBOM/hazirla,kusurlubaslangiclar,470kelimeanlatim. GercekCPU/diskHTTPKontrol6/6 ve Runok. GORSELkabul Worktarayicikapali nedeniyle YAPILMADI; HTTPgorsel yerine sayilmadi. Rapor CODEX-IYILESTIRME-ai-guvence-21.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:30",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/39 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 73→92. Kalan düşük öncelikli: ['Ders ekranında görsel kabul yapılmadı (düzelten tarayıcı kapalı olduğu']"
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-22",
+   "yol": "ai-guvence",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 10:07",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 10:12",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9kontrol; tahmin0; mutasyon0/24; kopya korunuyor bicim_ref aliasi. Tablo+NOT,gorunurJSON/hazirla,kusurlubaslangiclar,461kelimeanlatim,celiski ve kapsam ayrimi tamam. GercekSafetensorsHTTPKontrol6/6 ve Runok; GGUFbaslik/pickleopcode sinirlari acik. GORSELkabul Worktarayicikapali nedeniyle YAPILMADI, HTTPgorsel yerine sayilmadi. Rapor CODEX-IYILESTIRME-ai-guvence-22.md; puan verilmedi."
+    },
+    {
+     "zaman": "2026-10-30 11:31",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/24 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 73→91. Kalan düşük öncelikli: ['GGUF sohbet şablonu tarafı hâlâ inert örnekle; gerçek GGUF dosya başlı', 'Ders ekranında görsel kabul yapılmadı (düzelten tarayıcı kapalı olduğu']"
+    }
+   ],
+   "son_puan": 91
+  },
+  {
+   "id": "ai-guvence-31",
+   "yol": "ai-guvence",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 10:15",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 10:23",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0 şüpheli; mutasyon 0/69; kopya hedeflenen guard ile reddedildi. Görünür JSON/3 kusurlu starter, sınır/etiket/yuvarlama testleri. Gerçek all-minilm recovery1 .625, recovery3 .75. Runner Run ok; görsel kabul yapılmadı, raporda açık. Puan Opus'a bırakıldı."
+    },
+    {
+     "zaman": "2026-10-30 11:33",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek deney dahil) · tahmin 0 · mutasyon 0/69 geçen · kopya sondası engellendi (doğrudan import, getattr, inspect.getmembers) · tablo+NOT, fixture/hazirla, kusurlu başlangıçlar, derin anlatım. 73→91. Kalan düşük öncelikli: ['Ders ekranında görsel kabul yapılmadı (düzelten tarayıcı kapalı olduğu']"
+    }
+   ],
+   "son_puan": 91
+  },
+  {
+   "id": "ai-guvence-32",
+   "yol": "ai-guvence",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 11:06",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 11:17",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0 şüpheli; mutasyon 0/34; kopya guard ile reddedildi. Görünür ham metin/JSON, 3 kusurlu starter ve sınır testleri. Üç gerçek çağrı hatasız; HTTP Kontrol 8/8, Run ok kabul=false. Görsel kabul Work tarayıcı kapalı olduğundan eksik. Puan Opus'ta."
+    },
+    {
+     "zaman": "2026-10-30 11:38",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ · tahmin 0 · mutasyon 0/34 · kopya sondası 3/3 engellendi · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 580 kelime anlatım. 73→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-guvence-33",
+   "yol": "ai-guvence",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 11:23",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 11:30",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0 şüpheli; mutasyon 0/37; kopya guard ile reddedildi. Görünür JSON/3 kusurlu starter; gerçek 3x5 çağrı hatasız, hata ile yanlış cevap ayrıldı. HTTP Kontrol 8/8, Run ok kabul=false. Boş/sabit/yanlış/eksik-model fail. Görsel kabul yapılmadı. Puan Opus'ta."
+    },
+    {
+     "zaman": "2026-10-30 11:41",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ · tahmin 0 · mutasyon 0/37 · kopya sondası 3/3 engellendi · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 615 kelime anlatım. 73→92."
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-34",
+   "yol": "ai-guvence",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 11:45",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 11:51",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0 şüpheli; mutasyon 0/22; kopya guard ile reddedildi. Görünür metin/JSON, kusurlu starterlar, iç host allow-list'te olsa ret. Boş/sabit/SSRF-atlayan/eksik-model fail. Gerçek iki çağrı hatasız, HTTP Kontrol 9/9 Run ok. URL fetch yok; görsel kabul eksik. Puan Opus'ta."
+    },
+    {
+     "zaman": "2026-10-30 12:18",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ · tahmin 0 · mutasyon 0/22 (görev 1'de mutant üretilmedi; elle okundu, iki elle mutant + sınır vakaları var) · kopya sondası 3/3 engellendi · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 632 kelime. 73→92. Kalan düşük: ekran görsel kabulü."
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-24",
+   "yol": "ai-guvence",
+   "puan": 74,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 12:14",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 12:20",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0 şüpheli; mutasyon 0/65; olcum_ref kopyası guard ile reddedildi. Tablo/NOT, görünür JSON, 3 kusurlu starter, 484 kelime ek anlatım. Gerçek CPU eğitim/fine-tune, HTTP Kontrol 4/4 Run ok; boş/sabit/yanlış-payda fail, kalıcı ayar korundu. Görsel kabul eksik. Puan Opus'ta."
+    },
+    {
+     "zaman": "2026-10-30 12:24",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ · tahmin 0 · mutasyon 0/65 · kopya sondası 3/3 engellendi · çelişki düzeltildi (görevler 1-3 sentetik, son adım gerçek PyTorch CPU) · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 845 kelime. 74→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-saldiri-24",
+   "yol": "ai-saldiri",
+   "puan": 76,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 12:22",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 12:37",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 0 şüpheli; mutasyon 0/88; kopya guard ile reddedildi. Görünür JSON/3 kusurlu starter, 488 kelime anlatım; örtüşen sınır ve 65 bayt vakası. Kabul bütün saf+gerçek kontrollerin all sonucu. Gerçek yerel HTTP/native izinli relay, HTTP Kontrol 44/44 Run ok; boş/sabit/yanlış/eksik-model fail. Görsel kabul eksik; puan Opus'ta."
+    },
+    {
+     "zaman": "2026-10-30 12:43",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ · tahmin 0 · mutasyon 0/88 (önce 5 geçen) · kopya sondası 3/3 engellendi · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 978 kelime. 76→95."
+    }
+   ],
+   "son_puan": 95
+  },
+  {
+   "id": "ai-saldiri-21",
+   "yol": "ai-saldiri",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 12:52",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 13:03",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 7 kontrol; tahmin 0 şüpheli; mutasyon 0/29; gerçek referans kopyası guard ile reddedildi. Görünür JSON/HTTP biçimi ve 3 kusurlu starter; ham Location boşluk testi. Kabul bütün temel+gerçek kontrollerin all sonucu. Gerçek model/loopback HTTP, HTTP Kontrol 121/121 Run ok. Önceki timeout kaydı korundu; görsel kabul eksik. Puan Opus'ta."
+    },
+    {
+     "zaman": "2026-10-30 13:07",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ · tahmin 0 · mutasyon 0/29 (önce 2 geçen) · kopya sondası 3/3 engellendi · tablo+NOT, fixture, 4 kusurlu başlangıç, 590 kelime. 77→94. Kalan düşük: 2 alıştırma görevi, ekran görsel kabulü."
+    }
+   ],
+   "son_puan": 94
+  },
+  {
+   "id": "ai-saldiri-03",
+   "yol": "ai-saldiri",
+   "puan": 78,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "mutasyon",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "Geçen mutantları öldür: sınır değer (<= / <), 'or'/'and' ve sabit+1 mutantlarını yakalayan test vakaları ekle. Hedef: mutasyon 0 geçen.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 14:57",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 15:16",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ10; tahmin0; mutasyon0/24; kopya korunuyor. Tablo+NOT, görünür JSON/setup ve 3 kusurlu starter tamam. UI Check13/13 gerçek28çağrı; Run14çağrı kabulfalse; starter reddi kanıtsız. Rapor CODEX-IYILESTIRME-ai-saldiri-03.md. Puan/denetim Opus."
+    },
+    {
+     "zaman": "2026-10-30 15:19",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ · tahmin 0 · mutasyon 0/24 (önce 2 geçen) · kopya sondası 3/3 engellendi · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 827 kelime. 78→94."
+    }
+   ],
+   "son_puan": 94
+  },
+  {
+   "id": "ai-saldiri-05",
+   "yol": "ai-saldiri",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "kopya",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Gerçek deney testine ai_lab.kod_denetimi(src, yasak=(<modüldeki her *_ref/ref*/referans adı>, 'kanit_yaz')) ekle; referans import eden çözüm KALMALI. Kanıt yalnız kabul=all(checks) ile yazılsın.",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 15:19",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 15:26",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ10; tahmin0; mutasyon0/27; kopya korunuyor. Tablo+NOT, görünür dosya/setup, 3 kusurlu starter, anlatım850 sözcük. Gerçek Promptfoo8çağrı; HTTP Check15/15 Runok. UI starter7/9 fail; referans görsel kabul tarayıcı zaman aşımı nedeniyle eksik, PASS sayılmadı. Rapor CODEX-IYILESTIRME-ai-saldiri-05.md."
+    },
+    {
+     "zaman": "2026-10-30 15:30",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek Promptfoo dahil) · tahmin 0 · mutasyon 0/27 · kopya sondası 3/3 engellendi (önce kod_denetimi yoktu) · tablo+NOT, fixture/hazirla, 3 kusurlu başlangıç, 879 kelime. 79→96."
+    }
+   ],
+   "son_puan": 96
+  },
+  {
+   "id": "ai-savunma-27",
+   "yol": "ai-savunma",
+   "puan": 72,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar.",
+    "Başlık 'garak ile yerel model taraması' ama ders garak'ı çalıştırmıyor (garak 0.17.1 .ai-araclar ortamında kurulu); 'garak tarzı' kendi tarayıcı. Plan hedefi (garak probe/detector yorumlama) gerçek araçla karşılanmıyor."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 15:44",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 15:55",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/34; kopya korunuyor. Gerçek kurulu garak0.17.1 API Probe/OllamaGeneratorChat/StringDetector ile5çağrı, ham kanıt. Tablo+NOT, görünür dosya/setup, 3 kusurlu starter, anlatım803sözcük. HTTP Check12/12 Runok. UI starter4/5 fail görüldü; referans görsel kabul tarayıcı takılması nedeniyle eksik, PASS sayılmadı. Rapor CODEX-IYILESTIRME-ai-savunma-27.md"
+    },
+    {
+     "zaman": "2026-10-30 16:00",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek garak 0.17.1 Probe/OllamaGeneratorChat/StringDetector, 5 deneme) · tahmin 0 · mutasyon 0/34 · kopya sondası 3/3 · çelişki düzeltildi · tablo+NOT, fixture, 3 kusurlu başlangıç, 803 kelime. 72→93. Kalan düşük: saldırgan bakışı tek cümle, ekran görsel kabulü."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-temel-08",
+   "yol": "ai-temel",
+   "puan": 72,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar.",
+    "Plan vLLM/llama.cpp sunucularında eşzamanlı istek ve kiracı yalıtımını anıyor; ders bunları yalnız liste düzeyinde temsil ediyor, gerçek sunucu karşılaştırması yok."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 16:05",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 16:19",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ11; tahmin0; mutasyon0/47; CPU ve Ollama gerçek adımları kopya korunuyor. Görünür dosya/3kusurlu starter/anlatım978sözcük. Mevcut CPU KV korundu + kurulu Ollama iki gerçek HTTP isteği ve uygulama kiracı yalıtımı eklendi; yeni indirme yok. HTTP/UI CPU8/8 Ollama14/14 ve Run tamam. Backend KV yalıtımı/sürekli batching/vLLM-llama.cpp karşılaştırması iddiası yok; kapsam dokümanı TEMEL-08-SUNUCU-KAPSAMI.md, puan Opus."
+    },
+    {
+     "zaman": "2026-10-30 16:25",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (CPU KV + kurulu Ollama eşzamanlı istek, iki gerçek adım) · tahmin 0 · mutasyon 0/47 · kopya sondası 6/6 (iki adım) · çelişki düzeltildi · tablo+NOT, fixture, 4 kusurlu başlangıç, 978 kelime. 72→90 (sınırda). Kalan: vLLM/llama.cpp karşılaştırması yok (indirme onayı gerekir), ders bunu açıkça yazıyor."
+    }
+   ],
+   "son_puan": 90
+  },
+  {
+   "id": "ai-temel-03",
+   "yol": "ai-temel",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 16:24",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 16:35",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/34; kopya korunuyor. Tablo+NOT, görünür logit dosyası/setup, 3kusurlu starter, anlatım813sözcük. Sonlu sayı/NaN güvenliği, doğru sabit-kaydırma özelliği, büyük logitte CE ve k1/k20 testleri tamam. Gerçek UI/HTTP Check9/9; Run hamtoken/logit/olasılık, kabulfalse. Başlangıç reddi ve ilk dosya UI görüldü. Puan Opus; rapor CODEX-IYILESTIRME-ai-temel-03.md"
+    },
+    {
+     "zaman": "2026-10-30 18:06",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek SmolLM2 dahil) · tahmin 0 · mutasyon 0/34 · kopya sondası 3/3 engellendi · tablo+NOT, görünür sentetik logitler.json/hazirla, 3 kusurlu başlangıç, ~2700 kelimelik ders. Küçük: anlatımın sonunda greedy/çapraz entropi paragrafları tekrar ediyor. 73→92."
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-temel-06",
+   "yol": "ai-temel",
+   "puan": 73,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 16:39",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 17:49",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutant0/38; kopya korunuyor. Tablo/NOT, görünür dosya/setup,3kusurlu starter,anlatım796sözcük. Gerçek UI/HTTP Check12/12 ve Run tamam; UI starter8/9 fail. İlk3 dosya CLI Runok; ayrı dosya görsel testi son denemede Work tarayıcı erişimi kapalı olduğundan yapılamadı. Rapor CODEX-IYILESTIRME-ai-temel-06.md; puan Opus."
+    },
+    {
+     "zaman": "2026-10-30 18:09",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek SmolLM2 katmanı dahil) · tahmin 0 · mutasyon 0/38 · kopya sondası 3/3 engellendi · tablo+NOT, görünür attention.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 73→92."
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-savunma-29",
+   "yol": "ai-savunma",
+   "puan": 74,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 17:50",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 17:56",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutant0/45; kopya korunuyor. Tablo/NOT,görünür paket/setup,3kusurlu starter,anlatım815sözcük. Gerçek deneyde saldırı başarısını zorunlu yapan kabul hatası giderildi;4hamyanıt/bağımsız kapı hesabı. HTTP9/9 Runok. Work tarayıcı erişimi kapalı,görsel kabul YAPILMADI. Rapor CODEX-IYILESTIRME-ai-savunma-29.md; puan Opus."
+    },
+    {
+     "zaman": "2026-10-30 18:11",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek Ollama iki defender yapılandırması) · tahmin 0 · mutasyon 0/45 · kopya sondası 3/3 engellendi · tablo+NOT, görünür surumler.json/hazirla, 3 kusurlu başlangıç; 'çalıştırılmaz' cümlesi yalnız Promptfoo/garak/Git için doğru kapsam notu. 74→94."
+    }
+   ],
+   "son_puan": 94
+  },
+  {
+   "id": "ai-temel-09",
+   "yol": "ai-temel",
+   "puan": 74,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 17:58",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 18:03",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9;tahmin0;mutant0/41;kopya korunuyor. Tablo/NOT,görünür eğitim dosyası/setup,3kusurlu starter,anlatım836sözcük. Gerçek autograd/SGD1/3/5/8adım ve analitik parametre karşılaştırması. HTTP Check9/9 Runok; Run kanıt yazmaz,kabul yalnız Check. Work tarayıcı kapalı:görsel kabul yapılmadı. Rapor CODEX-IYILESTIRME-ai-temel-09.md; puan Opus."
+    },
+    {
+     "zaman": "2026-10-30 18:15",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek PyTorch backward/SGD) · tahmin 0 · mutasyon 0/41 · kopya sondası 3/3 engellendi · tablo+NOT, görünür egitim.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 74→92."
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-temel-13",
+   "yol": "ai-temel",
+   "puan": 74,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 18:04",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 19:58",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9;tahmin0;mutant0/25;kopya korunuyor. Tablo/NOT,görünür bağlam dosyası/setup,3kusurlu starter,anlatım826sözcük. Gerçek20çağrı tam/hatasız koşulu,hata tipi ve alias guard; tam belge/mesajlar kanıtta. HTTP/UI12/12; Run10çağrı kabulfalse,starter7/9 fail ve ilk dosya UI görüldü. Puan Opus; rapor CODEX-IYILESTIRME-ai-temel-13.md."
+    },
+    {
+     "zaman": "2026-10-30 20:22",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek yerel model talimat/veri ölçümü) · tahmin 0 · mutasyon 0/25 · kopya sondası 3/3 engellendi · tablo+NOT, görünür baglam.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 74→92."
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-guvence-07",
+   "yol": "ai-guvence",
+   "puan": 75,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 18:08",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 18:19",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/45 · kopya korunuyor (6 sonda: import/alias/getattr/inspect+exec/*/importlib) · yapılanlar: çelişki giderildi, tablo+NOT, görünür fixture (fgsm_ornekleri/epsilon_gozlemleri)+hazirla, 4 kusurlu başlangıç, anlatım 901 kelime, referans modülü+kod_denetimi+stop. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-guvence-07.md"
+    },
+    {
+     "zaman": "2026-10-30 18:32",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek torch FGSM eğrisi) · tahmin 0 · mutasyon 0/45 · kopya sondası 3/3 engellendi · tablo+NOT, görünür fgsm_ornekleri/epsilon_gozlemleri+hazirla, 4 kusurlu başlangıç, çelişki giderildi. Küçük: geçici klasörler Desktop'ta açılmış (kalıcı iz yok). 75→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-temel-14",
+   "yol": "ai-temel",
+   "puan": 75,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 20:17",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 20:33",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "TEMİZ9; tahmin0; mutant0/42; kopya korunuyor. Tablo/NOT,896 sözcük,görünür JSON+setup,3kusurlu starter,dupe/Windows yol/büyük tamsayı testleri. Gerçek UI16/16,Run2hamyanıt; Run kanıt yazmaz. Rapor CODEX-IYILESTIRME-ai-temel-14.md. Puan Opus."
+    },
+    {
+     "zaman": "2026-10-30 20:39",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek Ollama JSON Schema çıktısı) · tahmin 0 · mutasyon 0/42 · kopya sondası 3/3 engellendi · tablo+NOT, görünür ornekler.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 75→92."
+    }
+   ],
+   "son_puan": 92
+  },
+  {
+   "id": "ai-savunma-26",
+   "yol": "ai-savunma",
+   "puan": 76,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 18:23",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 18:33",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/36 · kopya korunuyor (6 sonda: alias/öznitelik/getattr/inspect+exec/*/importlib) · yapılanlar: çelişki giderildi, tablo+NOT, görünür eval_kosusu.json+hazirla, 4 kusurlu başlangıç, anlatım 997 kelime, kod_denetimi yasak listesi+AST+stop, gerçek raporun bağımsız referansla karşılaştırılması, ham yanıtlar kanıtta, boş yanıt=deney tamamlanmadı. Gerçek qwen3:4b ASR 0/3 FP 0/2. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-26.md"
+    },
+    {
+     "zaman": "2026-10-30 20:26",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek Ollama ASR koşusu) · tahmin 0 · mutasyon 0/36 · kopya sondası 3/3 engellendi · tablo+NOT, görünür eval_kosusu.json/hazirla, 4 kusurlu başlangıç, çelişki giderildi. 76→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-savunma-28",
+   "yol": "ai-savunma",
+   "puan": 76,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 19:15",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 19:23",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/58 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT (garak probe/detector), görünür detector_politikasi+model_yanitlari (FP/FN/Türkçe casefold)+hazirla, 4 kusurlu başlangıç, anlatım 1001 kelime, yasak listesi+AST+stop, referansla birebir karşılaştırma, boş yanıt=tamamlanmadı, ham yanıtlar kanıtta. Eski 'y-kimlik yakalanmalı' koşulu modele bağlı olduğu için koşullu yapıldı (bearer geçiyorsa yakalanmalı) — gerekçe raporda. Gerçek qwen3:4b: 1/3 gecti. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-28.md"
+    },
+    {
+     "zaman": "2026-10-30 20:29",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (detector gerçek Ollama çıktılarında) · tahmin 0 · mutasyon 0/58 · kopya sondası 3/3 engellendi · tablo+NOT, görünür politika/yanıt fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 76→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-temel-12",
+   "yol": "ai-temel",
+   "puan": 76,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-24",
+   "yol": "ai-savunma",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 20:42",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 20:51",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/40 · kopya korunuyor (6 sonda) · kapsam: kurulu pySigma 2.0.1 ile gerçek Sigma YAML ayrıştırma (UUID ve belirleyici doğrulaması, bozuk kural SigmaModifierError ile reddedildi), kurulum yok · yapılanlar: çelişki giderildi, tablo+NOT, görünür gerçek biçimli Sigma YAML + kurallar.json + olaylar.json (FP/FN, alan sınırı, çoklu eşleşme)+hazirla, 4 kusurlu başlangıç, anlatım 1037 kelime, yasak listesi+AST+stop, referansla birebir. Eski deneyin uydurma egress olayı (model çağırmazsa sabit URL) kaldırıldı; modelin gerçek yanıtı olay oldu. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-24.md"
+    },
+    {
+     "zaman": "2026-10-30 20:56",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (kurulu pySigma 2.0.1 ile gerçek Sigma YAML + gerçek Ollama yanıtı) · tahmin 0 · mutasyon 0/40 · kopya sondası 3/3 engellendi · tablo+NOT, görünür Sigma YAML/kurallar/olaylar+hazirla, 4 kusurlu başlangıç, çelişki giderildi, uydurma egress olayı kaldırılmış. 77→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-savunma-18",
+   "yol": "ai-savunma",
+   "puan": 78,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 19:25",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 19:32",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/54 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür rag_politikasi+getirilen_belgeler (eşitlik, sistem taklidi, Türkçe yanlış negatif, kapasite)+hazirla, 4 kusurlu başlangıç, anlatım 1007 kelime, yasak listesi+AST+stop, referansla birebir paket+bağlam karşılaştırması, boş yanıt=tamamlanmadı, ham yanıtlar kanıtta. Model-bağımlı 'baglam_sizdi False' kabul şartı bulguya çevrildi (gerekçe raporda). Gerçek qwen3:4b: zehir karantinada, sızıntı yok. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-18.md"
+    },
+    {
+     "zaman": "2026-10-30 20:30",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (ilk koşuda Ollama HTTP 500 geçici; yeniden koşu temiz) · tahmin 0 · mutasyon 0/54 · kopya sondası 3/3 engellendi · tablo+NOT, görünür RAG belge/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-savunma-20",
+   "yol": "ai-savunma",
+   "puan": 78,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 19:46",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 19:55",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/32 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür tedarik_politikasi+bilesenler (sınır eşitliği, son-karakter farkı, tek risk nedeni, bozuk özetler)+hazirla, 4 kusurlu başlangıç, anlatım 1066 kelime, yasak listesi+AST+stop. Gerçek deney yeniden yazıldı: eskiden /api/tags digest'i hem beklenen hem gerçek yazılıyordu; şimdi kurulu modelin manifest katmanları gerçekten SHA-256'lanıyor (2.4 GB ağırlık dahil), tahrif kopyası, imza yok=imza nedeni (gerçek bulgu), referansla birebir. Gerçek qwen3:4b: 6/6 katman eşleşti, tahrif butunluk. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-20.md"
+    },
+    {
+     "zaman": "2026-10-30 20:33",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (kurulu Ollama modelinin gerçek digest'i) · tahmin 0 · mutasyon 0/32 · kopya sondası 3/3 engellendi · tablo+NOT, görünür bileşen/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-savunma-21",
+   "yol": "ai-savunma",
+   "puan": 78,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 19:57",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 20:03",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/42 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür registry_politikasi+degisiklik_kayitlari (sahip onayı, eşit geri alma, no-op, ilk sürüm, tekrar yayın)+hazirla, 4 kusurlu başlangıç, anlatım 1025 kelime, yasak listesi+AST+stop, referansla birebir. Döngüsel dagitilan_sha==sha_v2 kontrolü kaldırıldı; v1/v2 gerçek yanıtları kanıtta, boş yanıt=tamamlanmadı, r-bosluk kaydı (özet baytı ölçer). Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-21.md"
+    },
+    {
+     "zaman": "2026-10-30 20:36",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek Ollama, içerik özetiyle değişiklik kontrolü) · tahmin 0 · mutasyon 0/42 · kopya sondası 3/3 engellendi · tablo+NOT, görünür kayıt/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-savunma-22",
+   "yol": "ai-savunma",
+   "puan": 78,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 20:16",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 20:26",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/49 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT (OTel span/trace_id), görünür telemetri_politikasi+otel_olaylari (karışık sıra, yeniden deneme, canary sürüm geçişi, loglanmamış araç)+hazirla, 4 kusurlu başlangıç, anlatım 996 kelime, yasak listesi+AST+stop, referansla birebir. Araç artık gerçekten çalıştırılıyor (eskiden ARACLAR kullanılmıyordu); model-bağımlı 'cagrilan==topla' ve 'tam' kabul şartları kaldırıldı (gerekçe raporda); ham araç çağrıları/yanıt kanıtta. Gerçek qwen3:4b: topla(5,3)=8, iz tam. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-22.md"
+    },
+    {
+     "zaman": "2026-10-30 20:42",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek Ollama araç çağrısı zinciri) · tahmin 0 · mutasyon 0/49 · kopya sondası 3/3 engellendi · tablo+NOT, görünür OTel olay/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-savunma-23",
+   "yol": "ai-savunma",
+   "puan": 78,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 20:30",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-30 20:39",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/44 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT (Elastic/FastAPI 429), görünür abuse_politikasi+olay_akisi (low-and-slow, sınır eşitliği, referans zaman, sızıntı önceliği)+hazirla, 4 kusurlu başlangıç, anlatım 1058 kelime, yasak listesi+AST+stop, referansla birebir; normal kullanıcı da aynı ölçüm hattında, ham yanıtlar kanıtta, boş yanıt=tamamlanmadı; model-bağımlı 'normal izin' şartı referans karşılaştırmasına devredildi. Gerçek qwen3:4b: 3 jb, 0 sızıntı, saldırgan beklet, normal izin. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-23.md"
+    },
+    {
+     "zaman": "2026-10-30 20:44",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "Bağımsız: validate TEMİZ (gerçek Ollama abuse sinyalleri) · tahmin 0 · mutasyon 0/44 · kopya sondası 3/3 engellendi · tablo+NOT, görünür politika/olay akışı fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
+    }
+   ],
+   "son_puan": 93
+  },
+  {
+   "id": "ai-saldiri-18",
+   "yol": "ai-saldiri",
+   "puan": 81,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "alindi",
+   "kim": "claude-yazar",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-10-30 20:52",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    }
+   ]
+  },
+  {
+   "id": "ai-temel-17",
+   "yol": "ai-temel",
+   "puan": 81,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Plan 'üretim tipi yerel sunucular' diyor; sürekli batching yalnız benzetim, gerçek deney tek Ollama akışı."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-20",
+   "yol": "ai-temel",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-15",
+   "yol": "ai-saldiri",
+   "puan": 83,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-19",
+   "yol": "ai-temel",
+   "puan": 83,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-22",
+   "yol": "ai-temel",
+   "puan": 83,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-06",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-23",
+   "yol": "ai-temel",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-24",
+   "yol": "ai-temel",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 2,
+   "etiketler": [
+    "celiski",
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatımdaki 'bu derste ... çalıştırılmaz' cümlesini düzelt: 'Görevler 1-3 sentetik veriyle; son adım gerçek <araç/model> çalıştırır.'",
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-25",
+   "yol": "ai-savunma",
+   "puan": 74,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-04",
+   "yol": "ai-temel",
+   "puan": 74,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-05",
+   "yol": "ai-temel",
+   "puan": 74,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-10",
+   "yol": "ai-temel",
+   "puan": 75,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-16",
+   "yol": "ai-temel",
+   "puan": 75,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-11",
+   "yol": "ai-savunma",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-16",
+   "yol": "ai-savunma",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-19",
+   "yol": "ai-savunma",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-02",
+   "yol": "ai-temel",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-07",
+   "yol": "ai-temel",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-11",
+   "yol": "ai-temel",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-15",
+   "yol": "ai-temel",
+   "puan": 77,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-04",
+   "yol": "ai-savunma",
+   "puan": 78,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-06",
+   "yol": "ai-guvence",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-16",
+   "yol": "ai-guvence",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-05",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-06",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-07",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-08",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-09",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-10",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-12",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-13",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-14",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-15",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-17",
+   "yol": "ai-savunma",
+   "puan": 79,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-30",
+   "yol": "ai-saldiri",
+   "puan": 80,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "anlatim",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar.",
+    "Başlık ve plan PyRIT diyor; PyRIT 1.1.0 .ai-araclar ortamında kurulu ama ders onu çalıştırmıyor — PAIR/TAP elle yazılmış döngüyle gösteriliyor. Başlık/plan ya PyRIT'e bağlanmalı ya da 'PyRIT tarzı' diye düzeltilmeli."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-02",
+   "yol": "ai-savunma",
+   "puan": 80,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-03",
+   "yol": "ai-savunma",
+   "puan": 80,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-09",
+   "yol": "ai-guvence",
+   "puan": 81,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-10",
+   "yol": "ai-guvence",
+   "puan": 81,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-savunma-01",
+   "yol": "ai-savunma",
+   "puan": 81,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-22",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-23",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-25",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-26",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-28",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-29",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-32",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-33",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-34",
+   "yol": "ai-saldiri",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-18",
+   "yol": "ai-temel",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-temel-21",
+   "yol": "ai-temel",
+   "puan": 82,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-09",
+   "yol": "ai-saldiri",
+   "puan": 83,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-12",
+   "yol": "ai-saldiri",
+   "puan": 83,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-31",
+   "yol": "ai-saldiri",
+   "puan": 83,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-04",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-07",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-10",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-11",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-14",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-16",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-19",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-20",
+   "yol": "ai-saldiri",
+   "puan": 84,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-13",
+   "yol": "ai-saldiri",
+   "puan": 85,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-17",
+   "yol": "ai-saldiri",
+   "puan": 85,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu",
+    "kapsam"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-14",
+   "yol": "ai-ile-guvenlik",
+   "puan": 86,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-17",
+   "yol": "ai-ile-guvenlik",
+   "puan": 86,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-01",
+   "yol": "ai-saldiri",
+   "puan": 86,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-02",
+   "yol": "ai-saldiri",
+   "puan": 86,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-saldiri-08",
+   "yol": "ai-saldiri",
+   "puan": 86,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "tablo",
+    "fixture",
+    "kusurlu"
+   ],
+   "yapilacaklar": [
+    "İlk anlatım bloğunun başına 'Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez?' tablosu + '> [!NOT]' sentetik veri/kalıcılık notu ekle.",
+    "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-12",
+   "yol": "ai-ile-guvenlik",
+   "puan": 87,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-13",
+   "yol": "ai-ile-guvenlik",
+   "puan": 87,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-02",
+   "yol": "ai-ile-guvenlik",
+   "puan": 88,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-01",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-02",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-03",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-04",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-05",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-08",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-11",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-12",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-guvence-13",
+   "yol": "ai-guvence",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-08",
+   "yol": "ai-ile-guvenlik",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-15",
+   "yol": "ai-ile-guvenlik",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-16",
+   "yol": "ai-ile-guvenlik",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  },
+  {
+   "id": "ai-ile-guvenlik-18",
+   "yol": "ai-ile-guvenlik",
+   "puan": 89,
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "kusurlu",
+    "anlatim"
+   ],
+   "yapilacaklar": [
+    "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
+    "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
+   ],
+   "durum": "acik",
+   "kim": null,
+   "denetci": null,
+   "gecmis": []
+  }
+ ]
+}

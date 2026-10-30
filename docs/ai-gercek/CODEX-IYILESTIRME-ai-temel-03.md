@@ -1,0 +1,28 @@
+# ai-temel-03 iyileştirme teslimi
+
+Codex kendi uygulama kontrollerini yaptı; puan ve bağımsız denetim claude-opus'a ait.
+
+İş emri tamamlandı: ilk anlatımın başında gerçek araç/model, ders temsili ve yorum sınırı tablosu + NOT; Transformers çalışmaz çelişkisi giderildi; yaklaşık813 sözcük anlatımda logit/olasılık, sıcaklık, greedy/kayıp, konum ve sözlük eksenleri, güvenlik yorumunun sınırı ve sayısal tuzaklar açıklandı. tracks/ai-temel/fixtures/ai-temel-03/logitler.json ve README görünür sentetik veri sağlar. İlk üç görev mevcut ai_temel_veri.hazirla setup'ı ile aynı veri/logitler.json dosyasını okur. Kaynak dosya editörle incelenebilir; editörde okunan listenin kopyası değiştirilebilir. Her çalıştırmada geçici kopya yeniden oluşturulur, kalıcılık yok. Dosyalar gerçek model çıktısı değildir; gizli testler ayrıdır.
+
+Starter1 logitleri doğrudan toplama böler, starter2 eşit en yüksek skorda son adayı seçer, starter3 doğrudan exp/yuvarlanmış olasılıktan kayıp hesaplayarak taşma ve doğruluk hatası üretir. Üçü Run'da çalışır ve Check'te reddedilir. Çözümler aynı görünür dosyayı okur, ham veri ve sonucu gösterir.
+
+Sayısal iyileştirmeler: ilk üç görevde logitlerin sonlu olması açık sözleşmeye/testlere eklendi; NaN/sonsuz değerler reddedilir. Softmax'a sabit eklenince dağılımın değişmediği doğrudan sınanır. Önceki m_deger sabit eklemesini kavramsal olarak bozucu gibi adlandırıyordu; bunun yerine dağılımı gerçekten değiştiren ikiyle ölçekleme mutantı kullanılır. Girdi sırasını/boyutu bozan testler korunur. Büyük ortak logitlerde çapraz entropinin anlamlı basamak kaybetmemesi için log-sum-exp hesabında tepe-hedef farkı erken alınır; eşit1e20 logitleri ve geniş aralık sınanır. Geçerli matematik zayıflatılmadı. Üç eşit olasılığın altı haneye yuvarlanınca toplamının0.999999 olabileceği anlatılır.
+
+Gerçek deney kurulu SmolLM2 tokenizer/modelini CPU'da çalıştırmayı korur; indirme yok. Gerçek sıcaklık sonlu/pozitif olmalı. Test en iyi k sayısında k1/k20 sınırlarını da sınar. Tolerans karşılaştırmalarına sonluluk kontrolü eklendi: NaN için abs(delta)>tol ifadesi güvenli değildir. Gerçek doğru token kimlik/sırasını koruyup toplam/logit/olasılık alanlarına NaN koyan yanlış çözüm açıkça reddedilir. İlk-konum, softmax-yok, sıcaklığı-yok-sayan ve ezber-tablo mutantları korunur. Sabit model yanıtı beklenmez; ham logit ve sıcaklıklı olasılık modelden bağımsız olarak hesaplanan referansla karşılaştırılır.
+
+sandbox/ai_gercek_ai_temel_03.py içinde gerçek dönüş biçimli referans_dagilim kopya sondası için bulunur. Gerçek test kod_denetimi ile son_logitler/referans_dagilim/kanit_yaz kullanımını ve AST ImportFrom takma ad/yıldız importunu stop ile reddeder. Saf öğrenci sözleşmesi başarısızsa örnek raporu açmaya veya kabul kanıtı yazmaya devam etmez. Kanıt kabulü bütün sonucların all sonucudur; yanlış çözüm için sahte gerçek kabul yok. Genel engine/web veya ortak ai_gercek_lab değiştirilmedi.
+
+Dört zorunlu kontrol (.ai-venv/Scripts/python.exe -X utf8):
+- tools/validate.py ai-temel-03: son kaynak TEMİZ9; tahmin1 çözüm4 starter4; PAFTA_DATA Desktop/pafta-t03-kabul-20261030.
+- docs/denetim/araclar/tahmin.py . ai-temel-03: 1 tahmin, sıfır şüpheli.
+- kirp_gercek.py Desktop/pafta-mutasyon-t03-20261030 (önce hedef yokluğu doğrulandı); kopyadaki mutasyon.py <kopya> --en-cok1000 ai-temel-03: 7+15+12=34 mutant, sıfır geçen. Son anlatım cümlesi eklendikten sonra ilk3 starter/solution/test/setup bloklarının kopyayla aynı olduğu doğrulandı.
+- kopya_sonda.py ai-temel ai-temel-03 "from sandbox.ai_gercek_ai_temel_03 import referans_dagilim as sonraki_token_dagilimi": fail korunuyor. kopya.json hedeflenen Kendi token dağılımı guard mesajı ve kabul kanıtı yokluğunu ayrıca doğrular.
+
+Ek olumsuz kontroller outputs/iyilestirme-codex-ai-temel-03: bos.json, sabit.json, nan-atlatma.json fail, kabul yok. eksik-yorumlayici.json error, kabul yok; yalnız kendi süreç ortamında olmayan PAFTA_AI_PYTHON seçilerek sınandı, kuruluma dokunulmadı. gorunur-dosya-run-1/2/3.json normal runner/setup üzerinden ham sentetik dosya ve sonuçları ok gösterir.
+
+Gerçek CLI kanıtı Desktop/pafta-t03-kabul-20261030/ai-kanit/temel-logit-1793366927773.json. Model HuggingFaceTB/SmolLM2-135M, pin93efa2f097d58c2a74874c7e644dbc9b0cee75a2, 134515008 parametre, sözlük49152; sürüm/ağırlık hash/cihaz kayıtta. Beş ayar k5/T1.0, k5/T0.8, k8/T1.3, k1/T1.0, k20/T0.8 ile çalıştı. İlk sabit örnekte en olası token ' the', id260, ham logit14.0228138, olasılık0.2616771. Bu çıktının anlam doğruluğu veya genel güvenlik kanıtı olduğu söylenmez; modelin gerçek hesap çıktısıdır.
+
+Kendi127.0.0.1:18800 sunucumda normal token/Origin HTTP kabulü http-check.json: pass9/9, gerçek kabul; http-run.json ok ve gerçek kabulfalse, tokenizer/logit/olasılık örnekleri döndü. CLI/HTTP görsel kabul yerine sayılmaz. Gerçek ders ekranı sonuçları aşağıdaki ek kayıtta belirtilir. Önceki derslerin görsel açıkları kapanmış sayılmaz.
+
+Yalnız kendi18800 test sunucum kapatıldı; kullanıcı Ollama/WSL/Docker süreçleri kapatılmadı. Yeni indirme/kurulum, commit/push veya puan yazımı yok.
+Görsel ek kabulü: yenileme sonrası gerçek ders ekranı yüklendi. Başlangıç Check6/7 fail ve gerçek kanıt yok. Çözümü göster/Tezgaha al/Kontrol9/9 geçti; UI kanıtı temel-logit-1793367229298.json. Çalıştır token kimlikleri, token parçaları, ham logitler ve T1.0/T0.5 olasılıklarını gösterdi, gerçek deneme kabulfalse etiketiyle bitti; UI kanıtı temel-logit-calistir-1793367273019.json. İlk dosyalı görevde Run sentetik JSON ve kusurlu hesap çıktısını gösterdi. Diğer iki temel görevin ayrı görsel kabulü yapılmadı; CLI Run/validate ile doğrulandı. Önceki derslerdeki görsel açıklar sürer. Kendi18800 sunucusu kapatıldı.

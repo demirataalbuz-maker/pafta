@@ -1,0 +1,174 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-18",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ayarlar": {
+  "log_sayisi": 3,
+  "aday_mudahale_sayisi": 4
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "ayarlar": {
+   "log_sayisi": 3,
+   "aday_mudahale_sayisi": 4
+  },
+  "canli_yanit": "IP adresi 10.40.7.99, hem /api/login yolunda 401 hatası üretmiş hem de /api/token-export sızıntısı yapmıştır.",
+  "tatbikat_sonuc": {
+   "supheli_ipler": [
+    "10.40.7.99"
+   ],
+   "zehirli_log_sayisi": 1,
+   "uygulanan_mudahaleler": [
+    "ir-1"
+   ],
+   "reddedilen_mudahaleler": {
+    "ir-2": "kanit_gecersiz",
+    "ir-3": "kapsam_disi",
+    "ir-4": "gecersiz_imza"
+   }
+  },
+  "kontroller": {
+   "anomali_cikarma_uyumu": true,
+   "mudahale_dogrulama_uyumu": true,
+   "tatbikat_sonuc_uyumu": true,
+   "yalniz_dogrulanmis_mudahale_uygulandi": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "supheli_ipler": [
+    "10.40.7.99"
+   ],
+   "uygulanan": [
+    "ir-1"
+   ],
+   "reddedilen": {
+    "ir-2": "kanit_gecersiz",
+    "ir-3": "kapsam_disi",
+    "ir-4": "gecersiz_imza"
+   }
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "supheli_ipler": [
+   "10.40.7.99"
+  ],
+  "uygulanan": [
+   "ir-1"
+  ],
+  "reddedilen": {
+   "ir-2": "kanit_gecersiz",
+   "ir-3": "kapsam_disi",
+   "ir-4": "gecersiz_imza"
+  }
+ },
+ "pilot": "ile-guvenlik-18-tatbikat",
+ "zaman": "2026-10-29T19:36:51+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "2e5057a31c81d598a2ce4368ac6a93e5abef1fdb93c273160bc26ed70043af06",
+ "mod": "test"
+}

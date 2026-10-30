@@ -1,0 +1,28 @@
+{
+ "id": "ai-guvence",
+ "name": "AI Güvence, Araştırma ve Kanıt",
+ "status": "active",
+ "group": "ai",
+ "order": 33,
+ "runner": "python",
+ "dil": "python",
+ "role": "ML ve LLM güvenliği iddialarını kontrollü deneyler, gizlilik ve tedarik zinciri kanıtları ve yeniden üretilebilir araştırma paketleriyle sınamak.",
+ "tagline": "Deney defterinden sağlamlık eğrilerine, gizlilik ölçümünden yayınlanabilir purple çalışmaya; gerçek model gerektirmeyen deterministik güvence laboratuvarları.",
+ "kahraman": ["Varsayımdan", "Kanıt", "a"],
+ "ranks": [
+  {"id": "minik", "name": "Minik"},
+  {"id": "tesviye", "name": "Tesviye"},
+  {"id": "kucuk-orta", "name": "Küçük Orta"},
+  {"id": "buyuk-orta", "name": "Büyük Orta"},
+  {"id": "basalti", "name": "Başaltı"},
+  {"id": "baspehlivan", "name": "Başpehlivan"}
+ ],
+ "modules": [
+  {"title": "ML Güvenliğine Giriş", "rank": "minik", "zen": "Bir güvenlik iddiası ancak açık varsayım ve tekrarlanabilir ölçümle sınanabilir.", "lessons": ["ai-guvence-01", "ai-guvence-02", "ai-guvence-03", "ai-guvence-04", "ai-guvence-05"]},
+  {"title": "Sağlamlık ve Evasion", "rank": "tesviye", "lessons": ["ai-guvence-06", "ai-guvence-07", "ai-guvence-08", "ai-guvence-09", "ai-guvence-10"]},
+  {"title": "Veri Bütünlüğü ve Poisoning", "rank": "kucuk-orta", "zen": "Veri değişikliğinin etkisi ancak kontrollü karşılaştırmayla kanıtlanır.", "lessons": ["ai-guvence-11", "ai-guvence-12", "ai-guvence-13", "ai-guvence-14", "ai-guvence-15"]},
+  {"title": "Gizlilik", "rank": "buyuk-orta", "lessons": ["ai-guvence-16", "ai-guvence-17", "ai-guvence-31", "ai-guvence-18", "ai-guvence-19", "ai-guvence-20"]},
+  {"title": "Tedarik Zinciri Güvencesi", "rank": "basalti", "zen": "Modelin kökeni, biçimi ve çalıştırma katmanı aynı kanıt zincirinde buluşur.", "lessons": ["ai-guvence-21", "ai-guvence-32", "ai-guvence-22", "ai-guvence-23", "ai-guvence-24", "ai-guvence-25"]},
+  {"title": "Araştırma ve Saha", "rank": "baspehlivan", "lessons": ["ai-guvence-26", "ai-guvence-33", "ai-guvence-34", "ai-guvence-27", "ai-guvence-28", "ai-guvence-29", "ai-guvence-30"]}
+ ]
+}

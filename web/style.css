@@ -857,3 +857,9 @@ a.rota-satir:hover { background: var(--marker-soft); }
   .rota-izgara, .rota-kadranlar { grid-template-columns: 1fr; }
   .rota-sutun, .rota-kadran { border-right: 0; }
 }
+
+/* AI gerçek deney adımları */
+.ai-rozet { display: inline-block; font: 700 11px var(--f-label); letter-spacing: .12em; text-transform: uppercase; color: var(--ok); border: 1px solid currentColor; padding: 3px 8px; margin: 0 0 10px; }
+.ai-kanit { font: 12px var(--f-mono); border-left: 3px solid var(--ink-faint); padding: 6px 10px; margin: 8px 0; color: var(--ink-soft); overflow-wrap: anywhere; }
+.ai-kanit.kabul { border-color: var(--ok); }
+.ai-kanit.yok { border-color: var(--bad); }

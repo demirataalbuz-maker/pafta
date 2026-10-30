@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pafta · AI Müfredat Paneli</title>
+<style>
+:root{--bg:#081d33;--panel:#0d2946;--panel2:#0a233d;--ink:#edf5ff;--soft:#adc3da;--faint:#7390ae;--line:rgba(184,214,246,.22);--yellow:#ffd43b;--green:#77dfb0;--red:#ff8d7e;--blue:#83c9ff;--purple:#c9aeff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Verdana,'Segoe UI',sans-serif;background-image:linear-gradient(rgba(173,208,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(173,208,255,.045) 1px,transparent 1px);background-size:32px 32px}button,input,select{font:inherit}.page{max-width:1440px;margin:auto;padding:28px 24px 70px}.eyebrow{font:600 11px Bahnschrift,'Segoe UI',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}h1{font:700 clamp(36px,6vw,64px)/1 Bahnschrift,'Segoe UI',sans-serif;letter-spacing:.02em;margin:6px 0 10px;text-transform:uppercase}h1 em{font-style:normal;color:var(--yellow)}.lead{color:var(--soft);max-width:900px;margin:0}.meta{margin-top:8px}.summary{display:grid;grid-template-columns:1.2fr repeat(3,1fr);border:1px solid var(--line);background:var(--panel2);margin:24px 0}.stat{padding:18px 20px;border-right:1px solid var(--line)}.stat:last-child{border:0}.stat b{display:block;font:700 38px/1.1 Bahnschrift,sans-serif;color:var(--yellow)}.stat span{color:var(--soft);font-size:12px}.stat.Planlandı b{color:var(--faint)}.stat.Yazıldı b{color:var(--yellow)}.stat.Denetlendi b{color:var(--green)}.progress{display:flex;height:7px;background:var(--line);margin-bottom:22px;overflow:hidden}.progress i{display:block;height:100%}.progress .written{background:var(--yellow)}.progress .audited{background:var(--green)}.controls{position:sticky;top:0;z-index:5;display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:rgba(8,29,51,.96);border:1px solid var(--line);backdrop-filter:blur(10px)}.controls input{flex:1;min-width:220px}.controls input,.controls select,.controls button{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:8px 11px;outline:none}.controls input:focus,.controls select:focus{border-color:var(--yellow)}.controls button{cursor:pointer;color:var(--yellow)}.result{padding:10px 2px;color:var(--faint);font-size:12px}.track{margin:20px 0 32px}.track-head{display:grid;grid-template-columns:120px auto 1fr auto;align-items:center;gap:12px;border-left:4px solid var(--yellow);background:var(--panel);padding:14px 18px}.track-head span{color:var(--faint);font:11px Bahnschrift,sans-serif;letter-spacing:.14em}.track-head h2{font:700 24px Bahnschrift,sans-serif;margin:0;color:var(--yellow)}.track-head p{margin:0;color:var(--soft)}.track-head b{font:600 14px Bahnschrift,sans-serif}.module{border:1px solid var(--line);border-top:0;background:var(--panel2)}.module summary{display:grid;grid-template-columns:180px 1fr auto;gap:12px;align-items:center;padding:12px 16px;cursor:pointer;list-style:none}.module summary::-webkit-details-marker{display:none}.module summary:before{content:'−';color:var(--yellow);margin-right:8px}.module:not([open]) summary:before{content:'+'}.module summary .rank{color:var(--purple);font:600 12px Bahnschrift,sans-serif;letter-spacing:.08em;text-transform:uppercase}.module summary small{color:var(--faint)}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:1000px}th{text-align:left;color:var(--faint);font:600 10px Bahnschrift,sans-serif;letter-spacing:.14em;padding:9px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}td{vertical-align:top;padding:12px;border-bottom:1px solid rgba(184,214,246,.1);color:var(--soft)}td:first-child{width:125px}td:nth-child(2){width:46%}td:nth-child(3){width:90px}td:last-child{width:105px}td strong{color:var(--ink);font-size:13px}td p{margin:5px 0 0;font-size:12px;line-height:1.55}code{color:var(--yellow);font:12px Consolas,monospace}.side,.status{display:inline-block;border:1px solid currentColor;padding:2px 6px;font:600 10px Bahnschrift,sans-serif;letter-spacing:.05em;white-space:nowrap}.side.red{color:var(--red)}.side.blue{color:var(--blue)}.side.base{color:var(--purple)}.status.s-Planlandı{color:var(--faint)}.status.s-Yazıldı{color:var(--yellow)}.status.s-Denetlendi{color:var(--green)}.hidden{display:none!important}.footer{border-top:1px solid var(--line);padding-top:16px;color:var(--faint);font-size:12px}@media(max-width:800px){.page{padding:18px 12px 50px}.summary{grid-template-columns:1fr 1fr}.stat:nth-child(2){border-right:0}.track-head{grid-template-columns:1fr auto}.track-head span,.track-head p{display:none}.module summary{grid-template-columns:1fr auto}.module summary .rank{grid-column:1/-1}.table-wrap{overflow:visible}table{display:block;min-width:0}thead{display:none}tbody{display:grid;gap:12px;padding:12px}tbody tr{display:block;border:1px solid var(--line);background:var(--panel);padding:8px 12px}td{display:block;width:100%!important;padding:10px 0;border-bottom:1px solid var(--line)}td:last-child{border-bottom:0}td::before{content:attr(data-label);display:block;margin-bottom:5px;color:var(--faint);font:600 10px Bahnschrift,sans-serif;letter-spacing:.1em;text-transform:uppercase}}
+</style></head><body><main class="page">
+<div class="eyebrow">Pafta · AI güvenlik · plan ve ilerleme</div><h1>AI Müfredat <em>Paneli</em></h1>
+<p class="lead">Sığ prompt tarifleri değil; model mekaniği, saldırı zincirleri ve ölçülebilir savunma. Bu aşamada yalnız ders başlıkları planlandı; ders içerikleri onay sonrası yazılacak.</p>
+<p class="eyebrow meta">Son üretim: 29.10.2026 19:37 · Kaynak: ai_mufredat_plan_v3.json · <span id="refresh-state">20 saniyede bir yenilenir</span></p>
+<section class="summary"><div class="stat"><b>153</b><span>5 track · 30 modül · toplam ders</span></div><div class="stat Planlandı"><b>8</b><span>Planlandı</span></div><div class="stat Yazıldı"><b>145</b><span>Yazıldı</span></div><div class="stat Denetlendi"><b>0</b><span>Denetlendi</span></div></section>
+<div class="progress" title="Yazıldı: %94.77 · Denetlendi: %0.00"><i class="written" style="width:94.77%" title="Yazıldı: 145 ders (%94.77)"></i><i class="audited" style="width:0.00%" title="Denetlendi: 0 ders (%0.00)"></i></div>
+<div class="controls"><input id="q" type="search" placeholder="Ders, kazanım veya araç ara…" aria-label="Ders ara"><input id="tools" type="search" placeholder="Araç filtrele…" aria-label="Araç filtrele"><select id="track"><option value="">Tüm track'ler</option><option value="ai-temel">ai-temel</option><option value="ai-saldiri">ai-saldiri</option><option value="ai-savunma">ai-savunma</option><option value="ai-guvence">ai-guvence</option><option value="ai-ile-guvenlik">ai-ile-guvenlik</option></select><select id="rank"><option value="">Tüm rütbeler</option><option value="minik">Minik</option><option value="tesviye">Tesviye</option><option value="kucuk-orta">Küçük Orta</option><option value="buyuk-orta">Büyük Orta</option><option value="basalti">Başaltı</option><option value="baspehlivan">Başpehlivan</option></select><select id="side"><option value="">Tüm taraflar</option><option>Temel</option><option>Saldırı</option><option>Savunma</option><option>Güvence</option><option>Araştırma</option></select><select id="status"><option value="">Tüm durumlar</option><option>Planlandı</option><option>Yazıldı</option><option>Denetlendi</option></select><button id="reset" type="button">Sıfırla</button><button id="toggle" type="button">Modülleri kapat</button><button id="auto-refresh" type="button">Otomatik yenilemeyi durdur</button></div>
+<div class="result" id="result"></div>
+<section class="track" data-track-section="ai-temel">
+ <header class="track-head"><span>TRACK / 01</span><h2>ai-temel</h2><p>AI Temelleri ve Sistem Mimarisi</p><b>24 ders</b></header>
+ 
+<details id="module-ai-temel-minik" class="module" open data-module-key="ai-temel:minik" data-module-track="ai-temel" data-rank="minik">
+ <summary><span class="rank">01 · Minik</span><span>Tokenler ve Olasılıklar</span><small>4 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="minik" data-side="Temel" data-tools="Hugging Face tokenizers" data-search="ai-temel-01 tokenizasyon: metinden modele giren birimler bpe tokenizasyonunun metni nasıl böldüğünü ve token sınırlarının güvenlik filtrelerini neden etkilediğini öğretir. hugging face tokenizers">
+ <td data-label="Ders"><code>ai-temel-01</code></td><td data-label="Başlık ve kazanım"><strong>Tokenizasyon: Metinden Modele Giren Birimler</strong><p>BPE tokenizasyonunun metni nasıl böldüğünü ve token sınırlarının güvenlik filtrelerini neden etkilediğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Hugging Face tokenizers</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="minik" data-side="Temel" data-tools="PyTorch" data-search="ai-temel-02 embeddingler: tokenlerin vektör uzayına taşınması token kimliklerinin embedding matrisiyle vektöre dönüşümünü ve benzerlik ile anlam arasındaki ilişkiyi öğretir. pytorch">
+ <td data-label="Ders"><code>ai-temel-02</code></td><td data-label="Başlık ve kazanım"><strong>Embeddingler: Tokenlerin Vektör Uzayına Taşınması</strong><p>Token kimliklerinin embedding matrisiyle vektöre dönüşümünü ve benzerlik ile anlam arasındaki ilişkiyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">PyTorch</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="minik" data-side="Temel" data-tools="Hugging Face Transformers" data-search="ai-temel-03 logitler ve softmax: sonraki tokenin olasılığı logitlerin softmax ile olasılığa dönüşmesini ve bir sonraki token seçiminin matematiğini öğretir. hugging face transformers">
+ <td data-label="Ders"><code>ai-temel-03</code></td><td data-label="Başlık ve kazanım"><strong>Logitler ve Softmax: Sonraki Tokenin Olasılığı</strong><p>Logitlerin softmax ile olasılığa dönüşmesini ve bir sonraki token seçiminin matematiğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Hugging Face Transformers</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="minik" data-side="Temel" data-tools="Hugging Face Transformers" data-search="ai-temel-04 sampling: temperature, top-k ve top-p üretim parametrelerinin olasılık dağılımını, rastgeleliği ve saldırı testlerinin tekrarlanabilirliğini nasıl değiştirdiğini öğretir. hugging face transformers">
+ <td data-label="Ders"><code>ai-temel-04</code></td><td data-label="Başlık ve kazanım"><strong>Sampling: Temperature, Top-k ve Top-p</strong><p>Üretim parametrelerinin olasılık dağılımını, rastgeleliği ve saldırı testlerinin tekrarlanabilirliğini nasıl değiştirdiğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Hugging Face Transformers</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-temel-tesviye" class="module" open data-module-key="ai-temel:tesviye" data-module-track="ai-temel" data-rank="tesviye">
+ <summary><span class="rank">02 · Tesviye</span><span>Transformer ve Bağlam Mekaniği</span><small>4 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="tesviye" data-side="Temel" data-tools="PyTorch" data-search="ai-temel-05 attention: query, key ve value q/k/v projeksiyonlarının attention skorlarını ve tokenler arası bilgi akışını nasıl ürettiğini öğretir. pytorch">
+ <td data-label="Ders"><code>ai-temel-05</code></td><td data-label="Başlık ve kazanım"><strong>Attention: Query, Key ve Value</strong><p>Q/K/V projeksiyonlarının attention skorlarını ve tokenler arası bilgi akışını nasıl ürettiğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">PyTorch</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="tesviye" data-side="Temel" data-tools="PyTorch" data-search="ai-temel-06 çok başlı attention ve nedensel maskeleme çok başlı dikkatin temsil alt uzaylarını ve nedensel maskenin gelecek token erişimini nasıl yönettiğini öğretir. pytorch">
+ <td data-label="Ders"><code>ai-temel-06</code></td><td data-label="Başlık ve kazanım"><strong>Çok Başlı Attention ve Nedensel Maskeleme</strong><p>Çok başlı dikkatin temsil alt uzaylarını ve nedensel maskenin gelecek token erişimini nasıl yönettiğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">PyTorch</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="tesviye" data-side="Temel" data-tools="Hugging Face Transformers" data-search="ai-temel-07 context window ve konumsal temsil bağlam penceresinin token bütçesi, konumsal kodlama ve eski talimatların kaybı üzerindeki etkisini öğretir. hugging face transformers">
+ <td data-label="Ders"><code>ai-temel-07</code></td><td data-label="Başlık ve kazanım"><strong>Context Window ve Konumsal Temsil</strong><p>Bağlam penceresinin token bütçesi, konumsal kodlama ve eski talimatların kaybı üzerindeki etkisini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Hugging Face Transformers</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="tesviye" data-side="Temel" data-tools="vLLM, llama.cpp, Transformers" data-search="ai-temel-08 inference, kv cache ve çok kullanıcılı sunucular autoregressive üretim ve kv cache yaşam döngüsünü vllm ile llama.cpp sunucularında eşzamanlı istek, bellek ve kiracı yalıtımı açısından öğretir. vllm, llama.cpp, transformers">
+ <td data-label="Ders"><code>ai-temel-08</code></td><td data-label="Başlık ve kazanım"><strong>Inference, KV Cache ve Çok Kullanıcılı Sunucular</strong><p>Autoregressive üretim ve KV cache yaşam döngüsünü vLLM ile llama.cpp sunucularında eşzamanlı istek, bellek ve kiracı yalıtımı açısından öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">vLLM, llama.cpp, Transformers</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-temel-kucuk-orta" class="module" open data-module-key="ai-temel:kucuk-orta" data-module-track="ai-temel" data-rank="kucuk-orta">
+ <summary><span class="rank">03 · Küçük Orta</span><span>Eğitim ve Hizalama</span><small>4 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Temel" data-tools="PyTorch, TensorBoard" data-search="ai-temel-09 eğitim döngüsü: loss, gradient ve optimizer kayıp, gradyan ve optimizer adımlarının model ağırlıklarını nasıl değiştirdiğini küçük bir eğitim döngüsü üzerinden öğretir. pytorch, tensorboard">
+ <td data-label="Ders"><code>ai-temel-09</code></td><td data-label="Başlık ve kazanım"><strong>Eğitim Döngüsü: Loss, Gradient ve Optimizer</strong><p>Kayıp, gradyan ve optimizer adımlarının model ağırlıklarını nasıl değiştirdiğini küçük bir eğitim döngüsü üzerinden öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">PyTorch, TensorBoard</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Temel" data-tools="Transformers, PEFT, bitsandbytes" data-search="ai-temel-10 lora ve parametre verimli fine-tuning lora hedef modülleri ve hiperparametrelerinin adaptör eğitimini, bellek maliyetini ve temel modelle birleştirmeyi nasıl etkilediğini öğretir. transformers, peft, bitsandbytes">
+ <td data-label="Ders"><code>ai-temel-10</code></td><td data-label="Başlık ve kazanım"><strong>LoRA ve Parametre Verimli Fine-Tuning</strong><p>LoRA hedef modülleri ve hiperparametrelerinin adaptör eğitimini, bellek maliyetini ve temel modelle birleştirmeyi nasıl etkilediğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Transformers, PEFT, bitsandbytes</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Temel" data-tools="TRL, Transformers, Datasets" data-search="ai-temel-11 tercih verisi ve hizalama tercih çiftlerinin dpo ile güvenlik davranışını nasıl biçimlendirdiğini ve veri kaynaklı hizalama hatalarını öğretir. trl, transformers, datasets">
+ <td data-label="Ders"><code>ai-temel-11</code></td><td data-label="Başlık ve kazanım"><strong>Tercih Verisi ve Hizalama</strong><p>Tercih çiftlerinin DPO ile güvenlik davranışını nasıl biçimlendirdiğini ve veri kaynaklı hizalama hatalarını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">TRL, Transformers, Datasets</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Temel" data-tools="Promptfoo, garak, LM Evaluation Harness" data-search="ai-temel-12 fine-tune sonrası güvenlik değerlendirmesi temel ve ince ayarlı modeli aynı test setinde karşılaştırarak davranış kazancını ve güvenlik regresyonunu ölçmeyi öğretir. promptfoo, garak, lm evaluation harness">
+ <td data-label="Ders"><code>ai-temel-12</code></td><td data-label="Başlık ve kazanım"><strong>Fine-Tune Sonrası Güvenlik Değerlendirmesi</strong><p>Temel ve ince ayarlı modeli aynı test setinde karşılaştırarak davranış kazancını ve güvenlik regresyonunu ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Promptfoo, garak, LM Evaluation Harness</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-temel-buyuk-orta" class="module" open data-module-key="ai-temel:buyuk-orta" data-module-track="ai-temel" data-rank="buyuk-orta">
+ <summary><span class="rank">04 · Büyük Orta</span><span>Model Çıktısını Güvenilir Kılmak</span><small>4 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="FastAPI" data-search="ai-temel-13 talimat ve veri ayrımı sistem talimatlarıyla güvenilmeyen içeriği ayırmanın neden tek başına güvenlik garantisi olmadığını ve nasıl katmanlı sınır kurulacağını öğretir. fastapi">
+ <td data-label="Ders"><code>ai-temel-13</code></td><td data-label="Başlık ve kazanım"><strong>Talimat ve Veri Ayrımı</strong><p>Sistem talimatlarıyla güvenilmeyen içeriği ayırmanın neden tek başına güvenlik garantisi olmadığını ve nasıl katmanlı sınır kurulacağını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Pydantic" data-search="ai-temel-14 yapılandırılmış çıktı ve şema doğrulama serbest metin çıktısını katı şemalarla doğrulayarak tür sapmalarını ve beklenmeyen komutları reddetmeyi öğretir. pydantic">
+ <td data-label="Ders"><code>ai-temel-14</code></td><td data-label="Başlık ve kazanım"><strong>Yapılandırılmış Çıktı ve Şema Doğrulama</strong><p>Serbest metin çıktısını katı şemalarla doğrulayarak tür sapmalarını ve beklenmeyen komutları reddetmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Pydantic</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="TransformerLens, PyTorch, repeng" data-search="ai-temel-15 activation steering ve representation engineering model aktivasyonlarından davranış yönleri çıkarmayı ve bu yönlerle üretimi ağırlıkları değiştirmeden yönlendirmenin etkisini ve sınırlarını öğretir. transformerlens, pytorch, repeng">
+ <td data-label="Ders"><code>ai-temel-15</code></td><td data-label="Başlık ve kazanım"><strong>Activation Steering ve Representation Engineering</strong><p>Model aktivasyonlarından davranış yönleri çıkarmayı ve bu yönlerle üretimi ağırlıkları değiştirmeden yönlendirmenin etkisini ve sınırlarını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">TransformerLens, PyTorch, repeng</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Docker" data-search="ai-temel-16 bağlamda sır ve ayrıcalık minimizasyonu model bağlamına yalnız gerekli veriyi vererek sızıntı durumundaki sır ve erişim kapsamını sınırlamayı öğretir. docker">
+ <td data-label="Ders"><code>ai-temel-16</code></td><td data-label="Başlık ve kazanım"><strong>Bağlamda Sır ve Ayrıcalık Minimizasyonu</strong><p>Model bağlamına yalnız gerekli veriyi vererek sızıntı durumundaki sır ve erişim kapsamını sınırlamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Docker</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-temel-basalti" class="module" open data-module-key="ai-temel:basalti" data-module-track="ai-temel" data-rank="basalti">
+ <summary><span class="rank">05 · Başaltı</span><span>Güvenli Model ve API Dağıtımı</span><small>4 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="basalti" data-side="Temel" data-tools="vLLM, llama.cpp, FastAPI" data-search="ai-temel-17 üretim tipi inference api’si ve akışlı yanıtlar i̇stek doğrulama, token sınırı, zaman aşımı, sürekli batching ve akışlı yanıt yaşam döngüsünü üretim tipi yerel sunucularda öğretir. vllm, llama.cpp, fastapi">
+ <td data-label="Ders"><code>ai-temel-17</code></td><td data-label="Başlık ve kazanım"><strong>Üretim Tipi Inference API’si ve Akışlı Yanıtlar</strong><p>İstek doğrulama, token sınırı, zaman aşımı, sürekli batching ve akışlı yanıt yaşam döngüsünü üretim tipi yerel sunucularda öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">vLLM, llama.cpp, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="basalti" data-side="Savunma" data-tools="Docker" data-search="ai-temel-18 konteyner i̇zolasyonu ve kaynak sınırları model servisinin dosya sistemi, ağ, bellek ve işlemci erişimini sınırlandırarak yayılımı azaltmayı öğretir. docker">
+ <td data-label="Ders"><code>ai-temel-18</code></td><td data-label="Başlık ve kazanım"><strong>Konteyner İzolasyonu ve Kaynak Sınırları</strong><p>Model servisinin dosya sistemi, ağ, bellek ve işlemci erişimini sınırlandırarak yayılımı azaltmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Docker</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="basalti" data-side="Temel" data-tools="Hugging Face Hub, Safetensors, DVC" data-search="ai-temel-19 model kartı, veri kartı ve dosya bütünlüğü model ve veri kartlarındaki kullanım sınırlarını kaynak, sürüm ve bütünlük kanıtlarıyla ilişkilendirmeyi öğretir. hugging face hub, safetensors, dvc">
+ <td data-label="Ders"><code>ai-temel-19</code></td><td data-label="Başlık ve kazanım"><strong>Model Kartı, Veri Kartı ve Dosya Bütünlüğü</strong><p>Model ve veri kartlarındaki kullanım sınırlarını kaynak, sürüm ve bütünlük kanıtlarıyla ilişkilendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Hugging Face Hub, Safetensors, DVC</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="basalti" data-side="Savunma" data-tools="FastAPI" data-search="ai-temel-20 inference gözlemlenebilirliği ve kötüye kullanım kayıtları kimlik doğrulama, hız sınırlama ve gizliliği koruyan kayıtlarla api kötüye kullanımını görünür kılmayı öğretir. fastapi">
+ <td data-label="Ders"><code>ai-temel-20</code></td><td data-label="Başlık ve kazanım"><strong>Inference Gözlemlenebilirliği ve Kötüye Kullanım Kayıtları</strong><p>Kimlik doğrulama, hız sınırlama ve gizliliği koruyan kayıtlarla API kötüye kullanımını görünür kılmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">FastAPI</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-temel-baspehlivan" class="module" open data-module-key="ai-temel:baspehlivan" data-module-track="ai-temel" data-rank="baspehlivan">
+ <summary><span class="rank">06 · Başpehlivan</span><span>RAG, Tool Kullanımı ve Ajan Güvenliği</span><small>4 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="baspehlivan" data-side="Temel" data-tools="Sentence Transformers, FAISS" data-search="ai-temel-21 rag mimarisi: retrieval’dan bağlama belgelerin parçalanması, indekslenmesi, geri getirilmesi ve modele kanıt olarak eklenmesi arasındaki veri akışını öğretir. sentence transformers, faiss">
+ <td data-label="Ders"><code>ai-temel-21</code></td><td data-label="Başlık ve kazanım"><strong>RAG Mimarisi: Retrieval’dan Bağlama</strong><p>Belgelerin parçalanması, indekslenmesi, geri getirilmesi ve modele kanıt olarak eklenmesi arasındaki veri akışını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Sentence Transformers, FAISS</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="baspehlivan" data-side="Temel" data-tools="Sentence Transformers, FAISS" data-search="ai-temel-22 retrieval kalitesi ve bağlam seçimi chunking, embedding ve sıralama kararlarının hangi kanıtın modele ulaşacağını nasıl belirlediğini retrieval ölçütleriyle öğretir. sentence transformers, faiss">
+ <td data-label="Ders"><code>ai-temel-22</code></td><td data-label="Başlık ve kazanım"><strong>Retrieval Kalitesi ve Bağlam Seçimi</strong><p>Chunking, embedding ve sıralama kararlarının hangi kanıtın modele ulaşacağını nasıl belirlediğini retrieval ölçütleriyle öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Sentence Transformers, FAISS</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="baspehlivan" data-side="Temel" data-tools="Ollama, FastAPI, Pydantic" data-search="ai-temel-23 tool-call yaşam döngüsü ve ajan döngüsü model çıktısının şemalı araç çağrısına, yürütmeye ve sonucun yeniden bağlama eklenmesine uzanan akışını öğretir. ollama, fastapi, pydantic">
+ <td data-label="Ders"><code>ai-temel-23</code></td><td data-label="Başlık ve kazanım"><strong>Tool-Call Yaşam Döngüsü ve Ajan Döngüsü</strong><p>Model çıktısının şemalı araç çağrısına, yürütmeye ve sonucun yeniden bağlama eklenmesine uzanan akışını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Ollama, FastAPI, Pydantic</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr>
+<tr data-track="ai-temel" data-status="Planlandı" data-rank="baspehlivan" data-side="Savunma" data-tools="Docker, FastAPI" data-search="ai-temel-24 en az ayrıcalıklı rag ve tool savunması tool izinleri, argüman doğrulama, kullanıcı onayı, kaynak politikası ve izolasyonu uçtan uca birleştirmeyi öğretir. docker, fastapi">
+ <td data-label="Ders"><code>ai-temel-24</code></td><td data-label="Başlık ve kazanım"><strong>En Az Ayrıcalıklı RAG ve Tool Savunması</strong><p>Tool izinleri, argüman doğrulama, kullanıcı onayı, kaynak politikası ve izolasyonu uçtan uca birleştirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Docker, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Planlandı">Planlandı</span></td>
+</tr></tbody></table></div>
+</details>
+</section>
+<section class="track" data-track-section="ai-saldiri">
+ <header class="track-head"><span>TRACK / 02</span><h2>ai-saldiri</h2><p>AI Saldırı ve Red Team</p><b>46 ders</b></header>
+ 
+<details id="module-ai-saldiri-minik" class="module" open data-module-key="ai-saldiri:minik" data-module-track="ai-saldiri" data-rank="minik">
+ <summary><span class="rank">01 · Minik</span><span>Model Etkileşimi ve Saldırı Yüzeyi</span><small>9 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-saldiri-36 red team metodolojisi i · yasal kapsam (roe), sistem anatomisi ve güven sınırları ai red team ile klasik pentest farkını, yasal kapsam belgesini (roe), hedef sistem anatomisini (model, sistem istemi, rag, araçlar, bellek, çıktı tüketici) ve güven sınırlarını analiz etmeyi öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-saldiri-36</code></td><td data-label="Başlık ve kazanım"><strong>Red Team Metodolojisi I · Yasal Kapsam (RoE), Sistem Anatomisi ve Güven Sınırları</strong><p>AI red team ile klasik pentest farkını, yasal kapsam belgesini (RoE), hedef sistem anatomisini (model, sistem istemi, RAG, araçlar, bellek, çıktı tüketici) ve güven sınırlarını analiz etmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="MCP Inspector, Python" data-search="ai-saldiri-01 mcp güven modeli ve yetki sınırları mcp istemcisi, sunucusu, araçları ve kaynakları arasındaki güven sınırlarıyla yetki kapsamlarını analiz etmeyi öğretir. mcp inspector, python">
+ <td data-label="Ders"><code>ai-saldiri-01</code></td><td data-label="Başlık ve kazanım"><strong>MCP Güven Modeli ve Yetki Sınırları</strong><p>MCP istemcisi, sunucusu, araçları ve kaynakları arasındaki güven sınırlarıyla yetki kapsamlarını analiz etmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">MCP Inspector, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-saldiri-02 doğrudan prompt injection mekaniği kullanıcı girdisinin model talimatlarını nasıl geçersiz kıldığını kontrollü deneylerle analiz etmeyi öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-saldiri-02</code></td><td data-label="Başlık ve kazanım"><strong>Doğrudan Prompt Injection Mekaniği</strong><p>Kullanıcı girdisinin model talimatlarını nasıl geçersiz kıldığını kontrollü deneylerle analiz etmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="Ollama, LM Studio" data-search="ai-saldiri-03 instruction hierarchy çatışmaları sistem, geliştirici, araç ve kullanıcı talimatları arasındaki öncelik çatışmalarını sistematik sınamayı öğretir. ollama, lm studio">
+ <td data-label="Ders"><code>ai-saldiri-03</code></td><td data-label="Başlık ve kazanım"><strong>Instruction Hierarchy Çatışmaları</strong><p>Sistem, geliştirici, araç ve kullanıcı talimatları arasındaki öncelik çatışmalarını sistematik sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, LM Studio</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="garak, Ollama" data-search="ai-saldiri-04 jailbreak taksonomisi ve teknik sınıflandırma jailbreak yaklaşımlarını dönüştürme, bağlam manipülasyonu ve politika çatıştırma mekanizmalarına göre sınıflandırmayı öğretir. garak, ollama">
+ <td data-label="Ders"><code>ai-saldiri-04</code></td><td data-label="Başlık ve kazanım"><strong>Jailbreak Taksonomisi ve Teknik Sınıflandırma</strong><p>Jailbreak yaklaşımlarını dönüştürme, bağlam manipülasyonu ve politika çatıştırma mekanizmalarına göre sınıflandırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">garak, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="Ollama, garak, PyRIT, Python" data-search="ai-saldiri-45 çok dilli ve düşük kaynaklı dil atlatması: türkçe, kod değiştirme ve çeviri zinciri güvenlik hizalaması ağırlıklı olarak i̇ngilizce veride yapılmış modellerde türkçe, düşük kaynaklı dil, kod değiştirme (code-switching) ve çeviri zinciri ile oluşan ret oranı farkını ölç; çevirip denetleme kapısıyla savun. ollama, garak, pyrit, python">
+ <td data-label="Ders"><code>ai-saldiri-45</code></td><td data-label="Başlık ve kazanım"><strong>Çok Dilli ve Düşük Kaynaklı Dil Atlatması: Türkçe, Kod Değiştirme ve Çeviri Zinciri</strong><p>Güvenlik hizalaması ağırlıklı olarak İngilizce veride yapılmış modellerde Türkçe, düşük kaynaklı dil, kod değiştirme (code-switching) ve çeviri zinciri ile oluşan ret oranı farkını ölç; çevirip denetleme kapısıyla savun.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, garak, PyRIT, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="Ollama, PyRIT, Python" data-search="ai-saldiri-35 çok turlu jailbreak · crescendo, many-shot ve skeleton key zararsız başlayıp tırmanan crescendo, uzun bağlamda sahte örnek dizisi kullanan many-shot ve kılavuz genişleten skeleton key konuşmalarını ayrıştırıp son tur filtresi ile konuşma boyu tespitin farkını ve gerçek model davranışını ölçmeyi öğretir. ollama, pyrit, python">
+ <td data-label="Ders"><code>ai-saldiri-35</code></td><td data-label="Başlık ve kazanım"><strong>Çok Turlu Jailbreak · Crescendo, Many-Shot ve Skeleton Key</strong><p>Zararsız başlayıp tırmanan Crescendo, uzun bağlamda sahte örnek dizisi kullanan many-shot ve kılavuz genişleten Skeleton Key konuşmalarını ayrıştırıp son tur filtresi ile konuşma boyu tespitin farkını ve gerçek model davranışını ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, PyRIT, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="Ollama (qwen3:8b think=true), Python" data-search="ai-saldiri-42 akıl yürüten (reasoning) modellere saldırı: düşünce zinciri ele geçirme, aşırı düşündürme ve gizli düşünce sızıntısı düşünce (thinking / cot) üreten modellerde düşünce zinciri ele geçirme, aşırı düşündürme (overthinking) ile maliyet şişirme ve gizli düşünce izinden sızıntı saldırılarını analiz et; düşünce bütçesi ve &lt;think&gt; soyma kapısıyla savun. ollama (qwen3:8b think=true), python">
+ <td data-label="Ders"><code>ai-saldiri-42</code></td><td data-label="Başlık ve kazanım"><strong>Akıl Yürüten (Reasoning) Modellere Saldırı: Düşünce Zinciri Ele Geçirme, Aşırı Düşündürme ve Gizli Düşünce Sızıntısı</strong><p>Düşünce (thinking / CoT) üreten modellerde düşünce zinciri ele geçirme, aşırı düşündürme (overthinking) ile maliyet şişirme ve gizli düşünce izinden sızıntı saldırılarını analiz et; düşünce bütçesi ve &lt;think&gt; soyma kapısıyla savun.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama (qwen3:8b think=true), Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="minik" data-side="Saldırı" data-tools="Promptfoo, garak" data-search="ai-saldiri-05 başlangıç saldırı seti ve asr ölçümü sabit saldırı seti, açık başarı koşulu ve deneme bütçesiyle karşılaştırılabilir attack success rate ölçmeyi öğretir. promptfoo, garak">
+ <td data-label="Ders"><code>ai-saldiri-05</code></td><td data-label="Başlık ve kazanım"><strong>Başlangıç Saldırı Seti ve ASR Ölçümü</strong><p>Sabit saldırı seti, açık başarı koşulu ve deneme bütçesiyle karşılaştırılabilir Attack Success Rate ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Promptfoo, garak</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-saldiri-tesviye" class="module" open data-module-key="ai-saldiri:tesviye" data-module-track="ai-saldiri" data-rank="tesviye">
+ <summary><span class="rank">02 · Tesviye</span><span>Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği</span><small>6 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="tesviye" data-side="Saldırı" data-tools="Ollama, Promptfoo" data-search="ai-saldiri-06 system prompt extraction gizli sistem talimatlarının doğrudan ve dolaylı çıkarım yollarını sistematik olarak değerlendirmeyi öğretir. ollama, promptfoo">
+ <td data-label="Ders"><code>ai-saldiri-06</code></td><td data-label="Başlık ve kazanım"><strong>System Prompt Extraction</strong><p>Gizli sistem talimatlarının doğrudan ve dolaylı çıkarım yollarını sistematik olarak değerlendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Promptfoo</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="tesviye" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-07 model extraction ve davranışsal parmak i̇zi tekrarlanan sorgularla model davranışı, karar sınırları ve yapılandırma hakkında ölçülebilir çıkarım yapmayı öğretir. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-07</code></td><td data-label="Başlık ve kazanım"><strong>Model Extraction ve Davranışsal Parmak İzi</strong><p>Tekrarlanan sorgularla model davranışı, karar sınırları ve yapılandırma hakkında ölçülebilir çıkarım yapmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="tesviye" data-side="Saldırı" data-tools="Redis, ChromaDB, LangChain" data-search="ai-saldiri-08 kalıcı hafıza zehirleme ve oturumlar arası sızıntı hafızaya yazma ve geri getirme akışlarında kalıcı talimat zehirleme, kaynak karıştırma ve kullanıcılar arası sızıntıyı öğretir. redis, chromadb, langchain">
+ <td data-label="Ders"><code>ai-saldiri-08</code></td><td data-label="Başlık ve kazanım"><strong>Kalıcı Hafıza Zehirleme ve Oturumlar Arası Sızıntı</strong><p>Hafızaya yazma ve geri getirme akışlarında kalıcı talimat zehirleme, kaynak karıştırma ve kullanıcılar arası sızıntıyı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Redis, ChromaDB, LangChain</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="tesviye" data-side="Saldırı" data-tools="Python, Burp Suite" data-search="ai-saldiri-09 güvensiz llm çıktısının i̇şlenmesi model çıktısındaki html, markdown ve bağlantıların istemcide güvensiz işlenmesinden doğan enjeksiyon risklerini öğretir. python, burp suite">
+ <td data-label="Ders"><code>ai-saldiri-09</code></td><td data-label="Başlık ve kazanım"><strong>Güvensiz LLM Çıktısının İşlenmesi</strong><p>Model çıktısındaki HTML, Markdown ve bağlantıların istemcide güvensiz işlenmesinden doğan enjeksiyon risklerini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Burp Suite</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="tesviye" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-10 yapılandırılmış çıktı ve ayrıştırıcı atlatma json çıktılarında şema, tip ve ayrıştırıcı varsayımlarını ihlal eden durumları değerlendirmeyi öğretir. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-10</code></td><td data-label="Başlık ve kazanım"><strong>Yapılandırılmış Çıktı ve Ayrıştırıcı Atlatma</strong><p>JSON çıktılarında şema, tip ve ayrıştırıcı varsayımlarını ihlal eden durumları değerlendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="tesviye" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-saldiri-38 ai kapı bekçisini (gatekeeper) atlatma · sınıflandırıcı ve guardrail evasion i̇çerik moderasyonu, spam/dolandırıcılık filtresi ve başvuru eleme gibi güvenlik kontrolü olarak çalışan ai sınıflandırıcılarını karakter/token pertürbasyonu, iyi huylu bağlam dolgusu ve yapısal sarmalama ile atlatma mekaniğini öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-saldiri-38</code></td><td data-label="Başlık ve kazanım"><strong>AI Kapı Bekçisini (Gatekeeper) Atlatma · Sınıflandırıcı ve Guardrail Evasion</strong><p>İçerik moderasyonu, spam/dolandırıcılık filtresi ve başvuru eleme gibi güvenlik kontrolü olarak çalışan AI sınıflandırıcılarını karakter/token pertürbasyonu, iyi huylu bağlam dolgusu ve yapısal sarmalama ile atlatma mekaniğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-saldiri-kucuk-orta" class="module" open data-module-key="ai-saldiri:kucuk-orta" data-module-track="ai-saldiri" data-rank="kucuk-orta">
+ <summary><span class="rank">03 · Küçük Orta</span><span>Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon</span><small>7 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="PyMuPDF, Python, Ollama" data-search="ai-saldiri-11 belgeler üzerinden dolaylı prompt injection harici belge içeriğinin model talimatı gibi yorumlanmasını ve hedef davranışı değiştirmesini öğretir. pymupdf, python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-11</code></td><td data-label="Başlık ve kazanım"><strong>Belgeler Üzerinden Dolaylı Prompt Injection</strong><p>Harici belge içeriğinin model talimatı gibi yorumlanmasını ve hedef davranışı değiştirmesini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">PyMuPDF, Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="Pillow, LM Studio" data-search="ai-saldiri-12 görsellerde multimodal injection görseldeki metin ve desenlerin multimodal model talimatlarını nasıl etkilediğini ölçmeyi öğretir. pillow, lm studio">
+ <td data-label="Ders"><code>ai-saldiri-12</code></td><td data-label="Başlık ve kazanım"><strong>Görsellerde Multimodal Injection</strong><p>Görseldeki metin ve desenlerin multimodal model talimatlarını nasıl etkilediğini ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Pillow, LM Studio</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="PyMuPDF, Pillow" data-search="ai-saldiri-13 gizli metin ve belge katmanı enjeksiyonu pdf metin katmanı, metadata ve görsel-metin ayrışmalarında enjeksiyonun hangi işleme aşamasında oluştuğunu öğretir. pymupdf, pillow">
+ <td data-label="Ders"><code>ai-saldiri-13</code></td><td data-label="Başlık ve kazanım"><strong>Gizli Metin ve Belge Katmanı Enjeksiyonu</strong><p>PDF metin katmanı, metadata ve görsel-metin ayrışmalarında enjeksiyonun hangi işleme aşamasında oluştuğunu öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">PyMuPDF, Pillow</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="ChromaDB, Ollama" data-search="ai-saldiri-14 rag bilgi tabanı zehirleme talimat taşıyan belgelerin indekslenerek sonraki model yanıtlarını etkileme mekanizmasını öğretir. chromadb, ollama">
+ <td data-label="Ders"><code>ai-saldiri-14</code></td><td data-label="Başlık ve kazanım"><strong>RAG Bilgi Tabanı Zehirleme</strong><p>Talimat taşıyan belgelerin indekslenerek sonraki model yanıtlarını etkileme mekanizmasını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">ChromaDB, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="Python, ChromaDB" data-search="ai-saldiri-15 retrieval manipülasyonu ve bağlam ele geçirme sorgu ve belge özelliklerini değiştirerek getirilen bağlamı ve model kararlarını etkilemeyi öğretir. python, chromadb">
+ <td data-label="Ders"><code>ai-saldiri-15</code></td><td data-label="Başlık ve kazanım"><strong>Retrieval Manipülasyonu ve Bağlam Ele Geçirme</strong><p>Sorgu ve belge özelliklerini değiştirerek getirilen bağlamı ve model kararlarını etkilemeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, ChromaDB</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="Playwright, Browser Use, Ollama" data-search="ai-saldiri-31 computer-use ve tarayıcı ajanlarında dom enjeksiyonu dom metni, ekran görüntüsü ve web içeriğindeki talimatların tarayıcı ajanının eylemlerini nasıl yönlendirdiğini izole sitelerde öğretir. playwright, browser use, ollama">
+ <td data-label="Ders"><code>ai-saldiri-31</code></td><td data-label="Başlık ve kazanım"><strong>Computer-Use ve Tarayıcı Ajanlarında DOM Enjeksiyonu</strong><p>DOM metni, ekran görüntüsü ve web içeriğindeki talimatların tarayıcı ajanının eylemlerini nasıl yönlendirdiğini izole sitelerde öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Playwright, Browser Use, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="Whisper, librosa, PyTorch" data-search="ai-saldiri-32 adversarial audio ve sesli komut enjeksiyonu ses bozuntuları ve konuşma içindeki güvenilmeyen komutların transkripsiyon ile sesli model kararlarını nasıl etkilediğini ölçmeyi öğretir. whisper, librosa, pytorch">
+ <td data-label="Ders"><code>ai-saldiri-32</code></td><td data-label="Başlık ve kazanım"><strong>Adversarial Audio ve Sesli Komut Enjeksiyonu</strong><p>Ses bozuntuları ve konuşma içindeki güvenilmeyen komutların transkripsiyon ile sesli model kararlarını nasıl etkilediğini ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Whisper, librosa, PyTorch</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-saldiri-buyuk-orta" class="module" open data-module-key="ai-saldiri:buyuk-orta" data-module-track="ai-saldiri" data-rank="buyuk-orta">
+ <summary><span class="rank">04 · Büyük Orta</span><span>Ajanlar, Araçlar ve Yetki Sınırları</span><small>7 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-16 tool schema poisoning araç adı, açıklaması ve parametre şemasındaki yönlendirmelerin modelin araç seçimini nasıl değiştirdiğini öğretir. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-16</code></td><td data-label="Başlık ve kazanım"><strong>Tool Schema Poisoning</strong><p>Araç adı, açıklaması ve parametre şemasındaki yönlendirmelerin modelin araç seçimini nasıl değiştirdiğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-17 ajan tool-zinciri exploitation bir aracın çıktısının sonraki araç çağrılarını yönlendirdiği çok aşamalı saldırı yollarını modellemeyi öğretir. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-17</code></td><td data-label="Başlık ve kazanım"><strong>Ajan Tool-Zinciri Exploitation</strong><p>Bir aracın çıktısının sonraki araç çağrılarını yönlendirdiği çok aşamalı saldırı yollarını modellemeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-18 confused deputy ajanları ajanın kendi yetkilerini daha düşük yetkili kullanıcı veya güvenilmeyen içerik adına kullanmasını öğretir. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-18</code></td><td data-label="Başlık ve kazanım"><strong>Confused Deputy Ajanları</strong><p>Ajanın kendi yetkilerini daha düşük yetkili kullanıcı veya güvenilmeyen içerik adına kullanmasını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Saldırı" data-tools="Python, Burp Suite" data-search="ai-saldiri-19 araç çağrılarında auth ve yetki bypass kimlik bağlamı, nesne sahipliği ve işlem bazlı yetkilendirme kontrollerinin araç çağrılarında atlatılmasını öğretir. python, burp suite">
+ <td data-label="Ders"><code>ai-saldiri-19</code></td><td data-label="Başlık ve kazanım"><strong>Araç Çağrılarında Auth ve Yetki Bypass</strong><p>Kimlik bağlamı, nesne sahipliği ve işlem bazlı yetkilendirme kontrollerinin araç çağrılarında atlatılmasını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Burp Suite</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-20 komut ve argüman enjeksiyonu model üretimi komut ve argümanların yerel çalıştırıcıya aktarılmasındaki ayrıştırma ve yetki sınırlarını öğretir. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-20</code></td><td data-label="Başlık ve kazanım"><strong>Komut ve Argüman Enjeksiyonu</strong><p>Model üretimi komut ve argümanların yerel çalıştırıcıya aktarılmasındaki ayrıştırma ve yetki sınırlarını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-43 çok ajanlı sistemler ve ajanlar arası protokol (a2a): yatay enjeksiyon, güven yayılımı ve i̇mzalı görev devri çok ajanlı (multi-agent / a2a) mimarilerde dış veri okuyan ajandan yetkili ajana talimat sızdırma, geçişli güven kirlenmesi (confused deputy) ve yetki yükselmesini analiz et; hmac imzalı görev devri ve veri sarmalama kapısıyla savun. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-43</code></td><td data-label="Başlık ve kazanım"><strong>Çok Ajanlı Sistemler ve Ajanlar Arası Protokol (A2A): Yatay Enjeksiyon, Güven Yayılımı ve İmzalı Görev Devri</strong><p>Çok ajanlı (multi-agent / A2A) mimarilerde dış veri okuyan ajandan yetkili ajana talimat sızdırma, geçişli güven kirlenmesi (confused deputy) ve yetki yükselmesini analiz et; HMAC imzalı görev devri ve veri sarmalama kapısıyla savun.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Saldırı" data-tools="Python, Ollama" data-search="ai-saldiri-44 ajanın kalıcı belleğini zehirleme: oturumlar arası kalıcılık, kaynak etiketi ve bellek denetimi tek bir oturumdaki dış veri (web sayfası, rag, araç çıktısı) üzerinden ajanın uzun süreli kalıcı belleğine yazılan sahte kuralların sonraki oturumları nasıl ele geçirdiğini analiz et; kaynak etiketi, onay, ttl ve bellek denetimiyle savun. python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-44</code></td><td data-label="Başlık ve kazanım"><strong>Ajanın Kalıcı Belleğini Zehirleme: Oturumlar Arası Kalıcılık, Kaynak Etiketi ve Bellek Denetimi</strong><p>Tek bir oturumdaki dış veri (web sayfası, RAG, araç çıktısı) üzerinden ajanın uzun süreli kalıcı belleğine yazılan sahte kuralların sonraki oturumları nasıl ele geçirdiğini analiz et; kaynak etiketi, onay, TTL ve bellek denetimiyle savun.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-saldiri-basalti" class="module" open data-module-key="ai-saldiri:basalti" data-module-track="ai-saldiri" data-rank="basalti">
+ <summary><span class="rank">05 · Başaltı</span><span>Ağ Erişimi, SSRF ve Exfiltration</span><small>8 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="Ollama, Python, mitmproxy" data-search="ai-saldiri-39 llm uygulama pentest köprüsü · i̇stemci sırları, çapraz oturum idor ve ai-ssrf zinciri modelin etrafındaki web/api katmanında istemciye sızan api anahtarlarını ve iç uç noktaları, konuşma/vektör alanı idor açıklıklarını ve bunların model üzerinden ai-ssrf/zehirleme zincirine dönüşümünü analiz etmeyi öğretir. ollama, python, mitmproxy">
+ <td data-label="Ders"><code>ai-saldiri-39</code></td><td data-label="Başlık ve kazanım"><strong>LLM Uygulama Pentest Köprüsü · İstemci Sırları, Çapraz Oturum IDOR ve AI-SSRF Zinciri</strong><p>Modelin etrafındaki web/API katmanında istemciye sızan API anahtarlarını ve iç uç noktaları, konuşma/vektör alanı IDOR açıklıklarını ve bunların model üzerinden AI-SSRF/zehirleme zincirine dönüşümünü analiz etmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python, mitmproxy</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="Python, mitmproxy" data-search="ai-saldiri-21 url getirme araçlarında ai-ssrf modelin yönlendirdiği url getirme aracının dahili veya kısıtlı kaynaklara erişimini izole servislerle sınamayı öğretir. python, mitmproxy">
+ <td data-label="Ders"><code>ai-saldiri-21</code></td><td data-label="Başlık ve kazanım"><strong>URL Getirme Araçlarında AI-SSRF</strong><p>Modelin yönlendirdiği URL getirme aracının dahili veya kısıtlı kaynaklara erişimini izole servislerle sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, mitmproxy</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="mitmproxy, Burp Suite" data-search="ai-saldiri-22 ssrf filtre ve yönlendirme atlatma url doğrulama, yönlendirme ve dns çözümleme aşamaları arasındaki tutarsızlıkların ssrf kontrollerine etkisini öğretir. mitmproxy, burp suite">
+ <td data-label="Ders"><code>ai-saldiri-22</code></td><td data-label="Başlık ve kazanım"><strong>SSRF Filtre ve Yönlendirme Atlatma</strong><p>URL doğrulama, yönlendirme ve DNS çözümleme aşamaları arasındaki tutarsızlıkların SSRF kontrollerine etkisini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">mitmproxy, Burp Suite</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="mitmproxy, Python" data-search="ai-saldiri-23 kör exfiltration kanalları doğrudan yanıt dönmeyen durumlarda ağ istekleri ve araç yan etkileri üzerinden veri çıkışını gözlemlemeyi öğretir. mitmproxy, python">
+ <td data-label="Ders"><code>ai-saldiri-23</code></td><td data-label="Başlık ve kazanım"><strong>Kör Exfiltration Kanalları</strong><p>Doğrudan yanıt dönmeyen durumlarda ağ istekleri ve araç yan etkileri üzerinden veri çıkışını gözlemlemeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">mitmproxy, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="Python, mitmproxy" data-search="ai-saldiri-24 kodlanmış ve parçalı veri dışarı aktarımı hassas verilerin kodlama, parçalama ve birden fazla model çıktısına dağıtılmasıyla sızdırılmasını öğretir. python, mitmproxy">
+ <td data-label="Ders"><code>ai-saldiri-24</code></td><td data-label="Başlık ve kazanım"><strong>Kodlanmış ve Parçalı Veri Dışarı Aktarımı</strong><p>Hassas verilerin kodlama, parçalama ve birden fazla model çıktısına dağıtılmasıyla sızdırılmasını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Python, mitmproxy</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="mitmproxy, Python, Ollama" data-search="ai-saldiri-25 araç sonucundan yeniden enjeksiyon ağ veya araç yanıtındaki talimatların ajan döngüsüne dönerek yeni işlemleri tetiklemesini öğretir. mitmproxy, python, ollama">
+ <td data-label="Ders"><code>ai-saldiri-25</code></td><td data-label="Başlık ve kazanım"><strong>Araç Sonucundan Yeniden Enjeksiyon</strong><p>Ağ veya araç yanıtındaki talimatların ajan döngüsüne dönerek yeni işlemleri tetiklemesini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">mitmproxy, Python, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="vLLM, llama.cpp, Python" data-search="ai-saldiri-33 kv-cache timing ve prompt-stealing yan kanalları çok kullanıcılı inference sırasında önbellek isabetleri ve yanıt sürelerindeki farkların prompt bilgisi sızıntısına dönüşme koşullarını istatistiksel olarak öğretir. vllm, llama.cpp, python">
+ <td data-label="Ders"><code>ai-saldiri-33</code></td><td data-label="Başlık ve kazanım"><strong>KV-Cache Timing ve Prompt-Stealing Yan Kanalları</strong><p>Çok kullanıcılı inference sırasında önbellek isabetleri ve yanıt sürelerindeki farkların prompt bilgisi sızıntısına dönüşme koşullarını istatistiksel olarak öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">vLLM, llama.cpp, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="basalti" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-saldiri-40 denial-of-wallet saldırısı · pahalı üretim, bağlam şişirme ve ajan döngüsü owasp llm10 kapsamında aşırı çıkış üretimi (sponge/sayma tetikleyicileri), bağlam doldurma ve özyinelemeli ajan döngüleriyle token/süre maliyetini katlayan saldırıları analiz etmeyi ve ölçmeyi öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-saldiri-40</code></td><td data-label="Başlık ve kazanım"><strong>Denial-of-Wallet Saldırısı · Pahalı Üretim, Bağlam Şişirme ve Ajan Döngüsü</strong><p>OWASP LLM10 kapsamında aşırı çıkış üretimi (sponge/sayma tetikleyicileri), bağlam doldurma ve özyinelemeli ajan döngüleriyle token/süre maliyetini katlayan saldırıları analiz etmeyi ve ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-saldiri-baspehlivan" class="module" open data-module-key="ai-saldiri:baspehlivan" data-module-track="ai-saldiri" data-rank="baspehlivan">
+ <summary><span class="rank">06 · Başpehlivan</span><span>Adaptif Saldırılar, Değerlendirme ve Purple Doğrulama</span><small>9 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="Docker, Git, CodeQL" data-search="ai-saldiri-26 kodlama ajanları ve repo i̇çeriği saldırıları repo dosyaları, ajan talimatları ve bağımlılıklar üzerinden dolaylı yönlendirme ile kod çalıştırma yetkilerinin kötüye kullanımını öğretir. docker, git, codeql">
+ <td data-label="Ders"><code>ai-saldiri-26</code></td><td data-label="Başlık ve kazanım"><strong>Kodlama Ajanları ve Repo İçeriği Saldırıları</strong><p>Repo dosyaları, ajan talimatları ve bağımlılıklar üzerinden dolaylı yönlendirme ile kod çalıştırma yetkilerinin kötüye kullanımını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Docker, Git, CodeQL</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-saldiri-41 slopsquatting saldırısı · paket halüsinasyonu hasadı ve kayıt yüzeyi analizi farklı istem ve tohumlarda modelin tekrarlayarak uydurduğu paket adlarını toplamayı, yerel sentetik dizinde sahipsiz adların ele geçirilme riskini ölçmeyi ve otomatik kurulum zincirini analiz etmeyi öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-saldiri-41</code></td><td data-label="Başlık ve kazanım"><strong>Slopsquatting Saldırısı · Paket Halüsinasyonu Hasadı ve Kayıt Yüzeyi Analizi</strong><p>Farklı istem ve tohumlarda modelin tekrarlayarak uydurduğu paket adlarını toplamayı, yerel sentetik dizinde sahipsiz adların ele geçirilme riskini ölçmeyi ve otomatik kurulum zincirini analiz etmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="Promptfoo, Python" data-search="ai-saldiri-27 değerlendirici zafiyetleri ve asr güvenilirliği yanlış pozitif, yanlış negatif ve değerlendirici uyuşmazlıklarını ayırarak asr güvenilirliğini ölçmeyi öğretir. promptfoo, python">
+ <td data-label="Ders"><code>ai-saldiri-27</code></td><td data-label="Başlık ve kazanım"><strong>Değerlendirici Zafiyetleri ve ASR Güvenilirliği</strong><p>Yanlış pozitif, yanlış negatif ve değerlendirici uyuşmazlıklarını ayırarak ASR güvenilirliğini ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Promptfoo, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="LangGraph, AutoGen, OpenTelemetry" data-search="ai-saldiri-28 çoklu ajan sistemlerinde güven ve yetki devri güvenilmeyen ajan mesajlarının görev kaynağını, kimliği ve yetki devrini manipüle ederek zincirleme etki oluşturmasını öğretir. langgraph, autogen, opentelemetry">
+ <td data-label="Ders"><code>ai-saldiri-28</code></td><td data-label="Başlık ve kazanım"><strong>Çoklu Ajan Sistemlerinde Güven ve Yetki Devri</strong><p>Güvenilmeyen ajan mesajlarının görev kaynağını, kimliği ve yetki devrini manipüle ederek zincirleme etki oluşturmasını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">LangGraph, AutoGen, OpenTelemetry</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="ChromaDB, mitmproxy, Ollama" data-search="ai-saldiri-29 rag’den araca çok aşamalı saldırı zinciri zehirlenmiş bağlamdan araç çağrısına ve ssrf veya exfiltration aşamasına uzanan zincirin her halkasını doğrulamayı öğretir. chromadb, mitmproxy, ollama">
+ <td data-label="Ders"><code>ai-saldiri-29</code></td><td data-label="Başlık ve kazanım"><strong>RAG’den Araca Çok Aşamalı Saldırı Zinciri</strong><p>Zehirlenmiş bağlamdan araç çağrısına ve SSRF veya exfiltration aşamasına uzanan zincirin her halkasını doğrulamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">ChromaDB, mitmproxy, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="PyRIT, Promptfoo, Ollama" data-search="ai-saldiri-30 pair, tap ve pyrit ile otomatik saldırı kampanyaları saldırı varyantlarını hedef ve değerlendirici geri bildirimiyle yineleyen pair/tap akışlarını pyrit ile ölçülebilir ve tekrarlanabilir kampanyalara dönüştürmeyi öğretir. pyrit, promptfoo, ollama">
+ <td data-label="Ders"><code>ai-saldiri-30</code></td><td data-label="Başlık ve kazanım"><strong>PAIR, TAP ve PyRIT ile Otomatik Saldırı Kampanyaları</strong><p>Saldırı varyantlarını hedef ve değerlendirici geri bildirimiyle yineleyen PAIR/TAP akışlarını PyRIT ile ölçülebilir ve tekrarlanabilir kampanyalara dönüştürmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">PyRIT, Promptfoo, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="llama.cpp, GGUF, Jinja2" data-search="ai-saldiri-34 chat template ve rol sınırı manipülasyonu gguf chat template ve jinja işleme farklarının sistem, kullanıcı ve araç mesajlarını modele sunulan token akışında nasıl değiştirdiğini öğretir. llama.cpp, gguf, jinja2">
+ <td data-label="Ders"><code>ai-saldiri-34</code></td><td data-label="Başlık ve kazanım"><strong>Chat Template ve Rol Sınırı Manipülasyonu</strong><p>GGUF chat template ve Jinja işleme farklarının sistem, kullanıcı ve araç mesajlarını modele sunulan token akışında nasıl değiştirdiğini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">llama.cpp, GGUF, Jinja2</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-saldiri-37 red team metodolojisi ii · kapsam matrisi, saldırı zinciri önceliklendirme ve operasyon kapanışı sistem anatomisine karşı saldırı kapsam matrisini ve kör noktaları çıkarmayı, saldırı zinciri çarpanıyla bulguları önceliklendirmeyi ve operasyon sonunda rag/bellek/vekil iz temizliğini doğrulamayı öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-saldiri-37</code></td><td data-label="Başlık ve kazanım"><strong>Red Team Metodolojisi II · Kapsam Matrisi, Saldırı Zinciri Önceliklendirme ve Operasyon Kapanışı</strong><p>Sistem anatomisine karşı saldırı kapsam matrisini ve kör noktaları çıkarmayı, saldırı zinciri çarpanıyla bulguları önceliklendirmeyi ve operasyon sonunda RAG/bellek/vekil iz temizliğini doğrulamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-saldiri" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-saldiri-46 belirsiz saha görevi · açıklı yerel asistanı keşfet, kanıtla ve yamala açık sınıfı önceden söylenmeyen çok bileşenli yerel asistanda oturum izlerinden kanıtlı zayıflıkları keşfetmeyi, yapılandırma riskini derecelendirmeyi ve normal işlevi bozmadan güvenlik yaması doğrulamayı öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-saldiri-46</code></td><td data-label="Başlık ve kazanım"><strong>Belirsiz Saha Görevi · Açıklı Yerel Asistanı Keşfet, Kanıtla ve Yamala</strong><p>Açık sınıfı önceden söylenmeyen çok bileşenli yerel asistanda oturum izlerinden kanıtlı zayıflıkları keşfetmeyi, yapılandırma riskini derecelendirmeyi ve normal işlevi bozmadan güvenlik yaması doğrulamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+</section>
+<section class="track" data-track-section="ai-savunma">
+ <header class="track-head"><span>TRACK / 03</span><h2>ai-savunma</h2><p>AI Savunma ve Blue Team</p><b>31 ders</b></header>
+ 
+<details id="module-ai-savunma-minik" class="module" open data-module-key="ai-savunma:minik" data-module-track="ai-savunma" data-rank="minik">
+ <summary><span class="rank">01 · Minik</span><span>Yerel Savunma Temelleri</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="minik" data-side="Savunma" data-tools="Ollama, FastAPI" data-search="ai-savunma-01 yerel llm saldırı yüzeyi ve güven sınırları kullanıcı, model, araç, veri deposu ve ağ bağlantılarını güven sınırlarıyla eşleştirerek saldırı yüzeyi çıkarmayı öğretir. ollama, fastapi">
+ <td data-label="Ders"><code>ai-savunma-01</code></td><td data-label="Başlık ve kazanım"><strong>Yerel LLM Saldırı Yüzeyi ve Güven Sınırları</strong><p>Kullanıcı, model, araç, veri deposu ve ağ bağlantılarını güven sınırlarıyla eşleştirerek saldırı yüzeyi çıkarmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="minik" data-side="Savunma" data-tools="OWASP GenAI, MITRE ATLAS Navigator, NIST AI RMF Playbook" data-search="ai-savunma-02 birleşik ai risk ve kontrol çerçeveleri owasp llm risklerini mitre atlas teknikleri ve nist ai rmf işlevleriyle eşleyerek izlenebilir kontrol matrisi kurmayı öğretir. owasp genai, mitre atlas navigator, nist ai rmf playbook">
+ <td data-label="Ders"><code>ai-savunma-02</code></td><td data-label="Başlık ve kazanım"><strong>Birleşik AI Risk ve Kontrol Çerçeveleri</strong><p>OWASP LLM risklerini MITRE ATLAS teknikleri ve NIST AI RMF işlevleriyle eşleyerek izlenebilir kontrol matrisi kurmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">OWASP GenAI, MITRE ATLAS Navigator, NIST AI RMF Playbook</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="minik" data-side="Savunma" data-tools="FastAPI, Ollama" data-search="ai-savunma-03 katmanlı savunma referans mimarisi girdi, model, çıktı, araç ve veri katmanlarına bağımsız kontroller yerleştiren mimari kurmayı öğretir. fastapi, ollama">
+ <td data-label="Ders"><code>ai-savunma-03</code></td><td data-label="Başlık ve kazanım"><strong>Katmanlı Savunma Referans Mimarisi</strong><p>Girdi, model, çıktı, araç ve veri katmanlarına bağımsız kontroller yerleştiren mimari kurmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">FastAPI, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="minik" data-side="Savunma" data-tools="OpenTelemetry, SigNoz" data-search="ai-savunma-04 güvenlik odaklı log ve telemetri temeli i̇stekleri ve model çağrılarını hassas içeriği gereksiz kaydetmeden izlenebilir hâle getirmeyi öğretir. opentelemetry, signoz">
+ <td data-label="Ders"><code>ai-savunma-04</code></td><td data-label="Başlık ve kazanım"><strong>Güvenlik Odaklı Log ve Telemetri Temeli</strong><p>İstekleri ve model çağrılarını hassas içeriği gereksiz kaydetmeden izlenebilir hâle getirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">OpenTelemetry, SigNoz</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="minik" data-side="Savunma" data-tools="Docker, Ollama, Promptfoo" data-search="ai-savunma-05 i̇zole ve tekrarlanabilir yerel test laboratuvarı gerçek veri ve yetki kullanmadan savunma testlerini tekrarlanabilir çalıştıran izole laboratuvar kurmayı öğretir. docker, ollama, promptfoo">
+ <td data-label="Ders"><code>ai-savunma-05</code></td><td data-label="Başlık ve kazanım"><strong>İzole ve Tekrarlanabilir Yerel Test Laboratuvarı</strong><p>Gerçek veri ve yetki kullanmadan savunma testlerini tekrarlanabilir çalıştıran izole laboratuvar kurmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Docker, Ollama, Promptfoo</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-savunma-tesviye" class="module" open data-module-key="ai-savunma:tesviye" data-module-track="ai-savunma" data-rank="tesviye">
+ <summary><span class="rank">02 · Tesviye</span><span>Girdi ve Çıktı Muhafızı</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="LLM Guard, FastAPI" data-search="ai-savunma-06 girdi guardrail katmanı kullanıcı girdilerini bağlam, boyut, içerik türü ve risk sinyalleri açısından denetleyen katman uygulamayı öğretir. llm guard, fastapi">
+ <td data-label="Ders"><code>ai-savunma-06</code></td><td data-label="Başlık ve kazanım"><strong>Girdi Guardrail Katmanı</strong><p>Kullanıcı girdilerini bağlam, boyut, içerik türü ve risk sinyalleri açısından denetleyen katman uygulamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">LLM Guard, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="LLM Guard, Promptfoo" data-search="ai-savunma-07 prompt injection ve jailbreak tespiti injection ve jailbreak girişimlerini kural, sınıflandırıcı ve davranışsal sinyallerle tespit etmeyi öğretir. llm guard, promptfoo">
+ <td data-label="Ders"><code>ai-savunma-07</code></td><td data-label="Başlık ve kazanım"><strong>Prompt Injection ve Jailbreak Tespiti</strong><p>Injection ve jailbreak girişimlerini kural, sınıflandırıcı ve davranışsal sinyallerle tespit etmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">LLM Guard, Promptfoo</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="NeMo Guardrails, FastAPI" data-search="ai-savunma-08 çıktı guardrail ve yapısal doğrulama model çıktılarını politika ihlalleri ve şema sapmaları bakımından doğrulayıp güvensiz yanıtları durdurmayı öğretir. nemo guardrails, fastapi">
+ <td data-label="Ders"><code>ai-savunma-08</code></td><td data-label="Başlık ve kazanım"><strong>Çıktı Guardrail ve Yapısal Doğrulama</strong><p>Model çıktılarını politika ihlalleri ve şema sapmaları bakımından doğrulayıp güvensiz yanıtları durdurmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">NeMo Guardrails, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="Presidio, LLM Guard" data-search="ai-savunma-09 pii tespiti ve çıktı dlp kontrolleri girdi ve çıktılardaki kişisel verileri tespit ederek maskeleme, redaksiyon ve engelleme kontrolleri uygulamayı öğretir. presidio, llm guard">
+ <td data-label="Ders"><code>ai-savunma-09</code></td><td data-label="Başlık ve kazanım"><strong>PII Tespiti ve Çıktı DLP Kontrolleri</strong><p>Girdi ve çıktılardaki kişisel verileri tespit ederek maskeleme, redaksiyon ve engelleme kontrolleri uygulamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Presidio, LLM Guard</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="NeMo Guardrails, Promptfoo" data-search="ai-savunma-10 guardrail atlatma ve güvenli geri dönüş guardrail hataları ve atlatmalar için fail-closed kararlar, güvenli yedek yanıtlar ve yeniden deneme sınırları kurmayı öğretir. nemo guardrails, promptfoo">
+ <td data-label="Ders"><code>ai-savunma-10</code></td><td data-label="Başlık ve kazanım"><strong>Guardrail Atlatma ve Güvenli Geri Dönüş</strong><p>Guardrail hataları ve atlatmalar için fail-closed kararlar, güvenli yedek yanıtlar ve yeniden deneme sınırları kurmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">NeMo Guardrails, Promptfoo</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-savunma-kucuk-orta" class="module" open data-module-key="ai-savunma:kucuk-orta" data-module-track="ai-savunma" data-rank="kucuk-orta">
+ <summary><span class="rank">03 · Küçük Orta</span><span>Araç ve Yürütme Bekçisi</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Savunma" data-tools="FastAPI, Pydantic, Ollama" data-search="ai-savunma-11 araç şemaları ve en az ayrıcalık modelin çağırabileceği araçları dar kapsamlı şemalar, izinli parametreler ve ayrı yetkilerle sınırlandırmayı öğretir. fastapi, pydantic, ollama">
+ <td data-label="Ders"><code>ai-savunma-11</code></td><td data-label="Başlık ve kazanım"><strong>Araç Şemaları ve En Az Ayrıcalık</strong><p>Modelin çağırabileceği araçları dar kapsamlı şemalar, izinli parametreler ve ayrı yetkilerle sınırlandırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">FastAPI, Pydantic, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Savunma" data-tools="Open Policy Agent, FastAPI" data-search="ai-savunma-12 araç politikaları ve i̇nsan onayı araç çağrılarını kimlik, bağlam, kaynak ve işlem riskine göre denetleyen politika ve onay akışı kurmayı öğretir. open policy agent, fastapi">
+ <td data-label="Ders"><code>ai-savunma-12</code></td><td data-label="Başlık ve kazanım"><strong>Araç Politikaları ve İnsan Onayı</strong><p>Araç çağrılarını kimlik, bağlam, kaynak ve işlem riskine göre denetleyen politika ve onay akışı kurmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Open Policy Agent, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Savunma" data-tools="Docker, FastAPI" data-search="ai-savunma-13 sandbox i̇çinde güvenli kod ve komut yürütme model kaynaklı kod ve komutları kaynak, dosya sistemi ve süre sınırlı sandbox içinde çalıştırmayı öğretir. docker, fastapi">
+ <td data-label="Ders"><code>ai-savunma-13</code></td><td data-label="Başlık ve kazanım"><strong>Sandbox İçinde Güvenli Kod ve Komut Yürütme</strong><p>Model kaynaklı kod ve komutları kaynak, dosya sistemi ve süre sınırlı sandbox içinde çalıştırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Docker, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Savunma" data-tools="Docker, Squid" data-search="ai-savunma-14 egress kontrolü ve ssrf savunması model ve araç bağlantılarını hedef izin listeleri, ağ segmentasyonu ve proxy politikalarıyla sınırlandırmayı öğretir. docker, squid">
+ <td data-label="Ders"><code>ai-savunma-14</code></td><td data-label="Başlık ve kazanım"><strong>Egress Kontrolü ve SSRF Savunması</strong><p>Model ve araç bağlantılarını hedef izin listeleri, ağ segmentasyonu ve proxy politikalarıyla sınırlandırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Docker, Squid</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Savunma" data-tools="HashiCorp Vault, FastAPI" data-search="ai-savunma-15 secrets yalıtımı ve aracılı kimlik bilgileri api anahtarlarını model bağlamından uzak tutup kısa ömürlü ve araç başına kapsamlı kimlik bilgileriyle yönetmeyi öğretir. hashicorp vault, fastapi">
+ <td data-label="Ders"><code>ai-savunma-15</code></td><td data-label="Başlık ve kazanım"><strong>Secrets Yalıtımı ve Aracılı Kimlik Bilgileri</strong><p>API anahtarlarını model bağlamından uzak tutup kısa ömürlü ve araç başına kapsamlı kimlik bilgileriyle yönetmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">HashiCorp Vault, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-savunma-buyuk-orta" class="module" open data-module-key="ai-savunma:buyuk-orta" data-module-track="ai-savunma" data-rank="buyuk-orta">
+ <summary><span class="rank">04 · Büyük Orta</span><span>RAG ve Tedarik Zinciri Koruyucusu</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Qdrant, FastAPI" data-search="ai-savunma-16 rag provenance ve kaynak güveni her getirilen parçayı kaynak, sürüm ve güven düzeyiyle ilişkilendirerek doğrulanabilir provenance sağlamayı öğretir. qdrant, fastapi">
+ <td data-label="Ders"><code>ai-savunma-16</code></td><td data-label="Başlık ve kazanım"><strong>RAG Provenance ve Kaynak Güveni</strong><p>Her getirilen parçayı kaynak, sürüm ve güven düzeyiyle ilişkilendirerek doğrulanabilir provenance sağlamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Qdrant, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Apache Tika, FastAPI" data-search="ai-savunma-17 güvenli belge alma ve i̇çerik ayrıştırma rag belgelerini tür, boyut, aktif içerik ve gizli talimat riskleri bakımından denetlemeyi öğretir. apache tika, fastapi">
+ <td data-label="Ders"><code>ai-savunma-17</code></td><td data-label="Başlık ve kazanım"><strong>Güvenli Belge Alma ve İçerik Ayrıştırma</strong><p>RAG belgelerini tür, boyut, aktif içerik ve gizli talimat riskleri bakımından denetlemeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Apache Tika, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Promptfoo, Qdrant" data-search="ai-savunma-18 rag poisoning ve dolaylı injection savunması zehirlenmiş belgelere karşı kaynak doğrulama, içerik karantinası ve talimat ayrıştırma kontrollerini değerlendirmeyi öğretir. promptfoo, qdrant">
+ <td data-label="Ders"><code>ai-savunma-18</code></td><td data-label="Başlık ve kazanım"><strong>RAG Poisoning ve Dolaylı Injection Savunması</strong><p>Zehirlenmiş belgelere karşı kaynak doğrulama, içerik karantinası ve talimat ayrıştırma kontrollerini değerlendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Promptfoo, Qdrant</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Qdrant, FastAPI" data-search="ai-savunma-19 vektör deposunda erişim ve kiracı yalıtımı getirme sorgularına kullanıcı ve kiracı kapsamındaki yetki filtrelerini zorunlu kılarak veri sızıntısını önlemeyi öğretir. qdrant, fastapi">
+ <td data-label="Ders"><code>ai-savunma-19</code></td><td data-label="Başlık ve kazanım"><strong>Vektör Deposunda Erişim ve Kiracı Yalıtımı</strong><p>Getirme sorgularına kullanıcı ve kiracı kapsamındaki yetki filtrelerini zorunlu kılarak veri sızıntısını önlemeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Qdrant, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Trivy, Cosign, Ollama" data-search="ai-savunma-20 model ve bağımlılık tedarik zinciri güvenliği model dosyaları, imajlar ve bağımlılıklar için kaynak, imza, bütünlük ve zafiyet denetimi uygulamayı öğretir. trivy, cosign, ollama">
+ <td data-label="Ders"><code>ai-savunma-20</code></td><td data-label="Başlık ve kazanım"><strong>Model ve Bağımlılık Tedarik Zinciri Güvenliği</strong><p>Model dosyaları, imajlar ve bağımlılıklar için kaynak, imza, bütünlük ve zafiyet denetimi uygulamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Trivy, Cosign, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-savunma-basalti" class="module" open data-module-key="ai-savunma:basalti" data-module-track="ai-savunma" data-rank="basalti">
+ <summary><span class="rank">05 · Başaltı</span><span>Tespit ve Müdahale Uzmanı</span><small>6 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="MLflow, Git" data-search="ai-savunma-21 model ve prompt registry değişiklik kontrolü model, sistem promptu ve guardrail sürümlerini onay, sahiplik ve geri alma bilgileriyle kayıt altına almayı öğretir. mlflow, git">
+ <td data-label="Ders"><code>ai-savunma-21</code></td><td data-label="Başlık ve kazanım"><strong>Model ve Prompt Registry Değişiklik Kontrolü</strong><p>Model, sistem promptu ve guardrail sürümlerini onay, sahiplik ve geri alma bilgileriyle kayıt altına almayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">MLflow, Git</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="OpenTelemetry, SigNoz" data-search="ai-savunma-22 korelasyonlu ai güvenlik telemetrisi kullanıcı isteği, guardrail kararı, model sürümü ve araç çağrısını ortak iz kimlikleriyle ilişkilendirmeyi öğretir. opentelemetry, signoz">
+ <td data-label="Ders"><code>ai-savunma-22</code></td><td data-label="Başlık ve kazanım"><strong>Korelasyonlu AI Güvenlik Telemetrisi</strong><p>Kullanıcı isteği, guardrail kararı, model sürümü ve araç çağrısını ortak iz kimlikleriyle ilişkilendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">OpenTelemetry, SigNoz</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="Elastic, FastAPI" data-search="ai-savunma-23 abuse detection ve uyarlanabilir sınırlama tekrarlı jailbreak, olağan dışı araç kullanımı ve sızıntı girişimlerini davranışsal sinyallerle tespit etmeyi öğretir. elastic, fastapi">
+ <td data-label="Ders"><code>ai-savunma-23</code></td><td data-label="Başlık ve kazanım"><strong>Abuse Detection ve Uyarlanabilir Sınırlama</strong><p>Tekrarlı jailbreak, olağan dışı araç kullanımı ve sızıntı girişimlerini davranışsal sinyallerle tespit etmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Elastic, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="Ollama" data-search="ai-savunma-31 sınırsız tüketim savunması: bütçe ve oran sınırı jeton kovasıyla oran sınırla, token maliyetini hesapla, üretimi bütçeyle kes; denial-of-wallet&#x27;ı gerçek modelde deterministik olarak durdur. ollama">
+ <td data-label="Ders"><code>ai-savunma-31</code></td><td data-label="Başlık ve kazanım"><strong>Sınırsız Tüketim Savunması: Bütçe ve Oran Sınırı</strong><p>Jeton kovasıyla oran sınırla, token maliyetini hesapla, üretimi bütçeyle kes; denial-of-wallet&#x27;ı gerçek modelde deterministik olarak durdur.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="Sigma, Elastic" data-search="ai-savunma-24 sigma ile llm saldırı tespit kuralları injection, yetki ihlali ve şüpheli egress olaylarını taşınabilir sigma kuralları ve test edilebilir alarmlara dönüştürmeyi öğretir. sigma, elastic">
+ <td data-label="Ders"><code>ai-savunma-24</code></td><td data-label="Başlık ve kazanım"><strong>Sigma ile LLM Saldırı Tespit Kuralları</strong><p>Injection, yetki ihlali ve şüpheli egress olaylarını taşınabilir Sigma kuralları ve test edilebilir alarmlara dönüştürmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Sigma, Elastic</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="Elastic, SigNoz, MLflow" data-search="ai-savunma-25 ai olay müdahalesi ve kanıt koruma kapsam belirleme, erişimi sınırlama, kanıt koruma, sürüm geri alma ve güvenli toparlanma akışını öğretir. elastic, signoz, mlflow">
+ <td data-label="Ders"><code>ai-savunma-25</code></td><td data-label="Başlık ve kazanım"><strong>AI Olay Müdahalesi ve Kanıt Koruma</strong><p>Kapsam belirleme, erişimi sınırlama, kanıt koruma, sürüm geri alma ve güvenli toparlanma akışını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Elastic, SigNoz, MLflow</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-savunma-baspehlivan" class="module" open data-module-key="ai-savunma:baspehlivan" data-module-track="ai-savunma" data-rank="baspehlivan">
+ <summary><span class="rank">06 · Başpehlivan</span><span>Adversarial Güvence ve Mor Tatbikat</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="baspehlivan" data-side="Savunma" data-tools="Promptfoo, Ollama" data-search="ai-savunma-26 tehdit odaklı eval ve asr ölçümü saldırı senaryolarını başarı koşullarıyla tanımlayıp asr, yanlış pozitif ve savunma geçiş oranlarını ölçmeyi öğretir. promptfoo, ollama">
+ <td data-label="Ders"><code>ai-savunma-26</code></td><td data-label="Başlık ve kazanım"><strong>Tehdit Odaklı Eval ve ASR Ölçümü</strong><p>Saldırı senaryolarını başarı koşullarıyla tanımlayıp ASR, yanlış pozitif ve savunma geçiş oranlarını ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Promptfoo, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="baspehlivan" data-side="Savunma" data-tools="garak, Ollama" data-search="ai-savunma-27 garak ile yerel model güvenlik taraması yerel modelde garak taramaları çalıştırıp probe, detector ve bulguları risk bağlamıyla yorumlamayı öğretir. garak, ollama">
+ <td data-label="Ders"><code>ai-savunma-27</code></td><td data-label="Başlık ve kazanım"><strong>garak ile Yerel Model Güvenlik Taraması</strong><p>Yerel modelde garak taramaları çalıştırıp probe, detector ve bulguları risk bağlamıyla yorumlamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">garak, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="baspehlivan" data-side="Savunma" data-tools="garak, FastAPI" data-search="ai-savunma-28 uygulamaya özel garak detector geliştirme uygulamanın başarısızlık koşulunu makine tarafından doğrulanabilir detector ile tanımlayıp yanlış tespitleri sınamayı öğretir. garak, fastapi">
+ <td data-label="Ders"><code>ai-savunma-28</code></td><td data-label="Başlık ve kazanım"><strong>Uygulamaya Özel garak Detector Geliştirme</strong><p>Uygulamanın başarısızlık koşulunu makine tarafından doğrulanabilir detector ile tanımlayıp yanlış tespitleri sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">garak, FastAPI</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="baspehlivan" data-side="Savunma" data-tools="Promptfoo, garak, Git" data-search="ai-savunma-29 adversarial regression ve yayın kapıları bilinen saldırıları sürüm bazlı regresyon paketlerine dönüştürerek model ve guardrail değişikliklerinde güvenlik eşiği kurmayı öğretir. promptfoo, garak, git">
+ <td data-label="Ders"><code>ai-savunma-29</code></td><td data-label="Başlık ve kazanım"><strong>Adversarial Regression ve Yayın Kapıları</strong><p>Bilinen saldırıları sürüm bazlı regresyon paketlerine dönüştürerek model ve guardrail değişikliklerinde güvenlik eşiği kurmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Promptfoo, garak, Git</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-savunma" data-status="Yazıldı" data-rank="baspehlivan" data-side="Savunma" data-tools="Ollama, garak, Promptfoo, SigNoz, Elastic" data-search="ai-savunma-30 uçtan uca yerel purple tatbikatı saldırı simülasyonu, guardrail, telemetri, olay müdahalesi ve regresyon doğrulamasını tek ölçülebilir tatbikatta birleştirmeyi öğretir. ollama, garak, promptfoo, signoz, elastic">
+ <td data-label="Ders"><code>ai-savunma-30</code></td><td data-label="Başlık ve kazanım"><strong>Uçtan Uca Yerel Purple Tatbikatı</strong><p>Saldırı simülasyonu, guardrail, telemetri, olay müdahalesi ve regresyon doğrulamasını tek ölçülebilir tatbikatta birleştirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, garak, Promptfoo, SigNoz, Elastic</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+</section>
+<section class="track" data-track-section="ai-guvence">
+ <header class="track-head"><span>TRACK / 04</span><h2>ai-guvence</h2><p>AI Güvence, Araştırma ve Kanıt</p><b>34 ders</b></header>
+ 
+<details id="module-ai-guvence-minik" class="module" open data-module-key="ai-guvence:minik" data-module-track="ai-guvence" data-rank="minik">
+ <summary><span class="rank">01 · Minik</span><span>ML Güvenliğine Giriş</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="minik" data-side="Güvence" data-tools="Python, JupyterLab, scikit-learn" data-search="ai-guvence-01 ml güvenliği deney defteri veri, model, tehdit varsayımı ve ölçütleri tanımlayarak tekrarlanabilir bir ml güvenliği deney planı hazırlamayı öğretir. python, jupyterlab, scikit-learn">
+ <td data-label="Ders"><code>ai-guvence-01</code></td><td data-label="Başlık ve kazanım"><strong>ML Güvenliği Deney Defteri</strong><p>Veri, model, tehdit varsayımı ve ölçütleri tanımlayarak tekrarlanabilir bir ML güvenliği deney planı hazırlamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Python, JupyterLab, scikit-learn</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="minik" data-side="Güvence" data-tools="scikit-learn, pandas, Matplotlib" data-search="ai-guvence-02 taban model ve ölçüm referansı eğitim-test ayrımı, sınıf dengesi ve belirsizlik ölçümleriyle doğrulanabilir taban performans referansı oluşturmayı öğretir. scikit-learn, pandas, matplotlib">
+ <td data-label="Ders"><code>ai-guvence-02</code></td><td data-label="Başlık ve kazanım"><strong>Taban Model ve Ölçüm Referansı</strong><p>Eğitim-test ayrımı, sınıf dengesi ve belirsizlik ölçümleriyle doğrulanabilir taban performans referansı oluşturmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">scikit-learn, pandas, Matplotlib</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="minik" data-side="Araştırma" data-tools="JupyterLab, scikit-learn, Mermaid" data-search="ai-guvence-03 tehdit modelinden deney sorusuna evasion, poisoning, gizlilik ve tedarik zinciri risklerini gözlemlenebilir hipotez ve ölçülebilir deney sorularına dönüştürmeyi öğretir. jupyterlab, scikit-learn, mermaid">
+ <td data-label="Ders"><code>ai-guvence-03</code></td><td data-label="Başlık ve kazanım"><strong>Tehdit Modelinden Deney Sorusuna</strong><p>Evasion, poisoning, gizlilik ve tedarik zinciri risklerini gözlemlenebilir hipotez ve ölçülebilir deney sorularına dönüştürmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">JupyterLab, scikit-learn, Mermaid</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="minik" data-side="Güvence" data-tools="scikit-learn, NumPy, Matplotlib" data-search="ai-guvence-04 yanlış pozitiflerin güvenlik maliyeti farklı eşiklerde hata matrisi ve maliyet değişimini ölçerek yalnız doğruluğa dayanan güvenlik iddialarını sınamayı öğretir. scikit-learn, numpy, matplotlib">
+ <td data-label="Ders"><code>ai-guvence-04</code></td><td data-label="Başlık ve kazanım"><strong>Yanlış Pozitiflerin Güvenlik Maliyeti</strong><p>Farklı eşiklerde hata matrisi ve maliyet değişimini ölçerek yalnız doğruluğa dayanan güvenlik iddialarını sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">scikit-learn, NumPy, Matplotlib</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="minik" data-side="Güvence" data-tools="MLflow, DVC, Git, JupyterLab" data-search="ai-guvence-05 tekrarlanabilirlik ve kanıt paketi sabit tohum, veri sürümü, ortam kaydı ve deney çıktılarıyla bağımsız yeniden üretilebilir kanıt paketi oluşturmayı öğretir. mlflow, dvc, git, jupyterlab">
+ <td data-label="Ders"><code>ai-guvence-05</code></td><td data-label="Başlık ve kazanım"><strong>Tekrarlanabilirlik ve Kanıt Paketi</strong><p>Sabit tohum, veri sürümü, ortam kaydı ve deney çıktılarıyla bağımsız yeniden üretilebilir kanıt paketi oluşturmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">MLflow, DVC, Git, JupyterLab</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-guvence-tesviye" class="module" open data-module-key="ai-guvence:tesviye" data-module-track="ai-guvence" data-rank="tesviye">
+ <summary><span class="rank">02 · Tesviye</span><span>Sağlamlık ve Evasion</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="tesviye" data-side="Araştırma" data-tools="TransformerLens, PyTorch, Hugging Face" data-search="ai-guvence-06 transformerlens ile refusal mekanizması refusal davranışının katman ve aktivasyonlardaki izlerini inceleyerek mekanistik yorumlanabilirlik bulgularını davranışsal testlerle ilişkilendirmeyi öğretir. transformerlens, pytorch, hugging face">
+ <td data-label="Ders"><code>ai-guvence-06</code></td><td data-label="Başlık ve kazanım"><strong>TransformerLens ile Refusal Mekanizması</strong><p>Refusal davranışının katman ve aktivasyonlardaki izlerini inceleyerek mekanistik yorumlanabilirlik bulgularını davranışsal testlerle ilişkilendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">TransformerLens, PyTorch, Hugging Face</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="tesviye" data-side="Araştırma" data-tools="PyTorch, ART, Matplotlib" data-search="ai-guvence-07 beyaz kutu fgsm ölçümü fgsm bozuntularını farklı epsilon değerlerinde üreterek doğruluk kaybı ve bozuntu büyüklüğü ilişkisini ölçmeyi öğretir. pytorch, art, matplotlib">
+ <td data-label="Ders"><code>ai-guvence-07</code></td><td data-label="Başlık ve kazanım"><strong>Beyaz Kutu FGSM Ölçümü</strong><p>FGSM bozuntularını farklı epsilon değerlerinde üreterek doğruluk kaybı ve bozuntu büyüklüğü ilişkisini ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">PyTorch, ART, Matplotlib</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="tesviye" data-side="Araştırma" data-tools="ART, PyTorch, pandas" data-search="ai-guvence-08 pgd ile saldırı gücü eğrileri adım sayısı ve bozuntu bütçesini değiştirerek sağlamlığı tek sonuç yerine eğriler üzerinden değerlendirmeyi öğretir. art, pytorch, pandas">
+ <td data-label="Ders"><code>ai-guvence-08</code></td><td data-label="Başlık ve kazanım"><strong>PGD ile Saldırı Gücü Eğrileri</strong><p>Adım sayısı ve bozuntu bütçesini değiştirerek sağlamlığı tek sonuç yerine eğriler üzerinden değerlendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">ART, PyTorch, pandas</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="tesviye" data-side="Araştırma" data-tools="PyTorch, llm-attacks, AutoDAN" data-search="ai-guvence-09 gcg ve autodan: ayrık token optimizasyonu gradyan ve genetik arama tabanlı yaklaşımların ayrık token uzayında saldırı soneklerini nasıl optimize ettiğini sorgu bütçesi ve transfer başarısıyla ölçmeyi öğretir. pytorch, llm-attacks, autodan">
+ <td data-label="Ders"><code>ai-guvence-09</code></td><td data-label="Başlık ve kazanım"><strong>GCG ve AutoDAN: Ayrık Token Optimizasyonu</strong><p>Gradyan ve genetik arama tabanlı yaklaşımların ayrık token uzayında saldırı soneklerini nasıl optimize ettiğini sorgu bütçesi ve transfer başarısıyla ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">PyTorch, llm-attacks, AutoDAN</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="tesviye" data-side="Araştırma" data-tools="TransformerLens, PyTorch, LM Evaluation Harness" data-search="ai-guvence-10 refusal direction removal ve abliteration ölçümü ortogonal projeksiyonla refusal yönünü kaldırmanın model davranışına, genel yeteneğe ve güvenlik regresyonuna etkisini kontrollü karşılaştırmayla ölçmeyi öğretir. transformerlens, pytorch, lm evaluation harness">
+ <td data-label="Ders"><code>ai-guvence-10</code></td><td data-label="Başlık ve kazanım"><strong>Refusal Direction Removal ve Abliteration Ölçümü</strong><p>Ortogonal projeksiyonla refusal yönünü kaldırmanın model davranışına, genel yeteneğe ve güvenlik regresyonuna etkisini kontrollü karşılaştırmayla ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">TransformerLens, PyTorch, LM Evaluation Harness</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-guvence-kucuk-orta" class="module" open data-module-key="ai-guvence:kucuk-orta" data-module-track="ai-guvence" data-rank="kucuk-orta">
+ <summary><span class="rank">03 · Küçük Orta</span><span>Veri Bütünlüğü ve Poisoning</span><small>5 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Güvence" data-tools="pandas, DVC, Evidently" data-search="ai-guvence-11 veri kökeni ve şüpheli kayıt profili veri kaynağı, dönüşüm geçmişi ve dağılım sapmalarını inceleyerek izlenebilir şüpheli kayıt profili üretmeyi öğretir. pandas, dvc, evidently">
+ <td data-label="Ders"><code>ai-guvence-11</code></td><td data-label="Başlık ve kazanım"><strong>Veri Kökeni ve Şüpheli Kayıt Profili</strong><p>Veri kaynağı, dönüşüm geçmişi ve dağılım sapmalarını inceleyerek izlenebilir şüpheli kayıt profili üretmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">pandas, DVC, Evidently</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Araştırma" data-tools="scikit-learn, Cleanlab, NumPy" data-search="ai-guvence-12 etiket gürültüsü ile zehirlemenin ayrımı rastgele etiket gürültüsüyle hedefli etiket değişikliğinin performans etkilerini ayrı deneylerde ölçmeyi öğretir. scikit-learn, cleanlab, numpy">
+ <td data-label="Ders"><code>ai-guvence-12</code></td><td data-label="Başlık ve kazanım"><strong>Etiket Gürültüsü ile Zehirlemenin Ayrımı</strong><p>Rastgele etiket gürültüsüyle hedefli etiket değişikliğinin performans etkilerini ayrı deneylerde ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">scikit-learn, Cleanlab, NumPy</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Araştırma" data-tools="scikit-learn, PyTorch, Matplotlib" data-search="ai-guvence-13 zehirleme oranı ve etki eğrisi kontrollü zehirli örnek oranlarını değiştirerek performans bozulmasının eşik ve doyum noktalarını ölçmeyi öğretir. scikit-learn, pytorch, matplotlib">
+ <td data-label="Ders"><code>ai-guvence-13</code></td><td data-label="Başlık ve kazanım"><strong>Zehirleme Oranı ve Etki Eğrisi</strong><p>Kontrollü zehirli örnek oranlarını değiştirerek performans bozulmasının eşik ve doyum noktalarını ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">scikit-learn, PyTorch, Matplotlib</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Araştırma" data-tools="PyTorch, ART, Torchvision" data-search="ai-guvence-14 backdoor tetikleyici deneyi yerel deneyde tetikleyici biçimi ve yerleşimini değiştirerek hedef sınıf başarısı ile temiz örnek davranışını ölçmeyi öğretir. pytorch, art, torchvision">
+ <td data-label="Ders"><code>ai-guvence-14</code></td><td data-label="Başlık ve kazanım"><strong>Backdoor Tetikleyici Deneyi</strong><p>Yerel deneyde tetikleyici biçimi ve yerleşimini değiştirerek hedef sınıf başarısı ile temiz örnek davranışını ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">PyTorch, ART, Torchvision</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Güvence" data-tools="Cleanlab, scikit-learn, PyTorch" data-search="ai-guvence-15 veri ayıklama yöntemlerinin kanıt değeri anomali ve etki temelli ayıklama yöntemlerinin tespit, yanlış alarm ve veri kaybı oranlarını karşılaştırmayı öğretir. cleanlab, scikit-learn, pytorch">
+ <td data-label="Ders"><code>ai-guvence-15</code></td><td data-label="Başlık ve kazanım"><strong>Veri Ayıklama Yöntemlerinin Kanıt Değeri</strong><p>Anomali ve etki temelli ayıklama yöntemlerinin tespit, yanlış alarm ve veri kaybı oranlarını karşılaştırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Cleanlab, scikit-learn, PyTorch</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-guvence-buyuk-orta" class="module" open data-module-key="ai-guvence:buyuk-orta" data-module-track="ai-guvence" data-rank="buyuk-orta">
+ <summary><span class="rank">04 · Büyük Orta</span><span>Gizlilik</span><small>6 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Araştırma" data-tools="PyTorch, scikit-learn, JupyterLab" data-search="ai-guvence-16 gizlilik tehdit modeli ve bilgi sızdıran kanıtlar eğitim verisi, model çıktısı ve saldırgan bilgisi arasındaki ilişki için ölçülebilir gizlilik kanıtları tanımlamayı öğretir. pytorch, scikit-learn, jupyterlab">
+ <td data-label="Ders"><code>ai-guvence-16</code></td><td data-label="Başlık ve kazanım"><strong>Gizlilik Tehdit Modeli ve Bilgi Sızdıran Kanıtlar</strong><p>Eğitim verisi, model çıktısı ve saldırgan bilgisi arasındaki ilişki için ölçülebilir gizlilik kanıtları tanımlamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">PyTorch, scikit-learn, JupyterLab</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Araştırma" data-tools="ART, scikit-learn, PyTorch" data-search="ai-guvence-17 üyelik çıkarımı saldırısı ölçümü üye ve üye olmayan kayıtlar üzerinde üyelik çıkarımı kurarak auc, avantaj ve yanlış pozitif oranlarını ölçmeyi öğretir. art, scikit-learn, pytorch">
+ <td data-label="Ders"><code>ai-guvence-17</code></td><td data-label="Başlık ve kazanım"><strong>Üyelik Çıkarımı Saldırısı Ölçümü</strong><p>Üye ve üye olmayan kayıtlar üzerinde üyelik çıkarımı kurarak AUC, avantaj ve yanlış pozitif oranlarını ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">ART, scikit-learn, PyTorch</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Araştırma" data-tools="Ollama (all-minilm)" data-search="ai-guvence-31 embedding inversion: gömmeden kaynak metin gömmenin kaynak metni ne kadar sızdırdığını ölç; parafraz geri-çıkarma (recovery@k) ve nitelik çıkarımını gerçek gömmelerde gör. ollama (all-minilm)">
+ <td data-label="Ders"><code>ai-guvence-31</code></td><td data-label="Başlık ve kazanım"><strong>Embedding Inversion: Gömmeden Kaynak Metin</strong><p>Gömmenin kaynak metni ne kadar sızdırdığını ölç; parafraz geri-çıkarma (recovery@k) ve nitelik çıkarımını gerçek gömmelerde gör.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">Ollama (all-minilm)</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Araştırma" data-tools="PyTorch, ART, MLflow" data-search="ai-guvence-18 aşırı öğrenme ile gizlilik riski i̇lişkisi model kapasitesi ve eğitim süresini değiştirerek genelleme açığı ile üyelik çıkarımı başarısını karşılaştırmayı öğretir. pytorch, art, mlflow">
+ <td data-label="Ders"><code>ai-guvence-18</code></td><td data-label="Başlık ve kazanım"><strong>Aşırı Öğrenme ile Gizlilik Riski İlişkisi</strong><p>Model kapasitesi ve eğitim süresini değiştirerek genelleme açığı ile üyelik çıkarımı başarısını karşılaştırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">PyTorch, ART, MLflow</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Güvence" data-tools="Opacus, PyTorch, pandas" data-search="ai-guvence-19 diferansiyel gizlilik bütçesi deneyi dp-sgd epsilon, gürültü çarpanı ve kırpma eşiğini değiştirerek gizlilik bütçesi ile model faydası ödünleşimini ölçmeyi öğretir. opacus, pytorch, pandas">
+ <td data-label="Ders"><code>ai-guvence-19</code></td><td data-label="Başlık ve kazanım"><strong>Diferansiyel Gizlilik Bütçesi Deneyi</strong><p>DP-SGD epsilon, gürültü çarpanı ve kırpma eşiğini değiştirerek gizlilik bütçesi ile model faydası ödünleşimini ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Opacus, PyTorch, pandas</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Güvence" data-tools="Opacus, ART, MLflow" data-search="ai-guvence-20 gizlilik i̇ddialarının saldırıyla doğrulanması diferansiyel gizlilikli ve standart modelleri aynı üyelik çıkarımı deneyinde karşılaştırarak gizlilik iddialarını sınamayı öğretir. opacus, art, mlflow">
+ <td data-label="Ders"><code>ai-guvence-20</code></td><td data-label="Başlık ve kazanım"><strong>Gizlilik İddialarının Saldırıyla Doğrulanması</strong><p>Diferansiyel gizlilikli ve standart modelleri aynı üyelik çıkarımı deneyinde karşılaştırarak gizlilik iddialarını sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Opacus, ART, MLflow</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-guvence-basalti" class="module" open data-module-key="ai-guvence:basalti" data-module-track="ai-guvence" data-rank="basalti">
+ <summary><span class="rank">05 · Başaltı</span><span>Tedarik Zinciri Güvencesi</span><small>6 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="basalti" data-side="Güvence" data-tools="Syft, CycloneDX, DVC" data-search="ai-guvence-21 model ve veri sbom envanteri model, veri, bağımlılık ve temel imaj bileşenlerini ilişkilendirerek denetlenebilir tedarik zinciri envanteri oluşturmayı öğretir. syft, cyclonedx, dvc">
+ <td data-label="Ders"><code>ai-guvence-21</code></td><td data-label="Başlık ve kazanım"><strong>Model ve Veri SBOM Envanteri</strong><p>Model, veri, bağımlılık ve temel imaj bileşenlerini ilişkilendirerek denetlenebilir tedarik zinciri envanteri oluşturmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Syft, CycloneDX, DVC</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="basalti" data-side="Güvence" data-tools="Ollama" data-search="ai-guvence-32 slopsquatting savunması: paket halüsinasyonu modelin önerdiği paketleri çıkar, typosquat&#x27;ı levenshtein ile yakala, allow-list ile doğrula; halüsine paketin körü körüne kurulmasını gerçek modelde engelle. ollama">
+ <td data-label="Ders"><code>ai-guvence-32</code></td><td data-label="Başlık ve kazanım"><strong>Slopsquatting Savunması: Paket Halüsinasyonu</strong><p>Modelin önerdiği paketleri çıkar, typosquat&#x27;ı Levenshtein ile yakala, allow-list ile doğrula; halüsine paketin körü körüne kurulmasını gerçek modelde engelle.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="basalti" data-side="Araştırma" data-tools="Safetensors, PyTorch, llama.cpp, Jinja2" data-search="ai-guvence-22 pickle, safetensors, gguf ve chat template riskleri model dosyası biçimlerinin yürütme ve ayrıştırma farklarını, gguf içindeki chat template’in rol sınırlarını ve prompt manipülasyonu riskini yalıtılmış örneklerle karşılaştırmayı öğretir. safetensors, pytorch, llama.cpp, jinja2">
+ <td data-label="Ders"><code>ai-guvence-22</code></td><td data-label="Başlık ve kazanım"><strong>Pickle, Safetensors, GGUF ve Chat Template Riskleri</strong><p>Model dosyası biçimlerinin yürütme ve ayrıştırma farklarını, GGUF içindeki chat template’in rol sınırlarını ve prompt manipülasyonu riskini yalıtılmış örneklerle karşılaştırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">Safetensors, PyTorch, llama.cpp, Jinja2</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="basalti" data-side="Güvence" data-tools="llama.cpp, GGUF, Promptfoo, garak" data-search="ai-guvence-23 quantization kaynaklı güvenlik regresyonu gguf quantization seviyeleri arasında aynı güvenlik ve yetenek testlerini çalıştırarak ağırlık sıkıştırmasının hizalama davranışına etkisini ölçmeyi öğretir. llama.cpp, gguf, promptfoo, garak">
+ <td data-label="Ders"><code>ai-guvence-23</code></td><td data-label="Başlık ve kazanım"><strong>Quantization Kaynaklı Güvenlik Regresyonu</strong><p>GGUF quantization seviyeleri arasında aynı güvenlik ve yetenek testlerini çalıştırarak ağırlık sıkıştırmasının hizalama davranışına etkisini ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">llama.cpp, GGUF, Promptfoo, garak</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="basalti" data-side="Araştırma" data-tools="PyTorch, Transformers, Promptfoo" data-search="ai-guvence-24 sleeper agent ve model ağırlığı backdoor ölçümü tetikleyiciye bağlı davranışların temiz ve tetikli girdilerdeki farkını ölçerek model ağırlıklarına gömülü backdoor iddialarını kanıtla sınamayı öğretir. pytorch, transformers, promptfoo">
+ <td data-label="Ders"><code>ai-guvence-24</code></td><td data-label="Başlık ve kazanım"><strong>Sleeper Agent ve Model Ağırlığı Backdoor Ölçümü</strong><p>Tetikleyiciye bağlı davranışların temiz ve tetikli girdilerdeki farkını ölçerek model ağırlıklarına gömülü backdoor iddialarını kanıtla sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">PyTorch, Transformers, Promptfoo</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="basalti" data-side="Güvence" data-tools="Ollama, Safetensors, modelscan, Syft" data-search="ai-guvence-25 yerel model tedarik zinciri değerlendirmesi yerel modelin indirme, bağımlılık, dosya biçimi ve çalıştırma katmanlarını ölçümlerle desteklenen raporda değerlendirmeyi öğretir. ollama, safetensors, modelscan, syft">
+ <td data-label="Ders"><code>ai-guvence-25</code></td><td data-label="Başlık ve kazanım"><strong>Yerel Model Tedarik Zinciri Değerlendirmesi</strong><p>Yerel modelin indirme, bağımlılık, dosya biçimi ve çalıştırma katmanlarını ölçümlerle desteklenen raporda değerlendirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Ollama, Safetensors, modelscan, Syft</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-guvence-baspehlivan" class="module" open data-module-key="ai-guvence:baspehlivan" data-module-track="ai-guvence" data-rank="baspehlivan">
+ <summary><span class="rank">06 · Başpehlivan</span><span>Araştırma ve Saha</span><small>7 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="baspehlivan" data-side="Araştırma" data-tools="PyTorch, ART, MLflow, JupyterLab" data-search="ai-guvence-26 makale replikasyonu ve sapma analizi bir ai güvenliği makalesinin temel deneyini yeniden üreterek sonuç farklarını veri, hiperparametre ve uygulama ayrıntılarıyla açıklamayı öğretir. pytorch, art, mlflow, jupyterlab">
+ <td data-label="Ders"><code>ai-guvence-26</code></td><td data-label="Başlık ve kazanım"><strong>Makale Replikasyonu ve Sapma Analizi</strong><p>Bir AI güvenliği makalesinin temel deneyini yeniden üreterek sonuç farklarını veri, hiperparametre ve uygulama ayrıntılarıyla açıklamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">PyTorch, ART, MLflow, JupyterLab</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="baspehlivan" data-side="Araştırma" data-tools="Ollama" data-search="ai-guvence-33 red team metodolojisi ve tekrarlanabilir değerlendirme kapsam ve kuralı doğrula, bulguyu şiddetle puanla ve birleştir, iddiayı tek koşuyla değil gerçek modelde n koşunun tekrarlanabilirliğiyle kanıtla. ollama">
+ <td data-label="Ders"><code>ai-guvence-33</code></td><td data-label="Başlık ve kazanım"><strong>Red Team Metodolojisi ve Tekrarlanabilir Değerlendirme</strong><p>Kapsam ve kuralı doğrula, bulguyu şiddetle puanla ve birleştir, iddiayı tek koşuyla değil gerçek modelde N koşunun tekrarlanabilirliğiyle kanıtla.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="baspehlivan" data-side="Araştırma" data-tools="Ollama" data-search="ai-guvence-34 llm uygulama pentest köprüsü: ssrf ve yetki modelin etrafındaki uygulamayı saldırı yüzeyi gör; url&#x27;leri ssrf + allow-list kapısından geçir, idor&#x27;u engelle ve gerçek modelin iç-adres denemesini durdur. ollama">
+ <td data-label="Ders"><code>ai-guvence-34</code></td><td data-label="Başlık ve kazanım"><strong>LLM Uygulama Pentest Köprüsü: SSRF ve Yetki</strong><p>Modelin etrafındaki uygulamayı saldırı yüzeyi gör; URL&#x27;leri SSRF + allow-list kapısından geçir, IDOR&#x27;u engelle ve gerçek modelin iç-adres denemesini durdur.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="baspehlivan" data-side="Araştırma" data-tools="LM Evaluation Harness, Promptfoo, Ollama" data-search="ai-guvence-27 açık eval tasarımı ve kalibrasyonu görev seti, değerlendirici, başarısızlık sınıfları ve insan doğrulaması örneklemiyle ölçüm kalibrasyonunu sınamayı öğretir. lm evaluation harness, promptfoo, ollama">
+ <td data-label="Ders"><code>ai-guvence-27</code></td><td data-label="Başlık ve kazanım"><strong>Açık Eval Tasarımı ve Kalibrasyonu</strong><p>Görev seti, değerlendirici, başarısızlık sınıfları ve insan doğrulaması örneklemiyle ölçüm kalibrasyonunu sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">LM Evaluation Harness, Promptfoo, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="baspehlivan" data-side="Araştırma" data-tools="Ollama, Promptfoo, opt-in güçlü model API’si" data-search="ai-guvence-28 opt-in küçük–güçlü model karşılaştırması açık tercihle küçük ve güçlü modelleri aynı görevlerde karşılaştırarak kalite, maliyet, gecikme ve güvenlik farklarını ölçmeyi öğretir. ollama, promptfoo, opt-in güçlü model api’si">
+ <td data-label="Ders"><code>ai-guvence-28</code></td><td data-label="Başlık ve kazanım"><strong>Opt-in Küçük–Güçlü Model Karşılaştırması</strong><p>Açık tercihle küçük ve güçlü modelleri aynı görevlerde karşılaştırarak kalite, maliyet, gecikme ve güvenlik farklarını ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">Ollama, Promptfoo, opt-in güçlü model API’si</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="baspehlivan" data-side="Güvence" data-tools="Markdown, Git, CVSS Calculator" data-search="ai-guvence-29 sorumlu bildirim raporu yetkili veya sentetik bulguyu etki, yeniden üretim adımları, kapsam, kanıt ve belirsizliklerle sorumlu bildirim standardında raporlamayı öğretir. markdown, git, cvss calculator">
+ <td data-label="Ders"><code>ai-guvence-29</code></td><td data-label="Başlık ve kazanım"><strong>Sorumlu Bildirim Raporu</strong><p>Yetkili veya sentetik bulguyu etki, yeniden üretim adımları, kapsam, kanıt ve belirsizliklerle sorumlu bildirim standardında raporlamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Markdown, Git, CVSS Calculator</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-guvence" data-status="Yazıldı" data-rank="baspehlivan" data-side="Araştırma" data-tools="ART, Promptfoo, PyTorch, MLflow" data-search="ai-guvence-30 yayınlanabilir purple çalışma saldırı ve savunma deneylerini ortak ölçütlerle birleştirip yöntem, karşılaştırma ve yeniden üretim paketiyle yayınlanabilir çalışma hazırlamayı öğretir. art, promptfoo, pytorch, mlflow">
+ <td data-label="Ders"><code>ai-guvence-30</code></td><td data-label="Başlık ve kazanım"><strong>Yayınlanabilir Purple Çalışma</strong><p>Saldırı ve savunma deneylerini ortak ölçütlerle birleştirip yöntem, karşılaştırma ve yeniden üretim paketiyle yayınlanabilir çalışma hazırlamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Araştırma</span></td><td data-label="Gerçek araç">ART, Promptfoo, PyTorch, MLflow</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+</section>
+<section class="track" data-track-section="ai-ile-guvenlik">
+ <header class="track-head"><span>TRACK / 05</span><h2>ai-ile-guvenlik</h2><p>AI ile Güvenlik: Zafiyet Avı, Triyaj ve Otonom Savunma</p><b>18 ders</b></header>
+ 
+<details id="module-ai-ile-guvenlik-minik" class="module" open data-module-key="ai-ile-guvenlik:minik" data-module-track="ai-ile-guvenlik" data-rank="minik">
+ <summary><span class="rank">01 · Minik</span><span>Yerel LLM&#x27;i Güvenlik Aracı Olarak Kullanmak</span><small>3 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="minik" data-side="Savunma" data-tools="Ollama, Python" data-search="ai-ile-guvenlik-01 yapılandırılmış güvenlik çıktısı ve şema zorlama güvenlik analizinde serbest metin yerine katı json şeması üretmeyi, eksik/fazla alanları ve tip kaymalarını yakalamayı ve yeniden deneme bütçesini öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-ile-guvenlik-01</code></td><td data-label="Başlık ve kazanım"><strong>Yapılandırılmış Güvenlik Çıktısı ve Şema Zorlama</strong><p>Güvenlik analizinde serbest metin yerine katı JSON şeması üretmeyi, eksik/fazla alanları ve tip kaymalarını yakalamayı ve yeniden deneme bütçesini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="minik" data-side="Güvence" data-tools="Ollama, Python ast/difflib" data-search="ai-ile-guvenlik-02 güvenlik analizinde halüsinasyon ve kanıt eşleştirme modelin raporladığı satır numarası, dosya yolu, cve veya paket adını kaynak dosyayla çapraz doğrulamayı ve halüsinasyon oranını hesaplamayı öğretir. ollama, python ast/difflib">
+ <td data-label="Ders"><code>ai-ile-guvenlik-02</code></td><td data-label="Başlık ve kazanım"><strong>Güvenlik Analizinde Halüsinasyon ve Kanıt Eşleştirme</strong><p>Modelin raporladığı satır numarası, dosya yolu, CVE veya paket adını kaynak dosyayla çapraz doğrulamayı ve halüsinasyon oranını hesaplamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Ollama, Python ast/difflib</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="minik" data-side="Temel" data-tools="Ollama all-minilm:22m, SQLite" data-search="ai-ile-guvenlik-03 embedding ile güvenlik korpusu ve benzer zafiyet arama zafiyet kayıtlarını, olay özetlerini ve yama notlarını yerel embedding modeliyle indekslemeyi ve kosinüs benzerliğiyle benzer vakaları bulmayı öğretir. ollama all-minilm:22m, sqlite">
+ <td data-label="Ders"><code>ai-ile-guvenlik-03</code></td><td data-label="Başlık ve kazanım"><strong>Embedding ile Güvenlik Korpusu ve Benzer Zafiyet Arama</strong><p>Zafiyet kayıtlarını, olay özetlerini ve yama notlarını yerel embedding modeliyle indekslemeyi ve kosinüs benzerliğiyle benzer vakaları bulmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side base">Temel</span></td><td data-label="Gerçek araç">Ollama all-minilm:22m, SQLite</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-ile-guvenlik-tesviye" class="module" open data-module-key="ai-ile-guvenlik:tesviye" data-module-track="ai-ile-guvenlik" data-rank="tesviye">
+ <summary><span class="rank">02 · Tesviye</span><span>Kod Okuma ve Zafiyet Avında LLM</span><small>3 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="Python ast, Ollama" data-search="ai-ile-guvenlik-04 ast ön-elemesi ve llm ile kaynak–evye (source-to-sink) triyajı python ast ile tehlikeli çağrı adaylarını çıkarmayı ve sabit dizge ile kullanıcı girdisini ayırt etmek için llm triyajı ve yanlış pozitif ölçümü yapmayı öğretir. python ast, ollama">
+ <td data-label="Ders"><code>ai-ile-guvenlik-04</code></td><td data-label="Başlık ve kazanım"><strong>AST Ön-Elemesi ve LLM ile Kaynak–Evye (Source-to-Sink) Triyajı</strong><p>Python ast ile tehlikeli çağrı adaylarını çıkarmayı ve sabit dizge ile kullanıcı girdisini ayırt etmek için LLM triyajı ve yanlış pozitif ölçümü yapmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Python ast, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="Python re, Ollama" data-search="ai-ile-guvenlik-05 kimlik bilgisi ve sır sızıntısı avında bağlamsal triyaj regex/entropi tarayıcılarının ürettiği sahte alarmları gerçek sır sızıntısından ayırmayı ve modele gerçek sırrı göndermeden maskeli bağlamla sınıflandırmayı öğretir. python re, ollama">
+ <td data-label="Ders"><code>ai-ile-guvenlik-05</code></td><td data-label="Başlık ve kazanım"><strong>Kimlik Bilgisi ve Sır Sızıntısı Avında Bağlamsal Triyaj</strong><p>Regex/entropi tarayıcılarının ürettiği sahte alarmları gerçek sır sızıntısından ayırmayı ve modele gerçek sırrı göndermeden maskeli bağlamla sınıflandırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Python re, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="tesviye" data-side="Savunma" data-tools="Ollama, Python unittest" data-search="ai-ile-guvenlik-06 yama önerisi üretimi ve regresyon doğrulaması açıklı kod parçası için yerel modelden yama üretmeyi ve yamanın hem açığı kapattığını hem normal işlevi bozmadığını otomatik sınamayı öğretir. ollama, python unittest">
+ <td data-label="Ders"><code>ai-ile-guvenlik-06</code></td><td data-label="Başlık ve kazanım"><strong>Yama Önerisi Üretimi ve Regresyon Doğrulaması</strong><p>Açıklı kod parçası için yerel modelden yama üretmeyi ve yamanın hem açığı kapattığını hem normal işlevi bozmadığını otomatik sınamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, Python unittest</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-ile-guvenlik-kucuk-orta" class="module" open data-module-key="ai-ile-guvenlik:kucuk-orta" data-module-track="ai-ile-guvenlik" data-rank="kucuk-orta">
+ <summary><span class="rank">03 · Küçük Orta</span><span>Keşif ve Fuzzing Otomasyonu</span><small>3 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="http_tezgah, Ollama" data-search="ai-ile-guvenlik-07 kapsam kilitli http keşfi ve parametre haritalama yerel web tezgahından dönen uç noktaları ve form parametrelerini ayrıştırmayı ve kapsam dışı hedefleri reddeden deterministik keşif kapısını öğretir. http_tezgah, ollama">
+ <td data-label="Ders"><code>ai-ile-guvenlik-07</code></td><td data-label="Başlık ve kazanım"><strong>Kapsam Kilitli HTTP Keşfi ve Parametre Haritalama</strong><p>Yerel web tezgahından dönen uç noktaları ve form parametrelerini ayrıştırmayı ve kapsam dışı hedefleri reddeden deterministik keşif kapısını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">http_tezgah, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-ile-guvenlik-08 dilbilgisi destekli (grammar-guided) fuzzing yükü üretimi modelin rastgele bozuk metin yerine hedef ayrıştırıcının sınır durumlarını zorlayan kurallı mutasyon yükleri üretmesini ve yanıt anomalisi tespitini öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-ile-guvenlik-08</code></td><td data-label="Başlık ve kazanım"><strong>Dilbilgisi Destekli (Grammar-Guided) Fuzzing Yükü Üretimi</strong><p>Modelin rastgele bozuk metin yerine hedef ayrıştırıcının sınır durumlarını zorlayan kurallı mutasyon yükleri üretmesini ve yanıt anomalisi tespitini öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="kucuk-orta" data-side="Saldırı" data-tools="Playwright, Chromium, Ollama" data-search="ai-ile-guvenlik-09 başsız tarayıcı (playwright) ile dom güvenlik denetimi yerel html uygulamasında playwright ile form, gizli girdi ve csp yüzeyini toplamayı ve dış ağ kapalıyken model destekli güvenlik doğrulamasını öğretir. playwright, chromium, ollama">
+ <td data-label="Ders"><code>ai-ile-guvenlik-09</code></td><td data-label="Başlık ve kazanım"><strong>Başsız Tarayıcı (Playwright) ile DOM Güvenlik Denetimi</strong><p>Yerel HTML uygulamasında Playwright ile form, gizli girdi ve CSP yüzeyini toplamayı ve dış ağ kapalıyken model destekli güvenlik doğrulamasını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Playwright, Chromium, Ollama</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-ile-guvenlik-buyuk-orta" class="module" open data-module-key="ai-ile-guvenlik:buyuk-orta" data-module-track="ai-ile-guvenlik" data-rank="buyuk-orta">
+ <summary><span class="rank">04 · Büyük Orta</span><span>Log, Telemetri ve Alarm Triyajı</span><small>3 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Ollama, JSONL" data-search="ai-ile-guvenlik-10 çoklu log akışı özeti ve kanıt satırı doğrulaması web, kimlik doğrulama ve dns loglarını kümelemeyi, yerel modelle olay özeti üretmeyi ve özetteki her varlığı ham log satırlarıyla doğrulamayı öğretir. ollama, jsonl">
+ <td data-label="Ders"><code>ai-ile-guvenlik-10</code></td><td data-label="Başlık ve kazanım"><strong>Çoklu Log Akışı Özeti ve Kanıt Satırı Doğrulaması</strong><p>Web, kimlik doğrulama ve DNS loglarını kümelemeyi, yerel modelle olay özeti üretmeyi ve özetteki her varlığı ham log satırlarıyla doğrulamayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, JSONL</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Ollama, Sigma" data-search="ai-ile-guvenlik-11 llm destekli sigma kuralı taslağı ve yanlış alarm sınaması saldırı örneğinden yerel modelle sigma kuralı taslağı üretmeyi, şemasını doğrulamayı ve temiz/saldırı log korpusunda tpr ile fpr oranını ölçmeyi öğretir. ollama, sigma">
+ <td data-label="Ders"><code>ai-ile-guvenlik-11</code></td><td data-label="Başlık ve kazanım"><strong>LLM Destekli Sigma Kuralı Taslağı ve Yanlış Alarm Sınaması</strong><p>Saldırı örneğinden yerel modelle Sigma kuralı taslağı üretmeyi, şemasını doğrulamayı ve temiz/saldırı log korpusunda TPR ile FPR oranını ölçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, Sigma</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="buyuk-orta" data-side="Savunma" data-tools="Ollama, Python" data-search="ai-ile-guvenlik-12 log enjeksiyonuna dayanıklı soc triyaj hattı saldırganın user-agent veya kullanıcı adına gömdüğü dolaylı prompt injection yüklerinin soc özetleyici modelini yanıltmasını engellemeyi öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-ile-guvenlik-12</code></td><td data-label="Başlık ve kazanım"><strong>Log Enjeksiyonuna Dayanıklı SOC Triyaj Hattı</strong><p>Saldırganın User-Agent veya kullanıcı adına gömdüğü dolaylı prompt injection yüklerinin SOC özetleyici modelini yanıltmasını engellemeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-ile-guvenlik-basalti" class="module" open data-module-key="ai-ile-guvenlik:basalti" data-module-track="ai-ile-guvenlik" data-rank="basalti">
+ <summary><span class="rank">05 · Başaltı</span><span>Kendi Güvenlik Ajanını Yazmak</span><small>3 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="Ollama, Python" data-search="ai-ile-guvenlik-13 salt-okunur keşif ajanı ve deterministik kapsam kilidi araç çağıran yerel güvenlik ajanında hedef ip/alan/dosya kapsam kilidi, adım bütçesi ve döngü kırıcı tasarımını öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-ile-guvenlik-13</code></td><td data-label="Başlık ve kazanım"><strong>Salt-Okunur Keşif Ajanı ve Deterministik Kapsam Kilidi</strong><p>Araç çağıran yerel güvenlik ajanında hedef IP/alan/dosya kapsam kilidi, adım bütçesi ve döngü kırıcı tasarımını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="Ollama, hashlib/hmac" data-search="ai-ile-guvenlik-14 yıkıcı eylemlerde i̇nsan onayı (hitl) ve i̇mzalı görev kapısı güvenlik ajanının karantina, ip engelleme veya dosya silme gibi yüksek etkili araçları yalnızca doğrulanmış insan onayı ve parametre özeti eşleştiğinde çalıştırmasını öğretir. ollama, hashlib/hmac">
+ <td data-label="Ders"><code>ai-ile-guvenlik-14</code></td><td data-label="Başlık ve kazanım"><strong>Yıkıcı Eylemlerde İnsan Onayı (HITL) ve İmzalı Görev Kapısı</strong><p>Güvenlik ajanının karantina, IP engelleme veya dosya silme gibi yüksek etkili araçları yalnızca doğrulanmış insan onayı ve parametre özeti eşleştiğinde çalıştırmasını öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, hashlib/hmac</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="basalti" data-side="Savunma" data-tools="Ollama, Python" data-search="ai-ile-guvenlik-15 çok ajanlı mavi/mor takım i̇ş akışı (toplayıcı → analist → doğrulayıcı) kanıt toplayan ajan, hipotez kuran analist ajan ve bulguyu bağımsız araçla doğrulayan hakem ajanın görev ayrımını ve zehirlenme izolasyonunu öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-ile-guvenlik-15</code></td><td data-label="Başlık ve kazanım"><strong>Çok Ajanlı Mavi/Mor Takım İş Akışı (Toplayıcı → Analist → Doğrulayıcı)</strong><p>Kanıt toplayan ajan, hipotez kuran analist ajan ve bulguyu bağımsız araçla doğrulayan hakem ajanın görev ayrımını ve zehirlenme izolasyonunu öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+<details id="module-ai-ile-guvenlik-baspehlivan" class="module" open data-module-key="ai-ile-guvenlik:baspehlivan" data-module-track="ai-ile-guvenlik" data-rank="baspehlivan">
+ <summary><span class="rank">06 · Başpehlivan</span><span>Güvenlik Ajanını Değerlendirmek ve Güvence</span><small>3 ders</small></summary>
+ <div class="table-wrap"><table><thead><tr><th>DERS</th><th>BAŞLIK VE KAZANIM</th><th>TARAF</th><th>GERÇEK ARAÇ</th><th>DURUM</th></tr></thead><tbody>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="baspehlivan" data-side="Güvence" data-tools="Ollama, Promptfoo" data-search="ai-ile-guvenlik-16 güvenlik ajanlarında hassasiyet, duyarlılık ve maliyet dengesi farklı istem/model/eşik ayarlarında güvenlik ajanının precision, recall, f1, gecikme ve token maliyetini birlikte ölçüp pareto optimal yapılandırmayı seçmeyi öğretir. ollama, promptfoo">
+ <td data-label="Ders"><code>ai-ile-guvenlik-16</code></td><td data-label="Başlık ve kazanım"><strong>Güvenlik Ajanlarında Hassasiyet, Duyarlılık ve Maliyet Dengesi</strong><p>Farklı istem/model/eşik ayarlarında güvenlik ajanının precision, recall, F1, gecikme ve token maliyetini birlikte ölçüp Pareto optimal yapılandırmayı seçmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Güvence</span></td><td data-label="Gerçek araç">Ollama, Promptfoo</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="baspehlivan" data-side="Saldırı" data-tools="Ollama, Python" data-search="ai-ile-guvenlik-17 güvenlik ajanına karşı kırmızı takım (anti-triage &amp; evasion) saldırganın güvenlik ajanını kör etmek, yanlış hedefe yönlendirmek veya sonsuz araç döngüsüne sokmak için kullandığı karşı-saldırıları sınamayı ve sağlamlaştırmayı öğretir. ollama, python">
+ <td data-label="Ders"><code>ai-ile-guvenlik-17</code></td><td data-label="Başlık ve kazanım"><strong>Güvenlik Ajanına Karşı Kırmızı Takım (Anti-Triage &amp; Evasion)</strong><p>Saldırganın güvenlik ajanını kör etmek, yanlış hedefe yönlendirmek veya sonsuz araç döngüsüne sokmak için kullandığı karşı-saldırıları sınamayı ve sağlamlaştırmayı öğretir.</p></td>
+ <td data-label="Taraf"><span class="side red">Saldırı</span></td><td data-label="Gerçek araç">Ollama, Python</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr>
+<tr data-track="ai-ile-guvenlik" data-status="Yazıldı" data-rank="baspehlivan" data-side="Savunma" data-tools="Ollama, SQLite, Sandbox" data-search="ai-ile-guvenlik-18 uçtan uca yerel ai destekli olay müdahale ve doğrulama tatbikatı log anomalisi tespiti, kök neden hipotezi, kapsam kilitli inceleme, insan onaylı müdahale ve regresyon kuralı üretimini tek bir tekrarlanabilir kanıt paketinde birleştirmeyi öğretir. ollama, sqlite, sandbox">
+ <td data-label="Ders"><code>ai-ile-guvenlik-18</code></td><td data-label="Başlık ve kazanım"><strong>Uçtan Uca Yerel AI Destekli Olay Müdahale ve Doğrulama Tatbikatı</strong><p>Log anomalisi tespiti, kök neden hipotezi, kapsam kilitli inceleme, insan onaylı müdahale ve regresyon kuralı üretimini tek bir tekrarlanabilir kanıt paketinde birleştirmeyi öğretir.</p></td>
+ <td data-label="Taraf"><span class="side blue">Savunma</span></td><td data-label="Gerçek araç">Ollama, SQLite, Sandbox</td>
+ <td data-label="Durum"><span class="status s-Yazıldı">Yazıldı</span></td>
+</tr></tbody></table></div>
+</details>
+</section>
+<div class="footer">Durum akışı: <b>Planlandı → Yazıldı → Denetlendi</b>. “Denetlendi” yalnız bağımsız denetçi validate, tahmin, mutasyon ve derinlik kontrollerini tamamladığında kullanılır.<br>Yetkili saha çalışmaları, CTF, açık kaynak katkısı ve bug bounty isteğe bağlı portföy hedefleridir; rütbe veya validate şartı değildir.</div>
+</main><script>
+const rows=[...document.querySelectorAll('tbody tr')], modules=[...document.querySelectorAll('.module')], tracks=[...document.querySelectorAll('[data-track-section]')];
+const q=document.querySelector('#q'), tools=document.querySelector('#tools'), track=document.querySelector('#track'), rank=document.querySelector('#rank'), side=document.querySelector('#side'), status=document.querySelector('#status');
+const FILTER_KEY='pafta-ai-plan-filter', VIEW_KEY='pafta-ai-plan-view', AUTO_KEY='pafta-ai-auto-refresh';
+const filterControls={q,tools,track,rank,side,status};
+let refreshTimer=null, autoRefresh=true;
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+function store(key,value){try{sessionStorage.setItem(key,value)}catch(e){}}
+function read(key){try{return sessionStorage.getItem(key)}catch(e){return null}}
+function saveFilters(){store(FILTER_KEY,JSON.stringify(Object.fromEntries(Object.entries(filterControls).map(([key,el])=>[key,el.value]))))}
+function saveView(){const states={};modules.forEach(m=>states[m.dataset.moduleKey]=m.open);store(VIEW_KEY,JSON.stringify({scrollY:window.scrollY,modules:states}))}
+function syncToggle(){document.querySelector('#toggle').textContent=modules.some(m=>m.open)?'Modülleri kapat':'Modülleri aç'}
+function apply(){const needle=q.value.trim().toLocaleLowerCase('tr-TR'), toolNeedle=tools.value.trim().toLocaleLowerCase('tr-TR');let visible=0;rows.forEach(r=>{const show=(!needle||r.dataset.search.includes(needle))&&(!toolNeedle||r.dataset.tools.toLocaleLowerCase('tr-TR').includes(toolNeedle))&&(!track.value||r.dataset.track===track.value)&&(!rank.value||r.dataset.rank===rank.value)&&(!side.value||r.dataset.side===side.value)&&(!status.value||r.dataset.status===status.value);r.classList.toggle('hidden',!show);if(show)visible++;});modules.forEach(m=>{const count=[...m.querySelectorAll('tbody tr:not(.hidden)')].length;m.classList.toggle('hidden',count===0);m.querySelector('summary small').textContent=count+' ders';});tracks.forEach(t=>t.classList.toggle('hidden',![...t.querySelectorAll('.module:not(.hidden)')].length));document.querySelector('#result').textContent=visible+' / 153 ders gösteriliyor';saveFilters()}
+function updateAuto(){document.querySelector('#auto-refresh').textContent=autoRefresh?'Otomatik yenilemeyi durdur':'Otomatik yenilemeyi başlat';document.querySelector('#refresh-state').textContent=autoRefresh?'20 saniyede bir yenilenir':'Otomatik yenileme durduruldu'}
+function scheduleRefresh(){clearTimeout(refreshTimer);if(autoRefresh)refreshTimer=setTimeout(()=>{saveFilters();saveView();location.reload()},20000)}
+Object.values(filterControls).forEach(el=>el.addEventListener(el===q||el===tools?'input':'change',apply));
+document.querySelector('#reset').addEventListener('click',()=>{Object.values(filterControls).forEach(el=>el.value='');apply()});
+document.querySelector('#toggle').addEventListener('click',()=>{const close=modules.some(m=>m.open);modules.forEach(m=>m.open=!close);saveView();syncToggle()});
+document.querySelector('#auto-refresh').addEventListener('click',()=>{autoRefresh=!autoRefresh;store(AUTO_KEY,autoRefresh?'1':'0');updateAuto();scheduleRefresh()});
+modules.forEach(m=>m.addEventListener('toggle',()=>{saveView();syncToggle()}));
+window.addEventListener('pagehide',()=>{saveFilters();saveView()});
+try{const filters=JSON.parse(read(FILTER_KEY)||'{}');for(const [key,el] of Object.entries(filterControls))if(typeof filters[key]==='string')el.value=filters[key]}catch(e){}
+autoRefresh=read(AUTO_KEY)!=='0';
+let savedView=null;try{savedView=JSON.parse(read(VIEW_KEY)||'null');if(savedView&&savedView.modules)modules.forEach(m=>{const key=m.dataset.moduleKey;if(Object.prototype.hasOwnProperty.call(savedView.modules,key))m.open=Boolean(savedView.modules[key])})}catch(e){}
+apply();syncToggle();updateAuto();scheduleRefresh();
+if(savedView&&Number.isFinite(Number(savedView.scrollY)))requestAnimationFrame(()=>window.scrollTo(0,Number(savedView.scrollY)));
+</script></body></html>

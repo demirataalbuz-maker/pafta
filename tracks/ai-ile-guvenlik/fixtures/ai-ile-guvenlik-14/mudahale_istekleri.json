@@ -1,0 +1,33 @@
+{
+  "gizli_anahtar": "pafta-hitl-sentetik-anahtar-2026",
+  "istekler": [
+    {
+      "istek_id": "req-101",
+      "arac": "oturum_listele",
+      "hedef": "10.20.9.88",
+      "risk_sinifi": "salt_okunur",
+      "onay_jetonu": ""
+    },
+    {
+      "istek_id": "req-102",
+      "arac": "ip_engelle",
+      "hedef": "10.20.9.88",
+      "risk_sinifi": "yikici",
+      "onay_jetonu": "c986fc70907fc102fc664569fadb84af530e3fd68c32ddb4d0b648da59136374"
+    },
+    {
+      "istek_id": "req-103",
+      "arac": "hesap_kapat",
+      "hedef": "svc_backup",
+      "risk_sinifi": "yikici",
+      "onay_jetonu": ""
+    },
+    {
+      "istek_id": "req-104",
+      "arac": "ip_engelle",
+      "hedef": "10.20.1.1",
+      "risk_sinifi": "yikici",
+      "onay_jetonu": "c986fc70907fc102fc664569fadb84af530e3fd68c32ddb4d0b648da59136374"
+    }
+  ]
+}

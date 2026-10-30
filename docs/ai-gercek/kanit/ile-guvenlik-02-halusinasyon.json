@@ -1,0 +1,164 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-02",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ayarlar": {
+  "max_halusinasyon_orani": 0.4
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "ayarlar": {
+   "max_halusinasyon_orani": 0.4
+  },
+  "canli_yanit": "Evet, senin kodunu inceleyelim:\n\n```python\nimport sqlite3\ndef sorgula(k):\n    sql = 'SELECT * FROM hesaplar WHERE ad = ' + k\n    return sql\n```\n\n### Sorun: SQL Sorgusu Doğrulama\n\nSatır 3'teki SQL sorgusu şu şekilde:\n\n```python\nsql =",
+  "oran": {
+   "dogrulanan_idleri": [
+    "canli-dogru-1",
+    "canli-dogru-2"
+   ],
+   "halusinasyon_turleri": {
+    "uydurma_satir": 1
+   },
+   "halusinasyon_orani": 0.3333
+  },
+  "suzgec": {
+   "kabul_edilen_bulgular": [
+    "canli-dogru-1",
+    "canli-dogru-2"
+   ],
+   "elenen_idleri": [
+    "canli-halusinasyon-1"
+   ],
+   "halusinasyon_orani": 0.3333,
+   "rapor_karari": "onaylandi"
+  },
+  "kontroller": {
+   "tekil_eslestirme_uyumu": true,
+   "halusinasyon_orani_uyumu": true,
+   "suzgec_uyumu": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "dogrulanan_sayisi": 2,
+   "elenen_sayisi": 1,
+   "halusinasyon_orani": 0.3333,
+   "rapor_karari": "onaylandi"
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "dogrulanan_sayisi": 2,
+  "elenen_sayisi": 1,
+  "halusinasyon_orani": 0.3333,
+  "rapor_karari": "onaylandi"
+ },
+ "pilot": "ile-guvenlik-02-halusinasyon",
+ "zaman": "2026-10-29T18:09:33+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 439 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "2aa7b8c413ad699bacb8e53855e7d0a8072efa53b238ae976b8b90f07a532941",
+ "mod": "test"
+}

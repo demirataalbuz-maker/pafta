@@ -1,0 +1,6 @@
+# Kullanıcı görselindeki boş104–118 kutuları
+Kullanıcı15boşkutuyu tamamlama talimatı verdi:ai-guvence16–30. Hepsi trackerda codex adına alındı;başkasının14işine dokunulmadı.
+Parent16:CLI9/9,validate9temiz,persistenceOK,UI19/19+RunOK;rapor outputs/codex-ai-guvence-16-20261029/RAPOR.md. Gerçek CPUautogradshadow/target üyelik deneyi. Yakında trackerdenetimehazır.
+Yardımcılar: Hubble agent01a188fa-a02b-7203-9988-baef40c2df07=17–20;Dewey01a188fa-a0f9-7322-ac57-b82c3fd9ce1d=21–25;Einstein01a188fa-a1a6-7f70-b777-e4bc28b29c05=26–30. Doğrudan ortakprojedeyazarlar;özel dosyadilimleri ayrıdır. Ortakengine/webdavranışı/kurulum/commitpush yok. Parent GUI tek sahibi;ajanlar CLI/kod/rapor yapıpUIpendingolarakdöner,UIolmadantrackerdenetimehazırdemezler. Sonuçları geldikçe oku/review/UIyap.
+OwnUIserver:http127.0.0.1:18800 --veri outputs/codex-guvence-bos-20261029/ui-data;execsession8545,bu işeait. AnaPafta/Ollama/WSL/Docker/diğerajanservislerine dokunma. CUAprivacy16Tabtab18 currentguvence16/7. StartupAPIstate birkaçsaniyesürebilir;DOMyükleninceişlem.
+Kalan14ders henüz kabulü tamamlanmış sayılmaz. Herdersde referans/boş/sabit/3mutant/eksikbağımlılık/kalıcıdosya/gerçekKontrolRun/regresyon gerekir. Öğrenciinputayrı,testgörülmemişseed ayrı;sentetikveri/gerçekmodelçıktısı doğruetiketli. DP19için noiseeklemek otomatikDPgüvencesideğil,hesapvarsayımları açıkolmalı.

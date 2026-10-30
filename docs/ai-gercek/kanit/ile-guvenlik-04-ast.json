@@ -1,0 +1,205 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-04",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": true,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+  }
+ },
+ "ayarlar": {
+  "tehlikeli_evyeler": [
+   "eval",
+   "exec",
+   "system",
+   "run",
+   "Popen",
+   "execute"
+  ]
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": true,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+   }
+  },
+  "ayarlar": {
+   "tehlikeli_evyeler": [
+    "eval",
+    "exec",
+    "system",
+    "run",
+    "Popen",
+    "execute"
+   ]
+  },
+  "canli_yanit": "Evet, senin verdiğin kodda **dış kullanıcı girdisi doğrudan `os.system` içine giriyor**.\n\n### Kod analizi:\n\n```python\ndef islem(kullanici_verisi):\n    a = subprocess.run('uptime')\n    b = os.system(kullanici_verisi)\n    c = eval('10 + 20')\n    return a, b, c\n```\n\n- `",
+  "adaylar": [
+   {
+    "satir_no": 4,
+    "evye_adi": "run",
+    "arguman_turu": "sabit_deger"
+   },
+   {
+    "satir_no": 5,
+    "evye_adi": "system",
+    "arguman_turu": "dinamik_girdi"
+   },
+   {
+    "satir_no": 6,
+    "evye_adi": "eval",
+    "arguman_turu": "sabit_deger"
+   }
+  ],
+  "triyaj": {
+   "gercek_acik_satirlari": [
+    5
+   ],
+   "yanlis_alarm_satirlari": [
+    4
+   ],
+   "kacirilan_satirlar": [],
+   "yanlis_pozitif_orani": 0.5
+  },
+  "hibrit": {
+   "onaylanan_evye_satirlari": [
+    5
+   ],
+   "elenen_sabit_satirlar": [
+    4,
+    6
+   ],
+   "model_yanlis_pozitif_orani": 0.5,
+   "hibrit_yanlis_pozitif_orani": 0.0
+  },
+  "kontroller": {
+   "ast_aday_uyumu": true,
+   "triyaj_uyumu": true,
+   "hibrit_uyumu": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "aday_sayisi": 3,
+   "onaylanan_satirlar": [
+    5
+   ],
+   "elenen_sabit_satirlar": [
+    4,
+    6
+   ],
+   "model_fp_orani": 0.5
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "aday_sayisi": 3,
+  "onaylanan_satirlar": [
+   5
+  ],
+  "elenen_sabit_satirlar": [
+   4,
+   6
+  ],
+  "model_fp_orani": 0.5
+ },
+ "pilot": "ile-guvenlik-04-ast",
+ "zaman": "2026-10-29T18:24:53+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 3484 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "a7cbbf047201976673f3a5e00e087892230402eabac440a17e436cdf9acb72f7",
+ "mod": "test"
+}

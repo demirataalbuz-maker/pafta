@@ -1,0 +1,218 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "deneyler": [
+  {
+   "egitim": {
+    "seed": 7121,
+    "adim": 45,
+    "loss": [
+     0.6608859896659851,
+     0.01679942011833191
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "tanimlar": [
+    {
+     "id": "model",
+     "dosya": "model.pt",
+     "bagimliliklar": [
+      "veri",
+      "torch"
+     ]
+    },
+    {
+     "id": "veri",
+     "dosya": "veri.json",
+     "bagimliliklar": []
+    },
+    {
+     "id": "torch",
+     "dosya": "torch.json",
+     "bagimliliklar": []
+    }
+   ],
+   "once": [
+    {
+     "id": "model",
+     "sha256": "f5d52122b7c48888b822b1f416f663aa2d72e3f99b64fa101eeb38fd99c526f2",
+     "boyut": 2633,
+     "bagimliliklar": [
+      "torch",
+      "veri"
+     ]
+    },
+    {
+     "id": "torch",
+     "sha256": "75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4",
+     "boyut": 43,
+     "bagimliliklar": []
+    },
+    {
+     "id": "veri",
+     "sha256": "de2f3b76a36c6d46a9d31daba77542f568c275ca69dab97f60c6b33d38b79584",
+     "boyut": 193,
+     "bagimliliklar": []
+    }
+   ],
+   "sonra": [
+    {
+     "id": "model",
+     "sha256": "f5d52122b7c48888b822b1f416f663aa2d72e3f99b64fa101eeb38fd99c526f2",
+     "boyut": 2633,
+     "bagimliliklar": [
+      "torch",
+      "veri"
+     ]
+    },
+    {
+     "id": "torch",
+     "sha256": "75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4",
+     "boyut": 43,
+     "bagimliliklar": []
+    },
+    {
+     "id": "veri",
+     "sha256": "36ec7b7d223f4f721e8986f0c171eadc737cd0a94bc0458e5f4618395bb1e427",
+     "boyut": 195,
+     "bagimliliklar": []
+    }
+   ],
+   "reddedilen": [
+    "../outside.txt",
+    "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-g21-gxxfev39\\7121\\model.pt",
+    "missing.bin"
+   ],
+   "kontroller": {
+    "disk_hash_boyut_baglar": true,
+    "degisiklik_gercekten_olculdu": true,
+    "kok_siniri": true
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Bu yerel SHA-256 envanteridir; Syft/CycloneDX taramasi, lisans veya kaynagin guvenilirligi ispati degildir."
+  },
+  {
+   "egitim": {
+    "seed": 9221,
+    "adim": 45,
+    "loss": [
+     0.7312516570091248,
+     0.023567557334899902
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "tanimlar": [
+    {
+     "id": "model",
+     "dosya": "model.pt",
+     "bagimliliklar": [
+      "veri",
+      "torch"
+     ]
+    },
+    {
+     "id": "veri",
+     "dosya": "veri.json",
+     "bagimliliklar": []
+    },
+    {
+     "id": "torch",
+     "dosya": "torch.json",
+     "bagimliliklar": []
+    }
+   ],
+   "once": [
+    {
+     "id": "model",
+     "sha256": "281fdc64f9f9c5085f07abff6d9d3cda06415f12876062a690d37496684027a6",
+     "boyut": 2633,
+     "bagimliliklar": [
+      "torch",
+      "veri"
+     ]
+    },
+    {
+     "id": "torch",
+     "sha256": "75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4",
+     "boyut": 43,
+     "bagimliliklar": []
+    },
+    {
+     "id": "veri",
+     "sha256": "1bea0a2c256403ba709c2157aa30c8b9b8f04cfc9dd718656ba9dd5026185eee",
+     "boyut": 194,
+     "bagimliliklar": []
+    }
+   ],
+   "sonra": [
+    {
+     "id": "model",
+     "sha256": "281fdc64f9f9c5085f07abff6d9d3cda06415f12876062a690d37496684027a6",
+     "boyut": 2633,
+     "bagimliliklar": [
+      "torch",
+      "veri"
+     ]
+    },
+    {
+     "id": "torch",
+     "sha256": "75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4",
+     "boyut": 43,
+     "bagimliliklar": []
+    },
+    {
+     "id": "veri",
+     "sha256": "037f1523c81a9fcd12546f7390c6dc41814532da1d538f427a4823d41c4957b2",
+     "boyut": 196,
+     "bagimliliklar": []
+    }
+   ],
+   "reddedilen": [
+    "../outside.txt",
+    "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-g21-gxxfev39\\9221\\model.pt",
+    "missing.bin"
+   ],
+   "kontroller": {
+    "disk_hash_boyut_baglar": true,
+    "degisiklik_gercekten_olculdu": true,
+    "kok_siniri": true
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Bu yerel SHA-256 envanteridir; Syft/CycloneDX taramasi, lisans veya kaynagin guvenilirligi ispati degildir."
+  }
+ ],
+ "ortam": {
+  "python": "3.13.14",
+  "cihaz": "cpu",
+  "torch": "2.14.1+cu130"
+ },
+ "temizlik": "Gorev temp dosyalari kapsam sonunda temizlenir; JSON kaniti kalicidir.",
+ "pilot": "guvence-21-kabul",
+ "zaman": "2026-10-29T22:41:45+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 536 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "2646943ea59ad24e519afdd79676c9fe04611a14c7092a9016b3fdf1a41bde3a",
+ "mod": "test"
+}

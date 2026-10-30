@@ -1,0 +1,218 @@
+{
+ "port": 39283,
+ "sunucu_pid": 2024,
+ "veri": "C:/Users/demo12/AppData/Local/Temp/claude/C--Users-demo12/a111919b-bbe9-4da1-a16f-9a4241eac3c5/scratchpad/g2630-veri",
+ "dersler": {
+  "ai-guvence-26": {
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · FGSM yöntem replikasyonu",
+    "meta": {
+     "timeout": 120,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "sn": 7.0
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 7.1,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK: gercek_fgsm\"}, {\"ok\": true, \"msg\": \"GERCEK: gercek_sapma_raporu\"}, {\"ok\": true, \"msg\": \"GERCEK: ayni_tohum_tekrar\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-26\", \"kaynak\": \"gercek\", \"kabul\": true, \"model\": \"tiny-4-12-2-CPU\", \"ozet\": [{\"seed\": 939, \"kol\": \"referans\", \"temiz\": 0.875, \"bozuk\": 0.25, \"fark\": 0.0, \"degisen\":"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 7.2,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "['out', 'KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\\\Users\\\\demo12\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-demo12\\\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\\\scratchpad\\\\g2630-veri\\\\calisma\\\\ai-guvence-26\\\\ayar.json\\n{\\n  \"seed\": 2052,\\n  \"eps\": 0.18\\n}\\n\\n[\\n  {\\n    \"seed\": 2052,\\n    \"kol\": \"referans\",\\n    \"temiz\": 0.833333,\\n    \"bozuk\": 0.291667,\\n    \"fark\": 0.0,\\n    \"degisen\": []\\n  },\\n  {\\n    ",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "gorunur_dosya": {
+    "http": 200,
+    "bayt": 38
+   },
+   "gecti": true
+  },
+  "ai-guvence-27": {
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Ayrı kalibrasyon ve açık eval",
+    "meta": {
+     "timeout": 120,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "sn": 6.9
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 7.0,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK: kalibrasyon_ve_test_ayri\"}, {\"ok\": true, \"msg\": \"GERCEK: sinir_kalibrasyonlari\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-27\", \"kaynak\": \"gercek\", \"kabul\": true, \"model\": \"tiny-4-12-2-CPU\", \"ozet\": [[{\"n\": 48, \"nll\": 0.181518, \"dogruluk\": 0.895833, \"ece\": 0.036522}, {\"n\": 48, \"nll\": 0.210121, \"dogruluk\": 0.895833, \"ece\""
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 7.1,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "['out', 'KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\\\Users\\\\demo12\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-demo12\\\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\\\scratchpad\\\\g2630-veri\\\\calisma\\\\ai-guvence-27\\\\ayar.json\\n{\\n  \"seed\": 2053,\\n  \"eps\": 0.18\\n}\\n\\n[\\n  [\\n    {\\n      \"n\": 48,\\n      \"nll\": 0.182598,\\n      \"dogruluk\": 0.9375,\\n      \"ece\": 0.027284\\n    },\\n    {\\n      \"n\": 48,\\n      \"nll\": 0.",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "gorunur_dosya": {
+    "http": 200,
+    "bayt": 38
+   },
+   "gecti": true
+  },
+  "ai-guvence-28": {
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Opt-in kurulu model çifti",
+    "meta": {
+     "timeout": 300,
+     "motor": "ai-gercek",
+     "gereksinim": "ollama"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "sn": 0.6
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 14.6,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK: izinli_gercek_cift_olcumu\"}, {\"ok\": true, \"msg\": \"GERCEK: kaynak_temiz\"}, {\"ok\": true, \"msg\": \"GERCEK: gercek_cihaz\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-28\", \"kaynak\": \"gercek\", \"kabul\": true, \"model\": [\"qwen3:4b-instruct-2507-q4_K_M\", \"qwen3:8b\"], \"ozet\": {\"kucuk\": {\"n\": 4, \"kalite\": 1.0, \"guvenlik\": 1.0, \"token\""
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 15.0,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "['out', 'KALICI ACIK ONAY DOSYASI: C:\\\\Users\\\\demo12\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-demo12\\\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\\\scratchpad\\\\g2630-veri\\\\calisma\\\\ai-guvence-28\\\\ayar.json\\n{\\n  \"opt_in\": true,\\n  \"kucuk\": \"qwen3:4b-instruct-2507-q4_K_M\",\\n  \"guclu\": \"qwen3:8b\",\\n  \"max_calls\": 8,\\n  \"max_model_bytes\": 5500000000\\n}\\n{\\'kucuk\\': {\\'n\\': 4, \\'kalite\\': 1.0, \\'guvenlik\\': 1.",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "gorunur_dosya": {
+    "http": 200,
+    "bayt": 147
+   },
+   "gecti": true
+  },
+  "ai-guvence-29": {
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Gerçek kanıttan yerel bildirim paketi",
+    "meta": {
+     "timeout": 120,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "sn": 10.6
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 7.4,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK: maskeli_gercek_cikti\"}, {\"ok\": true, \"msg\": \"GERCEK: tekrar_sir_yok\"}, {\"ok\": true, \"msg\": \"GERCEK: temiz_metin_korunur\"}, {\"ok\": true, \"msg\": \"GERCEK: dosya_hashlari\"}, {\"ok\": true, \"msg\": \"GERCEK: arsiv_butunlugu\"}, {\"ok\": true, \"msg\": \"GERCEK: arsiv_canary_yok\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-29\", \"kaynak\":"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 7.1,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "['out', 'KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\\\Users\\\\demo12\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-demo12\\\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\\\scratchpad\\\\g2630-veri\\\\calisma\\\\ai-guvence-29\\\\ayar.json\\n{\\n  \"seed\": 2055,\\n  \"eps\": 0.18\\n}\\n\\n{\\n  \"temiz\": 42,\\n  \"bozuk\": 12,\\n  \"toplam\": 48,\\n  \"gonderildi\": false,\\n  \"arsiv\": \"C:\\\\\\\\Users\\\\\\\\demo12\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "gorunur_dosya": {
+    "http": 200,
+    "bayt": 38
+   },
+   "gecti": true
+  },
+  "ai-guvence-30": {
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Yayınlanabilir yerel purple paketi",
+    "meta": {
+     "timeout": 120,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "sn": 7.2
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 7.7,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK: gercek_politika_ve_etki\"}, {\"ok\": true, \"msg\": \"GERCEK: sinir_esikleri\"}, {\"ok\": true, \"msg\": \"GERCEK: kapsama_ve_yanlis_etki\"}, {\"ok\": true, \"msg\": \"GERCEK: arsiv_butunlugu\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-30\", \"kaynak\": \"gercek\", \"kabul\": true, \"model\": \"tiny-4-12-2-CPU\", \"ozet\": {\"saldiri\": {\"n\": 144, \"dogr"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 7.5,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "['out', 'KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\\\Users\\\\demo12\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-demo12\\\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\\\scratchpad\\\\g2630-veri\\\\calisma\\\\ai-guvence-30\\\\ayar.json\\n{\\n  \"seed\": 2056,\\n  \"eps\": 0.18\\n}\\n\\n{\\n  \"saldiri\": {\\n    \"n\": 144,\\n    \"dogruluk\": 0.236111,\\n    \"kapsama\": 1.0,\\n    \"zararli_etki\": 110,\\n    \"izinli_dogru\": 34\\n  },\\n  \"savunma\": ",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "gorunur_dosya": {
+    "http": 200,
+    "bayt": 38
+   },
+   "gecti": true
+  }
+ },
+ "sunucu_kapandi": true
+}

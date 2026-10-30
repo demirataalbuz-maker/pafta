@@ -108,6 +108,15 @@ async function refreshHeader() {
 }
 
 // ── hata kartı ────────────────────────────────────────────────────────────────
+// motor: ai-gercek adımlarının sonucu: koşucunun eklediği kanıt özeti (gerçek çağrı ↔ fixture ayrımı ekranda görünür)
+function aiKanit(res) {
+  if (!Array.isArray(res.ai_kanit)) return "";
+  if (!res.ai_kanit.length) return `<div class="ai-kanit yok"><b>Gerçek deney kanıtı yok</b> · bu sonuç gerçek model kabulü sayılmaz</div>`;
+  return res.ai_kanit.map(k => `<div class="ai-kanit ${k.kabul ? "kabul" : ""}"><b>${k.kaynak === "gercek" ? "GERÇEK ÇAĞRI" : "FIXTURE"}</b>` +
+    ` · ${esc(k.pilot || "")}${k.model ? ` · model <code>${esc(k.model)}</code>` : ""} · ${k.kabul ? "kabul edildi" : "kabul yok (yalnız deneme)"}` +
+    (k.dosya ? `<div>kanıt dosyası: <code>${esc(k.dosya)}</code></div>` : "") + `</div>`).join("");
+}
+
 function errCard(err) {
   if (!err) return "";
   const tr = ERR_TR[err.type] || (err.type === "SIGMAHatası" || err.type === "YARAHatası"
@@ -462,7 +471,7 @@ class Bench {
     const bos = { python: "program çıktı vermeden bitti (print kullandın mı?)", bash: "betik çıktı vermeden bitti (echo kullandın mı?)",
       powershell: "betik çıktı vermeden bitti" }[this.dil] || "çıktı yok";
     const meta = res.error ? "" : `<div class="out-meta">${body ? "— bitti —" : bos}${res.truncated ? " · çıktı kesildi" : ""}</div>`;
-    this.pane.innerHTML = `${argvSatiri(res)}<pre class="out">${body}</pre>${errCard(res.error)}${meta}`;
+    this.pane.innerHTML = `${argvSatiri(res)}<pre class="out">${body}</pre>${errCard(res.error)}${aiKanit(res)}${meta}`;
     if (res.error?.line && res.error.where !== "test") this.ed.mark(res.error.line, "err");
     else if (res.uyari_satir) this.ed.mark(res.uyari_satir, "err");
   }
@@ -516,7 +525,7 @@ class Bench {
         ? `<div class="ge">${c.exp !== undefined ? `<span>beklenen</span><code>${esc(c.exp)}</code>` : ""}${c.got !== undefined ? `<span>senin</span><code>${esc(c.got)}</code>` : ""}</div>` : "") + "</li>").join("");
     const outText = segsHtml(res.segs);
     const out = outText ? `<div class="out-meta">programın çıktısı</div><pre class="out">${outText}</pre>` : "";
-    this.pane.innerHTML = head + `<ul class="checks">${list}</ul>` + errCard(res.error) + out;
+    this.pane.innerHTML = head + aiKanit(res) + `<ul class="checks">${list}</ul>` + errCard(res.error) + out;
     if (res.error?.line && res.error.where !== "test") this.ed.mark(res.error.line, "err");
   }
 
@@ -963,7 +972,10 @@ function showStep(i) {
   const L = S.lesson.lesson, st = L.steps[i];
   const tid = S.tid, lid = L.id, dil = lessonLanguage(S.yol, L, st);
   const stepInput = lessonInput(st, L, dil);
-  S.bench.ayarla(dil, S.yol?.ozellik || {});
+  // Gerçek deney adımlarının koşucusu Röntgen/Bytecode desteklemez; düğmeleri gizle
+  const gercek = st.meta?.motor === "ai-gercek";
+  S.bench.ayarla(dil, gercek ? { ...(S.yol?.ozellik || {}), roentgen: false, dis: false } : S.yol?.ozellik || {});
+  if (gercek && ["xray", "dis"].includes(S.bench.tab)) S.bench.show("out");
   const okuma = S.yol?.okuma_dili;           // C, PHP: okunan dil; tezgah ve görevler Python
   if (location.hash !== `#/ders/${tid}/${lid}/${i}`) history.replaceState(null, "", `#/ders/${tid}/${lid}/${i}`);
   api("/api/visit", { track: tid, lesson: lid, step: i, done: false }).catch(() => {});
@@ -1001,7 +1013,9 @@ function showStep(i) {
     S.hintN = 0;
   }
   const stepArgs = st.meta?.argv;
-  const argNotice = stepArgs !== undefined ? `<div class="out-meta">Bu adımın argümanları: <code>${esc(Array.isArray(stepArgs) ? JSON.stringify(stepArgs) : String(stepArgs))}</code></div>` : "";
+  const gercekNotice = st.meta?.motor === "ai-gercek"
+    ? `<div class="ai-rozet">GERÇEK DENEY · ${st.meta.gereksinim === "torch" ? "yerel torch modeli (.ai-venv)" : "yerel Ollama sohbet modeli"} · fixture yok; model yoksa görev geçmez</div>` : "";
+  const argNotice = gercekNotice + (stepArgs !== undefined ? `<div class="out-meta">Bu adımın argümanları: <code>${esc(Array.isArray(stepArgs) ? JSON.stringify(stepArgs) : String(stepArgs))}</code></div>` : "");
   $("#stepBody").innerHTML = head + argNotice + body;
   if (st.kind === "gorev") paintTaskStatus();
   paintFoot();

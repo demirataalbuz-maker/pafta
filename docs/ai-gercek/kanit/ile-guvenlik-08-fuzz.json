@@ -1,0 +1,180 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-08",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": true,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+  }
+ },
+ "ayarlar": {
+  "izinli_komutlar": [
+   "listele",
+   "detay",
+   "durum"
+  ]
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": true,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+   }
+  },
+  "ayarlar": {
+   "izinli_komutlar": [
+    "listele",
+    "detay",
+    "durum"
+   ]
+  },
+  "canli_yanit": "Elbette! Sınır değer mutasyonu (Boundary Value Analysis), bir sistemin giriş parametrelerinin sınırlarında (en küçük, en büyük, sıfır, boş, geçersiz) olası hataları veya hatalı davranışları tespit etmek için kullanılan bir test stratejisidir. Bu strateji, özellikle **fuzzing** (sınır değer testi) ve **güvenlik testleri** için",
+  "kampanya": {
+   "normal_yukler": [
+    "f1"
+   ],
+   "elenen_yukler": [
+    "f4",
+    "f5"
+   ],
+   "anomali_yukleri": {
+    "f2": "IndexError",
+    "f3": "MemoryError"
+   },
+   "anomali_sayisi": 2
+  },
+  "kontroller": {
+   "dilbilgisi_dogrulama_uyumu": true,
+   "sinir_mutasyon_uyumu": true,
+   "fuzz_kampanya_uyumu": true,
+   "anomaliler_yakalandi": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "normal_yukler": [
+    "f1"
+   ],
+   "elenen_yukler": [
+    "f4",
+    "f5"
+   ],
+   "anomali_yukleri": {
+    "f2": "IndexError",
+    "f3": "MemoryError"
+   }
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "normal_yukler": [
+   "f1"
+  ],
+  "elenen_yukler": [
+   "f4",
+   "f5"
+  ],
+  "anomali_yukleri": {
+   "f2": "IndexError",
+   "f3": "MemoryError"
+  }
+ },
+ "pilot": "ile-guvenlik-08-fuzz",
+ "zaman": "2026-10-29T18:53:30+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 3484 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "49fe1ec5388b62128f25e61b5a31416fcbb83f478c203032e0662bb22fb751f2",
+ "mod": "test"
+}

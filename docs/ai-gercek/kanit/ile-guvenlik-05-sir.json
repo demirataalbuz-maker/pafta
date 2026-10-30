@@ -1,0 +1,179 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-05",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": true,
+  "yeniden_denemeler": [
+   "HTTPError: HTTP Error 500: Internal Server Error",
+   "HTTPError: HTTP Error 500: Internal Server Error"
+  ],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+  }
+ },
+ "ayarlar": {
+  "min_entropi": 3.5
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": true,
+   "yeniden_denemeler": [
+    "HTTPError: HTTP Error 500: Internal Server Error",
+    "HTTPError: HTTP Error 500: Internal Server Error"
+   ],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+   }
+  },
+  "ayarlar": {
+   "min_entropi": 3.5
+  },
+  "ham_yanit": "{\"kimlik\": \"config/prod.env:12\", \"gercek_sir\": \"gercek_sir\"}, {\"kimlik\": \"tests/test_auth.py:44\", \"gercek_sir\": \"test_verisi\"}, {\"kimlik\": \"deploy/secrets.yaml:19\", \"gercek_sir\": \"gercek_sir\"}",
+  "sonuc": {
+   "gercek_sir_kimlikleri": [
+    "config/prod.env:12",
+    "deploy/secrets.yaml:19"
+   ],
+   "elenen_test_kimlikleri": [
+    "tests/test_auth.py:44"
+   ],
+   "elenen_dusuk_entropi": [
+    "app/settings.py:8"
+   ],
+   "maskeli_istem_sayisi": 3,
+   "sizinti_var_mi": false
+  },
+  "kontroller": {
+   "maskeli_istemde_ham_sir_yok": true,
+   "dusuk_entropi_elendi": true,
+   "test_verisi_elendi": true,
+   "gercek_sirlar_yakalandi": true,
+   "triyaj_referansla_uyumlu": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "gercek_sirlar": [
+    "config/prod.env:12",
+    "deploy/secrets.yaml:19"
+   ],
+   "elenen_test": [
+    "tests/test_auth.py:44"
+   ],
+   "elenen_dusuk_entropi": [
+    "app/settings.py:8"
+   ],
+   "sizinti_var_mi": false
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "gercek_sirlar": [
+   "config/prod.env:12",
+   "deploy/secrets.yaml:19"
+  ],
+  "elenen_test": [
+   "tests/test_auth.py:44"
+  ],
+  "elenen_dusuk_entropi": [
+   "app/settings.py:8"
+  ],
+  "sizinti_var_mi": false
+ },
+ "pilot": "ile-guvenlik-05-sir",
+ "zaman": "2026-10-29T18:43:22+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 3488 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "6110ffe611293616c1dc62d3f7dcff086eb935a26aa8201194c6c3fe33a1d88f",
+ "mod": "test"
+}

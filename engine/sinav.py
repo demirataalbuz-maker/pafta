@@ -91,6 +91,8 @@ def havuz(lib, tid, sertifika=None, bolum=None, biten=None):
         if lid not in ders_grup or (biten is not None and lid not in biten):
             continue
         for i, st in enumerate(lib.lesson(tid, lid)["steps"]):
+            if (st.get("meta") or {}).get("motor") == "ai-gercek":
+                continue    # gerçek model deneyi: süreli sınavda kurulum/çağrı süresine bağlanmaz
             if (st["kind"] == "gorev" and st.get("test")) or (st["kind"] == "tahmin" and st.get("code")):
                 sorular.append({"lesson": lid, "step": i, "kind": st["kind"], "gruplar": ders_grup[lid]})
     return sorular, gruplar

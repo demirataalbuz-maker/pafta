@@ -1,0 +1,449 @@
+{
+ "port": 6188,
+ "sunucu_pid": 17196,
+ "veri": "C:/Users/demo12/AppData/Local/Temp/claude/C--Users-demo12/a111919b-bbe9-4da1-a16f-9a4241eac3c5/scratchpad/g1725-veri",
+ "dersler": {
+  "ai-guvence-17": {
+   "adim_indeks": 7,
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · CPU gizlilik ölçümü 17",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.1
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 6.7,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi\"}, {\"ok\": true, \"msg\": \"olcum-0\"}, {\"ok\": true, \"msg\": \"olcum-1\"}, {\"ok\": true, \"msg\": \"ogrenci_sozlesmesi\"}, {\"ok\": true, \"msg\": \"Mutant 1 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 2 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 3 reddedilir\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guve"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 6.6,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-17\\ayarlar.json\n{\n  \"seed\": 1717,\n  \"ornek\": 16,\n  \"sigma\": 2\n}\n\nÖlçülen sonuç: [{'auc': 0.816406, 'tpr': 1.0, 'fpr': 0.4375, 'avantaj': 0.5625}, {'auc': 0.601562, 'tpr': 0.875, 'fpr': 0.5, 'avantaj': 0.375}]\nKanıt: C:\\Users\\demo12\\AppData\\",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-17\\ayarlar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-17-ayarlar.txt",
+    "http": 200,
+    "bayt": 53
+   },
+   "gecti": true
+  },
+  "ai-guvence-18": {
+   "adim_indeks": 7,
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · CPU gizlilik ölçümü 18",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 12.7
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 6.4,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi\"}, {\"ok\": true, \"msg\": \"acik-0-3\"}, {\"ok\": true, \"msg\": \"acik-0-35\"}, {\"ok\": true, \"msg\": \"acik-1-3\"}, {\"ok\": true, \"msg\": \"acik-1-35\"}, {\"ok\": true, \"msg\": \"ogrenci_sozlesmesi\"}, {\"ok\": true, \"msg\": \"Mutant 1 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 2 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 3 "
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 6.6,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-18\\ayarlar.json\n{\n  \"seed\": 1718,\n  \"ornek\": 16,\n  \"sigma\": 2\n}\n\nÖlçülen sonuç: [{'acik': 0.25, 'auc': 0.582031, 'risk': False}, {'acik': 0.5, 'auc': 0.628906, 'risk': False}, {'acik': 0.3125, 'auc': 0.773438, 'risk': True}, {'acik': 0.4375",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-18\\ayarlar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-18-ayarlar.txt",
+    "http": 200,
+    "bayt": 53
+   },
+   "gecti": true
+  },
+  "ai-guvence-19": {
+   "adim_indeks": 7,
+   "adim_sayisi": 9,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · CPU gizlilik ölçümü 19",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.3
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 7.0,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi\"}, {\"ok\": true, \"msg\": \"butce-0\"}, {\"ok\": true, \"msg\": \"butce-1\"}, {\"ok\": true, \"msg\": \"ogrenci_sozlesmesi\"}, {\"ok\": true, \"msg\": \"Mutant 1 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 2 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 3 reddedilir\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guve"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 7.1,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-19\\ayarlar.json\n{\n  \"seed\": 1719,\n  \"ornek\": 16,\n  \"sigma\": 2\n}\n\nÖlçülen sonuç: [{'sigma': 2, 'epsilon': 7.786140424415112, 'test_dogruluk': 0.4375}, {'sigma': 4, 'epsilon': 3.643070212207556, 'test_dogruluk': 0.5625}, {'sigma': 2, 'epsilon",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-19\\ayarlar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-19-ayarlar.txt",
+    "http": 200,
+    "bayt": 53
+   },
+   "gecti": true
+  },
+  "ai-guvence-20": {
+   "adim_indeks": 7,
+   "adim_sayisi": 9,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · CPU gizlilik ölçümü 20",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.5
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 6.4,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi\"}, {\"ok\": true, \"msg\": \"iddia-0\"}, {\"ok\": true, \"msg\": \"iddia-1\"}, {\"ok\": true, \"msg\": \"ogrenci_sozlesmesi\"}, {\"ok\": true, \"msg\": \"Mutant 1 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 2 reddedilir\"}, {\"ok\": true, \"msg\": \"Mutant 3 reddedilir\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guve"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 7.0,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-20\\ayarlar.json\n{\n  \"seed\": 1720,\n  \"ornek\": 16,\n  \"sigma\": 2\n}\n\nÖlçülen sonuç: [{'auc_azalisi': 0.140625, 'dogruluk_kaybi': 0.0, 'destekli': True, 'bicimsel_garanti': False}, {'auc_azalisi': 0.035156, 'dogruluk_kaybi': 0.0625, 'destekli': ",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-20\\ayarlar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-20-ayarlar.txt",
+    "http": 200,
+    "bayt": 53
+   },
+   "gecti": true
+  },
+  "ai-guvence-21": {
+   "adim_indeks": 7,
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Diskten model/veri SBOM ve değişiklik izi",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.0
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 6.7,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK 21: disk_hash_boyut_baglar\"}, {\"ok\": true, \"msg\": \"GERCEK 21: degisiklik_gercekten_olculdu\"}, {\"ok\": true, \"msg\": \"GERCEK 21: kok_siniri\"}, {\"ok\": true, \"msg\": \"GERCEK 21: disk_hash_boyut_baglar\"}, {\"ok\": true, \"msg\": \"GERCEK 21: degisiklik_gercekten_olculdu\"}, {\"ok\": true, \"msg\": \"GERCEK 21: kok_siniri\"}], \"segs\": [], \"error\": null, \"ai_ka"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 6.7,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "KALICI SENTETIK AYAR: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-21\\ayar.json\n{\n  \"seed\": 2121,\n  \"adim\": 60\n}\n\n{\n \"egitim\": {\n  \"seed\": 2121,\n  \"adim\": 60,\n  \"loss\": [\n   0.8245241641998291,\n   0.022174179553985596\n  ],\n  \"ornek\": 192,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"tanimlar\": [\n  {\n   ",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-21\\ayar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-21-deney.txt",
+    "http": 200,
+    "bayt": 37
+   },
+   "gecti": true
+  },
+  "ai-guvence-22": {
+   "adim_indeks": 7,
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Safetensors yükleme ve inert biçim/template kapısı",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.5
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 6.7,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK 22: kapi\"}, {\"ok\": true, \"msg\": \"GERCEK 22: gercek_safetensors\"}, {\"ok\": true, \"msg\": \"GERCEK 22: inert_pickle\"}, {\"ok\": true, \"msg\": \"GERCEK 22: kapi\"}, {\"ok\": true, \"msg\": \"GERCEK 22: gercek_safetensors\"}, {\"ok\": true, \"msg\": \"GERCEK 22: inert_pickle\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-22-kabul\", \"kaynak\": \"gerc"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 6.6,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "KALICI SENTETIK AYAR: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-22\\ayar.json\n{\n  \"seed\": 2122,\n  \"adim\": 60\n}\n\n{\n \"egitim\": {\n  \"seed\": 2122,\n  \"adim\": 60,\n  \"loss\": [\n   0.7354261875152588,\n   0.0192062109708786\n  ],\n  \"ornek\": 192,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"safetensors\": \"0.8.0\",",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-22\\ayar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-22-deney.txt",
+    "http": 200,
+    "bayt": 37
+   },
+   "gecti": true
+  },
+  "ai-guvence-23": {
+   "adim_indeks": 7,
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Eğitilmiş CPU modelinde nicemleme ve eşli güvenlik ölçümü",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.2
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 6.5,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK 23: gercek_nicemleme_ve_esli_olcum\"}, {\"ok\": true, \"msg\": \"GERCEK 23: gercek_nicemleme_ve_esli_olcum\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-23-kabul\", \"kaynak\": \"gercek\", \"kabul\": true, \"model\": null, \"ozet\": null, \"dosya\": \"C:/Users/demo12/AppData/Local/Temp/claude/C--Users-demo12/a111919b-bbe9-4da1-a16f-9a4241eac3c"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 6.7,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "KALICI SENTETIK AYAR: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-23\\ayar.json\n{\n  \"seed\": 2123,\n  \"adim\": 60\n}\n\n{\n \"egitim\": {\n  \"seed\": 2123,\n  \"adim\": 60,\n  \"loss\": [\n   0.7665398120880127,\n   0.01847105659544468\n  ],\n  \"ornek\": 192,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"olcum_x\": [\n  [\n   -0",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-23\\ayar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-23-deney.txt",
+    "http": 200,
+    "bayt": 37
+   },
+   "gecti": true
+  },
+  "ai-guvence-24": {
+   "adim_indeks": 7,
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Autograd tetikleyici modeli ve fine-tune sonrası kalıcılık",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.6
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 7.0,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK 24: faz_grup_hedef\"}, {\"ok\": true, \"msg\": \"GERCEK 24: payda_negatif_kontrol\"}, {\"ok\": true, \"msg\": \"GERCEK 24: faz_grup_hedef\"}, {\"ok\": true, \"msg\": \"GERCEK 24: payda_negatif_kontrol\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-24-kabul\", \"kaynak\": \"gercek\", \"kabul\": true, \"model\": null, \"ozet\": null, \"dosya\": \"C:/Users/de"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 6.8,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "KALICI SENTETIK AYAR: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-24\\ayar.json\n{\n  \"seed\": 2124,\n  \"adim\": 60\n}\n\n{\n \"egitim\": {\n  \"seed\": 2124,\n  \"adim\": 60,\n  \"loss\": [\n   0.7035098075866699,\n   0.030201971530914307\n  ],\n  \"ornek\": 256,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"finetune_ayar\": {\n  ",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-24\\ayar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-24-deney.txt",
+    "http": 200,
+    "bayt": 37
+   },
+   "gecti": true
+  },
+  "ai-guvence-25": {
+   "adim_indeks": 7,
+   "adim_sayisi": 8,
+   "adim7": {
+    "tur": "gorev",
+    "baslik": "Gerçek deney · Hash ve kaynak kapısından gerçek yüklemeye",
+    "meta": {
+     "timeout": 180,
+     "motor": "ai-gercek",
+     "gereksinim": "torch"
+    }
+   },
+   "baslangic_kontrol": {
+    "durum": "fail",
+    "ikinci": "fail",
+    "sn": 13.4
+   },
+   "cozum_goster": true,
+   "cozum_kontrol": {
+    "durum": "pass",
+    "sn": 7.4,
+    "kanit": false,
+    "ozet": "{\"status\": \"pass\", \"checks\": [{\"ok\": true, \"msg\": \"GERCEK 25: hash_kaynak_bicim_surum\"}, {\"ok\": true, \"msg\": \"GERCEK 25: gercek_yukleme_yalniz_saglam\"}, {\"ok\": true, \"msg\": \"GERCEK 25: hash_kaynak_bicim_surum\"}, {\"ok\": true, \"msg\": \"GERCEK 25: gercek_yukleme_yalniz_saglam\"}], \"segs\": [], \"error\": null, \"ai_kanit\": [{\"pilot\": \"guvence-25-kabul\", \"kaynak\": \"gercek\", \"kabul\": true, \"model\": null, \"oz"
+   },
+   "calistir": {
+    "durum": "ok",
+    "sn": 6.8,
+    "hata": null,
+    "hata_var": false,
+    "cikti_basi": "KALICI SENTETIK AYAR: C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-25\\ayar.json\n{\n  \"seed\": 2125,\n  \"adim\": 60\n}\n\n{\n \"egitim\": {\n  \"seed\": 2125,\n  \"adim\": 60,\n  \"loss\": [\n   0.769164502620697,\n   0.016262562945485115\n  ],\n  \"ornek\": 192,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"vakalar\": [\n  {\n   \"v",
+    "anahtarlar": [
+     "ai_kanit",
+     "error",
+     "segs",
+     "status",
+     "truncated"
+    ]
+   },
+   "ogrenci_dosyasi": {
+    "yol": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\C--Users-demo12\\a111919b-bbe9-4da1-a16f-9a4241eac3c5\\scratchpad\\g1725-veri\\calisma\\ai-guvence-25\\ayar.json",
+    "var": true
+   },
+   "gorunur_dosya": {
+    "ad": "ai-guvence-25-deney.txt",
+    "http": 200,
+    "bayt": 37
+   },
+   "gecti": true
+  }
+ },
+ "sunucu_kapandi": true
+}

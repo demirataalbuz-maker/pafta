@@ -1,0 +1,3196 @@
+{
+ "dersler": {
+  "ai-temel-01": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "claude-opus denetimi (A 91): validate 9/9 gerçek dahil, mutasyon 0/95. Denetimde görünür örnek dosyalar, purple tablo ve tahmin eklendi; kalıcılık notu açık (engine/web onayı). bitti için kalan: kalıcılık notu.",
+   "guncelleme": "2026-10-29T10:37:28+03:00",
+   "yol": "ai-temel",
+   "modul": "Tokenler ve Olasılıklar",
+   "baslik": "Tokenizasyon: Metinden Modele Giren Birimler",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-01-tokenizasyon-metinden-modele-giren-birimler.md"
+  },
+  "ai-temel-02": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "Gerçek SmolLM2 embedding: UI Kontrol 19/19 geçti; referans+kanıt PASS; starter/boş/sabit ve 3 anlamlı dış mutant reddedildi; içeride 6 mutant. ai-temel 18 ders/132 kontrol TEMİZ, 6 dosya eksik. Ortak dosya değişmedi. Kanıt: outputs/codex-ai-temel-02-20261028-142905/RAPOR.md; bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-28T14:31:49+03:00",
+   "yol": "ai-temel",
+   "modul": "Tokenler ve Olasılıklar",
+   "baslik": "Embeddingler: Tokenlerin Vektör Uzayına Taşınması",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-02-embeddingler-tokenlerin-vektor-uzayina-tasinmasi.md"
+  },
+  "ai-temel-03": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "torch",
+   "not": "pilot: gerçek kabul geçti (laptop), Codex denetimi bekliyor",
+   "guncelleme": "2026-10-28T13:33:35+03:00",
+   "yol": "ai-temel",
+   "modul": "Tokenler ve Olasılıklar",
+   "baslik": "Logitler ve Softmax: Sonraki Tokenin Olasılığı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-03-logitler-ve-softmax-sonraki-tokenin-olasiligi.md"
+  },
+  "ai-temel-04": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "torch",
+   "not": "Gerçek SmolLM2 logitlerinde T/top-k/top-p + üretim; referans PASS, başlangıç/boş/sabit + 4 hata reddedildi, HF işlemcileriyle 7/7 aynı; UI ✓; ai-temel TEMİZ. Ortak dosya değişmedi. Rapor: outputs/claude-ai-temel-04-20261028-143808/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T14:38:50+03:00",
+   "yol": "ai-temel",
+   "modul": "Tokenler ve Olasılıklar",
+   "baslik": "Sampling: Temperature, Top-k ve Top-p",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-04-sampling-temperature-top-k-ve-top-p.md"
+  },
+  "ai-temel-05": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "torch",
+   "not": "Gerçek katman/kafa Q-K-V (RoPE dahil) ile nedensel dikkat; modelin kendi kafa çıktısıyla fark ≤1.4e-6; başlangıç/boş/sabit + 4 hata reddedildi; UI ✓; ai-temel TEMİZ. Bulgu: attention sink katman15'te %71. Ortak dosya değişmedi. Rapor: outputs/claude-ai-temel-05-20261028-144511/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T14:45:12+03:00",
+   "yol": "ai-temel",
+   "modul": "Transformer ve Bağlam Mekaniği",
+   "baslik": "Attention: Query, Key ve Value",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-05-attention-query-key-ve-value.md"
+  },
+  "ai-temel-06": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "torch",
+   "not": "Gerçek katmanın 9 kafası (RoPE+GQA) ile çok başlı nedensel dikkat; model katman çıktısıyla fark ≤1e-6; nedensellik: son kelime değişince önceki logit farkı 0.0; başlangıç/boş/sabit + 4 hata reddedildi; UI ✓; ai-temel TEMİZ. Ortak dosya değişmedi. Rapor: outputs/claude-ai-temel-06-20261028-152944/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T15:29:45+03:00",
+   "yol": "ai-temel",
+   "modul": "Transformer ve Bağlam Mekaniği",
+   "baslik": "Çok Başlı Attention ve Nedensel Maskeleme",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-06-cok-basli-attention-ve-nedensel-maskeleme.md"
+  },
+  "ai-temel-07": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "Gerçek tokenizer+konumlarla CPU ileri hesap. UI 11/11 geçti; referans ve gerçek kanıt PASS; starter/boş/sabit ve 4 dış mutant FAIL. İçeride 7 mutant; gerçek modele giden token/position_ids hook ile doğrulandı. ai-temel 18 ders/140 kontrol TEMİZ; 6 dosya eksik. Ortak dosya değişmedi. Kanıt: outputs/codex-ai-temel-07-20261028-152517/RAPOR.md. Bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-28T15:29:15+03:00",
+   "yol": "ai-temel",
+   "modul": "Transformer ve Bağlam Mekaniği",
+   "baslik": "Context Window ve Konumsal Temsil",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-07-context-window-ve-konumsal-temsil.md"
+  },
+  "ai-temel-08": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "Gerçek KV cache prefill/devam/tam hesap; cache uzunluğu ve çağrılar hook ile gözlendi. UI 8/8 geçti; referans+kanıt PASS; starter/boş/sabit ve 3 dış mutant FAIL; içeride 6 mutant. ai-temel 18 ders/142 kontrol TEMİZ; 6 dosya eksik. Çok kiracılı sunucu/hız kabulü iddia yok. Ortak dosya değişmedi. Kanıt: outputs/codex-ai-temel-08-20261028-153221/RAPOR.md; bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-28T15:35:10+03:00",
+   "yol": "ai-temel",
+   "modul": "Transformer ve Bağlam Mekaniği",
+   "baslik": "Inference, KV Cache ve Çok Kullanıcılı Sunucular",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-08-inference-kv-cache-ve-cok-kullanicili-sunucular.md"
+  },
+  "ai-temel-09": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "Gerçek Linear(2,1) autograd+SGD; analitik gradyan oracle ve parametre/optimizer hookları. UI 9/9 geçti, referans+kanıt PASS; starter/boş/sabit ve 4 dış mutant FAIL; içeride 7 mutant. ai-temel 18 ders/144 kontrol TEMİZ; 6 dosya eksik. Ortak dosya değişmedi. Kanıt: outputs/codex-ai-temel-09-20261028-153844/RAPOR.md. Bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-28T15:41:36+03:00",
+   "yol": "ai-temel",
+   "modul": "Eğitim ve Hizalama",
+   "baslik": "Eğitim Döngüsü: Loss, Gradient ve Optimizer",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-09-egitim-dongusu-loss-gradient-ve-optimizer.md"
+  },
+  "ai-temel-10": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "torch",
+   "not": "Elle LoRA, gerçek SmolLM2 q/v_proj'larında 40 adım CPU eğitimi: %0,34 parametre, hedef kayıp 4,85→0,0006, ilgisiz metin 2,67→6,72 (aşırı öğrenme bulgusu); birleştirme farkı 1,4e-4; başlangıç/boş/sabit + 4 hata reddedildi; UI ✓; ai-temel TEMİZ. PEFT/kurulum yok, ortak dosya değişmedi. Rapor: outputs/claude-ai-temel-10-20261028-155204/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T15:52:04+03:00",
+   "yol": "ai-temel",
+   "modul": "Eğitim ve Hizalama",
+   "baslik": "LoRA ve Parametre Verimli Fine-Tuning",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-10-lora-ve-parametre-verimli-fine-tuning.md"
+  },
+  "ai-temel-11": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "Gerçek SmolLM2 logit tabanı + token-bias DPO; parametre/optimizer/referans hookları ve analitik oracle. UI 8/8 geçti; referans+kanıt PASS; starter/boş/sabit ve 4 dış mutant FAIL; içeride 6 mutant. ai-temel 18 ders/148 kontrol TEMİZ; 6 dosya eksik. Derse özel yardımcı yeni; ortak dosya değişmedi. Kanıt: outputs/codex-ai-temel-11-20261028-154741/RAPOR.md. Tam fine-tuning/TRL/güvenlik kabulü yok; bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-28T15:51:43+03:00",
+   "yol": "ai-temel",
+   "modul": "Eğitim ve Hizalama",
+   "baslik": "Tercih Verisi ve Hizalama",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-11-tercih-verisi-ve-hizalama.md"
+  },
+  "ai-temel-12": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "Gerçek LM tabanlı SGD bias uyarlama sonrası paired eval; iyi 3/3 izin, bozuk 2/3 ve sentetik-1 kritik regresyon/red. UI 10/10; referans+kanıt PASS; starter/boş/sabit ve 4 dış mutant FAIL, içeride 7 mutant. ai-temel 18 ders/150 kontrol TEMİZ; 6 eksik dosya. Yeni derse özel yardımcı; ortak dosya değişmedi. Kanıt: outputs/codex-ai-temel-12-20261028-155705/RAPOR.md. Genel LLM güvenlik benchmarkı değil; bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-28T16:02:51+03:00",
+   "yol": "ai-temel",
+   "modul": "Eğitim ve Hizalama",
+   "baslik": "Fine-Tune Sonrası Güvenlik Değerlendirmesi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-12-fine-tune-sonrasi-guvenlik-degerlendirmesi.md"
+  },
+  "ai-temel-13": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Birleşik/ayrık (kaçışlı) kurgu Qwen3 4B'de 20 gerçek çağrı; ASR iki kurguda 0, fayda 1.0; bulgu: injection cümlesi özete aynen kopyalanıyor. Başlangıç/boş/sabit + 4 hata reddedildi; Ollama yokken FAIL; UI ✓; ai-temel TEMİZ. Ortak dosya değişmedi. Rapor: outputs/claude-ai-temel-13-20261028-160804/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T16:08:05+03:00",
+   "yol": "ai-temel",
+   "modul": "Model Çıktısını Güvenilir Kılmak",
+   "baslik": "Talimat ve Veri Ayrımı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-13-talimat-ve-veri-ayrimi.md"
+  },
+  "ai-temel-14": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "2026-10-29 kapanış: tam ai-temel yolu gerçek koşucuyla TEMİZ (18 ders, 162 kontrol, exit 0); önceki 8/8 kabul kaydı doğrulandı. Yeni kod değişikliği yok. Kayıt: Desktop/Pafta-Platform-Projesi/KAPANIS_14_15.md ve kapanis-14-15-validate.log. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-29T05:39:23+03:00",
+   "yol": "ai-temel",
+   "modul": "Model Çıktısını Güvenilir Kılmak",
+   "baslik": "Yapılandırılmış Çıktı ve Şema Doğrulama",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-14-yapilandirilmis-cikti-ve-sema-dogrulama.md"
+  },
+  "ai-temel-15": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "2026-10-29 kapanış: tam ai-temel yolu gerçek koşucuyla TEMİZ (18 ders, 162 kontrol, exit 0); önceki 8/8 kabul kaydı doğrulandı. Yeni kod değişikliği yok. Kayıt: Desktop/Pafta-Platform-Projesi/KAPANIS_14_15.md ve kapanis-14-15-validate.log. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-29T05:39:23+03:00",
+   "yol": "ai-temel",
+   "modul": "Model Çıktısını Güvenilir Kılmak",
+   "baslik": "Activation Steering ve Representation Engineering",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-15-activation-steering-ve-representation-engineering.md"
+  },
+  "ai-temel-16": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Tam kayıt vs öğrencinin küçük+maskeli bağlamı, Qwen3 4B'de 18 gerçek çağrı: tam bağlamda saldırıların 5-6/6'sında token sızdı, küçük bağlamda 0; fayda iki tarafta 3/3. Başlangıç/boş/sabit + 4 hata reddedildi; Ollama yokken FAIL; UI ✓; ai-temel TEMİZ. Ortak dosya değişmedi. Rapor: outputs/claude-ai-temel-16-20261028-162450/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T16:24:52+03:00",
+   "yol": "ai-temel",
+   "modul": "Model Çıktısını Güvenilir Kılmak",
+   "baslik": "Bağlamda Sır ve Ayrıcalık Minimizasyonu",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-16-baglamda-sir-ve-ayricalik-minimizasyonu.md"
+  },
+  "ai-temel-17": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Görevler 1-3 denetlenmiş sürümle değişti (bağlam bütçesi, SSE, sürekli batching); mutasyon 85/0 geçen, elle 45 yanlış çözüm. Gerçek deney (Ollama NDJSON, TTFT, num_predict) korundu, atfı düzeltildi; validate 9/9 TEMİZ, gerçek kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:48+03:00",
+   "yol": "ai-temel",
+   "modul": "Güvenli Model ve API Dağıtımı",
+   "baslik": "Üretim Tipi Inference API’si ve Akışlı Yanıtlar",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-17-uretim-inference-apisi-ve-akisli-yanitlar.md"
+  },
+  "ai-temel-18": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "docker",
+   "not": "Görevler 1-3 denetlenmiş sürümle değişti (HostConfig, docker run denetimi + varsayilan_ag, bind mount politikası; // atlatma ve model kaynağı kuralı); mutasyon 87/0, elle 27 yanlış çözüm. Gerçek Docker deneyi korundu; validate 9/9 TEMİZ, kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:49+03:00",
+   "yol": "ai-temel",
+   "modul": "Güvenli Model ve API Dağıtımı",
+   "baslik": "Konteyner İzolasyonu ve Kaynak Sınırları",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-18-konteyner-izolasyonu-ve-kaynak-sinirlari.md"
+  },
+  "ai-temel-19": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "torch",
+   "not": "Görevler 1-3'e denetim düzeltmeleri işlendi (LFS ext/1024, DVC md5 notu, katı biçim testleri); mutasyon 74/0. Gerçek HF önbellek deneyi korundu; validate 9/9 TEMİZ, kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:49+03:00",
+   "yol": "ai-temel",
+   "modul": "Güvenli Model ve API Dağıtımı",
+   "baslik": "Model Kartı, Veri Kartı ve Dosya Bütünlüğü",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-19-model-karti-veri-karti-ve-dosya-butunlugu.md"
+  },
+  "ai-temel-20": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Görevler 1-3 denetlenmiş sürümle değişti (Bearer + compare_digest, kesirli jeton kovası/Retry-After, HMAC takma adlı alarmlar); mutasyon 85/0. Gerçek deneyde redaksiyon kuralı açık yazıldı, tuz/HMAC notu eklendi; validate 9/9 TEMİZ, kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:49+03:00",
+   "yol": "ai-temel",
+   "modul": "Güvenli Model ve API Dağıtımı",
+   "baslik": "Inference Gözlemlenebilirliği ve Kötüye Kullanım Kayıtları",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-20-inference-gozlemlenebilirligi-ve-kotuye-kullanim-kayitlari.md"
+  },
+  "ai-temel-21": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Görevler 1-3'e denetim düzeltmeleri işlendi (ofset, -1 dolgusu, hypot ile 1e200/1e-200); mutasyon 74/0. Gerçek gömme+RAG deneyi korundu; validate 9/9 TEMİZ, kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:49+03:00",
+   "yol": "ai-temel",
+   "modul": "RAG, Tool Kullanımı ve Ajan Güvenliği",
+   "baslik": "RAG Mimarisi: Retrieval’dan Bağlama",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-21-rag-mimarisi-retrievaldan-baglama.md"
+  },
+  "ai-temel-22": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Görevler 1-3 denetlenmiş sürümle değişti (parça→belge indirme + recall/precision/RR/nDCG, RRF, MMR); mutasyon 97/0, elle 31 yanlış çözüm. Gerçek deneyde nDCG tanımı açık yazıldı; validate 9/9 TEMİZ, kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:50+03:00",
+   "yol": "ai-temel",
+   "modul": "RAG, Tool Kullanımı ve Ajan Güvenliği",
+   "baslik": "Retrieval Kalitesi ve Bağlam Seçimi",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-22-retrieval-kalitesi-ve-baglam-secimi.md"
+  },
+  "ai-temel-23": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Görevler 1-3 denetlenmiş sürümle değişti (OpenAI/Ollama tel biçimi + şema, kimlik başına sonuç, adım bütçeli döngü); mutasyon 89/0, elle 29 yanlış çözüm. Ollama id v0.12.10 doğrulandı, tool_call_id cümlesi düzeltildi; validate 9/9 TEMİZ, kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:50+03:00",
+   "yol": "ai-temel",
+   "modul": "RAG, Tool Kullanımı ve Ajan Güvenliği",
+   "baslik": "Tool-Call Yaşam Döngüsü ve Ajan Döngüsü",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-23-tool-call-yasam-dongusu-ve-ajan-dongusu.md"
+  },
+  "ai-temel-24": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Görevler 1-3 denetlenmiş sürümle değişti (yol/URL kanonik doğrulama, kapsam-onay-kirlilik, izolasyon profilli kapı); mutasyon 65/0, elle 19 yanlış çözüm. Gerçek deneyde görev atfı düzeltildi; validate 9/9 TEMİZ, kanıt kabul:true.",
+   "guncelleme": "2026-10-29T09:51:50+03:00",
+   "yol": "ai-temel",
+   "modul": "RAG, Tool Kullanımı ve Ajan Güvenliği",
+   "baslik": "En Az Ayrıcalıklı RAG ve Tool Savunması",
+   "adim": 7,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-temel/lessons/ai-temel-24-en-az-ayricalikli-rag-ve-tool-savunmasi.md"
+  },
+  "ai-saldiri-01": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "İki gerçek MCP stdio sunucusu (stdlib) + Qwen3 4B araç seçimi: korumasız host kısa ad çakışmasıyla meşru isteği bile arsive yolladı, anahtar sızdı; korumalı hostta model yine zehirli arsiv__read'i seçti, öğrencinin kapısı reddetti, sızıntı 0. Kısmi sızıntı ölçüsü eklendi. Başlangıç/boş/sabit + 4 hata reddedildi; Ollama yokken FAIL, süreç/klasör kalmıyor; UI ✓; ai-saldiri TEMİZ. Rapor: outputs/claude-ai-saldiri-01-20261028-171144/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T17:11:45+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "MCP Güven Modeli · JSON-RPC, Tool Envanteri ve Onay Sınırı",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-01-mcp-guven-modeli.md"
+  },
+  "ai-saldiri-02": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "pilot: gerçek kabul geçti (laptop), Codex denetimi bekliyor",
+   "guncelleme": "2026-10-28T13:33:36+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Doğrudan Prompt Injection · Akış, Çatışma ve ASR",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-02-dogrudan-prompt-injection.md"
+  },
+  "ai-saldiri-03": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "7 hiyerarşi vakası × 2 tohum × Qwen3 4B + llama3.2:3b (28 gerçek çağrı), sabit sınıflandırıcı, developer→etiketli system eşlemesi kanıtta. Qwen kontrol 1.0 / çatışma 0.8; llama kontrol 0–0.25 → çatışma başarısı kanıt sayılmaz. Başlangıç/boş/sabit + 4 hata reddedildi; Ollama yokken FAIL; UI ✓; ai-saldiri TEMİZ. Rapor: outputs/claude-ai-saldiri-03-20261028-180121/RAPOR.md. Bağımsız denetim yapılmadı.",
+   "guncelleme": "2026-10-28T18:01:22+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Instruction Hierarchy · Rol, Çatışma ve Karar İzi",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-03-instruction-hierarchy.md"
+  },
+  "ai-saldiri-04": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Kutu28: görünür JSONL+TXT, ayrı kalıcı düzenlenebilir öğrenci kopyası, gerçek Qwen GPU taksonomi karşılaştırması. UI Kontrol 60/60, UI Çalıştır gerçek çıktı/kabulfalse; 10/10 kabul senaryosu (4 mutant dahil). İki süreç/farklı dizinlerde kalıcılık doğrulandı. Son regresyon 263/264: yalnız başka ajanın07 GPU uyumsuzluğu, panoda bildirildi; tamyol temiz denmiyor. Rapor outputs/codex-ai-saldiri-04-20261029/RAPOR.md. Bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-29T10:53:32+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Jailbreak Taksonomisi · Sinyal, Çok Etiketli Sınıflandırma ve Hata Ölçümü",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-04-jailbreak-taksonomisi.md"
+  },
+  "ai-saldiri-05": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek promptfoo 0.125.1 + Qwen3 4B: 8 çağrı, ASR 0.5; referans PASS, başlangıç/boş/sabit + 3 mutant FAIL, bağımlılık yokken FAIL; UI 14/14 ve Run gerçek çıktı. Sıralı tam yol 34 ders/257 kontrol TEMİZ; paralel koşuda mevcut 21 HTTP timeout (panoda). Rapor outputs/codex-ai-saldiri-05-20261029/RAPOR.md. Bağımsız denetim değildir.",
+   "guncelleme": "2026-10-29T05:54:35+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Başlangıç Saldırı Seti ve ASR Ölçümü",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-05-saldiri-seti-asr.md"
+  },
+  "ai-saldiri-06": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "?",
+   "not": "Son UI 41/41 gerçek PASS; kanıt saldiri-06-extraction-1793259120857.json. Yanlış çözüm/bağımlılık/retry senaryoları raporda. Tam regresyon 258/259; yalnız 05 canlı çağrı hatası; değişikliksiz hedef 05 tekrarı 10/10 temiz. İlk hata saklı, tam koşu temiz denmiyor. Ayrı düzenlenebilir öğrenci dosyası eksikliği açık. Rapor outputs/codex-ai-saldiri-06-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T10:33:14+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği",
+   "baslik": "System Prompt Extraction · Sızıntı Kanıtı ve Güvenli Kayıt",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-06-system-prompt-extraction.md"
+  },
+  "ai-saldiri-07": {
+   "durum": "denetime-hazir",
+   "kim": "gemini",
+   "gereksinim": "ollama",
+   "not": "validate 11/11 TEMİZ, Run ok, 8 gerçek Qwen CPU çağrısı (T=0.0 vs T=0.6), 9 mutant + 3 rastgele gizli test reddedildi, görünür dosya: tracks/ai-saldiri/veri/ai-saldiri-07-ornek-gozlem.jsonl, ortak dosya: tools/ai_pano.py ve tools/ai_ders_takip.py gemini ✦ rozeti",
+   "guncelleme": "2026-10-29T10:42:43+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği",
+   "baslik": "Model Extraction ve Davranışsal Parmak İzi",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-07-davranissal-parmak-izi.md"
+  },
+  "ai-saldiri-08": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek SQLite kapat/aç + 4 yerel model senaryosu; UI 33/33 ve Çalıştır geçti, 9/9 dış kabul senaryosu, ayrı kalıcı öğrenci dosyası. Regresyon 325/325 çalıştırma temiz; yalnız aktif40 dersinin kazanım metadata hatası2, sahibine bildirildi. Rapor outputs/codex-ai-saldiri-08-20261029/RAPOR.md. Bağımsız denetim bekliyor.",
+   "guncelleme": "2026-10-29T12:54:46+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği",
+   "baslik": "Kalıcı Hafıza Zehirleme ve Oturumlar Arası Sızıntı",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-08-hafiza-zehirleme.md"
+  },
+  "ai-saldiri-09": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek iki Qwen yanıtı -> HTMLParser sink -> hamTXT/güvenliHTML. UI35/35 ve Çalıştır, dış kabul10/10, 4 anlamlı mutant reddi; kalıcı öğrenci dosyası iki süreçte korundu. Tam yol338/338 çalıştırma temiz,40/41 metadata hatası4 bildirildi. Ek file:// belge görünümü tarayıcı politikası engelinden doğrulanamadı; PASS sayılmadı. Rapor outputs/codex-ai-saldiri-09-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T13:04:21+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği",
+   "baslik": "Güvensiz LLM Çıktısının İşlenmesi",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-09-guvensiz-llm-ciktisi.md"
+  },
+  "ai-saldiri-10": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek2 Qwen ham JSON -> katı parser/şema/allowlist -> disk SQLite iş/inceleme kuyruğu. UI38/38 + Çalıştır, dış kabul10/10,4 mutant reddi; kalıcılık farklı süreçlerde. 08/09/10 grup regresyonu30/30 TEMİZ. Rapor outputs/codex-ai-saldiri-10-20261029/RAPOR.md. Bağımsız denetim yok.",
+   "guncelleme": "2026-10-29T13:08:20+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği",
+   "baslik": "Yapılandırılmış Çıktı ve Ayrıştırıcı Atlatma",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-10-yapilandirilmis-cikti.md"
+  },
+  "ai-saldiri-11": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek MIME/HTML çıkarımı +6 canlı Qwen yanıtı/kaynak ölçümü. UI35/35 ve Çalıştır; dış kabul9/9,3 mutant reddi;kalıcı öğrenci dosyaları. Son tamyol348/350, yalnız30/33 ai_lab NameError sahibine bildirildi. Tam-satır ölçümü cümle içi alıntıyı saymaz/güvenlik iddiası değil. Rapor outputs/codex-ai-saldiri-11-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T13:20:13+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+   "baslik": "Belgeler Üzerinden Dolaylı Prompt Injection",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-11-belge-dolayli-injection.md"
+  },
+  "ai-saldiri-12": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Mevcut 3 görev korundu + qwen2.5vl:3b ve Pillow ile gerçek multimodal injection deneyi eklendi; 48 mutant 0 geçen; validate.py TEMİZ",
+   "guncelleme": "2026-10-29T13:02:44+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+   "baslik": "Görsellerde Multimodal Injection",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-12-multimodal-injection.md"
+  },
+  "ai-saldiri-13": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "baska",
+   "not": "Gerçek PDF reportlab/pypdf+PDF görüntüsünden qwen2.5vl OCR+metadata başlık Qwen. UI30/30,son Çalıştır gerçek PASSdenemesi/kabulfalse;9/9 dışkabul,3mutantreddi;eksikPDFPython/Ollama fail. Poppler render QA ikiPDFtemiz. İlk metadata kesilmesi veUI500 FAILkorundu;son kontrollü retry fixture3/3,validate10/10,11/13grup20/20temiz. Rapor outputs/codex-ai-saldiri-13-20261029/RAPOR.md. Bağımsız denetim yok.",
+   "guncelleme": "2026-10-29T13:35:27+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+   "baslik": "Gizli Metin ve Belge Katmanı Enjeksiyonu",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-13-gizli-metin-belge-katmani.md"
+  },
+  "ai-saldiri-14": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek SQLite/FTS5 corpus -> öğrenci lexical ->4canlıQwen RAG. UI28/28+Çalıştır, dışkabul9/9,3mutantreddi,sonvalidate10temiz,kalıcılıkiki süreçte. Lexical zehri üstte getirirken FTS5 meşruyu korudu; algoritmalar aynı sayılmadı. Rapor outputs/codex-ai-saldiri-14-20261029/RAPOR.md. Bağımsız denetim yok.",
+   "guncelleme": "2026-10-29T16:18:48+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+   "baslik": "RAG Bilgi Tabanı Zehirleme",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-14-rag-bilgi-tabani-zehirleme.md"
+  },
+  "ai-saldiri-15": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek all-minilm gömmeleri/cosine->bütçeli bağlam->2canlıQwen. UI29/29,sonÇalıştır,dışkabul9/9,3mutantreddi,kalıcılıkiki süreçte;14/15grup19kontrol TEMİZ. İlkUI400FAILkorundu,kök neden tekrarlanmadığı için doğrulanmadı;sonkodembeddinghata gövdesinikaydeder. Rapor outputs/codex-ai-saldiri-15-20261029/RAPOR.md. Bağımsızdenetim yok.",
+   "guncelleme": "2026-10-29T16:33:52+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+   "baslik": "Retrieval Manipülasyonu ve Bağlam Ele Geçirme",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-15-retrieval-manipulasyonu.md"
+  },
+  "ai-saldiri-31": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Mevcut 3 gorev korundu; sona Playwright + Chromium (yalniz yerel HTML, route.abort ile dis ag kapali) gercek deneyi eklendi. Kanit: docs/ai-gercek/kanit/saldiri-31-playwright-dom.json. tahmin 0 supheli, mutasyon 34/34 yakalandi, validate TEMIZ.",
+   "guncelleme": "2026-10-29T13:10:04+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+   "baslik": "Computer-Use ve Tarayıcı Ajanlarında DOM Enjeksiyonu",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-31-dom-enjeksiyonu.md"
+  },
+  "ai-saldiri-32": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Mevcut 3 gorev korundu; sona System.Speech yerel WAV uretimi + faster-whisper (ai_lab.whisper_modeli) gercek deneyi eklendi. Kanit: docs/ai-gercek/kanit/saldiri-32-whisper-ses.json. tahmin 0 supheli, mutasyon 28/28 yakalandi, validate TEMIZ.",
+   "guncelleme": "2026-10-29T13:10:04+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+   "baslik": "Adversarial Audio ve Sesli Komut Enjeksiyonu",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-32-sesli-komut-enjeksiyonu.md"
+  },
+  "ai-saldiri-16": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Gerçek native tool+disk; dışkabul9/9, UI28/28 ve RunOK/kabulfalse; starter/boş/sabit/3mutant reddi; grup16+17 16kontrol TEMİZ. Rapor outputs/codex-ai-saldiri-16-20261029/RAPOR.md. Bağımsız denetim değil.",
+   "guncelleme": "2026-10-29T16:57:11+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ajanlar, Araçlar ve Yetki Sınırları",
+   "baslik": "Tool Schema Poisoning",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-16-tool-schema-poisoning.md"
+  },
+  "ai-saldiri-17": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Dışkabul9/9, UI57/57+RunOK; yanlış çözümler reddi; gerçek native2aşama/amaçizin/disk; grup16+17 16kontrol TEMİZ; rapor outputs/codex-ai-saldiri-17-20261029/RAPOR.md. Bağımsızdenetim değil.",
+   "guncelleme": "2026-10-29T17:01:04+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ajanlar, Araçlar ve Yetki Sınırları",
+   "baslik": "Ajan Tool-Zinciri · Veriden Talimata, Confused Deputy ve Aşamalı Kanıt",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-17-ajan-tool-zinciri.md"
+  },
+  "ai-saldiri-18": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Dışkabul9/9,UI28/28/RunOK;gerçekSQLitekapı/etki;grup18+19 18kontrol TEMİZ. Ortak markdownlink tıklanmaz;hamdosya/kalıcılık doğrulandı. Rapor outputs/codex-ai-saldiri-18-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T17:07:42+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ajanlar, Araçlar ve Yetki Sınırları",
+   "baslik": "Confused Deputy Ajanları",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-18-confused-deputy.md"
+  },
+  "ai-saldiri-19": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Dışkabul9/9,sonUI27/27+RunOK,grup18+19 18temiz;gerçekSQLitekimlik/nesne/onay. İlkCLI/UIHTTP500FAILkorundu;ara sıraOllama500köküçözülmedi. Markdownanchor yok. Rapor outputs/codex-ai-saldiri-19-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T17:12:47+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ajanlar, Araçlar ve Yetki Sınırları",
+   "baslik": "Araç Çağrılarında Auth ve Yetki Bypass",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-19-auth-yetki-bypass.md"
+  },
+  "ai-saldiri-20": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "Dışkabul9/9,UI27/27+RunOK,hedefregresyon9temiz. Gerçekchildargv/kopyaSHA;cmdönerisindealt-süreçyok. Yanlış3mutantreddi/kalıcılık. Rapor outputs/codex-ai-saldiri-20-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T17:19:30+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ajanlar, Araçlar ve Yetki Sınırları",
+   "baslik": "Komut ve Argüman Enjeksiyonu",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-20-komut-arguman-enjeksiyonu.md"
+  },
+  "ai-saldiri-21": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9,UI114/114+RunOK,grup20+21 16temiz. GerçekmodelURL/TCPpeer/HTTPcanary;korumalıiçistek0,kendiHTTPkapandı. Sınırsızmutantkoşusudurduruldu/sonlutestile9/9. Rapor outputs/codex-ai-saldiri-21-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T17:24:43+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "Modelden Ara Çağrısına AI-SSRF",
+   "adim": 6,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-21-ai-ssrf.md"
+  },
+  "ai-saldiri-22": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9,UI23/23+RunOK,hedefregresyon9temiz. GerçekHTTP/TCP/DNSpeer;model/startredirectiiçserviseulaşmadı. SentetikDNSnegatifleriayrı. Rapor outputs/codex-ai-saldiri-22-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T17:32:22+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "SSRF Filtre ve Yönlendirme Atlatma",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-22-ssrf-filtre-yonlendirme.md"
+  },
+  "ai-saldiri-23": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9,UI23/23+RunOK,grup22/23/24 27temiz. GerçekyanıtsızHTTP/DNSwire/JSONL;korumalıDNSolay0,kapısızCLItamcanary1. UIRunyanlışkopya sızıntısayılmadı. Rapor outputs/codex-ai-saldiri-23-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T17:41:16+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "Kör Exfiltration Kanalları",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-23-kor-exfiltration-kanallari.md"
+  },
+  "ai-saldiri-24": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9,UI28/28+RunOK,grup22/23/24 27temiz. GerçekHTTPparçaaktarımı+izinlinativerelay;3parçabirleşikkenıt,bozuk3kayıtreddi. Jailbreak/model-gizlisırbaşarısıDEĞİL. Rapor outputs/codex-ai-saldiri-24-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T17:49:30+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "Kodlanmış ve Parçalı Veri Dışarı Aktarımı",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-24-kodlanmis-parcali-veri.md"
+  },
+  "ai-saldiri-25": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9,UI21/21+sonRunOK,grup25/26/28 27temiz. Gerçek iki native tur/toolcevabı/kapı/disk. İlkUIRunHTTP500FAILkorundu;köknedençözüldüdenmiyor. Rapor outputs/codex-ai-saldiri-25-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T18:07:58+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "Araç Sonucundan Yeniden Enjeksiyon",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-25-arac-sonucundan-yeniden-enjeksiyon.md"
+  },
+  "ai-saldiri-33": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Mevcut 3 gorev korundu; sona yerel Ollama (ai_lab.SohbetOturumu, GPU kilidi) ile ortak onek (hit) ve soguk onek (miss) zamanlama gercek deneyi eklendi. Kanit: docs/ai-gercek/kanit/saldiri-33-kv-cache-timing.json. tahmin 0 supheli, mutasyon 57/57 yakalandi, validate TEMIZ.",
+   "guncelleme": "2026-10-29T13:21:14+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "KV-Cache Timing ve Prompt-Stealing Yan Kanalları",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-33-kv-cache-timing-yan-kanal.md"
+  },
+  "ai-saldiri-26": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9,gerçekekrankabulü+RunOK;grup25/26/28 27temiz. Gerçekrepodosyası/kapı/risk. Rapor outputs/codex-ai-saldiri-26-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T21:17:22+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "Kodlama Ajanları ve Repo İçeriği Saldırıları",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-26-kodlama-ajanlari-repo-icerigi.md"
+  },
+  "ai-saldiri-27": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "?",
+   "not": "tahmin 1/0, mutasyon 28/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/saldiri-27-hakem-zafiyeti.json (qwen3:4b hakem; gercek ASR 0.50, saf hakem 0.83, sert hakem 0.67; model bosaltildi)",
+   "guncelleme": "2026-10-29T22:00:38+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "Değerlendirici Zafiyetleri ve ASR Güvenilirliği",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-27-degerlendirici-zafiyetleri-asr.md"
+  },
+  "ai-saldiri-28": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9,UI22/22+RunOK,grup25/26/28 27temiz.İki gerçekmodelrolü/gerçekdosya;çekimserlik sahteçağrıdeğil. Rapor outputs/codex-ai-saldiri-28-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T21:18:28+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "Çoklu Ajan Sistemlerinde Güven ve Yetki Devri",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-28-coklu-ajan-guven-yetki-devri.md"
+  },
+  "ai-saldiri-29": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI10/10,UI25/25+RunOK;gerçekFTS/native/TLSzinciri,sertifikavehostname doğrulandı. Tam yol46ders429temiz. Rapor outputs/codex-ai-saldiri-29-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T21:27:42+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "RAG’den Araca Çok Aşamalı Saldırı Zinciri",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-29-rag-arac-cok-asamali-zincir.md"
+  },
+  "ai-saldiri-30": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Mevcut 3 gorev korundu; sona yerel saldirgan + hedef Ollama modeli ile canli PAIR/TAP kampanyasi gercek deneyi eklendi. Kanit: docs/ai-gercek/kanit/saldiri-30-pair-tap-kampanya.json. tahmin 0 supheli, mutasyon 59/59 yakalandi, validate TEMIZ.",
+   "guncelleme": "2026-10-29T13:21:14+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "PAIR, TAP ve PyRIT ile Otomatik Saldırı Kampanyaları",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-30-pair-tap-pyrit-kampanya.md"
+  },
+  "ai-saldiri-34": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "ollama",
+   "not": "CLI9/9 UI24/24+RunOK,tam yol46ders429temiz. Gerçekstructured/rawinference;kaçışcanarygüvencesi değil,tokenIDsunulmadı. Rapor outputs/codex-ai-saldiri-34-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T21:29:35+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "Chat Template ve Rol Sınırı Manipülasyonu",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-34-chat-template-rol-siniri.md"
+  },
+  "ai-savunma-01": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Fixture->gercek: canli ajan etkilesiminde guven sinir gecisleri; 3 fixture gorev korundu + gercek-deney eklendi (model->arac gecisi olculuyor). PASS+kanit",
+   "guncelleme": "2026-10-29T12:02:04+03:00",
+   "yol": "ai-savunma",
+   "modul": "Yerel Savunma Temelleri",
+   "baslik": "Yerel LLM Saldırı Yüzeyi ve Güven Sınırları",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-01-yerel-llm-saldiri-yuzeyi-guven-sinirlari.md"
+  },
+  "ai-savunma-02": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Fixture->gercek: risk guvence raporu gercek canary-enjeksiyon test kanitiyla; 3 fixture gorev korundu + gercek-deney eklendi. PASS+kanit",
+   "guncelleme": "2026-10-29T12:08:53+03:00",
+   "yol": "ai-savunma",
+   "modul": "Yerel Savunma Temelleri",
+   "baslik": "Birleşik AI Risk ve Kontrol Çerçeveleri",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-02-birlesik-ai-risk-kontrol-cerceveleri.md"
+  },
+  "ai-savunma-03": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Fixture->gercek: fail-closed karar gercek cikti-sema guardrail gozlemiyle (sayi->gecti->izin, duzyazi->kaldi->reddet). 3 fixture gorev korundu. PASS+kanit",
+   "guncelleme": "2026-10-29T15:27:02+03:00",
+   "yol": "ai-savunma",
+   "modul": "Yerel Savunma Temelleri",
+   "baslik": "Katmanlı Savunma Referans Mimarisi",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-03-katmanli-savunma-referans-mimarisi.md"
+  },
+  "ai-savunma-04": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Fixture->gercek: gercek trafikten guvenli telemetri (gercek sure/token, ham istem sizmiyor). 3 fixture gorev korundu. PASS+kanit",
+   "guncelleme": "2026-10-29T15:30:19+03:00",
+   "yol": "ai-savunma",
+   "modul": "Yerel Savunma Temelleri",
+   "baslik": "Güvenlik Odaklı Log ve Telemetri Temeli",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-04-guvenlik-odakli-log-telemetri-temeli.md"
+  },
+  "ai-savunma-05": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "Fixture->gercek: determinizm (sabit tohum+sicaklik0 -> ayni cikti). 3 fixture gorev korundu. PASS+kanit",
+   "guncelleme": "2026-10-29T15:33:34+03:00",
+   "yol": "ai-savunma",
+   "modul": "Yerel Savunma Temelleri",
+   "baslik": "İzole ve Tekrarlanabilir Yerel Test Laboratuvarı",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-05-izole-tekrarlanabilir-yerel-test-laboratuvari.md"
+  },
+  "ai-savunma-06": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T15:41:26+03:00",
+   "yol": "ai-savunma",
+   "modul": "Girdi ve Çıktı Muhafızı",
+   "baslik": "Girdi Guardrail Katmanı",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-06-girdi-guardrail-katmani.md"
+  },
+  "ai-savunma-07": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T15:47:17+03:00",
+   "yol": "ai-savunma",
+   "modul": "Girdi ve Çıktı Muhafızı",
+   "baslik": "Prompt Injection ve Jailbreak Tespiti",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-07-prompt-injection-ve-jailbreak-tespiti.md"
+  },
+  "ai-savunma-08": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T15:51:30+03:00",
+   "yol": "ai-savunma",
+   "modul": "Girdi ve Çıktı Muhafızı",
+   "baslik": "Çıktı Guardrail ve Yapısal Doğrulama",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-08-cikti-guardrail-ve-yapisal-dogrulama.md"
+  },
+  "ai-savunma-09": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T15:55:07+03:00",
+   "yol": "ai-savunma",
+   "modul": "Girdi ve Çıktı Muhafızı",
+   "baslik": "PII Tespiti ve Çıktı DLP Kontrolleri",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-09-pii-tespiti-ve-cikti-dlp-kontrolleri.md"
+  },
+  "ai-savunma-10": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T16:00:27+03:00",
+   "yol": "ai-savunma",
+   "modul": "Girdi ve Çıktı Muhafızı",
+   "baslik": "Guardrail Atlatma ve Güvenli Geri Dönüş",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-10-guardrail-atlatma-ve-guvenli-geri-donus.md"
+  },
+  "ai-savunma-11": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T16:13:43+03:00",
+   "yol": "ai-savunma",
+   "modul": "Araç ve Yürütme Bekçisi",
+   "baslik": "Araç Şemaları ve En Az Ayrıcalık",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-11-arac-semalari-ve-en-az-ayricalik.md"
+  },
+  "ai-savunma-12": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "pilot: gerçek kabul geçti; not içeriği doğruluğu ölçülmüyor",
+   "guncelleme": "2026-10-28T13:33:36+03:00",
+   "yol": "ai-savunma",
+   "modul": "Araç ve Yürütme Bekçisi",
+   "baslik": "Araç Politikaları ve İnsan Onayı",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-12-arac-politikalari-ve-insan-onayi.md"
+  },
+  "ai-savunma-13": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T16:17:26+03:00",
+   "yol": "ai-savunma",
+   "modul": "Araç ve Yürütme Bekçisi",
+   "baslik": "Sandbox İçinde Güvenli Kod ve Komut Yürütme",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-13-sandbox-icinde-guvenli-kod-ve-komut-yurutme.md"
+  },
+  "ai-savunma-14": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T16:21:59+03:00",
+   "yol": "ai-savunma",
+   "modul": "Araç ve Yürütme Bekçisi",
+   "baslik": "Egress Kontrolü ve SSRF Savunması",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-14-egress-kontrolu-ve-ssrf-savunmasi.md"
+  },
+  "ai-savunma-15": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T16:25:14+03:00",
+   "yol": "ai-savunma",
+   "modul": "Araç ve Yürütme Bekçisi",
+   "baslik": "Secrets Yalıtımı ve Aracılı Kimlik Bilgileri",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-15-secrets-yalitimi-ve-aracili-kimlik-bilgileri.md"
+  },
+  "ai-savunma-16": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T20:24:42+03:00",
+   "yol": "ai-savunma",
+   "modul": "RAG ve Tedarik Zinciri Koruyucusu",
+   "baslik": "RAG Provenance ve Kaynak Güveni",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-16-rag-provenance-ve-kaynak-guveni.md"
+  },
+  "ai-savunma-17": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T20:28:30+03:00",
+   "yol": "ai-savunma",
+   "modul": "RAG ve Tedarik Zinciri Koruyucusu",
+   "baslik": "Güvenli Belge Alma ve İçerik Ayrıştırma",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-17-guvenli-belge-alma-ve-icerik-ayristirma.md"
+  },
+  "ai-savunma-18": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T20:31:39+03:00",
+   "yol": "ai-savunma",
+   "modul": "RAG ve Tedarik Zinciri Koruyucusu",
+   "baslik": "RAG Poisoning ve Dolaylı Injection Savunması",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-18-rag-poisoning-ve-dolayli-injection-savunmasi.md"
+  },
+  "ai-savunma-19": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T20:34:48+03:00",
+   "yol": "ai-savunma",
+   "modul": "RAG ve Tedarik Zinciri Koruyucusu",
+   "baslik": "Vektör Deposunda Erişim ve Kiracı Yalıtımı",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-19-vektor-deposunda-erisim-ve-kiraci-yalitimi.md"
+  },
+  "ai-savunma-20": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "",
+   "guncelleme": "2026-10-29T20:38:02+03:00",
+   "yol": "ai-savunma",
+   "modul": "RAG ve Tedarik Zinciri Koruyucusu",
+   "baslik": "Model ve Bağımlılık Tedarik Zinciri Güvenliği",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-20-model-ve-bagimlilik-tedarik-zinciri-guvenligi.md"
+  },
+  "ai-savunma-21": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T20:43:51+03:00",
+   "yol": "ai-savunma",
+   "modul": "Tespit ve Müdahale Uzmanı",
+   "baslik": "Model ve Prompt Registry Değişiklik Kontrolü",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-21-model-ve-prompt-registry-degisiklik-kontrolu.md"
+  },
+  "ai-savunma-22": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T20:47:59+03:00",
+   "yol": "ai-savunma",
+   "modul": "Tespit ve Müdahale Uzmanı",
+   "baslik": "Korelasyonlu AI Güvenlik Telemetrisi",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-22-korelasyonlu-ai-guvenlik-telemetrisi.md"
+  },
+  "ai-savunma-23": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T20:52:06+03:00",
+   "yol": "ai-savunma",
+   "modul": "Tespit ve Müdahale Uzmanı",
+   "baslik": "Abuse Detection ve Uyarlanabilir Sınırlama",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-23-abuse-detection-ve-uyarlanabilir-sinirlama.md"
+  },
+  "ai-savunma-24": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T20:55:45+03:00",
+   "yol": "ai-savunma",
+   "modul": "Tespit ve Müdahale Uzmanı",
+   "baslik": "Sigma ile LLM Saldırı Tespit Kuralları",
+   "adim": 10,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-24-sigma-ile-llm-saldiri-tespit-kurallari.md"
+  },
+  "ai-savunma-25": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T20:58:34+03:00",
+   "yol": "ai-savunma",
+   "modul": "Tespit ve Müdahale Uzmanı",
+   "baslik": "AI Olay Müdahalesi ve Kanıt Koruma",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-25-ai-olay-mudahalesi-ve-kanit-koruma.md"
+  },
+  "ai-savunma-26": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T21:01:55+03:00",
+   "yol": "ai-savunma",
+   "modul": "Adversarial Güvence ve Mor Tatbikat",
+   "baslik": "Tehdit Odaklı Eval ve ASR Ölçümü",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-26-tehdit-odakli-eval-ve-asr-olcumu.md"
+  },
+  "ai-savunma-27": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T21:05:18+03:00",
+   "yol": "ai-savunma",
+   "modul": "Adversarial Güvence ve Mor Tatbikat",
+   "baslik": "garak ile Yerel Model Güvenlik Taraması",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-27-garak-ile-yerel-model-guvenlik-taramasi.md"
+  },
+  "ai-savunma-28": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T21:08:39+03:00",
+   "yol": "ai-savunma",
+   "modul": "Adversarial Güvence ve Mor Tatbikat",
+   "baslik": "Uygulamaya Özel garak Detector Geliştirme",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-28-uygulamaya-ozel-garak-detector-gelistirme.md"
+  },
+  "ai-savunma-29": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "?",
+   "not": "kullanici karari",
+   "guncelleme": "2026-10-29T21:12:28+03:00",
+   "yol": "ai-savunma",
+   "modul": "Adversarial Güvence ve Mor Tatbikat",
+   "baslik": "Adversarial Regression ve Yayın Kapıları",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-29-adversarial-regression-ve-yayin-kapilari.md"
+  },
+  "ai-savunma-30": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "?",
+   "not": "tahmin 1/0, mutasyon 28/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/savunma-30-purple-tatbikati.json (5 faz gercek: qwen3:4b, cikti filtresi, JSONL telemetri, SHA-256 rotasyon, 3 regresyon; ham sizinti var teslim 0; kontrol akisi kaldi)",
+   "guncelleme": "2026-10-29T22:05:37+03:00",
+   "yol": "ai-savunma",
+   "modul": "Adversarial Güvence ve Mor Tatbikat",
+   "baslik": "Uçtan Uca Yerel Purple Tatbikatı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-30-uctan-uca-yerel-purple-tatbikati.md"
+  },
+  "ai-guvence-01": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-01/), kusurlu başlangıç kodu, mutasyon 53/0, tahmin 1/0, canlı sklearn LogisticRegression deney defteri (sandbox/ai_gercek_ai_guvence_01.py) ve kanıt (docs/ai-gercek/kanit/guvence-01-deney-defteri.json) tamamlandı; validate TEMİZ.",
+   "guncelleme": "2026-10-29T20:03:17+03:00",
+   "yol": "ai-guvence",
+   "modul": "ML Güvenliğine Giriş",
+   "baslik": "ML Güvenliği Deney Defteri",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-01-ml-guvenligi-deney-defteri.md"
+  },
+  "ai-guvence-02": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-02/), kusurlu başlangıç kodu, mutasyon 35/0, tahmin 1/0, canlı sklearn LogisticRegression taban model deneyi (sandbox/ai_gercek_ai_guvence_02.py) ve kanıt (docs/ai-gercek/kanit/guvence-02-taban-model.json) tamamlandı; validate TEMİZ.",
+   "guncelleme": "2026-10-29T20:05:49+03:00",
+   "yol": "ai-guvence",
+   "modul": "ML Güvenliğine Giriş",
+   "baslik": "Taban Model ve Ölçüm Referansı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-02-taban-model-ve-olcum-referansi.md"
+  },
+  "ai-guvence-03": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-03/), kusurlu başlangıç kodu, mutasyon 37/0, tahmin 1/0, canlı sklearn zehirleme hipotez deneyi (sandbox/ai_gercek_ai_guvence_03.py) ve kanıt (docs/ai-gercek/kanit/guvence-03-tehdit-sorusu.json) tamamlandı; validate TEMİZ.",
+   "guncelleme": "2026-10-29T20:08:50+03:00",
+   "yol": "ai-guvence",
+   "modul": "ML Güvenliğine Giriş",
+   "baslik": "Tehdit Modelinden Deney Sorusuna",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-03-tehdit-modelinden-deney-sorusuna.md"
+  },
+  "ai-guvence-04": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-04/), kusurlu başlangıç kodu, mutasyon 42/0, tahmin 1/0, canlı sklearn predict_proba maliyet-eşik deneyi (sandbox/ai_gercek_ai_guvence_04.py) ve kanıt (docs/ai-gercek/kanit/guvence-04-maliyet-esik.json) tamamlandı; validate TEMİZ.",
+   "guncelleme": "2026-10-29T20:11:28+03:00",
+   "yol": "ai-guvence",
+   "modul": "ML Güvenliğine Giriş",
+   "baslik": "Yanlış Pozitiflerin Güvenlik Maliyeti",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-04-yanlis-pozitiflerin-guvenlik-maliyeti.md"
+  },
+  "ai-guvence-05": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-05/), kusurlu başlangıç kodu, mutasyon 30/0, tahmin 1/0, canlı SHA-256 kanıt paketi deneyi (sandbox/ai_gercek_ai_guvence_05.py) ve kanıt (docs/ai-gercek/kanit/guvence-05-kanit-paketi.json) tamamlandı; validate TEMİZ.",
+   "guncelleme": "2026-10-29T20:14:39+03:00",
+   "yol": "ai-guvence",
+   "modul": "ML Güvenliğine Giriş",
+   "baslik": "Tekrarlanabilirlik ve Kanıt Paketi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-05-tekrarlanabilirlik-ve-kanit-paketi.md"
+  },
+  "ai-guvence-06": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Mevcut 3 gorev korundu; sona TransformerLens 4.3 (TransformerBridge.boot_transformers) ve Qwen/Qwen2.5-0.5B-Instruct (rev: 7ae557604adf67be50417f59c2c2f167def9a775) ile canli refusal katman aktivasyonu deneyi eklendi. Kanit: docs/ai-gercek/kanit/guvence-06-transformerlens-refusal.json. tahmin 0 supheli, mutasyon 30/30 yakalandi, validate TEMIZ.",
+   "guncelleme": "2026-10-29T13:33:11+03:00",
+   "yol": "ai-guvence",
+   "modul": "Sağlamlık ve Evasion",
+   "baslik": "TransformerLens ile Refusal Mekanizması",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-06-transformerlens-ile-refusal-mekanizmasi.md"
+  },
+  "ai-guvence-07": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "torch",
+   "not": "pilot: gerçek kabul geçti (laptop), Codex denetimi bekliyor",
+   "guncelleme": "2026-10-28T13:33:37+03:00",
+   "yol": "ai-guvence",
+   "modul": "Sağlamlık ve Evasion",
+   "baslik": "Beyaz Kutu FGSM Ölçümü",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-07-beyaz-kutu-fgsm-olcumu.md"
+  },
+  "ai-guvence-08": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-08/), kusurlu başlangıç kodu, mutasyon 48/0, tahmin 1/0, canlı PyTorch autograd PGD deneyi (sandbox/ai_gercek_ai_guvence_08.py) ve kanıt (docs/ai-gercek/kanit/guvence-08-pgd-egri.json) tamamlandı; validate TEMİZ.",
+   "guncelleme": "2026-10-29T20:17:41+03:00",
+   "yol": "ai-guvence",
+   "modul": "Sağlamlık ve Evasion",
+   "baslik": "PGD ile Saldırı Gücü Eğrileri",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-08-pgd-ile-saldiri-gucu-egrileri.md"
+  },
+  "ai-guvence-09": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Mevcut 3 gorev korundu; sona SmolLM2-135M + torch (ai_lab.torch_cihazi) uzerinde gercek koordinat gradyani (GCG) ve ileri gecis kaybi sonek aramasi gercek deneyi eklendi. Kanit: docs/ai-gercek/kanit/guvence-09-gcg-autodan.json. tahmin 0 supheli, mutasyon 25/25 yakalandi, validate TEMIZ.",
+   "guncelleme": "2026-10-29T13:23:12+03:00",
+   "yol": "ai-guvence",
+   "modul": "Sağlamlık ve Evasion",
+   "baslik": "GCG ve AutoDAN: Ayrık Token Optimizasyonu",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-09-gcg-ve-autodan-ayrik-token-optimizasyonu.md"
+  },
+  "ai-guvence-10": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Mevcut 3 gorev korundu; sona TransformerLens 4.3 + PyTorch forward hook ve Qwen/Qwen2.5-0.5B-Instruct (rev: 7ae557604adf67be50417f59c2c2f167def9a775) uzerinde canli abliteration (ortogonal projeksiyon) deneyi eklendi. Kanit: docs/ai-gercek/kanit/guvence-10-abliteration.json. tahmin 0 supheli, mutasyon 16/16 yakalandi, validate TEMIZ.",
+   "guncelleme": "2026-10-29T13:33:12+03:00",
+   "yol": "ai-guvence",
+   "modul": "Sağlamlık ve Evasion",
+   "baslik": "Refusal Direction Removal ve Abliteration Ölçümü",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-10-refusal-direction-removal-ve-abliteration-olcumu.md"
+  },
+  "ai-guvence-11": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Tahmin 1/0, mutasyon 43/0, validate TEMIZ, sklearn olasilik sapmasi + kaynak profili kaniti (guvence-11-veri-kokeni.json)",
+   "guncelleme": "2026-10-29T20:26:49+03:00",
+   "yol": "ai-guvence",
+   "modul": "Veri Bütünlüğü ve Poisoning",
+   "baslik": "Veri Kökeni ve Şüpheli Kayıt Profili",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-11-veri-kokeni-ve-supheli-kayit-profili.md"
+  },
+  "ai-guvence-12": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Tahmin 1/0, mutasyon 32/0, validate TEMIZ, sklearn taban/rastgele/hedefli kaniti (guvence-12-etiket-zehirleme.json)",
+   "guncelleme": "2026-10-29T20:26:49+03:00",
+   "yol": "ai-guvence",
+   "modul": "Veri Bütünlüğü ve Poisoning",
+   "baslik": "Etiket Gürültüsü ile Zehirlemenin Ayrımı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-12-etiket-gurultusu-ile-zehirlemenin-ayrimi.md"
+  },
+  "ai-guvence-13": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "torch",
+   "not": "Tahmin 1/0, mutasyon 26/0, validate TEMIZ, sklearn 7 oranli yeniden egitim egrisi kaniti (guvence-13-zehir-egrisi.json)",
+   "guncelleme": "2026-10-29T20:29:03+03:00",
+   "yol": "ai-guvence",
+   "modul": "Veri Bütünlüğü ve Poisoning",
+   "baslik": "Zehirleme Oranı ve Etki Eğrisi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-13-zehirleme-orani-ve-etki-egrisi.md"
+  },
+  "ai-guvence-14": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "tahmin 1/0, mutasyon 31/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/guvence-14-tetik-yerlesimi.json (PyTorch CPU, 6/400 zehirli; ham secim ust_kose, net etki secimi merkez)",
+   "guncelleme": "2026-10-29T21:50:40+03:00",
+   "yol": "ai-guvence",
+   "modul": "Veri Bütünlüğü ve Poisoning",
+   "baslik": "Backdoor Tetikleyici Deneyi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-14-backdoor-tetikleyici-deneyi.md"
+  },
+  "ai-guvence-15": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "?",
+   "not": "tahmin 1/0, mutasyon 32/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/guvence-15-ayiklama-kaniti.json (sklearn, %10 etiket cevirme; knn tespit 0.90, izolasyon 0.14; secilen knn_tutarlilik)",
+   "guncelleme": "2026-10-29T21:54:59+03:00",
+   "yol": "ai-guvence",
+   "modul": "Veri Bütünlüğü ve Poisoning",
+   "baslik": "Veri Ayıklama Yöntemlerinin Kanıt Değeri",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-15-veri-ayiklama-yontemlerinin-kanit-degeri.md"
+  },
+  "ai-guvence-16": {
+   "durum": "denetime-hazir",
+   "kim": "codex",
+   "gereksinim": "torch",
+   "not": "104:gerçekTorchautogradshadow/target,CLI9/9,UI19/19+RunOK,validate9temiz,kalıcılıkOK. Saldırıbaşarısı şartdeğil. Rapor outputs/codex-ai-guvence-16-20261029/RAPOR.md.",
+   "guncelleme": "2026-10-29T21:52:30+03:00",
+   "yol": "ai-guvence",
+   "modul": "Gizlilik",
+   "baslik": "Gizlilik Tehdit Modeli ve Bilgi Sızdıran Kanıtlar",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-16-gizlilik-tehdit-modeli-ve-bilgi-sizdiran-kanitlar.md"
+  },
+  "ai-guvence-17": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:22+03:00",
+   "yol": "ai-guvence",
+   "modul": "Gizlilik",
+   "baslik": "Üyelik Çıkarımı Saldırısı Ölçümü",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-17-uyelik-cikarimi-saldirisi-olcumu.md"
+  },
+  "ai-guvence-18": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:23+03:00",
+   "yol": "ai-guvence",
+   "modul": "Gizlilik",
+   "baslik": "Aşırı Öğrenme ile Gizlilik Riski İlişkisi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-18-asiri-ogrenme-ile-gizlilik-riski-iliskisi.md"
+  },
+  "ai-guvence-19": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:23+03:00",
+   "yol": "ai-guvence",
+   "modul": "Gizlilik",
+   "baslik": "Diferansiyel Gizlilik Bütçesi Deneyi",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-19-diferansiyel-gizlilik-butcesi-deneyi.md"
+  },
+  "ai-guvence-20": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:23+03:00",
+   "yol": "ai-guvence",
+   "modul": "Gizlilik",
+   "baslik": "Gizlilik İddialarının Saldırıyla Doğrulanması",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-20-gizlilik-iddialarinin-saldiriyla-dogrulanmasi.md"
+  },
+  "ai-guvence-21": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:24+03:00",
+   "yol": "ai-guvence",
+   "modul": "Tedarik Zinciri Güvencesi",
+   "baslik": "Model ve Veri SBOM Envanteri",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-21-model-ve-veri-sbom-envanteri.md"
+  },
+  "ai-guvence-22": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:24+03:00",
+   "yol": "ai-guvence",
+   "modul": "Tedarik Zinciri Güvencesi",
+   "baslik": "Pickle, Safetensors, GGUF ve Chat Template Riskleri",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-22-pickle-safetensors-gguf-ve-chat-template-riskleri.md"
+  },
+  "ai-guvence-23": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:24+03:00",
+   "yol": "ai-guvence",
+   "modul": "Tedarik Zinciri Güvencesi",
+   "baslik": "Quantization Kaynaklı Güvenlik Regresyonu",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-23-quantization-kaynakli-guvenlik-regresyonu.md"
+  },
+  "ai-guvence-24": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:25+03:00",
+   "yol": "ai-guvence",
+   "modul": "Tedarik Zinciri Güvencesi",
+   "baslik": "Sleeper Agent ve Model Ağırlığı Backdoor Ölçümü",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-24-sleeper-agent-ve-model-agirligi-backdoor-olcumu.md"
+  },
+  "ai-guvence-25": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:44:25+03:00",
+   "yol": "ai-guvence",
+   "modul": "Tedarik Zinciri Güvencesi",
+   "baslik": "Yerel Model Tedarik Zinciri Değerlendirmesi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-25-yerel-model-tedarik-zinciri-degerlendirmesi.md"
+  },
+  "ai-guvence-26": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:32:24+03:00",
+   "yol": "ai-guvence",
+   "modul": "Araştırma ve Saha",
+   "baslik": "Makale Replikasyonu ve Sapma Analizi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-26-makale-replikasyonu-ve-sapma-analizi.md"
+  },
+  "ai-guvence-27": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:32:25+03:00",
+   "yol": "ai-guvence",
+   "modul": "Araştırma ve Saha",
+   "baslik": "Açık Eval Tasarımı ve Kalibrasyonu",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-27-acik-eval-tasarimi-ve-kalibrasyonu.md"
+  },
+  "ai-guvence-28": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "ollama",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:32:25+03:00",
+   "yol": "ai-guvence",
+   "modul": "Araştırma ve Saha",
+   "baslik": "Opt-in Küçük–Güçlü Model Karşılaştırması",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-28-opt-in-kucuk-guclu-model-karsilastirmasi.md"
+  },
+  "ai-guvence-29": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:32:25+03:00",
+   "yol": "ai-guvence",
+   "modul": "Araştırma ve Saha",
+   "baslik": "Sorumlu Bildirim Raporu",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-29-sorumlu-bildirim-raporu.md"
+  },
+  "ai-guvence-30": {
+   "durum": "denetime-hazir",
+   "kim": "claude-opus",
+   "gereksinim": "torch",
+   "not": "Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md",
+   "guncelleme": "2026-10-29T22:32:26+03:00",
+   "yol": "ai-guvence",
+   "modul": "Araştırma ve Saha",
+   "baslik": "Yayınlanabilir Purple Çalışma",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-30-yayinlanabilir-purple-calisma.md"
+  },
+  "ai-guvence-31": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "GAP dersi. CLI kabul: 3 saf gorev (en yakin komsu/recovery@k/merkez sinifla) + gercek all-minilm embedding inversion PASS+kanit (recovery@1 0.625, nitelik 1.0); track.json Gizlilik modulune 17 sonrasi eklendi; UI M04 dogru",
+   "guncelleme": "2026-10-29T07:39:29+03:00",
+   "yol": "ai-guvence",
+   "modul": "Gizlilik",
+   "baslik": "Embedding Inversion: Gömmeden Kaynak Metin",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-31-embedding-inversion-gommeden-kaynak-metin.md"
+  },
+  "ai-savunma-31": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "GAP (denial-of-wallet). CLI kabul: 3 saf gorev + gercek butce deneyi PASS+kanit (butcesiz 512 -> butceli 32 token, bütce kesti length); track.json Tespit M05'e 23 sonrasi eklendi; UI M05 dogru",
+   "guncelleme": "2026-10-29T10:34:55+03:00",
+   "yol": "ai-savunma",
+   "modul": "Tespit ve Müdahale Uzmanı",
+   "baslik": "Sınırsız Tüketim Savunması: Bütçe ve Oran Sınırı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-savunma/lessons/ai-savunma-31-sinirsiz-tuketim-savunmasi-butce-ve-oran-siniri.md"
+  },
+  "ai-guvence-32": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "GAP (slopsquatting). CLI+UI kabul: 3 saf gorev (paket ayikla/typosquat-Levenshtein/allowlist) + gercek model paket onerisi denetimi PASS+kanit (10 paket, 5 incele: bilmiyorum+csv dahil); track.json Tedarik Zinciri M05 (21 sonrasi); UI M05 dogru",
+   "guncelleme": "2026-10-29T10:44:25+03:00",
+   "yol": "ai-guvence",
+   "modul": "Tedarik Zinciri Güvencesi",
+   "baslik": "Slopsquatting Savunması: Paket Halüsinasyonu",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-32-slopsquatting-savunmasi-paket-halusinasyonu.md"
+  },
+  "ai-guvence-33": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "GAP (metodoloji). CLI kabul: 3 saf gorev (kapsam/siddet/bulgu-birlestir) + gercek tekrarlanabilirlik deneyi PASS+kanit (3 probe x5 kosu, 3/3 tekrarlanabilir); track.json Arastirma M06 (26 sonrasi). SENTETIK fixture + CANLI deney.",
+   "guncelleme": "2026-10-29T11:02:44+03:00",
+   "yol": "ai-guvence",
+   "modul": "Araştırma ve Saha",
+   "baslik": "Red Team Metodolojisi ve Tekrarlanabilir Değerlendirme",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-33-red-team-metodolojisi-ve-tekrarlanabilir-degerlendirme.md"
+  },
+  "ai-guvence-34": {
+   "durum": "denetime-hazir",
+   "kim": "claude",
+   "gereksinim": "ollama",
+   "not": "GAP (LLM app pentest/SSRF). CLI kabul: 3 saf gorev (url ayikla/SSRF+allowlist kapisi/IDOR) + gercek deney PASS+kanit (model metadata adresini istedi, kapi engelledi; deterministik 3 engel 1 izin); track.json Arastirma M06 (33 sonrasi). SENTETIK fixture + CANLI deney.",
+   "guncelleme": "2026-10-29T11:07:49+03:00",
+   "yol": "ai-guvence",
+   "modul": "Araştırma ve Saha",
+   "baslik": "LLM Uygulama Pentest Köprüsü: SSRF ve Yetki",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-guvence/lessons/ai-guvence-34-llm-uygulama-pentest-koprusu-ssrf-ve-yetki.md"
+  },
+  "ai-saldiri-35": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Crescendo, many-shot ve Skeleton Key çok turlu jailbreak dersi + görünür sentetik fixture + gerçek yerel Ollama (GPU, num_ctx=4096) deneyi. tahmin 0 şüpheli, mutasyon 158/158 (0 geçen), validate TEMİZ.",
+   "guncelleme": "2026-10-29T11:23:13+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Çok Turlu Jailbreak · Crescendo, Many-Shot ve Skeleton Key",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-35-cok-turlu-jailbreak.md"
+  },
+  "ai-saldiri-36": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Red team metodolojisi I (RoE, sistem anatomisi, güven sınırları) + görünür sentetik fixture + gerçek yerel Ollama (GPU) RoE filtreli keşif deneyi. tahmin 0 şüpheli, mutasyon 190/190 (0 geçen), validate TEMİZ.",
+   "guncelleme": "2026-10-29T11:37:48+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Red Team Metodolojisi I · Yasal Kapsam (RoE), Sistem Anatomisi ve Güven Sınırları",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-36-red-team-metodolojisi-i.md"
+  },
+  "ai-saldiri-37": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Red team metodolojisi II (kapsam matrisi + kör noktalar, saldırı zinciri önceliklendirme, operasyon kapanışı ve iz temizliği; rapor yazımı yok, ai-guvence-29/33 atıflı) + görünür sentetik fixture + gerçek yerel Ollama (GPU) deneyi. tahmin 0 şüpheli, mutasyon 132/132 (0 geçen), validate TEMİZ.",
+   "guncelleme": "2026-10-29T11:46:38+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "Red Team Metodolojisi II · Kapsam Matrisi, Saldırı Zinciri Önceliklendirme ve Operasyon Kapanışı",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-37-red-team-metodolojisi-ii.md"
+  },
+  "ai-saldiri-38": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "AI-as-a-gatekeeper (moderasyon/spam/özgeçmiş sınıflandırıcı ve canlı LLM guardrail yargıcı) atlatma ve normalizasyon savunması dersi + görünür sentetik fixture + gerçek yerel Ollama (GPU) deneyi. tahmin 0 şüpheli, mutasyon 226/226 (0 geçen), validate TEMİZ.",
+   "guncelleme": "2026-10-29T11:56:06+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği",
+   "baslik": "AI Kapı Bekçisini (Gatekeeper) Atlatma · Sınıflandırıcı ve Guardrail Evasion",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-38-ai-kapi-bekcisi-atlatma.md"
+  },
+  "ai-saldiri-39": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "1 tahmin 0 şüpheli; 136 mutant 0 geçen; validate.py TEMİZ; kanit: saldiri-39-llm-pentest-koprusu.json",
+   "guncelleme": "2026-10-29T12:07:11+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "LLM Uygulama Pentest Köprüsü · İstemci Sırları, Çapraz Oturum IDOR ve AI-SSRF Zinciri",
+   "adim": 9,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-39-llm-uygulama-pentest-koprusu.md"
+  },
+  "ai-saldiri-40": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "1 tahmin 0 şüpheli; 204 mutant 0 geçen; validate.py TEMİZ; kanit: saldiri-40-denial-of-wallet.json",
+   "guncelleme": "2026-10-29T12:55:30+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ağ Erişimi, SSRF ve Exfiltration",
+   "baslik": "Denial-of-Wallet Saldırısı: Pahalı Üretim, Bağlam Şişirme ve Ajan Döngüsü",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-40-denial-of-wallet-saldirisi.md"
+  },
+  "ai-saldiri-41": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "1 tahmin 0 şüpheli; 162 mutant 0 geçen; validate.py TEMİZ; kanit: saldiri-41-slopsquatting.json",
+   "guncelleme": "2026-10-29T12:56:46+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "Slopsquatting Saldırısı: Paket Halüsinasyonu Hasadı ve Kayıt Yüzeyi Analizi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-41-slopsquatting-saldirisi.md"
+  },
+  "ai-saldiri-42": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "validate TEMIZ, tahmin 0 supheli, mutasyon 56/0 gecen, qwen3:8b think=true canli deney kaniti uretildi",
+   "guncelleme": "2026-10-29T16:38:13+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Akıl Yürüten (Reasoning) Modellere Saldırı: Düşünce Zinciri Ele Geçirme, Aşırı Düşündürme ve Gizli Düşünce Sızıntısı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-42-reasoning-modellere-saldiri.md"
+  },
+  "ai-saldiri-45": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "validate TEMIZ, tahmin 0 supheli, mutasyon 25/0 gecen, 4 dil kipinde canli deney kaniti uretildi",
+   "guncelleme": "2026-10-29T16:50:35+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Model Etkileşimi ve Saldırı Yüzeyi",
+   "baslik": "Çok Dilli ve Düşük Kaynaklı Dil Atlatması: Türkçe, Kod Değiştirme ve Çeviri Zinciri",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-45-cok-dilli-dil-atlatmasi.md"
+  },
+  "ai-saldiri-43": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "validate TEMIZ, tahmin 0 supheli, mutasyon 40/0 gecen, 3 ajanli A2A canli deney kaniti uretildi",
+   "guncelleme": "2026-10-29T16:58:59+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ajanlar, Araçlar ve Yetki Sınırları",
+   "baslik": "Çok Ajanlı Sistemler ve Ajanlar Arası Protokol (A2A): Yatay Enjeksiyon, Güven Yayılımı ve İmzalı Görev Devri",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-43-cok-ajanli-sistemler-ve-a2a.md"
+  },
+  "ai-saldiri-44": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "validate TEMIZ, tahmin 0 supheli, mutasyon 76/0 gecen, diskte kalici bellek + canli oturumlar arasi deney kaniti uretildi",
+   "guncelleme": "2026-10-29T17:10:52+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Ajanlar, Araçlar ve Yetki Sınırları",
+   "baslik": "Ajanın Kalıcı Belleğini Zehirleme: Oturumlar Arası Kalıcılık, Kaynak Etiketi ve Bellek Denetimi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-44-ajan-kalici-bellek-zehirleme.md"
+  },
+  "ai-ile-guvenlik-01": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "tahmin 1/0, mutasyon 0 gecen, validate TEMIZ, kanit ile-guvenlik-01-sema.json",
+   "guncelleme": "2026-10-29T18:04:05+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Yerel LLM'i Güvenlik Aracı Olarak Kullanmak",
+   "baslik": "Yapılandırılmış Güvenlik Çıktısı ve Şema Zorlama",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-01-yapilandirilmis-guvenlik-ciktisi-ve-sema.md"
+  },
+  "ai-ile-guvenlik-02": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "tahmin 1/0, mutasyon 0 gecen, validate TEMIZ, kanit ile-guvenlik-02-halusinasyon.json",
+   "guncelleme": "2026-10-29T18:10:23+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Yerel LLM'i Güvenlik Aracı Olarak Kullanmak",
+   "baslik": "Güvenlik Analizinde Halüsinasyon ve Kanıt Eşleştirme",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-02-halusinasyon-ve-kanit-eslestirme.md"
+  },
+  "ai-ile-guvenlik-03": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "tahmin 1/0, mutasyon 0 gecen, validate TEMIZ, kanit ile-guvenlik-03-embedding.json",
+   "guncelleme": "2026-10-29T18:16:29+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Yerel LLM'i Güvenlik Aracı Olarak Kullanmak",
+   "baslik": "Embedding ile Güvenlik Korpusu ve Benzer Zafiyet Arama",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-03-embedding-ile-guvenlik-korpusu.md"
+  },
+  "ai-ile-guvenlik-04": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "başka oturum yazıyor; dosya gelene kadar dokunma",
+   "guncelleme": "2026-10-29T18:27:06+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Kod Okuma ve Zafiyet Avında LLM",
+   "baslik": "AST Ön-Elemesi ve LLM ile Kaynak–Evye (Source-to-Sink) Triyajı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-04-ast-on-elemesi-ve-kaynak-evye-triyaji.md"
+  },
+  "ai-ile-guvenlik-05": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "başka oturum yazıyor; dosya gelene kadar dokunma",
+   "guncelleme": "2026-10-29T18:32:31+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Kod Okuma ve Zafiyet Avında LLM",
+   "baslik": "Kimlik Bilgisi ve Sır Sızıntısı Avında Bağlamsal Triyaj",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-05-sir-sizintisi-avinda-baglamsal-triyaj.md"
+  },
+  "ai-ile-guvenlik-06": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "başka oturum yazıyor; dosya gelene kadar dokunma",
+   "guncelleme": "2026-10-29T18:47:59+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Kod Okuma ve Zafiyet Avında LLM",
+   "baslik": "Yama Önerisi Üretimi ve Regresyon Doğrulaması",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-06-yama-onerisi-ve-regresyon-dogrulamasi.md"
+  },
+  "ai-ile-guvenlik-07": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "başka oturum yazıyor; dosya gelene kadar dokunma",
+   "guncelleme": "2026-10-29T18:51:09+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Keşif ve Fuzzing Otomasyonu",
+   "baslik": "Kapsam Kilitli HTTP Keşfi ve Parametre Haritalama",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-07-kapsam-kilitli-http-kesfi-ve-haritalama.md"
+  },
+  "ai-ile-guvenlik-08": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "başka oturum yazıyor; dosya gelene kadar dokunma",
+   "guncelleme": "2026-10-29T18:53:31+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Keşif ve Fuzzing Otomasyonu",
+   "baslik": "Dilbilgisi Destekli (Grammar-Guided) Fuzzing Yükü Üretimi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-08-dilbilgisi-destekli-fuzzing-yuku-uretimi.md"
+  },
+  "ai-ile-guvenlik-09": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "baska",
+   "not": "başka oturum yazıyor; dosya gelene kadar dokunma",
+   "guncelleme": "2026-10-29T18:57:34+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Keşif ve Fuzzing Otomasyonu",
+   "baslik": "Başsız Tarayıcı (Playwright) ile DOM Güvenlik Denetimi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-09-playwright-ile-dom-guvenlik-denetimi.md"
+  },
+  "ai-ile-guvenlik-10": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "JSONL log kümeleme, kanıt satırı doğrulama ve canlı Ollama SOC özeti deneyi tamamlandı; tahmin 1/0, mutasyon 24/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:06:06+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Log, Telemetri ve Alarm Triyajı",
+   "baslik": "Çoklu Log Akışı Özeti ve Kanıt Satırı Doğrulaması",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-10-coklu-log-akisi-ozeti-ve-kanit-dogrulamasi.md"
+  },
+  "ai-ile-guvenlik-11": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Sigma şema doğrulama, korpus üzerinde TPR/FPR ölçümü ve canlı Ollama Sigma kural deneyi tamamlandı; tahmin 1/0, mutasyon 22/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:15:29+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Log, Telemetri ve Alarm Triyajı",
+   "baslik": "LLM Destekli Sigma Kuralı Taslağı ve Yanlış Alarm Sınaması",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-11-sigma-kurali-taslagi-ve-yanlis-alarm-sinamasi.md"
+  },
+  "ai-ile-guvenlik-12": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Log enjeksiyonu karantinası, veri ayrımlı istem ve deterministik alarm bastırma kilidi deneyi tamamlandı; tahmin 1/0, mutasyon 9/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:21:32+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Log, Telemetri ve Alarm Triyajı",
+   "baslik": "Log Enjeksiyonuna Dayanıklı SOC Triyaj Hattı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-12-log-enjeksiyonuna-dayanikli-soc-triyaj-hatti.md"
+  },
+  "ai-ile-guvenlik-13": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Salt-okunur keşif ajanı, kapsam kilidi, döngü kırıcı ve canlı Ollama tool-calling deneyi tamamlandı; tahmin 1/0, mutasyon 5/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:24:10+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Kendi Güvenlik Ajanını Yazmak",
+   "baslik": "Salt-Okunur Keşif Ajanı ve Deterministik Kapsam Kilidi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-13-salt-okunur-kesif-ajani-ve-kapsam-kilidi.md"
+  },
+  "ai-ile-guvenlik-14": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Parametreye bağlı HMAC-SHA256 görev imzası, HITL kapısı ve canlı Ollama müdahale kuyruğu deneyi tamamlandı; tahmin 1/0, mutasyon 4/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:27:57+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Kendi Güvenlik Ajanını Yazmak",
+   "baslik": "Yıkıcı Eylemlerde İnsan Onayı (HITL) ve İmzalı Görev Kapısı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-14-yikici-eylemlerde-insan-onayi-ve-imzali-kapi.md"
+  },
+  "ai-ile-guvenlik-15": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Toplayıcı zehir izolasyonu, Hakem doğrulama kapısı ve canlı Ollama 3 aşamalı ajan zinciri deneyi tamamlandı; tahmin 1/0, mutasyon 5/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:30:39+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Kendi Güvenlik Ajanını Yazmak",
+   "baslik": "Çok Ajanlı Mavi/Mor Takım İş Akışı (Toplayıcı → Analist → Doğrulayıcı)",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-15-cok-ajanli-mavi-mor-takim-is-akisi.md"
+  },
+  "ai-ile-guvenlik-16": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Precision/recall/F1, Pareto baskınlığı ve bütçe kısıtlı optimal ajan seçimi deneyi tamamlandı; tahmin 1/0, mutasyon 11/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:31:21+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Güvenlik Ajanını Değerlendirmek ve Güvence",
+   "baslik": "Güvenlik Ajanlarında Hassasiyet, Duyarlılık ve Maliyet Dengesi",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-16-hassasiyet-duyarlilik-ve-maliyet-dengesi.md"
+  },
+  "ai-ile-guvenlik-17": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Anti-triyaj izi taraması, kod normalizasyonu ve canlı Ollama dayanıklı triyaj deneyi tamamlandı; tahmin 1/0, mutasyon 9/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:36:42+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Güvenlik Ajanını Değerlendirmek ve Güvence",
+   "baslik": "Güvenlik Ajanına Karşı Kırmızı Takım (Anti-Triage & Evasion)",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-17-guvenlik-ajanina-karsi-kirmizi-takim.md"
+  },
+  "ai-ile-guvenlik-18": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "Uçtan uca anomali korelasyonu, log karantinası, kapsam kilidi ve HMAC-SHA256 HITL tatbikatı deneyi tamamlandı; tahmin 1/0, mutasyon 11/0, validate TEMİZ.",
+   "guncelleme": "2026-10-29T19:37:32+03:00",
+   "yol": "ai-ile-guvenlik",
+   "modul": "Güvenlik Ajanını Değerlendirmek ve Güvence",
+   "baslik": "Uçtan Uca Yerel AI Destekli Olay Müdahale ve Doğrulama Tatbikatı",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-18-uctan-uca-ai-destekli-olay-mudahale-tatbikati.md"
+  },
+  "ai-saldiri-46": {
+   "durum": "denetime-hazir",
+   "kim": "antigravity",
+   "gereksinim": "ollama",
+   "not": "tahmin 1/0, mutasyon 0 gecen, validate TEMIZ, kanit saldiri-46-saha.json",
+   "guncelleme": "2026-10-29T17:56:20+03:00",
+   "yol": "ai-saldiri",
+   "modul": "Adaptif Saldırılar ve Purple Doğrulama",
+   "baslik": "Belirsiz Saha Görevi: Açıklı Yerel Asistanı Keşfet, Kanıtla ve Yamala",
+   "adim": 8,
+   "gercek_adim": 1,
+   "dosya": "tracks/ai-saldiri/lessons/ai-saldiri-46-belirsiz-saha-gorevi-yerel-asistan.md"
+  }
+ },
+ "gunluk": [
+  {
+   "zaman": "2026-10-29T22:44:25+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-25",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:25+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-24",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:24+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-23",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:24+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-22",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:24+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-21",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:23+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-20",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:23+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-19",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:23+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-18",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:44:22+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-17",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (2x baslangic fail, cozum pass, Calistir ok, ogrenci dosyasi diskte, gorunur dosya 200). Rapor docs/ai-gercek/CLAUDE-GUVENCE-17-25-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:34:42+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-25",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:42+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-24",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:42+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-23",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:41+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-22",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:41+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-21",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:41+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-20",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:40+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-19",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:40+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-18",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:34:39+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-17",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:32:26+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-30",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:32:25+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-29",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:32:25+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-28",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:32:25+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-27",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:32:24+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-26",
+   "olay": "durum → denetime hazır · Codex kodu korundu; claude-opus bagimsiz yeniden dogrulama (validate TEMIZ, tahmin 0 supheli, mutasyon 0 gecen) + ders ekrani kabulu (Kontrol/Cozum/Calistir/gorunur dosya). Rapor docs/ai-gercek/CLAUDE-GUVENCE-26-30-UI-KABUL.md"
+  },
+  {
+   "zaman": "2026-10-29T22:22:27+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-30",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:22:27+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-29",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:22:26+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-28",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:22:26+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-27",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:22:26+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-26",
+   "olay": "aldı · kullanici karari: codex hakki bitti, claude-opus devraldi; codex kodu korunuyor"
+  },
+  {
+   "zaman": "2026-10-29T22:05:37+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-savunma-30",
+   "olay": "durum → denetime hazır · tahmin 1/0, mutasyon 28/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/savunma-30-purple-tatbikati.json (5 faz gercek: qwen3:4b, cikti filtresi, JSONL telemetri, SHA-256 rotasyon, 3 regresyon; ham sizinti var teslim 0; kontrol akisi kaldi)"
+  },
+  {
+   "zaman": "2026-10-29T22:02:24+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-28",
+   "olay": "durum → çalışılıyor · Izoleacikonay gercek4B/8B8cagriPASS,3mutantRED,Run8cagriOK,eksikhizmetFAIL;CLI9/9+validate9TEMIZ+kalicilikOK;adim7;UIebeveynde.READY5ders."
+  },
+  {
+   "zaman": "2026-10-29T22:01:01+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-25",
+   "olay": "durum → çalışılıyor · CLI10/10,45 grup regresyonu temiz,kalicilik/duzenlenmis Run/HTTP tamam; UI ana ajanda bekliyor. step7; READY.json."
+  },
+  {
+   "zaman": "2026-10-29T22:01:01+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-24",
+   "olay": "durum → çalışılıyor · CLI10/10,45 grup regresyonu temiz,kalicilik/duzenlenmis Run/HTTP tamam; UI ana ajanda bekliyor. step7; READY.json."
+  },
+  {
+   "zaman": "2026-10-29T22:01:00+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-23",
+   "olay": "durum → çalışılıyor · CLI10/10,45 grup regresyonu temiz,kalicilik/duzenlenmis Run/HTTP tamam; UI ana ajanda bekliyor. step7; READY.json."
+  },
+  {
+   "zaman": "2026-10-29T22:00:59+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-22",
+   "olay": "durum → çalışılıyor · CLI10/10,45 grup regresyonu temiz,kalicilik/duzenlenmis Run/HTTP tamam; UI ana ajanda bekliyor. step7; READY.json."
+  },
+  {
+   "zaman": "2026-10-29T22:00:59+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-21",
+   "olay": "durum → çalışılıyor · CLI10/10,45 grup regresyonu temiz,kalicilik/duzenlenmis Run/HTTP tamam; UI ana ajanda bekliyor. step7; READY.json."
+  },
+  {
+   "zaman": "2026-10-29T22:00:51+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-savunma-30",
+   "olay": "aldı · sahipsiz kalmisti; kullanici: claude-opus ders alip yazabilir"
+  },
+  {
+   "zaman": "2026-10-29T22:00:38+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-saldiri-27",
+   "olay": "durum → denetime hazır · tahmin 1/0, mutasyon 28/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/saldiri-27-hakem-zafiyeti.json (qwen3:4b hakem; gercek ASR 0.50, saf hakem 0.83, sert hakem 0.67; model bosaltildi)"
+  },
+  {
+   "zaman": "2026-10-29T21:59:21+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-30",
+   "olay": "durum → çalışılıyor · Sonpaket CLI9/9,validate temiz,kalicilik OK;adim7;UI ebeveynde bekliyor.READY.json guncel."
+  },
+  {
+   "zaman": "2026-10-29T21:59:20+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-29",
+   "olay": "durum → çalışılıyor · Sonpaket CLI9/9,validate temiz,kalicilik OK;adim7;UI ebeveynde bekliyor.READY.json guncel."
+  },
+  {
+   "zaman": "2026-10-29T21:57:03+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-22",
+   "olay": "durum → çalışılıyor · CLI10/10+ders regresyonu+kalicilik tamam; UI ana ajanda bekliyor. READY.json hazir."
+  },
+  {
+   "zaman": "2026-10-29T21:57:02+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-21",
+   "olay": "durum → çalışılıyor · CLI10/10+ders regresyonu+kalicilik tamam; UI ana ajanda bekliyor. READY.json hazir."
+  },
+  {
+   "zaman": "2026-10-29T21:56:34+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-27",
+   "olay": "durum → çalışılıyor · CLI9/9,validate temiz,kalicilik OK;adim7;UI ebeveynde bekliyor.READY:docs/ai-gercek/CODEX-GUVENCE-26-30-READY.json"
+  },
+  {
+   "zaman": "2026-10-29T21:56:33+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-26",
+   "olay": "durum → çalışılıyor · CLI9/9,validate temiz,kalicilik OK;adim7;UI ebeveynde bekliyor.READY:docs/ai-gercek/CODEX-GUVENCE-26-30-READY.json"
+  },
+  {
+   "zaman": "2026-10-29T21:55:46+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-20",
+   "olay": "durum → çalışılıyor · CLI TAMAM:9/9+Run/persistence OK;4ders36validate TEMIZ.UI parent bekliyor;gercek gorev index7.Rapor CODEX-GUVENCE-17-20.md"
+  },
+  {
+   "zaman": "2026-10-29T21:55:45+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-19",
+   "olay": "durum → çalışılıyor · CLI TAMAM:9/9+Run/persistence OK;4ders36validate TEMIZ.UI parent bekliyor;gercek gorev index7.Rapor CODEX-GUVENCE-17-20.md"
+  },
+  {
+   "zaman": "2026-10-29T21:55:44+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-18",
+   "olay": "durum → çalışılıyor · CLI TAMAM:9/9+Run/persistence OK;4ders36validate TEMIZ.UI parent bekliyor;gercek gorev index7.Rapor CODEX-GUVENCE-17-20.md"
+  },
+  {
+   "zaman": "2026-10-29T21:55:43+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-17",
+   "olay": "durum → çalışılıyor · CLI TAMAM:9/9+Run/persistence OK;4ders36validate TEMIZ.UI parent bekliyor;gercek gorev index7.Rapor CODEX-GUVENCE-17-20.md"
+  },
+  {
+   "zaman": "2026-10-29T21:55:12+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-saldiri-27",
+   "olay": "aldı · kullanici: claude-opus ders alip yazabilir"
+  },
+  {
+   "zaman": "2026-10-29T21:54:59+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-15",
+   "olay": "durum → denetime hazır · tahmin 1/0, mutasyon 32/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/guvence-15-ayiklama-kaniti.json (sklearn, %10 etiket cevirme; knn tespit 0.90, izolasyon 0.14; secilen knn_tutarlilik)"
+  },
+  {
+   "zaman": "2026-10-29T21:52:30+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-16",
+   "olay": "durum → denetime hazır · 104:gerçekTorchautogradshadow/target,CLI9/9,UI19/19+RunOK,validate9temiz,kalıcılıkOK. Saldırıbaşarısı şartdeğil. Rapor outputs/codex-ai-guvence-16-20261029/RAPOR.md."
+  },
+  {
+   "zaman": "2026-10-29T21:51:48+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-28",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T21:50:40+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-14",
+   "olay": "durum → denetime hazır · tahmin 1/0, mutasyon 31/0, validate TEMIZ (9 kontrol), kanit docs/ai-gercek/kanit/guvence-14-tetik-yerlesimi.json (PyTorch CPU, 6/400 zehirli; ham secim ust_kose, net etki secimi merkez)"
+  },
+  {
+   "zaman": "2026-10-29T21:48:13+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-20",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:48:12+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-19",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:48:12+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-18",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:48:12+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-17",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:46:07+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-25",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:46:06+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-25",
+   "olay": "durum → çalışılıyor · Atanmis yardimci: gercek CPU/dosya deneyi ve kabul hazirlaniyor"
+  },
+  {
+   "zaman": "2026-10-29T21:46:06+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-24",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:46:05+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-24",
+   "olay": "durum → çalışılıyor · Atanmis yardimci: gercek CPU/dosya deneyi ve kabul hazirlaniyor"
+  },
+  {
+   "zaman": "2026-10-29T21:46:05+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-20",
+   "olay": "durum → çalışılıyor · Helper17-20: CPU autograd, gorunur veri, kabul"
+  },
+  {
+   "zaman": "2026-10-29T21:46:05+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-23",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:46:04+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-23",
+   "olay": "durum → çalışılıyor · Atanmis yardimci: gercek CPU/dosya deneyi ve kabul hazirlaniyor"
+  },
+  {
+   "zaman": "2026-10-29T21:46:04+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-19",
+   "olay": "durum → çalışılıyor · Helper17-20: CPU autograd, gorunur veri, kabul"
+  },
+  {
+   "zaman": "2026-10-29T21:46:03+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-22",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:46:03+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-22",
+   "olay": "durum → çalışılıyor · Atanmis yardimci: gercek CPU/dosya deneyi ve kabul hazirlaniyor"
+  },
+  {
+   "zaman": "2026-10-29T21:46:02+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-18",
+   "olay": "durum → çalışılıyor · Helper17-20: CPU autograd, gorunur veri, kabul"
+  },
+  {
+   "zaman": "2026-10-29T21:46:02+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-21",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:46:01+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-21",
+   "olay": "durum → çalışılıyor · Atanmis yardimci: gercek CPU/dosya deneyi ve kabul hazirlaniyor"
+  },
+  {
+   "zaman": "2026-10-29T21:46:01+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-17",
+   "olay": "durum → çalışılıyor · Helper17-20: CPU autograd, gorunur veri, kabul"
+  },
+  {
+   "zaman": "2026-10-29T21:45:59+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-30",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:45:59+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-30",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T21:45:58+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-29",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:45:58+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-29",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T21:45:57+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-28",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:45:56+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-28",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T21:45:55+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-27",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:45:55+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-27",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T21:45:54+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-26",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:45:54+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-26",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T21:43:16+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-16",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T21:42:21+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-15",
+   "olay": "aldı · kullanici: claude-opus ders alip yazabilir"
+  },
+  {
+   "zaman": "2026-10-29T21:42:21+03:00",
+   "kim": "claude-opus",
+   "ders": "ai-guvence-14",
+   "olay": "aldı · kullanici: claude-opus ders alip yazabilir"
+  },
+  {
+   "zaman": "2026-10-29T21:41:37+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-16",
+   "olay": "durum → çalışılıyor · 104kutusu:gerçekgizlilikkanıtı/dosyaizleri inceleniyor."
+  },
+  {
+   "zaman": "2026-10-29T21:41:36+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-30",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:36+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-29",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:36+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-28",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:36+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-27",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:35+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-26",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:35+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-25",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:35+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-24",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:35+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-23",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:34+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-22",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:34+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-21",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:34+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-20",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:34+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-19",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:33+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-18",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:33+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-17",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:41:33+03:00",
+   "kim": "codex",
+   "ders": "ai-guvence-16",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T21:29:35+03:00",
+   "kim": "codex",
+   "ders": "ai-saldiri-34",
+   "olay": "durum → denetime hazır · CLI9/9 UI24/24+RunOK,tam yol46ders429temiz. Gerçekstructured/rawinference;kaçışcanarygüvencesi değil,tokenIDsunulmadı. Rapor outputs/codex-ai-saldiri-34-20261029/RAPOR.md."
+  },
+  {
+   "zaman": "2026-10-29T21:27:42+03:00",
+   "kim": "codex",
+   "ders": "ai-saldiri-29",
+   "olay": "durum → denetime hazır · CLI10/10,UI25/25+RunOK;gerçekFTS/native/TLSzinciri,sertifikavehostname doğrulandı. Tam yol46ders429temiz. Rapor outputs/codex-ai-saldiri-29-20261029/RAPOR.md."
+  },
+  {
+   "zaman": "2026-10-29T21:18:28+03:00",
+   "kim": "codex",
+   "ders": "ai-saldiri-28",
+   "olay": "durum → denetime hazır · CLI9/9,UI22/22+RunOK,grup25/26/28 27temiz.İki gerçekmodelrolü/gerçekdosya;çekimserlik sahteçağrıdeğil. Rapor outputs/codex-ai-saldiri-28-20261029/RAPOR.md."
+  },
+  {
+   "zaman": "2026-10-29T21:17:22+03:00",
+   "kim": "codex",
+   "ders": "ai-saldiri-26",
+   "olay": "durum → denetime hazır · CLI9/9,gerçekekrankabulü+RunOK;grup25/26/28 27temiz. Gerçekrepodosyası/kapı/risk. Rapor outputs/codex-ai-saldiri-26-20261029/RAPOR.md."
+  },
+  {
+   "zaman": "2026-10-29T21:12:28+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-29",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T21:08:39+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-28",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T21:05:18+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-27",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T21:01:55+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-26",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:58:34+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-25",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:55:45+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-24",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:52:06+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-23",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:47:59+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-22",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:45:19+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-14",
+   "olay": "bıraktı · antigravity gorevi bitti; 14 araç engeline takildi, baska ajana devredildi"
+  },
+  {
+   "zaman": "2026-10-29T20:43:51+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-21",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:38:02+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-20",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:34:48+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-19",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:31:39+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-18",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:29:51+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-14",
+   "olay": "durum → engelli · Gercek deney yardimci modulu yazimi arac tarafinda engellendi; ders dosyasi degismedi"
+  },
+  {
+   "zaman": "2026-10-29T20:29:04+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-14",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:29:04+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-14",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:29:03+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-14",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:29:03+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-13",
+   "olay": "durum → denetime hazır · Tahmin 1/0, mutasyon 26/0, validate TEMIZ, sklearn 7 oranli yeniden egitim egrisi kaniti (guvence-13-zehir-egrisi.json)"
+  },
+  {
+   "zaman": "2026-10-29T20:28:30+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-17",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:26:58+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-13",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:26:57+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-13",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:26:57+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-13",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:26:49+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-12",
+   "olay": "durum → denetime hazır · Tahmin 1/0, mutasyon 32/0, validate TEMIZ, sklearn taban/rastgele/hedefli kaniti (guvence-12-etiket-zehirleme.json)"
+  },
+  {
+   "zaman": "2026-10-29T20:26:49+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-11",
+   "olay": "durum → denetime hazır · Tahmin 1/0, mutasyon 43/0, validate TEMIZ, sklearn olasilik sapmasi + kaynak profili kaniti (guvence-11-veri-kokeni.json)"
+  },
+  {
+   "zaman": "2026-10-29T20:24:42+03:00",
+   "kim": "claude",
+   "ders": "ai-savunma-16",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T20:24:20+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-12",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:24:20+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-12",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:24:20+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-12",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:22:44+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-11",
+   "olay": "durum → denetime hazır · Tahmin 1/0, mutasyon 54/0, validate TEMIZ, sklearn olasilik sapmasi ve kaynak profili kaniti uretildi"
+  },
+  {
+   "zaman": "2026-10-29T20:20:25+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-11",
+   "olay": "durum → denetime hazır · Tahmin 0, mutasyon 0, validate TEMIZ, PyTorch gomme koken deneyi kaniti uretildi"
+  },
+  {
+   "zaman": "2026-10-29T20:17:42+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-11",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:17:42+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-11",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:17:42+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-11",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:17:41+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-08",
+   "olay": "durum → denetime hazır · Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-08/), kusurlu başlangıç kodu, mutasyon 48/0, tahmin 1/0, canlı PyTorch autograd PGD deneyi (sandbox/ai_gercek_ai_guvence_08.py) ve kanıt (docs/ai-gercek/kanit/guvence-08-pgd-egri.json) tamamlandı; validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T20:14:40+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-08",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:14:40+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-08",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:14:40+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-08",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:14:39+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-05",
+   "olay": "durum → denetime hazır · Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-05/), kusurlu başlangıç kodu, mutasyon 30/0, tahmin 1/0, canlı SHA-256 kanıt paketi deneyi (sandbox/ai_gercek_ai_guvence_05.py) ve kanıt (docs/ai-gercek/kanit/guvence-05-kanit-paketi.json) tamamlandı; validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T20:11:29+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-05",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:11:29+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-05",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:11:29+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-05",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:11:28+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-04",
+   "olay": "durum → denetime hazır · Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-04/), kusurlu başlangıç kodu, mutasyon 42/0, tahmin 1/0, canlı sklearn predict_proba maliyet-eşik deneyi (sandbox/ai_gercek_ai_guvence_04.py) ve kanıt (docs/ai-gercek/kanit/guvence-04-maliyet-esik.json) tamamlandı; validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T20:08:51+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-04",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:08:51+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-04",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:08:51+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-04",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:08:50+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-03",
+   "olay": "durum → denetime hazır · Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-03/), kusurlu başlangıç kodu, mutasyon 37/0, tahmin 1/0, canlı sklearn zehirleme hipotez deneyi (sandbox/ai_gercek_ai_guvence_03.py) ve kanıt (docs/ai-gercek/kanit/guvence-03-tehdit-sorusu.json) tamamlandı; validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T20:05:50+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-03",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:05:50+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-03",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:05:50+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-03",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:05:49+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-02",
+   "olay": "durum → denetime hazır · Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-02/), kusurlu başlangıç kodu, mutasyon 35/0, tahmin 1/0, canlı sklearn LogisticRegression taban model deneyi (sandbox/ai_gercek_ai_guvence_02.py) ve kanıt (docs/ai-gercek/kanit/guvence-02-taban-model.json) tamamlandı; validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T20:03:18+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-02",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T20:03:17+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-02",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T20:03:17+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-02",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T20:03:17+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-01",
+   "olay": "durum → denetime hazır · Görünür sentetik fixture (tracks/ai-guvence/fixtures/ai-guvence-01/), kusurlu başlangıç kodu, mutasyon 53/0, tahmin 1/0, canlı sklearn LogisticRegression deney defteri (sandbox/ai_gercek_ai_guvence_01.py) ve kanıt (docs/ai-gercek/kanit/guvence-01-deney-defteri.json) tamamlandı; validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:59:48+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-01",
+   "olay": "gereksinim → torch (.ai-venv)"
+  },
+  {
+   "zaman": "2026-10-29T19:59:48+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-01",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:59:48+03:00",
+   "kim": "antigravity",
+   "ders": "ai-guvence-01",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:37:32+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-18",
+   "olay": "durum → denetime hazır · Uçtan uca anomali korelasyonu, log karantinası, kapsam kilidi ve HMAC-SHA256 HITL tatbikatı deneyi tamamlandı; tahmin 1/0, mutasyon 11/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:36:43+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-18",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:36:43+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-18",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:36:43+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-18",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:36:42+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-17",
+   "olay": "durum → denetime hazır · Anti-triyaj izi taraması, kod normalizasyonu ve canlı Ollama dayanıklı triyaj deneyi tamamlandı; tahmin 1/0, mutasyon 9/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:33:39+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-17",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:33:39+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-17",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:31:21+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-17",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:31:21+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-16",
+   "olay": "durum → denetime hazır · Precision/recall/F1, Pareto baskınlığı ve bütçe kısıtlı optimal ajan seçimi deneyi tamamlandı; tahmin 1/0, mutasyon 11/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:30:40+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-16",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:30:40+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-16",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:30:39+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-16",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:30:39+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-15",
+   "olay": "durum → denetime hazır · Toplayıcı zehir izolasyonu, Hakem doğrulama kapısı ve canlı Ollama 3 aşamalı ajan zinciri deneyi tamamlandı; tahmin 1/0, mutasyon 5/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:27:58+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-15",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:27:58+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-15",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:27:58+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-15",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:27:57+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-14",
+   "olay": "durum → denetime hazır · Parametreye bağlı HMAC-SHA256 görev imzası, HITL kapısı ve canlı Ollama müdahale kuyruğu deneyi tamamlandı; tahmin 1/0, mutasyon 4/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:24:11+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-14",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:24:11+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-14",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:24:11+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-14",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:24:10+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-13",
+   "olay": "durum → denetime hazır · Salt-okunur keşif ajanı, kapsam kilidi, döngü kırıcı ve canlı Ollama tool-calling deneyi tamamlandı; tahmin 1/0, mutasyon 5/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:21:33+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-13",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:21:33+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-13",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:21:33+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-13",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:21:32+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-12",
+   "olay": "durum → denetime hazır · Log enjeksiyonu karantinası, veri ayrımlı istem ve deterministik alarm bastırma kilidi deneyi tamamlandı; tahmin 1/0, mutasyon 9/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:18:58+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-12",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:18:58+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-12",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:15:30+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-12",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:15:29+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-11",
+   "olay": "durum → denetime hazır · Sigma şema doğrulama, korpus üzerinde TPR/FPR ölçümü ve canlı Ollama Sigma kural deneyi tamamlandı; tahmin 1/0, mutasyon 22/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:08:51+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-11",
+   "olay": "durum → çalışılıyor"
+  },
+  {
+   "zaman": "2026-10-29T19:08:51+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-11",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T19:06:06+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-11",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:06:06+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-10",
+   "olay": "durum → denetime hazır · JSONL log kümeleme, kanıt satırı doğrulama ve canlı Ollama SOC özeti deneyi tamamlandı; tahmin 1/0, mutasyon 24/0, validate TEMİZ."
+  },
+  {
+   "zaman": "2026-10-29T19:04:25+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-10",
+   "olay": "gereksinim → Ollama sohbet modeli"
+  },
+  {
+   "zaman": "2026-10-29T19:04:24+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-10",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T18:57:34+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-09",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T18:57:22+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-09",
+   "olay": "gereksinim → başka araç (nota yaz)"
+  },
+  {
+   "zaman": "2026-10-29T18:56:02+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-09",
+   "olay": "durum → denetime hazır"
+  },
+  {
+   "zaman": "2026-10-29T18:55:55+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-09",
+   "olay": "aldı"
+  },
+  {
+   "zaman": "2026-10-29T18:53:31+03:00",
+   "kim": "antigravity",
+   "ders": "ai-ile-guvenlik-08",
+   "olay": "durum → denetime hazır"
+  }
+ ],
+ "tazelendi": "2026-10-29T22:44:25+03:00"
+}

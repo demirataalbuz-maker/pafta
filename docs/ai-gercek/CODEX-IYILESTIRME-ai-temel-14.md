@@ -1,0 +1,27 @@
+# ai-temel-14 iyileştirme teslimi
+
+Codex uygulama ve kendi kabul kontrollerini tamamladı. Denetim ve puan claude-opus'a ait.
+
+İş emrinin tüm maddeleri uygulandı: ilk araç/temsil/sınır tablosu ve NOT, model çalıştırılmaz çelişkisinin giderilmesi, yaklaşık 896 sözcük anlatım, görünür sentetik JSON dosyası ve README, mevcut ai_temel_veri.hazirla üzerinden ilk üç görevde setup ve üç gerçekçi kusurlu başlangıç. İlk görev kayıt şeması, ikinci allowlist araç çağrısı, üçüncü ilk geçerli çıktı seçimini aynı veri/ornekler.json dosyası üzerinde gösterir. Ham veri ve sonuç Run çıktısında görünür. Kaynak fixture elle yazılmış sentetiktir; gerçek model kaydı değildir. Setup her çalıştırmada geçici kopya hazırlar; öğrenci değişikliğinin sonraki çalıştırmaya kalıcılığı yoktur. Gizli test verileri ayrıdır.
+
+Starter1 ek alanları düşürür ve tür dönüştürür; starter2 yalnız json.loads yapar; starter3 ilk yerine son geçerli adayı seçer. Üçü normal Run'da çalışır ve Check'te reddedilir. Doğru çözümler aynı görünür dosyayı okur. Kayıt testinde girdi değiştirmeme kontrolü çağrı öncesi anlık kopyayla yapılır; dönen sözlüğün bağımsızlığı da sınanır.
+
+Araç JSON ve aday ayrıştırıcıları yinelenen anahtarları ve NaN/Infinity gibi standart dışı sabitleri reddeder. Araç yolu ntpath.splitdrive ve ayırıcı kontrolleriyle C:/, C:\, sürücü-göreli, UNC, NUL ve .. segmentlerini reddeder. Bu yalnız sözcüksel eğitim doğrulamasıdır; gerçek dosya aracı yürütülmez, symlink veya genel dosya sistemi güvenliği kanıtlanmaz. Sonluluk kontrolü float türüne uygulanır; geçerli büyük tamsayıların float dönüşümüyle taşması önlenir. 10**400 sınaması eklenmiştir. Son gerçek görev katı tam JSON nesnesi, tam bool, uzunluk ve dupe anahtar reddini korur. onay alanı bir şema değeridir, kullanıcı yetkilendirmesi değildir.
+
+Gerçek final mevcut Ollama /api/chat format=JSON Schema ile iki çağrı yapar. Model/cihaz/taşıma/kaynak sahipliği kodu değiştirilmedi. Modüle yalnız kati_json_ref saf referansı eklendi; final testinde referans, kanit_yaz ve takma ad/yıldız import koruması güçlendirildi. İhlalde stop yapılır. Kabul all(checks) olarak kalır. Rastgele model metninin sabit bir yanıtla eşleşmesi veya bir saldırının başarılı olması geçme şartı değildir. Ollama resmi structured-outputs belgesi kontrol edildi: https://docs.ollama.com/capabilities/structured-outputs .
+
+Dört zorunlu kontrol (.ai-venv/Scripts/python.exe -X utf8):
+- tools/validate.py ai-temel-14: son değişiklikten sonra TEMİZ9; tahmin1, solution4, starter4. Son izole PAFTA_DATA: Desktop/pafta-t14-kabul-20261030.
+- docs/denetim/araclar/tahmin.py . ai-temel-14: 1 tahmin, sıfır şüpheli. Kısıtlı kabukta tekrarın alt süreç izni hatası test sonucu sayılmadı; normal onaylı çalıştırma kullanılır.
+- kirp_gercek.py Desktop/pafta-mutasyon-t14-v2-20261030: hedefin yokluğu doğrulanarak oluşturuldu. Kopyadaki mutasyon.py <kopya> --en-cok 1000 ai-temel-14: 9+21+12=42 mutant, sıfır geçen. Son girdi-koruma düzeltmesi sonrası aynı kendi kopyası güncellenip tekrar42/0 doğrulandı. Son ilk üç starter/solution/test/setup blokları kaynakla aynı.
+- kopya_sonda.py ai-temel ai-temel-14 "from sandbox.ai_gercek_ai_temel_14 import kati_json_ref as kati_model_jsonu": fail, korunuyor. kopya.json hedef guard mesajını ve kabul kanıtı yokluğunu ayrıca doğrular.
+
+Ek kanıt dizini outputs/iyilestirme-codex-ai-temel-14: bos.json, sabit.json, dupe-kabul.json ve eksik-model.json fail/kabul yok. Dupe sondası diğer doğru kodu koruyup yinelenen anahtar kontrolünü kaldırır. Model yokluğu yalnız kendi çocuk süreç ortamında loopback9 ve olmayan exe ile sınanır. gorunur-dosya-run-1/2/3.json normal runner/setup ile ok; kontroller.txt blok eşleşmesini ve sonuçları özetler. http-check.json pass16/16 gerçek kabul; http-run.json ok.
+
+Son izole CLI kanıtı Desktop/pafta-t14-kabul-20261030/ai-kanit/temel-14-schema-1793381412694.json. Önceki son-kontrol kanıtı temel-14-schema-1793380947861.json korunur: Qwen3:4b-instruct-2507-q4_K_M, iki gerçek şemalı çağrı, context1024, ölçülen VRAM2724116561 bayt ve kendi yüklediği model için model_bosaltildi=true. Her çağrının gerçek ham yanıtı, ayrıştırılmış nesnesi, ayarlar, sürüm/model özeti ve cihaz kaydı kanıttadır. Bu dar deney genel çıktı güvenliği veya araç yetkisi kanıtı değildir.
+
+Kendi127.0.0.1:18800 test sunucusunda gerçek ders ekranı: starter Check8/9 fail ve kanıt yok; Çözümü göster→Tezgaha al→Kontrol16/16 ve GERÇEK ÇAĞRI/kabul edildi görüldü. UI kabul kanıtı outputs/iyilestirme-codex-20261030/ui-data/ai-kanit/temel-14-schema-1793381376724.json. Run iki yeni gerçek ham JSON ve ayrıştırılmış nesneyi gösterdi (raporla/not_ekle, onayfalse). Mevcut Run dalı kanıt yazmaz; ekranda 'Gerçek deney kanıtı yok' görünür, bu Run başarı kabulü sayılmaz. Kabul Check üzerinden yapılmıştır. İlk dosya görevi UI Run ham sentetik JSON'u ve kayıt sonucunu gösterdi; diğer iki dosya görevinin Run'ı CLI normal runner ile doğrulandı. Eski derslerin görsel kabul açıkları kapanmış sayılmaz.
+
+Yalnız kendi18800 test sunucum kapatılır; kullanıcının Ollama/WSL/Docker süreçleri kapatılmadı. Engine/web davranış değişikliği, yeni indirme/kurulum, commit/push ve puan yazımı yok.
+
+Değişen dosyalar: tracks/ai-temel/lessons/ai-temel-14-yapilandirilmis-cikti-ve-sema-dogrulama.md; sandbox/ai_gercek_ai_temel_14.py; tracks/ai-temel/fixtures/ai-temel-14/ornekler.json ve README.md; bu rapor. Ortak kuyruk/pano/devir/özet de teslim bilgisiyle güncellenir.

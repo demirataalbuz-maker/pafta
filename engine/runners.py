@@ -74,6 +74,9 @@ class HarnessRunner:
     def available(self):
         return True
 
+    def yorumlayici(self):
+        return python_exe()
+
     def execute(self, job, timeout=None):
         timeout = min(int(timeout or self.default_timeout), self.tavan)
         job = dict(self.ek, **job)
@@ -84,7 +87,7 @@ class HarnessRunner:
         res_path = os.path.join(tmp, "result.json")
         with open(job_path, "w", encoding="utf-8") as f:
             json.dump(job, f, ensure_ascii=False)
-        cmd = [python_exe(), "-I", "-X", "utf8", HARNESS, job_path, res_path]
+        cmd = [self.yorumlayici(), "-I", "-X", "utf8", HARNESS, job_path, res_path]
         try:
             proc = subprocess.Popen(cmd, cwd=work, stdin=subprocess.DEVNULL,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -165,6 +168,98 @@ class CapstoneRunner(PythonRunner):
                  f"sys.path.insert(0, {os.path.join(ROOT,'.deps')!r})\n"
                  "sys.modules['vaka_lab'] = importlib.import_module('sandbox.capstone_lab')\n")
         return super().execute(dict(job, setup=setup+(job.get("setup") or "")), timeout)
+
+
+def ai_python():
+    """AI derslerinin ayrı sanal ortamı: PAFTA_AI_PYTHON ya da proje içindeki .ai-venv."""
+    yol = os.environ.get("PAFTA_AI_PYTHON")
+    if yol:
+        return yol
+    alt = ("Scripts", "python.exe") if os.name == "nt" else ("bin", "python")
+    return os.path.join(ROOT, ".ai-venv", *alt)
+
+
+class AiGercekRunner(PythonRunner):
+    """AI yolları, adım meta'sında motor: ai-gercek → gerçek model/araç deneyi (sandbox/ai_gercek_lab.py).
+
+    gereksinim: torch  → .ai-venv yorumlayıcısı (torch/transformers); ollama → Pafta'nın Python'u.
+    Kod ve test `import ai_lab` ile laboratuvara erişir. Test geçse bile laboratuvarın yazdığı
+    `kaynak: gercek` kanıtı yoksa sonuç PASS sayılmaz; kanıt kalıcı olarak PAFTA_DATA/ai-kanit'e kopyalanır."""
+    name = "ai-gercek"
+    ozellik = {"roentgen": False, "dis": None}
+    modlar = {"run": "run", "test": "test"}
+    default_timeout = 300
+    test_timeout = 300
+    tavan = 600
+
+    def __init__(self, gereksinim="ollama"):
+        if gereksinim not in ("ollama", "torch", "docker"):
+            raise ValueError(f"Bilinmeyen gereksinim: {gereksinim!r}; ollama, torch veya docker kullanın.")
+        self.gereksinim = gereksinim
+
+    def yorumlayici(self):
+        # torch → .ai-venv (torch/transformers); ollama ve docker → Pafta'nın Python'u (stdlib + subprocess yeter)
+        return ai_python() if self.gereksinim == "torch" else python_exe()
+
+    def available(self):
+        return os.path.isfile(self.yorumlayici())
+
+    def execute(self, job, timeout=None):
+        if not self.available():
+            return {"status": "error", "checks": [], "segs": [], "error": {
+                "type": "BağımlılıkEksik", "line": None, "frames": [], "where": "kurulum",
+                "msg": f"AI sanal ortamı bulunamadı ({self.yorumlayici()}). Bu gerçek deney kurulmadan "
+                       "çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."}}
+        from engine.progress import data_dir
+        kanit = tempfile.mkdtemp(prefix="pafta_ai_kanit_")
+        setup = ("import sys, importlib\n"
+                 f"sys.path.insert(0, {ROOT!r})\n"
+                 "ai_lab = importlib.import_module('sandbox.ai_gercek_lab')\n"
+                 "sys.modules['ai_lab'] = ai_lab\n"
+                 f"ai_lab.KANIT_DIR = {kanit!r}\n"
+                 f"ai_lab.CALISTIR = {job.get('mode') == 'run'!r}\n")
+        try:
+            res = super().execute(dict(job, setup=setup + (job.get("setup") or "")), timeout)
+            res["ai_kanit"] = self._kanit_tasi(kanit, os.path.join(data_dir(), "ai-kanit"), job)
+        finally:
+            shutil.rmtree(kanit, ignore_errors=True)
+        if job.get("mode") == "test" and res.get("status") == "pass":
+            gercek = [k for k in res["ai_kanit"] if k.get("kaynak") == "gercek" and k.get("kabul") is True]
+            if not gercek:
+                res["status"] = "fail"
+                res.setdefault("checks", []).append({"ok": False, "msg": "Gerçek deney kanıtı (kaynak: gercek, "
+                                                     "kabul: true) üretilmedi; gerçek kabul yapılmadan PASS verilmez."})
+        return res
+
+    @staticmethod
+    def _kanit_tasi(kaynak, hedef, job):
+        import hashlib
+        ozet = []
+        kod_ozeti = hashlib.sha256((job.get("code") or "").encode("utf-8")).hexdigest()
+        for ad in sorted(os.listdir(kaynak)):
+            if not ad.endswith(".json"):
+                continue
+            try:
+                with open(os.path.join(kaynak, ad), encoding="utf-8") as f:
+                    veri = json.load(f)
+            except (OSError, ValueError):
+                continue
+            veri["ogrenci_kodu_sha256"] = kod_ozeti
+            veri["mod"] = job.get("mode")
+            yol = None
+            try:
+                os.makedirs(hedef, exist_ok=True)
+                yol = os.path.join(hedef, ad)
+                with open(yol, "w", encoding="utf-8") as f:
+                    json.dump(veri, f, ensure_ascii=False, indent=1)
+            except OSError:
+                yol = None
+            ortam = veri.get("ortam") or veri.get("model_bilgisi") or {}
+            model = ortam.get("model")
+            ozet.append({"pilot": veri.get("pilot"), "kaynak": veri.get("kaynak"), "kabul": veri.get("kabul"),
+                         "model": model.get("ad") if isinstance(model, dict) else model,
+                         "ozet": veri.get("ozet"), "dosya": yol, "zaman": veri.get("zaman")})
+        return ozet
 
 
 class VqlRunner(HarnessRunner):
@@ -252,10 +347,10 @@ def for_step(runner, step):
     motor = meta.get("motor")
     if motor not in (None, "python", "pcre2", "dotnet", "javascript", "sqlite", "postgres", "mariadb", "mysql", "mssql", "kusto",
                      "sentinel-kural", "elastic-agent", "sigma-hedef", "splunk", "suricata", "zeek", "velociraptor", "pwsh", "ad-vm",
-                     "ad-client"):
+                     "ad-client", "ai-gercek"):
         raise ValueError(f"Bilinmeyen motor: {motor!r}; python, pcre2, dotnet, javascript, sqlite, postgres, "
                          "mariadb, mysql, mssql, kusto, sentinel-kural, elastic-agent, sigma-hedef, splunk, suricata, zeek, "
-                         "velociraptor, pwsh, ad-vm veya ad-client kullanın.")
+                         "velociraptor, pwsh, ad-vm, ad-client veya ai-gercek kullanın.")
     if motor in ("pcre2", "dotnet", "javascript"):
         if not isinstance(runner, RegexRunner):
             raise ValueError(f"motor: {motor} yalnız regex yolunda tanımlı.")
@@ -326,6 +421,10 @@ def for_step(runner, step):
         if not isinstance(runner, AdRunner) and getattr(runner, "name", None) != "powershell":
             raise ValueError("motor: ad-vm yalnız AD ve PowerShell yollarında tanımlı.")
         runner = AdVmRunner(meta.get("guest", "PF-DC01"))
+    elif motor == "ai-gercek":
+        if type(runner) is not PythonRunner:
+            raise ValueError("motor: ai-gercek yalnız Python koşuculu (AI) yollarda tanımlı.")
+        runner = AiGercekRunner(meta.get("gereksinim", "ollama"))
     elif motor == "ad-client":
         if not isinstance(runner, AdRunner):
             raise ValueError("motor: ad-client yalnız AD yolunda tanımlı.")

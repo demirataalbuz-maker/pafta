@@ -1,0 +1,162 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-03",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "temizlik": {
+   "model_bosaltildi": true
+  },
+  "gomme": {
+   "model": "all-minilm:22m",
+   "parametre": "23M"
+  }
+ },
+ "ayarlar": {
+  "gomme_modeli": "all-minilm:22m",
+  "esik": 0.3,
+  "boyut": 384
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "temizlik": {
+    "model_bosaltildi": true
+   },
+   "gomme": {
+    "model": "all-minilm:22m",
+    "parametre": "23M"
+   }
+  },
+  "ayarlar": {
+   "gomme_modeli": "all-minilm:22m",
+   "esik": 0.3,
+   "boyut": 384
+  },
+  "arama_sql": [
+   {
+    "kayit_id": "ZAF-SQL-1",
+    "kategori": "sql_enjeksiyonu",
+    "benzerlik": 0.7818,
+    "yama_ozeti": "Parametreli sorgu kullan."
+   },
+   {
+    "kayit_id": "ZAF-SQL-2",
+    "kategori": "sql_enjeksiyonu",
+    "benzerlik": 0.6576,
+    "yama_ozeti": "Prepared statement zorla."
+   }
+  ],
+  "kalibrasyon": {
+   "dogru_eslesme": 3,
+   "yanlis_eslesme": 0,
+   "cevapsiz": 0,
+   "isabet_orani": 1.0
+  },
+  "kontroller": {
+   "kosinus_uyumu": true,
+   "arama_uyumu": true,
+   "kalibrasyon_uyumu": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "gomme_modeli": "all-minilm:22m",
+   "boyut": 384,
+   "sql_benzerlik": 0.7818,
+   "isabet_orani": 1.0,
+   "dogru_eslesme": 3
+  }
+ },
+ "ozet": {
+  "gomme_modeli": "all-minilm:22m",
+  "boyut": 384,
+  "sql_benzerlik": 0.7818,
+  "isabet_orani": 1.0,
+  "dogru_eslesme": 3
+ },
+ "pilot": "ile-guvenlik-03-embedding",
+ "zaman": "2026-10-29T18:14:41+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 621 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "05cf35e471817371a3c4fd18fddc228d6a35f3119744170a63268e79fa56ee4c",
+ "mod": "test"
+}

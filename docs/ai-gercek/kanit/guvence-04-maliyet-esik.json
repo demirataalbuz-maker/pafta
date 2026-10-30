@@ -1,0 +1,220 @@
+{
+ "profil": {
+  "fp_maliyeti": 2.0,
+  "fn_maliyeti": 15.0,
+  "para_birimi": "TRY"
+ },
+ "matrisler": [
+  {
+   "esik": 0.8,
+   "tp": 23,
+   "fp": 3,
+   "fn": 20,
+   "tn": 34
+  },
+  {
+   "esik": 0.65,
+   "tp": 35,
+   "fp": 4,
+   "fn": 8,
+   "tn": 33
+  },
+  {
+   "esik": 0.5,
+   "tp": 37,
+   "fp": 4,
+   "fn": 6,
+   "tn": 33
+  },
+  {
+   "esik": 0.35,
+   "tp": 39,
+   "fp": 7,
+   "fn": 4,
+   "tn": 30
+  },
+  {
+   "esik": 0.2,
+   "tp": 42,
+   "fp": 8,
+   "fn": 1,
+   "tn": 29
+  }
+ ],
+ "rapor_fn_agir": {
+  "para_birimi": "TRY",
+  "en_iyi_esik": 0.2,
+  "satirlar": [
+   {
+    "esik": 0.2,
+    "tp": 42,
+    "fp": 8,
+    "fn": 1,
+    "tn": 29,
+    "fpr": 0.216216,
+    "maliyet": 31.0
+   },
+   {
+    "esik": 0.35,
+    "tp": 39,
+    "fp": 7,
+    "fn": 4,
+    "tn": 30,
+    "fpr": 0.189189,
+    "maliyet": 74.0
+   },
+   {
+    "esik": 0.5,
+    "tp": 37,
+    "fp": 4,
+    "fn": 6,
+    "tn": 33,
+    "fpr": 0.108108,
+    "maliyet": 98.0
+   },
+   {
+    "esik": 0.65,
+    "tp": 35,
+    "fp": 4,
+    "fn": 8,
+    "tn": 33,
+    "fpr": 0.108108,
+    "maliyet": 128.0
+   },
+   {
+    "esik": 0.8,
+    "tp": 23,
+    "fp": 3,
+    "fn": 20,
+    "tn": 34,
+    "fpr": 0.081081,
+    "maliyet": 306.0
+   }
+  ]
+ },
+ "rapor_fp_agir": {
+  "para_birimi": "TRY",
+  "en_iyi_esik": 0.5,
+  "satirlar": [
+   {
+    "esik": 0.2,
+    "tp": 42,
+    "fp": 8,
+    "fn": 1,
+    "tn": 29,
+    "fpr": 0.216216,
+    "maliyet": 122.0
+   },
+   {
+    "esik": 0.35,
+    "tp": 39,
+    "fp": 7,
+    "fn": 4,
+    "tn": 30,
+    "fpr": 0.189189,
+    "maliyet": 113.0
+   },
+   {
+    "esik": 0.5,
+    "tp": 37,
+    "fp": 4,
+    "fn": 6,
+    "tn": 33,
+    "fpr": 0.108108,
+    "maliyet": 72.0
+   },
+   {
+    "esik": 0.65,
+    "tp": 35,
+    "fp": 4,
+    "fn": 8,
+    "tn": 33,
+    "fpr": 0.108108,
+    "maliyet": 76.0
+   },
+   {
+    "esik": 0.8,
+    "tp": 23,
+    "fp": 3,
+    "fn": 20,
+    "tn": 34,
+    "fpr": 0.081081,
+    "maliyet": 85.0
+   }
+  ]
+ },
+ "kontroller": {
+  "profil_uyumu": true,
+  "matris_uyumu": true,
+  "fn_agir_rapor_uyumu": true,
+  "fp_agir_rapor_uyumu": true,
+  "maliyet_esigi_kaydirdi": true
+ },
+ "ozet": {
+  "sklearn_surum": "1.9.1",
+  "test_kayit_sayisi": 80,
+  "fn_agir_en_iyi_esik": 0.2,
+  "fp_agir_en_iyi_esik": 0.5,
+  "fn_agir_satirlar": [
+   {
+    "esik": 0.2,
+    "tp": 42,
+    "fp": 8,
+    "fn": 1,
+    "tn": 29,
+    "fpr": 0.216216,
+    "maliyet": 31.0
+   },
+   {
+    "esik": 0.35,
+    "tp": 39,
+    "fp": 7,
+    "fn": 4,
+    "tn": 30,
+    "fpr": 0.189189,
+    "maliyet": 74.0
+   },
+   {
+    "esik": 0.5,
+    "tp": 37,
+    "fp": 4,
+    "fn": 6,
+    "tn": 33,
+    "fpr": 0.108108,
+    "maliyet": 98.0
+   },
+   {
+    "esik": 0.65,
+    "tp": 35,
+    "fp": 4,
+    "fn": 8,
+    "tn": 33,
+    "fpr": 0.108108,
+    "maliyet": 128.0
+   },
+   {
+    "esik": 0.8,
+    "tp": 23,
+    "fp": 3,
+    "fn": 20,
+    "tn": 34,
+    "fpr": 0.081081,
+    "maliyet": 306.0
+   }
+  ]
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-04-maliyet-esik",
+ "zaman": "2026-10-29T20:11:10+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "b6d8f9095e7135fcb2d91f2df5ec51e5bae1fe7ce606ed247549bc07d1f6e05b",
+ "mod": "test"
+}

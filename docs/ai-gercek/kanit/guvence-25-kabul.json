@@ -1,0 +1,224 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "deneyler": [
+  {
+   "egitim": {
+    "seed": 7125,
+    "adim": 45,
+    "loss": [
+     0.6752837300300598,
+     0.023425674065947533
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "vakalar": [
+    {
+     "vaka": "saglam",
+     "manifest": {
+      "sha256": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+      "kaynak": "yerel-sentetik",
+      "bicim": "safetensors",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+     "karar": true,
+     "beklenen": true,
+     "yuklendi": true
+    },
+    {
+     "vaka": "degismis-dosya",
+     "manifest": {
+      "sha256": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+      "kaynak": "yerel-sentetik",
+      "bicim": "safetensors",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "fd5ac230fa761191c4441536430fde1acefc2b65839e79fc947e5afc8e96ab21",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "kaynak",
+     "manifest": {
+      "sha256": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+      "kaynak": "bilinmeyen",
+      "bicim": "safetensors",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "bicim",
+     "manifest": {
+      "sha256": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+      "kaynak": "yerel-sentetik",
+      "bicim": "pickle",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "surum",
+     "manifest": {
+      "sha256": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+      "kaynak": "yerel-sentetik",
+      "bicim": "safetensors",
+      "torch": "degisken"
+     },
+     "gercek_hash": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "eksik",
+     "manifest": {},
+     "gercek_hash": "9988bd795d44d4dd47448cc2bf18fe191dd5e6fbb9522339be160837debcfdc3",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    }
+   ],
+   "kontroller": {
+    "hash_kaynak_bicim_surum": true,
+    "gercek_yukleme_yalniz_saglam": true
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Yalniz kendi sentetik yerel safetensors artefaktimiz yuklenir. Kaynak allowlist yerel politika girdisidir, imza/uzak sunucu kimlik dogrulamasi degildir. Bu bir modelscan/Syft veya tam sandbox guvencesi degildir."
+  },
+  {
+   "egitim": {
+    "seed": 9225,
+    "adim": 45,
+    "loss": [
+     0.7309922575950623,
+     0.02103043906390667
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "vakalar": [
+    {
+     "vaka": "saglam",
+     "manifest": {
+      "sha256": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+      "kaynak": "yerel-sentetik",
+      "bicim": "safetensors",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+     "karar": true,
+     "beklenen": true,
+     "yuklendi": true
+    },
+    {
+     "vaka": "degismis-dosya",
+     "manifest": {
+      "sha256": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+      "kaynak": "yerel-sentetik",
+      "bicim": "safetensors",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "8a0e4f0ced6059f1e58db8a6e5cea177f4f79c3318e8ad79c8fcc293bd279838",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "kaynak",
+     "manifest": {
+      "sha256": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+      "kaynak": "bilinmeyen",
+      "bicim": "safetensors",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "bicim",
+     "manifest": {
+      "sha256": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+      "kaynak": "yerel-sentetik",
+      "bicim": "pickle",
+      "torch": "2.14.1+cu130"
+     },
+     "gercek_hash": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "surum",
+     "manifest": {
+      "sha256": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+      "kaynak": "yerel-sentetik",
+      "bicim": "safetensors",
+      "torch": "degisken"
+     },
+     "gercek_hash": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    },
+    {
+     "vaka": "eksik",
+     "manifest": {},
+     "gercek_hash": "afc29e7a1003c3500a1506ab851d15bb9d34699a8804467cb44f655f317bd8cc",
+     "karar": false,
+     "beklenen": false,
+     "yuklendi": false
+    }
+   ],
+   "kontroller": {
+    "hash_kaynak_bicim_surum": true,
+    "gercek_yukleme_yalniz_saglam": true
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Yalniz kendi sentetik yerel safetensors artefaktimiz yuklenir. Kaynak allowlist yerel politika girdisidir, imza/uzak sunucu kimlik dogrulamasi degildir. Bu bir modelscan/Syft veya tam sandbox guvencesi degildir."
+  }
+ ],
+ "ortam": {
+  "python": "3.13.14",
+  "cihaz": "cpu",
+  "torch": "2.14.1+cu130"
+ },
+ "temizlik": "Gorev temp dosyalari kapsam sonunda temizlenir; JSON kaniti kalicidir.",
+ "pilot": "guvence-25-kabul",
+ "zaman": "2026-10-29T22:43:33+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 536 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "3cda655747f2e4964dd9509f69100ae47f86068874956be617f907691f949ef3",
+ "mod": "test"
+}

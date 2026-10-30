@@ -1,0 +1,116 @@
+{
+ "manifest": {
+  "id": "canli-kanit-05",
+  "veri_surumu": "sentetik-ikili-v1",
+  "model_surumu": "sklearn-logreg-v1",
+  "tohum": 42,
+  "ortam": {
+   "python": "3.13.14",
+   "kutuphane": "scikit-learn-1.9.1"
+  }
+ },
+ "dosyalar": [
+  {
+   "yol": "cikti/metrik.json",
+   "sha256": "8437d95026d469bb1568b2baf582393a3de041f93f39ad0af69ef4d6357e18ec",
+   "boyut": 32
+  },
+  {
+   "yol": "model_agirlik.json",
+   "sha256": "5f3c4429c315e8ce3a9a13c63a93216ce8b5d75991e93162edb601ecbe07750e",
+   "boyut": 87
+  }
+ ],
+ "ayni_tohum_raporu": {
+  "karar": "tekrarlanabilir",
+  "degisiklik_sayisi": 0,
+  "farklar": []
+ },
+ "farkli_tohum_raporu": {
+  "karar": "fark_var",
+  "degisiklik_sayisi": 3,
+  "farklar": [
+   {
+    "yol": "cikti/ek_not.txt",
+    "durum": "eklenen",
+    "beklenen": null,
+    "gozlemlenen": {
+     "yol": "cikti/ek_not.txt",
+     "sha256": "3a17a70bb44f56c2715907b8da855d0ca240cffb4ffa642133fe1f1c23025522",
+     "boyut": 13
+    }
+   },
+   {
+    "yol": "cikti/metrik.json",
+    "durum": "eksik",
+    "beklenen": {
+     "yol": "cikti/metrik.json",
+     "sha256": "8437d95026d469bb1568b2baf582393a3de041f93f39ad0af69ef4d6357e18ec",
+     "boyut": 32
+    },
+    "gozlemlenen": null
+   },
+   {
+    "yol": "model_agirlik.json",
+    "durum": "degisti",
+    "beklenen": {
+     "yol": "model_agirlik.json",
+     "sha256": "5f3c4429c315e8ce3a9a13c63a93216ce8b5d75991e93162edb601ecbe07750e",
+     "boyut": 87
+    },
+    "gozlemlenen": {
+     "yol": "model_agirlik.json",
+     "sha256": "e8296ee155e25ab9302e2c5c22b80d685ac1ca2191e71efd1a6842f20b2d7edb",
+     "boyut": 90
+    }
+   }
+  ]
+ },
+ "kontroller": {
+  "manifest_uyumu": true,
+  "dosya_kanit_uyumu": true,
+  "ayni_tohum_tekrarlanabilir": true,
+  "farkli_tohum_fark_var": true
+ },
+ "ozet": {
+  "manifest": {
+   "id": "canli-kanit-05",
+   "veri_surumu": "sentetik-ikili-v1",
+   "model_surumu": "sklearn-logreg-v1",
+   "tohum": 42,
+   "ortam": {
+    "python": "3.13.14",
+    "kutuphane": "scikit-learn-1.9.1"
+   }
+  },
+  "paket_dosyalari": [
+   {
+    "yol": "cikti/metrik.json",
+    "sha256": "8437d95026d469bb1568b2baf582393a3de041f93f39ad0af69ef4d6357e18ec",
+    "boyut": 32
+   },
+   {
+    "yol": "model_agirlik.json",
+    "sha256": "5f3c4429c315e8ce3a9a13c63a93216ce8b5d75991e93162edb601ecbe07750e",
+    "boyut": 87
+   }
+  ],
+  "ayni_tohum_karar": "tekrarlanabilir",
+  "farkli_tohum_karar": "fark_var",
+  "farkli_tohum_degisiklik_sayisi": 3
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-05-kanit-paketi",
+ "zaman": "2026-10-29T20:14:24+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "46720e1cf14c3d9c19924d8b66ee85ab2d4779d4a4ef0ebe0b4145ef29e87f1e",
+ "mod": "test"
+}

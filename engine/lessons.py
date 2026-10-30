@@ -185,7 +185,10 @@ class Library:
         files = {}
         for name in os.listdir(d):
             if name.endswith(".md"):
-                lid = name.split("-", 1)[0]
+                # Klasik ``ht22-konu`` ve tireli AI kimlikleri
+                # ``ai-saldiri-02-konu`` biçimlerini aynı şekilde çöz.
+                match = re.match(r"^(.+?\d+)(?:-.*)?\.md$", name)
+                lid = match.group(1) if match else name.split("-", 1)[0]
                 files[lid] = os.path.join(d, name)
         return files
 

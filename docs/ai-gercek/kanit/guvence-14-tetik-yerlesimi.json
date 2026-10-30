@@ -1,0 +1,199 @@
+{
+ "kosular": [
+  {
+   "yerlesim": "kose",
+   "tohum": 14,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 0.991667,
+   "hedef_basarisi": 0.77193,
+   "zehirsiz_taban": 0.0
+  },
+  {
+   "yerlesim": "merkez",
+   "tohum": 14,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 0.894737,
+   "zehirsiz_taban": 0.0
+  },
+  {
+   "yerlesim": "ust_kose",
+   "tohum": 14,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 1.0,
+   "zehirsiz_taban": 0.140351
+  },
+  {
+   "yerlesim": "kose",
+   "tohum": 141,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 0.983333,
+   "hedef_basarisi": 0.777778,
+   "zehirsiz_taban": 0.0
+  },
+  {
+   "yerlesim": "merkez",
+   "tohum": 141,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 0.991667,
+   "hedef_basarisi": 0.888889,
+   "zehirsiz_taban": 0.0
+  },
+  {
+   "yerlesim": "ust_kose",
+   "tohum": 141,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 0.984127,
+   "zehirsiz_taban": 0.349206
+  },
+  {
+   "yerlesim": "kose",
+   "tohum": 1414,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 0.370968,
+   "zehirsiz_taban": 0.0
+  },
+  {
+   "yerlesim": "merkez",
+   "tohum": 1414,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 0.822581,
+   "zehirsiz_taban": 0.0
+  },
+  {
+   "yerlesim": "ust_kose",
+   "tohum": 1414,
+   "zehirli_ornek": 6,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 1.0,
+   "zehirsiz_taban": 0.225806
+  }
+ ],
+ "yerlestirme_ornekleri": [
+  {
+   "yerlesim": "kose",
+   "satir": 4,
+   "sutun": 4,
+   "ogrenci_esit": true
+  },
+  {
+   "yerlesim": "merkez",
+   "satir": 2,
+   "sutun": 2,
+   "ogrenci_esit": true
+  },
+  {
+   "yerlesim": "ust_kose",
+   "satir": 0,
+   "sutun": 0,
+   "ogrenci_esit": true
+  }
+ ],
+ "ozet_ogrenci": [
+  {
+   "yerlesim": "kose",
+   "deneme": 57,
+   "temiz_dogruluk": 0.982456,
+   "hedef_basarisi": 0.77193
+  },
+  {
+   "yerlesim": "merkez",
+   "deneme": 57,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 0.894737
+  },
+  {
+   "yerlesim": "ust_kose",
+   "deneme": 57,
+   "temiz_dogruluk": 1.0,
+   "hedef_basarisi": 1.0
+  }
+ ],
+ "secim_ogrenci": {
+  "satirlar": [
+   {
+    "yerlesim": "kose",
+    "temiz": 0.991667,
+    "hedef_basarisi": 0.640225,
+    "uygun": true
+   },
+   {
+    "yerlesim": "merkez",
+    "temiz": 0.997222,
+    "hedef_basarisi": 0.868736,
+    "uygun": true
+   },
+   {
+    "yerlesim": "ust_kose",
+    "temiz": 1.0,
+    "hedef_basarisi": 0.994709,
+    "uygun": true
+   }
+  ],
+  "secilen": "ust_kose"
+ },
+ "kontroller": {
+  "yerlestirme_uyumu": true,
+  "ozet_uyumu": true,
+  "secim_uyumu": true,
+  "etki_gozlendi": true
+ },
+ "ozet": {
+  "torch_surum": "2.14.1+cu130",
+  "cihaz": "cpu",
+  "zehir_orani": 0.015,
+  "temiz_alt_sinir": 0.9,
+  "yerlesim_ozeti": [
+   {
+    "yerlesim": "kose",
+    "temiz": 0.991667,
+    "hedef_basarisi": 0.640225,
+    "uygun": true
+   },
+   {
+    "yerlesim": "merkez",
+    "temiz": 0.997222,
+    "hedef_basarisi": 0.868736,
+    "uygun": true
+   },
+   {
+    "yerlesim": "ust_kose",
+    "temiz": 1.0,
+    "hedef_basarisi": 0.994709,
+    "uygun": true
+   }
+  ],
+  "secilen": "ust_kose",
+  "maksimum_hedef_basarisi": 0.994709,
+  "minimum_temiz_dogruluk": 0.991667,
+  "zehirsiz_taban": {
+   "kose": 0.0,
+   "merkez": 0.0,
+   "ust_kose": 0.238455
+  },
+  "net_etki": {
+   "kose": 0.640225,
+   "merkez": 0.868736,
+   "ust_kose": 0.756254
+  },
+  "net_etkiye_gore_secilen": "merkez"
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-14-tetik-yerlesimi",
+ "zaman": "2026-10-29T21:49:22+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 536 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "7c6763ffb5ce6d485a65ad3033a7d6f6f71a32a381d090a2facde4b8ef985789",
+ "mod": "test"
+}

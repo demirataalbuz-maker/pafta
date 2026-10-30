@@ -1,0 +1,129 @@
+{
+ "ayar": {
+  "id": "canli-pgd-08",
+  "epsilon": 0.15,
+  "alpha": 0.06,
+  "adim": 3
+ },
+ "ornek_iz": {
+  "l_inf": 0.15,
+  "adim_sayisi": 3
+ },
+ "egri_raporu": {
+  "satirlar": [
+   {
+    "epsilon": 0.1,
+    "adim": 0,
+    "dogruluk": 1.0,
+    "l_inf": 0.0,
+    "kayip": 0.0
+   },
+   {
+    "epsilon": 0.1,
+    "adim": 1,
+    "dogruluk": 0.9875,
+    "l_inf": 0.05,
+    "kayip": 0.0125
+   },
+   {
+    "epsilon": 0.1,
+    "adim": 2,
+    "dogruluk": 0.72,
+    "l_inf": 0.1,
+    "kayip": 0.28
+   },
+   {
+    "epsilon": 0.1,
+    "adim": 3,
+    "dogruluk": 0.715,
+    "l_inf": 0.1,
+    "kayip": 0.285
+   },
+   {
+    "epsilon": 0.2,
+    "adim": 0,
+    "dogruluk": 1.0,
+    "l_inf": 0.0,
+    "kayip": 0.0
+   },
+   {
+    "epsilon": 0.2,
+    "adim": 1,
+    "dogruluk": 0.7225,
+    "l_inf": 0.1,
+    "kayip": 0.2775
+   },
+   {
+    "epsilon": 0.2,
+    "adim": 2,
+    "dogruluk": 0.0575,
+    "l_inf": 0.2,
+    "kayip": 0.9425
+   },
+   {
+    "epsilon": 0.2,
+    "adim": 3,
+    "dogruluk": 0.035,
+    "l_inf": 0.2,
+    "kayip": 0.965
+   }
+  ],
+  "ozet": [
+   {
+    "epsilon": 0.1,
+    "taban_dogruluk": 1.0,
+    "son_adim": 3,
+    "son_dogruluk": 0.715,
+    "maksimum_kayip": 0.285
+   },
+   {
+    "epsilon": 0.2,
+    "taban_dogruluk": 1.0,
+    "son_adim": 3,
+    "son_dogruluk": 0.035,
+    "maksimum_kayip": 0.965
+   }
+  ]
+ },
+ "kontroller": {
+  "ayar_uyumu": true,
+  "iz_uyumu": true,
+  "egri_uyumu": true,
+  "saldiri_kaybi_pozitif": true
+ },
+ "ozet": {
+  "torch_surum": "2.14.1+cu130",
+  "temiz_dogruluk": 1.0,
+  "ornek_l_inf": 0.15,
+  "egri_ozeti": [
+   {
+    "epsilon": 0.1,
+    "taban_dogruluk": 1.0,
+    "son_adim": 3,
+    "son_dogruluk": 0.715,
+    "maksimum_kayip": 0.285
+   },
+   {
+    "epsilon": 0.2,
+    "taban_dogruluk": 1.0,
+    "son_adim": 3,
+    "son_dogruluk": 0.035,
+    "maksimum_kayip": 0.965
+   }
+  ]
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-08-pgd-egri",
+ "zaman": "2026-10-29T20:17:19+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 455 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "745fbc6c1739a44f1aa5be785d07e1c7f902e6d07e6a3dac26050ac73ad89b54",
+ "mod": "test"
+}

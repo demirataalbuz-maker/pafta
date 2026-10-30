@@ -1,0 +1,169 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-01",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ayarlar": {
+  "max_deneme": 3,
+  "zorunlu_alanlar": [
+   "bulgu_id",
+   "kategori",
+   "ciddiyet",
+   "satir_no",
+   "kanit_var"
+  ]
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "ayarlar": {
+   "max_deneme": 3,
+   "zorunlu_alanlar": [
+    "bulgu_id",
+    "kategori",
+    "ciddiyet",
+    "satir_no",
+    "kanit_var"
+   ]
+  },
+  "canli_yanit": "{\"bulgu_id\": \"BLG-SQL-24\", \"kategori\": \"yetki_atlama\", \"ciddiyet\": \"yuksek\", \"satir_no\": 24, \"kanit_var\": true}",
+  "kapi_sonuc": {
+   "durum": "kabul",
+   "kullanilan_deneme": 2,
+   "cikti": {
+    "bulgu_id": "BLG-SQL-24",
+    "kategori": "yetki_atlama",
+    "ciddiyet": "yuksek",
+    "satir_no": 24,
+    "kanit_var": true
+   },
+   "son_hata": null
+  },
+  "kontroller": {
+   "ayiklama_uyumu": true,
+   "dogrulama_uyumu": true,
+   "kapi_kabul_uyumu": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "canli_json_ayiklandi": true,
+   "kapi_durumu": "kabul",
+   "kullanilan_deneme": 2,
+   "kategori": "yetki_atlama"
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "canli_json_ayiklandi": true,
+  "kapi_durumu": "kabul",
+  "kullanilan_deneme": 2,
+  "kategori": "yetki_atlama"
+ },
+ "pilot": "ile-guvenlik-01-sema",
+ "zaman": "2026-10-29T18:05:12+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 439 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "83191a8eba2e2911e069f7368ec264b0e1b8baca905f97258cd00023096d8512",
+ "mod": "test"
+}

@@ -1,0 +1,83 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-09",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "playwright-chromium",
+  "chromium_surumu": "156.0.8078.4",
+  "ag_erisim": false
+ },
+ "ayarlar": {
+  "headless": true,
+  "ag_erisim": false
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "playwright-chromium",
+   "chromium_surumu": "156.0.8078.4",
+   "ag_erisim": false
+  },
+  "ayarlar": {
+   "headless": true,
+   "ag_erisim": false
+  },
+  "rapor": {
+   "form_sayisi": 2,
+   "dis_form_idleri": [
+    "sizinti-formu"
+   ],
+   "tehlikeli_baglanti_idleri": [
+    "js-tuzak"
+   ],
+   "gizli_girdi_adlari": [
+    "oturum_anahtari"
+   ],
+   "risk_var_mi": true
+  },
+  "kontroller": {
+   "chromium_dom_yuklendi": true,
+   "yuzey_uyumu": true,
+   "denetim_uyumu": true,
+   "rapor_uyumu": true,
+   "dis_form_ve_js_yakalandi": true
+  },
+  "ozet": {
+   "chromium_surumu": "156.0.8078.4",
+   "dis_formlar": [
+    "sizinti-formu"
+   ],
+   "tehlikeli_baglantilar": [
+    "js-tuzak"
+   ],
+   "gizli_girdiler": [
+    "oturum_anahtari"
+   ]
+  }
+ },
+ "ozet": {
+  "chromium_surumu": "156.0.8078.4",
+  "dis_formlar": [
+   "sizinti-formu"
+  ],
+  "tehlikeli_baglantilar": [
+   "js-tuzak"
+  ],
+  "gizli_girdiler": [
+   "oturum_anahtari"
+  ]
+ },
+ "pilot": "ile-guvenlik-09-dom",
+ "zaman": "2026-10-29T19:01:07+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "2251fb67ef5caeabc7cd81357d4e58447b58c79f51b4e9c6c93be388c7d8c59f",
+ "mod": "test"
+}

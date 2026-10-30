@@ -1,0 +1,156 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-11",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ayarlar": {
+  "korpus_boyutu": 4,
+  "aday_sayisi": 3
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "ayarlar": {
+   "korpus_boyutu": 4,
+   "aday_sayisi": 3
+  },
+  "canli_yanit": "Comsvcs MiniDump saldırısı, bir sistemde **lsass** veya diğer kritik süreçlerin **tam bir bellek dump'ı** alınmasını amaçlayan, **rundll32.exe** ile yürütülen bir **saldırı**dır. Bu tür saldırılar, özellikle **Windows sistemlerinde** \"comsvcs.dll\" ile gerçekleştirilen **MiniDump** komutları üzerinden gerçekleşir ve **LSASS** sürecinin bellek içeriğini alarak, kullanıcı adı, şifre gibi hassas verileri el",
+  "secim_sonuc": {
+   "secilen_kural_id": "SIG-ADAY-B",
+   "uygun_sayisi": 1,
+   "elenen_kurallar": {
+    "SIG-ADAY-A": "yuksek_fpr",
+    "SIG-ADAY-C": "gecersiz_sema"
+   }
+  },
+  "kontroller": {
+   "sema_dogrulama_uyumu": true,
+   "korpus_olcum_uyumu": true,
+   "aday_siralama_uyumu": true,
+   "dusuk_fpr_kurali_secildi": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "secilen_kural": "SIG-ADAY-B",
+   "elenen_kurallar": {
+    "SIG-ADAY-A": "yuksek_fpr",
+    "SIG-ADAY-C": "gecersiz_sema"
+   }
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "secilen_kural": "SIG-ADAY-B",
+  "elenen_kurallar": {
+   "SIG-ADAY-A": "yuksek_fpr",
+   "SIG-ADAY-C": "gecersiz_sema"
+  }
+ },
+ "pilot": "ile-guvenlik-11-sigma",
+ "zaman": "2026-10-29T19:14:42+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "1611b16d2a0ff74574a7e27d8847c744abfc4201f899a3beecd9093827ac9d59",
+ "mod": "test"
+}

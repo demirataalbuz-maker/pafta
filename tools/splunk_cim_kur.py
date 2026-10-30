@@ -51,7 +51,7 @@ def main():
     # Only the existing Pafta container is changed. No host extraction/password CLI.
     code,_,err=S._docker('cp',str(path),S.KONTEYNER+':/tmp/pafta-cim-850.tgz')
     if code:raise RuntimeError('CIM kopyalanamadı: '+err[-300:])
-    S.istek('/services/apps/local',{'name':'/tmp/pafta-cim-850.tgz','update':'1'},timeout=120)
+    S.istek('/services/apps/local',{'name':'/tmp/pafta-cim-850.tgz','filename':'true','update':'1'},timeout=120)
     S.istek('/services/server/control/restart',{},timeout=30)
     for _ in range(60):
         try:

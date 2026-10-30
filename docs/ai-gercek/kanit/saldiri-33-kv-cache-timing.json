@@ -1,0 +1,164 @@
+{
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 14.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ayarlar": {
+  "tekrar": 3,
+  "en_fazla_token": 1,
+  "sicaklik": 0.0,
+  "esik_ms": 385.0
+ },
+ "ham_kayitlar": [
+  {
+   "tur": 1,
+   "grup": "miss",
+   "sure_ms": 5368.0,
+   "eval_count": 2
+  },
+  {
+   "tur": 1,
+   "grup": "hit",
+   "sure_ms": 12238.0,
+   "eval_count": 3
+  },
+  {
+   "tur": 2,
+   "grup": "miss",
+   "sure_ms": 678.0,
+   "eval_count": 2
+  },
+  {
+   "tur": 2,
+   "grup": "hit",
+   "sure_ms": 87.0,
+   "eval_count": 3
+  },
+  {
+   "tur": 3,
+   "grup": "miss",
+   "sure_ms": 683.0,
+   "eval_count": 2
+  },
+  {
+   "tur": 3,
+   "grup": "hit",
+   "sure_ms": 82.0,
+   "eval_count": 3
+  }
+ ],
+ "grup_ozeti": {
+  "hit": {
+   "n": 3,
+   "medyan": 87.0
+  },
+  "miss": {
+   "n": 3,
+   "medyan": 683.0
+  },
+  "fark": 596.0
+ },
+ "esik_regresyonu": {
+  "tp": 2,
+  "fp": 0,
+  "tn": 3,
+  "fn": 1,
+  "dogruluk": 0.8333333333333334,
+  "tpr": 0.6666666666666666,
+  "tnr": 1.0
+ },
+ "aday_raporu": {
+  "adaylar": [
+   {
+    "aday": "aday-ortak-onek",
+    "fark": 596.0,
+    "sinyal": true
+   },
+   {
+    "aday": "aday-gurultu-kontrol",
+    "fark": 0.0,
+    "sinyal": false
+   }
+  ],
+  "guclu_sinyal": [
+   "aday-ortak-onek"
+  ]
+ },
+ "kontroller": {
+  "grup_ozeti_uyumu": true,
+  "esik_regresyonu_uyumu": true,
+  "aday_raporu_uyumu": true,
+  "alti_canli_olcum_alindi": true,
+  "cihaz_dogrulandi": true,
+  "kaynak_temizlendi": true
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "hit_medyan_ms": 87.0,
+  "miss_medyan_ms": 683.0,
+  "medyan_fark_ms": 596.0,
+  "esik_ms": 385.0,
+  "dogruluk": 0.8333333333333334,
+  "guclu_sinyal": [
+   "aday-ortak-onek"
+  ]
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "saldiri-33-kv-cache-timing",
+ "zaman": "2026-10-29T13:19:18+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 438 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "3c6f4f0144e3cabb9a9d2045332b9ceebce022ba3afdc0167adc8f8d856395cb",
+ "mod": "test"
+}

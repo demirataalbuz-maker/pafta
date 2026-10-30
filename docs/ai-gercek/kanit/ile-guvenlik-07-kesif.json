@@ -1,0 +1,178 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-ile-guvenlik-07",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": true,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+  }
+ },
+ "ayarlar": {
+  "port": 50174,
+  "izinli_adresler": [
+   "127.0.0.1",
+   "localhost"
+  ]
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": true,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": "hayır: kullanıcı tarafından önceden yüklenmişti"
+   }
+  },
+  "ayarlar": {
+   "port": 50174,
+   "izinli_adresler": [
+    "127.0.0.1",
+    "localhost"
+   ]
+  },
+  "canli_yanit": "Sen kapsam kilitli uygulama güvenliği keşif asistanısın. Uç noktaları önceliklendir.\n\nVerdiğiniz uç noktalar:\n\n1. `/api/kullanici?id=10&rol=analist`  \n2. `/api/ara?q=test&sayfa=1`  \n3. `/api/profil`\n\n---\n\n### 🔍 **Güvenlik Keşif Analizi (Önceliklendir",
+  "plan": {
+   "izinli_hedefler": [
+    {
+     "yol": "/api/ara",
+     "parametreler": [
+      "q",
+      "sayfa"
+     ],
+     "oncelik": "orta"
+    },
+    {
+     "yol": "/api/kullanici",
+     "parametreler": [
+      "id",
+      "rol"
+     ],
+     "oncelik": "yuksek"
+    },
+    {
+     "yol": "/api/profil",
+     "parametreler": [],
+     "oncelik": "dusuk"
+    }
+   ],
+   "engellenen_urller": [
+    "https://dis-hedef.ornek.com/admin?debug=true",
+    "http://169.254.169.254/latest/meta-data/"
+   ],
+   "engellenen_sayisi": 2
+  },
+  "kontroller": {
+   "yerel_http_kesif_basarili": true,
+   "dis_ve_metadata_engellendi": true,
+   "parametre_haritasi_dogru": true,
+   "kesif_plani_referansla_uyumlu": true,
+   "cihaz_dogrulandi": true,
+   "kaynak_temizlendi": true
+  },
+  "ozet": {
+   "model": "qwen3:4b-instruct-2507-q4_K_M",
+   "izinli_hedef_sayisi": 3,
+   "engellenen_sayisi": 2
+  }
+ },
+ "ozet": {
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "izinli_hedef_sayisi": 3,
+  "engellenen_sayisi": 2
+ },
+ "pilot": "ile-guvenlik-07-kesif",
+ "zaman": "2026-10-29T18:51:07+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 3484 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "8d4ac8b0f4112fdad36bec22dac262550339a9dfb329211434e818929581af35",
+ "mod": "test"
+}

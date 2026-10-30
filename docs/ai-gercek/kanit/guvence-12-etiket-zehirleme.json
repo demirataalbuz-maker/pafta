@@ -1,0 +1,81 @@
+{
+ "gecis": {
+  "toplam": 150,
+  "degisen": 32,
+  "degisim_orani": 0.213333,
+  "gecisler": {
+   "2>0": 32
+  }
+ },
+ "etki": {
+  "ortalamalar": {
+   "taban": {
+    "temiz": 0.982456,
+    "hedef": 1.0
+   },
+   "rastgele": {
+    "temiz": 1.0,
+    "hedef": 0.969697
+   },
+   "hedefli": {
+    "temiz": 0.964912,
+    "hedef": 0.060606
+   }
+  },
+  "temiz_kayip": {
+   "rastgele": -0.017544,
+   "hedefli": 0.017544
+  },
+  "hedef_kayip": {
+   "rastgele": 0.030303,
+   "hedefli": 0.939394
+  }
+ },
+ "bayraklar": {
+  "rastgele": {
+   "temiz_kayip": 0.0,
+   "hedef_kayip": 0.030303,
+   "hedef_odakli": false
+  },
+  "hedefli": {
+   "temiz_kayip": 0.017544,
+   "hedef_kayip": 0.939394,
+   "hedef_odakli": true
+  }
+ },
+ "kontroller": {
+  "gecis_uyumu": true,
+  "etki_uyumu": true,
+  "bayrak_uyumu": true,
+  "hedefli_yakalandi": true
+ },
+ "ozet": {
+  "sklearn_surum": "1.9.1",
+  "hedefli_gecisler": {
+   "2>0": 32
+  },
+  "hedef_kayip": {
+   "rastgele": 0.030303,
+   "hedefli": 0.939394
+  },
+  "temiz_kayip": {
+   "rastgele": -0.017544,
+   "hedefli": 0.017544
+  },
+  "hedefli_bayrak": true
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-12-etiket-zehirleme",
+ "zaman": "2026-10-29T20:26:39+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 380 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "ba24a91e2afaf4c91edf69b8ff3814a2c49439d16e2f65ee20f3ffc561b37926",
+ "mod": "test"
+}

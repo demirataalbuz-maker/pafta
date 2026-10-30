@@ -1,0 +1,1943 @@
+{
+  "title": "Pafta AI Güvenlik Müfredatı",
+  "version": "3.0-plan",
+  "statuses": [
+    "Planlandı",
+    "Yazıldı",
+    "Denetlendi"
+  ],
+  "tracks": [
+    {
+      "id": "ai-temel",
+      "name": "AI Temelleri ve Sistem Mimarisi",
+      "modules": [
+        {
+          "rank": "minik",
+          "name": "Minik",
+          "title": "Tokenler ve Olasılıklar",
+          "lessons": [
+            {
+              "id": "ai-temel-01",
+              "title": "Tokenizasyon: Metinden Modele Giren Birimler",
+              "summary": "BPE tokenizasyonunun metni nasıl böldüğünü ve token sınırlarının güvenlik filtrelerini neden etkilediğini öğretir.",
+              "side": "Temel",
+              "tools": "Hugging Face tokenizers",
+              "status": "Yazıldı",
+              "onkosul": []
+            },
+            {
+              "id": "ai-temel-02",
+              "title": "Embeddingler: Tokenlerin Vektör Uzayına Taşınması",
+              "summary": "Token kimliklerinin embedding matrisiyle vektöre dönüşümünü ve benzerlik ile anlam arasındaki ilişkiyi öğretir.",
+              "side": "Temel",
+              "tools": "PyTorch",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-01"
+              ]
+            },
+            {
+              "id": "ai-temel-03",
+              "title": "Logitler ve Softmax: Sonraki Tokenin Olasılığı",
+              "summary": "Logitlerin softmax ile olasılığa dönüşmesini ve bir sonraki token seçiminin matematiğini öğretir.",
+              "side": "Temel",
+              "tools": "Hugging Face Transformers",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-02"
+              ]
+            },
+            {
+              "id": "ai-temel-04",
+              "title": "Sampling: Temperature, Top-k ve Top-p",
+              "summary": "Üretim parametrelerinin olasılık dağılımını, rastgeleliği ve saldırı testlerinin tekrarlanabilirliğini nasıl değiştirdiğini öğretir.",
+              "side": "Temel",
+              "tools": "Hugging Face Transformers",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-03"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "tesviye",
+          "name": "Tesviye",
+          "title": "Transformer ve Bağlam Mekaniği",
+          "lessons": [
+            {
+              "id": "ai-temel-05",
+              "title": "Attention: Query, Key ve Value",
+              "summary": "Q/K/V projeksiyonlarının attention skorlarını ve tokenler arası bilgi akışını nasıl ürettiğini öğretir.",
+              "side": "Temel",
+              "tools": "PyTorch",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-04"
+              ]
+            },
+            {
+              "id": "ai-temel-06",
+              "title": "Çok Başlı Attention ve Nedensel Maskeleme",
+              "summary": "Çok başlı dikkatin temsil alt uzaylarını ve nedensel maskenin gelecek token erişimini nasıl yönettiğini öğretir.",
+              "side": "Temel",
+              "tools": "PyTorch",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-05"
+              ]
+            },
+            {
+              "id": "ai-temel-07",
+              "title": "Context Window ve Konumsal Temsil",
+              "summary": "Bağlam penceresinin token bütçesi, konumsal kodlama ve eski talimatların kaybı üzerindeki etkisini öğretir.",
+              "side": "Temel",
+              "tools": "Hugging Face Transformers",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-06"
+              ]
+            },
+            {
+              "id": "ai-temel-08",
+              "title": "Inference, KV Cache ve Çok Kullanıcılı Sunucular",
+              "summary": "Autoregressive üretim ve KV cache yaşam döngüsünü vLLM ile llama.cpp sunucularında eşzamanlı istek, bellek ve kiracı yalıtımı açısından öğretir.",
+              "side": "Temel",
+              "tools": "vLLM, llama.cpp, Transformers",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-07"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "kucuk-orta",
+          "name": "Küçük Orta",
+          "title": "Eğitim ve Hizalama",
+          "lessons": [
+            {
+              "id": "ai-temel-09",
+              "title": "Eğitim Döngüsü: Loss, Gradient ve Optimizer",
+              "summary": "Kayıp, gradyan ve optimizer adımlarının model ağırlıklarını nasıl değiştirdiğini küçük bir eğitim döngüsü üzerinden öğretir.",
+              "side": "Temel",
+              "tools": "PyTorch, TensorBoard",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-08"
+              ]
+            },
+            {
+              "id": "ai-temel-10",
+              "title": "LoRA ve Parametre Verimli Fine-Tuning",
+              "summary": "LoRA hedef modülleri ve hiperparametrelerinin adaptör eğitimini, bellek maliyetini ve temel modelle birleştirmeyi nasıl etkilediğini öğretir.",
+              "side": "Temel",
+              "tools": "Transformers, PEFT, bitsandbytes",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-09"
+              ]
+            },
+            {
+              "id": "ai-temel-11",
+              "title": "Tercih Verisi ve Hizalama",
+              "summary": "Tercih çiftlerinin DPO ile güvenlik davranışını nasıl biçimlendirdiğini ve veri kaynaklı hizalama hatalarını öğretir.",
+              "side": "Temel",
+              "tools": "TRL, Transformers, Datasets",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-10"
+              ]
+            },
+            {
+              "id": "ai-temel-12",
+              "title": "Fine-Tune Sonrası Güvenlik Değerlendirmesi",
+              "summary": "Temel ve ince ayarlı modeli aynı test setinde karşılaştırarak davranış kazancını ve güvenlik regresyonunu ölçmeyi öğretir.",
+              "side": "Temel",
+              "tools": "Promptfoo, garak, LM Evaluation Harness",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-11"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "buyuk-orta",
+          "name": "Büyük Orta",
+          "title": "Model Çıktısını Güvenilir Kılmak",
+          "lessons": [
+            {
+              "id": "ai-temel-13",
+              "title": "Talimat ve Veri Ayrımı",
+              "summary": "Sistem talimatlarıyla güvenilmeyen içeriği ayırmanın neden tek başına güvenlik garantisi olmadığını ve nasıl katmanlı sınır kurulacağını öğretir.",
+              "side": "Savunma",
+              "tools": "FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-12"
+              ]
+            },
+            {
+              "id": "ai-temel-14",
+              "title": "Yapılandırılmış Çıktı ve Şema Doğrulama",
+              "summary": "Serbest metin çıktısını katı şemalarla doğrulayarak tür sapmalarını ve beklenmeyen komutları reddetmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Pydantic",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-13"
+              ]
+            },
+            {
+              "id": "ai-temel-15",
+              "title": "Activation Steering ve Representation Engineering",
+              "summary": "Model aktivasyonlarından davranış yönleri çıkarmayı ve bu yönlerle üretimi ağırlıkları değiştirmeden yönlendirmenin etkisini ve sınırlarını öğretir.",
+              "side": "Savunma",
+              "tools": "TransformerLens, PyTorch, repeng",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-14"
+              ]
+            },
+            {
+              "id": "ai-temel-16",
+              "title": "Bağlamda Sır ve Ayrıcalık Minimizasyonu",
+              "summary": "Model bağlamına yalnız gerekli veriyi vererek sızıntı durumundaki sır ve erişim kapsamını sınırlamayı öğretir.",
+              "side": "Savunma",
+              "tools": "Docker",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-15"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "basalti",
+          "name": "Başaltı",
+          "title": "Güvenli Model ve API Dağıtımı",
+          "lessons": [
+            {
+              "id": "ai-temel-17",
+              "title": "Üretim Tipi Inference API’si ve Akışlı Yanıtlar",
+              "summary": "İstek doğrulama, token sınırı, zaman aşımı, sürekli batching ve akışlı yanıt yaşam döngüsünü üretim tipi yerel sunucularda öğretir.",
+              "side": "Temel",
+              "tools": "vLLM, llama.cpp, FastAPI",
+              "onkosul": [
+                "ai-temel-16"
+              ]
+            },
+            {
+              "id": "ai-temel-18",
+              "title": "Konteyner İzolasyonu ve Kaynak Sınırları",
+              "summary": "Model servisinin dosya sistemi, ağ, bellek ve işlemci erişimini sınırlandırarak yayılımı azaltmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Docker",
+              "onkosul": [
+                "ai-temel-17"
+              ]
+            },
+            {
+              "id": "ai-temel-19",
+              "title": "Model Kartı, Veri Kartı ve Dosya Bütünlüğü",
+              "summary": "Model ve veri kartlarındaki kullanım sınırlarını kaynak, sürüm ve bütünlük kanıtlarıyla ilişkilendirmeyi öğretir.",
+              "side": "Temel",
+              "tools": "Hugging Face Hub, Safetensors, DVC",
+              "onkosul": [
+                "ai-temel-18"
+              ]
+            },
+            {
+              "id": "ai-temel-20",
+              "title": "Inference Gözlemlenebilirliği ve Kötüye Kullanım Kayıtları",
+              "summary": "Kimlik doğrulama, hız sınırlama ve gizliliği koruyan kayıtlarla API kötüye kullanımını görünür kılmayı öğretir.",
+              "side": "Savunma",
+              "tools": "FastAPI",
+              "onkosul": [
+                "ai-temel-19"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "baspehlivan",
+          "name": "Başpehlivan",
+          "title": "RAG, Tool Kullanımı ve Ajan Güvenliği",
+          "lessons": [
+            {
+              "id": "ai-temel-21",
+              "title": "RAG Mimarisi: Retrieval’dan Bağlama",
+              "summary": "Belgelerin parçalanması, indekslenmesi, geri getirilmesi ve modele kanıt olarak eklenmesi arasındaki veri akışını öğretir.",
+              "side": "Temel",
+              "tools": "Sentence Transformers, FAISS",
+              "onkosul": [
+                "ai-temel-20"
+              ]
+            },
+            {
+              "id": "ai-temel-22",
+              "title": "Retrieval Kalitesi ve Bağlam Seçimi",
+              "summary": "Chunking, embedding ve sıralama kararlarının hangi kanıtın modele ulaşacağını nasıl belirlediğini retrieval ölçütleriyle öğretir.",
+              "side": "Temel",
+              "tools": "Sentence Transformers, FAISS",
+              "onkosul": [
+                "ai-temel-21"
+              ]
+            },
+            {
+              "id": "ai-temel-23",
+              "title": "Tool-Call Yaşam Döngüsü ve Ajan Döngüsü",
+              "summary": "Model çıktısının şemalı araç çağrısına, yürütmeye ve sonucun yeniden bağlama eklenmesine uzanan akışını öğretir.",
+              "side": "Temel",
+              "tools": "Ollama, FastAPI, Pydantic",
+              "onkosul": [
+                "ai-temel-22"
+              ]
+            },
+            {
+              "id": "ai-temel-24",
+              "title": "En Az Ayrıcalıklı RAG ve Tool Savunması",
+              "summary": "Tool izinleri, argüman doğrulama, kullanıcı onayı, kaynak politikası ve izolasyonu uçtan uca birleştirmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Docker, FastAPI",
+              "onkosul": [
+                "ai-temel-23"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-saldiri",
+      "name": "AI Saldırı ve Red Team",
+      "modules": [
+        {
+          "rank": "minik",
+          "name": "Minik",
+          "title": "Model Etkileşimi ve Saldırı Yüzeyi",
+          "lessons": [
+            {
+              "id": "ai-saldiri-36",
+              "title": "Red Team Metodolojisi I · Yasal Kapsam (RoE), Sistem Anatomisi ve Güven Sınırları",
+              "summary": "AI red team ile klasik pentest farkını, yasal kapsam belgesini (RoE), hedef sistem anatomisini (model, sistem istemi, RAG, araçlar, bellek, çıktı tüketici) ve güven sınırlarını analiz etmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": []
+            },
+            {
+              "id": "ai-saldiri-01",
+              "title": "MCP Güven Modeli ve Yetki Sınırları",
+              "summary": "MCP istemcisi, sunucusu, araçları ve kaynakları arasındaki güven sınırlarıyla yetki kapsamlarını analiz etmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "MCP Inspector, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-36"
+              ]
+            },
+            {
+              "id": "ai-saldiri-02",
+              "title": "Doğrudan Prompt Injection Mekaniği",
+              "summary": "Kullanıcı girdisinin model talimatlarını nasıl geçersiz kıldığını kontrollü deneylerle analiz etmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-01"
+              ]
+            },
+            {
+              "id": "ai-saldiri-03",
+              "title": "Instruction Hierarchy Çatışmaları",
+              "summary": "Sistem, geliştirici, araç ve kullanıcı talimatları arasındaki öncelik çatışmalarını sistematik sınamayı öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, LM Studio",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-02"
+              ]
+            },
+            {
+              "id": "ai-saldiri-04",
+              "title": "Jailbreak Taksonomisi ve Teknik Sınıflandırma",
+              "summary": "Jailbreak yaklaşımlarını dönüştürme, bağlam manipülasyonu ve politika çatıştırma mekanizmalarına göre sınıflandırmayı öğretir.",
+              "side": "Saldırı",
+              "tools": "garak, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-03"
+              ]
+            },
+            {
+              "id": "ai-saldiri-45",
+              "title": "Çok Dilli ve Düşük Kaynaklı Dil Atlatması: Türkçe, Kod Değiştirme ve Çeviri Zinciri",
+              "summary": "Güvenlik hizalaması ağırlıklı olarak İngilizce veride yapılmış modellerde Türkçe, düşük kaynaklı dil, kod değiştirme (code-switching) ve çeviri zinciri ile oluşan ret oranı farkını ölç; çevirip denetleme kapısıyla savun.",
+              "side": "Saldırı",
+              "tools": "Ollama, garak, PyRIT, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-04"
+              ]
+            },
+            {
+              "id": "ai-saldiri-35",
+              "title": "Çok Turlu Jailbreak · Crescendo, Many-Shot ve Skeleton Key",
+              "summary": "Zararsız başlayıp tırmanan Crescendo, uzun bağlamda sahte örnek dizisi kullanan many-shot ve kılavuz genişleten Skeleton Key konuşmalarını ayrıştırıp son tur filtresi ile konuşma boyu tespitin farkını ve gerçek model davranışını ölçmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, PyRIT, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-45"
+              ]
+            },
+            {
+              "id": "ai-saldiri-42",
+              "title": "Akıl Yürüten (Reasoning) Modellere Saldırı: Düşünce Zinciri Ele Geçirme, Aşırı Düşündürme ve Gizli Düşünce Sızıntısı",
+              "summary": "Düşünce (thinking / CoT) üreten modellerde düşünce zinciri ele geçirme, aşırı düşündürme (overthinking) ile maliyet şişirme ve gizli düşünce izinden sızıntı saldırılarını analiz et; düşünce bütçesi ve <think> soyma kapısıyla savun.",
+              "side": "Saldırı",
+              "tools": "Ollama (qwen3:8b think=true), Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-35"
+              ]
+            },
+            {
+              "id": "ai-saldiri-05",
+              "title": "Başlangıç Saldırı Seti ve ASR Ölçümü",
+              "summary": "Sabit saldırı seti, açık başarı koşulu ve deneme bütçesiyle karşılaştırılabilir Attack Success Rate ölçmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Promptfoo, garak",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-42"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "tesviye",
+          "name": "Tesviye",
+          "title": "Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği",
+          "lessons": [
+            {
+              "id": "ai-saldiri-06",
+              "title": "System Prompt Extraction",
+              "summary": "Gizli sistem talimatlarının doğrudan ve dolaylı çıkarım yollarını sistematik olarak değerlendirmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Promptfoo",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-05"
+              ]
+            },
+            {
+              "id": "ai-saldiri-07",
+              "title": "Model Extraction ve Davranışsal Parmak İzi",
+              "summary": "Tekrarlanan sorgularla model davranışı, karar sınırları ve yapılandırma hakkında ölçülebilir çıkarım yapmayı öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-06"
+              ]
+            },
+            {
+              "id": "ai-saldiri-08",
+              "title": "Kalıcı Hafıza Zehirleme ve Oturumlar Arası Sızıntı",
+              "summary": "Hafızaya yazma ve geri getirme akışlarında kalıcı talimat zehirleme, kaynak karıştırma ve kullanıcılar arası sızıntıyı öğretir.",
+              "side": "Saldırı",
+              "tools": "Redis, ChromaDB, LangChain",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-07"
+              ]
+            },
+            {
+              "id": "ai-saldiri-09",
+              "title": "Güvensiz LLM Çıktısının İşlenmesi",
+              "summary": "Model çıktısındaki HTML, Markdown ve bağlantıların istemcide güvensiz işlenmesinden doğan enjeksiyon risklerini öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Burp Suite",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-08"
+              ]
+            },
+            {
+              "id": "ai-saldiri-10",
+              "title": "Yapılandırılmış Çıktı ve Ayrıştırıcı Atlatma",
+              "summary": "JSON çıktılarında şema, tip ve ayrıştırıcı varsayımlarını ihlal eden durumları değerlendirmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-09"
+              ]
+            },
+            {
+              "id": "ai-saldiri-38",
+              "title": "AI Kapı Bekçisini (Gatekeeper) Atlatma · Sınıflandırıcı ve Guardrail Evasion",
+              "summary": "İçerik moderasyonu, spam/dolandırıcılık filtresi ve başvuru eleme gibi güvenlik kontrolü olarak çalışan AI sınıflandırıcılarını karakter/token pertürbasyonu, iyi huylu bağlam dolgusu ve yapısal sarmalama ile atlatma mekaniğini öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-10",
+                "ai-temel-01"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "kucuk-orta",
+          "name": "Küçük Orta",
+          "title": "Dolaylı, Multimodal ve RAG Kaynaklı Enjeksiyon",
+          "lessons": [
+            {
+              "id": "ai-saldiri-11",
+              "title": "Belgeler Üzerinden Dolaylı Prompt Injection",
+              "summary": "Harici belge içeriğinin model talimatı gibi yorumlanmasını ve hedef davranışı değiştirmesini öğretir.",
+              "side": "Saldırı",
+              "tools": "PyMuPDF, Python, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-38"
+              ]
+            },
+            {
+              "id": "ai-saldiri-12",
+              "title": "Görsellerde Multimodal Injection",
+              "summary": "Görseldeki metin ve desenlerin multimodal model talimatlarını nasıl etkilediğini ölçmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Pillow, LM Studio",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-11"
+              ]
+            },
+            {
+              "id": "ai-saldiri-13",
+              "title": "Gizli Metin ve Belge Katmanı Enjeksiyonu",
+              "summary": "PDF metin katmanı, metadata ve görsel-metin ayrışmalarında enjeksiyonun hangi işleme aşamasında oluştuğunu öğretir.",
+              "side": "Saldırı",
+              "tools": "PyMuPDF, Pillow",
+              "onkosul": [
+                "ai-saldiri-12"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-14",
+              "title": "RAG Bilgi Tabanı Zehirleme",
+              "summary": "Talimat taşıyan belgelerin indekslenerek sonraki model yanıtlarını etkileme mekanizmasını öğretir.",
+              "side": "Saldırı",
+              "tools": "ChromaDB, Ollama",
+              "onkosul": [
+                "ai-saldiri-13",
+                "ai-temel-21"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-15",
+              "title": "Retrieval Manipülasyonu ve Bağlam Ele Geçirme",
+              "summary": "Sorgu ve belge özelliklerini değiştirerek getirilen bağlamı ve model kararlarını etkilemeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, ChromaDB",
+              "onkosul": [
+                "ai-saldiri-14",
+                "ai-temel-21"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-31",
+              "title": "Computer-Use ve Tarayıcı Ajanlarında DOM Enjeksiyonu",
+              "summary": "DOM metni, ekran görüntüsü ve web içeriğindeki talimatların tarayıcı ajanının eylemlerini nasıl yönlendirdiğini izole sitelerde öğretir.",
+              "side": "Saldırı",
+              "tools": "Playwright, Browser Use, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-23",
+                "ai-saldiri-11"
+              ]
+            },
+            {
+              "id": "ai-saldiri-32",
+              "title": "Adversarial Audio ve Sesli Komut Enjeksiyonu",
+              "summary": "Ses bozuntuları ve konuşma içindeki güvenilmeyen komutların transkripsiyon ile sesli model kararlarını nasıl etkilediğini ölçmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Whisper, librosa, PyTorch",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-12"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "buyuk-orta",
+          "name": "Büyük Orta",
+          "title": "Ajanlar, Araçlar ve Yetki Sınırları",
+          "lessons": [
+            {
+              "id": "ai-saldiri-16",
+              "title": "Tool Schema Poisoning",
+              "summary": "Araç adı, açıklaması ve parametre şemasındaki yönlendirmelerin modelin araç seçimini nasıl değiştirdiğini öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "onkosul": [
+                "ai-temel-23"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-17",
+              "title": "Ajan Tool-Zinciri Exploitation",
+              "summary": "Bir aracın çıktısının sonraki araç çağrılarını yönlendirdiği çok aşamalı saldırı yollarını modellemeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-16",
+                "ai-temel-23"
+              ]
+            },
+            {
+              "id": "ai-saldiri-18",
+              "title": "Confused Deputy Ajanları",
+              "summary": "Ajanın kendi yetkilerini daha düşük yetkili kullanıcı veya güvenilmeyen içerik adına kullanmasını öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "onkosul": [
+                "ai-saldiri-17",
+                "ai-temel-23"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-19",
+              "title": "Araç Çağrılarında Auth ve Yetki Bypass",
+              "summary": "Kimlik bağlamı, nesne sahipliği ve işlem bazlı yetkilendirme kontrollerinin araç çağrılarında atlatılmasını öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Burp Suite",
+              "onkosul": [
+                "ai-saldiri-18",
+                "ai-temel-23"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-20",
+              "title": "Komut ve Argüman Enjeksiyonu",
+              "summary": "Model üretimi komut ve argümanların yerel çalıştırıcıya aktarılmasındaki ayrıştırma ve yetki sınırlarını öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "onkosul": [
+                "ai-saldiri-19",
+                "ai-temel-23"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-43",
+              "title": "Çok Ajanlı Sistemler ve Ajanlar Arası Protokol (A2A): Yatay Enjeksiyon, Güven Yayılımı ve İmzalı Görev Devri",
+              "summary": "Çok ajanlı (multi-agent / A2A) mimarilerde dış veri okuyan ajandan yetkili ajana talimat sızdırma, geçişli güven kirlenmesi (confused deputy) ve yetki yükselmesini analiz et; HMAC imzalı görev devri ve veri sarmalama kapısıyla savun.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-20"
+              ]
+            },
+            {
+              "id": "ai-saldiri-44",
+              "title": "Ajanın Kalıcı Belleğini Zehirleme: Oturumlar Arası Kalıcılık, Kaynak Etiketi ve Bellek Denetimi",
+              "summary": "Tek bir oturumdaki dış veri (web sayfası, RAG, araç çıktısı) üzerinden ajanın uzun süreli kalıcı belleğine yazılan sahte kuralların sonraki oturumları nasıl ele geçirdiğini analiz et; kaynak etiketi, onay, TTL ve bellek denetimiyle savun.",
+              "side": "Saldırı",
+              "tools": "Python, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-43"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "basalti",
+          "name": "Başaltı",
+          "title": "Ağ Erişimi, SSRF ve Exfiltration",
+          "lessons": [
+            {
+              "id": "ai-saldiri-39",
+              "title": "LLM Uygulama Pentest Köprüsü · İstemci Sırları, Çapraz Oturum IDOR ve AI-SSRF Zinciri",
+              "summary": "Modelin etrafındaki web/API katmanında istemciye sızan API anahtarlarını ve iç uç noktaları, konuşma/vektör alanı IDOR açıklıklarını ve bunların model üzerinden AI-SSRF/zehirleme zincirine dönüşümünü analiz etmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python, mitmproxy",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-44"
+              ]
+            },
+            {
+              "id": "ai-saldiri-21",
+              "title": "URL Getirme Araçlarında AI-SSRF",
+              "summary": "Modelin yönlendirdiği URL getirme aracının dahili veya kısıtlı kaynaklara erişimini izole servislerle sınamayı öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, mitmproxy",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-39"
+              ]
+            },
+            {
+              "id": "ai-saldiri-22",
+              "title": "SSRF Filtre ve Yönlendirme Atlatma",
+              "summary": "URL doğrulama, yönlendirme ve DNS çözümleme aşamaları arasındaki tutarsızlıkların SSRF kontrollerine etkisini öğretir.",
+              "side": "Saldırı",
+              "tools": "mitmproxy, Burp Suite",
+              "onkosul": [
+                "ai-saldiri-21"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-23",
+              "title": "Kör Exfiltration Kanalları",
+              "summary": "Doğrudan yanıt dönmeyen durumlarda ağ istekleri ve araç yan etkileri üzerinden veri çıkışını gözlemlemeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "mitmproxy, Python",
+              "onkosul": [
+                "ai-saldiri-22"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-24",
+              "title": "Kodlanmış ve Parçalı Veri Dışarı Aktarımı",
+              "summary": "Hassas verilerin kodlama, parçalama ve birden fazla model çıktısına dağıtılmasıyla sızdırılmasını öğretir.",
+              "side": "Saldırı",
+              "tools": "Python, mitmproxy",
+              "onkosul": [
+                "ai-saldiri-23"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-25",
+              "title": "Araç Sonucundan Yeniden Enjeksiyon",
+              "summary": "Ağ veya araç yanıtındaki talimatların ajan döngüsüne dönerek yeni işlemleri tetiklemesini öğretir.",
+              "side": "Saldırı",
+              "tools": "mitmproxy, Python, Ollama",
+              "onkosul": [
+                "ai-saldiri-24"
+              ],
+              "status": "Yazıldı"
+            },
+            {
+              "id": "ai-saldiri-33",
+              "title": "KV-Cache Timing ve Prompt-Stealing Yan Kanalları",
+              "summary": "Çok kullanıcılı inference sırasında önbellek isabetleri ve yanıt sürelerindeki farkların prompt bilgisi sızıntısına dönüşme koşullarını istatistiksel olarak öğretir.",
+              "side": "Saldırı",
+              "tools": "vLLM, llama.cpp, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-08",
+                "ai-saldiri-07"
+              ]
+            },
+            {
+              "id": "ai-saldiri-40",
+              "title": "Denial-of-Wallet Saldırısı · Pahalı Üretim, Bağlam Şişirme ve Ajan Döngüsü",
+              "summary": "OWASP LLM10 kapsamında aşırı çıkış üretimi (sponge/sayma tetikleyicileri), bağlam doldurma ve özyinelemeli ajan döngüleriyle token/süre maliyetini katlayan saldırıları analiz etmeyi ve ölçmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-33"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "baspehlivan",
+          "name": "Başpehlivan",
+          "title": "Adaptif Saldırılar, Değerlendirme ve Purple Doğrulama",
+          "lessons": [
+            {
+              "id": "ai-saldiri-26",
+              "title": "Kodlama Ajanları ve Repo İçeriği Saldırıları",
+              "summary": "Repo dosyaları, ajan talimatları ve bağımlılıklar üzerinden dolaylı yönlendirme ile kod çalıştırma yetkilerinin kötüye kullanımını öğretir.",
+              "side": "Saldırı",
+              "tools": "Docker, Git, CodeQL",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-40"
+              ]
+            },
+            {
+              "id": "ai-saldiri-41",
+              "title": "Slopsquatting Saldırısı · Paket Halüsinasyonu Hasadı ve Kayıt Yüzeyi Analizi",
+              "summary": "Farklı istem ve tohumlarda modelin tekrarlayarak uydurduğu paket adlarını toplamayı, yerel sentetik dizinde sahipsiz adların ele geçirilme riskini ölçmeyi ve otomatik kurulum zincirini analiz etmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-26"
+              ]
+            },
+            {
+              "id": "ai-saldiri-27",
+              "title": "Değerlendirici Zafiyetleri ve ASR Güvenilirliği",
+              "summary": "Yanlış pozitif, yanlış negatif ve değerlendirici uyuşmazlıklarını ayırarak ASR güvenilirliğini ölçmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "Promptfoo, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-41"
+              ]
+            },
+            {
+              "id": "ai-saldiri-28",
+              "title": "Çoklu Ajan Sistemlerinde Güven ve Yetki Devri",
+              "summary": "Güvenilmeyen ajan mesajlarının görev kaynağını, kimliği ve yetki devrini manipüle ederek zincirleme etki oluşturmasını öğretir.",
+              "side": "Saldırı",
+              "tools": "LangGraph, AutoGen, OpenTelemetry",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-27"
+              ]
+            },
+            {
+              "id": "ai-saldiri-29",
+              "title": "RAG’den Araca Çok Aşamalı Saldırı Zinciri",
+              "summary": "Zehirlenmiş bağlamdan araç çağrısına ve SSRF veya exfiltration aşamasına uzanan zincirin her halkasını doğrulamayı öğretir.",
+              "side": "Saldırı",
+              "tools": "ChromaDB, mitmproxy, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-21",
+                "ai-temel-23",
+                "ai-saldiri-17",
+                "ai-saldiri-21"
+              ]
+            },
+            {
+              "id": "ai-saldiri-30",
+              "title": "PAIR, TAP ve PyRIT ile Otomatik Saldırı Kampanyaları",
+              "summary": "Saldırı varyantlarını hedef ve değerlendirici geri bildirimiyle yineleyen PAIR/TAP akışlarını PyRIT ile ölçülebilir ve tekrarlanabilir kampanyalara dönüştürmeyi öğretir.",
+              "side": "Saldırı",
+              "tools": "PyRIT, Promptfoo, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-29"
+              ]
+            },
+            {
+              "id": "ai-saldiri-34",
+              "title": "Chat Template ve Rol Sınırı Manipülasyonu",
+              "summary": "GGUF chat template ve Jinja işleme farklarının sistem, kullanıcı ve araç mesajlarını modele sunulan token akışında nasıl değiştirdiğini öğretir.",
+              "side": "Saldırı",
+              "tools": "llama.cpp, GGUF, Jinja2",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-23",
+                "ai-saldiri-03"
+              ]
+            },
+            {
+              "id": "ai-saldiri-37",
+              "title": "Red Team Metodolojisi II · Kapsam Matrisi, Saldırı Zinciri Önceliklendirme ve Operasyon Kapanışı",
+              "summary": "Sistem anatomisine karşı saldırı kapsam matrisini ve kör noktaları çıkarmayı, saldırı zinciri çarpanıyla bulguları önceliklendirmeyi ve operasyon sonunda RAG/bellek/vekil iz temizliğini doğrulamayı öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-36",
+                "ai-saldiri-30",
+                "ai-saldiri-34"
+              ]
+            },
+            {
+              "id": "ai-saldiri-46",
+              "title": "Belirsiz Saha Görevi · Açıklı Yerel Asistanı Keşfet, Kanıtla ve Yamala",
+              "summary": "Açık sınıfı önceden söylenmeyen çok bileşenli yerel asistanda oturum izlerinden kanıtlı zayıflıkları keşfetmeyi, yapılandırma riskini derecelendirmeyi ve normal işlevi bozmadan güvenlik yaması doğrulamayı öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-saldiri-37"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-savunma",
+      "name": "AI Savunma ve Blue Team",
+      "modules": [
+        {
+          "rank": "minik",
+          "name": "Minik",
+          "title": "Yerel Savunma Temelleri",
+          "lessons": [
+            {
+              "id": "ai-savunma-01",
+              "title": "Yerel LLM Saldırı Yüzeyi ve Güven Sınırları",
+              "summary": "Kullanıcı, model, araç, veri deposu ve ağ bağlantılarını güven sınırlarıyla eşleştirerek saldırı yüzeyi çıkarmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": []
+            },
+            {
+              "id": "ai-savunma-02",
+              "title": "Birleşik AI Risk ve Kontrol Çerçeveleri",
+              "summary": "OWASP LLM risklerini MITRE ATLAS teknikleri ve NIST AI RMF işlevleriyle eşleyerek izlenebilir kontrol matrisi kurmayı öğretir.",
+              "side": "Savunma",
+              "tools": "OWASP GenAI, MITRE ATLAS Navigator, NIST AI RMF Playbook",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-01"
+              ]
+            },
+            {
+              "id": "ai-savunma-03",
+              "title": "Katmanlı Savunma Referans Mimarisi",
+              "summary": "Girdi, model, çıktı, araç ve veri katmanlarına bağımsız kontroller yerleştiren mimari kurmayı öğretir.",
+              "side": "Savunma",
+              "tools": "FastAPI, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-02"
+              ]
+            },
+            {
+              "id": "ai-savunma-04",
+              "title": "Güvenlik Odaklı Log ve Telemetri Temeli",
+              "summary": "İstekleri ve model çağrılarını hassas içeriği gereksiz kaydetmeden izlenebilir hâle getirmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "OpenTelemetry, SigNoz",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-03"
+              ]
+            },
+            {
+              "id": "ai-savunma-05",
+              "title": "İzole ve Tekrarlanabilir Yerel Test Laboratuvarı",
+              "summary": "Gerçek veri ve yetki kullanmadan savunma testlerini tekrarlanabilir çalıştıran izole laboratuvar kurmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Docker, Ollama, Promptfoo",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-04"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "tesviye",
+          "name": "Tesviye",
+          "title": "Girdi ve Çıktı Muhafızı",
+          "lessons": [
+            {
+              "id": "ai-savunma-06",
+              "title": "Girdi Guardrail Katmanı",
+              "summary": "Kullanıcı girdilerini bağlam, boyut, içerik türü ve risk sinyalleri açısından denetleyen katman uygulamayı öğretir.",
+              "side": "Savunma",
+              "tools": "LLM Guard, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-05"
+              ]
+            },
+            {
+              "id": "ai-savunma-07",
+              "title": "Prompt Injection ve Jailbreak Tespiti",
+              "summary": "Injection ve jailbreak girişimlerini kural, sınıflandırıcı ve davranışsal sinyallerle tespit etmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "LLM Guard, Promptfoo",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-06"
+              ]
+            },
+            {
+              "id": "ai-savunma-08",
+              "title": "Çıktı Guardrail ve Yapısal Doğrulama",
+              "summary": "Model çıktılarını politika ihlalleri ve şema sapmaları bakımından doğrulayıp güvensiz yanıtları durdurmayı öğretir.",
+              "side": "Savunma",
+              "tools": "NeMo Guardrails, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-07"
+              ]
+            },
+            {
+              "id": "ai-savunma-09",
+              "title": "PII Tespiti ve Çıktı DLP Kontrolleri",
+              "summary": "Girdi ve çıktılardaki kişisel verileri tespit ederek maskeleme, redaksiyon ve engelleme kontrolleri uygulamayı öğretir.",
+              "side": "Savunma",
+              "tools": "Presidio, LLM Guard",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-08"
+              ]
+            },
+            {
+              "id": "ai-savunma-10",
+              "title": "Guardrail Atlatma ve Güvenli Geri Dönüş",
+              "summary": "Guardrail hataları ve atlatmalar için fail-closed kararlar, güvenli yedek yanıtlar ve yeniden deneme sınırları kurmayı öğretir.",
+              "side": "Savunma",
+              "tools": "NeMo Guardrails, Promptfoo",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-09"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "kucuk-orta",
+          "name": "Küçük Orta",
+          "title": "Araç ve Yürütme Bekçisi",
+          "lessons": [
+            {
+              "id": "ai-savunma-11",
+              "title": "Araç Şemaları ve En Az Ayrıcalık",
+              "summary": "Modelin çağırabileceği araçları dar kapsamlı şemalar, izinli parametreler ve ayrı yetkilerle sınırlandırmayı öğretir.",
+              "side": "Savunma",
+              "tools": "FastAPI, Pydantic, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-10",
+                "ai-temel-23"
+              ]
+            },
+            {
+              "id": "ai-savunma-12",
+              "title": "Araç Politikaları ve İnsan Onayı",
+              "summary": "Araç çağrılarını kimlik, bağlam, kaynak ve işlem riskine göre denetleyen politika ve onay akışı kurmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Open Policy Agent, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-11",
+                "ai-temel-23"
+              ]
+            },
+            {
+              "id": "ai-savunma-13",
+              "title": "Sandbox İçinde Güvenli Kod ve Komut Yürütme",
+              "summary": "Model kaynaklı kod ve komutları kaynak, dosya sistemi ve süre sınırlı sandbox içinde çalıştırmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Docker, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-12",
+                "ai-temel-23"
+              ]
+            },
+            {
+              "id": "ai-savunma-14",
+              "title": "Egress Kontrolü ve SSRF Savunması",
+              "summary": "Model ve araç bağlantılarını hedef izin listeleri, ağ segmentasyonu ve proxy politikalarıyla sınırlandırmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Docker, Squid",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-13",
+                "ai-temel-23"
+              ]
+            },
+            {
+              "id": "ai-savunma-15",
+              "title": "Secrets Yalıtımı ve Aracılı Kimlik Bilgileri",
+              "summary": "API anahtarlarını model bağlamından uzak tutup kısa ömürlü ve araç başına kapsamlı kimlik bilgileriyle yönetmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "HashiCorp Vault, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-14",
+                "ai-temel-23"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "buyuk-orta",
+          "name": "Büyük Orta",
+          "title": "RAG ve Tedarik Zinciri Koruyucusu",
+          "lessons": [
+            {
+              "id": "ai-savunma-16",
+              "title": "RAG Provenance ve Kaynak Güveni",
+              "summary": "Her getirilen parçayı kaynak, sürüm ve güven düzeyiyle ilişkilendirerek doğrulanabilir provenance sağlamayı öğretir.",
+              "side": "Savunma",
+              "tools": "Qdrant, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-15",
+                "ai-temel-21"
+              ]
+            },
+            {
+              "id": "ai-savunma-17",
+              "title": "Güvenli Belge Alma ve İçerik Ayrıştırma",
+              "summary": "RAG belgelerini tür, boyut, aktif içerik ve gizli talimat riskleri bakımından denetlemeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Apache Tika, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-16",
+                "ai-temel-21"
+              ]
+            },
+            {
+              "id": "ai-savunma-18",
+              "title": "RAG Poisoning ve Dolaylı Injection Savunması",
+              "summary": "Zehirlenmiş belgelere karşı kaynak doğrulama, içerik karantinası ve talimat ayrıştırma kontrollerini değerlendirmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Promptfoo, Qdrant",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-17",
+                "ai-temel-21"
+              ]
+            },
+            {
+              "id": "ai-savunma-19",
+              "title": "Vektör Deposunda Erişim ve Kiracı Yalıtımı",
+              "summary": "Getirme sorgularına kullanıcı ve kiracı kapsamındaki yetki filtrelerini zorunlu kılarak veri sızıntısını önlemeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Qdrant, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-18",
+                "ai-temel-21"
+              ]
+            },
+            {
+              "id": "ai-savunma-20",
+              "title": "Model ve Bağımlılık Tedarik Zinciri Güvenliği",
+              "summary": "Model dosyaları, imajlar ve bağımlılıklar için kaynak, imza, bütünlük ve zafiyet denetimi uygulamayı öğretir.",
+              "side": "Savunma",
+              "tools": "Trivy, Cosign, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-19"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "basalti",
+          "name": "Başaltı",
+          "title": "Tespit ve Müdahale Uzmanı",
+          "lessons": [
+            {
+              "id": "ai-savunma-21",
+              "title": "Model ve Prompt Registry Değişiklik Kontrolü",
+              "summary": "Model, sistem promptu ve guardrail sürümlerini onay, sahiplik ve geri alma bilgileriyle kayıt altına almayı öğretir.",
+              "side": "Savunma",
+              "tools": "MLflow, Git",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-20"
+              ]
+            },
+            {
+              "id": "ai-savunma-22",
+              "title": "Korelasyonlu AI Güvenlik Telemetrisi",
+              "summary": "Kullanıcı isteği, guardrail kararı, model sürümü ve araç çağrısını ortak iz kimlikleriyle ilişkilendirmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "OpenTelemetry, SigNoz",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-21"
+              ]
+            },
+            {
+              "id": "ai-savunma-23",
+              "title": "Abuse Detection ve Uyarlanabilir Sınırlama",
+              "summary": "Tekrarlı jailbreak, olağan dışı araç kullanımı ve sızıntı girişimlerini davranışsal sinyallerle tespit etmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Elastic, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-22"
+              ]
+            },
+            {
+              "id": "ai-savunma-31",
+              "title": "Sınırsız Tüketim Savunması: Bütçe ve Oran Sınırı",
+              "summary": "Jeton kovasıyla oran sınırla, token maliyetini hesapla, üretimi bütçeyle kes; denial-of-wallet'ı gerçek modelde deterministik olarak durdur.",
+              "side": "Savunma",
+              "tools": "Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-23"
+              ]
+            },
+            {
+              "id": "ai-savunma-24",
+              "title": "Sigma ile LLM Saldırı Tespit Kuralları",
+              "summary": "Injection, yetki ihlali ve şüpheli egress olaylarını taşınabilir Sigma kuralları ve test edilebilir alarmlara dönüştürmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Sigma, Elastic",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-31"
+              ]
+            },
+            {
+              "id": "ai-savunma-25",
+              "title": "AI Olay Müdahalesi ve Kanıt Koruma",
+              "summary": "Kapsam belirleme, erişimi sınırlama, kanıt koruma, sürüm geri alma ve güvenli toparlanma akışını öğretir.",
+              "side": "Savunma",
+              "tools": "Elastic, SigNoz, MLflow",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-24"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "baspehlivan",
+          "name": "Başpehlivan",
+          "title": "Adversarial Güvence ve Mor Tatbikat",
+          "lessons": [
+            {
+              "id": "ai-savunma-26",
+              "title": "Tehdit Odaklı Eval ve ASR Ölçümü",
+              "summary": "Saldırı senaryolarını başarı koşullarıyla tanımlayıp ASR, yanlış pozitif ve savunma geçiş oranlarını ölçmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Promptfoo, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-25"
+              ]
+            },
+            {
+              "id": "ai-savunma-27",
+              "title": "garak ile Yerel Model Güvenlik Taraması",
+              "summary": "Yerel modelde garak taramaları çalıştırıp probe, detector ve bulguları risk bağlamıyla yorumlamayı öğretir.",
+              "side": "Savunma",
+              "tools": "garak, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-26"
+              ]
+            },
+            {
+              "id": "ai-savunma-28",
+              "title": "Uygulamaya Özel garak Detector Geliştirme",
+              "summary": "Uygulamanın başarısızlık koşulunu makine tarafından doğrulanabilir detector ile tanımlayıp yanlış tespitleri sınamayı öğretir.",
+              "side": "Savunma",
+              "tools": "garak, FastAPI",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-27"
+              ]
+            },
+            {
+              "id": "ai-savunma-29",
+              "title": "Adversarial Regression ve Yayın Kapıları",
+              "summary": "Bilinen saldırıları sürüm bazlı regresyon paketlerine dönüştürerek model ve guardrail değişikliklerinde güvenlik eşiği kurmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Promptfoo, garak, Git",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-28"
+              ]
+            },
+            {
+              "id": "ai-savunma-30",
+              "title": "Uçtan Uca Yerel Purple Tatbikatı",
+              "summary": "Saldırı simülasyonu, guardrail, telemetri, olay müdahalesi ve regresyon doğrulamasını tek ölçülebilir tatbikatta birleştirmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, garak, Promptfoo, SigNoz, Elastic",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-savunma-29"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-guvence",
+      "name": "AI Güvence, Araştırma ve Kanıt",
+      "modules": [
+        {
+          "rank": "minik",
+          "name": "Minik",
+          "title": "ML Güvenliğine Giriş",
+          "lessons": [
+            {
+              "id": "ai-guvence-01",
+              "title": "ML Güvenliği Deney Defteri",
+              "summary": "Veri, model, tehdit varsayımı ve ölçütleri tanımlayarak tekrarlanabilir bir ML güvenliği deney planı hazırlamayı öğretir.",
+              "side": "Güvence",
+              "tools": "Python, JupyterLab, scikit-learn",
+              "status": "Yazıldı",
+              "onkosul": []
+            },
+            {
+              "id": "ai-guvence-02",
+              "title": "Taban Model ve Ölçüm Referansı",
+              "summary": "Eğitim-test ayrımı, sınıf dengesi ve belirsizlik ölçümleriyle doğrulanabilir taban performans referansı oluşturmayı öğretir.",
+              "side": "Güvence",
+              "tools": "scikit-learn, pandas, Matplotlib",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-01"
+              ]
+            },
+            {
+              "id": "ai-guvence-03",
+              "title": "Tehdit Modelinden Deney Sorusuna",
+              "summary": "Evasion, poisoning, gizlilik ve tedarik zinciri risklerini gözlemlenebilir hipotez ve ölçülebilir deney sorularına dönüştürmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "JupyterLab, scikit-learn, Mermaid",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-02"
+              ]
+            },
+            {
+              "id": "ai-guvence-04",
+              "title": "Yanlış Pozitiflerin Güvenlik Maliyeti",
+              "summary": "Farklı eşiklerde hata matrisi ve maliyet değişimini ölçerek yalnız doğruluğa dayanan güvenlik iddialarını sınamayı öğretir.",
+              "side": "Güvence",
+              "tools": "scikit-learn, NumPy, Matplotlib",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-03"
+              ]
+            },
+            {
+              "id": "ai-guvence-05",
+              "title": "Tekrarlanabilirlik ve Kanıt Paketi",
+              "summary": "Sabit tohum, veri sürümü, ortam kaydı ve deney çıktılarıyla bağımsız yeniden üretilebilir kanıt paketi oluşturmayı öğretir.",
+              "side": "Güvence",
+              "tools": "MLflow, DVC, Git, JupyterLab",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-04"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "tesviye",
+          "name": "Tesviye",
+          "title": "Sağlamlık ve Evasion",
+          "lessons": [
+            {
+              "id": "ai-guvence-06",
+              "title": "TransformerLens ile Refusal Mekanizması",
+              "summary": "Refusal davranışının katman ve aktivasyonlardaki izlerini inceleyerek mekanistik yorumlanabilirlik bulgularını davranışsal testlerle ilişkilendirmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "TransformerLens, PyTorch, Hugging Face",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-05"
+              ]
+            },
+            {
+              "id": "ai-guvence-07",
+              "title": "Beyaz Kutu FGSM Ölçümü",
+              "summary": "FGSM bozuntularını farklı epsilon değerlerinde üreterek doğruluk kaybı ve bozuntu büyüklüğü ilişkisini ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "PyTorch, ART, Matplotlib",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-06"
+              ]
+            },
+            {
+              "id": "ai-guvence-08",
+              "title": "PGD ile Saldırı Gücü Eğrileri",
+              "summary": "Adım sayısı ve bozuntu bütçesini değiştirerek sağlamlığı tek sonuç yerine eğriler üzerinden değerlendirmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "ART, PyTorch, pandas",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-07"
+              ]
+            },
+            {
+              "id": "ai-guvence-09",
+              "title": "GCG ve AutoDAN: Ayrık Token Optimizasyonu",
+              "summary": "Gradyan ve genetik arama tabanlı yaklaşımların ayrık token uzayında saldırı soneklerini nasıl optimize ettiğini sorgu bütçesi ve transfer başarısıyla ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "PyTorch, llm-attacks, AutoDAN",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-08"
+              ]
+            },
+            {
+              "id": "ai-guvence-10",
+              "title": "Refusal Direction Removal ve Abliteration Ölçümü",
+              "summary": "Ortogonal projeksiyonla refusal yönünü kaldırmanın model davranışına, genel yeteneğe ve güvenlik regresyonuna etkisini kontrollü karşılaştırmayla ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "TransformerLens, PyTorch, LM Evaluation Harness",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-09"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "kucuk-orta",
+          "name": "Küçük Orta",
+          "title": "Veri Bütünlüğü ve Poisoning",
+          "lessons": [
+            {
+              "id": "ai-guvence-11",
+              "title": "Veri Kökeni ve Şüpheli Kayıt Profili",
+              "summary": "Veri kaynağı, dönüşüm geçmişi ve dağılım sapmalarını inceleyerek izlenebilir şüpheli kayıt profili üretmeyi öğretir.",
+              "side": "Güvence",
+              "tools": "pandas, DVC, Evidently",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-10"
+              ]
+            },
+            {
+              "id": "ai-guvence-12",
+              "title": "Etiket Gürültüsü ile Zehirlemenin Ayrımı",
+              "summary": "Rastgele etiket gürültüsüyle hedefli etiket değişikliğinin performans etkilerini ayrı deneylerde ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "scikit-learn, Cleanlab, NumPy",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-11"
+              ]
+            },
+            {
+              "id": "ai-guvence-13",
+              "title": "Zehirleme Oranı ve Etki Eğrisi",
+              "summary": "Kontrollü zehirli örnek oranlarını değiştirerek performans bozulmasının eşik ve doyum noktalarını ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "scikit-learn, PyTorch, Matplotlib",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-12"
+              ]
+            },
+            {
+              "id": "ai-guvence-14",
+              "title": "Backdoor Tetikleyici Deneyi",
+              "summary": "Yerel deneyde tetikleyici biçimi ve yerleşimini değiştirerek hedef sınıf başarısı ile temiz örnek davranışını ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "PyTorch, ART, Torchvision",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-13"
+              ]
+            },
+            {
+              "id": "ai-guvence-15",
+              "title": "Veri Ayıklama Yöntemlerinin Kanıt Değeri",
+              "summary": "Anomali ve etki temelli ayıklama yöntemlerinin tespit, yanlış alarm ve veri kaybı oranlarını karşılaştırmayı öğretir.",
+              "side": "Güvence",
+              "tools": "Cleanlab, scikit-learn, PyTorch",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-14"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "buyuk-orta",
+          "name": "Büyük Orta",
+          "title": "Gizlilik",
+          "lessons": [
+            {
+              "id": "ai-guvence-16",
+              "title": "Gizlilik Tehdit Modeli ve Bilgi Sızdıran Kanıtlar",
+              "summary": "Eğitim verisi, model çıktısı ve saldırgan bilgisi arasındaki ilişki için ölçülebilir gizlilik kanıtları tanımlamayı öğretir.",
+              "side": "Araştırma",
+              "tools": "PyTorch, scikit-learn, JupyterLab",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-15"
+              ]
+            },
+            {
+              "id": "ai-guvence-17",
+              "title": "Üyelik Çıkarımı Saldırısı Ölçümü",
+              "summary": "Üye ve üye olmayan kayıtlar üzerinde üyelik çıkarımı kurarak AUC, avantaj ve yanlış pozitif oranlarını ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "ART, scikit-learn, PyTorch",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-16"
+              ]
+            },
+            {
+              "id": "ai-guvence-31",
+              "title": "Embedding Inversion: Gömmeden Kaynak Metin",
+              "summary": "Gömmenin kaynak metni ne kadar sızdırdığını ölç; parafraz geri-çıkarma (recovery@k) ve nitelik çıkarımını gerçek gömmelerde gör.",
+              "side": "Araştırma",
+              "tools": "Ollama (all-minilm)",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-17"
+              ]
+            },
+            {
+              "id": "ai-guvence-18",
+              "title": "Aşırı Öğrenme ile Gizlilik Riski İlişkisi",
+              "summary": "Model kapasitesi ve eğitim süresini değiştirerek genelleme açığı ile üyelik çıkarımı başarısını karşılaştırmayı öğretir.",
+              "side": "Araştırma",
+              "tools": "PyTorch, ART, MLflow",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-31"
+              ]
+            },
+            {
+              "id": "ai-guvence-19",
+              "title": "Diferansiyel Gizlilik Bütçesi Deneyi",
+              "summary": "DP-SGD epsilon, gürültü çarpanı ve kırpma eşiğini değiştirerek gizlilik bütçesi ile model faydası ödünleşimini ölçmeyi öğretir.",
+              "side": "Güvence",
+              "tools": "Opacus, PyTorch, pandas",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-18"
+              ]
+            },
+            {
+              "id": "ai-guvence-20",
+              "title": "Gizlilik İddialarının Saldırıyla Doğrulanması",
+              "summary": "Diferansiyel gizlilikli ve standart modelleri aynı üyelik çıkarımı deneyinde karşılaştırarak gizlilik iddialarını sınamayı öğretir.",
+              "side": "Güvence",
+              "tools": "Opacus, ART, MLflow",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-19"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "basalti",
+          "name": "Başaltı",
+          "title": "Tedarik Zinciri Güvencesi",
+          "lessons": [
+            {
+              "id": "ai-guvence-21",
+              "title": "Model ve Veri SBOM Envanteri",
+              "summary": "Model, veri, bağımlılık ve temel imaj bileşenlerini ilişkilendirerek denetlenebilir tedarik zinciri envanteri oluşturmayı öğretir.",
+              "side": "Güvence",
+              "tools": "Syft, CycloneDX, DVC",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-20"
+              ]
+            },
+            {
+              "id": "ai-guvence-32",
+              "title": "Slopsquatting Savunması: Paket Halüsinasyonu",
+              "summary": "Modelin önerdiği paketleri çıkar, typosquat'ı Levenshtein ile yakala, allow-list ile doğrula; halüsine paketin körü körüne kurulmasını gerçek modelde engelle.",
+              "side": "Güvence",
+              "tools": "Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-21"
+              ]
+            },
+            {
+              "id": "ai-guvence-22",
+              "title": "Pickle, Safetensors, GGUF ve Chat Template Riskleri",
+              "summary": "Model dosyası biçimlerinin yürütme ve ayrıştırma farklarını, GGUF içindeki chat template’in rol sınırlarını ve prompt manipülasyonu riskini yalıtılmış örneklerle karşılaştırmayı öğretir.",
+              "side": "Araştırma",
+              "tools": "Safetensors, PyTorch, llama.cpp, Jinja2",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-32"
+              ]
+            },
+            {
+              "id": "ai-guvence-23",
+              "title": "Quantization Kaynaklı Güvenlik Regresyonu",
+              "summary": "GGUF quantization seviyeleri arasında aynı güvenlik ve yetenek testlerini çalıştırarak ağırlık sıkıştırmasının hizalama davranışına etkisini ölçmeyi öğretir.",
+              "side": "Güvence",
+              "tools": "llama.cpp, GGUF, Promptfoo, garak",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-22"
+              ]
+            },
+            {
+              "id": "ai-guvence-24",
+              "title": "Sleeper Agent ve Model Ağırlığı Backdoor Ölçümü",
+              "summary": "Tetikleyiciye bağlı davranışların temiz ve tetikli girdilerdeki farkını ölçerek model ağırlıklarına gömülü backdoor iddialarını kanıtla sınamayı öğretir.",
+              "side": "Araştırma",
+              "tools": "PyTorch, Transformers, Promptfoo",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-23"
+              ]
+            },
+            {
+              "id": "ai-guvence-25",
+              "title": "Yerel Model Tedarik Zinciri Değerlendirmesi",
+              "summary": "Yerel modelin indirme, bağımlılık, dosya biçimi ve çalıştırma katmanlarını ölçümlerle desteklenen raporda değerlendirmeyi öğretir.",
+              "side": "Güvence",
+              "tools": "Ollama, Safetensors, modelscan, Syft",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-24"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "baspehlivan",
+          "name": "Başpehlivan",
+          "title": "Araştırma ve Saha",
+          "lessons": [
+            {
+              "id": "ai-guvence-26",
+              "title": "Makale Replikasyonu ve Sapma Analizi",
+              "summary": "Bir AI güvenliği makalesinin temel deneyini yeniden üreterek sonuç farklarını veri, hiperparametre ve uygulama ayrıntılarıyla açıklamayı öğretir.",
+              "side": "Araştırma",
+              "tools": "PyTorch, ART, MLflow, JupyterLab",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-25"
+              ]
+            },
+            {
+              "id": "ai-guvence-33",
+              "title": "Red Team Metodolojisi ve Tekrarlanabilir Değerlendirme",
+              "summary": "Kapsam ve kuralı doğrula, bulguyu şiddetle puanla ve birleştir, iddiayı tek koşuyla değil gerçek modelde N koşunun tekrarlanabilirliğiyle kanıtla.",
+              "side": "Araştırma",
+              "tools": "Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-26"
+              ]
+            },
+            {
+              "id": "ai-guvence-34",
+              "title": "LLM Uygulama Pentest Köprüsü: SSRF ve Yetki",
+              "summary": "Modelin etrafındaki uygulamayı saldırı yüzeyi gör; URL'leri SSRF + allow-list kapısından geçir, IDOR'u engelle ve gerçek modelin iç-adres denemesini durdur.",
+              "side": "Araştırma",
+              "tools": "Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-33"
+              ]
+            },
+            {
+              "id": "ai-guvence-27",
+              "title": "Açık Eval Tasarımı ve Kalibrasyonu",
+              "summary": "Görev seti, değerlendirici, başarısızlık sınıfları ve insan doğrulaması örneklemiyle ölçüm kalibrasyonunu sınamayı öğretir.",
+              "side": "Araştırma",
+              "tools": "LM Evaluation Harness, Promptfoo, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-34"
+              ]
+            },
+            {
+              "id": "ai-guvence-28",
+              "title": "Opt-in Küçük–Güçlü Model Karşılaştırması",
+              "summary": "Açık tercihle küçük ve güçlü modelleri aynı görevlerde karşılaştırarak kalite, maliyet, gecikme ve güvenlik farklarını ölçmeyi öğretir.",
+              "side": "Araştırma",
+              "tools": "Ollama, Promptfoo, opt-in güçlü model API’si",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-27"
+              ]
+            },
+            {
+              "id": "ai-guvence-29",
+              "title": "Sorumlu Bildirim Raporu",
+              "summary": "Yetkili veya sentetik bulguyu etki, yeniden üretim adımları, kapsam, kanıt ve belirsizliklerle sorumlu bildirim standardında raporlamayı öğretir.",
+              "side": "Güvence",
+              "tools": "Markdown, Git, CVSS Calculator",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-28"
+              ]
+            },
+            {
+              "id": "ai-guvence-30",
+              "title": "Yayınlanabilir Purple Çalışma",
+              "summary": "Saldırı ve savunma deneylerini ortak ölçütlerle birleştirip yöntem, karşılaştırma ve yeniden üretim paketiyle yayınlanabilir çalışma hazırlamayı öğretir.",
+              "side": "Araştırma",
+              "tools": "ART, Promptfoo, PyTorch, MLflow",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-guvence-29"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai-ile-guvenlik",
+      "name": "AI ile Güvenlik: Zafiyet Avı, Triyaj ve Otonom Savunma",
+      "modules": [
+        {
+          "rank": "minik",
+          "name": "Minik",
+          "title": "Yerel LLM'i Güvenlik Aracı Olarak Kullanmak",
+          "lessons": [
+            {
+              "id": "ai-ile-guvenlik-01",
+              "title": "Yapılandırılmış Güvenlik Çıktısı ve Şema Zorlama",
+              "summary": "Güvenlik analizinde serbest metin yerine katı JSON şeması üretmeyi, eksik/fazla alanları ve tip kaymalarını yakalamayı ve yeniden deneme bütçesini öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-temel-14"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-02",
+              "title": "Güvenlik Analizinde Halüsinasyon ve Kanıt Eşleştirme",
+              "summary": "Modelin raporladığı satır numarası, dosya yolu, CVE veya paket adını kaynak dosyayla çapraz doğrulamayı ve halüsinasyon oranını hesaplamayı öğretir.",
+              "side": "Güvence",
+              "tools": "Ollama, Python ast/difflib",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-01"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-03",
+              "title": "Embedding ile Güvenlik Korpusu ve Benzer Zafiyet Arama",
+              "summary": "Zafiyet kayıtlarını, olay özetlerini ve yama notlarını yerel embedding modeliyle indekslemeyi ve kosinüs benzerliğiyle benzer vakaları bulmayı öğretir.",
+              "side": "Temel",
+              "tools": "Ollama all-minilm:22m, SQLite",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-02"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "tesviye",
+          "name": "Tesviye",
+          "title": "Kod Okuma ve Zafiyet Avında LLM",
+          "lessons": [
+            {
+              "id": "ai-ile-guvenlik-04",
+              "title": "AST Ön-Elemesi ve LLM ile Kaynak–Evye (Source-to-Sink) Triyajı",
+              "summary": "Python ast ile tehlikeli çağrı adaylarını çıkarmayı ve sabit dizge ile kullanıcı girdisini ayırt etmek için LLM triyajı ve yanlış pozitif ölçümü yapmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Python ast, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-03"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-05",
+              "title": "Kimlik Bilgisi ve Sır Sızıntısı Avında Bağlamsal Triyaj",
+              "summary": "Regex/entropi tarayıcılarının ürettiği sahte alarmları gerçek sır sızıntısından ayırmayı ve modele gerçek sırrı göndermeden maskeli bağlamla sınıflandırmayı öğretir.",
+              "side": "Savunma",
+              "tools": "Python re, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-04"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-06",
+              "title": "Yama Önerisi Üretimi ve Regresyon Doğrulaması",
+              "summary": "Açıklı kod parçası için yerel modelden yama üretmeyi ve yamanın hem açığı kapattığını hem normal işlevi bozmadığını otomatik sınamayı öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, Python unittest",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-05"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "kucuk-orta",
+          "name": "Küçük Orta",
+          "title": "Keşif ve Fuzzing Otomasyonu",
+          "lessons": [
+            {
+              "id": "ai-ile-guvenlik-07",
+              "title": "Kapsam Kilitli HTTP Keşfi ve Parametre Haritalama",
+              "summary": "Yerel web tezgahından dönen uç noktaları ve form parametrelerini ayrıştırmayı ve kapsam dışı hedefleri reddeden deterministik keşif kapısını öğretir.",
+              "side": "Saldırı",
+              "tools": "http_tezgah, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-06"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-08",
+              "title": "Dilbilgisi Destekli (Grammar-Guided) Fuzzing Yükü Üretimi",
+              "summary": "Modelin rastgele bozuk metin yerine hedef ayrıştırıcının sınır durumlarını zorlayan kurallı mutasyon yükleri üretmesini ve yanıt anomalisi tespitini öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-07"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-09",
+              "title": "Başsız Tarayıcı (Playwright) ile DOM Güvenlik Denetimi",
+              "summary": "Yerel HTML uygulamasında Playwright ile form, gizli girdi ve CSP yüzeyini toplamayı ve dış ağ kapalıyken model destekli güvenlik doğrulamasını öğretir.",
+              "side": "Saldırı",
+              "tools": "Playwright, Chromium, Ollama",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-08"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "buyuk-orta",
+          "name": "Büyük Orta",
+          "title": "Log, Telemetri ve Alarm Triyajı",
+          "lessons": [
+            {
+              "id": "ai-ile-guvenlik-10",
+              "title": "Çoklu Log Akışı Özeti ve Kanıt Satırı Doğrulaması",
+              "summary": "Web, kimlik doğrulama ve DNS loglarını kümelemeyi, yerel modelle olay özeti üretmeyi ve özetteki her varlığı ham log satırlarıyla doğrulamayı öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, JSONL",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-09"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-11",
+              "title": "LLM Destekli Sigma Kuralı Taslağı ve Yanlış Alarm Sınaması",
+              "summary": "Saldırı örneğinden yerel modelle Sigma kuralı taslağı üretmeyi, şemasını doğrulamayı ve temiz/saldırı log korpusunda TPR ile FPR oranını ölçmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, Sigma",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-10"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-12",
+              "title": "Log Enjeksiyonuna Dayanıklı SOC Triyaj Hattı",
+              "summary": "Saldırganın User-Agent veya kullanıcı adına gömdüğü dolaylı prompt injection yüklerinin SOC özetleyici modelini yanıltmasını engellemeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-11"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "basalti",
+          "name": "Başaltı",
+          "title": "Kendi Güvenlik Ajanını Yazmak",
+          "lessons": [
+            {
+              "id": "ai-ile-guvenlik-13",
+              "title": "Salt-Okunur Keşif Ajanı ve Deterministik Kapsam Kilidi",
+              "summary": "Araç çağıran yerel güvenlik ajanında hedef IP/alan/dosya kapsam kilidi, adım bütçesi ve döngü kırıcı tasarımını öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-12"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-14",
+              "title": "Yıkıcı Eylemlerde İnsan Onayı (HITL) ve İmzalı Görev Kapısı",
+              "summary": "Güvenlik ajanının karantina, IP engelleme veya dosya silme gibi yüksek etkili araçları yalnızca doğrulanmış insan onayı ve parametre özeti eşleştiğinde çalıştırmasını öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, hashlib/hmac",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-13"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-15",
+              "title": "Çok Ajanlı Mavi/Mor Takım İş Akışı (Toplayıcı → Analist → Doğrulayıcı)",
+              "summary": "Kanıt toplayan ajan, hipotez kuran analist ajan ve bulguyu bağımsız araçla doğrulayan hakem ajanın görev ayrımını ve zehirlenme izolasyonunu öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-14"
+              ]
+            }
+          ]
+        },
+        {
+          "rank": "baspehlivan",
+          "name": "Başpehlivan",
+          "title": "Güvenlik Ajanını Değerlendirmek ve Güvence",
+          "lessons": [
+            {
+              "id": "ai-ile-guvenlik-16",
+              "title": "Güvenlik Ajanlarında Hassasiyet, Duyarlılık ve Maliyet Dengesi",
+              "summary": "Farklı istem/model/eşik ayarlarında güvenlik ajanının precision, recall, F1, gecikme ve token maliyetini birlikte ölçüp Pareto optimal yapılandırmayı seçmeyi öğretir.",
+              "side": "Güvence",
+              "tools": "Ollama, Promptfoo",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-15"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-17",
+              "title": "Güvenlik Ajanına Karşı Kırmızı Takım (Anti-Triage & Evasion)",
+              "summary": "Saldırganın güvenlik ajanını kör etmek, yanlış hedefe yönlendirmek veya sonsuz araç döngüsüne sokmak için kullandığı karşı-saldırıları sınamayı ve sağlamlaştırmayı öğretir.",
+              "side": "Saldırı",
+              "tools": "Ollama, Python",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-16"
+              ]
+            },
+            {
+              "id": "ai-ile-guvenlik-18",
+              "title": "Uçtan Uca Yerel AI Destekli Olay Müdahale ve Doğrulama Tatbikatı",
+              "summary": "Log anomalisi tespiti, kök neden hipotezi, kapsam kilitli inceleme, insan onaylı müdahale ve regresyon kuralı üretimini tek bir tekrarlanabilir kanıt paketinde birleştirmeyi öğretir.",
+              "side": "Savunma",
+              "tools": "Ollama, SQLite, Sandbox",
+              "status": "Yazıldı",
+              "onkosul": [
+                "ai-ile-guvenlik-17"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "field_goals": "Yetkili saha çalışmaları, CTF, açık kaynak katkısı ve bug bounty isteğe bağlı portföy hedefleridir; rütbe veya validate şartı değildir."
+}

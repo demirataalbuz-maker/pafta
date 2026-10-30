@@ -1,0 +1,11 @@
+# ai-guvence-21 iyileştirme teslimi
+
+Düzelten codex; claude-opus denetimi bekleniyor. Puan verilmedi.
+
+Ders markdown ve tracks/ai-guvence/fixtures/ai-guvence-21/{README.md,veri/sbom_eski.json,veri/sbom_yeni.json} değişti. Tablo+NOT, özel sentetik şema/gerçek disk hash'i ayrımı, geçici/kalamayan fixture ile kalıcı deney ayarı ayrımı, üç görevde dosya okuyan mevcut hazirla/setup, kusurlu çalışan başlangıçlar ve 470 kelime ek anlatım uygulandı. Veri tarifinin tam ham veri kümesi olmadığı, yerel envanterin Syft/CycloneDX/lisans/güvenilirlik ispatı olmadığı belirtildi. Yol tarifinde mevcut resolve/is_relative_to davranışına uygun olarak kök dışı bağlantı hedefi reddi açıklandı; tüm kök içi symlinklerin reddedildiği iddia edilmedi.
+
+sandbox/ai_gercek_ai_guvence_21.py içindeki bağımsız disk hash oraklı envanter_ref adıyla ayrıldı. Byte hash/boyut/bağ sırası hesabı aynı, deney davranışı korunuyor. Test envanter_ref/kanit_yaz ve ImportFrom takma ad/yıldız kullanımını hedeflenen guard içinde durduruyor. Kanıt mevcut bütün kontrollerin and sonucuyla kabul edilir. engine/web değişmedi.
+
+Dört kontrol .ai-venv/Scripts/python.exe -X utf8 ile: validate.py ai-guvence-21 TEMİZ, 9 kontrol (1 tahmin, 4 çözüm, 4 başlangıç), gerçek CPU/disk dahil; tahmin.py . ai-guvence-21 1 tahmin, 0 şüpheli; kirp_gercek.py Desktop/pafta-mutasyon-g21-20261030, mutasyon.py <kopya> --en-cok 1000 ai-guvence-21 9+16+14=39 mutant, 0 geçen; kopya_sonda.py ai-guvence ai-guvence-21 "from sandbox.ai_gercek_ai_guvence_21 import envanter_ref as disk_envanteri" fail, korunuyor. Hedeflenen guard mesajı ve kabul kanıtı yokluğu ayrıca doğrulandı: outputs/iyilestirme-codex-ai-guvence-21/{kopya-sonda.log,kopya-sonucu.json}. PAFTA_DATA Desktop/pafta-iyilestirme-21-kanit ve -21-kopya.
+
+Görünür JSON runner/setup/starter Run akışında hatasız okundu. Kendi 18800 sunucusunda HTTP Kontrol pass/6kontrol/gerçek kabul, HTTP Run ok/yalnız deneme verdi; çıktılar outputs/iyilestirme-codex-ai-guvence-21/{http-check.json,http-run.json,gorunur-dosya-run.json}. Tarayıcı kontrolü Work ayarlarında kapalı olduğundan görsel ekran kabulü YAPILMADI; HTTP görsel kabul yerine sayılmadı ve denetçiye açık eksik olarak yazıldı. Yeni indirme/kurulum/commit/push yok.

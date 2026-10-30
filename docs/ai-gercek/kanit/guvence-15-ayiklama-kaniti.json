@@ -1,0 +1,167 @@
+{
+ "karar_ornegi": {
+  "yontem": "agresif",
+  "tohum": 15,
+  "referans_sayim": {
+   "tp": 38,
+   "fp": 95,
+   "tn": 265,
+   "fn": 2
+  },
+  "ogrenci_esit": true
+ },
+ "sayimlar": {
+  "agresif": {
+   "tp": 117,
+   "fp": 214,
+   "tn": 866,
+   "fn": 3
+  },
+  "izolasyon": {
+   "tp": 17,
+   "fp": 103,
+   "tn": 977,
+   "fn": 103
+  },
+  "kayip_esigi": {
+   "tp": 74,
+   "fp": 24,
+   "tn": 1056,
+   "fn": 46
+  },
+  "knn_tutarlilik": {
+   "tp": 108,
+   "fp": 28,
+   "tn": 1052,
+   "fn": 12
+  }
+ },
+ "metrik_ogrenci": {
+  "agresif": {
+   "toplam": 1200,
+   "tespit": 0.975,
+   "yanlis_alarm": 0.198148,
+   "veri_kaybi": 0.275833
+  },
+  "izolasyon": {
+   "toplam": 1200,
+   "tespit": 0.141667,
+   "yanlis_alarm": 0.09537,
+   "veri_kaybi": 0.1
+  },
+  "kayip_esigi": {
+   "toplam": 1200,
+   "tespit": 0.616667,
+   "yanlis_alarm": 0.022222,
+   "veri_kaybi": 0.081667
+  },
+  "knn_tutarlilik": {
+   "toplam": 1200,
+   "tespit": 0.9,
+   "yanlis_alarm": 0.025926,
+   "veri_kaybi": 0.113333
+  }
+ },
+ "secim_ogrenci": {
+  "satirlar": [
+   {
+    "yontem": "agresif",
+    "tespit": 0.975,
+    "yanlis_alarm": 0.198148,
+    "veri_kaybi": 0.275833,
+    "uygun": false
+   },
+   {
+    "yontem": "izolasyon",
+    "tespit": 0.141667,
+    "yanlis_alarm": 0.09537,
+    "veri_kaybi": 0.1,
+    "uygun": true
+   },
+   {
+    "yontem": "kayip_esigi",
+    "tespit": 0.616667,
+    "yanlis_alarm": 0.022222,
+    "veri_kaybi": 0.081667,
+    "uygun": true
+   },
+   {
+    "yontem": "knn_tutarlilik",
+    "tespit": 0.9,
+    "yanlis_alarm": 0.025926,
+    "veri_kaybi": 0.113333,
+    "uygun": true
+   }
+  ],
+  "secilen": "knn_tutarlilik"
+ },
+ "kontroller": {
+  "kararlar_uyumu": true,
+  "metrik_uyumu": true,
+  "secim_uyumu": true,
+  "ayrim_gozlendi": true
+ },
+ "ozet": {
+  "sklearn_surum": "1.9.1",
+  "tohum": [
+   15,
+   151,
+   1515
+  ],
+  "zehirli_oran": 0.1,
+  "kayip_ust_sinir": 0.15,
+  "yontemler": [
+   {
+    "yontem": "agresif",
+    "tespit": 0.975,
+    "yanlis_alarm": 0.198148,
+    "veri_kaybi": 0.275833,
+    "uygun": false
+   },
+   {
+    "yontem": "izolasyon",
+    "tespit": 0.141667,
+    "yanlis_alarm": 0.09537,
+    "veri_kaybi": 0.1,
+    "uygun": true
+   },
+   {
+    "yontem": "kayip_esigi",
+    "tespit": 0.616667,
+    "yanlis_alarm": 0.022222,
+    "veri_kaybi": 0.081667,
+    "uygun": true
+   },
+   {
+    "yontem": "knn_tutarlilik",
+    "tespit": 0.9,
+    "yanlis_alarm": 0.025926,
+    "veri_kaybi": 0.113333,
+    "uygun": true
+   }
+  ],
+  "secilen": "knn_tutarlilik",
+  "yeniden_egitim_test_dogrulugu": {
+   "agresif": 0.89,
+   "izolasyon": 0.886667,
+   "kayip_esigi": 0.895,
+   "knn_tutarlilik": 0.873333,
+   "zehirli_tum_veri": 0.893333,
+   "kahin_temiz": 0.878333
+  }
+ },
+ "kaynak": "gercek",
+ "kabul": true,
+ "pilot": "guvence-15-ayiklama-kaniti",
+ "zaman": "2026-10-29T21:54:17+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 461 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "a14cb03b015a15fc4a3964e7d495cb85097c3dde4026c2760ce5f49ae6042d97",
+ "mod": "test"
+}
