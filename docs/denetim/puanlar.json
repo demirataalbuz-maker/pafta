@@ -2852,27 +2852,112 @@
       "ad": "Nesne ACL'lerinden erişim yolu çıkarmak",
       "dersler": [
         "AD13",
-        "AD14"
+        "AD14",
+        "AD15"
       ],
       "karar": "Kısmen",
-      "ozet": "Sıralı DACL'den etkin hak, sahiplik ve devralma, doğrulanmış kenarlarla en kısa yol; yerel modelde.",
-      "tarih": "26.10.2026",
-      "kaynak": "Claude",
+      "ozet": "AD14 resmi SpecterOps SharpHound örnek ZIP/manifestinden users/groups verisini okur: SID tabanlı MemberOf/primary group ve GenericAll/WriteDacl, devralma, silinen uçlar, tekrar ve döngü/en kısa yol. İki kabukta AD13–14 temiz; 13 yanlış çözüm reddi. Bu laptopta gerçek BloodHound CE 9.9.0 API/Cypher yolu da aynı yönlü MemberOf → WriteDacl kenarlarıyla doğrulandı. Gerçek AD15 DC AccessCheck kabulü bekliyor.",
+      "tarih": "30.10.2026",
+      "kaynak": "Claude bağımsız denetimi 30.10.2026 (önce Codex önerisi 91; Samba canlı kanıtı sonrası 92)",
       "puan": {
         "test": 24,
-        "kapsam": 15,
-        "derinlik": 20,
-        "gerceklik": 9,
+        "kapsam": 22,
+        "derinlik": 23,
+        "gerceklik": 13,
         "yol": 10
       },
       "eksikler": [
         {
-          "metin": "Gerçek grafik verisini okuyan görev yok (ASAMA2 'gerçek grafikte sonucu kontrol eden okuma').",
+          "etiket": "Windows-AccessCheck-entegrasyon",
           "oncelik": "orta",
-          "etiket": "CAPE"
+          "metin": "Canlı DC kabulü artık VAR ama Samba AD DC üzerinde (Windows LogonUser+AccessCheck değil) ve kanıt outputs/ altında; AD15 dersinin Çalıştır/Kontrol yolu hâlâ kurulu olmayan Windows Server VM lab'ına gidiyor. Samba kolu derse bağlanmadı. Bu yüzden karar Tam değil Kısmen."
         }
       ],
-      "not": "Codex 26 Ekim'de AD 60 için gerçek DC kabul kanıtı ekledi (af22836); bir sonraki turda yeniden ölçülecek."
+      "not": "92/100 (A). Gerçeklik 12→13: no 60 artık resmi SharpHound örneği + CE 9.9.0 Cypher (27.10) ÜSTÜNE, canlı Samba AD DC'den normal kullanıcıyla bloodhound-ce-python toplaması ve DC'nin kendi verdiği WriteDacl izin/ret kararı (4 adım mutasyon/geri-alma, beklenen=gözlenen) ile desteklendi. Tam olmamasının tek nedeni: Samba≠Windows AccessCheck ve kanıt derse entegre değil. Puanı yükselten gerçek canlı veri+zorlama; eksik olan yalnız platform+entegrasyon.",
+      "onceki_kabul": {
+        "no": 60,
+        "yol": "ad",
+        "ad": "Nesne ACL'lerinden erişim yolu çıkarmak",
+        "dersler": [
+          "AD13",
+          "AD14"
+        ],
+        "karar": "Kısmen",
+        "ozet": "Sıralı DACL'den etkin hak, sahiplik ve devralma, doğrulanmış kenarlarla en kısa yol; yerel modelde.",
+        "tarih": "26.10.2026",
+        "kaynak": "Claude",
+        "puan": {
+          "test": 24,
+          "kapsam": 15,
+          "derinlik": 20,
+          "gerceklik": 9,
+          "yol": 10
+        },
+        "eksikler": [
+          {
+            "metin": "Gerçek grafik verisini okuyan görev yok (ASAMA2 'gerçek grafikte sonucu kontrol eden okuma').",
+            "oncelik": "orta",
+            "etiket": "CAPE"
+          }
+        ],
+        "not": "Laptop 27.10.2026: AD13–AD14 çevrimdışı; AD15 gerçek DC AccessCheck dersi depoda mevcut. Bu laptopta %LOCALAPPDATA%/Pafta/labs/ad/config.json yok. ASAMA2 gerçek grafik/BloodHound CE kabulü de doğrulanmadı. Masaüstü outputs/ad-live-evidence.json yeni laptop kanıtı sayılmadı. 78/100 korunuyor; A diye kapatılmadı."
+      },
+      "kapatilanlar": [
+        {
+          "etiket": "gerçek-veri-okuma",
+          "oncelik": "orta",
+          "metin": "Yalnız elle yazılmış küçük kenar listesi vardı. Resmi SpecterOps SharpHound örnek toplaması, ZIP/alt dosya SHA-256 manifesti ve kaynak biçimini okuyan görev eklendi. Bu kapanış CE UI veya güncel DC kanıtı değildir."
+        },
+        {
+          "etiket": "gerçek-CE-Cypher",
+          "oncelik": "orta",
+          "metin": "27.10.2026: Resmi örnek veri gerçek yerel BloodHound CE 9.9.0 içinde işlendi. Üç nesne, MemberOf/WriteDacl yönleri ve SID yolu AD14 çözümüyle birebir eşleşti. Kanıt: outputs/audit-20261027/bloodhound-ce/acceptance.json. Bu AD/DC AccessCheck kapanışı değildir."
+        }
+      ],
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "27.10.2026",
+        "commit": "commit edilmedi",
+        "ozet": "AD14 resmi SpecterOps SharpHound örnek ZIP/manifestinden users/groups verisini okur: SID tabanlı MemberOf/primary group ve GenericAll/WriteDacl, devralma, silinen uçlar, tekrar ve döngü/en kısa yol. İki kabukta AD13–14 temiz; 13 yanlış çözüm reddi. Canlı CE/DC kabulü bekliyor.",
+        "kanit": "../../outputs/laptop-partials-ad60-acceptance.json",
+        "rapor": "laptop-partials-20261027.md",
+        "bagimsiz_denetim": "Claude yeniden denetimi ve ilgili canlı kabul bekleniyor",
+        "puan_notu": "78→91 Codex öz değerlendirmesi: test 24 korundu, kapsam 15→22, derinlik 20→23, gerçeklik 9→12, yol 10 korundu. Gerçek dışa aktarım okuma eklendi; canlı CE/DC sonucu iddia edilmez."
+      },
+      "onceki_laptop_canli_kabul_notu": {
+        "ozet": "AD14 resmi SpecterOps SharpHound örnek ZIP/manifestinden users/groups verisini okur: SID tabanlı MemberOf/primary group ve GenericAll/WriteDacl, devralma, silinen uçlar, tekrar ve döngü/en kısa yol. İki kabukta AD13–14 temiz; 13 yanlış çözüm reddi. Canlı CE/DC kabulü bekliyor.",
+        "eksikler": [
+          {
+            "etiket": "CAPE-canlı-kabul",
+            "oncelik": "orta",
+            "metin": "Gerçek BloodHound CE 9.9.0 API/Cypher karşılaştırması bu laptopta geçti. AD15 gerçek DC AccessCheck kabulü hâlâ yapılmadı; yönetilen AD laboratuvarı yok. Resmi örnek toplama güncel kullanıcı alanının taraması değildir; CE web arayüzü görsel kabulü iddia edilmez."
+          }
+        ],
+        "asama": "CE kurulmadan önceki not; tarihsel kayıt"
+      },
+      "laptop_canli_kabul": {
+        "tarih": "2026-10-27T18:18:56.611931+00:00",
+        "ce_cypher": "PASS",
+        "dc_accesscheck": "BLOCKED",
+        "kanit": "../../outputs/audit-20261027/bloodhound-ce/acceptance.json",
+        "puan_degisti": false,
+        "bagimsiz_denetim": "yeniden yapılmadı"
+      },
+      "claude_denetimi": {
+        "yazar": "Claude (denetçi)",
+        "tarih": "30.10.2026",
+        "commit": "commit edilmedi",
+        "ortam": "Samba AD DC 4.22.11, Docker konteyner pafta-samba-dc, pafta.test, ayrı ağ",
+        "bulgular": [
+          "Canlı toplama: normal kullanıcı ali.kaya ile Kerberos; 8 kullanıcı, 43 grup. Ali+Mehmet→SOC-Analistleri→WriteDacl→svc_sql.",
+          "Öğretici teyit: BloodHound deny ACE toplamaz; grafik Mehmet'e de yol gösterir, canlı DC Mehmet'i reddeder (AD13-15'in ana noktası).",
+          "Canlı WriteDacl izin/ret: başlangıç izin/ret/ret; deny kaldır→izin/izin/ret; pf_s4u allow→izin/izin/izin; geri al→izin/ret/ret. beklenen=gözlenen.",
+          "bloodhound-ce-python Samba/Heimdal için 3 istemci-tarafı uyum yaması gerektirdi (TGS req-body cksum, GSS-SPNEGO etiketi, büyük harf crealm); toplanan veriyi değiştirmez."
+        ],
+        "kanit": "outputs/audit-20261030/samba-ad-60/",
+        "rapor": "outputs/audit-20261030/samba-ad-60/RAPOR.md",
+        "puan_notu": "gerceklik 12→13 (+1); toplam 91→92, A. Karar Kısmen korunur (platform+entegrasyon eksiği)."
+      }
     },
     {
       "no": 61,
