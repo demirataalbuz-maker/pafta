@@ -1,0 +1,461 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'netntlmv2', 'kaynak': 'ag-ntlm', 'etype': None, 'bulgular': ['ag-yaniti-nt-ozeti-degil', 'kimlik-dogrulama-politikasi-incelenmeli'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "biçim tanımak kaynağı doğrulamaz",
+      "got": "{}",
+      "exp": "{'tur': 'netntlmv2', 'kaynak': 'bilinmiyor', 'etype': None, 'bulgular': ['ag-yaniti-nt-ozeti-degil', 'kimlik-dogrulama-politikasi-incelenmeli', 'kaynak-dogrulanmadi'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'krb5tgs', 'kaynak': 'kerberos-kdc', 'etype': 23, 'bulgular': ['kerberos-rc4-politikasi-incelenmeli'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "biçim tanımak kaynağı doğrulamaz",
+      "got": "{}",
+      "exp": "{'tur': 'krb5tgs', 'kaynak': 'bilinmiyor', 'etype': 23, 'bulgular': ['kerberos-rc4-politikasi-incelenmeli', 'kaynak-dogrulanmadi'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'krb5asrep', 'kaynak': 'kerberos-kdc', 'etype': 23, 'bulgular': ['preauth-politikasi-dogrulanmali', 'kerberos-rc4-politikasi-incelenmeli'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "biçim tanımak kaynağı doğrulamaz",
+      "got": "{}",
+      "exp": "{'tur': 'krb5asrep', 'kaynak': 'bilinmiyor', 'etype': 23, 'bulgular': ['preauth-politikasi-dogrulanmali', 'kerberos-rc4-politikasi-incelenmeli', 'kaynak-dogrulanmadi'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'lm', 'kaynak': 'windows-lm', 'etype': None, 'bulgular': ['eski-lm-saklama-politikasi-incelenmeli'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'krb5tgs', 'kaynak': 'kerberos-kdc', 'etype': 17, 'bulgular': [], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "biçim tanımak kaynağı doğrulamaz",
+      "got": "{}",
+      "exp": "{'tur': 'krb5tgs', 'kaynak': 'bilinmiyor', 'etype': 17, 'bulgular': ['kaynak-dogrulanmadi'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'krb5tgs', 'kaynak': 'kerberos-kdc', 'etype': 18, 'bulgular': [], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "biçim tanımak kaynağı doğrulamaz",
+      "got": "{}",
+      "exp": "{'tur': 'krb5tgs', 'kaynak': 'bilinmiyor', 'etype': 18, 'bulgular': ['kaynak-dogrulanmadi'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'krb5asrep', 'kaynak': 'kerberos-kdc', 'etype': 17, 'bulgular': ['preauth-politikasi-dogrulanmali'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "biçim tanımak kaynağı doğrulamaz",
+      "got": "{}",
+      "exp": "{'tur': 'krb5asrep', 'kaynak': 'bilinmiyor', 'etype': 17, 'bulgular': ['preauth-politikasi-dogrulanmali', 'kaynak-dogrulanmadi'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "biçim, bağlam ve savunma bulgusu",
+      "got": "{}",
+      "exp": "{'tur': 'krb5asrep', 'kaynak': 'kerberos-kdc', 'etype': 18, 'bulgular': ['preauth-politikasi-dogrulanmali'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "biçim tanımak kaynağı doğrulamaz",
+      "got": "{}",
+      "exp": "{'tur': 'krb5asrep', 'kaynak': 'bilinmiyor', 'etype': 18, 'bulgular': ['preauth-politikasi-dogrulanmali', 'kaynak-dogrulanmadi'], 'parola_dogrulandi': False}"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "kaynak-biçim çelişkisi reddedilir",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": true,
+      "msg": "hesap/realm/SPN/ham kanıt rapora taşınmaz"
+    },
+    {
+      "ok": false,
+      "msg": "LM bağlamı olmayan çıplak hex belirsiz",
+      "got": "{}",
+      "exp": "{'tur': 'belirsiz-32hex', 'kaynak': 'bilinmiyor', 'etype': None, 'bulgular': ['algoritma-baglamla-dogrulanmadi'], 'parola_dogrulandi': False}"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "KeyError",
+    "msg": "'bulgular'",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  }
+}

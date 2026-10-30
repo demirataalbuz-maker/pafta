@@ -4529,22 +4529,39 @@
       ],
       "karar": "Tam",
       "ozet": "SUID/SGID+capability sınırları, sudo kullanıcı/argüman, cron/systemd PATH hijack; tahmin uyuşuyor. 31/32 mutant yakalandı.",
-      "tarih": "27.10.2026",
-      "kaynak": "Claude",
+      "tarih": "30.10.2026",
+      "kaynak": "Claude bağımsız denetim · 30.10.2026 (düzelten: Codex, 30.10.2026)",
       "puan": {
-        "test": 24,
+        "test": 25,
         "kapsam": 24,
         "derinlik": 23,
         "gerceklik": 14,
         "yol": 9
       },
-      "eksikler": [
+      "eksikler": [],
+      "duzeltme": {
+        "yazar": "Codex",
+        "tarih": "30.10.2026",
+        "ozet": "PU16 görev2 and→or eşdeğer değil: root dışı NOPASSWD ve sınırlı wildcard için orta/yüksek farkını yakalayan karşı örnek eklendi; sözleşme/çözüm korunur.",
+        "kontroller": {
+          "validate": "TEMİZ,7kontrol",
+          "tahmin": "0 şüpheli",
+          "mutasyon": "32/32 yakalandı,0geçen",
+          "regresyon": "8 test OK"
+        },
+        "bagimsiz_denetim": "Claude 30.10.2026: 95/100, kabul",
+        "commit": "commit/push yapılmadı",
+        "kanit": "../../outputs/codex-purple-107-108/",
+        "rapor": "codex-107-108-teslim.md"
+      },
+      "kapatilanlar": [
         {
-          "metin": "PU16 görev 2'de tek mutant kaçıyor: and→or (s28). Küçük; eşdeğer olabilir, kontrol edilip gerekirse assert.",
-          "oncelik": "düşük",
-          "etiket": "test"
+          "metin": "PU16 görev 2'de tek mutant kaçıyor: and→or (s28). Küçük; eşdeğer olabilir, kontrol edilip gerekirse assert. → PU16 görev 2 and→or mutantı eşdeğer değilmiş; Codex'in eklediği karşı örnek (root dışı hesap + sınırlı wildcard → orta) mutantı öldürüyor, görev 2 11/11.",
+          "etiket": "düzeltildi",
+          "oncelik": "düşük"
         }
-      ]
+      ],
+      "olcum": "validate TEMİZ (pu16/pu17, 18 kontrol) · tahmin 0 şüpheli · mutasyon 149/149 yakalandı (0 geçen) · unittest test_linux_privesc_lesson ve test_hash_formats_lesson OK · laptop kalite pu17 10/10 yanlış ret"
     },
     {
       "no": 108,
@@ -4556,21 +4573,15 @@
       "karar": "Tam",
       "ozet": "Kaynak bağlamı olmadan 32-hex NTLM sayılmaz; kaynak/biçim çelişkisi, bcrypt politika eşiği, yescrypt sürüm sınırı ve salt/digest ifşa etmeyen bulgu yeni görevde sınanıyor.",
       "tarih": "30.10.2026",
-      "kaynak": "Claude bağımsız denetim · 30.10.2026 (düzelten: Codex, 27.10.2026)",
+      "kaynak": "Claude bağımsız denetim · 30.10.2026 (düzelten: Codex, 30.10.2026)",
       "puan": {
         "test": 24,
-        "kapsam": 21,
+        "kapsam": 23,
         "derinlik": 23,
         "gerceklik": 13,
         "yol": 9
       },
-      "eksikler": [
-        {
-          "metin": "Kapsam: NetNTLMv2 (Responder/ağ yakalaması) ve Kerberos $krb5tgs$/$krb5asrep$ biçimleri yok; gerçek olay/pentestte en sık görülen özetler ve müfredatın başka dersinde de geçmiyor. LM özeti de anılmıyor.",
-          "oncelik": "orta",
-          "etiket": "kapsam"
-        }
-      ],
+      "eksikler": [],
       "onceki_denetim": {
         "karar": "Tam",
         "ozet": "NTLM/bcrypt/$y$ biçim ayrıştırma, shadow salt/cost bulgusu, araç modu seçimi; tahmin uyuşuyor. Sınır/uzunluk testi zayıf.",
@@ -4601,18 +4612,39 @@
           "metin": "Kapsam puanı (18) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı. → Kaynak bağlamı olmadan 32-hex NTLM sayılmaz; kaynak/biçim çelişkisi, bcrypt politika eşiği, yescrypt sürüm sınırı ve salt/digest ifşa etmeyen bulgu yeni görevde sınanıyor.",
           "oncelik": "düşük",
           "etiket": "kapsam"
+        },
+        {
+          "metin": "Kapsam: NetNTLMv2 (Responder/ağ yakalaması) ve Kerberos $krb5tgs$/$krb5asrep$ biçimleri yok; gerçek olay/pentestte en sık görülen özetler ve müfredatın başka dersinde de geçmiyor. LM özeti de anılmıyor. → PU17 görev 5 ve anlatım eklendi; 1–4. görevler (9 adım) birebir korunmuş; yeni görev 53/53 mutant yakalıyor; ağ, araç çağrısı veya sistem dosyası okuma yok.",
+          "etiket": "düzeltildi",
+          "oncelik": "orta"
         }
       ],
       "cikar": true,
       "duzeltme": {
         "yazar": "Codex",
-        "tarih": "27.10.2026",
-        "commit": "commit edilmedi",
-        "ozet": "Kaynak bağlamı olmadan 32-hex NTLM sayılmaz; kaynak/biçim çelişkisi, bcrypt politika eşiği, yescrypt sürüm sınırı ve salt/digest ifşa etmeyen bulgu yeni görevde sınanıyor.",
-        "kanit": "../../outputs/laptop-20261027-purple-acceptance.json",
-        "rapor": "laptop-20261027-codex.md",
-        "bagimsiz_denetim": "Claude 30.10.2026: 90/100",
-        "puan_notu": "92/100 yazar öz değerlendirmesi: yalnız kapsam 18→23. Önceki puan/kayıt onceki_kabul içinde korundu; bağımsız kabul değildir."
+        "tarih": "30.10.2026",
+        "ozet": "PU17 mevcut1–4 görev korunarak NetNTLMv2, Kerberos TGS/AS-REP23/17/18 ve LM bağlamlı savunma raporu anlatımı/görev5/sentetik fixture eklendi; parola kırma ve ham kanıt ifşası yok.",
+        "kontroller": {
+          "validate": "TEMİZ,11kontrol",
+          "tahmin": "0 şüpheli",
+          "mutasyon": "117/117 yakalandı; görev5 53/53;0geçen",
+          "test_laptop_quality": "pu17 reference pass,10yanlış reddedildi",
+          "regresyon": "8 test OK"
+        },
+        "bagimsiz_denetim": "Claude 30.10.2026: 92/100, kabul",
+        "commit": "commit/push yapılmadı",
+        "kanit": "../../outputs/codex-purple-107-108/",
+        "rapor": "codex-107-108-teslim.md",
+        "onceki_duzeltme": {
+          "yazar": "Codex",
+          "tarih": "27.10.2026",
+          "commit": "commit edilmedi",
+          "ozet": "Kaynak bağlamı olmadan 32-hex NTLM sayılmaz; kaynak/biçim çelişkisi, bcrypt politika eşiği, yescrypt sürüm sınırı ve salt/digest ifşa etmeyen bulgu yeni görevde sınanıyor.",
+          "kanit": "../../outputs/laptop-20261027-purple-acceptance.json",
+          "rapor": "laptop-20261027-codex.md",
+          "bagimsiz_denetim": "Claude 30.10.2026: 90/100",
+          "puan_notu": "92/100 yazar öz değerlendirmesi: yalnız kapsam 18→23. Önceki puan/kayıt onceki_kabul içinde korundu; bağımsız kabul değildir."
+        }
       },
       "onceki_kabul": {
         "no": 108,
@@ -4695,7 +4727,7 @@
         },
         "kaynak": "Codex öz değerlendirmesi; Claude bağımsız yeniden denetimi bekleniyor"
       },
-      "olcum": "validate TEMİZ (pu14/pu17, 18 kontrol) · tahmin 0 şüpheli · mutasyon pu17 64/64 yakalandı (0 geçen)."
+      "olcum": "validate TEMİZ (pu16/pu17, 18 kontrol) · tahmin 0 şüpheli · mutasyon 149/149 yakalandı (0 geçen) · unittest test_linux_privesc_lesson ve test_hash_formats_lesson OK · laptop kalite pu17 10/10 yanlış ret"
     }
   ],
   "yeni_maddeler": []

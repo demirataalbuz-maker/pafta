@@ -259,6 +259,13 @@ x = copy.deepcopy(v); x["sudo_rules"][2]["auth"] = "PASSWD"
 eq([b["oncelik"] for b in sudo_bulgulari(x) if b["id"] == "SUDO:S3"], ["orta"], "root dışı parolalı kural")
 x = copy.deepcopy(v); x["sudo_rules"][6]["arguments"] = "status pafta-agent"
 eq([b["id"] for b in sudo_bulgulari(x) if b["id"] == "SUDO:S7"], [], "sabit systemctl argümanı yanlış pozitif üretmez")
+# Non-root + sınırlandırılmış wildcard: serbest "*" değildir, tehlikeli program tek başına yüksek yapmaz.
+x = copy.deepcopy(v)
+r = x["sudo_rules"][0]
+r.update(runas_users=["svc-backup"],runas_groups=[],auth="NOPASSWD",arguments="/var/log/pafta/*",dangerous_if_unrestricted=True)
+x["sudo_rules"]=[r]
+eq([(b["id"],b["oncelik"]) for b in sudo_bulgulari(x)],[("SUDO:S1","orta")],"root dışı sınırlı wildcard serbest argüman değildir")
+
 ```
 
 ```solution
