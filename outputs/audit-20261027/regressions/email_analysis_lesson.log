@@ -1,0 +1,19 @@
+setUpClass (__main__.DersDavranisi) ... ERROR
+test_cozumlerde_ag_url_acma_ve_ek_calistirma_yok (__main__.FixtureSozlesmesi.test_cozumlerde_ag_url_acma_ve_ek_calistirma_yok) ... ok
+test_gercek_eml_mime_ve_sentetik_kanit_sinirlari (__main__.FixtureSozlesmesi.test_gercek_eml_mime_ve_sentetik_kanit_sinirlari) ... ok
+test_hazirlama_benzersiz_dizin_ve_baytlari_kopyalar (__main__.FixtureSozlesmesi.test_hazirlama_benzersiz_dizin_ve_baytlari_kopyalar) ... ok
+test_utf8_lf_ve_track_kaydi (__main__.FixtureSozlesmesi.test_utf8_lf_ve_track_kaydi) ... ok
+test_yardimci_yalniz_yerel_parser_ve_kopyalama_ice_aktarir (__main__.FixtureSozlesmesi.test_yardimci_yalniz_yerel_parser_ve_kopyalama_ice_aktarir) ... ok
+
+======================================================================
+ERROR: setUpClass (__main__.DersDavranisi)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_email_analysis_lesson.py", line 130, in setUpClass
+    raise RuntimeError("PU14 için tam üç görev beklenir")
+RuntimeError: PU14 için tam üç görev beklenir
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.189s
+
+FAILED (errors=1)

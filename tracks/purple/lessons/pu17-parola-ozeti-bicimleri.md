@@ -407,3 +407,115 @@ print(arac_modu("hashcat", "ntlm"))
 
 Salt tekrarı ve düşük cost, iyileştirilmesi gereken depolama politikası bulgularıdır; parolanın kendisi değildir. Testte parser'ı bozuk biçim, yanlış cost ve eksik alanlarla mutasyona uğratmak, yanlış pozitifleri engeller. Gerçek kanıtı yalnız yetkili ve kısıtlı depoda tut; rapora gerekiyorsa maskele, çalışma dosyalarını ve yedekleri koru. Araç desteği belirsizse modu tahmin etmek yerine “kurulu sürümde doğrulanmadı” yaz.
 :::
+
+::: gorev 4 · Kaynak bağlamı, politika eşiği ve özeti ifşa etmeyen bulgu
+`guvenli_ozet_raporu(metin, kaynak, minimum_bcrypt_cost=12)` yaz. Önceki görevdeki `ozet_ayristir` hazırlıkta vardır. Kaynak yalnız `windows-ntds`, `linux-shadow`, `bilinmiyor`; başka kaynak `ValueError`. Tam 32 hex, yalnız windows-ntds bağlamında NTLM sayılır; diğer iki kaynakta `belirsiz-32hex` ve `algoritma-baglamla-dogrulanmadi` raporlanır. windows-ntds ile modular crypt çelişirse `ValueError`.
+
+Rapor yalnız `tur`, `kaynak`, `bulgular`, `parametreler`, `parola_dogrulandi` anahtarlarını içersin. Parola her zaman doğrulanmamıştır (`False`). Salt, digest ve tam kaynak metnini rapora koyma. NTLM'de `salt-yok-hizli-ozet`; bcrypt eşiğinin altında `politika-altinda-cost`; yescrypt'te `parametre-kaynagi-ve-arac-surumu-dogrulanmali`. Parametreler yalnız mevcut cost/rounds/parametreler değerleridir. bcrypt eşiği bool dahil başka türleri reddeden 4–31 tamsayı olmalı. Eşikle eşit cost düşük sayılmaz. Bozuk girdiyi parser'ın ValueError'ıyla reddet.
+
+Bu çıktı bir iyileştirme raporudur: ham özetler ayrı yetkili kanıt deposunda kalır. Biçim tanımak veya yayımlanmış test vektörü, başka bir kullanıcının parolasını doğruladığını göstermez.
+```starter
+from pu17_helpers import ozet_ayristir
+def guvenli_ozet_raporu(metin, kaynak, minimum_bcrypt_cost=12):
+    return {"tur": "ntlm", "parola_dogrulandi": True}
+```
+
+```test
+import json
+need("guvenli_ozet_raporu")
+nt="8846f7eaee8fb117ad06bdd830b7586c"
+for ctx in ("bilinmiyor","linux-shadow"):
+    eq(guvenli_ozet_raporu(nt,ctx),{"tur":"belirsiz-32hex","kaynak":ctx,"bulgular":["algoritma-baglamla-dogrulanmadi"],"parametreler":{},"parola_dogrulandi":False},"32 hex tek başına NTLM kanıtı değildir")
+r=guvenli_ozet_raporu(nt,"windows-ntds")
+eq((r["tur"],r["bulgular"],r["parola_dogrulandi"]),("ntlm",["salt-yok-hizli-ozet"],False),"yetkili kaynak biçim bağlamını sağlar; parola kanıtı sağlamaz")
+for cost,flags in ((4,["politika-altinda-cost"]),(11,["politika-altinda-cost"]),(12,[]),(31,[])):
+    raw="$2b$"+str(cost).zfill(2)+"$"+"a"*22+"B"*31
+    r=guvenli_ozet_raporu(raw,"linux-shadow")
+    eq((r["parametreler"],r["bulgular"]),({"cost":cost},flags),"cost altı/eşik/üstü")
+    text=json.dumps(r)
+    for secret in (raw,"a"*22,"B"*31):ok(secret not in text,"rapor ham özet/salt/digest ifşa etmez")
+eq(guvenli_ozet_raporu("$6$rounds=1000$salt$"+"A"*86,"linux-shadow")["parametreler"],{"rounds":1000},"rounds bcrypt cost ile karıştırılmaz")
+r=guvenli_ozet_raporu("$y$j9T$salt$ABCDEFG","linux-shadow")
+eq((r["parametreler"],r["bulgular"]),({"parametreler":"j9T"},["parametre-kaynagi-ve-arac-surumu-dogrulanmali"]),"yescrypt parametre metni sayıya çevrilmez")
+raw="$2b$12$"+"a"*22+"B"*31
+eq(guvenli_ozet_raporu(raw,"linux-shadow",4)["bulgular"],[],"asgari politika 4 geçerli")
+eq(guvenli_ozet_raporu(raw,"linux-shadow",31)["bulgular"],["politika-altinda-cost"],"azami politika 31 geçerli")
+for threshold in (3,32,True,12.0,"12"):
+    raises(ValueError,guvenli_ozet_raporu,nt,"windows-ntds",threshold,msg="politika eşiği katı tamsayı sınırları")
+raw="$2b$12$"+"a"*22+"B"*31
+raises(ValueError,guvenli_ozet_raporu,raw,"windows-ntds",msg="NTDS kaynağı bcrypt diye sunulmaz")
+raises(ValueError,guvenli_ozet_raporu,nt,"forum",msg="kaynak tahmin edilmez")
+raises(ValueError,guvenli_ozet_raporu,"bozuk","linux-shadow",msg="bozuk özet rapora geçmez")
+raw="$2b$11$"+"a"*22+"B"*31
+eq(guvenli_ozet_raporu(raw,"linux-shadow",11)["bulgular"],[],"politika argümanı gerçekten uygulanır")
+```
+
+```solution
+from pu17_helpers import ozet_ayristir
+def guvenli_ozet_raporu(metin, kaynak, minimum_bcrypt_cost=12):
+    if kaynak not in ("windows-ntds", "linux-shadow", "bilinmiyor"):
+        raise ValueError("Kaynak bağlamı desteklenmiyor")
+    if type(minimum_bcrypt_cost) is not int or not 4 <= minimum_bcrypt_cost <= 31:
+        raise ValueError("bcrypt eşiği 4..31 olmalı")
+    p = ozet_ayristir(metin)
+    tur = p["tur"]
+    if tur == "ntlm" and kaynak != "windows-ntds":
+        return {"tur": "belirsiz-32hex", "kaynak": kaynak, "bulgular": ["algoritma-baglamla-dogrulanmadi"], "parametreler": {}, "parola_dogrulandi": False}
+    if kaynak == "windows-ntds" and tur != "ntlm":
+        raise ValueError("Kaynak ve biçim çelişiyor")
+    params = {k:p[k] for k in ("cost", "rounds", "parametreler") if k in p}
+    bulgular = []
+    if tur == "ntlm":
+        bulgular.append("salt-yok-hizli-ozet")
+    if tur == "bcrypt" and p["cost"] < minimum_bcrypt_cost:
+        bulgular.append("politika-altinda-cost")
+    if tur == "yescrypt":
+        bulgular.append("parametre-kaynagi-ve-arac-surumu-dogrulanmali")
+    return {"tur": tur, "kaynak": kaynak, "bulgular": bulgular,
+            "parametreler": params, "parola_dogrulandi": False}
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from hash_formats_lab import hazirla
+hazirla()
+import json
+import re
+kayitlar = json.load(open("hash_formats/hashes.json", encoding="utf-8"))["kayitlar"]
+BCRYPT = re.compile(r"^\$(2[aby])\$(0[4-9]|[12][0-9]|3[01])\$([./A-Za-z0-9]{22})([./A-Za-z0-9]{31})$")
+SHA512 = re.compile(r"^\$6\$(?:rounds=([0-9]+)\$)?([./A-Za-z0-9]{1,16})\$([./A-Za-z0-9]{86})$")
+YESCRYPT = re.compile(r"^\$y\$([./A-Za-z0-9]+)\$([./A-Za-z0-9]+)\$([./A-Za-z0-9]+)$")
+
+def ozet_ayristir(metin):
+    if not isinstance(metin, str):
+        raise ValueError("Özet metin olmalı")
+    if re.fullmatch(r"[0-9A-Fa-f]{32}", metin):
+        return {"tur": "ntlm", "digest": metin.lower()}
+    m = BCRYPT.fullmatch(metin)
+    if m:
+        surum, cost, salt, digest = m.groups()
+        return {"tur":"bcrypt", "surum":surum, "cost":int(cost), "salt":salt, "digest":digest}
+    m = SHA512.fullmatch(metin)
+    if m:
+        rounds, salt, digest = m.groups()
+        rounds = int(rounds) if rounds else 5000
+        if not 1000 <= rounds <= 999999999:
+            raise ValueError("sha512crypt rounds aralık dışı")
+        return {"tur":"sha512crypt", "rounds":rounds, "salt":salt, "digest":digest}
+    m = YESCRYPT.fullmatch(metin)
+    if m:
+        parametreler, salt, digest = m.groups()
+        return {"tur":"yescrypt", "parametreler":parametreler, "salt":salt, "digest":digest}
+    raise ValueError("Desteklenmeyen veya belirsiz özet biçimi")
+import types
+_helpers = types.ModuleType("pu17_helpers")
+_helpers.__dict__.update(globals())
+sys.modules["pu17_helpers"] = _helpers
+```
+
+```hint
+Önce kaynak ve eşik tipini doğrula; biçimi ayrıştır; çıktı sözlüğünü izin verilen parametrelerden yeniden kur. Parser sözlüğünü doğrudan döndürme.
+```
+:::

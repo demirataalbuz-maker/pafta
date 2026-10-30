@@ -103,7 +103,9 @@ def ensure(motor):
         try:
             client(motor, 'SELECT 1;')
             return
-        except (RuntimeError, subprocess.TimeoutExpired):
+        except (RuntimeError, subprocess.TimeoutExpired) as error:
+            if isinstance(error, RuntimeError) and any(code in str(error) for code in ('ERROR 1045', '18456')):
+                raise RuntimeError('SQL kimlik doğrulaması başarısız; yerel sql-docker/config.json ile mevcut konteynerin kimlik bilgileri eşleşmiyor. Veritabanını silmeden yapılandırmayı doğrulayın.') from None
             if time.monotonic() >= end:
                 raise RuntimeError('SQL sunucusu 100 saniyede hazır olmadı') from None
             time.sleep(1)

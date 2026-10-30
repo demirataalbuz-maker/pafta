@@ -1,0 +1,36 @@
+türetilmiş: [1:Disk dolu/kritik/açık, 2:Yama/yüksek/açık, 4:DNS/düşük/açık, 5:502/kritik/açık]
+
+say kritik: 3
+
+In/Not: [1:Disk dolu/kritik/açık, 4:DNS/düşük/açık, 5:502/kritik/açık]
+
+@Query: [Disk dolu, 502]
+
+depo sınıfı proxy: true
+
+servis sınıfı: CGLIB alt sınıfı
+
+commit: 5 → 7
+
+yakalandı: çalışma zamanı hatası
+
+RuntimeException rollback: 7 → 7
+
+yakalandı: denetimli
+
+denetimli istisna: 7 → 8
+
+yakalandı: denetimli, rollbackFor
+
+rollbackFor: 8 → 8
+
+dışarıdan çağrılan (işlemsiz yöntem): işlem yok; içeride çağrılan: işlem yok
+
+doğrudan proxy üzerinden: işlem var
+
+readOnly: işlem var, salt okunur=true
+
+toplu kapat (@Modifying): 3
+
+işlemsiz @Modifying: InvalidDataAccessApiUsageException
+

@@ -1,0 +1,17 @@
+test_catalog_source_and_every_lesson_has_native_prediction (__main__.CmdCurriculumTests.test_catalog_source_and_every_lesson_has_native_prediction) ... ok
+test_native_prediction_lines_are_explained (__main__.CmdCurriculumTests.test_native_prediction_lines_are_explained) ... 
+  test_native_prediction_lines_are_explained (__main__.CmdCurriculumTests.test_native_prediction_lines_are_explained) (lesson='cm25') ... FAIL
+
+======================================================================
+FAIL: test_native_prediction_lines_are_explained (__main__.CmdCurriculumTests.test_native_prediction_lines_are_explained) (lesson='cm25')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_cmd_curriculum.py", line 70, in test_native_prediction_lines_are_explained
+    self.assertIn(line.strip(), plain, (lid, line, explanation))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stub_bozuk.exe: Nesnenin dijital imzası doğrulanmadı.' not found in '\n\ntext\nnot.txt: Unsigned\nnotepad.exe: Signed\nnotepad_bozuk.exe: Unsigned\nstub.exe: Signed\nstub_bozuk.exe: The digital signature of the object did not verify.\n\n\nmore UTF-16 raporu düz metne çevirir, skip=1 başlık satırını atlar. Yol ve doğrulama alanı tırnaklıdır; %%~nxa yoldan dosya adını alır, %%~b tırnakları atar. Katalog imzalı notepad.exe\'nin bozuk kopyası Unsigned görünür (imza dosyada değil katalogdadır, yeni özet hiçbir katalogda yoktur); gömülü imzalı stub.exe\'nin bozuk kopyası "did not verify" der. Metin dosyası imza taşıyamaz. Rapor klasörün dışında olduğu için listeye girmez.' : ('cm25', 'stub_bozuk.exe: Nesnenin dijital imzası doğrulanmadı.', '\n\n```text\nnot.txt: Unsigned\nnotepad.exe: Signed\nnotepad_bozuk.exe: Unsigned\nstub.exe: Signed\nstub_bozuk.exe: The digital signature of the object did not verify.\n```\n\n`more` UTF-16 raporu düz metne çevirir, `skip=1` başlık satırını atlar. Yol ve doğrulama alanı tırnaklıdır; `%%~nxa` yoldan dosya adını alır, `%%~b` tırnakları atar. Katalog imzalı `notepad.exe`\'nin bozuk kopyası `Unsigned` görünür (imza dosyada değil katalogdadır, yeni özet hiçbir katalogda yoktur); gömülü imzalı `stub.exe`\'nin bozuk kopyası "did not verify" der. Metin dosyası imza taşıyamaz. Rapor klasörün dışında olduğu için listeye girmez.')
+
+----------------------------------------------------------------------
+Ran 2 tests in 6.669s
+
+FAILED (failures=1)

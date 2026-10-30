@@ -1,0 +1,94 @@
+{
+  "scope": "Final source versions; author acceptance, not independent audit",
+  "checks": {
+    "windows-final": {
+      "exit": 0,
+      "log": "laptop-20261027-windows-final.log",
+      "seconds": 83.8,
+      "tail": [
+        "12 ders, 138 kontrol · geçen: {'ornek': 27, 'tahmin': 15, 'solution': 48, 'starter': 48}",
+        "TEMİZ"
+      ]
+    },
+    "gitbash-final": {
+      "exit": 0,
+      "log": "laptop-20261027-gitbash-final.log",
+      "seconds": 86.2,
+      "tail": [
+        "12 ders, 138 kontrol · geçen: {'ornek': 27, 'tahmin': 15, 'solution': 48, 'starter': 48}",
+        "TEMİZ"
+      ]
+    },
+    "test_cmd_runtime-final": {
+      "exit": 0,
+      "log": "laptop-20261027-test_cmd_runtime-final.log",
+      "seconds": 12.2,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 12 tests in 11.686s",
+        "",
+        "OK"
+      ]
+    },
+    "test_cmd_token_mutations-final": {
+      "exit": 0,
+      "log": "laptop-20261027-test_cmd_token_mutations-final.log",
+      "seconds": 17.6,
+      "tail": [
+        "13 CMD token/DACL mutants rejected"
+      ]
+    },
+    "test_bootstrap_sync-final": {
+      "exit": 0,
+      "log": "laptop-20261027-test_bootstrap_sync-final.log",
+      "seconds": 0.7,
+      "tail": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 15 tests in 0.121s",
+        "",
+        "OK"
+      ]
+    },
+    "check_repo_links-final": {
+      "exit": 0,
+      "log": "laptop-20261027-check_repo_links-final.log",
+      "seconds": 0.8,
+      "tail": [
+        "  \"evidence_links_checked\": 116,",
+        "  \"orphan_lessons\": [],",
+        "  \"errors\": [],",
+        "  \"scope\": \"Registration/import/path checks only; does not execute all lessons or verify grading quality.\"",
+        "}"
+      ]
+    },
+    "test_laptop_quality-final": {
+      "exit": 0,
+      "log": "laptop-20261027-test_laptop_quality-final.log",
+      "seconds": 8.4,
+      "tail": [
+        "pu14: reference pass, 10 deliberately wrong solutions rejected",
+        "pu17: reference pass, 10 deliberately wrong solutions rejected",
+        "C:\\Users\\demo12\\Documents\\Pafta\\outputs\\laptop-20261027-purple-acceptance.json"
+      ]
+    }
+  },
+  "source_sha256": {
+    "docs/denetim/puanlar.json": "e2e9e671ed86f8a12a3ac0471dc7b32e4de66ac24949683fa50fad58ccffef22",
+    "engine/runners.py": "c3d064b41f8fc4497643200300efc7ecb7f669fd5ebf944cd4cd94dfbdbf8848",
+    "sandbox/ps24_file_fixtures.py": "03ea9e2666c05f87151a974ac98f4aa8f552f47080144f89d1ac43d07684c396",
+    "tools/splunk_cim_kur.py": "8f144828096174870ebd37656e538508ff5901de55f3640b13acf20161d36910",
+    "tracks/bash/lessons/bs31-proc-ps-journalctl.md": "8e95151638fba2c117b3b44f870733fcc8045da0c92687606e4f4741d2b74c6e",
+    "tracks/bash/lessons/bs33-capabilities.md": "c449e23f9b4b36ad3db9fbb9c2d7310979a800be23e4ba37a916eddd1ea06eec",
+    "tracks/bash/lessons/bs35-ssh-uzak-komut.md": "87ade692d68eb63e6c7b53f1930fa7c512edd4f371badff64cc9c7c4e16b940f",
+    "tracks/cmd/lessons/cm23-token-grup-ayricalik.md": "1eb6782e98e8567a3e74a009380ad83b74a8fd905bda6957c428ed06ffbb467f",
+    "tracks/cmd/lessons/cm25-sigcheck-autorunsc.md": "ac940092e1aa7cda093ce8c259b841d75cdbca4d09ffe51733a23155583a7df3",
+    "tracks/powershell/lessons/ps19-kesif-saglayicilar.md": "26a37e37ab834beef40f0fa9f1ada24ebbf02ddec8e4e6660d2eb9fa5ab7efd6",
+    "tracks/powershell/lessons/ps22-get-acl.md": "99a907767bbd485f342bcc289de8c34b58c6c2f989519c2ae2ca2a410e9a3bb7",
+    "tracks/powershell/lessons/ps24-clm-jea-applocker.md": "88e135dc6ba6fe9d138fd4f51047e4eabcc0d57f3be0f3d56b68ed583987434f",
+    "tracks/powershell/lessons/ps26-pester.md": "100c1827100e839ef1f24b12a7f6574279f5ebf89c3794a9b97dfdc997ef3ed9",
+    "tracks/purple/lessons/pu14-oltalama-email-analizi.md": "56fee61e3c93d7c8d2c113c7ff5fde04f47e7b693adaf95ef42b0ffefb6b8966",
+    "tracks/purple/lessons/pu17-parola-ozeti-bicimleri.md": "e652ed123b54bd29b93a623e1578359231bd19405ca0e4c24d5127d4afbf7d9b"
+  }
+}

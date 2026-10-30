@@ -1,0 +1,29 @@
+43 mutations checked on real Kali Impacket.
+test_layout_and_encoding (__main__.ImpacketLessons.test_layout_and_encoding) ... FAIL
+test_mutations_are_rejected (__main__.ImpacketLessons.test_mutations_are_rejected) ... ok
+test_predictions_match_printed_answer (__main__.ImpacketLessons.test_predictions_match_printed_answer) ... ok
+test_solutions_and_starters (__main__.ImpacketLessons.test_solutions_and_starters) ... 
+  test_solutions_and_starters (__main__.ImpacketLessons.test_solutions_and_starters) (lid='p78', title="Eksik paket ile eksik API'yi ayır") ... FAIL
+
+======================================================================
+FAIL: test_layout_and_encoding (__main__.ImpacketLessons.test_layout_and_encoding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_impacket_lessons.py", line 84, in test_layout_and_encoding
+    self.assertEqual(len(steps(lid, "gorev")), 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 2
+
+======================================================================
+FAIL: test_solutions_and_starters (__main__.ImpacketLessons.test_solutions_and_starters) (lid='p78', title="Eksik paket ile eksik API'yi ayır")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_impacket_lessons.py", line 110, in test_solutions_and_starters
+    self.assertGreater(len(result["checks"]), 10)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 8 not greater than 10
+
+----------------------------------------------------------------------
+Ran 4 tests in 30.431s
+
+FAILED (failures=2)

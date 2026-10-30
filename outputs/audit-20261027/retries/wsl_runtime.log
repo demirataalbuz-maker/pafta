@@ -1,0 +1,40 @@
+C:\Users\demo12\Documents\Pafta\engine\runners.py:720: SyntaxWarning: invalid escape sequence '\p'
+  """PowerShell 7: .deps\pwsh\<sürüm>\pwsh.exe (taşınabilir paket; yönetici gerektirmez), yoksa PATH."""
+test_defaults_and_boundaries (__main__.WslConfigurationTests.test_defaults_and_boundaries) ... ok
+test_missing_wsl_is_explicit (__main__.WslConfigurationTests.test_missing_wsl_is_explicit) ... ok
+test_only_explicit_supported_backend_and_no_shared_timeout_mutation (__main__.WslConfigurationTests.test_only_explicit_supported_backend_and_no_shared_timeout_mutation) ... ok
+test_bash_timeout_kills_background_process (__main__.WslLifecycleTests.test_bash_timeout_kills_background_process) ... ok
+test_explicit_cancellation_and_concurrent_job_independence (__main__.WslLifecycleTests.test_explicit_cancellation_and_concurrent_job_independence) ... ok
+test_normal_exit_also_cleans_detached_descendants (__main__.WslLifecycleTests.test_normal_exit_also_cleans_detached_descendants) ... ok
+test_setup_and_test_code_share_the_deadline (__main__.WslLifecycleTests.test_setup_and_test_code_share_the_deadline) ... ok
+test_timeout_kills_detached_children_and_grandchildren (__main__.WslLifecycleTests.test_timeout_kills_detached_children_and_grandchildren) ... ok
+test_windows_parent_death_closes_control_and_cleans_linux (__main__.WslLifecycleTests.test_windows_parent_death_closes_control_and_cleans_linux) ... ok
+test_bad_distribution_fails_without_native_fallback (__main__.WslRuntimeTests.test_bad_distribution_fails_without_native_fallback) ... ok
+test_installed_modules_report_real_linux_origins (__main__.WslRuntimeTests.test_installed_modules_report_real_linux_origins) ... ok
+test_native_exit_codes_and_low_level_streams (__main__.WslRuntimeTests.test_native_exit_codes_and_low_level_streams) ... ok
+test_real_offline_wheel_venv_and_install_fit_default (__main__.WslRuntimeTests.test_real_offline_wheel_venv_and_install_fit_default) ... ok
+test_setup_module_and_http_server_share_the_linux_script_process (__main__.WslRuntimeTests.test_setup_module_and_http_server_share_the_linux_script_process) ... ok
+test_tests_setup_trace_and_disassembly (__main__.WslRuntimeTests.test_tests_setup_trace_and_disassembly) ... FAIL
+test_utf8_lf_argv_stdin_real_script_and_stderr (__main__.WslRuntimeTests.test_utf8_lf_argv_stdin_real_script_and_stderr) ... ok
+
+======================================================================
+FAIL: test_tests_setup_trace_and_disassembly (__main__.WslRuntimeTests.test_tests_setup_trace_and_disassembly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_wsl_runtime.py", line 141, in test_tests_setup_trace_and_disassembly
+    self.assertEqual([step["line"] for step in trace["iz"]], [1, 2])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [1, 2]
+
+Second list contains 2 additional elements.
+First extra element 0:
+1
+
+- []
++ [1, 2]
+
+----------------------------------------------------------------------
+Ran 16 tests in 38.674s
+
+FAILED (failures=1)
+Kali offline timing: {"build": 1.86, "venv": 2.555, "install": 0.569, "check": [42, true, true]}

@@ -24,6 +24,9 @@ from urllib.parse import parse_qs, unquote, urlparse
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 
+from engine.runtime_env import refresh_windows_runtime_env  # noqa: E402
+refresh_windows_runtime_env()
+
 from engine import runners, sinav  # noqa: E402
 from engine.lessons import Library, public_step  # noqa: E402
 from engine.progress import Progress, data_dir, today  # noqa: E402

@@ -1,0 +1,2071 @@
+{
+  "generated_utc": "2026-10-27T19:02:24.653514+00:00",
+  "scope": "Selected application/runtime/security regression suites plus targeted acceptance. Does not claim every optional test file was run or unavailable live labs passed.",
+  "suite_count": 66,
+  "counts": {
+    "PASS": 64,
+    "SKIPPED": 1,
+    "BLOCKED": 1
+  },
+  "unit_tests_in_latest_suites": 268,
+  "skipped_tests_in_latest_suites": 5,
+  "suites": [
+    {
+      "name": "ad_advanced",
+      "status": "PASS",
+      "latest": {
+        "name": "ad_advanced",
+        "exit": 0,
+        "seconds": 16.8,
+        "log": "outputs/audit-20261027/regressions/ad_advanced.log",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "be6cf7da5470aee0abfbfe8478855c564383157fb7c15ffb2b5b6f348b738d0d",
+        "observed_mtime": 1793122964.1680233
+      },
+      "attempts": [
+        {
+          "name": "ad_advanced",
+          "exit": 0,
+          "seconds": 16.8,
+          "log": "outputs/audit-20261027/regressions/ad_advanced.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "be6cf7da5470aee0abfbfe8478855c564383157fb7c15ffb2b5b6f348b738d0d",
+          "observed_mtime": 1793122964.1680233
+        }
+      ]
+    },
+    {
+      "name": "ad_app",
+      "status": "PASS",
+      "latest": {
+        "name": "ad_app",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/ad_app-startup-final.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 2,
+        "skipped_tests": 1,
+        "status": "PASS",
+        "log_sha256": "ac21f06cf67f0a0d0aed28a60ac3038ee0379d7819b12bb8e585004fa42deea4",
+        "observed_mtime": 1793125694.6741323
+      },
+      "attempts": [
+        {
+          "name": "ad_app",
+          "exit": 1,
+          "seconds": 1.4,
+          "log": "outputs/audit-20261027/regressions/ad_app.log",
+          "unit_tests": 2,
+          "skipped_tests": 1,
+          "status": "FAIL",
+          "log_sha256": "4495186fbd72371f60c34367eeb5ac76205ef42e941164c90b9f4a6df7c8ca90",
+          "observed_mtime": 1793122947.4113476
+        },
+        {
+          "name": "ad_app",
+          "exit": 0,
+          "seconds": 4.9,
+          "log": "outputs/audit-20261027/retries/ad_app.log",
+          "unit_tests": 2,
+          "skipped_tests": 1,
+          "status": "PASS",
+          "log_sha256": "b7192dc20d4eab62bd93026600c5b71ecfad278165e12cb7537dfd968ed501ba",
+          "observed_mtime": 1793123759.4905016
+        },
+        {
+          "name": "ad_app",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/ad_app-startup-final.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 2,
+          "skipped_tests": 1,
+          "status": "PASS",
+          "log_sha256": "ac21f06cf67f0a0d0aed28a60ac3038ee0379d7819b12bb8e585004fa42deea4",
+          "observed_mtime": 1793125694.6741323
+        }
+      ]
+    },
+    {
+      "name": "ad_graph_export",
+      "status": "PASS",
+      "latest": {
+        "name": "ad_graph_export",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/ad_graph_export.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "06eed705ab14f3cae0e5d6486291391167fecddc6688db6e6cb5e0560e653e7c",
+        "observed_mtime": 1793125439.955409
+      },
+      "attempts": [
+        {
+          "name": "ad_graph_export",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/ad_graph_export.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "06eed705ab14f3cae0e5d6486291391167fecddc6688db6e6cb5e0560e653e7c",
+          "observed_mtime": 1793125439.955409
+        }
+      ]
+    },
+    {
+      "name": "ad_ldap_path",
+      "status": "PASS",
+      "latest": {
+        "name": "ad_ldap_path",
+        "exit": 0,
+        "seconds": 5.3,
+        "log": "outputs/audit-20261027/regressions/ad_ldap_path.log",
+        "unit_tests": 2,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "79a8030b59dc3f63692344d4fb7532b68f6d8fa526881c8b0beac3591593d607",
+        "observed_mtime": 1793122976.6547637
+      },
+      "attempts": [
+        {
+          "name": "ad_ldap_path",
+          "exit": 0,
+          "seconds": 5.3,
+          "log": "outputs/audit-20261027/regressions/ad_ldap_path.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "79a8030b59dc3f63692344d4fb7532b68f6d8fa526881c8b0beac3591593d607",
+          "observed_mtime": 1793122976.6547637
+        }
+      ]
+    },
+    {
+      "name": "ad_policy_lessons",
+      "status": "PASS",
+      "latest": {
+        "name": "ad_policy_lessons",
+        "exit": 0,
+        "seconds": 7.2,
+        "log": "outputs/audit-20261027/regressions/ad_policy_lessons.log",
+        "unit_tests": 2,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "84eadd6e28f2bc202778df576a24f2e4fa26b0673b12f9a5993dceb92804f8d6",
+        "observed_mtime": 1793122971.3586
+      },
+      "attempts": [
+        {
+          "name": "ad_policy_lessons",
+          "exit": 0,
+          "seconds": 7.2,
+          "log": "outputs/audit-20261027/regressions/ad_policy_lessons.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "84eadd6e28f2bc202778df576a24f2e4fa26b0673b12f9a5993dceb92804f8d6",
+          "observed_mtime": 1793122971.3586
+        }
+      ]
+    },
+    {
+      "name": "ad_vm_runtime",
+      "status": "PASS",
+      "latest": {
+        "name": "ad_vm_runtime",
+        "exit": 0,
+        "seconds": 17.7,
+        "log": "outputs/audit-20261027/regressions/ad_vm_runtime.log",
+        "unit_tests": 9,
+        "skipped_tests": 3,
+        "status": "PASS",
+        "log_sha256": "98cbe2114ba72692bdd1755205a1f5911b14cd75913991beddde78d116a88f34",
+        "observed_mtime": 1793122994.3726895
+      },
+      "attempts": [
+        {
+          "name": "ad_vm_runtime",
+          "exit": 0,
+          "seconds": 17.7,
+          "log": "outputs/audit-20261027/regressions/ad_vm_runtime.log",
+          "unit_tests": 9,
+          "skipped_tests": 3,
+          "status": "PASS",
+          "log_sha256": "98cbe2114ba72692bdd1755205a1f5911b14cd75913991beddde78d116a88f34",
+          "observed_mtime": 1793122994.3726895
+        }
+      ]
+    },
+    {
+      "name": "api_tezgah",
+      "status": "PASS",
+      "latest": {
+        "name": "api_tezgah",
+        "exit": 0,
+        "seconds": 1.1,
+        "log": "outputs/audit-20261027/regressions/api_tezgah.log",
+        "unit_tests": 10,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "0244b9c110fce156f16422301a8b0756cbee7decbf15efe11761f7d33474eb11",
+        "observed_mtime": 1793122945.970891
+      },
+      "attempts": [
+        {
+          "name": "api_tezgah",
+          "exit": 0,
+          "seconds": 1.1,
+          "log": "outputs/audit-20261027/regressions/api_tezgah.log",
+          "unit_tests": 10,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "0244b9c110fce156f16422301a8b0756cbee7decbf15efe11761f7d33474eb11",
+          "observed_mtime": 1793122945.970891
+        }
+      ]
+    },
+    {
+      "name": "aspnet_native",
+      "status": "PASS",
+      "latest": {
+        "name": "aspnet_native",
+        "exit": 0,
+        "log": "outputs/audit-20261027/extra/aspnet-real.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "dcb98eff31641f8c945ce73485ea63a37069861c2474ef6c428fab0c25247061",
+        "observed_mtime": 1793124023.315575
+      },
+      "attempts": [
+        {
+          "name": "aspnet_native",
+          "exit": 0,
+          "log": "outputs/audit-20261027/extra/aspnet-real.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "dcb98eff31641f8c945ce73485ea63a37069861c2474ef6c428fab0c25247061",
+          "observed_mtime": 1793124023.315575
+        }
+      ]
+    },
+    {
+      "name": "audit_laptop",
+      "status": "PASS",
+      "latest": {
+        "name": "audit_laptop",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/audit_laptop-cim-macro-final.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 10,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "7fa2c3f39772ba088198b95aa567e627f67c3902377d56005c27e26c62e660a9",
+        "observed_mtime": 1793127267.816078
+      },
+      "attempts": [
+        {
+          "name": "audit_laptop",
+          "exit": 0,
+          "seconds": 0.6,
+          "log": "outputs/audit-20261027/regressions/audit_laptop.log",
+          "unit_tests": 7,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "d4096016f94b3e2f854d42c86eca1d620c32a0e1545d3bdfb4b98c0627fef27a",
+          "observed_mtime": 1793122943.7145
+        },
+        {
+          "name": "audit_laptop",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/audit_laptop.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 7,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "d4096016f94b3e2f854d42c86eca1d620c32a0e1545d3bdfb4b98c0627fef27a",
+          "observed_mtime": 1793125440.4412808
+        },
+        {
+          "name": "audit_laptop",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/audit_laptop-final.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 9,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "cd9985c714d680a4f9bfffa5f2d5874b4b713cf75659473cc7618a3818e840da",
+          "observed_mtime": 1793126165.331138
+        },
+        {
+          "name": "audit_laptop",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/audit_laptop-cim-macro-final.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 10,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "7fa2c3f39772ba088198b95aa567e627f67c3902377d56005c27e26c62e660a9",
+          "observed_mtime": 1793127267.816078
+        }
+      ]
+    },
+    {
+      "name": "bloodhound_ce",
+      "status": "PASS",
+      "latest": {
+        "name": "bloodhound_ce",
+        "exit": 0,
+        "log": "outputs/audit-20261027/bloodhound-ce/acceptance.json",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "c4e87e0bd6e13780feb48d8b8a0ccb67b76a11c54a2ef34f1dd68ac7eaee72bf",
+        "observed_mtime": 1793122859.2045348
+      },
+      "attempts": [
+        {
+          "name": "bloodhound_ce",
+          "exit": 0,
+          "log": "outputs/audit-20261027/bloodhound-ce/acceptance.json",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "c4e87e0bd6e13780feb48d8b8a0ccb67b76a11c54a2ef34f1dd68ac7eaee72bf",
+          "observed_mtime": 1793122859.2045348
+        }
+      ]
+    },
+    {
+      "name": "bootstrap_sync",
+      "status": "PASS",
+      "latest": {
+        "name": "bootstrap_sync",
+        "exit": 0,
+        "seconds": 1.1,
+        "log": "outputs/audit-20261027/regressions/bootstrap_sync.log",
+        "unit_tests": 15,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "95698d332cdcf7761848f8a240894a1e1278d63ac73e52561a4a066acc7fc9fd",
+        "observed_mtime": 1793122944.8563423
+      },
+      "attempts": [
+        {
+          "name": "bootstrap_sync",
+          "exit": 0,
+          "seconds": 1.1,
+          "log": "outputs/audit-20261027/regressions/bootstrap_sync.log",
+          "unit_tests": 15,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "95698d332cdcf7761848f8a240894a1e1278d63ac73e52561a4a066acc7fc9fd",
+          "observed_mtime": 1793122944.8563423
+        }
+      ]
+    },
+    {
+      "name": "bpf_native",
+      "status": "PASS",
+      "latest": {
+        "name": "bpf_native",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/bpf_native.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 14,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "97a5cf88ee393b0abb9b515e5153a9224853fc8aa1baa96cbf657cd50a8e3844",
+        "observed_mtime": 1793125016.792228
+      },
+      "attempts": [
+        {
+          "name": "bpf_native",
+          "exit": 1,
+          "seconds": 1.3,
+          "log": "outputs/audit-20261027/regressions/bpf_native.log",
+          "unit_tests": 13,
+          "skipped_tests": 0,
+          "status": "FAIL",
+          "log_sha256": "b95e2ced6a79c2f26709df36fd5d193de4b3b100fb344e76bd50389ddb16a231",
+          "observed_mtime": 1793124374.8844666
+        },
+        {
+          "name": "bpf_native",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/bpf_native.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 14,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "97a5cf88ee393b0abb9b515e5153a9224853fc8aa1baa96cbf657cd50a8e3844",
+          "observed_mtime": 1793125016.792228
+        }
+      ]
+    },
+    {
+      "name": "capture_formats",
+      "status": "PASS",
+      "latest": {
+        "name": "capture_formats",
+        "exit": 0,
+        "seconds": 3.7,
+        "log": "outputs/audit-20261027/regressions/capture_formats.log",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "f3e001df5d59f17c871d294f09804dd069c5f3664150a9aff6e0cb473d7344a9",
+        "observed_mtime": 1793124373.5721836
+      },
+      "attempts": [
+        {
+          "name": "capture_formats",
+          "exit": 0,
+          "seconds": 3.7,
+          "log": "outputs/audit-20261027/regressions/capture_formats.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "f3e001df5d59f17c871d294f09804dd069c5f3664150a9aff6e0cb473d7344a9",
+          "observed_mtime": 1793124373.5721836
+        }
+      ]
+    },
+    {
+      "name": "cmd_config_mutations",
+      "status": "PASS",
+      "latest": {
+        "name": "cmd_config_mutations",
+        "exit": 0,
+        "seconds": 46.2,
+        "log": "outputs/audit-20261027/regressions/cmd_config_mutations.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "7b573772b37d686647dfbd84b458ac59af50cf7b9d2ce55d683d5cbd56b4b21c",
+        "observed_mtime": 1793123060.0181985
+      },
+      "attempts": [
+        {
+          "name": "cmd_config_mutations",
+          "exit": 0,
+          "seconds": 46.2,
+          "log": "outputs/audit-20261027/regressions/cmd_config_mutations.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "7b573772b37d686647dfbd84b458ac59af50cf7b9d2ce55d683d5cbd56b4b21c",
+          "observed_mtime": 1793123060.0181985
+        }
+      ]
+    },
+    {
+      "name": "cmd_curriculum",
+      "status": "PASS",
+      "latest": {
+        "name": "cmd_curriculum",
+        "exit": 0,
+        "seconds": 12.6,
+        "log": "outputs/audit-20261027/retries/cmd_curriculum.log",
+        "unit_tests": 2,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "79e35610b26dc8371791d1fbf1b02a17b98047db7dcd24f1970d8c29a4d7eb8a",
+        "observed_mtime": 1793123772.0868287
+      },
+      "attempts": [
+        {
+          "name": "cmd_curriculum",
+          "exit": 1,
+          "seconds": 7.1,
+          "log": "outputs/audit-20261027/regressions/cmd_curriculum.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "FAIL",
+          "log_sha256": "36f6bb9fbe2d95fb0d78a2bfe23549d3387bee2dded8485ecb46776860911968",
+          "observed_mtime": 1793123067.1198664
+        },
+        {
+          "name": "cmd_curriculum",
+          "exit": 0,
+          "seconds": 12.6,
+          "log": "outputs/audit-20261027/retries/cmd_curriculum.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "79e35610b26dc8371791d1fbf1b02a17b98047db7dcd24f1970d8c29a4d7eb8a",
+          "observed_mtime": 1793123772.0868287
+        }
+      ]
+    },
+    {
+      "name": "cmd_native_denials",
+      "status": "PASS",
+      "latest": {
+        "name": "cmd_native_denials",
+        "exit": 0,
+        "seconds": 29.4,
+        "log": "outputs/audit-20261027/regressions/cmd_native_denials.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "f04f02f53f8743d33d886aed8b1feabc56a22a87d26b59f6803659ad795820c1",
+        "observed_mtime": 1793123096.5027547
+      },
+      "attempts": [
+        {
+          "name": "cmd_native_denials",
+          "exit": 0,
+          "seconds": 29.4,
+          "log": "outputs/audit-20261027/regressions/cmd_native_denials.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "f04f02f53f8743d33d886aed8b1feabc56a22a87d26b59f6803659ad795820c1",
+          "observed_mtime": 1793123096.5027547
+        }
+      ]
+    },
+    {
+      "name": "cmd_runtime",
+      "status": "PASS",
+      "latest": {
+        "name": "cmd_runtime",
+        "exit": 0,
+        "seconds": 19.4,
+        "log": "outputs/audit-20261027/regressions/cmd_runtime.log",
+        "unit_tests": 12,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "d2e409b8c42c789eebf4b3e57826ed6f4390a5c798836b2d38f04f4a9b523166",
+        "observed_mtime": 1793123013.7956924
+      },
+      "attempts": [
+        {
+          "name": "cmd_runtime",
+          "exit": 0,
+          "seconds": 19.4,
+          "log": "outputs/audit-20261027/regressions/cmd_runtime.log",
+          "unit_tests": 12,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "d2e409b8c42c789eebf4b3e57826ed6f4390a5c798836b2d38f04f4a9b523166",
+          "observed_mtime": 1793123013.7956924
+        }
+      ]
+    },
+    {
+      "name": "cmd_token_mutations",
+      "status": "PASS",
+      "latest": {
+        "name": "cmd_token_mutations",
+        "exit": 0,
+        "seconds": 31.4,
+        "log": "outputs/audit-20261027/regressions/cmd_token_mutations.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "2dd9c68fd400a3286e11fe5ca6d6590bd65d94d8bc7db1cacb2d82d028de96a4",
+        "observed_mtime": 1793123127.8875875
+      },
+      "attempts": [
+        {
+          "name": "cmd_token_mutations",
+          "exit": 0,
+          "seconds": 31.4,
+          "log": "outputs/audit-20261027/regressions/cmd_token_mutations.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "2dd9c68fd400a3286e11fe5ca6d6590bd65d94d8bc7db1cacb2d82d028de96a4",
+          "observed_mtime": 1793123127.8875875
+        }
+      ]
+    },
+    {
+      "name": "email_analysis_lesson",
+      "status": "PASS",
+      "latest": {
+        "name": "email_analysis_lesson",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/email_analysis_lesson.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 9,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "22dc271dcd168433cdfc94880fb02a13f6b99b2ef2acdfee6123384bc134585b",
+        "observed_mtime": 1793124699.0089836
+      },
+      "attempts": [
+        {
+          "name": "email_analysis_lesson",
+          "exit": 1,
+          "seconds": 1.5,
+          "log": "outputs/audit-20261027/regressions/email_analysis_lesson.log",
+          "unit_tests": 5,
+          "skipped_tests": 0,
+          "status": "FAIL",
+          "log_sha256": "466c3a50d86fd6a083811aca0e3c7d8cf4adda04c8890bdac3d46a4fe7d5a8f4",
+          "observed_mtime": 1793124531.187069
+        },
+        {
+          "name": "email_analysis_lesson",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/email_analysis_lesson.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 9,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "22dc271dcd168433cdfc94880fb02a13f6b99b2ef2acdfee6123384bc134585b",
+          "observed_mtime": 1793124699.0089836
+        }
+      ]
+    },
+    {
+      "name": "emulation_lesson",
+      "status": "PASS",
+      "latest": {
+        "name": "emulation_lesson",
+        "exit": 0,
+        "seconds": 11.2,
+        "log": "outputs/audit-20261027/extra/emulation_lesson.log",
+        "unit_tests": 8,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "f1ff3eb9082c37e3591936cf0ee5065dedc2bfb57a799c5a2b9ad8b858498dfe",
+        "observed_mtime": 1793123725.8497946
+      },
+      "attempts": [
+        {
+          "name": "emulation_lesson",
+          "exit": 0,
+          "seconds": 11.2,
+          "log": "outputs/audit-20261027/extra/emulation_lesson.log",
+          "unit_tests": 8,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "f1ff3eb9082c37e3591936cf0ee5065dedc2bfb57a799c5a2b9ad8b858498dfe",
+          "observed_mtime": 1793123725.8497946
+        }
+      ]
+    },
+    {
+      "name": "hash_formats_lesson",
+      "status": "PASS",
+      "latest": {
+        "name": "hash_formats_lesson",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/hash_formats_lesson.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 8,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "9fd8931319e4c764abecf6ceeb59591e56855c56a91825471fbe438cba94d6fa",
+        "observed_mtime": 1793124720.3554406
+      },
+      "attempts": [
+        {
+          "name": "hash_formats_lesson",
+          "exit": 1,
+          "seconds": 18.0,
+          "log": "outputs/audit-20261027/regressions/hash_formats_lesson.log",
+          "unit_tests": 8,
+          "skipped_tests": 0,
+          "status": "FAIL",
+          "log_sha256": "50d673cab978e6f1bad30910dfd071cef1985e70e4dc9295fbd48b90ed393a7b",
+          "observed_mtime": 1793124549.2035408
+        },
+        {
+          "name": "hash_formats_lesson",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/hash_formats_lesson.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 8,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "9fd8931319e4c764abecf6ceeb59591e56855c56a91825471fbe438cba94d6fa",
+          "observed_mtime": 1793124720.3554406
+        }
+      ]
+    },
+    {
+      "name": "http_advanced",
+      "status": "PASS",
+      "latest": {
+        "name": "http_advanced",
+        "exit": 0,
+        "seconds": 208.6,
+        "log": "outputs/audit-20261027/long-retries/http_advanced.log",
+        "unit_tests": 7,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "d332f55c51db75c769a4c3fc0bdd085f8714af666b1952f32b1d42a151ea1eff",
+        "observed_mtime": 1793124769.9201658
+      },
+      "attempts": [
+        {
+          "name": "http_advanced",
+          "exit": 124,
+          "seconds": 180.0,
+          "log": "outputs/audit-20261027/regressions/http_advanced.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "TIMEOUT",
+          "log_sha256": "8a44cbc03757ef0bd68de6b7f9cd3231c24094237016680202d54158088c87d9",
+          "observed_mtime": 1793124028.8990867
+        },
+        {
+          "name": "http_advanced",
+          "exit": 0,
+          "seconds": 208.6,
+          "log": "outputs/audit-20261027/long-retries/http_advanced.log",
+          "unit_tests": 7,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "d332f55c51db75c769a4c3fc0bdd085f8714af666b1952f32b1d42a151ea1eff",
+          "observed_mtime": 1793124769.9201658
+        }
+      ]
+    },
+    {
+      "name": "http_burp_export",
+      "status": "PASS",
+      "latest": {
+        "name": "http_burp_export",
+        "exit": 0,
+        "seconds": 26.2,
+        "log": "outputs/audit-20261027/regressions/http_burp_export.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "ee9470bb5440697f9054a2ced15e24949d1da3f74fdc49949bb44e46020f8a9a",
+        "observed_mtime": 1793124055.1350312
+      },
+      "attempts": [
+        {
+          "name": "http_burp_export",
+          "exit": 0,
+          "seconds": 26.2,
+          "log": "outputs/audit-20261027/regressions/http_burp_export.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "ee9470bb5440697f9054a2ced15e24949d1da3f74fdc49949bb44e46020f8a9a",
+          "observed_mtime": 1793124055.1350312
+        }
+      ]
+    },
+    {
+      "name": "http_kali",
+      "status": "PASS",
+      "latest": {
+        "name": "http_kali",
+        "exit": 0,
+        "seconds": 3.6,
+        "log": "outputs/audit-20261027/extra/http_kali.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "18f3e40074115885a984053076e180ac971ec8104894e5cabada5849323bb5b7",
+        "observed_mtime": 1793124171.8985431
+      },
+      "attempts": [
+        {
+          "name": "http_kali",
+          "exit": 0,
+          "seconds": 3.6,
+          "log": "outputs/audit-20261027/extra/http_kali.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "18f3e40074115885a984053076e180ac971ec8104894e5cabada5849323bb5b7",
+          "observed_mtime": 1793124171.8985431
+        }
+      ]
+    },
+    {
+      "name": "http_projects",
+      "status": "PASS",
+      "latest": {
+        "name": "http_projects",
+        "exit": 0,
+        "seconds": 36.1,
+        "log": "outputs/audit-20261027/regressions/http_projects.log",
+        "unit_tests": 2,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "65043fe4c6766202c9c5cedc966c6904e850dfa967e79ea4cb21b2104443d3e7",
+        "observed_mtime": 1793124091.273813
+      },
+      "attempts": [
+        {
+          "name": "http_projects",
+          "exit": 0,
+          "seconds": 36.1,
+          "log": "outputs/audit-20261027/regressions/http_projects.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "65043fe4c6766202c9c5cedc966c6904e850dfa967e79ea4cb21b2104443d3e7",
+          "observed_mtime": 1793124091.273813
+        }
+      ]
+    },
+    {
+      "name": "impacket_lessons",
+      "status": "PASS",
+      "latest": {
+        "name": "impacket_lessons",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/impacket_lessons.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "cb5871abe9c20574e928a2f37cbf8d6b0215a2b5bc004b9501f049ef82b84eba",
+        "observed_mtime": 1793123942.542127
+      },
+      "attempts": [
+        {
+          "name": "impacket_lessons",
+          "exit": 1,
+          "seconds": 31.1,
+          "log": "outputs/audit-20261027/extra/impacket_lessons.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "FAIL",
+          "log_sha256": "ac21f819fdfe8aae07cb66da034ac26bae98ff8f51867c60dade79ee01cf5abb",
+          "observed_mtime": 1793123803.8687644
+        },
+        {
+          "name": "impacket_lessons",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/impacket_lessons.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "cb5871abe9c20574e928a2f37cbf8d6b0215a2b5bc004b9501f049ef82b84eba",
+          "observed_mtime": 1793123942.542127
+        }
+      ]
+    },
+    {
+      "name": "jpa_native",
+      "status": "PASS",
+      "latest": {
+        "name": "jpa_native",
+        "exit": 0,
+        "log": "outputs/audit-20261027/java-native/jpa-offline.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "f326486ec8e0fc21fdb7361776046beacfea4e3394f6344e7e6273b098e004f7",
+        "observed_mtime": 1793124152.569821
+      },
+      "attempts": [
+        {
+          "name": "jpa_native",
+          "exit": 0,
+          "log": "outputs/audit-20261027/java-native/jpa-offline.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "f326486ec8e0fc21fdb7361776046beacfea4e3394f6344e7e6273b098e004f7",
+          "observed_mtime": 1793124152.569821
+        }
+      ]
+    },
+    {
+      "name": "laptop_preflight",
+      "status": "PASS",
+      "latest": {
+        "name": "laptop_preflight",
+        "exit": 0,
+        "seconds": 0.7,
+        "log": "outputs/audit-20261027/extra/laptop_preflight.log",
+        "unit_tests": 2,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "412b2454f96932993cd3d4a5f3bffc6343c903376258f08627a33bd8c629c436",
+        "observed_mtime": 1793124220.2651167
+      },
+      "attempts": [
+        {
+          "name": "laptop_preflight",
+          "exit": 0,
+          "seconds": 0.7,
+          "log": "outputs/audit-20261027/extra/laptop_preflight.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "412b2454f96932993cd3d4a5f3bffc6343c903376258f08627a33bd8c629c436",
+          "observed_mtime": 1793124220.2651167
+        }
+      ]
+    },
+    {
+      "name": "laptop_quality",
+      "status": "PASS",
+      "latest": {
+        "name": "laptop_quality",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/laptop_quality.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "efd1d479ab1d37554b3bfffeae5335b7dee135dce74488fe39b4da8ade913488",
+        "observed_mtime": 1793124750.7867136
+      },
+      "attempts": [
+        {
+          "name": "laptop_quality",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/laptop_quality.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "efd1d479ab1d37554b3bfffeae5335b7dee135dce74488fe39b4da8ade913488",
+          "observed_mtime": 1793124750.7867136
+        }
+      ]
+    },
+    {
+      "name": "linux_privesc_lesson",
+      "status": "PASS",
+      "latest": {
+        "name": "linux_privesc_lesson",
+        "exit": 0,
+        "seconds": 18.7,
+        "log": "outputs/audit-20261027/extra/linux_privesc_lesson.log",
+        "unit_tests": 8,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "699d23f732cb9e6923791596f723cf8800718f5dfac71f1ebc198f6702cc4cac",
+        "observed_mtime": 1793123744.5289946
+      },
+      "attempts": [
+        {
+          "name": "linux_privesc_lesson",
+          "exit": 0,
+          "seconds": 18.7,
+          "log": "outputs/audit-20261027/extra/linux_privesc_lesson.log",
+          "unit_tests": 8,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "699d23f732cb9e6923791596f723cf8800718f5dfac71f1ebc198f6702cc4cac",
+          "observed_mtime": 1793123744.5289946
+        }
+      ]
+    },
+    {
+      "name": "memory_lab",
+      "status": "PASS",
+      "latest": {
+        "name": "memory_lab",
+        "exit": 0,
+        "seconds": 5.5,
+        "log": "outputs/audit-20261027/extra/memory_lab.log",
+        "unit_tests": 12,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "b5a337eb5ba405b11728ef76352dc0ecab593f118d3023c758403500ce31eb8d",
+        "observed_mtime": 1793123704.1162958
+      },
+      "attempts": [
+        {
+          "name": "memory_lab",
+          "exit": 0,
+          "seconds": 5.5,
+          "log": "outputs/audit-20261027/extra/memory_lab.log",
+          "unit_tests": 12,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "b5a337eb5ba405b11728ef76352dc0ecab593f118d3023c758403500ce31eb8d",
+          "observed_mtime": 1793123704.1162958
+        }
+      ]
+    },
+    {
+      "name": "memory_live_pu10",
+      "status": "SKIPPED",
+      "latest": {
+        "name": "memory_live_pu10",
+        "exit": 0,
+        "seconds": 0.8,
+        "log": "outputs/audit-20261027/extra/memory_live_pu10.log",
+        "unit_tests": 1,
+        "skipped_tests": 1,
+        "status": "SKIPPED",
+        "log_sha256": "f140a3940564536a3c27ca84df7af41c904ca3da6e71a00923426afe20a15f31",
+        "observed_mtime": 1793123704.8790643
+      },
+      "attempts": [
+        {
+          "name": "memory_live_pu10",
+          "exit": 0,
+          "seconds": 0.8,
+          "log": "outputs/audit-20261027/extra/memory_live_pu10.log",
+          "unit_tests": 1,
+          "skipped_tests": 1,
+          "status": "SKIPPED",
+          "log_sha256": "f140a3940564536a3c27ca84df7af41c904ca3da6e71a00923426afe20a15f31",
+          "observed_mtime": 1793123704.8790643
+        }
+      ]
+    },
+    {
+      "name": "packet_app",
+      "status": "PASS",
+      "latest": {
+        "name": "packet_app",
+        "exit": 0,
+        "seconds": 29.8,
+        "log": "outputs/audit-20261027/regressions/packet_app.log",
+        "unit_tests": 1,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "ce5bea4904cb6fa10c452f50e1d2d193962c74a61c51d3c7533178ff6feec2b4",
+        "observed_mtime": 1793124121.0440824
+      },
+      "attempts": [
+        {
+          "name": "packet_app",
+          "exit": 0,
+          "seconds": 29.8,
+          "log": "outputs/audit-20261027/regressions/packet_app.log",
+          "unit_tests": 1,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "ce5bea4904cb6fa10c452f50e1d2d193962c74a61c51d3c7533178ff6feec2b4",
+          "observed_mtime": 1793124121.0440824
+        }
+      ]
+    },
+    {
+      "name": "packet_capture_lab",
+      "status": "PASS",
+      "latest": {
+        "name": "packet_capture_lab",
+        "exit": 0,
+        "seconds": 9.8,
+        "log": "outputs/audit-20261027/extra/packet_capture_lab.log",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "c3493524d7be69b1bdf30a4f3ac7ea8242d01331c0e47bb0db1fe7ee495d1fe7",
+        "observed_mtime": 1793123714.6361008
+      },
+      "attempts": [
+        {
+          "name": "packet_capture_lab",
+          "exit": 0,
+          "seconds": 9.8,
+          "log": "outputs/audit-20261027/extra/packet_capture_lab.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "c3493524d7be69b1bdf30a4f3ac7ea8242d01331c0e47bb0db1fe7ee495d1fe7",
+          "observed_mtime": 1793123714.6361008
+        }
+      ]
+    },
+    {
+      "name": "packet_cli",
+      "status": "PASS",
+      "latest": {
+        "name": "packet_cli",
+        "exit": 0,
+        "seconds": 5.2,
+        "log": "outputs/audit-20261027/regressions/packet_cli.log",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "571f0d38e31b59e0879eefd786f659f20af0f131828eba8e0d7f3b84f3b8355d",
+        "observed_mtime": 1793124126.272465
+      },
+      "attempts": [
+        {
+          "name": "packet_cli",
+          "exit": 0,
+          "seconds": 5.2,
+          "log": "outputs/audit-20261027/regressions/packet_cli.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "571f0d38e31b59e0879eefd786f659f20af0f131828eba8e0d7f3b84f3b8355d",
+          "observed_mtime": 1793124126.272465
+        }
+      ]
+    },
+    {
+      "name": "packet_crypto",
+      "status": "PASS",
+      "latest": {
+        "name": "packet_crypto",
+        "exit": 0,
+        "seconds": 9.9,
+        "log": "outputs/audit-20261027/regressions/packet_crypto.log",
+        "unit_tests": 3,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "fbfbaadf43bdc19f28fb3528a776138f39b1241884910f062b237c195658fea7",
+        "observed_mtime": 1793124136.1958928
+      },
+      "attempts": [
+        {
+          "name": "packet_crypto",
+          "exit": 0,
+          "seconds": 9.9,
+          "log": "outputs/audit-20261027/regressions/packet_crypto.log",
+          "unit_tests": 3,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "fbfbaadf43bdc19f28fb3528a776138f39b1241884910f062b237c195658fea7",
+          "observed_mtime": 1793124136.1958928
+        }
+      ]
+    },
+    {
+      "name": "packet_curriculum",
+      "status": "PASS",
+      "latest": {
+        "name": "packet_curriculum",
+        "exit": 0,
+        "log": "outputs/audit-20261027/packet-mutations.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "84bbfc27b91030d988c09f4f0fbb98acc946c29dd9a0cbcb889a2c763f6c8103",
+        "observed_mtime": 1793124882.907715
+      },
+      "attempts": [
+        {
+          "name": "packet_curriculum",
+          "exit": 124,
+          "seconds": 180.0,
+          "log": "outputs/audit-20261027/regressions/packet_curriculum.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "TIMEOUT",
+          "log_sha256": "8a44cbc03757ef0bd68de6b7f9cd3231c24094237016680202d54158088c87d9",
+          "observed_mtime": 1793124316.2459922
+        },
+        {
+          "name": "packet_curriculum",
+          "exit": 0,
+          "log": "outputs/audit-20261027/packet-mutations.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "84bbfc27b91030d988c09f4f0fbb98acc946c29dd9a0cbcb889a2c763f6c8103",
+          "observed_mtime": 1793124882.907715
+        }
+      ]
+    },
+    {
+      "name": "packet_directory",
+      "status": "PASS",
+      "latest": {
+        "name": "packet_directory",
+        "exit": 0,
+        "seconds": 13.1,
+        "log": "outputs/audit-20261027/regressions/packet_directory.log",
+        "unit_tests": 3,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "0ebfa44beece767a2793f3cfe08d1b8fd9f7aee090031e11ef71bb718dd56d49",
+        "observed_mtime": 1793124329.3642204
+      },
+      "attempts": [
+        {
+          "name": "packet_directory",
+          "exit": 0,
+          "seconds": 13.1,
+          "log": "outputs/audit-20261027/regressions/packet_directory.log",
+          "unit_tests": 3,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "0ebfa44beece767a2793f3cfe08d1b8fd9f7aee090031e11ef71bb718dd56d49",
+          "observed_mtime": 1793124329.3642204
+        }
+      ]
+    },
+    {
+      "name": "packet_runtime",
+      "status": "PASS",
+      "latest": {
+        "name": "packet_runtime",
+        "exit": 0,
+        "seconds": 40.5,
+        "log": "outputs/audit-20261027/regressions/packet_runtime.log",
+        "unit_tests": 16,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "cb775c306d8d665c7d709bdffb944fc7df9d9726fbb207893a51a24580ef30f4",
+        "observed_mtime": 1793124369.9140396
+      },
+      "attempts": [
+        {
+          "name": "packet_runtime",
+          "exit": 0,
+          "seconds": 40.5,
+          "log": "outputs/audit-20261027/regressions/packet_runtime.log",
+          "unit_tests": 16,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "cb775c306d8d665c7d709bdffb944fc7df9d9726fbb207893a51a24580ef30f4",
+          "observed_mtime": 1793124369.9140396
+        }
+      ]
+    },
+    {
+      "name": "pcre2_engine",
+      "status": "PASS",
+      "latest": {
+        "name": "pcre2_engine",
+        "exit": 0,
+        "seconds": 9.2,
+        "log": "outputs/audit-20261027/regressions/pcre2_engine.log",
+        "unit_tests": 12,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "a29a188d942d6f69e2f359c7d954cb994b153323ec13f5cabf3b2609ccbc39da",
+        "observed_mtime": 1793124384.1228964
+      },
+      "attempts": [
+        {
+          "name": "pcre2_engine",
+          "exit": 0,
+          "seconds": 9.2,
+          "log": "outputs/audit-20261027/regressions/pcre2_engine.log",
+          "unit_tests": 12,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "a29a188d942d6f69e2f359c7d954cb994b153323ec13f5cabf3b2609ccbc39da",
+          "observed_mtime": 1793124384.1228964
+        }
+      ]
+    },
+    {
+      "name": "powershell_applocker_jea_files",
+      "status": "PASS",
+      "latest": {
+        "name": "powershell_applocker_jea_files",
+        "exit": 0,
+        "seconds": 350.1,
+        "log": "outputs/audit-20261027/retries/powershell_applocker_jea_files.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "2350233b47f1203399ffe8aa4401746d29e47de59fe1f0ef80d347ba40023a32",
+        "observed_mtime": 1793124122.2169342
+      },
+      "attempts": [
+        {
+          "name": "powershell_applocker_jea_files",
+          "exit": 124,
+          "seconds": 180.0,
+          "log": "outputs/audit-20261027/regressions/powershell_applocker_jea_files.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "TIMEOUT",
+          "log_sha256": "8a44cbc03757ef0bd68de6b7f9cd3231c24094237016680202d54158088c87d9",
+          "observed_mtime": 1793123307.9279413
+        },
+        {
+          "name": "powershell_applocker_jea_files",
+          "exit": 0,
+          "seconds": 350.1,
+          "log": "outputs/audit-20261027/retries/powershell_applocker_jea_files.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "2350233b47f1203399ffe8aa4401746d29e47de59fe1f0ef80d347ba40023a32",
+          "observed_mtime": 1793124122.2169342
+        }
+      ]
+    },
+    {
+      "name": "powershell_filterxml",
+      "status": "PASS",
+      "latest": {
+        "name": "powershell_filterxml",
+        "exit": 0,
+        "seconds": 200.3,
+        "log": "outputs/audit-20261027/retries/powershell_filterxml.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "9da67874f1fbda9f63ed196096c7f17907b4984355837e22d0284af41e35c96c",
+        "observed_mtime": 1793124322.4924202
+      },
+      "attempts": [
+        {
+          "name": "powershell_filterxml",
+          "exit": 124,
+          "seconds": 180.1,
+          "log": "outputs/audit-20261027/regressions/powershell_filterxml.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "TIMEOUT",
+          "log_sha256": "8a44cbc03757ef0bd68de6b7f9cd3231c24094237016680202d54158088c87d9",
+          "observed_mtime": 1793123487.9847782
+        },
+        {
+          "name": "powershell_filterxml",
+          "exit": 0,
+          "seconds": 200.3,
+          "log": "outputs/audit-20261027/retries/powershell_filterxml.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "9da67874f1fbda9f63ed196096c7f17907b4984355837e22d0284af41e35c96c",
+          "observed_mtime": 1793124322.4924202
+        }
+      ]
+    },
+    {
+      "name": "powershell_http_edges",
+      "status": "PASS",
+      "latest": {
+        "name": "powershell_http_edges",
+        "exit": 0,
+        "seconds": 273.5,
+        "log": "outputs/audit-20261027/retries/powershell_http_edges.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "778784f4385b9e774f7d3318cee8bd8a5b75a410b7bd534d94edd6afae6286c4",
+        "observed_mtime": 1793124595.9135134
+      },
+      "attempts": [
+        {
+          "name": "powershell_http_edges",
+          "exit": 124,
+          "seconds": 180.1,
+          "log": "outputs/audit-20261027/regressions/powershell_http_edges.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "TIMEOUT",
+          "log_sha256": "8a44cbc03757ef0bd68de6b7f9cd3231c24094237016680202d54158088c87d9",
+          "observed_mtime": 1793123668.0354693
+        },
+        {
+          "name": "powershell_http_edges",
+          "exit": 0,
+          "seconds": 273.5,
+          "log": "outputs/audit-20261027/retries/powershell_http_edges.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "778784f4385b9e774f7d3318cee8bd8a5b75a410b7bd534d94edd6afae6286c4",
+          "observed_mtime": 1793124595.9135134
+        }
+      ]
+    },
+    {
+      "name": "powershell_ntfs_deny",
+      "status": "PASS",
+      "latest": {
+        "name": "powershell_ntfs_deny",
+        "exit": 0,
+        "seconds": 251.9,
+        "log": "outputs/audit-20261027/long-retries/powershell_ntfs_deny.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "a42fb73bebec4fc69cb4ae5d61f42e4e528783894c37398de54c9da4bf74e9bf",
+        "observed_mtime": 1793124561.455096
+      },
+      "attempts": [
+        {
+          "name": "powershell_ntfs_deny",
+          "exit": 124,
+          "seconds": 180.0,
+          "log": "outputs/audit-20261027/regressions/powershell_ntfs_deny.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "TIMEOUT",
+          "log_sha256": "8a44cbc03757ef0bd68de6b7f9cd3231c24094237016680202d54158088c87d9",
+          "observed_mtime": 1793123848.07789
+        },
+        {
+          "name": "powershell_ntfs_deny",
+          "exit": 0,
+          "seconds": 251.9,
+          "log": "outputs/audit-20261027/long-retries/powershell_ntfs_deny.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "a42fb73bebec4fc69cb4ae5d61f42e4e528783894c37398de54c9da4bf74e9bf",
+          "observed_mtime": 1793124561.455096
+        }
+      ]
+    },
+    {
+      "name": "powershell_winrm",
+      "status": "BLOCKED",
+      "latest": {
+        "name": "powershell_winrm",
+        "exit": 1,
+        "seconds": 0.8,
+        "log": "outputs/audit-20261027/regressions/powershell_winrm.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "BLOCKED",
+        "log_sha256": "56413c71b688564031863d077577dd67096cc61de80d9655b3d000c81429cc29",
+        "observed_mtime": 1793123848.8563342
+      },
+      "attempts": [
+        {
+          "name": "powershell_winrm",
+          "exit": 1,
+          "seconds": 0.8,
+          "log": "outputs/audit-20261027/regressions/powershell_winrm.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "BLOCKED",
+          "log_sha256": "56413c71b688564031863d077577dd67096cc61de80d9655b3d000c81429cc29",
+          "observed_mtime": 1793123848.8563342
+        }
+      ]
+    },
+    {
+      "name": "purple_extensions",
+      "status": "PASS",
+      "latest": {
+        "name": "purple_extensions",
+        "exit": 0,
+        "seconds": 43.8,
+        "log": "outputs/audit-20261027/regressions/purple_extensions.log",
+        "unit_tests": 2,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "049bd0486e1a32147c86e0db993160a0c03e6a5d1b8b45cb8316cdf078990c41",
+        "observed_mtime": 1793124593.0303454
+      },
+      "attempts": [
+        {
+          "name": "purple_extensions",
+          "exit": 0,
+          "seconds": 43.8,
+          "log": "outputs/audit-20261027/regressions/purple_extensions.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "049bd0486e1a32147c86e0db993160a0c03e6a5d1b8b45cb8316cdf078990c41",
+          "observed_mtime": 1793124593.0303454
+        }
+      ]
+    },
+    {
+      "name": "pwntools_lessons",
+      "status": "PASS",
+      "latest": {
+        "name": "pwntools_lessons",
+        "exit": 0,
+        "seconds": 28.2,
+        "log": "outputs/audit-20261027/extra/pwntools_lessons.log",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "a13f4aff290e630c31b2021ba263891652f92bb907257af92600931cd2120d5d",
+        "observed_mtime": 1793123772.7767477
+      },
+      "attempts": [
+        {
+          "name": "pwntools_lessons",
+          "exit": 0,
+          "seconds": 28.2,
+          "log": "outputs/audit-20261027/extra/pwntools_lessons.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "a13f4aff290e630c31b2021ba263891652f92bb907257af92600931cd2120d5d",
+          "observed_mtime": 1793123772.7767477
+        }
+      ]
+    },
+    {
+      "name": "python_html_extraction",
+      "status": "PASS",
+      "latest": {
+        "name": "python_html_extraction",
+        "exit": 0,
+        "seconds": 30.6,
+        "log": "outputs/audit-20261027/regressions/python_html_extraction.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "8d6f568a1c616b6f75e7b3a270a77f6f54d5849a90f9e7b9d6be25c58ac15af1",
+        "observed_mtime": 1793124414.6968684
+      },
+      "attempts": [
+        {
+          "name": "python_html_extraction",
+          "exit": 0,
+          "seconds": 30.6,
+          "log": "outputs/audit-20261027/regressions/python_html_extraction.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "8d6f568a1c616b6f75e7b3a270a77f6f54d5849a90f9e7b9d6be25c58ac15af1",
+          "observed_mtime": 1793124414.6968684
+        }
+      ]
+    },
+    {
+      "name": "python_impacket_reading",
+      "status": "PASS",
+      "latest": {
+        "name": "python_impacket_reading",
+        "exit": 0,
+        "seconds": 17.1,
+        "log": "outputs/audit-20261027/regressions/python_impacket_reading.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "13c980e16f782d9d711ae6c0fbfd935ce9a3646dd1ab346626399fb431193a17",
+        "observed_mtime": 1793124431.803489
+      },
+      "attempts": [
+        {
+          "name": "python_impacket_reading",
+          "exit": 0,
+          "seconds": 17.1,
+          "log": "outputs/audit-20261027/regressions/python_impacket_reading.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "13c980e16f782d9d711ae6c0fbfd935ce9a3646dd1ab346626399fb431193a17",
+          "observed_mtime": 1793124431.803489
+        }
+      ]
+    },
+    {
+      "name": "python_venv_regression",
+      "status": "PASS",
+      "latest": {
+        "name": "python_venv_regression",
+        "exit": 0,
+        "seconds": 345.8,
+        "log": "outputs/audit-20261027/extra/python_venv_regression.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "732c060ed8afc614caf5646919c91d645315c7bcb10f90659a7fb639ee12d47a",
+        "observed_mtime": 1793124168.2757845
+      },
+      "attempts": [
+        {
+          "name": "python_venv_regression",
+          "exit": 0,
+          "seconds": 345.8,
+          "log": "outputs/audit-20261027/extra/python_venv_regression.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "732c060ed8afc614caf5646919c91d645315c7bcb10f90659a7fb639ee12d47a",
+          "observed_mtime": 1793124168.2757845
+        }
+      ]
+    },
+    {
+      "name": "regex_motorlar",
+      "status": "PASS",
+      "latest": {
+        "name": "regex_motorlar",
+        "exit": 0,
+        "seconds": 17.2,
+        "log": "outputs/audit-20261027/regressions/regex_motorlar.log",
+        "unit_tests": 9,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "7a053869f1c60057e6e388f64b5b9129bf3d5765bc633468574ea458706eb03a",
+        "observed_mtime": 1793124449.0309005
+      },
+      "attempts": [
+        {
+          "name": "regex_motorlar",
+          "exit": 0,
+          "seconds": 17.2,
+          "log": "outputs/audit-20261027/regressions/regex_motorlar.log",
+          "unit_tests": 9,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "7a053869f1c60057e6e388f64b5b9129bf3d5765bc633468574ea458706eb03a",
+          "observed_mtime": 1793124449.0309005
+        }
+      ]
+    },
+    {
+      "name": "repo_links",
+      "status": "PASS",
+      "latest": {
+        "name": "repo_links",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/repo-links.json",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "6a917159b90b528f4fde216b69682492cba9a69ca6a8e41cce9690b54a7ab7e2",
+        "observed_mtime": 1793125441.456736
+      },
+      "attempts": [
+        {
+          "name": "repo_links",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/repo-links.json",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "6a917159b90b528f4fde216b69682492cba9a69ca6a8e41cce9690b54a7ab7e2",
+          "observed_mtime": 1793125441.456736
+        }
+      ]
+    },
+    {
+      "name": "runtime_env",
+      "status": "PASS",
+      "latest": {
+        "name": "runtime_env",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/runtime_env.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "1b6f69157102cc03f5264c937d138171570f1a3f06ab9ba2d8345507e1df7261",
+        "observed_mtime": 1793125893.4722624
+      },
+      "attempts": [
+        {
+          "name": "runtime_env",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/runtime_env.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "1b6f69157102cc03f5264c937d138171570f1a3f06ab9ba2d8345507e1df7261",
+          "observed_mtime": 1793125893.4722624
+        }
+      ]
+    },
+    {
+      "name": "security_lesson",
+      "status": "PASS",
+      "latest": {
+        "name": "security_lesson",
+        "exit": 0,
+        "seconds": 18.1,
+        "log": "outputs/audit-20261027/extra/security_lesson.log",
+        "unit_tests": 2,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "0a8649a747c5484926bded977728e002e8e7e966cd94dae7ab7b77febaa246df",
+        "observed_mtime": 1793124219.535522
+      },
+      "attempts": [
+        {
+          "name": "security_lesson",
+          "exit": 0,
+          "seconds": 18.1,
+          "log": "outputs/audit-20261027/extra/security_lesson.log",
+          "unit_tests": 2,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "0a8649a747c5484926bded977728e002e8e7e966cd94dae7ab7b77febaa246df",
+          "observed_mtime": 1793124219.535522
+        }
+      ]
+    },
+    {
+      "name": "sentinel_kural",
+      "status": "PASS",
+      "latest": {
+        "name": "sentinel_kural",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/sentinel_kural.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "5971f23bbda7d39aeb8c066e6eb59511fc7c65db19c2e505af1ab28ace12fcf8",
+        "observed_mtime": 1793125211.465824
+      },
+      "attempts": [
+        {
+          "name": "sentinel_kural",
+          "exit": 124,
+          "seconds": 180.0,
+          "log": "outputs/audit-20261027/regressions/sentinel_kural.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "TIMEOUT",
+          "log_sha256": "8a44cbc03757ef0bd68de6b7f9cd3231c24094237016680202d54158088c87d9",
+          "observed_mtime": 1793124773.0791876
+        },
+        {
+          "name": "sentinel_kural",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/sentinel_kural.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "5971f23bbda7d39aeb8c066e6eb59511fc7c65db19c2e505af1ab28ace12fcf8",
+          "observed_mtime": 1793125211.465824
+        }
+      ]
+    },
+    {
+      "name": "sql_python_binding",
+      "status": "PASS",
+      "latest": {
+        "name": "sql_python_binding",
+        "exit": 0,
+        "seconds": 12.9,
+        "log": "outputs/audit-20261027/regressions/sql_python_binding.log",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "f9b0cc9856fcce44e19608cb5e65d577719f9b9c5db6b9dc77a5977df7b16a0c",
+        "observed_mtime": 1793124785.9655688
+      },
+      "attempts": [
+        {
+          "name": "sql_python_binding",
+          "exit": 0,
+          "seconds": 12.9,
+          "log": "outputs/audit-20261027/regressions/sql_python_binding.log",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "f9b0cc9856fcce44e19608cb5e65d577719f9b9c5db6b9dc77a5977df7b16a0c",
+          "observed_mtime": 1793124785.9655688
+        }
+      ]
+    },
+    {
+      "name": "startup_environment",
+      "status": "PASS",
+      "latest": {
+        "name": "startup_environment",
+        "exit": 0,
+        "log": "outputs/audit-20261027/startup-environment-acceptance.json",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "3c7ef0d9634b4c1bd138db24765f42a52db90ae1a37ada528cfbe603094e487f",
+        "observed_mtime": 1793125711.9319942
+      },
+      "attempts": [
+        {
+          "name": "startup_environment",
+          "exit": 0,
+          "log": "outputs/audit-20261027/startup-environment-acceptance.json",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "3c7ef0d9634b4c1bd138db24765f42a52db90ae1a37ada528cfbe603094e487f",
+          "observed_mtime": 1793125711.9319942
+        }
+      ]
+    },
+    {
+      "name": "template_lesson",
+      "status": "PASS",
+      "latest": {
+        "name": "template_lesson",
+        "exit": 0,
+        "seconds": 29.5,
+        "log": "outputs/audit-20261027/extra/template_lesson.log",
+        "unit_tests": 3,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "64fe4b12f2883e8e9cc6945770cfd02c9402978e410a049fbea5e89bbb879f95",
+        "observed_mtime": 1793124201.4537728
+      },
+      "attempts": [
+        {
+          "name": "template_lesson",
+          "exit": 0,
+          "seconds": 29.5,
+          "log": "outputs/audit-20261027/extra/template_lesson.log",
+          "unit_tests": 3,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "64fe4b12f2883e8e9cc6945770cfd02c9402978e410a049fbea5e89bbb879f95",
+          "observed_mtime": 1793124201.4537728
+        }
+      ]
+    },
+    {
+      "name": "trace_gitbash",
+      "status": "PASS",
+      "latest": {
+        "name": "trace_gitbash",
+        "exit": 0,
+        "log": "outputs/audit-20261027/trace-gitbash.json",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "143eef4fbed1540bf259fb97d6470c59c4a815996ffc534abf8d06f94c3e90e6",
+        "observed_mtime": 1793125341.7565262
+      },
+      "attempts": [
+        {
+          "name": "trace_gitbash",
+          "exit": 0,
+          "log": "outputs/audit-20261027/trace-gitbash.json",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "143eef4fbed1540bf259fb97d6470c59c4a815996ffc534abf8d06f94c3e90e6",
+          "observed_mtime": 1793125341.7565262
+        }
+      ]
+    },
+    {
+      "name": "trace_windows",
+      "status": "PASS",
+      "latest": {
+        "name": "trace_windows",
+        "exit": 0,
+        "log": "outputs/audit-20261027/trace-windows.json",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": null,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "4ae41c57ba3599797242860dfafdf9d2d79a57392c823079a4548cff45be6b2c",
+        "observed_mtime": 1793125338.5808446
+      },
+      "attempts": [
+        {
+          "name": "trace_windows",
+          "exit": 0,
+          "log": "outputs/audit-20261027/trace-windows.json",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": null,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "4ae41c57ba3599797242860dfafdf9d2d79a57392c823079a4548cff45be6b2c",
+          "observed_mtime": 1793125338.5808446
+        }
+      ]
+    },
+    {
+      "name": "web_security_lab",
+      "status": "PASS",
+      "latest": {
+        "name": "web_security_lab",
+        "exit": 0,
+        "seconds": 33.2,
+        "log": "outputs/audit-20261027/extra/web_security_lab.log",
+        "unit_tests": 6,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "cd7139fb7d1a7cfaab78c7cff8710edbeb1424b3ce245d0126c4360028af37a9",
+        "observed_mtime": 1793123698.588122
+      },
+      "attempts": [
+        {
+          "name": "web_security_lab",
+          "exit": 0,
+          "seconds": 33.2,
+          "log": "outputs/audit-20261027/extra/web_security_lab.log",
+          "unit_tests": 6,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "cd7139fb7d1a7cfaab78c7cff8710edbeb1424b3ce245d0126c4360028af37a9",
+          "observed_mtime": 1793123698.588122
+        }
+      ]
+    },
+    {
+      "name": "windows_forensics_lesson",
+      "status": "PASS",
+      "latest": {
+        "name": "windows_forensics_lesson",
+        "exit": 0,
+        "seconds": 18.7,
+        "log": "outputs/audit-20261027/extra/windows_forensics_lesson.log",
+        "unit_tests": 9,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "d17f30e43fcddc1993e8f606ebc2917e63516f03ace89083982e61f7593d18c8",
+        "observed_mtime": 1793123822.519847
+      },
+      "attempts": [
+        {
+          "name": "windows_forensics_lesson",
+          "exit": 0,
+          "seconds": 18.7,
+          "log": "outputs/audit-20261027/extra/windows_forensics_lesson.log",
+          "unit_tests": 9,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "d17f30e43fcddc1993e8f606ebc2917e63516f03ace89083982e61f7593d18c8",
+          "observed_mtime": 1793123822.519847
+        }
+      ]
+    },
+    {
+      "name": "wsl_runtime",
+      "status": "PASS",
+      "latest": {
+        "name": "wsl_runtime",
+        "exit": 0,
+        "log": "outputs/audit-20261027/retries/wsl_runtime-final.log",
+        "source": "Observed tool exit code from this session; prior attempts retained",
+        "unit_tests": 16,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "e91af75ad0d2827a021fca9f736a5fbc09bb737b9e05de2fb79b8f1f51607b23",
+        "observed_mtime": 1793125256.528986
+      },
+      "attempts": [
+        {
+          "name": "wsl_runtime",
+          "exit": 1,
+          "seconds": 75.7,
+          "log": "outputs/audit-20261027/regressions/wsl_runtime.log",
+          "unit_tests": 16,
+          "skipped_tests": 0,
+          "status": "FAIL",
+          "log_sha256": "549155d6cf1a57e99b764c942f251afb1502641746bddd8a58688f46426daedf",
+          "observed_mtime": 1793124861.645812
+        },
+        {
+          "name": "wsl_runtime",
+          "exit": 1,
+          "log": "outputs/audit-20261027/retries/wsl_runtime.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 16,
+          "skipped_tests": 0,
+          "status": "FAIL",
+          "log_sha256": "42e3c196731fdab0e82454700c1bc72eba19df31e438387972716676e427efed",
+          "observed_mtime": 1793125056.2059867
+        },
+        {
+          "name": "wsl_runtime",
+          "exit": 0,
+          "log": "outputs/audit-20261027/retries/wsl_runtime-final.log",
+          "source": "Observed tool exit code from this session; prior attempts retained",
+          "unit_tests": 16,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "e91af75ad0d2827a021fca9f736a5fbc09bb737b9e05de2fb79b8f1f51607b23",
+          "observed_mtime": 1793125256.528986
+        }
+      ]
+    },
+    {
+      "name": "yara_bundle",
+      "status": "PASS",
+      "latest": {
+        "name": "yara_bundle",
+        "exit": 0,
+        "seconds": 12.6,
+        "log": "outputs/audit-20261027/regressions/yara_bundle.log",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "bcc3ebdadc0ea059022e4643847129d804af8c1dde85adefed05ed3ee87dff8d",
+        "observed_mtime": 1793124461.6662753
+      },
+      "attempts": [
+        {
+          "name": "yara_bundle",
+          "exit": 0,
+          "seconds": 12.6,
+          "log": "outputs/audit-20261027/regressions/yara_bundle.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "bcc3ebdadc0ea059022e4643847129d804af8c1dde85adefed05ed3ee87dff8d",
+          "observed_mtime": 1793124461.6662753
+        }
+      ]
+    },
+    {
+      "name": "yara_formats",
+      "status": "PASS",
+      "latest": {
+        "name": "yara_formats",
+        "exit": 0,
+        "seconds": 31.6,
+        "log": "outputs/audit-20261027/regressions/yara_formats.log",
+        "unit_tests": 4,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "bd8a5a9b8c796e48b272f24075d814a537269831a82f6f86b7df3999e16798f8",
+        "observed_mtime": 1793124493.29733
+      },
+      "attempts": [
+        {
+          "name": "yara_formats",
+          "exit": 0,
+          "seconds": 31.6,
+          "log": "outputs/audit-20261027/regressions/yara_formats.log",
+          "unit_tests": 4,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "bd8a5a9b8c796e48b272f24075d814a537269831a82f6f86b7df3999e16798f8",
+          "observed_mtime": 1793124493.29733
+        }
+      ]
+    },
+    {
+      "name": "yara_runtime",
+      "status": "PASS",
+      "latest": {
+        "name": "yara_runtime",
+        "exit": 0,
+        "seconds": 36.4,
+        "log": "outputs/audit-20261027/regressions/yara_runtime.log",
+        "unit_tests": 15,
+        "skipped_tests": 0,
+        "status": "PASS",
+        "log_sha256": "55ed485e6fa7a005ceb034a4943be7b0db83adc0a7fffba5183599b11e9c0e92",
+        "observed_mtime": 1793124529.6583195
+      },
+      "attempts": [
+        {
+          "name": "yara_runtime",
+          "exit": 0,
+          "seconds": 36.4,
+          "log": "outputs/audit-20261027/regressions/yara_runtime.log",
+          "unit_tests": 15,
+          "skipped_tests": 0,
+          "status": "PASS",
+          "log_sha256": "55ed485e6fa7a005ceb034a4943be7b0db83adc0a7fffba5183599b11e9c0e92",
+          "observed_mtime": 1793124529.6583195
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+size equal upper excluded: rejected
+size extra byte accepted: rejected
+wrong root accepted: rejected
+missing version accepted: rejected
+unknown item silently skipped: rejected
+duplicate field silently chosen: rejected
+missing metadata accepted: rejected
+status lower equality excluded: rejected
+status upper equality excluded: rejected
+ignore status upper bound: rejected
+non base64 flag accepted: rejected
+permissive base64 junk: rejected
+discard binary HTTP: rejected
+ignore request metadata: rejected
+ignore response metadata: rejected
+reverse export order: rejected
+drop repeated exchanges: rejected
+no entity restriction: rejected

@@ -15,6 +15,9 @@ import webbrowser
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 
+from engine.runtime_env import refresh_windows_runtime_env  # noqa: E402
+refresh_windows_runtime_env()
+
 from engine.progress import data_dir  # noqa: E402
 
 DATA = data_dir()

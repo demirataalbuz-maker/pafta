@@ -635,9 +635,9 @@ def do_regex_dis(job):
 NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 
-def _betik_yaz(job):
+def _betik_yaz(job, iz=False):
     p = job["proc"]
-    on_ek = p.get("on_ek", "")
+    on_ek = p.get("on_ek", "") + (p.get("iz_on_ek", "") if iz else "")
     with open(p["dosya"], "w", encoding="utf-8-sig" if p.get("bom") else "utf-8", newline="\n") as f:
         f.write(on_ek + (job.get("code") or "").replace("\r\n", "\n"))
     return on_ek.count("\n")
@@ -650,7 +650,7 @@ def _calistir(job, stdin="", argv=None, iz=False):
         import runpy
         execute = runpy.run_path(os.path.join(os.path.dirname(__file__), "cmd_process.py"))["run_batch"]
         return execute(job, stdin, argv)
-    kayma = _betik_yaz(job)
+    kayma = _betik_yaz(job, iz=iz)
     hedef = p["dosya"]
     if p.get("sarmal"):
         # Hazırlık (kodlama, Girdi) betiğin içine değil ayrı bir sarmalayıcıya yazılır:

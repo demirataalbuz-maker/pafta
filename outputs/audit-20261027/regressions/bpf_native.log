@@ -1,0 +1,14 @@
+F............
+======================================================================
+FAIL: test_bad_file_headers_lengths_and_incomplete_records (__main__.BpfNativeTests.test_bad_file_headers_lengths_and_incomplete_records) (length=94)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_bpf_native.py", line 155, in test_bad_file_headers_lengths_and_incomplete_records
+    with self.subTest(length=len(raw)), self.assertRaises(native.PcapFormatError):
+                                        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PcapFormatError not raised
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.056s
+
+FAILED (failures=1)

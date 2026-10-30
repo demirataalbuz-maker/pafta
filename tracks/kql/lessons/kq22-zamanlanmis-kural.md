@@ -483,3 +483,17 @@ eq(dene(IKI_IP)[1], alarmlar, "iki IP'den ikişer deneme tek çifte toplanmaz")
 `ResultType == "50126"` yalnız bir hata kodunu sayar; ayse'nin üçüncü denemesi `50053`. Hesap ve IP çifti için `by UserPrincipalName, IPAddress` yaz, `AccountName`/`AccountUPNSuffix` sütunlarını `split(UserPrincipalName, "@")` ile üret.
 ```
 :::
+
+::: anlat Portal kabul defteri: yerel Kusto sonucu ile Sentinel önizlemesini karşılaştır
+Bu bölüm mevcut, yetkili Sentinel çalışma alanında uygulanır. Pafta ücretsiz bir Azure/Sentinel hizmeti varmış gibi davranmaz; abonelik, çalışma alanı, veri alımı veya kural yayımı başlatmaz. Çalışma alanın bilinmiyorsa kabul `bekliyor` kalır; yerel Kusto'nun çalışması abonelik varlığını kanıtlamaz.
+
+1. Portalda doğru tenant/çalışma alanını seç. Analytics → Create → Scheduled query rule ekranını aç. Azure portal ile Defender portal düzenleri değişebilir; Microsoft'un aşağıdaki yönergesindeki ilgili görünümü kullan.
+2. Önce sorguyu hizmetin gerçek alan adları/verileri üzerinde çalıştır. Yerel `SigninLogs` fixture'ını tenant'ın aynı olayları içerdiği iddiasıyla kullanma. Aynı test verisine erişim yoksa sorgu kabulü ve alarm sayısı eşitliği **karşılaştırılamadı** olarak kaydedilir.
+3. Kural mantığında query frequency/period, sonuç eşiği, olay gruplama, bastırma, Account Name + UPNSuffix ve IP Address entity mapping alanlarını ayrı ayrı kaydet. Saat dilimi, veri zaman aralığı ve sorgu metninin SHA-256'sı karşılaştırmanın parçasıdır.
+4. Results simulation → Test with current data ile ürünün son 50 planlı çalıştırma grafiğini al. Ayar veya sorgu değişince yeniden çalıştır. Sorgu sonucu sayısını alarm ya da olay sayısıyla eşitleme; gruplama/bastırma etkisini ayrı incele. Gecikmiş alım ve sınırdaki kayıtları gerçek hizmet sonucuyla karşılaştır; yerel `(başlangıç,son]` varsayımı Microsoft'un sınır sözleşmesi diye sunulmaz.
+5. Review and create ekranındaki doğrulama sonucunu kaydet; bu kabul için **Create'e basmak gerekmez**. Ekrandaki Validation passed ile kuralın dağıtılmış/çalışan olması farklı durumlardır. Yayım veya gerçek alarm kabulü ayrıca yetkilendirilmelidir.
+
+Kabul kaydı: UTC zaman, tenant/workspace bağlamı (yetkili depoda), API/portal görünümü, query SHA-256, karşılaştırılan veri kapsamı, 50 çalıştırma önizlemesi, entity mapping, Review doğrulaması ve `yayinlandi=false`. Portal, veri eşitliği veya doğrulama görülmediyse her biri ayrı `bekliyor`/`karşılaştırılamadı` olmalı; hazırlanan ARM dosyası bu alanları kendi başına PASS yapmaz.
+
+Kaynak: [Microsoft Scheduled Analytics oluşturma ve önizleme yordamı](https://learn.microsoft.com/en-us/azure/sentinel/detect-threats-custom).
+:::

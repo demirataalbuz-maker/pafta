@@ -145,6 +145,8 @@ def uret():
     filtre_asama = "".join(f'<button data-f-asama="{i}">{i + 1:02d} {e(a["ad"])}</button>'
                            for i, a in enumerate(ASAMALAR))
 
+    laptop_nav = ('<p class="label"><a href="LAPTOP_DURUM.html">Bu laptopun çalışma doğrulaması</a> · ölçüm kaydı, motor engelleri ve kanıtlar</p>' if os.path.isfile(os.path.join(ROOT, "docs", "denetim", "LAPTOP_DURUM.html")) else "")
+
     sayfa = f"""<!DOCTYPE html>
 <html lang="tr"><head><meta charset="utf-8">
 <title>Pafta · denetim ve puanlar</title>
@@ -207,9 +209,10 @@ li.o-yüksek::marker{{color:var(--bad)}}li.o-orta::marker{{color:var(--marker)}}
 .gizli{{display:none}}
 @media (max-width:900px){{.ust,.kartlar{{grid-template-columns:1fr}}.ust>div{{border-right:0;border-bottom:1px solid var(--line)}}}}
 </style></head><body><div class="sayfa">
-<span class="label">Pafta · ASAMA2 maddeleri · denetçi: Claude</span>
+<span class="label">Pafta · ASAMA2 maddeleri · kaynak: her madde kartında</span>
 <h1>Denetim <em>puanları</em></h1>
 <p class="label">Son üretim: {simdi} · commit {git_bas()} · {len(puanli)}/{len(maddeler)} madde puanlandı · 20 saniyede bir yenilenir</p>
+{laptop_nav}
 <section class="ust">
  <div class="genel"><span class="label">Ortalama puan</span><b>{ort:.0f}<small>/100</small></b><span class="label">not {not_harfi(ort if puanli else None)}</span></div>
  <div><span class="label">Kararlar</span><div class="sayaclar">{sayac}</div></div>

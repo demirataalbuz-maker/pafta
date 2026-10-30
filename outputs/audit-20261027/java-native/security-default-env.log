@@ -1,0 +1,21 @@
+--- zincir A: /yonetim/** once, /** sonra ---
+ayse[RAPOR_OKU] GET /yonetim/sil -> RED
+mdr[YONETICI]   GET /yonetim/sil -> IZIN
+ayse[RAPOR_OKU] GET /yonetim     -> RED
+ayse[RAPOR_OKU] GET /yonetimsil  -> IZIN
+ayse[RAPOR_OKU] GET /Yonetim/sil -> IZIN
+ayse[RAPOR_OKU] GET /rapor       -> IZIN
+anonim(null)    GET /rapor       -> RED
+--- zincir B: /** once, /yonetim/** sonra ---
+ayse[RAPOR_OKU] GET /yonetim/sil -> IZIN
+--- hasRole / hasAuthority ---
+yetki=YONETICI       hasRole(YONETICI)      -> RED
+yetki=YONETICI       hasAuthority(YONETICI) -> IZIN
+yetki=ROLE_YONETICI  hasRole(YONETICI)      -> IZIN
+yetki=ROLE_YONETICI  hasAuthority(YONETICI) -> RED
+--- metot yetkilendirme (bean proxy mi: true) ---
+ayse[RAPOR_OKU] rapor()     -> OK rapor
+ayse[RAPOR_OKU] belge(ayse) -> OK belge:ayse
+ayse[RAPOR_OKU] belge(can)  -> RED AuthorizationDeniedException
+mdr[YONETICI]   rapor()     -> RED AuthorizationDeniedException
+mdr[YONETICI]   dolayli()   -> OK rapor

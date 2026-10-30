@@ -99,3 +99,17 @@ dil: python
 timeout: 240
 ```
 :::
+
+::: anlat ldp.exe ile canlı kabul defteri: taşıma, bind ve arama ayrı kanıt
+Bu bölüm gerçek laboratuvar hazırken elle uygulanır; aşağıdaki maddelerin bulunması, bu laptopta uygulanmış oldukları anlamına gelmez. `ldp.exe` Windows AD DS yönetim araçlarıyla gelir. Önce aracın ve yetkili test DC'sinin varlığını doğrula; araç yoksa başka bir LDAP istemcisinin çıktısını ldp.exe kanıtı diye etiketleme. Bu ders sistem/etki alanı ilkesini kendiliğinden değiştirmez.
+
+1. Ldp'yi **test CA'sını ve DC adını zaten güvenle doğrulayabilen laboratuvar makinesinde** aç. Connection → Connect'te sertifikanın DNS adıyla DC'yi ve `636` portunu seç, SSL kutusunu işaretle. Bağlantı çıktısını kaydet. IP adresiyle bağlanıp ad hatasını gizleme; sertifika doğrulamasını kapatma.
+2. Connection → Bind ile yalnız laboratuvarın test hesabını kullan. Başarılı TCP/TLS bağlantısını başarılı LDAP kimlik doğrulamasıyla karıştırma. Oturum türünü (TLS + Simple/SASL) kabul kaydına yaz; LDAPS üzerinde Simple bind, SASL channel binding testi değildir.
+3. Browse → Search'te laboratuvarın Base DN'ini ve `(sAMAccountName=ali.kaya)` filtresini kullan. Bağlantı ve bind başarılarını, aramanın sonuç adedi ve sAMAccountName alanından ayrı kaydet. Aynı oturumda olmayan bir kullanıcı için boş sonuç, TLS/CBT başarısızlığı sayılmaz.
+4. Ayrı bir negatif deneyde Connection → Connect ile `389`, SSL kapalı kullan. Microsoft'un imzalama doğrulama yordamındaki Connection → Bind → Simple bind denemesini **yalnız izole laboratuvar ve hassas olmayan test kimliğiyle** yap. İmza zorlaması olan DC'de beklenen `Strong Authentication Required` reddidir. Normal bir kullanıcının parolasını açık bağlantıya koyma. Bu deney LDAP signing politikasını gözler; TLS sertifikası veya CBT doğrulamasını kanıtlamaz.
+5. AD23'teki doğru/eksik/yanlış CBT deneylerini ayrıca Pafta'nın gerçek SASL istemcisiyle yürüt. ldp.exe'de bir LDAPS aramasının başarılı olması üç CBT durumunun da sınandığı anlamına gelmez.
+
+Kabul kaydında istemci/Windows sürümü, zaman (UTC), DC DNS adı, port/TLS seçimi, bind türü, sonuç/hata kodu, arama filtresi ve sonuç sayısı ayrı sütunlar olsun. Parola veya tokenı kayda yazma. `bad-ca`, `bad-name`, `starttls`, `signed`, `unsigned` Pafta sonuçlarını kendi deneyiyle karşılaştır; **ldp.exe GUI uygulanmadıysa alanı `bekliyor` bırak**. Aynı DC'deki kontroller karşılaştırılır; örnek bir ekran görüntüsü bu makinenin deneyi sayılmaz.
+
+Kaynaklar: [Microsoft'un ldp.exe imzalama doğrulaması](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/enable-ldap-signing-in-windows-server), [LDAP TLS/signing/CBT ayrımı](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/ldap-signing).
+:::

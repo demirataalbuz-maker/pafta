@@ -1,0 +1,2231 @@
+{
+  "track": "yara",
+  "shell": "gitbash",
+  "started_utc": "2026-10-27T18:00:43.371520+00:00",
+  "lessons": [
+    "yr01",
+    "yr02",
+    "yr03",
+    "yr04",
+    "yr05",
+    "yr06",
+    "yr07",
+    "yr08",
+    "yr09",
+    "yr10",
+    "yr11",
+    "yr12",
+    "yr13",
+    "yr14",
+    "yr15",
+    "yr16",
+    "yr17",
+    "yr18",
+    "yr19",
+    "yr20",
+    "yr21",
+    "yr22",
+    "yr23",
+    "yr24"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "ornek",
+      "where": "yara/yr01:0 anlat «Bir eşleşme bir iddiadır»",
+      "lesson": "yr01",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.581,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr01:3 gorev «İlk imza»",
+      "lesson": "yr01",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.583,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr01:2 tahmin «»",
+      "lesson": "yr01",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.601,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr01:3 gorev «İlk imza»",
+      "lesson": "yr01",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.611,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "işaret içeride bulunmalı"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr01:4 gorev «İki işaret birlikte»",
+      "lesson": "yr01",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.678,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr01:4 gorev «İki işaret birlikte»",
+      "lesson": "yr01",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.687,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ikisi birlikte"
+        },
+        {
+          "ok": false,
+          "msg": "bu görevde sıralama aranmaz"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr02:0 anlat «Aynı görünen metnin farklı baytları»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.672,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr02:2 tahmin «»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.666,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr02:4 gorev «ASCII ve geniş metin»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.871,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr02:3 gorev «Harf farkına dayan»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.901,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr02:3 gorev «Harf farkına dayan»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.912,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "büyük harf"
+        },
+        {
+          "ok": false,
+          "msg": "karışık harf"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr02:4 gorev «ASCII ve geniş metin»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.941,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ASCII biçimi"
+        },
+        {
+          "ok": false,
+          "msg": "wide biçimi"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr02:5 gorev «Tam sözcük»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.636,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bağımsız sözcük"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr03:2 tahmin «»",
+      "lesson": "yr03",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.59,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr02:5 gorev «Tam sözcük»",
+      "lesson": "yr02",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.677,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr03:0 anlat «Kuralı senden sonra kim okuyacak?»",
+      "lesson": "yr03",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.66,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr03:4 gorev «Yanlış pozitifi dışla»",
+      "lesson": "yr03",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.596,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "esas işaret"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr03:3 gorev «Bakım bilgisi»",
+      "lesson": "yr03",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.654,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "pozitif örnek"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr03:3 gorev «Bakım bilgisi»",
+      "lesson": "yr03",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.674,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr03:4 gorev «Yanlış pozitifi dışla»",
+      "lesson": "yr03",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.654,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr04:0 anlat «Hex görünümü metin değildir»",
+      "lesson": "yr04",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.778,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr04:3 gorev «Sürüm baytı»",
+      "lesson": "yr04",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.76,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr04:2 tahmin «»",
+      "lesson": "yr04",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.809,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr04:3 gorev «Sürüm baytı»",
+      "lesson": "yr04",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.85,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "birinci sürüm"
+        },
+        {
+          "ok": false,
+          "msg": "farklı sürüm"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr04:4 gorev «Yarım bayt ailesi»",
+      "lesson": "yr04",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.679,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr04:4 gorev «Yarım bayt ailesi»",
+      "lesson": "yr04",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.695,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "alt sınır"
+        },
+        {
+          "ok": false,
+          "msg": "üst sınır"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr05:0 anlat «Dosya biçimindeki değişken alan»",
+      "lesson": "yr05",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.686,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr05:2 tahmin «»",
+      "lesson": "yr05",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.654,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr05:3 gorev «Sınırları koru»",
+      "lesson": "yr05",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.688,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "geçerli uzunluk 2"
+        },
+        {
+          "ok": false,
+          "msg": "geçerli uzunluk 3"
+        },
+        {
+          "ok": false,
+          "msg": "geçerli uzunluk 4"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr05:3 gorev «Sınırları koru»",
+      "lesson": "yr05",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.753,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr05:4 gorev «İki sürüm»",
+      "lesson": "yr05",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.701,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "birinci sürüm"
+        },
+        {
+          "ok": false,
+          "msg": "ikinci sürüm"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr05:4 gorev «İki sürüm»",
+      "lesson": "yr05",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.769,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr06:3 gorev «Sabit kimlik biçimi»",
+      "lesson": "yr06",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.627,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr06:0 anlat «Regex bir arama aracı, dilin bütünü deği»",
+      "lesson": "yr06",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.72,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr06:2 tahmin «»",
+      "lesson": "yr06",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.687,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr06:3 gorev «Sabit kimlik biçimi»",
+      "lesson": "yr06",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.662,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "dört rakam"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr07:0 anlat «Bir tane bulmak ile tekrar örüntüsü fark»",
+      "lesson": "yr07",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.635,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr06:4 gorev «Nokta gerçek nokta»",
+      "lesson": "yr06",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.64,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "harf farkı yok"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr07:2 tahmin «»",
+      "lesson": "yr07",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.596,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr06:4 gorev «Nokta gerçek nokta»",
+      "lesson": "yr06",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.69,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr07:4 gorev «Yalnız başlık aralığında»",
+      "lesson": "yr07",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.571,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr07:4 gorev «Yalnız başlık aralığında»",
+      "lesson": "yr07",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.559,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başlıkta iki kayıt"
+        },
+        {
+          "ok": false,
+          "msg": "15 konumundaki başlangıç dahil"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr07:3 gorev «En az üç kayıt»",
+      "lesson": "yr07",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.634,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr07:3 gorev «En az üç kayıt»",
+      "lesson": "yr07",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.643,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "eşik ve üstü 3"
+        },
+        {
+          "ok": false,
+          "msg": "eşik ve üstü 4"
+        },
+        {
+          "ok": false,
+          "msg": "eşik ve üstü 7"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr08:0 anlat «Dosyayı başlıktan tanı»",
+      "lesson": "yr08",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.61,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr08:2 tahmin «»",
+      "lesson": "yr08",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.625,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr08:3 gorev «Gerçek başlık»",
+      "lesson": "yr08",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.665,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr08:3 gorev «Gerçek başlık»",
+      "lesson": "yr08",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.669,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "geçerli başlık"
+        },
+        {
+          "ok": false,
+          "msg": "20 konumu dahil"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr08:4 gorev «Değişken alanın uzunluğu»",
+      "lesson": "yr08",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.699,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr08:4 gorev «Değişken alanın uzunluğu»",
+      "lesson": "yr08",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.711,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "3 rakam ve 7 bayt"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr09:0 anlat «Baytlardan sayıya»",
+      "lesson": "yr09",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.716,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr09:2 tahmin «»",
+      "lesson": "yr09",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.718,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr09:3 gorev «Boyut sınırları»",
+      "lesson": "yr09",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.013,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr09:4 gorev «Alanı doğru endian ile oku»",
+      "lesson": "yr09",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.902,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr09:4 gorev «Alanı doğru endian ile oku»",
+      "lesson": "yr09",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.923,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki endian alanı"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr09:3 gorev «Boyut sınırları»",
+      "lesson": "yr09",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.036,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "geçerli 8"
+        },
+        {
+          "ok": false,
+          "msg": "geçerli 16"
+        },
+        {
+          "ok": false,
+          "msg": "geçerli 64"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr10:2 tahmin «»",
+      "lesson": "yr10",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.917,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr10:0 anlat «Koşulu tekrar tekrar yazma»",
+      "lesson": "yr10",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.98,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr10:3 gorev «Üçten ikisi»",
+      "lesson": "yr10",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.961,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr10:3 gorev «Üçten ikisi»",
+      "lesson": "yr10",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.963,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki ya da üç farklı işaret"
+        },
+        {
+          "ok": false,
+          "msg": "iki ya da üç farklı işaret"
+        },
+        {
+          "ok": false,
+          "msg": "iki ya da üç farklı işaret"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr10:4 gorev «Başlık artı özellik ailesi»",
+      "lesson": "yr10",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.657,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başlık ve iki özellik"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr10:4 gorev «Başlık artı özellik ailesi»",
+      "lesson": "yr10",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.724,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr11:0 anlat «Her işarete aynı koşulu uygula»",
+      "lesson": "yr11",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.685,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr11:2 tahmin «»",
+      "lesson": "yr11",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.686,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr11:3 gorev «Her alan başlıkta»",
+      "lesson": "yr11",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.814,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr11:3 gorev «Her alan başlıkta»",
+      "lesson": "yr11",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.851,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç alan başlıkta"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr11:4 gorev «Yakın eşleşme çifti»",
+      "lesson": "yr11",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.832,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sekiz bayt aralıklı"
+        },
+        {
+          "ok": false,
+          "msg": "ilk çift değil sonraki çift"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr11:4 gorev «Yakın eşleşme çifti»",
+      "lesson": "yr11",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.858,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr12:0 anlat «Kural başka bir kuralı kullanabilir»",
+      "lesson": "yr12",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.829,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr12:2 tahmin «»",
+      "lesson": "yr12",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.929,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr12:3 gorev «Yardımcıyı gizle»",
+      "lesson": "yr12",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.953,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr12:3 gorev «Yardımcıyı gizle»",
+      "lesson": "yr12",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.949,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnız public tespit raporlanmalı",
+          "got": "[]",
+          "exp": "['PF_Rapor']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr12:4 gorev «Ortak boyut kapısı»",
+      "lesson": "yr12",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.975,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr12:4 gorev «Ortak boyut kapısı»",
+      "lesson": "yr12",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.935,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki public kural",
+          "got": "[]",
+          "exp": "['A_Kaydi', 'B_Kaydi']"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız A",
+          "got": "[]",
+          "exp": "['A_Kaydi']"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız B",
+          "got": "[]",
+          "exp": "['B_Kaydi']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr13:0 anlat «Başlık işareti ile geçerli yapı aynı şey»",
+      "lesson": "yr13",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.986,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr13:2 tahmin «»",
+      "lesson": "yr13",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.983,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr13:3 gorev «Gerçek PE ve makine alanı»",
+      "lesson": "yr13",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.05,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr13:3 gorev «Gerçek PE ve makine alanı»",
+      "lesson": "yr13",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.972,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sentetik I386 PE"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr13:4 gorev «İki bölümlü DLL»",
+      "lesson": "yr13",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.877,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki bölüm ve DLL"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr13:4 gorev «İki bölümlü DLL»",
+      "lesson": "yr13",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.068,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr14:0 anlat «Hash aynı dosyayı bulmak için»",
+      "lesson": "yr14",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.054,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr14:2 tahmin «»",
+      "lesson": "yr14",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.06,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr14:3 gorev «Birebir referans»",
+      "lesson": "yr14",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.042,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr14:3 gorev «Birebir referans»",
+      "lesson": "yr14",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.168,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "birebir referans"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr14:4 gorev «Sabit alan özeti»",
+      "lesson": "yr14",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.303,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr14:4 gorev «Sabit alan özeti»",
+      "lesson": "yr14",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.295,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "alan doğru"
+        },
+        {
+          "ok": false,
+          "msg": "alan dışı değişebilir"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr15:0 anlat «Entropi neyi ölçer?»",
+      "lesson": "yr15",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.398,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr15:2 tahmin «»",
+      "lesson": "yr15",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.456,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr15:3 gorev «Biçim ve yüksek dağılım»",
+      "lesson": "yr15",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.469,
+      "checks_passed": 6,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "biçim ve dengeli dağılım"
+        },
+        {
+          "ok": false,
+          "msg": "yüksek entropide boyut sınırının komşusu: 512 bayt",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "yüksek entropide boyut sınırının komşusu: 513 bayt",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr15:3 gorev «Biçim ve yüksek dağılım»",
+      "lesson": "yr15",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.541,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr15:4 gorev «Sıfır baytı oranı»",
+      "lesson": "yr15",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.604,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr15:4 gorev «Sıfır baytı oranı»",
+      "lesson": "yr15",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.406,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yüksek sıfır oranı"
+        },
+        {
+          "ok": false,
+          "msg": "tam 0.75 sınırı"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr16:2 tahmin «»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 0.981,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr16:0 anlat «Önce ölçülebilir bir tespit amacı»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.027,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr16:3 gorev «Yakın yanlış pozitifleri ayır»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 0.973,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr16:3 gorev «Yakın yanlış pozitifleri ayır»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 0.985,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "olumlu kümenin tamamı",
+          "got": "0",
+          "exp": "2"
+        },
+        {
+          "ok": false,
+          "msg": "biçim sabitken boyut sınırının komşusu: 4095 bayt",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "biçim sabitken boyut sınırının komşusu: 4096 bayt",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr16:4 gorev «Sınırlı XOR tanıma»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.273,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr16:4 gorev «Sınırlı XOR tanıma»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.396,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "izinli anahtar 1"
+        },
+        {
+          "ok": false,
+          "msg": "izinli anahtar 2"
+        },
+        {
+          "ok": false,
+          "msg": "izinli anahtar 3"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr16:5 gorev «Base64 içindeki işaret»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.436,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr16:5 gorev «Base64 içindeki işaret»",
+      "lesson": "yr16",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.37,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç Base64 hizası"
+        },
+        {
+          "ok": false,
+          "msg": "üç Base64 hizası"
+        },
+        {
+          "ok": false,
+          "msg": "üç Base64 hizası"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr17:0 anlat «Tespit sözleşmesini önce yaz»",
+      "lesson": "yr17",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.757,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr17:2 tahmin «»",
+      "lesson": "yr17",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.85,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr17:3 gorev «Biçim dedektörü»",
+      "lesson": "yr17",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.649,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr17:3 gorev «Biçim dedektörü»",
+      "lesson": "yr17",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.631,
+      "checks_passed": 7,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sürüm bir"
+        },
+        {
+          "ok": false,
+          "msg": "sürüm iki ve başka kombinasyon"
+        },
+        {
+          "ok": false,
+          "msg": "16 bayt: 16–512 sınırları dahil",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr17:4 gorev «Dar eğitim dışlaması»",
+      "lesson": "yr17",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.426,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr18:0 anlat «Tek kuraldan küçük bir tespit paketine»",
+      "lesson": "yr18",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.481,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr17:4 gorev «Dar eğitim dışlaması»",
+      "lesson": "yr17",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.648,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "normal paket"
+        },
+        {
+          "ok": false,
+          "msg": "gövdedeki SAFE dışlama değildir"
+        },
+        {
+          "ok": false,
+          "msg": "16 bayt: dışlama eklenince boyut sınırları korunmalı",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr18:2 tahmin «»",
+      "lesson": "yr18",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.6,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr18:3 gorev «İki türü sınıflandır»",
+      "lesson": "yr18",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.464,
+      "checks_passed": 20,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr18:4 gorev «Belirsiz türleri reddet»",
+      "lesson": "yr18",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.503,
+      "checks_passed": 8,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "A regresyonu",
+          "got": "[]",
+          "exp": "['Rapor_A']"
+        },
+        {
+          "ok": false,
+          "msg": "B regresyonu",
+          "got": "[]",
+          "exp": "['Rapor_B']"
+        },
+        {
+          "ok": false,
+          "msg": "private biçim regresyonu: 12 bayt, 12–256 sınırları dahil",
+          "got": "[]",
+          "exp": "['Pafta_Bicim_Probe']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr18:3 gorev «İki türü sınıflandır»",
+      "lesson": "yr18",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.793,
+      "checks_passed": 9,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "A raporu",
+          "got": "[]",
+          "exp": "['Rapor_A']"
+        },
+        {
+          "ok": false,
+          "msg": "B raporu",
+          "got": "[]",
+          "exp": "['Rapor_B']"
+        },
+        {
+          "ok": false,
+          "msg": "iki tür birlikte",
+          "got": "[]",
+          "exp": "['Rapor_A', 'Rapor_B']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr18:4 gorev «Belirsiz türleri reddet»",
+      "lesson": "yr18",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.716,
+      "checks_passed": 18,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr19:0 anlat «PE tablosunda ne yazıyor?»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.438,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr19:1 tahmin «»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.828,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr19:2 gorev «DLL ve işlevi birlikte doğrula»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.742,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "doğru DLL/işlev çifti"
+        },
+        {
+          "ok": false,
+          "msg": "DLL adında harf büyüklüğü"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr19:2 gorev «DLL ve işlevi birlikte doğrula»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.907,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr19:3 gorev «Export adı ve ordinal»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 2.039,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr19:3 gorev «Export adı ve ordinal»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.664,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ad ve ordinal 7"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr19:5 gorev «Gerçek MinGW çıktısında mimari ve rol»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 2.483,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnız 64 bit DLL; 32 bit DLL aynı exportu taşısa da eşleşmez",
+          "got": "[True, True, False, False]",
+          "exp": "[True, False, False, False]"
+        },
+        {
+          "ok": false,
+          "msg": "yalnız 32 bit program; 32 bit DLL program değildir",
+          "got": "[True, True, True, True]",
+          "exp": "[False, False, False, True]"
+        },
+        {
+          "ok": false,
+          "msg": "pafta_topla'yı export eden 64 bit program DLL değildir"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr19:5 gorev «Gerçek MinGW çıktısında mimari ve rol»",
+      "lesson": "yr19",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 2.588,
+      "checks_passed": 11,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "yara/yr20:0 anlat «İsim ipucu, özellik bayrağı kanıt»",
+      "lesson": "yr20",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.559,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr20:1 tahmin «»",
+      "lesson": "yr20",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.694,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr20:2 gorev «Bölüm adı, yürütme biti ve tam eşik»",
+      "lesson": "yr20",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.445,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr20:3 gorev «Aynı bölümde yazma ve yürütme»",
+      "lesson": "yr20",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.551,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr20:2 gorev «Bölüm adı, yürütme biti ve tam eşik»",
+      "lesson": "yr20",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.796,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sanal boyut 256",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "sanal boyut 257",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr20:3 gorev «Aynı bölümde yazma ve yürütme»",
+      "lesson": "yr20",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.815,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ilk bölümde RWX"
+        },
+        {
+          "ok": false,
+          "msg": "ikinci bölümde RWX"
+        },
+        {
+          "ok": false,
+          "msg": "bölüm adı belirleyici değil"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr21:2 gorev «Mimari ve dosya türü»",
+      "lesson": "yr21",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.905,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr21:1 tahmin «»",
+      "lesson": "yr21",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 2.086,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr21:2 gorev «Mimari ve dosya türü»",
+      "lesson": "yr21",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.864,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "elf255",
+          "got": "[]",
+          "exp": "['ELF_Nesne']"
+        },
+        {
+          "ok": false,
+          "msg": "elf256",
+          "got": "[]",
+          "exp": "['ELF_Nesne']"
+        },
+        {
+          "ok": false,
+          "msg": "elf257",
+          "got": "[]",
+          "exp": "['ELF_Nesne']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr21:3 gorev «Salt okunur eğitim bölümü ve sınır»",
+      "lesson": "yr21",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.522,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr22:1 tahmin «»",
+      "lesson": "yr22",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "ok",
+      "seconds": 1.337,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr21:3 gorev «Salt okunur eğitim bölümü ve sınır»",
+      "lesson": "yr21",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.48,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "elf256",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "elf257",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr22:2 gorev «Assembly ailesi ve kapsayıcı sürüm aralı»",
+      "lesson": "yr22",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.383,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr22:2 gorev «Assembly ailesi ve kapsayıcı sürüm aralı»",
+      "lesson": "yr22",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.665,
+      "checks_passed": 6,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "net2",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "net3",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr22:3 gorev «Namespace dahil sınıf kimliği»",
+      "lesson": "yr22",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "pass",
+      "seconds": 1.468,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr22:3 gorev «Namespace dahil sınıf kimliği»",
+      "lesson": "yr22",
+      "status": "PASS",
+      "runner": "yara",
+      "runner_status": "fail",
+      "seconds": 1.462,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "net1",
+          "got": "[]",
+          "exp": "['NET_Sinif']"
+        },
+        {
+          "ok": false,
+          "msg": "net2",
+          "got": "[]",
+          "exp": "['NET_Sinif']"
+        },
+        {
+          "ok": false,
+          "msg": "net3",
+          "got": "[]",
+          "exp": "['NET_Sinif']"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr23:1 tahmin «Aynı ad, iki namespace»",
+      "lesson": "yr23",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "ok",
+      "seconds": 1.385,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr23:2 gorev «İki kaynağı gerçek derleyiciye bağla»",
+      "lesson": "yr23",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "pass",
+      "seconds": 1.198,
+      "checks_passed": 10,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr23:3 gorev «Kimliği kaybetmeden raporla»",
+      "lesson": "yr23",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "pass",
+      "seconds": 1.042,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr23:2 gorev «İki kaynağı gerçek derleyiciye bağla»",
+      "lesson": "yr23",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "fail",
+      "seconds": 1.153,
+      "error": {
+        "type": "SyntaxError",
+        "msg": "line 2: undefined identifier \"Yardim\"",
+        "frames": [
+          {
+            "line": 4,
+            "func": "paket",
+            "text": "return compile_bundle(kaynaklar, {\"limit\": 0})"
+          }
+        ],
+        "line": 4,
+        "where": "kod-test"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr23:3 gorev «Kimliği kaybetmeden raporla»",
+      "lesson": "yr23",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "fail",
+      "seconds": 1.064,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "aynı ad ayrı namespace",
+          "got": "['A', 'B']",
+          "exp": "[('bir', 'A'), ('bir', 'B'), ('iki', 'A')]"
+        },
+        {
+          "ok": false,
+          "msg": "tekrarları kaldır",
+          "got": "['A', 'B']",
+          "exp": "[('bir', 'A'), ('bir', 'B'), ('iki', 'A')]"
+        },
+        {
+          "ok": false,
+          "msg": "girdi sırasına bağlı değil",
+          "got": "['A', 'B']",
+          "exp": "[('bir', 'A'), ('bir', 'B'), ('iki', 'A')]"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "yara/yr24:1 tahmin «Temiz dosya da rapora girer»",
+      "lesson": "yr24",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "ok",
+      "seconds": 0.981,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr24:3 gorev «Maliyeti ve eksik taramayı ayrı raporla»",
+      "lesson": "yr24",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "pass",
+      "seconds": 1.064,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "yara/yr24:2 gorev «Geçici dosya kümesini gerçek motorla tar»",
+      "lesson": "yr24",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "pass",
+      "seconds": 1.179,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr24:2 gorev «Geçici dosya kümesini gerçek motorla tar»",
+      "lesson": "yr24",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "fail",
+      "seconds": 1.145,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "boş/tam eşik/eşik üstü/temiz korpus",
+          "got": "[]",
+          "exp": "[('clean', 'ok', [], 5), ('empty', 'ok', [('a', 'X')], 0), ('five', 'ok', [('b', 'X')], 5), ('four', 'ok', [('a', 'X'), ('b', 'X')], 4)]"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "yara/yr24:3 gorev «Maliyeti ve eksik taramayı ayrı raporla»",
+      "lesson": "yr24",
+      "status": "PASS",
+      "runner": "yara-api",
+      "runner_status": "fail",
+      "seconds": 0.884,
+      "error": {
+        "type": "KeyError",
+        "msg": "'scanned'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "eşleşen kural sayısı değil dosya sayısı",
+          "got": "{}",
+          "exp": "{'scanned': 3, 'matched': 1, 'timeouts': 1, 'bytes': 18, 'elapsed_ns': 30}"
+        },
+        {
+          "ok": false,
+          "msg": "boş korpus",
+          "got": "{}",
+          "exp": "{'scanned': 0, 'matched': 0, 'timeouts': 0, 'bytes': 0, 'elapsed_ns': 0}"
+        }
+      ]
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "",
+  "counts": {
+    "PASS": 146
+  },
+  "finished_utc": "2026-10-27T18:01:23.177789+00:00",
+  "source_sha256": {
+    "tracks/yara/lessons/yr01-ilk-kural.md": "e0f359e1eb1e2a308e85c2b51b71d26871e62c997e19c52c5bc067ec20c5c645",
+    "tracks/yara/lessons/yr02-metin-degistiriciler.md": "e723038e0616d8eeb7969bb358833075d995ba434b786cf8e58532aedb5e388a",
+    "tracks/yara/lessons/yr03-kimlik-ve-filtre.md": "1a5020aa3d815fc54d26885222f211c328c8e87d1c0aa7dd90a96daa7c61fe7a",
+    "tracks/yara/lessons/yr04-hex-ve-joker.md": "2c0dd3241d5b5728a9660600f149ca22113b51def42115b3a934c771aaebd1d3",
+    "tracks/yara/lessons/yr05-hex-atlama.md": "80e1efa755e0d1e77cd0cbebd95ee43fdfe96665c30fe269b5527825b671137a",
+    "tracks/yara/lessons/yr06-regex.md": "a7581c5b05c9cf0193ee118f4ae9a9b55b5241288db28b8d308cdddf20a7b322",
+    "tracks/yara/lessons/yr07-sayilar.md": "8e00d81aec87618be9b135c3c87d0658066b158183e4ee833e8f474f7b7aa525",
+    "tracks/yara/lessons/yr08-konum-ve-uzunluk.md": "a16dc929c446c1c2534ba09edd428e9e96b2552b04f42200735008f98d7213d2",
+    "tracks/yara/lessons/yr09-dosya-ve-tamsayi.md": "3f6a52cd5eaa3813b3f712b54edb15713fcb37ec001812f9e31e0a575113c76b",
+    "tracks/yara/lessons/yr10-kume-ve-esik.md": "9799a2bbcd37d848a7fedbe2356c57661f51c5b8178b5b1a8540c8754c04fa59",
+    "tracks/yara/lessons/yr11-donguler.md": "150fd508cad2db3055bc19a7c3ba0ed62c1841814d0c529c9a141ac92a7de302",
+    "tracks/yara/lessons/yr12-kural-paketi.md": "8af5e558c2f9a444a5d6991848388a063a641122594279e5ffc30b6c721be582",
+    "tracks/yara/lessons/yr13-pe-modulu.md": "1e6142b1e8aabac837c34f98e486d589d237cfaaf9eae916c6164770cc23719e",
+    "tracks/yara/lessons/yr14-hash-modulu.md": "a098a69e2137aa3eeda744e607504939ea785aab1fa7ef24daecafd21e4e6dcb",
+    "tracks/yara/lessons/yr15-math-modulu.md": "a6c3cec72b7f074d4145b69bf6986527dea41e93e789949d5a7a5cb5fab62005",
+    "tracks/yara/lessons/yr16-tasarim-ve-donusum.md": "70186989547dd83eaf00d5a5d1eafdcbf7c5509cfa72189a22496af495c5b3df",
+    "tracks/yara/lessons/yr17-proje-paket.md": "70860d87068c16d420014279ca8fc2cc681379c0b1e0ebed30c295434d66f3c3",
+    "tracks/yara/lessons/yr18-proje-regresyon.md": "6f77f7239e3d3b0a7e39392232db1f18b84c46705db28d1336c95ee1005685b4",
+    "tracks/yara/lessons/yr19-pe-import-export.md": "e021d74b0caffce7a3abd272c8ede21cc71b624f2d3ad41309b09953befc9607",
+    "tracks/yara/lessons/yr20-pe-bolumler.md": "677b965ccf65f8d858311da5f53b339b711fbfb8c14827a90cb943ae3997c0ce",
+    "tracks/yara/lessons/yr21-elf-modulu.md": "2620529e1cb140238a4e2af92ad110d1302c4de5cdca005e42d120ba2a77005f",
+    "tracks/yara/lessons/yr22-dotnet-modulu.md": "eb67bc7f14bb31bca8237c9108ba8e918e6b426d1e06f48fdfbab7cbe4a373e9",
+    "tracks/yara/lessons/yr23-kural-paketi.md": "2f16cadc9134e8e4a2af31c6b148e338f24b8cfeab7214bf0c28e3a67064e181",
+    "tracks/yara/lessons/yr24-toplu-tarama.md": "cf16feafc20dbc3617d995b7014f95ca85fea8ef42bc06171f4d59baa759fd6e"
+  }
+}

@@ -138,7 +138,8 @@ class WslRuntimeTests(unittest.TestCase):
         self.assertIn("42", asm["text"])
         trace = get("bash-wsl").trace("x=2\nprintf '%s\\n' \"$x\"")
         self.assertEqual(trace["status"], "ok", trace)
-        self.assertTrue(trace["iz"])
+        self.assertEqual([step["line"] for step in trace["iz"]], [1, 2])
+        self.assertEqual(trace["out"], "2\n")
 
     def test_installed_modules_report_real_linux_origins(self):
         source = """import importlib,importlib.metadata,json,sys

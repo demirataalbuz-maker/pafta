@@ -126,8 +126,8 @@ class FixtureSozlesmesi(unittest.TestCase):
 class DersDavranisi(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        if len(TASKS) != 3:
-            raise RuntimeError("PU14 için tam üç görev beklenir")
+        if len(TASKS) != 5:
+            raise RuntimeError("PU14 için tam beş görev beklenir")
 
     def sonuc(self, gorev, kod):
         step = TASKS[gorev]

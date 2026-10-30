@@ -247,7 +247,7 @@ Servisler PID'lerini çoğu zaman bir **PID dosyasına** yazar (`/run/nginx.pid`
     4107 Z sleep <defunct>
 ```
 
-- Her satır `<PID> <durum harfi> <ad>`. Ad `ps`'in `comm` sütunudur; zombilerde `ps`'in eklediği ` <defunct>` olduğu gibi kalır.
+- Her satır `<PID> <durum harfi> <ad>`. Ad `ps`'in `comm` sütunudur; zombilerde ` <defunct>` son ekini tam bir kez yaz. Bazı procps sürümleri `comm` sütununa bunu ekler, bazıları eklemez; durum harfi `Z` ise eksik son eki sen ekle.
 - Her derinlik için başa iki boşluk eklenir. Kardeşler PID sırasıyla yazılır.
 - Argüman yoksa, dosya yoksa ya da içeriği bir sayı değilse `HATA` yazdır.
 - Dosyadaki PID'de süreç yoksa `bayat: <pid>` yazdır: süreç ölmüş, dosyası kalmış. Ağaç yazmaya kalkma.
@@ -398,6 +398,7 @@ fi
 gez() {
     local pid=$1 girinti=$2 p durum isim cocuk
     read -r p durum isim < <(ps -o pid=,state=,comm= -p "$pid")
+    if [[ $durum == Z && $isim != *" <defunct>" ]]; then isim+=" <defunct>"; fi
     echo "$girinti$p $durum $isim"
     for cocuk in $(ps --ppid "$pid" -o pid=); do
         gez "$cocuk" "$girinti  "

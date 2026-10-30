@@ -19,7 +19,7 @@ Bu derste gerçek bir OpenSSH sunucusuna bağlanacaksın, ama ağa bir port aç�
 | `known_hosts` | `lab` adının host anahtarı (önceden doğrulanmış) |
 | `ayar` | istemci ayarı: `Host lab` bloğu |
 
-`ayar` içindeki `ProxyCommand /usr/sbin/sshd -i -f .../sshd_config` satırı işin püf noktasıdır: ssh bir TCP bağlantısı açmak yerine bu komutu başlatır ve onunla stdin/stdout üzerinden konuşur. `sshd -i` (inetd kipi) tek bir bağlantıya hizmet edip çıkar. Böylece her `ssh -F ayar lab` gerçek bir SSH el sıkışması, host anahtarı doğrulaması ve anahtarla kimlik doğrulaması yapar; bağlantı bitince sunucu süreci de biter. Uzak taraf aynı makinedeki aynı kullanıcıdır; bu yüzden "uzak" yollar çalışma klasörünün içindedir.
+`ayar` içindeki `ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f .../sshd_config` satırı işin püf noktasıdır: ssh bir TCP bağlantısı açmak yerine bu komutu başlatır ve onunla stdin/stdout üzerinden konuşur. `sshd -i` (inetd kipi) tek bir bağlantıya hizmet edip çıkar. Böylece her `ssh -F ayar lab` gerçek bir SSH el sıkışması, host anahtarı doğrulaması ve anahtarla kimlik doğrulaması yapar; bağlantı bitince sunucu süreci de biter. Uzak taraf aynı makinedeki aynı kullanıcıdır; bu yüzden "uzak" yollar çalışma klasörünün içindedir.
 
 Kaynak: [sshd(8), -i](https://man.openbsd.org/sshd#i), [ssh_config(5), ProxyCommand](https://man.openbsd.org/ssh_config#ProxyCommand).
 :::
@@ -57,8 +57,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 :::
 
@@ -89,8 +90,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 :::
 
@@ -114,8 +116,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 
 ???
@@ -157,8 +160,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 ```
 
 ```starter
@@ -242,8 +246,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 U = "/tmp/pafta-bs35"          # aynı anda çalışan denemeler paylaşır: silinmez, yalnız eksikse kurulur
 os.makedirs(U + "/gelen", exist_ok=True)
 os.makedirs(U + "/salt okunur", exist_ok=True)
@@ -272,7 +277,10 @@ os.makedirs(f"{U}/iki kelime", exist_ok=True)
 eq(run(stdin=f"rapor.txt\t{U}/iki kelime\n"), f"tamam {sha('rapor.txt')}\n", "uzak klasör adında boşluk")
 r = calis(stdin=f"rapor.txt\t{U}/olmayan\n")
 eq((r["kod"], r["cikti"]), (1, "gönderilemedi\n"), "uzak klasör yok")
-r = calis(stdin=f"rapor.txt\t{U}/salt okunur\n")
+import uuid
+yasak = "yeni-" + uuid.uuid4().hex + ".txt"
+open(yasak, "w").write("izin denemesi")
+r = calis(stdin=f"{yasak}\t{U}/salt okunur\n")
 eq((r["kod"], r["cikti"]), (1, "gönderilemedi\n"), "uzak klasör yazılamıyor")
 r = calis(stdin=f"olmayan.txt\t{U}/gelen\n")
 eq((r["kod"], r["cikti"]), (2, "HATA\n"), "yerel dosya yok")
@@ -360,8 +368,9 @@ open("sshd_config", "w").write(f"HostKey {L}/host_ed25519\nAuthorizedKeysFile {L
     "KbdInteractiveAuthentication no\nUsePAM no\nStrictModes no\nPidFile none\nSubsystem sftp internal-sftp\nLogLevel ERROR\n")
 open("known_hosts", "w").write("lab " + " ".join(open("host_ed25519.pub").read().split()[:2]) + "\n")
 kullanici = subprocess.run(["id", "-un"], capture_output=True, text=True).stdout.strip()
+sshd_prefix = "/usr/bin/setpriv --bounding-set=-dac_override,-dac_read_search " if os.geteuid() == 0 else ""
 open("ayar", "w").write(f"Host lab\n    HostName lab\n    User {kullanici}\n    IdentityFile {L}/id_lab\n    IdentitiesOnly yes\n"
-    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand /usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
+    f"    UserKnownHostsFile {L}/known_hosts\n    StrictHostKeyChecking yes\n    ProxyCommand {sshd_prefix}/usr/sbin/sshd -i -f {L}/sshd_config\n    LogLevel ERROR\n")
 from pathlib import Path
 Path('kaynak dosya.bin').write_bytes(bytes(range(256))*2+b'\x00\xff\n')
 Path('bos.bin').write_bytes(b'')

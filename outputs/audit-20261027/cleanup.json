@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-10-27T19:09:36.902668+00:00",
+  "scope": "Only named Pafta containers from recorded image IDs, Kali lesson DB services, idle dedicated Kali distribution and unused Docker Desktop stopped. No data/volume/image/distro removal.",
+  "containers": [
+    {
+      "name": "pafta-elasticsearch",
+      "status": "ALREADY_STOPPED"
+    },
+    {
+      "name": "pafta-kibana",
+      "status": "ALREADY_STOPPED"
+    },
+    {
+      "name": "pafta-splunk",
+      "status": "ALREADY_STOPPED"
+    },
+    {
+      "name": "pafta-sql-mysql",
+      "status": "ALREADY_STOPPED"
+    },
+    {
+      "name": "pafta-sql-mssql",
+      "status": "ALREADY_STOPPED"
+    },
+    {
+      "name": "pafta-kusto",
+      "action": "stop",
+      "exit": 0
+    },
+    {
+      "name": "pafta-bh-app",
+      "status": "ALREADY_STOPPED"
+    },
+    {
+      "name": "pafta-bh-db",
+      "status": "ALREADY_STOPPED"
+    },
+    {
+      "name": "pafta-bh-graph",
+      "status": "ALREADY_STOPPED"
+    }
+  ],
+  "running_containers_after_lab_stops": [],
+  "kali": {
+    "stopped": false,
+    "active_pafta_jobs": [],
+    "interactive_login_present": true
+  },
+  "kali_terminated": false,
+  "docker_desktop": {
+    "stop_exit": 0,
+    "output": "✓ Stopping Docker Desktop\n",
+    "error": "",
+    "status_exit": 1,
+    "status": "",
+    "status_error": "Could not retrieve status. Is Docker Desktop running?\nYou can start Docker Desktop by running 'docker desktop start'.\n",
+    "stopped": true,
+    "verified_process_names": [],
+    "daemon_available": false
+  },
+  "memory_before": {
+    "total_bytes": 25025695744,
+    "available_bytes": 3729567744
+  },
+  "memory_after": {
+    "total_bytes": 25025695744,
+    "available_bytes": 12258185216
+  },
+  "observed_wsl_states": {
+    "kali-linux": "Stopped",
+    "docker-desktop": "Stopped"
+  },
+  "cleanup_verified_utc": "2026-10-27T19:11:15.540764+00:00"
+}

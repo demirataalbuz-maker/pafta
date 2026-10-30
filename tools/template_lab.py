@@ -6,12 +6,17 @@ Maven Central'dan pom.xml içindeki sabit sürümleri getirir.
 """
 import argparse
 import os
+import sys
 from pathlib import Path
 import shutil
 import subprocess
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
+
+sys.path.insert(0, str(ROOT))
+from engine.runtime_env import refresh_windows_runtime_env
+refresh_windows_runtime_env()
 
 
 def run(download=False):

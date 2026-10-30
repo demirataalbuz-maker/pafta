@@ -34,7 +34,7 @@ class AdApp(unittest.TestCase):
  def test_outline_offline_check_guess_and_private_tests(self):
   track=self.api('/api/track/ad')['track']
   ids=[s['id'] for m in track['modules'] for s in m['lessons']]
-  self.assertEqual(ids,[f'ad{i:02}' for i in range(1,24)])
+  self.assertEqual(ids,[f'ad{i:02}' for i in range(1,26)])
   self.assertEqual(len(track['ranks']),6)
   lesson=self.lib.lesson('ad','ad16')
   public=self.api('/api/lesson/ad/ad16')['lesson']

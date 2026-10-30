@@ -1,0 +1,33 @@
+C:\Users\demo12\Documents\Pafta\tools\jpa_lab.py:6: SyntaxWarning: invalid escape sequence '\P'
+  değiştirilebilir). Maven 3.9.16 ve Maven deposu %LOCALAPPDATA%\Pafta altında tutulur: Windows
+Exception in thread Thread-2 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Users\demo12\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 1044, in _bootstrap_inner
+    self.run()
+    ~~~~~~~~^^
+  File "C:\Users\demo12\AppData\Local\Programs\Python\Python313\Lib\threading.py", line 995, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\demo12\AppData\Local\Programs\Python\Python313\Lib\subprocess.py", line 1615, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+  File "<frozen codecs>", line 325, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd6 in position 21: invalid continuation byte
+türetilmiş: [1:Disk dolu/kritik/açık, 2:Yama/yüksek/açık, 4:DNS/düşük/açık, 5:502/kritik/açık]
+say kritik: 3
+In/Not: [1:Disk dolu/kritik/açık, 4:DNS/düşük/açık, 5:502/kritik/açık]
+@Query: [Disk dolu, 502]
+depo sınıfı proxy: true
+servis sınıfı: CGLIB alt sınıfı
+commit: 5 → 7
+yakalandı: çalışma zamanı hatası
+RuntimeException rollback: 7 → 7
+yakalandı: denetimli
+denetimli istisna: 7 → 8
+yakalandı: denetimli, rollbackFor
+rollbackFor: 8 → 8
+dışarıdan çağrılan (işlemsiz yöntem): işlem yok; içeride çağrılan: işlem yok
+doğrudan proxy üzerinden: işlem var
+readOnly: işlem var, salt okunur=true
+toplu kapat (@Modifying): 3
+işlemsiz @Modifying: InvalidDataAccessApiUsageException

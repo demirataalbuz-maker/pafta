@@ -104,6 +104,10 @@ eq(r["findings"], ["display-name-spoofing", "from-kurumsal-degil", "lookalike-do
 k = baslik_analizi(kurumsal)
 eq((k["findings"], k["authentication"]["spf_aligned"], k["authentication"]["dkim_aligned"]),
    ([], True, True), "kurumsal kontrol aligned ve bulgusuz")
+# Canonical FQDNs and missing domains must not turn alignment into a pass.
+need("ayni_kok")
+for a,b,expected in (("", "other.test.",False),("other.test.","",False),(".",".",False),("MAIL.PAFTA.TEST.","pafta.test",True)):
+    eq(ayni_kok(a,b),expected,"boş alan ve son nokta sınırı")
 x = copy.deepcopy(mesaj)
 x.replace_header("Reply-To", "Yanıt <baska@dis-alan.example>")
 eq("reply-to-farkli" in baslik_analizi(x)["findings"], True, "farklı Reply-To alanı")
@@ -162,6 +166,7 @@ def alan(adres):
 
 
 def ayni_kok(a, b):
+    a, b = a.rstrip(".").casefold(), b.rstrip(".").casefold()
     return bool(a and b) and (a == b or a.endswith("." + b) or b.endswith("." + a))
 
 
@@ -485,4 +490,566 @@ kurumsal = eml_yukle(klasor / "kurumsal.eml")
 Bu sentetik olayda doğru özet şudur: görünen ad kurumsal adres izlenimi veriyor; gerçek `From` alanı lookalike `pafta-billing.example`; `Reply-To` ve `Return-Path` ayrı rolleriyle kaydedildi. En yeni `Received by` olan `edge.pafta.test`, Authentication-Results `authserv-id` ile aşama düzeyinde eşleşiyor. SPF/DKIM/DMARC `pass` ve alignment var, ancak bunlar saldırganın kendi alanına ait; içeriği temizlemez.
 
 HTML bağlantısının görünen metni `pafta.test` derken gerçek host `odeme-guvenli.example`; ayrıca `pafta.test` userinfo olarak kullanılmış. Eklerde çift uzantı, tehlikeli son uzantı, MIME uyuşmazlığı ve SHA-256 kanıtları ayrı korunur. Gerçek SOC sürecinde ham `.eml` bütünlüğü, teslim zamanı, alıcı kapsamı, mesaj izleme kayıtları, benzer iletiler ve yetkili müdahale adımları ayrıca eklenir. Bu ders herhangi bir dış itibar sorgusu yapmadığı için alanın kaydı, güncel sahibi veya hedefin çevrimiçi durumu hakkında iddia üretmez.
+:::
+
+::: gorev 4 · Güven sınırı ve ham EML bütünlüğüyle SOC triage raporu
+`triage_raporu(ham, guvenilen_authserv)` işlevini yaz. `ham`, ham EML baytlarıdır; güvenilen authserv-id olay yöneticisinin dışarıdan verdiği bilgidir, iletiden öğrenilmez. Önceki üç görevin `baslik_analizi`, `baglantilari_analizet`, `ek_kanitlari` işlevleri hazırlıkta hazırdır.
+
+Tüm Authentication-Results satırlarından yalnız verilen authserv-id ile harf duyarsız eşleşeni kullan. İki eşleşme varsa `ValueError`; eşleşme yoksa authentication/authserv `None`, `guvenilen-dogrulama-yok` bulgusu. Bir sonuç var fakat Received by ile eşleşmiyorsa `asama-eslesmiyor`. Başlık/URL/ek bulgularını tek, sıralı ve tekrarsız listede koru. Sonuç anahtarları çözümdeki sözleşmedir: ham EML SHA-256, Message-ID (yoksa boş), authserv, authentication, findings, ek SHA-256 listesi ve `coverage="yalniz-bu-ileti; alici-kapsami-izleme-kaydiyla-dogrulanmadi"`.
+
+Güvenilen geçit adı tek başına kriptografik kanıt değildir; gerçek olayda ağ geçidi kayıtlarıyla doğrulanır. Ham MIME'ı yeniden serileştirip onun hash'ini alma; alınan baytları hash'le. SPF/DKIM imza doğrulaması ve alıcı/kampanya kapsamı bu çevrimdışı dosyadan kanıtlanmaz.
+```starter
+from pu14_helpers import baslik_analizi, baglantilari_analizet, ek_kanitlari
+def triage_raporu(ham, guvenilen_authserv):
+    return {"findings": []}
+```
+
+```test
+import hashlib
+from email.message import EmailMessage
+need("triage_raporu")
+def eml(trusted=True, forged=False):
+    x=EmailMessage()
+    x["From"]="a@pafta.test";x["To"]="b@pafta.test";x["Message-ID"]="<case-1@pafta.test>"
+    x["Received"]="from sender by edge.pafta.test; Tue, 20 Oct 2026 08:00:00 +0000"
+    if forged:x["Authentication-Results"]="attacker.test; spf=pass; dkim=pass; dmarc=pass"
+    if trusted:x["Authentication-Results"]="edge.pafta.test; spf=fail smtp.mailfrom=other.test; dkim=fail header.d=other.test; dmarc=fail"
+    x.set_content("zararsiz fixture")
+    return x
+x=eml(forged=True);raw=x.as_bytes();r=triage_raporu(raw,"EDGE.PAFTA.TEST")
+eq(r["eml_sha256"],hashlib.sha256(raw).hexdigest(),"ham bayt hash'i")
+eq(r["message_id"],"<case-1@pafta.test>","olay korelasyonu kimliği")
+eq(r["authserv"],"edge.pafta.test","güvenilen geçit harf duyarsız")
+eq([r["authentication"][k] for k in ("spf","dkim","dmarc")],["fail"]*3,"sahte ilk pass seçilmez")
+eq(r["authentication"]["stage_received_index"],0,"gerçek Received aşaması")
+eq(r["coverage"],"yalniz-bu-ileti; alici-kapsami-izleme-kaydiyla-dogrulanmadi","tek iletiden kampanya kapsamı uydurulmaz")
+x=eml(trusted=False,forged=True);r=triage_raporu(x.as_bytes(),"edge.pafta.test")
+eq((r["authserv"],r["authentication"]),(None,None),"bilinmeyen sonuç güvenilir sayılmaz")
+eq(r["findings"],["guvenilen-dogrulama-yok"],"eksik güven kanıtı raporlanır")
+x=eml();del x["Received"]
+ok("asama-eslesmiyor" in triage_raporu(x.as_bytes(),"edge.pafta.test")["findings"],"aşama eksikliği")
+x=eml();x["Authentication-Results"]="edge.pafta.test; spf=pass"
+raises(ValueError,triage_raporu,x.as_bytes(),"edge.pafta.test",msg="yinelenen güvenilir sonuç sessiz seçilmez")
+x=eml();x.add_attachment(b"MZ-test",maintype="application",subtype="octet-stream",filename="rapor.pdf.exe")
+r=triage_raporu(x.as_bytes(),"edge.pafta.test")
+eq(r["attachment_sha256"],[hashlib.sha256(b"MZ-test").hexdigest()],"MIME çözülmüş ek kanıtı")
+for f in ("cift-uzanti","tehlikeli-uzanti","yurutulebilir-imza"):ok(f in r["findings"],"ek bulgusu: "+f)
+ok(triage_raporu(raw+b"\n","edge.pafta.test")["eml_sha256"]!=hashlib.sha256(raw).hexdigest(),"ham değişiklik hash'e yansır")
+x=eml();x.add_alternative('<a href="https://pafta.test@other.test/a">https://pafta.test</a>',subtype='html')
+r=triage_raporu(x.as_bytes(),"edge.pafta.test")
+for f in ("url-gorunen-hedef-farkli","url-kullanici-bilgisi"):ok(f in r["findings"],"URL bulgusu korunur: "+f)
+for rawbad,gate in (("metin","edge.pafta.test"),(raw,""),(raw,None)):
+    raises(ValueError,triage_raporu,rawbad,gate,msg="girdi ve güven sınırı zorunlu")
+```
+
+```solution
+from pu14_helpers import baslik_analizi, baglantilari_analizet, ek_kanitlari
+import hashlib
+from email import policy
+from email.parser import BytesParser
+
+def triage_raporu(ham, guvenilen_authserv):
+    if not isinstance(ham, bytes) or not isinstance(guvenilen_authserv, str) or not guvenilen_authserv.strip():
+        raise ValueError("Ham ileti bayt, güvenilen geçit açık bir kimlik olmalı")
+    mesaj = BytesParser(policy=policy.default).parsebytes(ham)
+    secilen = [str(v) for v in mesaj.get_all("Authentication-Results", [])
+               if str(v).split(";", 1)[0].strip().casefold() == guvenilen_authserv.strip().casefold()]
+    if len(secilen) > 1:
+        raise ValueError("Aynı güvenilen geçitte birden çok sonuç: ayrıca incele")
+    del mesaj["Authentication-Results"]
+    if secilen:
+        mesaj["Authentication-Results"] = secilen[0]
+    baslik = baslik_analizi(mesaj)
+    bulgular = set(baslik["findings"])
+    if not secilen:
+        bulgular.add("guvenilen-dogrulama-yok")
+    elif baslik["authentication"]["stage_received_index"] is None:
+        bulgular.add("asama-eslesmiyor")
+    for bag in baglantilari_analizet(mesaj):
+        if bag["uyusmuyor"]:
+            bulgular.add("url-gorunen-hedef-farkli")
+        if bag["kullanici_bilgisi"]:
+            bulgular.add("url-kullanici-bilgisi")
+    ekler = ek_kanitlari(mesaj)
+    for ek in ekler:
+        bulgular.update(ek["findings"])
+    return {"eml_sha256": hashlib.sha256(ham).hexdigest(),
+            "message_id": str(mesaj.get("Message-ID", "")),
+            "authserv": guvenilen_authserv.strip().lower() if secilen else None,
+            "authentication": baslik["authentication"] if secilen else None,
+            "findings": sorted(bulgular), "attachment_sha256": [e["sha256"] for e in ekler],
+            "coverage": "yalniz-bu-ileti; alici-kapsami-izleme-kaydiyla-dogrulanmadi"}
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from email_analysis_lab import hazirla
+hazirla()
+import re
+from email.utils import parseaddr
+
+
+def alan(adres):
+    return parseaddr(adres)[1].rsplit("@", 1)[-1].lower() if "@" in parseaddr(adres)[1] else ""
+
+
+def ayni_kok(a, b):
+    a, b = a.rstrip(".").casefold(), b.rstrip(".").casefold()
+    return bool(a and b) and (a == b or a.endswith("." + b) or b.endswith("." + a))
+
+
+from email_analysis_lab import eml_yukle
+mesaj = eml_yukle("email_analysis/oltalama.eml")
+kurumsal = eml_yukle("email_analysis/kurumsal.eml")
+
+
+def baslik_analizi(mesaj, kurumsal_alan="pafta.test"):
+    gorunen, from_email = parseaddr(mesaj.get("From", ""))
+    from_domain = from_email.rsplit("@", 1)[-1].lower() if "@" in from_email else ""
+    reply_to = parseaddr(mesaj.get("Reply-To", ""))[1]
+    return_path = parseaddr(mesaj.get("Return-Path", ""))[1]
+    received = []
+    for deger in mesaj.get_all("Received", []):
+        from_eslesme = re.search(r"^\s*from\s+(.+?)(?=\s+by\s+|\s*;|$)", deger, re.I | re.S)
+        by_eslesme = re.search(r"(?:^|[;\s])by\s+([^\s;]+)", deger, re.I)
+        received.append({
+            "from": " ".join(from_eslesme.group(1).split()) if from_eslesme else "",
+            "by": by_eslesme.group(1).lower() if by_eslesme else "",
+        })
+    ar = mesaj.get("Authentication-Results", "")
+    authserv = ar.split(";", 1)[0].strip().lower()
+
+    def deger(desen):
+        bulgu = re.search(desen, ar, re.I)
+        return bulgu.group(1).lower() if bulgu else ""
+
+    auth = {
+        "authserv_id": authserv,
+        "spf": deger(r"(?:^|[;\s])spf=([a-z]+)"),
+        "spf_domain": deger(r"smtp\.mailfrom=([^\s;]+)"),
+        "dkim": deger(r"(?:^|[;\s])dkim=([a-z]+)"),
+        "dkim_domain": deger(r"header\.d=([^\s;]+)"),
+        "dmarc": deger(r"(?:^|[;\s])dmarc=([a-z]+)"),
+        "spf_aligned": False,
+        "dkim_aligned": False,
+        "stage_received_index": next((i for i, h in enumerate(received) if h["by"] == authserv), None),
+    }
+    auth["spf_aligned"] = ayni_kok(auth["spf_domain"], from_domain)
+    auth["dkim_aligned"] = ayni_kok(auth["dkim_domain"], from_domain)
+    kurumsal = ayni_kok(from_domain, kurumsal_alan)
+    findings = set()
+    if not kurumsal:
+        findings.add("from-kurumsal-degil")
+    if not kurumsal and kurumsal_alan.split(".", 1)[0] in from_domain:
+        findings.add("lookalike-domain")
+    if not kurumsal and re.search(r"[\w.+-]+@" + re.escape(kurumsal_alan) + r"\b", gorunen, re.I):
+        findings.add("display-name-spoofing")
+    if alan(reply_to) and alan(reply_to) != from_domain:
+        findings.add("reply-to-farkli")
+    if alan(return_path) and alan(return_path) != from_domain:
+        findings.add("return-path-farkli")
+    return {"from": {"display_name": gorunen, "email": from_email, "domain": from_domain},
+            "reply_to": reply_to, "return_path": return_path, "received": received,
+            "authentication": auth, "findings": sorted(findings)}
+
+
+import re
+from html.parser import HTMLParser
+from urllib.parse import urlsplit
+
+
+from email_analysis_lab import eml_yukle
+mesaj = eml_yukle("email_analysis/oltalama.eml")
+
+
+def baglantilari_analizet(mesaj):
+    baglantilar = []
+
+    class Toplayici(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.href = None
+            self.metin = []
+
+        def handle_starttag(self, tag, attrs):
+            if tag.lower() == "a" and self.href is None:
+                self.href = dict(attrs).get("href")
+                self.metin = []
+
+        def handle_data(self, data):
+            if self.href is not None:
+                self.metin.append(data)
+
+        def handle_endtag(self, tag):
+            if tag.lower() == "a" and self.href is not None:
+                gercek = self.href
+                parca = urlsplit(gercek)
+                gorunen = " ".join("".join(self.metin).split())
+                baglantilar.append({"gorunen": gorunen, "gercek": gercek,
+                    "alan": (parca.hostname or "").lower(), "kullanici_bilgisi": parca.username,
+                    "defang": re.sub(r"^http", "hxxp", gercek, flags=re.I).replace(":", "[:]").replace(".", "[.]"),
+                    "uyusmuyor": gorunen != gercek})
+                self.href = None
+                self.metin = []
+
+    for parca in mesaj.walk():
+        if parca.get_content_type() == "text/html":
+            Toplayici().feed(parca.get_content())
+    return baglantilar
+
+
+import hashlib
+from pathlib import PurePath
+
+
+from email_analysis_lab import eml_yukle
+mesaj = eml_yukle("email_analysis/oltalama.eml")
+kurumsal = eml_yukle("email_analysis/kurumsal.eml")
+
+
+def ek_kanitlari(mesaj):
+    tehlikeli = {".exe", ".scr", ".js", ".vbs", ".ps1", ".bat", ".cmd", ".hta", ".jar"}
+    belge = {".pdf", ".doc", ".docx", ".xls", ".xlsx"}
+    beklenen_mime = {".pdf": {"application/pdf"}, ".txt": {"text/plain"}, ".csv": {"text/csv"},
+        ".exe": {"application/x-msdownload", "application/vnd.microsoft.portable-executable"}}
+    sonuc = []
+    for ek in mesaj.iter_attachments():
+        ad = ek.get_filename() or ""
+        mime = ek.get_content_type().lower()
+        icerik = ek.get_payload(decode=True) or b""
+        uzantilar = [u.lower() for u in PurePath(ad).suffixes]
+        uzanti = uzantilar[-1] if uzantilar else ""
+        findings = set()
+        if len(uzantilar) >= 2 and uzantilar[-2] in belge and uzanti in tehlikeli:
+            findings.add("cift-uzanti")
+        if uzanti in tehlikeli:
+            findings.add("tehlikeli-uzanti")
+        if icerik.startswith(b"MZ"):
+            findings.add("yurutulebilir-imza")
+        if uzanti in beklenen_mime and mime not in beklenen_mime[uzanti]:
+            findings.add("mime-uzanti-uyusmuyor")
+        sonuc.append({"filename": ad, "mime": mime, "extension": uzanti, "size": len(icerik),
+                      "sha256": hashlib.sha256(icerik).hexdigest(), "findings": sorted(findings)})
+    return sonuc
+import types
+_helpers = types.ModuleType("pu14_helpers")
+_helpers.__dict__.update(globals())
+sys.modules["pu14_helpers"] = _helpers
+```
+
+```hint
+Güvenilen Authentication-Results satırını seçtikten sonra önceki başlık çözümleyicisini çağır; bilinmeyen satırların pass değerlerini birleştirme.
+```
+:::
+
+::: anlat QR kodlu oltalama ve bildirimden kampanya karantinasına
+QR kodlu oltalamada (quishing) tıklanacak bağlantı HTML'de değil, bir görselin içindedir. Kullanıcı kodu çoğu zaman kurumsal güvenlik denetimlerinin dışındaki telefonuyla okutur; bu yüzden URL yeniden yazma ve bağlantı tarama bu kanalı göremeyebilir. Çevrimdışı ilk sinyal yapısal bir örüntüdür: iletide görsel parça vardır, tıklanabilir HTML bağlantısı yoktur ve metin kullanıcıdan kodu okutmasını ister. Bu ders görseli çözmez; QR içeriğini okumak ayrı, yetkili bir analiz ortamında yapılır. Sinyal "zararlı" hükmü değildir, öncelik ve inceleme gerekçesidir.
+
+Bir kullanıcı iletiyi bildirdiğinde olay tek iletiyle bitmez. Aynı kampanya başka posta kutularına da ulaşmış olabilir. Posta izleme kaydında alıcıları **güçlü kimliklerle** eşleştir: aynı Message-ID veya aynı ek SHA-256 değeri. Konu satırı saldırganın seçtiği ve meşru iletilerde de tekrarlanan bir metindir; tek başına eşleştirme kanıtı değildir. Eşleşen kayıtların durumunu ayır: hâlâ `teslim` olanlar karantina/geri çekme listesine girer; ağ geçidinin zaten `engellendi` dediği iletiler ayrı raporlanır; `karantinada` olanlar yeniden işlenmez.
+
+Bildiren kullanıcılar değerli bir erken uyarıdır ama kampanyanın tamamını temsil etmez. Bildirmeyen alıcılar ayrı listelenir; onlara bilgilendirme gönderilir ve tıklama/kimlik girişi kayıtları (proxy, kimlik sağlayıcı oturumları) ayrıca incelenir. İz kaydı eşleşmesi iletinin teslim edildiğini gösterir; kullanıcının bağlantıyı açtığını veya parola girdiğini kanıtlamaz.
+:::
+
+::: gorev 5 · QR kanalını işaretle ve bildirilen iletiden kampanya karantinası çıkar
+İki işlev yaz. Önceki görevlerin işlevleri hazırlıkta hazırdır.
+
+`qr_sinyali(mesaj)`: İletide `image/*` türünde en az bir parça varsa, `baglantilari_analizet(mesaj)` boş liste dönüyorsa ve ek olmayan `text/plain` veya `text/html` gövdelerinden birinde harf duyarsız `qr` ya da `kare kod` geçiyorsa `True`; aksi hâlde `False`. Görseli çözmeye çalışma.
+
+`kampanya_karantinasi(rapor, iz_kayitlari, bildirenler)`: `rapor` 4. görevin çıktısıdır; yalnız `message_id` ve `attachment_sha256` alanlarını kullan. İkisi de boşsa eşleştirilecek kimlik yoktur: `ValueError`. İz kaydındaki bir satır, Message-ID birebir aynıysa (boş Message-ID eşleşme sayılmaz) ya da ek SHA-256 listeleri ortak bir değer içeriyorsa kampanyaya aittir. Konu satırı eşleşme ölçütü değildir. Durum yalnız `teslim`, `engellendi`, `karantinada` olabilir; başkası `ValueError`. Alıcı ve bildiren adreslerini boşlukları kırpıp harf duyarsız karşılaştır. Dönüş:
+
+```text
+{"karantina": [teslim durumundaki eşleşen alıcılar],
+ "zaten_engellenen": [engellendi durumundaki eşleşen alıcılar],
+ "bildirmeyen_alicilar": [karantinadakilerden bildirmeyenler],
+ "bildiren_sayisi": int,
+ "kanit_siniri": "iz-kaydi-eslesmesi; tiklama-ve-kimlik-girisi-ayrica-dogrulanmali"}
+```
+
+Listeler küçük harfli, sıralı ve tekrarsızdır. `bildiren_sayisi`, eşleşen alıcılardan bildirenlerin sayısıdır; kampanyaya ait olmayan bir bildiren bu sayıyı artırmaz.
+
+```starter
+from email.message import EmailMessage
+from pu14_helpers import baglantilari_analizet
+
+
+def qr_sinyali(mesaj):
+    # KUSURLU BAŞLANGIÇ KODU: yalnız "qr" kelimesine bakıyor; görsel parça ve bağlantı yokluğunu denetlemiyor.
+    return "qr" in str(mesaj).casefold()
+
+
+def kampanya_karantinasi(rapor, iz_kayitlari, bildirenler):
+    # KUSURLU BAŞLANGIÇ KODU: yalnız Message-ID ile eşliyor, ek hash'ini atlıyor ve engellenmiş iletileri de karantinaya yazıyor.
+    hepsi = sorted({k["alici"] for k in iz_kayitlari if k.get("message_id") == rapor.get("message_id")})
+    return {"karantina": hepsi, "zaten_engellenen": [], "bildirmeyen_alicilar": hepsi,
+            "bildiren_sayisi": len(bildirenler)}
+
+
+q = EmailMessage()
+q.set_content("Hesabınızı doğrulamak için ekteki QR kodu telefonunuzla okutun.")
+q.add_attachment(b"\x89PNG-sentetik", maintype="image", subtype="png", filename="dogrula.png")
+print(qr_sinyali(q))
+```
+
+```test
+from email.message import EmailMessage
+need("qr_sinyali"); need("kampanya_karantinasi")
+def qr_ileti(metin="Hesabınızı doğrulamak için ekteki QR kodu telefonunuzla okutun.", gorsel=True, html=None):
+    x = EmailMessage(); x["From"] = "guvenlik@dis-alan.example"
+    x.set_content(metin)
+    if html is not None:
+        x.add_alternative(html, subtype="html")
+    if gorsel:
+        x.add_attachment(b"\x89PNG-sentetik", maintype="image", subtype="png", filename="dogrula.png")
+    return x
+eq(qr_sinyali(qr_ileti()), True, "görsel + bağlantısız gövde + QR çağrısı")
+eq(qr_sinyali(qr_ileti("Lütfen KARE KOD ile giriş yapın.")), True, "kare kod ifadesi harf duyarsız")
+eq(qr_sinyali(qr_ileti(gorsel=False)), False, "görsel yoksa QR kanalı yok")
+eq(qr_sinyali(qr_ileti("Ekteki logo dosyasını inceleyin.")), False, "görsel tek başına QR sinyali değildir")
+eq(qr_sinyali(qr_ileti(html='<p>QR kodu okutun veya <a href="https://dis.example/g">buraya</a> tıklayın</p>')), False,
+   "bağlantı varsa bu ileti 2. görevin bağlantı analizine düşer")
+from email_analysis_lab import eml_yukle
+eq(qr_sinyali(eml_yukle("email_analysis/oltalama.eml")), False, "fixture oltalama iletisi bağlantılı; QR kanalı değildir")
+x = qr_ileti("Fatura ektedir.")
+x.add_attachment(b"QR kodu okutun", maintype="text", subtype="plain", filename="not.txt")
+eq(qr_sinyali(x), False, "metin eki gövde sayılmaz")
+
+H = "ab" * 32
+rapor = {"message_id": "<k-1@dis.example>", "attachment_sha256": [H], "findings": ["lookalike-domain"]}
+iz = [
+    {"alici": " Ayse@pafta.test", "message_id": "<k-1@dis.example>", "ek_sha256": [], "durum": "teslim", "konu": "Fatura 1042"},
+    {"alici": "can@pafta.test", "message_id": "<yeniden-gonderim@dis.example>", "ek_sha256": [H], "durum": "teslim", "konu": "Ödeme"},
+    {"alici": "deniz@pafta.test", "message_id": "<k-1@dis.example>", "ek_sha256": [H], "durum": "engellendi", "konu": "Fatura 1042"},
+    {"alici": "ece@pafta.test", "message_id": "<k-1@dis.example>", "ek_sha256": [], "durum": "karantinada", "konu": "Fatura 1042"},
+    {"alici": "fatih@pafta.test", "message_id": "<mesru@pafta.test>", "ek_sha256": ["cd" * 32], "durum": "teslim", "konu": "Fatura 1042"},
+    {"alici": "ayse@pafta.test", "message_id": "<k-1@dis.example>", "ek_sha256": [H], "durum": "teslim", "konu": "Fatura 1042"},
+]
+r = kampanya_karantinasi(rapor, iz, ["AYSE@pafta.test ", "ayse@pafta.test", "zeki@pafta.test", "ece@pafta.test"])
+eq(r["karantina"], ["ayse@pafta.test", "can@pafta.test"], "Message-ID veya ek hash'iyle eşleşen teslimler; konu eşleşmesi sayılmaz")
+eq(r["zaten_engellenen"], ["deniz@pafta.test"], "ağ geçidinin engellediği ileti ayrı raporlanır")
+eq(r["bildirmeyen_alicilar"], ["can@pafta.test"], "bildirmeyen alıcı bilgilendirme listesine girer")
+eq(r["bildiren_sayisi"], 2, "kampanya dışı bildiren sayılmaz; aynı kişi iki kez sayılmaz")
+eq(r["kanit_siniri"], "iz-kaydi-eslesmesi; tiklama-ve-kimlik-girisi-ayrica-dogrulanmali", "teslim kaydı tıklama kanıtı değildir")
+eq(set(r), {"karantina", "zaten_engellenen", "bildirmeyen_alicilar", "bildiren_sayisi", "kanit_siniri"}, "sözleşme anahtarları")
+yalniz_hash = kampanya_karantinasi({"message_id": "", "attachment_sha256": [H]},
+    [{"alici": "x@pafta.test", "message_id": "", "ek_sha256": [], "durum": "teslim"},
+     {"alici": "y@pafta.test", "message_id": "<z@x>", "ek_sha256": [H], "durum": "teslim"}], [])
+eq(yalniz_hash["karantina"], ["y@pafta.test"], "boş Message-ID boş Message-ID ile eşleşmez")
+yalniz_mid = kampanya_karantinasi({"message_id": "<k-1@dis.example>", "attachment_sha256": []}, iz, [])
+eq(yalniz_mid["karantina"], ["ayse@pafta.test"], "ek kanıtı yoksa yalnız Message-ID kullanılır")
+eq(yalniz_mid["bildiren_sayisi"], 0, "bildiren yoksa sıfır")
+raises(ValueError, kampanya_karantinasi, {"message_id": "", "attachment_sha256": []}, iz, [],
+       msg="eşleştirilecek kimlik yoksa kampanya uydurulmaz")
+raises(ValueError, kampanya_karantinasi, rapor,
+       [{"alici": "a@pafta.test", "message_id": "<k-1@dis.example>", "ek_sha256": [], "durum": "okundu"}], [],
+       msg="bilinmeyen teslim durumu tahmin edilmez")
+```
+
+```solution
+from email.message import EmailMessage
+from pu14_helpers import baglantilari_analizet
+
+
+def qr_sinyali(mesaj):
+    gorsel = any(p.get_content_maintype() == "image" for p in mesaj.walk())
+    govde = " ".join(p.get_content() for p in mesaj.walk()
+                     if p.get_content_type() in ("text/plain", "text/html") and not p.is_attachment())
+    cagri = any(k in govde.casefold() for k in ("qr", "kare kod"))
+    return gorsel and not baglantilari_analizet(mesaj) and cagri
+
+
+def kampanya_karantinasi(rapor, iz_kayitlari, bildirenler):
+    mid = rapor.get("message_id") or ""
+    ekler = set(rapor.get("attachment_sha256") or [])
+    if not mid and not ekler:
+        raise ValueError("Eşleştirme için Message-ID veya ek SHA-256 gerekir")
+    bildiren = {b.strip().casefold() for b in bildirenler}
+    karantina, engellenen, eslesen = set(), set(), set()
+    for kayit in iz_kayitlari:
+        if kayit["durum"] not in ("teslim", "engellendi", "karantinada"):
+            raise ValueError("Bilinmeyen teslim durumu")
+        ayni_ileti = bool(mid) and kayit.get("message_id") == mid
+        ayni_ek = bool(ekler & set(kayit.get("ek_sha256") or []))
+        if not (ayni_ileti or ayni_ek):
+            continue
+        alici = kayit["alici"].strip().casefold()
+        eslesen.add(alici)
+        if kayit["durum"] == "teslim":
+            karantina.add(alici)
+        elif kayit["durum"] == "engellendi":
+            engellenen.add(alici)
+    return {"karantina": sorted(karantina), "zaten_engellenen": sorted(engellenen),
+            "bildirmeyen_alicilar": sorted(karantina - bildiren),
+            "bildiren_sayisi": len(bildiren & eslesen),
+            "kanit_siniri": "iz-kaydi-eslesmesi; tiklama-ve-kimlik-girisi-ayrica-dogrulanmali"}
+
+
+q = EmailMessage()
+q.set_content("Hesabınızı doğrulamak için ekteki QR kodu telefonunuzla okutun.")
+q.add_attachment(b"\x89PNG-sentetik", maintype="image", subtype="png", filename="dogrula.png")
+print(qr_sinyali(q))
+```
+
+```hint
+QR sinyali üç koşulun birlikte doğru olmasıdır: görsel parça, bağlantı yokluğu, gövdede okutma çağrısı. Karantinada önce eşleşmeyi Message-ID (boş değilse) veya ortak ek hash'iyle kur, sonra durumu ayır; bildirenleri eşleşen alıcılarla kesiştir.
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from email_analysis_lab import hazirla
+hazirla()
+import re
+from email.utils import parseaddr
+
+
+def alan(adres):
+    return parseaddr(adres)[1].rsplit("@", 1)[-1].lower() if "@" in parseaddr(adres)[1] else ""
+
+
+def ayni_kok(a, b):
+    a, b = a.rstrip(".").casefold(), b.rstrip(".").casefold()
+    return bool(a and b) and (a == b or a.endswith("." + b) or b.endswith("." + a))
+
+
+from email_analysis_lab import eml_yukle
+mesaj = eml_yukle("email_analysis/oltalama.eml")
+kurumsal = eml_yukle("email_analysis/kurumsal.eml")
+
+
+def baslik_analizi(mesaj, kurumsal_alan="pafta.test"):
+    gorunen, from_email = parseaddr(mesaj.get("From", ""))
+    from_domain = from_email.rsplit("@", 1)[-1].lower() if "@" in from_email else ""
+    reply_to = parseaddr(mesaj.get("Reply-To", ""))[1]
+    return_path = parseaddr(mesaj.get("Return-Path", ""))[1]
+    received = []
+    for deger in mesaj.get_all("Received", []):
+        from_eslesme = re.search(r"^\s*from\s+(.+?)(?=\s+by\s+|\s*;|$)", deger, re.I | re.S)
+        by_eslesme = re.search(r"(?:^|[;\s])by\s+([^\s;]+)", deger, re.I)
+        received.append({
+            "from": " ".join(from_eslesme.group(1).split()) if from_eslesme else "",
+            "by": by_eslesme.group(1).lower() if by_eslesme else "",
+        })
+    ar = mesaj.get("Authentication-Results", "")
+    authserv = ar.split(";", 1)[0].strip().lower()
+
+    def deger(desen):
+        bulgu = re.search(desen, ar, re.I)
+        return bulgu.group(1).lower() if bulgu else ""
+
+    auth = {
+        "authserv_id": authserv,
+        "spf": deger(r"(?:^|[;\s])spf=([a-z]+)"),
+        "spf_domain": deger(r"smtp\.mailfrom=([^\s;]+)"),
+        "dkim": deger(r"(?:^|[;\s])dkim=([a-z]+)"),
+        "dkim_domain": deger(r"header\.d=([^\s;]+)"),
+        "dmarc": deger(r"(?:^|[;\s])dmarc=([a-z]+)"),
+        "spf_aligned": False,
+        "dkim_aligned": False,
+        "stage_received_index": next((i for i, h in enumerate(received) if h["by"] == authserv), None),
+    }
+    auth["spf_aligned"] = ayni_kok(auth["spf_domain"], from_domain)
+    auth["dkim_aligned"] = ayni_kok(auth["dkim_domain"], from_domain)
+    kurumsal = ayni_kok(from_domain, kurumsal_alan)
+    findings = set()
+    if not kurumsal:
+        findings.add("from-kurumsal-degil")
+    if not kurumsal and kurumsal_alan.split(".", 1)[0] in from_domain:
+        findings.add("lookalike-domain")
+    if not kurumsal and re.search(r"[\w.+-]+@" + re.escape(kurumsal_alan) + r"\b", gorunen, re.I):
+        findings.add("display-name-spoofing")
+    if alan(reply_to) and alan(reply_to) != from_domain:
+        findings.add("reply-to-farkli")
+    if alan(return_path) and alan(return_path) != from_domain:
+        findings.add("return-path-farkli")
+    return {"from": {"display_name": gorunen, "email": from_email, "domain": from_domain},
+            "reply_to": reply_to, "return_path": return_path, "received": received,
+            "authentication": auth, "findings": sorted(findings)}
+
+
+import re
+from html.parser import HTMLParser
+from urllib.parse import urlsplit
+
+
+from email_analysis_lab import eml_yukle
+mesaj = eml_yukle("email_analysis/oltalama.eml")
+
+
+def baglantilari_analizet(mesaj):
+    baglantilar = []
+
+    class Toplayici(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.href = None
+            self.metin = []
+
+        def handle_starttag(self, tag, attrs):
+            if tag.lower() == "a" and self.href is None:
+                self.href = dict(attrs).get("href")
+                self.metin = []
+
+        def handle_data(self, data):
+            if self.href is not None:
+                self.metin.append(data)
+
+        def handle_endtag(self, tag):
+            if tag.lower() == "a" and self.href is not None:
+                gercek = self.href
+                parca = urlsplit(gercek)
+                gorunen = " ".join("".join(self.metin).split())
+                baglantilar.append({"gorunen": gorunen, "gercek": gercek,
+                    "alan": (parca.hostname or "").lower(), "kullanici_bilgisi": parca.username,
+                    "defang": re.sub(r"^http", "hxxp", gercek, flags=re.I).replace(":", "[:]").replace(".", "[.]"),
+                    "uyusmuyor": gorunen != gercek})
+                self.href = None
+                self.metin = []
+
+    for parca in mesaj.walk():
+        if parca.get_content_type() == "text/html":
+            Toplayici().feed(parca.get_content())
+    return baglantilar
+
+
+import hashlib
+from pathlib import PurePath
+
+
+from email_analysis_lab import eml_yukle
+mesaj = eml_yukle("email_analysis/oltalama.eml")
+kurumsal = eml_yukle("email_analysis/kurumsal.eml")
+
+
+def ek_kanitlari(mesaj):
+    tehlikeli = {".exe", ".scr", ".js", ".vbs", ".ps1", ".bat", ".cmd", ".hta", ".jar"}
+    belge = {".pdf", ".doc", ".docx", ".xls", ".xlsx"}
+    beklenen_mime = {".pdf": {"application/pdf"}, ".txt": {"text/plain"}, ".csv": {"text/csv"},
+        ".exe": {"application/x-msdownload", "application/vnd.microsoft.portable-executable"}}
+    sonuc = []
+    for ek in mesaj.iter_attachments():
+        ad = ek.get_filename() or ""
+        mime = ek.get_content_type().lower()
+        icerik = ek.get_payload(decode=True) or b""
+        uzantilar = [u.lower() for u in PurePath(ad).suffixes]
+        uzanti = uzantilar[-1] if uzantilar else ""
+        findings = set()
+        if len(uzantilar) >= 2 and uzantilar[-2] in belge and uzanti in tehlikeli:
+            findings.add("cift-uzanti")
+        if uzanti in tehlikeli:
+            findings.add("tehlikeli-uzanti")
+        if icerik.startswith(b"MZ"):
+            findings.add("yurutulebilir-imza")
+        if uzanti in beklenen_mime and mime not in beklenen_mime[uzanti]:
+            findings.add("mime-uzanti-uyusmuyor")
+        sonuc.append({"filename": ad, "mime": mime, "extension": uzanti, "size": len(icerik),
+                      "sha256": hashlib.sha256(icerik).hexdigest(), "findings": sorted(findings)})
+    return sonuc
+import types
+_helpers = types.ModuleType("pu14_helpers")
+_helpers.__dict__.update(globals())
+sys.modules["pu14_helpers"] = _helpers
+```
 :::

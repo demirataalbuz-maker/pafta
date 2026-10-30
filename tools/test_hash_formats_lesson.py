@@ -92,7 +92,7 @@ class DersDavranisi(unittest.TestCase):
 
     def test_solution_kabul_starter_red(self):
         tasks = [s for s in TASKS if s["kind"] == "gorev"]
-        self.assertEqual(len(tasks), 3)
+        self.assertEqual(len(tasks), 4)
         for index, step in enumerate(tasks):
             with self.subTest(task=index, code="solution"):
                 result = for_step(get("purple"), step).test(step["solution"], step)
@@ -110,9 +110,9 @@ class DersDavranisi(unittest.TestCase):
                 result = for_step(get("purple"), step).test(step["solution"].replace(old, new, 1), step)
                 self.assertEqual(result["status"], "fail", result)
 
-    def test_uc_gorev_ve_kapsam(self):
+    def test_dort_gorev_ve_kapsam(self):
         kinds = [s["kind"] for s in TASKS]
-        self.assertEqual(kinds.count("gorev"), 3)
+        self.assertEqual(kinds.count("gorev"), 4)
         self.assertIn("anlat", kinds)
         self.assertIn("tahmin", kinds)
         metin = LESSON_PATH.read_text(encoding="utf-8")

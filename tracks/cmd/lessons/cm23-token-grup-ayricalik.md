@@ -5,6 +5,8 @@ summary: Çalışan sürecin kullanıcı SID'sini, grup SID/özniteliklerini ve 
 timeout: 90
 ---
 
+Bu dersin üç whoami görevinde araç yolu varsayılan olarak `%SystemRoot%\System32\whoami.exe`'dir. `PAFTA_WHOAMI` tanımlıysa yalnız bu yürütülebilir yolu kullan. Böylece hata testleri Windows'un `SystemRoot` değerini bozmadan gerçek bir hata döndüren sorgu aracıyla çalışır; araç çıktısına/çıkış koduna göre karar ver. Sabit sorgu seçenekleriyle `call` kullan: testteki `.cmd` aracı bitince ana betik geri dönebilsin. Bu yol yalnız güvenilen laboratuvar yapılandırmasıdır, kullanıcı girdisinden komut oluşturulmaz.
+
 ::: anlat Hesap adı tek başına yetkiyi anlatmaz
 Windows bir işlem için erişim tokenı kullanır. Token kullanıcı SID'si, grup SID'leri ve ayrıcalıkları taşır. `whoami /user`, `/groups` ve `/priv` bunları mevcut sürecin bağlamında gösterir. `whoami /all` toplu görünümdür. Yönetici grubunun listede görünmesi, **etkin** olduğu anlamına gelmez; UAC altında “deny only” özniteliği bulunabilir. Ayrıcalığın token içinde bulunması da “Enabled” olmasıyla aynı şey değildir.
 
@@ -67,43 +69,43 @@ eq((r['kod'],r['cikti'],r['hata']),(0,'token-hazir\n',''),'Yeniden sorgu')
 eq(len(read('kullanici.csv')),1,'Rapor eklenmez')
 eq(len(read('gruplar.csv')),len(g),'Grup dosyası da yenilenir, eklenmez')
 
-# SystemRoot yalnız bu test alt sürecinde değiştirilir; whoami mutlak yolu bulunamaz.
+# Yalnız sorgu aracının yolu değiştirilir; Windows ve .NET SystemRoot gerçek kalır.
 import os,tempfile
-saved_root=os.environ.get('SystemRoot')
+saved_root=os.environ.get('PAFTA_WHOAMI')
 try:
     with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
-        os.environ['SystemRoot']=root
+        os.environ['PAFTA_WHOAMI']=str(Path(root)/'missing-whoami.exe')
         r=calis()
         eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
 finally:
-    if saved_root is None:os.environ.pop('SystemRoot',None)
-    else:os.environ['SystemRoot']=saved_root
+    if saved_root is None:os.environ.pop('PAFTA_WHOAMI',None)
+    else:os.environ['PAFTA_WHOAMI']=saved_root
 
 
-# Kaynak metnini değiştirmeden ikinci çağrıyı bozan yürütülebilir test double.
-import subprocess
-real_root=os.environ.get('SystemRoot',r'C:\Windows')
-csc=Path(real_root)/'Microsoft.NET'/'Framework64'/'v4.0.30319'/'csc.exe'
+# İkinci çağrıda hata dönen CMD test double: derlenmiş imzasız EXE gerektirmez.
+# Bu makinenin App Control ilkesi yeni derlenen EXE'yi 4551 ile reddediyor.
 with tempfile.TemporaryDirectory(prefix='pafta_whoami_double_') as root:
-    system32=Path(root)/'System32';system32.mkdir()
-    code=Path(root)/'Who.cs'
-    code.write_text('using System; class Who { static int Main(string[] a) { if (a.Length>0 && a[0]=="/user") { Console.WriteLine("test-user,test-sid"); return 0; } Console.Error.WriteLine("forced-error"); return 7; } }',encoding='utf-8')
-    compiled=subprocess.run([str(csc),'/nologo','/target:exe','/out:'+str(system32/'whoami.exe'),str(code)],capture_output=True)
-    eq(compiled.returncode,0,'test double derlenir; yeni paket kurulmaz')
+    tool=Path(root)/'whoami-double.cmd'
+    tool.write_text('@echo off\nif /i "%~1"=="/user" (echo test-user,test-sid & exit /b 0)\n>&2 echo forced-error\nexit /b 7\n',encoding='ascii')
+    saved_tool=os.environ.get('PAFTA_WHOAMI')
     try:
-        os.environ['SystemRoot']=root
+        os.environ['PAFTA_WHOAMI']=str(tool)
         r=calis()
-        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'ilk whoami başarılı, ikinci hatalı; stderr ayrıntısı sızmaz')
+        eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'ilk sorgu başarılı, ikinci hatalı; wrapper geri döner ve stderr ayrıntısı sızmaz')
     finally:
-        os.environ['SystemRoot']=real_root
+        if saved_tool is None:os.environ.pop('PAFTA_WHOAMI',None)
+        else:os.environ['PAFTA_WHOAMI']=saved_tool
 
 ```
 ```solution
 @echo off
 setlocal DisableDelayedExpansion
 set "whoami=%SystemRoot%\System32\whoami.exe"
-("%whoami%" /user /fo CSV /nh >"kullanici.csv") 2>nul || goto hata
-("%whoami%" /groups /fo CSV /nh >"gruplar.csv") 2>nul || goto hata
+if defined PAFTA_WHOAMI set "whoami=%PAFTA_WHOAMI%"
+call "%whoami%" /user /fo CSV /nh >"kullanici.csv" 2>nul
+if errorlevel 1 goto hata
+call "%whoami%" /groups /fo CSV /nh >"gruplar.csv" 2>nul
+if errorlevel 1 goto hata
 echo token-hazir
 exit /b 0
 :hata
@@ -146,25 +148,28 @@ for name in ('SeChangeNotifyPrivilegeX','ChangeNotifyPrivilege','PaftaYokPrivile
     eq((r['kod'],r['cikti'],r['hata']),(0,'yok\n',''),'Yakın veya eksik ad')
     eq(Path('secim.csv').read_bytes(),b'','Eski seçim kalmadı')
 
-# SystemRoot yalnız bu test alt sürecinde değiştirilir; whoami mutlak yolu bulunamaz.
+# Yalnız sorgu aracının yolu değiştirilir; Windows ve .NET SystemRoot gerçek kalır.
 import os,tempfile
-saved_root=os.environ.get('SystemRoot')
+saved_root=os.environ.get('PAFTA_WHOAMI')
 try:
     with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
-        os.environ['SystemRoot']=root
+        os.environ['PAFTA_WHOAMI']=str(Path(root)/'missing-whoami.exe')
         r=calis()
         eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
 finally:
-    if saved_root is None:os.environ.pop('SystemRoot',None)
-    else:os.environ['SystemRoot']=saved_root
+    if saved_root is None:os.environ.pop('PAFTA_WHOAMI',None)
+    else:os.environ['PAFTA_WHOAMI']=saved_root
 
 ```
 ```solution
 @echo off
 setlocal DisableDelayedExpansion
+set "whoami=%SystemRoot%\System32\whoami.exe"
+if defined PAFTA_WHOAMI set "whoami=%PAFTA_WHOAMI%"
 set "hedef=%~1"
 if not defined hedef set "hedef=SeChangeNotifyPrivilege"
-("%SystemRoot%\System32\whoami.exe" /priv /fo CSV /nh >"ayricaliklar.csv") 2>nul || goto hata
+call "%whoami%" /priv /fo CSV /nh >"ayricaliklar.csv" 2>nul
+if errorlevel 1 goto hata
 >"secim.csv" type nul
 for /f "usebackq tokens=1,* delims=," %%A in ("ayricaliklar.csv") do if /i "%%~A"=="%hedef%" (
     >>"secim.csv" echo(%%A,%%B
@@ -267,26 +272,29 @@ eq(calis(argv=['bos.csv'])['cikti'], 'yonetici-yok\nbutunluk=yok\n', 'boş dosya
 r = calis(argv=['yok.csv'])
 eq((r['kod'], r['cikti'], r['hata'].strip()), (1, '', 'dosya-yok'), 'olmayan dosya')
 
-# SystemRoot yalnız bu test alt sürecinde değiştirilir; whoami mutlak yolu bulunamaz.
+# Yalnız sorgu aracının yolu değiştirilir; Windows ve .NET SystemRoot gerçek kalır.
 import os,tempfile
-saved_root=os.environ.get('SystemRoot')
+saved_root=os.environ.get('PAFTA_WHOAMI')
 try:
     with tempfile.TemporaryDirectory(prefix='pafta_no_whoami_') as root:
-        os.environ['SystemRoot']=root
+        os.environ['PAFTA_WHOAMI']=str(Path(root)/'missing-whoami.exe')
         r=calis()
         eq((r['kod'],r['cikti'],r['hata'].strip()),(1,'','token-hatasi'),'whoami hatası başarı çıktısına dönüşmez')
 finally:
-    if saved_root is None:os.environ.pop('SystemRoot',None)
-    else:os.environ['SystemRoot']=saved_root
+    if saved_root is None:os.environ.pop('PAFTA_WHOAMI',None)
+    else:os.environ['PAFTA_WHOAMI']=saved_root
 
 ```
 ```solution
 @echo off
 setlocal DisableDelayedExpansion
+set "whoami=%SystemRoot%\System32\whoami.exe"
+if defined PAFTA_WHOAMI set "whoami=%PAFTA_WHOAMI%"
 set "dosya=%~1"
 if defined dosya goto oku
 set "dosya=gruplar.csv"
-("%SystemRoot%\System32\whoami.exe" /groups /fo CSV /nh >"%dosya%") 2>nul || goto hata
+call "%whoami%" /groups /fo CSV /nh >"%dosya%" 2>nul
+if errorlevel 1 goto hata
 :oku
 if not exist "%dosya%" goto yok
 set "yonetici=yonetici-yok"

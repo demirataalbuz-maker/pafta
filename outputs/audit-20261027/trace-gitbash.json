@@ -1,0 +1,60 @@
+[
+  {
+    "backend": "bash",
+    "status": "PASS",
+    "trace": {
+      "status": "ok",
+      "kind": "iz",
+      "iz": [
+        {
+          "line": 1,
+          "metin": "x=2",
+          "derinlik": 1
+        },
+        {
+          "line": 2,
+          "metin": "printf '%s\\n' 2",
+          "derinlik": 1
+        }
+      ],
+      "out": "2\n",
+      "error": null
+    },
+    "normal_status": "ok"
+  },
+  {
+    "backend": "bash-wsl",
+    "status": "PASS",
+    "trace": {
+      "status": "ok",
+      "kind": "iz",
+      "iz": [
+        {
+          "line": 1,
+          "metin": "x=2",
+          "derinlik": 1
+        },
+        {
+          "line": 2,
+          "metin": "printf '%s\\n' 2",
+          "derinlik": 1
+        }
+      ],
+      "out": "2\n",
+      "error": null,
+      "runtime": {
+        "backend": "wsl",
+        "python": "3.14.7",
+        "executable": "/usr/bin/python3",
+        "cwd": "/tmp/pafta_wsl_r3vja4h4/calisma",
+        "supervisor_pid": 304,
+        "worker_pid": 305,
+        "worker_exit_code": 0,
+        "cleanup": true,
+        "elapsed": 0.153,
+        "distribution": "kali-linux"
+      }
+    },
+    "normal_status": "ok"
+  }
+]

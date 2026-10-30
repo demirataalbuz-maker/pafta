@@ -46,7 +46,7 @@ def build():
     env=dict(os.environ)
     env['PSModulePath']=str(Path(env.get('SystemRoot',r'C:\Windows'))/'System32/WindowsPowerShell/v1.0/Modules')
     exe=Path(env.get('SystemRoot',r'C:\Windows'))/'System32/WindowsPowerShell/v1.0/powershell.exe'
-    result=subprocess.run([str(exe),'-NoProfile','-NonInteractive','-File',str(script.resolve())],
+    result=subprocess.run([str(exe),'-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',str(script.resolve())],
                           capture_output=True,env=env,timeout=25,
                           creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
     if result.returncode:

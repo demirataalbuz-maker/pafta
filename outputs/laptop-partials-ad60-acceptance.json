@@ -1,0 +1,74 @@
+{
+  "reference": "pass",
+  "starter": "fail",
+  "mutants": [
+    {
+      "name": "reverse membership",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "reverse ACL",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "ignore primary group",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "include deleted endpoints",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "discard inherited ACL flag",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "accept string boolean",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "all rights treated as valid",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "drop GenericAll",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "use display name identity",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "no version check",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "DFS instead of BFS",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "drop all edges",
+      "status": "fail",
+      "rejected": true
+    },
+    {
+      "name": "empty path always",
+      "status": "fail",
+      "rejected": true
+    }
+  ],
+  "source_sha256": "099e80f94b84b7a79398129c2ca223f978817110424f2f18d4902e62a99a8722",
+  "data_manifest": "tracks/ad/veri/bloodhound/manifest.json",
+  "scope": "Official exported sample, read offline; NOT live BloodHound CE UI or DC AccessCheck. Author acceptance, independent rerun pending."
+}

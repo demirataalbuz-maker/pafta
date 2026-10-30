@@ -447,7 +447,7 @@ Sahiplik, ACL'yi değiştirme imkânı ve dosyayı o an okuma kararı aynı şey
 :::
 
 ::: gorev Deny sonrası gerçek okumayı karşılaştır ve geri yükle
-Girdide dosya adı ve ReadData veya WriteData var. Yalnız okuma.bin, boşluklu dosya.bin ve bos.bin görev dosyaları kabul edilir; başka yol/hak veya eksik girdi HATA. Bu dosyalar çalışma klasöründe hazırdır. Dosyanın özgün Get-Acl nesnesini sakla; geçerli kullanıcının SID'sine yalnız istenen bit için açık Deny ekle ve Set-Acl ile uygula. Yeni kurallı ACL ile aslı birbirinden ayrı Get-Acl nesneleri olsun.
+Girdide dosya adı ve ReadData veya WriteData var. Yalnız okuma.bin, boşluklu dosya.bin ve bos.bin görev dosyaları kabul edilir; başka yol/hak veya eksik girdi HATA. Bu dosyalar çalışma klasöründe hazırdır. Hazırlık, yalnız geçici görev dosyalarında Set-Acl ile devralma kontrol bayrağını bir kez normalleştirir. Bu başlangıçtan sonra özgün SDDL birebir geri gelmelidir. Dosyanın özgün Get-Acl nesnesini sakla; geçerli kullanıcının SID'sine yalnız istenen bit için açık Deny ekle ve Set-Acl ile uygula. Yeni kurallı ACL ile aslı birbirinden ayrı Get-Acl nesneleri olsun.
 
 Gerçek File.ReadAllBytes ile önce, Deny uygulanmışken ve özgün ACL finally içinde geri yüklendikten sonra okuma yap. Başarıyı OK:<bayt sayısı>, zincirdeki gerçek UnauthorizedAccessException'ı DENIED olarak raporla; diğer hataları throw et. Dört satır: before=<sonuç>, during=<sonuç>, after=<sonuç>, restored=<özgün SDDL ile son SDDL eşitliği>. Normal raporda son değer True; WriteData Deny okumayı engellememeli. Dosya içeriğini değiştirme. Set-Acl sonrasında bir hata çıksa bile finally özgün ACL'yi geri yüklemeli; hata gizlenmemeli.
 
@@ -460,6 +460,13 @@ from pathlib import Path
 Path('okuma.bin').write_bytes(bytes(range(256)))
 Path('boşluklu dosya.bin').write_bytes(b'abc\x00\xff')
 Path('bos.bin').write_bytes(b'')
+
+import os, subprocess
+ps=Path(os.environ['SystemRoot'])/'System32/WindowsPowerShell/v1.0/powershell.exe'
+env=dict(os.environ);env['PSModulePath']=str(ps.parent/'Modules')
+script=Path('normalize-fixture-acl.ps1')
+script.write_text("$ErrorActionPreference='Stop'\nGet-ChildItem -LiteralPath . -Filter *.bin | ForEach-Object { $a=Get-Acl -LiteralPath $_.FullName; Set-Acl -LiteralPath $_.FullName -AclObject $a }\n",encoding='utf-8-sig')
+subprocess.run([str(ps),'-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',str(script.resolve())],env=env,check=True,capture_output=True)
 ```
 ```starter
 'before=OK:256'

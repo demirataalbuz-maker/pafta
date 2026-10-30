@@ -1,0 +1,1954 @@
+{
+  "track": "javascript",
+  "shell": "gitbash",
+  "started_utc": "2026-10-27T17:45:33.678641+00:00",
+  "lessons": [
+    "js01",
+    "js02",
+    "js03",
+    "js04",
+    "js05",
+    "js06",
+    "js07",
+    "js08",
+    "js09",
+    "js10",
+    "js11",
+    "js13",
+    "js12",
+    "js14",
+    "js15",
+    "js16"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "ornek",
+      "where": "javascript/js01:0 anlat «Değişkenler ve türler»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.416,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js01:0 anlat «Değişkenler ve türler»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.418,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js01:1 tahmin «»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.438,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js01:0 anlat «Değişkenler ve türler»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.444,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js01:3 gorev «Sayı mı, metin mi?»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.881,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js01:3 gorev «Sayı mı, metin mi?»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.898,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "42, abc, boş, 3.5",
+          "got": "'sayı\\nmetin\\nsayı\\nsayı\\n'",
+          "exp": "'sayı\\nmetin\\nmetin\\nsayı\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "yalnızca boşluk → metin",
+          "got": "'sayı\\n'",
+          "exp": "'metin\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js01:2 gorev «Dolu satırlar»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.935,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "a, boş, b → 2",
+          "got": "'4\\n'",
+          "exp": "'2\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "yalnızca boşluk olan satır sayılmaz",
+          "got": "'5\\n'",
+          "exp": "'2\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "boş girdi → 0",
+          "got": "'1\\n'",
+          "exp": "'0\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js01:2 gorev «Dolu satırlar»",
+      "lesson": "js01",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.941,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js02:0 anlat «Fonksiyonun üç yazımı»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.555,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js02:0 anlat «Fonksiyonun üç yazımı»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.565,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js02:0 anlat «Fonksiyonun üç yazımı»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.589,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js02:0 anlat «Fonksiyonun üç yazımı»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.579,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js02:2 gorev «Varsayılan selam»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.662,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "varsayılan ve verilen ad",
+          "got": "'Merhaba, undefined!\\nMerhaba, Ece!\\n'",
+          "exp": "'Merhaba, misafir!\\nMerhaba, Ece!\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js02:2 gorev «Varsayılan selam»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.689,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js02:1 tahmin «»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.715,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js02:3 gorev «Çarpan üreteci»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.144,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js03:0 anlat «Dizi metotları»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.767,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js03:0 anlat «Dizi metotları»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.766,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js02:3 gorev «Çarpan üreteci»",
+      "lesson": "js02",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "error",
+      "seconds": 0.84,
+      "error": {
+        "type": "ÇıkışKodu",
+        "msg": "betik 1 koduyla bitti: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_h70ifdz8\\calisma\\betik.js:7",
+        "line": 7,
+        "frames": [],
+        "where": "kod",
+        "kod": 1
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js03:0 anlat «Dizi metotları»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.755,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js03:0 anlat «Dizi metotları»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.656,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js03:1 tahmin «»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.649,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js03:2 anlat «Map ve Set»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.628,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js03:2 anlat «Map ve Set»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.568,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js03:3 tahmin «»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.642,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js03:4 gorev «Rollere göre say»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.177,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js03:4 gorev «Rollere göre say»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.2,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "db 1, web 2",
+          "got": "'3\\n'",
+          "exp": "'db: 1\\nweb: 2\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "tek sunucu",
+          "got": "'1\\n'",
+          "exp": "'x: 1\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "boş dizi → çıktı yok",
+          "got": "'0\\n'",
+          "exp": "''"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js03:5 gorev «En yoğun sunucu»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.143,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js03:5 gorev «En yoğun sunucu»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.204,
+      "error": {
+        "type": "ÇıkışKodu",
+        "msg": "betik 1 koduyla bitti: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_qkp1bgot\\calisma\\betik.js:2",
+        "line": 2,
+        "frames": [],
+        "where": "kod-girdi",
+        "kod": 1,
+        "stdin": "[]"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "db01",
+          "got": "'web01\\n'",
+          "exp": "'db01\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "sonda olan en yüksek",
+          "got": "'x\\n'",
+          "exp": "'y\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js03:6 gorev «Yol başına tekil istemci»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.2,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js03:6 gorev «Yol başına tekil istemci»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.177,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "aynı istemci bir kez sayılır; 10.0.0.5 ile 10.0.0.50 ayrı",
+          "got": "'tekil: 4\\n'",
+          "exp": "'/api/bilet: 2\\n/api/rapor: 1\\ntekil: 3\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "ilk görünme sırası (alfabetik değil); aynı ip iki yolda tek istemci",
+          "got": "'tekil: 3\\n'",
+          "exp": "'/z: 2\\n/a: 1\\ntekil: 2\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "Map ve Set kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js03:7 gorev «İki listenin farkı»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.371,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js04:1 anlat «Regex, metin ve tarih»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.603,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js04:0 anlat «Sayılar»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.652,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js03:7 gorev «İki listenin farkı»",
+      "lesson": "js03",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.396,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tekrarlanan yeni sunucu bir kez",
+          "got": "'yeni: web01,cache01,web02,cache01\\n'",
+          "exp": "'yeni: cache01\\ngiden: db01\\nortak: web01,web02\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "bugün boş; dünkü tekrar bir kez",
+          "got": "'yeni: \\n'",
+          "exp": "'yeni: \\ngiden: a,b\\nortak: \\n'"
+        },
+        {
+          "ok": false,
+          "msg": "aynı küme",
+          "got": "'yeni: x,x\\n'",
+          "exp": "'yeni: \\ngiden: \\nortak: x\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js04:2 tahmin «»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.666,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js04:3 gorev «Sayısal sıralama»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.734,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js04:3 gorev «Sayısal sıralama»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.726,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sayısal sıralama",
+          "got": "'120,1200,2300,40,850,95\\n'",
+          "exp": "'40,95,120,850,1200,2300\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js04:4 gorev «Satırları ayrıştır»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.772,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js04:4 gorev «Satırları ayrıştır»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.799,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç kayıt",
+          "got": "'[\"09:12 web01 durum=500\",\"09:15 web02 durum=200\",\"bozuk satir\",\"10:42 web02 durum=500\"]\\n'",
+          "exp": "'[{\"saat\":\"09:12\",\"sunucu\":\"web01\",\"durum\":500},{\"saat\":\"09:15\",\"sunucu\":\"web02\",\"durum\":200},{\"saat\":\"10:42\",\"sunucu\":\"web02\",\"durum\":500}]\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "matchAll kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js04:5 gorev «Tarih biçimi»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.796,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js04:5 gorev «Tarih biçimi»",
+      "lesson": "js04",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.764,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki haneli alanlar, doğru ay",
+          "got": "'5.9.2026 8:7\\n'",
+          "exp": "'05.10.2026 08:07\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js05:0 anlat «Kapsam ve yukarı taşıma»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.738,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js05:0 anlat «Kapsam ve yukarı taşıma»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.769,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js05:1 anlat «this: kim çağırdı?»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.821,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js05:1 anlat «this: kim çağırdı?»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.829,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js05:2 tahmin «»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.823,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js05:3 gorev «Bağımsız sayaçlar»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.65,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js05:3 gorev «Bağımsız sayaçlar»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.628,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "her sayaç kendi sayısını tutar",
+          "got": "'1\\n2\\n3\\n'",
+          "exp": "'1\\n2\\n1\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js05:4 gorev «Döngüde zamanlayıcı»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.651,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js05:4 gorev «Döngüde zamanlayıcı»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.617,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "her tur kendi değerini yazar",
+          "got": "'3\\n3\\n3\\n'",
+          "exp": "'0\\n1\\n2\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js05:5 gorev «Kopan this»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.717,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js05:5 gorev «Kopan this»",
+      "lesson": "js05",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "error",
+      "seconds": 0.673,
+      "error": {
+        "type": "ÇıkışKodu",
+        "msg": "betik 1 koduyla bitti: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_0m254aww\\calisma\\betik.js:3",
+        "line": 3,
+        "frames": [],
+        "where": "kod",
+        "kod": 1
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js06:0 anlat «Sınıflar»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.684,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js06:1 anlat «Altında: prototip zinciri»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.696,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js06:1 anlat «Altında: prototip zinciri»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.653,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js06:3 gorev «Bilet ve acil bilet»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.623,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js06:2 tahmin «»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.67,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js06:3 gorev «Bilet ve acil bilet»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "error",
+      "seconds": 0.635,
+      "error": {
+        "type": "ÇıkışKodu",
+        "msg": "betik 1 koduyla bitti: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_q0yo6yji\\calisma\\betik.js:4",
+        "line": 4,
+        "frames": [],
+        "where": "kod",
+        "kod": 1
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js06:4 gorev «Yalnızca kendi ayarları»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.651,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js06:4 gorev «Yalnızca kendi ayarları»",
+      "lesson": "js06",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.657,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnızca kendi özellikleri",
+          "got": "'dil=en\\nboyut=16\\ntema=koyu\\n'",
+          "exp": "'dil=en\\nboyut=16\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js07:0 anlat «Kod yazıldığı sırada çalışmaz»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.655,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js07:0 anlat «Kod yazıldığı sırada çalışmaz»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.704,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js07:0 anlat «Kod yazıldığı sırada çalışmaz»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.722,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js07:1 tahmin «»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.615,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js07:2 gorev «Sırayla bekle»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.71,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js07:2 gorev «Sırayla bekle»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.65,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "a, b, c sırasıyla",
+          "got": "'c\\nb\\na\\n'",
+          "exp": "'a\\nb\\nc\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "await kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js07:3 gorev «Hepsini birlikte bekle»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.691,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js07:3 gorev «Hepsini birlikte bekle»",
+      "lesson": "js07",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.645,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "5 + 7 + 9 = 21",
+          "got": "'3\\n'",
+          "exp": "'21\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "Promise.all kullan"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js08:0 anlat «throw, try, catch, finally»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.661,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js08:0 anlat «throw, try, catch, finally»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.692,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js08:1 anlat «Asenkron hatalar»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.713,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js08:1 anlat «Asenkron hatalar»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.766,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js08:2 tahmin «»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.815,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js08:3 gorev «Güvenli JSON»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.733,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js08:3 gorev «Güvenli JSON»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "error",
+      "seconds": 0.844,
+      "error": {
+        "type": "ÇıkışKodu",
+        "msg": "betik 1 koduyla bitti: <anonymous_script>:1",
+        "line": 2,
+        "frames": [],
+        "where": "kod",
+        "kod": 1
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js08:4 gorev «Bazıları başarısız olabilir»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.84,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js08:4 gorev «Bazıları başarısız olabilir»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.804,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "başarılı sayısı ve hata mesajı",
+          "got": "'hepsi kayboldu\\n'",
+          "exp": "'2\\nweb02 yanıt vermedi\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "Promise.allSettled kullan"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js08:5 gorev «Yalnızca beklenen hatayı yakala»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.753,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js09:0 anlat «Bir sayfanın betiğini okumak»",
+      "lesson": "js09",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.692,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js08:5 gorev «Yalnızca beklenen hatayı yakala»",
+      "lesson": "js08",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.767,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "beş girdi",
+          "got": "'443\\n70000\\n-1\\n8080.5\\n22\\n'",
+          "exp": "'443\\nhata: geçersiz port: 70000\\nhata: geçersiz port: -1\\nhata: geçersiz port: 8080.5\\n22\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js09:0 anlat «Bir sayfanın betiğini okumak»",
+      "lesson": "js09",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.72,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js09:1 tahmin «»",
+      "lesson": "js09",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.702,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js09:2 gorev «Tam kaçırma»",
+      "lesson": "js09",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.245,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js09:2 gorev «Tam kaçırma»",
+      "lesson": "js09",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.2,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "etiket ve çift tırnak",
+          "got": "'&lt;a href=\"x\"&gt;bağlantı&lt;/a&gt;\\n'",
+          "exp": "'&lt;a href=&quot;x&quot;&gt;bağlantı&lt;/a&gt;\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "tek tırnak ve &",
+          "got": "\"Ece'nin & Can'ın notu\\n\"",
+          "exp": "'Ece&#39;nin &amp; Can&#39;ın notu\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "zaten kaçırılmış görünen metin yeniden kaçırılır",
+          "got": "'&lt;\\n'",
+          "exp": "'&amp;lt;\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js09:3 gorev «Adres parametreleri»",
+      "lesson": "js09",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.068,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js09:3 gorev «Adres parametreleri»",
+      "lesson": "js09",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.032,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki adres",
+          "got": "'https://ornek.local/ara?q=disk&sayfa=2\\nhttps://ornek.local/liste?q=web\\n'",
+          "exp": "'/ara disk 2\\n/liste web 1\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "kodlanmış boşluk çözülür",
+          "got": "'https://ornek.local/ara?q=disk%20dolu&sayfa=3\\n'",
+          "exp": "'/ara disk dolu 3\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js10:2 tahmin «»",
+      "lesson": "js10",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.529,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js10:0 anlat «Bir Node uygulamasının iskeleti»",
+      "lesson": "js10",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.555,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js10:3 gorev «Ara katman zinciri»",
+      "lesson": "js10",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.524,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js10:0 anlat «Bir Node uygulamasının iskeleti»",
+      "lesson": "js10",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.59,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js11:0 anlat «Neden böyle görünüyor?»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.569,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js10:4 gorev «Kökün dışına çıkma»",
+      "lesson": "js10",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.617,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnızca kökün içi",
+          "got": "'\"/srv/site/css/a.css\"\\n\"/srv/site/rapor.pdf\"\\n\"/srv/etc/hosts\"\\n\"/srv/gizli\"\\n\"/srv/site/etc/hosts\"\\n\"/srv/site\"\\n'",
+          "exp": "'\"/srv/site/css/a.css\"\\n\"/srv/site/rapor.pdf\"\\nnull\\nnull\\nnull\\nnull\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js10:4 gorev «Kökün dışına çıkma»",
+      "lesson": "js10",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.622,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js10:3 gorev «Ara katman zinciri»",
+      "lesson": "js10",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.668,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ikinci istek oturum katmanında durur",
+          "got": "'gunluk /api/bilet\\nişlendi ayse\\n200\\ngunluk /api/rapor\\nreddedildi\\nişlendi undefined\\n401\\n'",
+          "exp": "'gunluk /api/bilet\\nişlendi ayse\\n200\\ngunluk /api/rapor\\nreddedildi\\n401\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js11:2 tahmin «»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.638,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js11:1 anlat «Açma yöntemi»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.643,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js11:0 anlat «Neden böyle görünüyor?»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.667,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js11:3 gorev «Açılmış yaz: topla»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.641,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js11:3 gorev «Açılmış yaz: topla»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.589,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "küçültülmüş sürümle aynı sonuçlar",
+          "got": "'5,2,5,0,NaN\\n'",
+          "exp": "'5,2,5,0,0\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js11:4 gorev «Paketten bir modül»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.685,
+      "checks_passed": 2,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js11:4 gorev «Paketten bir modül»",
+      "lesson": "js11",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.687,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "modül 1'in rapor fonksiyonu",
+          "got": "'giriş\\n'",
+          "exp": "'toplam=7\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "modülü iste(1) ile al"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js13:0 anlat «Zincirin gerçeği»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 1.735,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js13:0 anlat «Zincirin gerçeği»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 1.326,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js13:2 tahmin «Sıra ve atlanan işleyici»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 1.281,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "javascript/js13:1 anlat «Hata akışı ve Express 5»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 1.323,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js13:4 gorev «Korunan Router ve kayıt sırası»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 3.784,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js13:4 gorev «Korunan Router ve kayıt sırası»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 3.755,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "açık yol, anahtarsız, yanlış anahtar, doğru anahtar",
+          "got": "'200 {\"durum\":\"iyi\"}\\n200 {\"rapor\":\"hazır\"}\\n200 {\"rapor\":\"hazır\"}\\n200 {\"rapor\":\"hazır\"}\\n'",
+          "exp": "'200 {\"durum\":\"iyi\"}\\n401 {\"hata\":\"anahtar gerekli\"}\\n403 {\"hata\":\"yetkisiz\"}\\n200 {\"rapor\":\"hazır\"}\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "anahtarsız istek yolun varlığını öğrenemez; anahtarla olmayan yol 404",
+          "got": "'401 {\"hata\":\"anahtar gerekli\"}\\n404 {\"hata\":\"bulunamadı\"}\\n401 {\"hata\":\"anahtar gerekli\"}\\n'",
+          "exp": "'401 {\"hata\":\"anahtar gerekli\"}\\n404 {\"hata\":\"bulunamadı\"}\\n403 {\"hata\":\"yetkisiz\"}\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "async hata 500; anahtarsız istek işleyiciye hiç ulaşmaz",
+          "got": "'500 {\"hata\":\"iç hata\"}\\n500 {\"hata\":\"iç hata\"}\\n'",
+          "exp": "'500 {\"hata\":\"iç hata\"}\\n401 {\"hata\":\"anahtar gerekli\"}\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js13:3 gorev «JSON hata işleyicisi»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 4.618,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sağlık, bilet, async hata (ileti sızmaz) ve JSON 404",
+          "got": "'200 {\"durum\":\"iyi\"}\\n200 {\"id\":\"7\"}\\n500 <!DOCTYPE html>\\n<html lang=\"en\">\\n<head>\\n<meta charset=\"utf-8\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Error: veritabanı bağlantısı koptu<br> &nbsp; &nbsp;at C:\\\\Users\\\\demo12\\\\AppData\\\\Local\\\\Temp\\\\pafta_5l08knsx\\\\calisma\\\\betik.js:8:36<br> &nbsp; &…",
+          "exp": "'200 {\"durum\":\"iyi\"}\\n200 {\"id\":\"7\"}\\n500 {\"hata\":\"iç hata\"}\\n404 {\"hata\":\"bulunamadı\"}\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "geçerli gövde ve bozuk JSON",
+          "got": "'201 {\"alindi\":\"yazıcı\"}\\n400 <!DOCTYPE html>\\n<html lang=\"en\">\\n<head>\\n<meta charset=\"utf-8\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>SyntaxError: Unexpected end of JSON input<br> &nbsp; &nbsp;at JSON.parse (&lt;anonymous&gt;)<br> &nbsp; &nbsp;at parse (C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta\\\\.d…",
+          "exp": "'201 {\"alindi\":\"yazıcı\"}\\n400 {\"hata\":\"geçersiz JSON\"}\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "gösterilebilir 4xx hata: kendi durum kodu ve iletisi",
+          "got": "'413 <!DOCTYPE html>\\n<html lang=\"en\">\\n<head>\\n<meta charset=\"utf-8\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>PayloadTooLargeError: request entity too large<br> &nbsp; &nbsp;at readStream (C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta\\\\.deps\\\\npm\\\\node_modules\\\\raw-body\\\\index.js:163:17)<br> &nbsp; &nbs…",
+          "exp": "'413 {\"hata\":\"request entity too large\"}\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js13:3 gorev «JSON hata işleyicisi»",
+      "lesson": "js13",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 4.776,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js12:2 gorev «1 · Ayrıştır»",
+      "lesson": "js12",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.923,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js12:1 tahmin «»",
+      "lesson": "js12",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 1.051,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js12:2 gorev «1 · Ayrıştır»",
+      "lesson": "js12",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.916,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yedi kayıt, bir bozuk satır",
+          "got": "'ayrıştırılan=8 bozuk=0\\n[\"2026-10-19T09:01:12Z\",\"10.0.3.4\",\"GET\",\"/api/rapor\",\"500\",\"2300\"]\\n'",
+          "exp": "'ayrıştırılan=7 bozuk=1\\n{\"zaman\":\"2026-10-19T09:01:12Z\",\"ip\":\"10.0.3.4\",\"yontem\":\"GET\",\"yol\":\"/api/rapor\",\"durum\":500,\"sure\":2300}\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js12:3 gorev «2 · Özetle»",
+      "lesson": "js12",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.769,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sınıflar ve en yoğun kalıp",
+          "got": "'7\\n'",
+          "exp": "'{\"2xx\":3,\"4xx\":1,\"5xx\":3}\\n/api/rapor 3\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js12:4 gorev «3 · JSON raporu»",
+      "lesson": "js12",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.674,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js12:3 gorev «2 · Özetle»",
+      "lesson": "js12",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 0.96,
+      "checks_passed": 1,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js14:2 tahmin «Görünmeyen alan»",
+      "lesson": "js14",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "ok",
+      "seconds": 0.659,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js12:4 gorev «3 · JSON raporu»",
+      "lesson": "js12",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 0.67,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "rapor",
+          "got": "'{\"toplam\":7}\\n'",
+          "exp": "'{\"toplam\":7,\"hataOrani\":42.9,\"enYavas\":{\"yol\":\"/api/rapor\",\"sure\":2410},\"istemciler\":[\"10.0.1.15\",\"10.0.1.22\",\"10.0.2.8\",\"10.0.3.4\",\"203.0.113.7\"]}\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js14:3 gorev «Kirletmeyen birleştirme»",
+      "lesson": "js14",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.691,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iç içe alanlar kopyalanır, __proto__ atlanır, prototip kirlenmez",
+          "got": "'{\"ad\":\"web01\",\"ayar\":{\"port\":8080}} temiz\\n{} kirli\\n{\"ad\":\"web02\"} kirli\\n'",
+          "exp": "'{\"ad\":\"web01\",\"ayar\":{\"port\":8080}} temiz\\n{} temiz\\n{\"ad\":\"web02\"} temiz\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "üç tehlikeli anahtar da atlanır",
+          "got": "'{} temiz\\n{} temiz\\n{\"prototype\":{\"z\":3}} temiz\\n'",
+          "exp": "'{} temiz\\n{} temiz\\n{} temiz\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js15:2 tahmin «Üç mesaj, kaç teslim?»",
+      "lesson": "js15",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js14:3 gorev «Kirletmeyen birleştirme»",
+      "lesson": "js14",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.71,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js14:4 gorev «Kararı own özellikten ver»",
+      "lesson": "js14",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.735,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kirlenmiş prototipten gelen true karara girmez; kendi alanı olan true girer",
+          "got": "'yonetici true\\nyonetici true\\nyonetici false\\nrol true\\n'",
+          "exp": "'yonetici false\\nyonetici true\\nyonetici false\\nrol true\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "prototipten gelen hazır metotlar da karara girmemeli",
+          "got": "'toString true\\n'",
+          "exp": "'toString false\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js14:4 gorev «Kararı own özellikten ver»",
+      "lesson": "js14",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.822,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js15:3 gorev «Mesajı kabul etmeli miyim?»",
+      "lesson": "js15",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 2.261,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnız izinli köken + doğru kaynak + tur alanı olan nesne kabul edilir",
+          "got": "'true\\nfalse\\ntrue\\ntrue\\ntrue\\ntrue\\n'",
+          "exp": "'true\\nfalse\\nfalse\\nfalse\\nfalse\\nfalse\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "köken parça olarak geçiyor diye kabul edilmemeli",
+          "got": "'true\\n'",
+          "exp": "'false\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "tur alanı metin olmalı",
+          "got": "'true\\n'",
+          "exp": "'false\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "javascript/js16:2 tahmin «Aynı hata, iki iz»",
+      "lesson": "js16",
+      "status": "DECLARED",
+      "detail": "Author-supplied output; not executed by this runner"
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js15:3 gorev «Mesajı kabul etmeli miyim?»",
+      "lesson": "js15",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 2.278,
+      "checks_passed": 8,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js15:4 gorev «Gelen mesajları işle»",
+      "lesson": "js15",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.814,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js15:4 gorev «Gelen mesajları işle»",
+      "lesson": "js15",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.733,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki kabul; üç ret, her biri ilk başarısız denetimin adıyla",
+          "got": "'[\"merhaba\",\"x\",\"x\",null,\"son\"]\\n[]\\n'",
+          "exp": "'[\"merhaba\",\"son\"]\\n[\"http://kotu.test:koken\",\"http://a.test:kaynak\",\"http://a.test:bicim\"]\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "birden çok denetim başarısızsa ilki bildirilir: köken",
+          "got": "'[null]\\n[]\\n'",
+          "exp": "'[]\\n[\"http://kotu.test:koken\"]\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "köken geçerse sıradaki denetim kaynaktır",
+          "got": "'[null]\\n[]\\n'",
+          "exp": "'[]\\n[\"http://a.test:kaynak\"]\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js16:4 gorev «Üretilen konumdan kaynağa»",
+      "lesson": "js16",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.118,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kendi parçası olmayan sütun bir öncekine bağlanır: 32 -> throw satırı (gerçek yığın izindeki sütun), 70 -> return satırı",
+          "got": "'null\\n[0,0,0]\\n[0,1,15]\\nnull\\n[1,1,0]\\nnull\\n'",
+          "exp": "'[0,1,15]\\n[0,0,0]\\n[0,1,15]\\n[0,2,2]\\n[1,1,0]\\n[1,2,0]\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "sınır: 16 kendi parçasına, 15 bir öncekine",
+          "got": "'null\\n[0,1,2]\\n'",
+          "exp": "'[0,0,0]\\n[0,1,2]\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "son parçadan sonrası son parçaya bağlanır",
+          "got": "'null\\n'",
+          "exp": "'[1,2,0]\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js16:4 gorev «Üretilen konumdan kaynağa»",
+      "lesson": "js16",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.131,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "javascript/js16:3 gorev «VLQ parçalarını çöz»",
+      "lesson": "js16",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "fail",
+      "seconds": 1.473,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "gerçek bundle.js.map'in mappings dizgisi: altı parça, iki kaynak dosya",
+          "got": "'[[0,0,0,0],[32,0,0,0],[18,0,0,0],[32,0,0,0],[28,0,0,0],[58,0,0,0]]\\n[[0,0,0,0]]\\n[[-1,0,0,0]]\\n'",
+          "exp": "'[[0,0,0,0],[16,0,1,2],[25,0,1,15],[57,0,2,2],[71,1,1,0],[100,1,2,0]]\\n[[0,0,0,0]]\\n[]\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "iki parça, birer birim ileri",
+          "got": "'[[0,0,0,0],[2,0,0,0]]\\n'",
+          "exp": "'[[0,0,0,0],[1,0,0,1]]\\n'"
+        },
+        {
+          "ok": false,
+          "msg": "negatif fark: en düşük bit işaret",
+          "got": "'[[0,0,0,0],[3,0,0,0]]\\n'",
+          "exp": "'[[0,0,0,0],[-1,0,0,-1]]\\n'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "javascript/js16:3 gorev «VLQ parçalarını çöz»",
+      "lesson": "js16",
+      "status": "PASS",
+      "runner": "javascript",
+      "runner_status": "pass",
+      "seconds": 1.493,
+      "checks_passed": 5,
+      "failed_checks": []
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "javascript: JSA 36/40",
+  "counts": {
+    "PASS": 130,
+    "DECLARED": 2
+  },
+  "finished_utc": "2026-10-27T17:46:05.246256+00:00",
+  "source_sha256": {
+    "tracks/javascript/lessons/js01-turler.md": "594b7b1f805642a056373deda0ee867e20ee3a770b0a377c8b609ef102952dd2",
+    "tracks/javascript/lessons/js02-fonksiyonlar.md": "6103f504c6642eb4db9cfbb88250f85dfc9da05b91be91b733de0847fa2cb508",
+    "tracks/javascript/lessons/js03-diziler-nesneler.md": "bf4de8061defdaa4bd512155cf05219f6ac598f3b6cb586d54b3bb739cfea527",
+    "tracks/javascript/lessons/js04-metin-sayi-tarih.md": "8610e5a4ea6769bf26c81a9f058f3bf075ba7d5d78bbdae3fbd518338c10830b",
+    "tracks/javascript/lessons/js05-kapsam-this.md": "28e3eee2b7384067d640703d064b4c5643a7dcd998d67d8ec17c191279f8fd91",
+    "tracks/javascript/lessons/js06-siniflar-prototip.md": "29a5d8d17e62ab7170ff3b0509c4bd37b14f6f1e030cc8d614af997f35f07362",
+    "tracks/javascript/lessons/js07-asenkron.md": "f52b7f1129bf398232755ae49dcd8f57db6c2a11cd32160c120560e6f556b8ec",
+    "tracks/javascript/lessons/js08-hatalar.md": "90a1fd7fffd5a5be9ec6593a6f8af9864daa897fba76288fd06b889ed1f37fd9",
+    "tracks/javascript/lessons/js09-tarayici-kodu.md": "94334622572790156bbbf6a881cced60170cf48be86cc8fe4f9797a8648e754f",
+    "tracks/javascript/lessons/js10-node-sunucu.md": "ceb673e8933faf17eef0c00e22be243a79bf9f7dfb0eced9e9cc0ff02193075c",
+    "tracks/javascript/lessons/js11-kucultulmus-kod.md": "5b6f068bad33fd51a5ffed218d789a979c2e36a39197fd6af1a7119e7ddee63d",
+    "tracks/javascript/lessons/js12-proje-gunluk-analizi.md": "365c5f6855b1dfa07c15b55e8b11c356885765625dc089fb8d725805406e9f36",
+    "tracks/javascript/lessons/js13-express-router-hata.md": "30689bec674ee2f1d1e6357c6f8f5bc5beccb573062863feda53bcf6da5e20b5",
+    "tracks/javascript/lessons/js14-prototype-pollution.md": "cda893b9835c414ce49e7e53f8c3bc25361e5cf9f683e9cfe6453d3c6e479c2e",
+    "tracks/javascript/lessons/js15-postmessage-ham-html.md": "01d7760df6cadc1fac578839f73405124310969ba6d115d7fcaa1d2f418135e0",
+    "tracks/javascript/lessons/js16-bundle-source-map.md": "3888ea5ba9af73d83841718682d5e61bab5892e2b2d103651b2b89a98bcf629a"
+  }
+}

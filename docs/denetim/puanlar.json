@@ -1778,7 +1778,7 @@
       "karar": "Kısmen",
       "ozet": "ARM kural kaynağı REST 2025-09-01 şeması ve belgelenmiş Sentinel sınırlarıyla denetleniyor; sorgu gerçek Kusto'da son 50 planlı çalıştırmada koşuyor (5 dk gecikme, eşik, AlertPerResult, bastırma, entity çıkarımı). 29 mutant reddedildi, 0 geçen. Gerçek Sentinel portal önizlemesi açık.",
       "tarih": "27.10.2026",
-      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+      "kaynak": "Önceki Claude öz değerlendirmesi; Codex yerel tekrar ve portal kabul yönergesi",
       "puan": {
         "test": 24,
         "kapsam": 23,
@@ -1832,14 +1832,14 @@
         }
       ],
       "duzeltme": {
-        "yazar": "Claude",
+        "yazar": "Codex",
         "tarih": "27.10.2026",
-        "commit": "840b8ca",
-        "ozet": "ARM kural kaynağı REST 2025-09-01 şeması ve belgelenmiş Sentinel sınırlarıyla denetleniyor; sorgu gerçek Kusto'da son 50 planlı çalıştırmada koşuyor (5 dk gecikme, eşik, AlertPerResult, bastırma, entity çıkarımı). 29 mutant reddedildi, 0 geçen. Gerçek Sentinel portal önizlemesi açık.",
-        "kanit": "../../outputs/a-notu-kq22-kural-kabul.json",
-        "rapor": "../../outputs/a-notu-kq22-kural-rapor.md",
-        "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "91/100 Claude öz değerlendirmesi. Önceki bağımsız 83 ve Codex'in 89 kaydı korundu."
+        "commit": "commit edilmedi",
+        "ozet": "KQ22 yerel gerçek Kusto doğrulaması bu laptopta tekrar temiz. Sentinel Test with current data, 50 çalıştırma, veri kapsamı, entity mapping ve Review and create kabul adımları eklendi. Mevcut çalışma alanına erişim doğrulanmadı; bulut kuralı/abonelik oluşturulmadı.",
+        "kanit": "../../outputs/laptop-partials-prerequisites.json",
+        "rapor": "laptop-partials-20261027.md",
+        "bagimsiz_denetim": "Claude yeniden denetimi ve ilgili canlı kabul bekleniyor",
+        "puan_notu": "91/100 önceki puan korundu; bu tur yeniden puanlanmadı. Canlı kabul eksik olduğu için Kısmen korundu."
       },
       "duzeltme_gecmisi": [
         {
@@ -1851,6 +1851,16 @@
           "puan_notu": "89/100 Codex öz değerlendirmesi; panele işlenmeden Claude teslimiyle birleşti.",
           "commit": "64c21d4",
           "ozet": "Zaman penceresi sorguları gerçek Kusto’da çalışır. Account Name/UPNSuffix ve IP Address mapping’ine bağlanabilecek gerçek çıktı sütunlarını üreten görev eklendi. Kullanıcıda Sentinel çalışma alanı bulunmadığından gerçek Test with current data/Review portal kabulü yapılmadı; bu eksik açık kalır."
+        },
+        {
+          "yazar": "Claude",
+          "tarih": "27.10.2026",
+          "commit": "840b8ca",
+          "ozet": "ARM kural kaynağı REST 2025-09-01 şeması ve belgelenmiş Sentinel sınırlarıyla denetleniyor; sorgu gerçek Kusto'da son 50 planlı çalıştırmada koşuyor (5 dk gecikme, eşik, AlertPerResult, bastırma, entity çıkarımı). 29 mutant reddedildi, 0 geçen. Gerçek Sentinel portal önizlemesi açık.",
+          "kanit": "../../outputs/a-notu-kq22-kural-kabul.json",
+          "rapor": "../../outputs/a-notu-kq22-kural-rapor.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "91/100 Claude öz değerlendirmesi. Önceki bağımsız 83 ve Codex'in 89 kaydı korundu."
         }
       ],
       "inceleme_notlari": [
@@ -1858,6 +1868,11 @@
           "metin": "Eşdeğer mutantlar ayrı raporlandı: GreaterThan 0↔NotEqual 0, max↔min(TimeGenerated), $schema yılı; sıfır diye sunulmadı.",
           "etiket": "eşdeğerlik",
           "oncelik": "düşük"
+        },
+        {
+          "etiket": "laptop-canlı-kabul",
+          "oncelik": "orta",
+          "metin": "KQ22 yerel gerçek Kusto doğrulaması bu laptopta tekrar temiz. Sentinel Test with current data, 50 çalıştırma, veri kapsamı, entity mapping ve Review and create kabul adımları eklendi. Mevcut çalışma alanına erişim doğrulanmadı; bulut kuralı/abonelik oluşturulmadı."
         }
       ]
     },
@@ -3020,7 +3035,7 @@
       "karar": "Kısmen",
       "ozet": "WSL --exec ile kabuksuz argv aktarımı; gerçek WSL’de boşluksuz, boşluklu ve $ içeren yol testleri temiz. Kalan kapsam eksikleri aşağıda açık.",
       "tarih": "26.10.2026",
-      "kaynak": "Claude · 26.10.2026",
+      "kaynak": "Önceki Claude puanı; Codex ldp kabul yönergesi (bu laptopta canlı kabul bekliyor)",
       "puan": {
         "test": 22,
         "kapsam": 23,
@@ -3056,15 +3071,34 @@
         }
       ],
       "duzeltme": {
-        "tarih": "26.10.2026",
         "yazar": "Codex",
-        "commit": "342500a",
-        "ozet": "WSL --exec ile kabuksuz argv aktarımı; gerçek WSL’de boşluksuz, boşluklu ve $ içeren yol testleri temiz.",
-        "kanit": "../../outputs/codex-aciklar-ldap-path-final.txt",
-        "rapor": "../../outputs/codex-aciklar-teslim.md",
-        "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
-      }
+        "tarih": "27.10.2026",
+        "commit": "commit edilmedi",
+        "ozet": "AD22 yalnız anılan ldp.exe için somut Connect/SSL/Bind/Search ve negatif signing yordamını, AD23 CBT ayrımını ve kayıt alanlarını içeriyor. LDAP yol taşıması için iki test temiz; bu laptopta ldp.exe ve yönetilen AD lab config saptanmadı. Canlı GUI/LDAP kabulü yapılmadı.",
+        "kanit": "../../outputs/laptop-partials-prerequisites.json",
+        "rapor": "laptop-partials-20261027.md",
+        "bagimsiz_denetim": "Claude yeniden denetimi ve ilgili canlı kabul bekleniyor",
+        "puan_notu": "92/100 önceki puan korundu; bu tur yeniden puanlanmadı. Canlı kabul eksik olduğu için Kısmen korundu."
+      },
+      "duzeltme_gecmisi": [
+        {
+          "tarih": "26.10.2026",
+          "yazar": "Codex",
+          "commit": "342500a",
+          "ozet": "WSL --exec ile kabuksuz argv aktarımı; gerçek WSL’de boşluksuz, boşluklu ve $ içeren yol testleri temiz.",
+          "kanit": "../../outputs/codex-aciklar-ldap-path-final.txt",
+          "rapor": "../../outputs/codex-aciklar-teslim.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "Görünen puan önceki bağımsız denetimindir; bu düzeltmede yeniden puanlanmadı."
+        }
+      ],
+      "inceleme_notlari": [
+        {
+          "etiket": "laptop-canlı-kabul",
+          "oncelik": "orta",
+          "metin": "AD22 yalnız anılan ldp.exe için somut Connect/SSL/Bind/Search ve negatif signing yordamını, AD23 CBT ayrımını ve kayıt alanlarını içeriyor. LDAP yol taşıması için iki test temiz; bu laptopta ldp.exe ve yönetilen AD lab config saptanmadı. Canlı GUI/LDAP kabulü yapılmadı."
+        }
+      ]
     },
     {
       "no": 64,
@@ -4276,23 +4310,17 @@
         "PU14"
       ],
       "karar": "Tam",
-      "ozet": "PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
-      "tarih": "27.10.2026",
-      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+      "ozet": "Güvenilen authserv-id seçimi, sahte/yinelenen Authentication-Results ayrımı, Received aşaması, ham EML SHA-256, ek/URL kanıtı ve tek-ileti kapsam sınırı yeni görevde sınanıyor.",
+      "tarih": "30.10.2026",
+      "kaynak": "Claude bağımsız denetim 30.10.2026 (90); sonra Claude görev 5'i ekledi — yeniden bağımsız denetim bekleniyor",
       "puan": {
         "test": 23,
-        "kapsam": 20,
+        "kapsam": 22,
         "derinlik": 23,
         "gerceklik": 13,
         "yol": 9
       },
-      "eksikler": [
-        {
-          "metin": "Kapsam puanı (20) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı.",
-          "oncelik": "düşük",
-          "etiket": "kapsam"
-        }
-      ],
+      "eksikler": [],
       "onceki_denetim": {
         "karar": "Tam",
         "ozet": "Başlık, SPF/DKIM/DMARC, URL gövde/hedef ayrımı, ek MIME/SHA-256 kanıtı; tahmin uyuşuyor. Doğrulama mantığı testi zayıf.",
@@ -4318,19 +4346,121 @@
           "metin": "PU14'te 10 mutant yaşıyor: doğrulama mantığında and→or (g1/g2/g3) ve 1→2 sınırları. Test 'and' bileşenlerini ayırmıyor; A için SPF/DKIM/DMARC'ı ayrı ayrı sınayan assert. → PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
           "etiket": "düzeltildi",
           "oncelik": "yüksek"
+        },
+        {
+          "metin": "Kapsam puanı (20) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı. → Güvenilen authserv-id seçimi, sahte/yinelenen Authentication-Results ayrımı, Received aşaması, ham EML SHA-256, ek/URL kanıtı ve tek-ileti kapsam sınırı yeni görevde sınanıyor.",
+          "oncelik": "düşük",
+          "etiket": "kapsam"
+        },
+        {
+          "metin": "Kapsam: QR kodlu oltalama (quishing) ve kullanıcı bildirimi → karantina/geri çekme akışı derste yok; SOC e-posta triage rolünde güncel ve sık. → Görev 5 eklendi: QR kanalı sinyali (görsel + bağlantısız gövde + okutma çağrısı; görsel çözülmez) ve Message-ID/ek SHA-256 ile kampanya karantinası, engellenen/bildirmeyen ayrımı.",
+          "etiket": "düzeltildi-denetim-bekliyor",
+          "oncelik": "orta"
         }
       ],
       "cikar": true,
       "duzeltme": {
         "yazar": "Claude",
-        "tarih": "27.10.2026",
-        "commit": "c7fe5df",
+        "tarih": "30.10.2026",
+        "commit": "commit edilmedi",
+        "ozet": "Görev 5: qr_sinyali + kampanya_karantinasi; anlatım bloğu. validate TEMİZ, tahmin 0, mutasyon görev 5 13/13, unittest 9/9, laptop kalite 10/10 yanlış çözüm reddi.",
+        "bagimsiz_denetim": "bekleniyor (düzelten Claude kendi işini puanlayamaz)",
+        "puan_notu": "Görünen 90/100, Claude'un 30.10.2026 düzeltme öncesi bağımsız puanıdır; görev 5 sonrası yeniden puanlanmadı."
+      },
+      "onceki_kabul": {
+        "no": 105,
+        "yol": "purple",
+        "ad": "Oltalama e-postası analizi",
+        "dersler": [
+          "PU14"
+        ],
+        "karar": "Tam",
         "ozet": "PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
-        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
-        "rapor": "../../outputs/a-notu-purple-rapor.md",
-        "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "88/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (15→23). Önceki 80 onceki_denetim'de."
-      }
+        "tarih": "27.10.2026",
+        "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+        "puan": {
+          "test": 23,
+          "kapsam": 20,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "Kapsam puanı (20) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı.",
+            "oncelik": "düşük",
+            "etiket": "kapsam"
+          }
+        ],
+        "onceki_denetim": {
+          "karar": "Tam",
+          "ozet": "Başlık, SPF/DKIM/DMARC, URL gövde/hedef ayrımı, ek MIME/SHA-256 kanıtı; tahmin uyuşuyor. Doğrulama mantığı testi zayıf.",
+          "puan": {
+            "test": 15,
+            "kapsam": 20,
+            "derinlik": 23,
+            "gerceklik": 13,
+            "yol": 9
+          },
+          "eksikler": [
+            {
+              "metin": "PU14'te 10 mutant yaşıyor: doğrulama mantığında and→or (g1/g2/g3) ve 1→2 sınırları. Test 'and' bileşenlerini ayırmıyor; A için SPF/DKIM/DMARC'ı ayrı ayrı sınayan assert.",
+              "oncelik": "yüksek",
+              "etiket": "test"
+            }
+          ],
+          "tarih": "27.10.2026",
+          "kaynak": "Claude"
+        },
+        "kapatilanlar": [
+          {
+            "metin": "PU14'te 10 mutant yaşıyor: doğrulama mantığında and→or (g1/g2/g3) ve 1→2 sınırları. Test 'and' bileşenlerini ayırmıyor; A için SPF/DKIM/DMARC'ı ayrı ayrı sınayan assert. → PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
+            "etiket": "düzeltildi",
+            "oncelik": "yüksek"
+          }
+        ],
+        "cikar": true,
+        "duzeltme": {
+          "yazar": "Claude",
+          "tarih": "27.10.2026",
+          "commit": "c7fe5df",
+          "ozet": "PU14 alt alan alignment iki yönde, display-name spoofing koşulu, anchor içi öğeler, yalnız <a>'nın kayıt açması ve çift uzantı kuralı pinlendi; 37 mutant, 5 geçen: dördü maxsplit eşdeğeri, biri yalnız sonu noktalı alan + boş karşı alanda fark ediyor. 6 elle yanlış çözüm reddedildi.",
+          "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+          "rapor": "../../outputs/a-notu-purple-rapor.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "88/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (15→23). Önceki 80 onceki_denetim'de."
+        }
+      },
+      "inceleme_notlari": [
+        {
+          "oncelik": "bilgi",
+          "etiket": "bağımsız-denetim",
+          "metin": "Görevi ve yeni kabul testlerini Codex yazdı. Görünen A notu yazar öz değerlendirmesidir; bağımsız denetçi yeniden ölçmeden nihai kabul değildir."
+        }
+      ],
+      "oz_degerlendirme_codex": {
+        "puan": {
+          "test": 23,
+          "kapsam": 23,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "kaynak": "Codex öz değerlendirmesi; Claude bağımsız yeniden denetimi bekleniyor"
+      },
+      "olcum": "validate TEMİZ (pu14/pu17, 18 kontrol) · tahmin 0 şüpheli · mutasyon pu14 43 mutanttan 6 geçen, altısı da eşdeğer (rsplit/split maxsplit 1→2 ve ayni_kok içinde bool(a and b)→bool(a or b); tüm girdilerde aynı sonuç, elle doğrulandı).",
+      "duzeltme_gecmisi": [
+        {
+          "yazar": "Codex",
+          "tarih": "27.10.2026",
+          "commit": "commit edilmedi",
+          "ozet": "Güvenilen authserv-id seçimi, sahte/yinelenen Authentication-Results ayrımı, Received aşaması, ham EML SHA-256, ek/URL kanıtı ve tek-ileti kapsam sınırı yeni görevde sınanıyor.",
+          "kanit": "../../outputs/laptop-20261027-purple-acceptance.json",
+          "rapor": "laptop-20261027-codex.md",
+          "bagimsiz_denetim": "Claude 30.10.2026: 90/100",
+          "puan_notu": "91/100 yazar öz değerlendirmesi: yalnız kapsam 20→23. Önceki puan/kayıt onceki_kabul içinde korundu; bağımsız kabul değildir."
+        }
+      ]
     },
     {
       "no": 106,
@@ -4424,20 +4554,20 @@
         "PU17"
       ],
       "karar": "Tam",
-      "ozet": "PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
-      "tarih": "27.10.2026",
-      "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+      "ozet": "Kaynak bağlamı olmadan 32-hex NTLM sayılmaz; kaynak/biçim çelişkisi, bcrypt politika eşiği, yescrypt sürüm sınırı ve salt/digest ifşa etmeyen bulgu yeni görevde sınanıyor.",
+      "tarih": "30.10.2026",
+      "kaynak": "Claude bağımsız denetim · 30.10.2026 (düzelten: Codex, 27.10.2026)",
       "puan": {
         "test": 24,
-        "kapsam": 18,
+        "kapsam": 21,
         "derinlik": 23,
         "gerceklik": 13,
         "yol": 9
       },
       "eksikler": [
         {
-          "metin": "Kapsam puanı (18) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı.",
-          "oncelik": "düşük",
+          "metin": "Kapsam: NetNTLMv2 (Responder/ağ yakalaması) ve Kerberos $krb5tgs$/$krb5asrep$ biçimleri yok; gerçek olay/pentestte en sık görülen özetler ve müfredatın başka dersinde de geçmiyor. LM özeti de anılmıyor.",
+          "oncelik": "orta",
           "etiket": "kapsam"
         }
       ],
@@ -4466,19 +4596,106 @@
           "metin": "PU17 biçim ayrıştırmada (g1/g2) 15 mutant yaşıyor: <=→< sınırları + uzunluk/cost sabitleri (3,4,12,16,32,1000,5000). Hash'te uzunluk/cost sınırı kritik; A için her biçimin tam sınırını pinleyen assert. → PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
           "etiket": "düzeltildi",
           "oncelik": "yüksek"
+        },
+        {
+          "metin": "Kapsam puanı (18) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı. → Kaynak bağlamı olmadan 32-hex NTLM sayılmaz; kaynak/biçim çelişkisi, bcrypt politika eşiği, yescrypt sürüm sınırı ve salt/digest ifşa etmeyen bulgu yeni görevde sınanıyor.",
+          "oncelik": "düşük",
+          "etiket": "kapsam"
         }
       ],
       "cikar": true,
       "duzeltme": {
-        "yazar": "Claude",
+        "yazar": "Codex",
         "tarih": "27.10.2026",
-        "commit": "c7fe5df, e6c022a",
+        "commit": "commit edilmedi",
+        "ozet": "Kaynak bağlamı olmadan 32-hex NTLM sayılmaz; kaynak/biçim çelişkisi, bcrypt politika eşiği, yescrypt sürüm sınırı ve salt/digest ifşa etmeyen bulgu yeni görevde sınanıyor.",
+        "kanit": "../../outputs/laptop-20261027-purple-acceptance.json",
+        "rapor": "laptop-20261027-codex.md",
+        "bagimsiz_denetim": "Claude 30.10.2026: 90/100",
+        "puan_notu": "92/100 yazar öz değerlendirmesi: yalnız kapsam 18→23. Önceki puan/kayıt onceki_kabul içinde korundu; bağımsız kabul değildir."
+      },
+      "onceki_kabul": {
+        "no": 108,
+        "yol": "purple",
+        "ad": "Parola özeti biçimleri",
+        "dersler": [
+          "PU17"
+        ],
+        "karar": "Tam",
         "ozet": "PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
-        "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
-        "rapor": "../../outputs/a-notu-purple-rapor.md",
-        "bagimsiz_denetim": "yeniden yapılmadı",
-        "puan_notu": "87/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (13→24). Önceki 76 onceki_denetim'de."
-      }
+        "tarih": "27.10.2026",
+        "kaynak": "Claude öz değerlendirmesi; bağımsız yeniden denetim bekleniyor",
+        "puan": {
+          "test": 24,
+          "kapsam": 18,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "eksikler": [
+          {
+            "metin": "Kapsam puanı (18) önceki denetimde verildi ama eksik olarak adlandırılmadı; A için iş rolünde hangi öğenin eksik olduğu bağımsız denetimde yazılmalı.",
+            "oncelik": "düşük",
+            "etiket": "kapsam"
+          }
+        ],
+        "onceki_denetim": {
+          "karar": "Tam",
+          "ozet": "NTLM/bcrypt/$y$ biçim ayrıştırma, shadow salt/cost bulgusu, araç modu seçimi; tahmin uyuşuyor. Sınır/uzunluk testi zayıf.",
+          "puan": {
+            "test": 13,
+            "kapsam": 18,
+            "derinlik": 23,
+            "gerceklik": 13,
+            "yol": 9
+          },
+          "eksikler": [
+            {
+              "metin": "PU17 biçim ayrıştırmada (g1/g2) 15 mutant yaşıyor: <=→< sınırları + uzunluk/cost sabitleri (3,4,12,16,32,1000,5000). Hash'te uzunluk/cost sınırı kritik; A için her biçimin tam sınırını pinleyen assert.",
+              "oncelik": "yüksek",
+              "etiket": "test"
+            }
+          ],
+          "tarih": "27.10.2026",
+          "kaynak": "Claude"
+        },
+        "kapatilanlar": [
+          {
+            "metin": "PU17 biçim ayrıştırmada (g1/g2) 15 mutant yaşıyor: <=→< sınırları + uzunluk/cost sabitleri (3,4,12,16,32,1000,5000). Hash'te uzunluk/cost sınırı kritik; A için her biçimin tam sınırını pinleyen assert. → PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
+            "etiket": "düzeltildi",
+            "oncelik": "yüksek"
+          }
+        ],
+        "cikar": true,
+        "duzeltme": {
+          "yazar": "Claude",
+          "tarih": "27.10.2026",
+          "commit": "c7fe5df, e6c022a",
+          "ozet": "PU17 bcrypt cost 04/20/31, sha512crypt salt 1/16, boş salt, rounds 1000/999999999 ve shadow'da NTLM/varsayılan rounds pinlendi; 47 mutant, 0 geçen. 5 elle yanlış çözüm reddedildi.",
+          "kanit": "../../outputs/a-notu-purple-mutasyon.txt",
+          "rapor": "../../outputs/a-notu-purple-rapor.md",
+          "bagimsiz_denetim": "yeniden yapılmadı",
+          "puan_notu": "87/100 Claude yeniden ölçümü; yalnız test puanı güncellendi (13→24). Önceki 76 onceki_denetim'de."
+        }
+      },
+      "inceleme_notlari": [
+        {
+          "oncelik": "bilgi",
+          "etiket": "bağımsız-denetim",
+          "metin": "Görevi ve yeni kabul testlerini Codex yazdı. Görünen A notu yazar öz değerlendirmesidir; bağımsız denetçi yeniden ölçmeden nihai kabul değildir."
+        }
+      ],
+      "oz_degerlendirme_codex": {
+        "puan": {
+          "test": 24,
+          "kapsam": 23,
+          "derinlik": 23,
+          "gerceklik": 13,
+          "yol": 9
+        },
+        "kaynak": "Codex öz değerlendirmesi; Claude bağımsız yeniden denetimi bekleniyor"
+      },
+      "olcum": "validate TEMİZ (pu14/pu17, 18 kontrol) · tahmin 0 şüpheli · mutasyon pu17 64/64 yakalandı (0 geçen)."
     }
   ],
   "yeni_maddeler": []

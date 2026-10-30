@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_powershell_winrm.py", line 56, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "C:\Users\demo12\Documents\Pafta\tools\test_powershell_winrm.py", line 20, in main
+    assert result['status']=='ok',result
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'status': 'error', 'error': {'type': 'ADLaboratuvarı', 'msg': 'Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.', 'line': None, 'frames': [], 'where': 'kod'}, 'segs': []}

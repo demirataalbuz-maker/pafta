@@ -115,7 +115,7 @@ open("Parola.psm1", "w", encoding="utf-8-sig").write(r'''function Get-ParolaGucu
     if ($Parola -cmatch '[a-z]') { $sinif++ }
     if ($Parola -cmatch '[A-Z]') { $sinif++ }
     if ($Parola -match '\d') { $sinif++ }
-    if ($Parola -match '[^a-zA-Z\d]') { $sinif++ }
+    if ($Parola -cmatch '[^a-zA-Z\d]') { $sinif++ }
     if ($Parola.Length -ge 12 -and $sinif -ge 3) { return 'güçlü' }
     if ($sinif -ge 2) { return 'orta' }
     'zayıf'
@@ -152,7 +152,7 @@ MUTANTLAR = [
     ("-ge 12", "-ge 13", "12 karakter sınırı (tam 12 karakter)"),
     ("-and $sinif -ge 3", "-and $sinif -ge 2", "güçlü için 3 sınıf şartı"),
     ("$Parola -cmatch '[a-z]'", "$Parola -match '[a-z]'", "küçük harf sınıfı harfe duyarlı"),
-    ("    if ($Parola -match '[^a-zA-Z\\d]') { $sinif++ }\n", "", "özel karakter sınıfı"),
+    ("    if ($Parola -cmatch '[^a-zA-Z\\d]') { $sinif++ }\n", "", "özel karakter sınıfı"),
     ("[AllowEmptyString()]", "", "boş metin zayıf döner, hata fırlatmaz"),
 ]
 for eski, yeni, ne in MUTANTLAR:

@@ -1,0 +1,129 @@
+[
+  {
+    "track": "sql",
+    "shell": "windows",
+    "exit": 1,
+    "counts": {
+      "PASS": 248,
+      "ERROR": 1,
+      "FAIL": 1
+    },
+    "seconds": 317.5,
+    "report": "outputs/audit-20261027/windows/sql.json"
+  },
+  {
+    "track": "sql",
+    "shell": "gitbash",
+    "exit": 1,
+    "counts": {
+      "PASS": 249,
+      "ERROR": 1
+    },
+    "seconds": 173.7,
+    "report": "outputs/audit-20261027/gitbash/sql.json"
+  },
+  {
+    "track": "kql",
+    "shell": "windows",
+    "exit": 0,
+    "counts": {
+      "PASS": 251
+    },
+    "seconds": 232.9,
+    "report": "outputs/audit-20261027/windows/kql.json"
+  },
+  {
+    "track": "kql",
+    "shell": "gitbash",
+    "exit": 0,
+    "counts": {
+      "PASS": 251
+    },
+    "seconds": 213.4,
+    "report": "outputs/audit-20261027/gitbash/kql.json"
+  },
+  {
+    "track": "ids",
+    "shell": "windows",
+    "exit": 0,
+    "counts": {
+      "PASS": 25
+    },
+    "seconds": 355.1,
+    "report": "outputs/audit-20261027/windows/ids.json"
+  },
+  {
+    "track": "ids",
+    "shell": "gitbash",
+    "exit": 0,
+    "counts": {
+      "PASS": 25
+    },
+    "seconds": 237.4,
+    "report": "outputs/audit-20261027/gitbash/ids.json"
+  },
+  {
+    "track": "elastic",
+    "shell": "windows",
+    "exit": 0,
+    "counts": {
+      "PASS": 172
+    },
+    "seconds": 623.9,
+    "report": "outputs/audit-20261027/windows/elastic.json"
+  },
+  {
+    "track": "elastic",
+    "shell": "gitbash",
+    "exit": 0,
+    "counts": {
+      "PASS": 172
+    },
+    "seconds": 409.7,
+    "report": "outputs/audit-20261027/gitbash/elastic.json"
+  },
+  {
+    "track": "spl",
+    "shell": "windows",
+    "exit": 1,
+    "counts": {
+      "PASS": 225,
+      "FAIL": 5
+    },
+    "seconds": 635.6,
+    "report": "outputs/audit-20261027/windows/spl.json"
+  },
+  {
+    "track": "spl",
+    "shell": "gitbash",
+    "exit": 1,
+    "counts": {
+      "PASS": 225,
+      "FAIL": 5
+    },
+    "seconds": 590.0,
+    "report": "outputs/audit-20261027/gitbash/spl.json"
+  },
+  {
+    "track": "sigma",
+    "shell": "windows",
+    "exit": 1,
+    "counts": {
+      "PASS": 139,
+      "FAIL": 1
+    },
+    "seconds": 601.4,
+    "report": "outputs/audit-20261027/windows/sigma.json"
+  },
+  {
+    "track": "sigma",
+    "shell": "gitbash",
+    "exit": 1,
+    "counts": {
+      "PASS": 139,
+      "BLOCKED": 1
+    },
+    "seconds": 593.4,
+    "report": "outputs/audit-20261027/gitbash/sigma.json"
+  }
+]

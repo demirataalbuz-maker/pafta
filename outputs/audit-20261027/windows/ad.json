@@ -1,0 +1,2918 @@
+{
+  "track": "ad",
+  "shell": "windows",
+  "started_utc": "2026-10-27T17:28:53.997248+00:00",
+  "lessons": [
+    "ad01",
+    "ad02",
+    "ad03",
+    "ad04",
+    "ad05",
+    "ad06",
+    "ad07",
+    "ad08",
+    "ad09",
+    "ad10",
+    "ad11",
+    "ad12",
+    "ad13",
+    "ad14",
+    "ad15",
+    "ad16",
+    "ad17",
+    "ad18",
+    "ad19",
+    "ad20",
+    "ad21",
+    "ad22",
+    "ad23",
+    "ad24",
+    "ad25"
+  ],
+  "scope": "Automated reference/starter/example execution, not independent quality scoring or live portal acceptance",
+  "results": [
+    {
+      "kind": "ornek",
+      "where": "ad/ad01:1 anlat «İlk LDAP filtresi»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.422,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad01:1 anlat «İlk LDAP filtresi»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.422,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad01:1 anlat «İlk LDAP filtresi»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.422,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad01:1 anlat «İlk LDAP filtresi»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.423,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad01:2 tahmin «»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.539,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad01:3 gorev «BT departmanı»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.539,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "BT departmanındaki iki kişi",
+          "got": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz']",
+          "exp": "['zeynep.arslan', 'can.ozkan']"
+        },
+        {
+          "ok": false,
+          "msg": "değer karşılaştırması büyük-küçük harfe duyarsızdır: 'bt' de eşleşmeli",
+          "got": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz']",
+          "exp": "['zeynep.arslan', 'can.ozkan', 'deneme.bt']"
+        },
+        {
+          "ok": false,
+          "msg": "'BT Destek' eşleşmemeli: = değerin tamamını karşılaştırır",
+          "got": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz']",
+          "exp": "['zeynep.arslan', 'can.ozkan']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad01:3 gorev «BT departmanı»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.546,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad01:4 gorev «Yalnızca kullanıcı hesapları»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.56,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad02:0 anlat «Önek yazımı: &, | ve !»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.612,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad02:0 anlat «Önek yazımı: &, | ve !»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.606,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad02:1 anlat «Joker ve varlık»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.621,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad01:4 gorev «Yalnızca kullanıcı hesapları»",
+      "lesson": "ad01",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.646,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "15 kullanıcı hesabı; bilgisayar ve kişi yok",
+          "got": "['Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'DC01$', 'SRV-SQL01$', 'SRV-WEB01$', 'SRV-ESKI01$', 'PC-SOC01$', 'PC-FIN01$']",
+          "exp": "['Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor']"
+        },
+        {
+          "ok": false,
+          "msg": "yeni bir bilgisayar hesabı (objectClass'ında user da var) gelmemeli",
+          "got": "['Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'DC01$', 'SRV-SQL01$', 'SRV-WEB01$', 'SRV-ESKI01$', 'PC-SOC01$', 'PC-FIN01$', 'PC-YENI01$']",
+          "exp": "['Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor']"
+        },
+        {
+          "ok": false,
+          "msg": "yeni bir kişi nesnesi (objectCategory=person) gelmemeli",
+          "got": "['Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'DC01$', 'SRV-SQL01$', 'SRV-WEB01$', 'SRV-ESKI01$', 'PC-SOC01$', 'PC-FIN01$']",
+          "exp": "['Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad02:1 anlat «Joker ve varlık»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.457,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad02:2 tahmin «»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.428,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad02:1 anlat «Joker ve varlık»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.459,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad02:3 gorev «SPN'i olan servis hesapları»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.447,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad02:4 gorev «E-postası eksik hesaplar»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.428,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad02:5 gorev «Grup üyeleri tam DN ile»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.405,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad02:4 gorev «E-postası eksik hesaplar»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.428,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "e-postası olmayan beş hesap",
+          "got": "['elif.koc', 'burak.sahin', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor']",
+          "exp": "['burak.sahin', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor']"
+        },
+        {
+          "ok": false,
+          "msg": "e-postası olan Finans hesabı gelmemeli",
+          "got": "['elif.koc', 'burak.sahin', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'fin.yeni']",
+          "exp": "['burak.sahin', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor']"
+        },
+        {
+          "ok": false,
+          "msg": "e-postası olmayan yeni Servis hesabı gelmeli",
+          "got": "['elif.koc', 'burak.sahin', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'svc_yeni']",
+          "exp": "['burak.sahin', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'svc_yeni']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad02:3 gorev «SPN'i olan servis hesapları»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.429,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "SPN'i olan üç servis hesabı",
+          "got": "['svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor']",
+          "exp": "['svc_sql', 'svc_web', 'svc_yedek']"
+        },
+        {
+          "ok": false,
+          "msg": "SPN'i olmayan yeni svc_ hesabı gelmemeli",
+          "got": "['svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'svc_bos']",
+          "exp": "['svc_sql', 'svc_web', 'svc_yedek']"
+        },
+        {
+          "ok": false,
+          "msg": "SVC_ ile başlayan (büyük harf) SPN'li hesap gelmeli",
+          "got": "['svc_sql', 'svc_web', 'svc_yedek', 'svc_rapor', 'SVC_ARSIV']",
+          "exp": "['svc_sql', 'svc_web', 'svc_yedek', 'SVC_ARSIV']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad03:0 anlat «Yalnızca >= ve <=»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.407,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad03:0 anlat «Yalnızca >= ve <=»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.406,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad03:0 anlat «Yalnızca >= ve <=»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.409,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad02:5 gorev «Grup üyeleri tam DN ile»",
+      "lesson": "ad02",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.42,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "SOC-Analistleri'nin üç üyesi",
+          "got": "[]",
+          "exp": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz']"
+        },
+        {
+          "ok": false,
+          "msg": "gruba yeni eklenen üye gelmeli",
+          "got": "[]",
+          "exp": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'yeni.analist']"
+        },
+        {
+          "ok": false,
+          "msg": "adı SOC-Analistleri ile başlayan başka bir grubun üyesi gelmemeli",
+          "got": "[]",
+          "exp": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad03:1 anlat «Özel karakterleri kaçırmak»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.324,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad03:3 gorev «Kilitlenme eşiğine yaklaşanlar»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.311,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad03:2 tahmin «»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.325,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad03:0 anlat «Yalnızca >= ve <=»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.345,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad03:3 gorev «Kilitlenme eşiğine yaklaşanlar»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "error",
+      "seconds": 0.373,
+      "error": {
+        "type": "ADHatası",
+        "msg": "RFC 4515 LDAP filtrelerinde '>' işleci yoktur; yalnızca '>=' ve '<=' kullanılır (kesin küçüklük için '(!(alan>=deger))' yazın).",
+        "line": 1,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad03:4 gorev «Kesin büyüklük»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "error",
+      "seconds": 0.377,
+      "error": {
+        "type": "ADHatası",
+        "msg": "RFC 4515 LDAP filtrelerinde '>' işleci yoktur; yalnızca '>=' ve '<=' kullanılır (kesin küçüklük için '(!(alan>=deger))' yazın).",
+        "line": 1,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad03:5 gorev «Harfiyen yıldız»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.38,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad03:4 gorev «Kesin büyüklük»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.438,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad03:6 gorev «Ters bölülü yol»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.468,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad03:5 gorev «Harfiyen yıldız»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.502,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "açıklamasında * geçen iki nesne",
+          "got": "['Domain Controllers', 'Users', 'Merkez', 'SOC', 'BT', 'Finans', 'ServisHesaplari', 'Sunucular', 'Istasyonlar', 'Gruplar', 'Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', …",
+          "exp": "['ayse.demir', 'svc_web']"
+        },
+        {
+          "ok": false,
+          "msg": "yıldızsız açıklama gelmemeli",
+          "got": "['Domain Controllers', 'Users', 'Merkez', 'SOC', 'BT', 'Finans', 'ServisHesaplari', 'Sunucular', 'Istasyonlar', 'Gruplar', 'Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', …",
+          "exp": "['ayse.demir', 'svc_web']"
+        },
+        {
+          "ok": false,
+          "msg": "sonunda * olan açıklama gelmeli",
+          "got": "['Domain Controllers', 'Users', 'Merkez', 'SOC', 'BT', 'Finans', 'ServisHesaplari', 'Sunucular', 'Istasyonlar', 'Gruplar', 'Administrator', 'Guest', 'krbtgt', 'ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'svc_sql', 'svc_web', …",
+          "exp": "['ayse.demir', 'svc_web', 'sonda.yildiz']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad03:6 gorev «Ters bölülü yol»",
+      "lesson": "ad03",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.543,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "C:/ (eğik çizgi) gelmemeli",
+          "got": "['zeynep.arslan', 'svc_rapor', 'egik.cizgi']",
+          "exp": "['zeynep.arslan', 'svc_rapor']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad04:0 anlat «Bir sayı, bir demet bayrak»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.515,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad04:1 anlat «Bit eşleştirme kuralları: 803 ve 804»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.488,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad04:1 anlat «Bit eşleştirme kuralları: 803 ve 804»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.572,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad04:1 anlat «Bit eşleştirme kuralları: 803 ve 804»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.506,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad04:2 tahmin «»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.506,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad04:3 gorev «Devre dışı kullanıcı hesapları»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.468,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad04:3 gorev «Devre dışı kullanıcı hesapları»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.461,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "devre dışı beş kullanıcı hesabı",
+          "got": "['krbtgt', 'mehmet.yilmaz']",
+          "exp": "['Guest', 'krbtgt', 'mehmet.yilmaz', 'burak.sahin', 'svc_yedek']"
+        },
+        {
+          "ok": false,
+          "msg": "1049090 (devre dışı + NOT_DELEGATED) gelmeli",
+          "got": "['krbtgt', 'mehmet.yilmaz']",
+          "exp": "['Guest', 'krbtgt', 'mehmet.yilmaz', 'burak.sahin', 'svc_yedek', 'pasif.hassas']"
+        },
+        {
+          "ok": false,
+          "msg": "1049088 (etkin + NOT_DELEGATED) gelmemeli",
+          "got": "['krbtgt', 'mehmet.yilmaz']",
+          "exp": "['Guest', 'krbtgt', 'mehmet.yilmaz', 'burak.sahin', 'svc_yedek']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad04:4 gorev «Etkin ve parolası dolmayan»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.472,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "1114624 (65536 + 512 + NOT_DELEGATED) gelmeli",
+          "got": "['Administrator', 'can.ozkan', 'svc_sql']",
+          "exp": "['Administrator', 'can.ozkan', 'svc_sql', 'ndp.etkin']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad04:4 gorev «Etkin ve parolası dolmayan»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.484,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad04:5 gorev «Zayıf kimlik doğrulama ayarı»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.459,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad04:5 gorev «Zayıf kimlik doğrulama ayarı»",
+      "lesson": "ad04",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.455,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "etkin hesaplardan yalnızca svc_rapor (4194816)",
+          "got": "[]",
+          "exp": "['svc_rapor']"
+        },
+        {
+          "ok": false,
+          "msg": "yalnızca 32 biti açık etkin hesap (544) gelmeli",
+          "got": "[]",
+          "exp": "['svc_rapor', 'parolasiz']"
+        },
+        {
+          "ok": false,
+          "msg": "iki biti de açık etkin hesap gelmeli",
+          "got": "['ikisi.de']",
+          "exp": "['svc_rapor', 'ikisi.de']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad05:0 anlat «ActiveDirectory modülü ve -Filter»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.43,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad05:0 anlat «ActiveDirectory modülü ve -Filter»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.451,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad05:0 anlat «ActiveDirectory modülü ve -Filter»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.445,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad05:2 tahmin «»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.415,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad05:1 anlat «-Properties, -Identity ve -LDAPFilter»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.458,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad05:1 anlat «-Properties, -Identity ve -LDAPFilter»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.43,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad05:4 gorev «Hatalı parola sayacı»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.47,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "beş satır, sayaçlarıyla",
+          "got": "['mehmet.yilmaz|5', 'can.ozkan|4', 'svc_yedek|6']",
+          "exp": "['mehmet.yilmaz|5', 'zeynep.arslan|3', 'can.ozkan|4', 'burak.sahin|3', 'svc_yedek|6']"
+        },
+        {
+          "ok": false,
+          "msg": "badPwdCount=3 gelmeli (sınır dahil)",
+          "got": "'svc_yedek|6'",
+          "exp": "'uc.hata|3'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad05:4 gorev «Hatalı parola sayacı»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.471,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad05:3 gorev «Etkin SOC personeli»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.532,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad05:3 gorev «Etkin SOC personeli»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.495,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "etkin iki SOC çalışanı",
+          "got": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz']",
+          "exp": "['ali.kaya', 'ayse.demir']"
+        },
+        {
+          "ok": false,
+          "msg": "Ali devre dışı bırakılınca (66050) gelmemeli",
+          "got": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz']",
+          "exp": "['ayse.demir']"
+        },
+        {
+          "ok": false,
+          "msg": "parolası dolmayan ama etkin (66048) yeni SOC hesabı gelmeli",
+          "got": "['ali.kaya', 'ayse.demir', 'mehmet.yilmaz', 'soc.yeni']",
+          "exp": "['ali.kaya', 'ayse.demir', 'soc.yeni']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad06:0 anlat «Bilgisayar hesapları»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.364,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad06:1 anlat «Nerede arıyorsun: -SearchBase ve -Search»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.34,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad05:5 gorev «Departmanı dolu ama SOC değil»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.374,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "department özniteliği olmayan hesap gelmemeli",
+          "got": "['zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya', 'departmansiz']",
+          "exp": "['zeynep.arslan', 'can.ozkan', 'elif.koc', 'burak.sahin', 'selin.aydinkaya']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad05:5 gorev «Departmanı dolu ama SOC değil»",
+      "lesson": "ad05",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.374,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad06:1 anlat «Nerede arıyorsun: -SearchBase ve -Search»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.367,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad06:2 tahmin «»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.369,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad06:3 gorev «Desteği bitmiş sistemler»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.369,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki eski sistem",
+          "got": "['SRV-ESKI01$|Windows Server 2012 R2']",
+          "exp": "['SRV-ESKI01$|Windows Server 2012 R2', 'PC-FIN01$|Windows 10 Enterprise']"
+        },
+        {
+          "ok": false,
+          "msg": "Windows Server 2012 (R2'siz) de gelmeli",
+          "got": "['SRV-ESKI01$|Windows Server 2012 R2', 'SRV-ESKI02$|Windows Server 2012']",
+          "exp": "['SRV-ESKI01$|Windows Server 2012 R2', 'PC-FIN01$|Windows 10 Enterprise', 'SRV-ESKI02$|Windows Server 2012']"
+        },
+        {
+          "ok": false,
+          "msg": "Windows 11 gelmemeli",
+          "got": "1",
+          "exp": "2"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad06:3 gorev «Desteği bitmiş sistemler»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.377,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad06:4 gorev «Sunucular OU'sundaki etkin makineler»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.386,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad06:4 gorev «Sunucular OU'sundaki etkin makineler»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.397,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Sunucular OU'sunda etkin iki makine",
+          "got": "['DC01$', 'SRV-SQL01$', 'SRV-WEB01$', 'PC-SOC01$', 'PC-FIN01$']",
+          "exp": "['SRV-SQL01$', 'SRV-WEB01$']"
+        },
+        {
+          "ok": false,
+          "msg": "Sunucular'a eklenen etkin makine gelmeli",
+          "got": "['DC01$', 'SRV-SQL01$', 'SRV-WEB01$', 'PC-SOC01$', 'PC-FIN01$', 'SRV-YENI01$']",
+          "exp": "['SRV-SQL01$', 'SRV-WEB01$', 'SRV-YENI01$']"
+        },
+        {
+          "ok": false,
+          "msg": "devre dışı makine gelmemeli",
+          "got": "['DC01$', 'SRV-SQL01$', 'SRV-WEB01$', 'PC-SOC01$', 'PC-FIN01$']",
+          "exp": "['SRV-SQL01$', 'SRV-WEB01$']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad06:5 gorev «Merkez'in doğrudan alt birimleri»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.398,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç doğrudan alt OU",
+          "got": "['Merkez', 'SOC', 'BT', 'Finans']",
+          "exp": "['SOC', 'BT', 'Finans']"
+        },
+        {
+          "ok": false,
+          "msg": "SOC'un altındaki OU gelmemeli",
+          "got": "['Merkez', 'SOC', 'BT', 'Finans', 'Vardiya']",
+          "exp": "['SOC', 'BT', 'Finans']"
+        },
+        {
+          "ok": false,
+          "msg": "Merkez'e eklenen yeni OU gelmeli",
+          "got": "['Merkez', 'SOC', 'BT', 'Finans', 'Hukuk']",
+          "exp": "['SOC', 'BT', 'Finans', 'Hukuk']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad06:5 gorev «Merkez'in doğrudan alt birimleri»",
+      "lesson": "ad06",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.412,
+      "checks_passed": 3,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad07:0 anlat «Gruplar ve iki yönlü bağlantı»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.374,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad07:0 anlat «Gruplar ve iki yönlü bağlantı»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.387,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad07:2 tahmin «»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.391,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad07:1 anlat «Zincir kuralı: 1.2.840.113556.1.4.1941»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.407,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad07:3 gorev «Bir hesabın bütün grupları»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.469,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "üç grup: doğrudan bir, dolaylı iki",
+          "got": "['Sunucu-Operatorleri']",
+          "exp": "['Domain Admins', 'Altyapi-Yoneticileri', 'Sunucu-Operatorleri']"
+        },
+        {
+          "ok": false,
+          "msg": "zincir kuralını kullan"
+        },
+        {
+          "ok": false,
+          "msg": "Domain Admins'i içeren yeni bir üst grup da gelmeli (dördüncü basamak)",
+          "got": "['Sunucu-Operatorleri']",
+          "exp": "['Domain Admins', 'Altyapi-Yoneticileri', 'Sunucu-Operatorleri', 'Kritik-Erisim']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad07:3 gorev «Bir hesabın bütün grupları»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.469,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad07:4 gorev «Domain Admins zincirindeki etkin kullanı»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.435,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad07:4 gorev «Domain Admins zincirindeki etkin kullanı»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.481,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "zincirdeki dört etkin kullanıcı",
+          "got": "['Administrator']",
+          "exp": "['Administrator', 'ayse.demir', 'zeynep.arslan', 'svc_sql']"
+        },
+        {
+          "ok": false,
+          "msg": "devre dışı bırakılan Zeynep gelmemeli",
+          "got": "['Administrator']",
+          "exp": "['Administrator', 'ayse.demir', 'svc_sql']"
+        },
+        {
+          "ok": false,
+          "msg": "Sunucu-Operatorleri'ne eklenen hesap (üç basamak aşağıda) gelmeli",
+          "got": "['Administrator']",
+          "exp": "['Administrator', 'ayse.demir', 'zeynep.arslan', 'svc_sql', 'op.yeni']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad07:5 gorev «Etki alanı yerel güvenlik grupları»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.45,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "etki alanı yerel DAĞITIM grubu (4) gelmemeli",
+          "got": "['Yedekleme-Operatorleri', 'Dagitim-Yerel']",
+          "exp": "['Yedekleme-Operatorleri']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad08:0 anlat «Hizmet hesapları ve SPN»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.442,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad08:1 anlat «Yetki devri ve hesap yaşı»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.389,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad07:5 gorev «Etki alanı yerel güvenlik grupları»",
+      "lesson": "ad07",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.466,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad08:2 tahmin «»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.489,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad08:1 anlat «Yetki devri ve hesap yaşı»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.513,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad08:3 gorev «Gözden geçirilecek hizmet hesapları»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.517,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad08:3 gorev «Gözden geçirilecek hizmet hesapları»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.503,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "SPN'li iki etkin hizmet hesabı",
+          "got": "['krbtgt', 'svc_sql', 'svc_web', 'svc_yedek']",
+          "exp": "['svc_sql', 'svc_web']"
+        },
+        {
+          "ok": false,
+          "msg": "krbtgt etkin görünse bile gelmemeli",
+          "got": "['krbtgt', 'svc_sql', 'svc_web', 'svc_yedek']",
+          "exp": "['svc_sql', 'svc_web']"
+        },
+        {
+          "ok": false,
+          "msg": "SPN'li yeni etkin hesap gelmeli",
+          "got": "['krbtgt', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_mail']",
+          "exp": "['svc_sql', 'svc_web', 'svc_mail']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad08:4 gorev «DC dışındaki kısıtsız yetki devri»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.406,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad08:4 gorev «DC dışındaki kısıtsız yetki devri»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.407,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "bir kullanıcı ve bir bilgisayar",
+          "got": "['svc_web', 'DC01$', 'SRV-WEB01$']",
+          "exp": "['svc_web', 'SRV-WEB01$']"
+        },
+        {
+          "ok": false,
+          "msg": "yeni bir DC (532480) gelmemeli",
+          "got": "['svc_web', 'DC01$', 'SRV-WEB01$', 'DC02$']",
+          "exp": "['svc_web', 'SRV-WEB01$']"
+        },
+        {
+          "ok": false,
+          "msg": "kısıtsız devirli yeni üye sunucu (528384) gelmeli",
+          "got": "['svc_web', 'DC01$', 'SRV-WEB01$', 'SRV-APP01$']",
+          "exp": "['svc_web', 'SRV-WEB01$', 'SRV-APP01$']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad08:5 gorev «Eski parolalı etkin hesaplar»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.401,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad08:5 gorev «Eski parolalı etkin hesaplar»",
+      "lesson": "ad08",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.412,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnızca Administrator",
+          "got": "['Administrator|133000000000000000', 'Guest|0', 'krbtgt|133200000000000000', 'can.ozkan|0', 'burak.sahin|0', 'svc_yedek|133400000000000000']",
+          "exp": "['Administrator|133000000000000000']"
+        },
+        {
+          "ok": false,
+          "msg": "tam sınır değeri gelmeli",
+          "got": "['Administrator|133000000000000000', 'Guest|0', 'krbtgt|133200000000000000', 'can.ozkan|0', 'burak.sahin|0', 'svc_yedek|133400000000000000', 'sinir.tam|133485408000000000']",
+          "exp": "['Administrator|133000000000000000', 'sinir.tam|133485408000000000']"
+        },
+        {
+          "ok": false,
+          "msg": "sınırdan bir sonra gelmemeli",
+          "got": "['Administrator|133000000000000000', 'Guest|0', 'krbtgt|133200000000000000', 'can.ozkan|0', 'burak.sahin|0', 'svc_yedek|133400000000000000']",
+          "exp": "['Administrator|133000000000000000']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad09:1 anlat «Günlükten dizine: Şüpheliyi dizinde aram»",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.532,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad09:2 tahmin «»",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.508,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad09:1 anlat «Günlükten dizine: Şüpheliyi dizinde aram»",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.517,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad09:3 gorev «Olay 4740 ve 4625 eşiği»",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.517,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad09:5 gorev «Olay 4768 ve 4771 incelemesi: Ön kimlik »",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.426,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad09:4 gorev «Olay 4728 alarmı: Lider ve yönetici grup»",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.447,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad09:4 gorev «Olay 4728 alarmı: Lider ve yönetici grup»",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.445,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki grup ve üyeleri",
+          "got": "['SOC-Liderleri|CN=Ayse Demir,OU=SOC,OU=Merkez,DC=pafta,DC=local']",
+          "exp": "['Altyapi-Yoneticileri|CN=Zeynep Arslan,OU=BT,OU=Merkez,DC=pafta,DC=local;CN=Sunucu-Operatorleri,OU=Gruplar,DC=pafta,DC=local', 'SOC-Liderleri|CN=Ayse Demir,OU=SOC,OU=Merkez,DC=pafta,DC=local']"
+        },
+        {
+          "ok": false,
+          "msg": "Ag-Yoneticileri de gelmeli",
+          "got": "['SOC-Liderleri|CN=Ayse Demir,OU=SOC,OU=Merkez,DC=pafta,DC=local']",
+          "exp": "['Altyapi-Yoneticileri|CN=Zeynep Arslan,OU=BT,OU=Merkez,DC=pafta,DC=local;CN=Sunucu-Operatorleri,OU=Gruplar,DC=pafta,DC=local', 'SOC-Liderleri|CN=Ayse Demir,OU=SOC,OU=Merkez,DC=pafta,DC=local', 'Ag-Yoneticileri|']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad09:3 gorev «Olay 4740 ve 4625 eşiği»",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.465,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "sayacı 5 ve 6 olan iki hesap",
+          "got": "['svc_yedek|6|False']",
+          "exp": "['mehmet.yilmaz|5|False', 'svc_yedek|6|False']"
+        },
+        {
+          "ok": false,
+          "msg": "badPwdCount=4 gelmemeli",
+          "got": "['svc_yedek|6|False']",
+          "exp": "['mehmet.yilmaz|5|False', 'svc_yedek|6|False']"
+        },
+        {
+          "ok": false,
+          "msg": "badPwdCount=5 etkin hesap da gelmeli (sınır dahil)",
+          "got": "['svc_yedek|6|False']",
+          "exp": "['mehmet.yilmaz|5|False', 'svc_yedek|6|False', 'sinir.bes|5|True']"
+        }
+      ]
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad10:1 anlat «adminCount=1 ve Denetleyici Sorguları»",
+      "lesson": "ad10",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.446,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad10:1 anlat «adminCount=1 ve Denetleyici Sorguları»",
+      "lesson": "ad10",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.441,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad10:2 tahmin «»",
+      "lesson": "ad10",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.439,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad09:5 gorev «Olay 4768 ve 4771 incelemesi: Ön kimlik »",
+      "lesson": "ad09",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.477,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ön kimlik doğrulaması kapatılmış tek hesap",
+          "got": "['Administrator|False', 'Guest|False', 'krbtgt|False', 'ali.kaya|False', 'ayse.demir|False', 'mehmet.yilmaz|False', 'zeynep.arslan|False', 'can.ozkan|False', 'elif.koc|False', 'burak.sahin|False', 'selin.aydinkaya|False', 'svc_sql|False', 'svc_web|False', 'svc_yedek|False', 'svc_rapor|True']",
+          "exp": "['svc_rapor|True']"
+        },
+        {
+          "ok": false,
+          "msg": "yeni preauth kapalı hesap gelmeli",
+          "got": "['Administrator|False', 'Guest|False', 'krbtgt|False', 'ali.kaya|False', 'ayse.demir|False', 'mehmet.yilmaz|False', 'zeynep.arslan|False', 'can.ozkan|False', 'elif.koc|False', 'burak.sahin|False', 'selin.aydinkaya|False', 'svc_sql|False', 'svc_web|False', 'svc_yedek|False', 'svc_rapor|True', 'preaut…",
+          "exp": "['svc_rapor|True', 'preauth.yok|True']"
+        },
+        {
+          "ok": false,
+          "msg": "normal hesap gelmemeli",
+          "got": "['Administrator|False', 'Guest|False', 'krbtgt|False', 'ali.kaya|False', 'ayse.demir|False', 'mehmet.yilmaz|False', 'zeynep.arslan|False', 'can.ozkan|False', 'elif.koc|False', 'burak.sahin|False', 'selin.aydinkaya|False', 'svc_sql|False', 'svc_web|False', 'svc_yedek|False', 'svc_rapor|True', 'normal…",
+          "exp": "['svc_rapor|True']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad10:4 gorev «Etki alanı denetleyicilerini tespit etme»",
+      "lesson": "ad10",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.417,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad10:3 gorev «adminCount=1 kalıntısı (Orphaned adminCo»",
+      "lesson": "ad10",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.438,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Domain Admins zincirinde olmayan adminCount=1 hesabı",
+          "got": "['Administrator', 'krbtgt', 'ali.kaya', 'ayse.demir', 'zeynep.arslan', 'svc_sql']",
+          "exp": "['ali.kaya']"
+        },
+        {
+          "ok": false,
+          "msg": "Domain Admins zincir kuralını olumsuzla"
+        },
+        {
+          "ok": false,
+          "msg": "yeni eklenen zincir dışı adminCount=1 hesabı gelmeli",
+          "got": "['Administrator', 'krbtgt', 'ali.kaya', 'ayse.demir', 'zeynep.arslan', 'svc_sql', 'eski.admin']",
+          "exp": "['ali.kaya', 'eski.admin']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad10:3 gorev «adminCount=1 kalıntısı (Orphaned adminCo»",
+      "lesson": "ad10",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.44,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad10:4 gorev «Etki alanı denetleyicilerini tespit etme»",
+      "lesson": "ad10",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.419,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "yalnızca DC01",
+          "got": "['DC01$|dc01.pafta.local|Windows Server 2022', 'SRV-SQL01$|srv-sql01.pafta.local|Windows Server 2022', 'SRV-WEB01$|srv-web01.pafta.local|Windows Server 2022', 'SRV-ESKI01$|srv-eski01.pafta.local|Windows Server 2012 R2', 'PC-SOC01$|pc-soc01.pafta.local|Windows 11 Enterprise', 'PC-FIN01$|pc-fin01.paft…",
+          "exp": "['DC01$|dc01.pafta.local|Windows Server 2022']"
+        },
+        {
+          "ok": false,
+          "msg": "Get-ADComputer ve -LDAPFilter kullan"
+        },
+        {
+          "ok": false,
+          "msg": "8192 bit maskesini kullan"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad11:1 tahmin «»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.401,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad11:0 anlat «Kurumsal denetim masası»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.423,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad11:2 gorev «Denetim 1: Domain Admins zincirindeki hi»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.431,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad11:2 gorev «Denetim 1: Domain Admins zincirindeki hi»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.44,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Domain Admins zincirindeki tek SPN'li kullanıcı",
+          "got": "['krbtgt', 'svc_sql', 'svc_web', 'svc_yedek']",
+          "exp": "['svc_sql']"
+        },
+        {
+          "ok": false,
+          "msg": "zincir kuralını kullan"
+        },
+        {
+          "ok": false,
+          "msg": "zincirdeki gruba eklenen yeni SPN'li hesap gelmeli",
+          "got": "['krbtgt', 'svc_sql', 'svc_web', 'svc_yedek', 'svc_yeni_da']",
+          "exp": "['svc_sql', 'svc_yeni_da']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad11:3 gorev «Denetim 2: Etkin hesaplarda kritik UAC a»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.542,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad11:3 gorev «Denetim 2: Etkin hesaplarda kritik UAC a»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.534,
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "etkin olup bu bayrakları taşıyan iki hesap",
+          "got": "['Guest', 'krbtgt', 'mehmet.yilmaz', 'burak.sahin', 'svc_yedek']",
+          "exp": "['svc_web', 'svc_rapor']"
+        },
+        {
+          "ok": false,
+          "msg": "en az biri için BIT_OR (804) kuralını kullan"
+        },
+        {
+          "ok": false,
+          "msg": "32 biti açık etkin hesap gelmeli",
+          "got": "['Guest', 'krbtgt', 'mehmet.yilmaz', 'burak.sahin', 'svc_yedek']",
+          "exp": "['svc_web', 'svc_rapor', 'uac.32']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad11:4 gorev «Denetim 3: Devre dışı ama süresiz parola»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.514,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad11:4 gorev «Denetim 3: Devre dışı ama süresiz parola»",
+      "lesson": "ad11",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.497,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki devre dışı ve süresiz parolalı hesap",
+          "got": "['Guest|66082|Built-in account for guest access to the computer/domain', 'krbtgt|514|Key Distribution Center Service Account', 'mehmet.yilmaz|514|Izinde - gecici pasif', 'burak.sahin|546|Eski stajyer hesabi', 'svc_yedek|66050|Eski yedekleme ajani']",
+          "exp": "['Guest|66082|Built-in account for guest access to the computer/domain', 'svc_yedek|66050|Eski yedekleme ajani']"
+        },
+        {
+          "ok": false,
+          "msg": "PasswordNeverExpires özelliğini filtrele"
+        },
+        {
+          "ok": false,
+          "msg": "yeni devre dışı ve 65536'lı hesap gelmeli",
+          "got": "['Guest|66082|Built-in account for guest access to the computer/domain', 'krbtgt|514|Key Distribution Center Service Account', 'mehmet.yilmaz|514|Izinde - gecici pasif', 'burak.sahin|546|Eski stajyer hesabi', 'svc_yedek|66050|Eski yedekleme ajani', 'eski.unuttuk|66050|Unutulan hesap']",
+          "exp": "['Guest|66082|Built-in account for guest access to the computer/domain', 'svc_yedek|66050|Eski yedekleme ajani', 'eski.unuttuk|66050|Unutulan hesap']"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad12:2 tahmin «»",
+      "lesson": "ad12",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "ok",
+      "seconds": 0.372,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad12:4 gorev «Sunucu envanteri ve işletim sistemi doğr»",
+      "lesson": "ad12",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.376,
+      "checks_passed": 5,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad12:3 gorev «Kök etki alanının doğrudan altındaki OU'»",
+      "lesson": "ad12",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.391,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kök altındaki 6 ana OU",
+          "got": "['Domain Controllers', 'Merkez', 'SOC', 'BT', 'Finans', 'ServisHesaplari', 'Sunucular', 'Istasyonlar', 'Gruplar']",
+          "exp": "['Domain Controllers', 'Merkez', 'ServisHesaplari', 'Sunucular', 'Istasyonlar', 'Gruplar']"
+        },
+        {
+          "ok": false,
+          "msg": "OneLevel kapsamı kullan"
+        },
+        {
+          "ok": false,
+          "msg": "SearchBase olarak kök etki alanını ver"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad12:3 gorev «Kök etki alanının doğrudan altındaki OU'»",
+      "lesson": "ad12",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.419,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad13:2 tahmin «ACL kanıtını oku»",
+      "lesson": "ad13",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.343,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad12:4 gorev «Sunucu envanteri ve işletim sistemi doğr»",
+      "lesson": "ad12",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.412,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "Sunucular OU'sundaki üç makine",
+          "got": "['DC01$|dc01.pafta.local|Windows Server 2022', 'SRV-SQL01$|srv-sql01.pafta.local|Windows Server 2022', 'SRV-WEB01$|srv-web01.pafta.local|Windows Server 2022', 'SRV-ESKI01$|srv-eski01.pafta.local|Windows Server 2012 R2', 'PC-SOC01$|pc-soc01.pafta.local|Windows 11 Enterprise', 'PC-FIN01$|pc-fin01.paft…",
+          "exp": "['SRV-SQL01$|srv-sql01.pafta.local|Windows Server 2022', 'SRV-WEB01$|srv-web01.pafta.local|Windows Server 2022', 'SRV-ESKI01$|srv-eski01.pafta.local|Windows Server 2012 R2']"
+        },
+        {
+          "ok": false,
+          "msg": "Sunucular OU'sunu sınırla"
+        },
+        {
+          "ok": false,
+          "msg": "Sunucular OU'suna eklenen yeni sunucu gelmeli",
+          "got": "['DC01$|dc01.pafta.local|Windows Server 2022', 'SRV-SQL01$|srv-sql01.pafta.local|Windows Server 2022', 'SRV-WEB01$|srv-web01.pafta.local|Windows Server 2022', 'SRV-ESKI01$|srv-eski01.pafta.local|Windows Server 2012 R2', 'PC-SOC01$|pc-soc01.pafta.local|Windows 11 Enterprise', 'PC-FIN01$|pc-fin01.paft…",
+          "exp": "['SRV-SQL01$|srv-sql01.pafta.local|Windows Server 2022', 'SRV-WEB01$|srv-web01.pafta.local|Windows Server 2022', 'SRV-ESKI01$|srv-eski01.pafta.local|Windows Server 2012 R2', 'SRV-YEDEK01$|srv-yedek01.pafta.local|Windows Server 2022']"
+        }
+      ]
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad12:5 gorev «Hardening öncesi: Süresiz parolalı etkin»",
+      "lesson": "ad12",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "fail",
+      "seconds": 0.407,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "etkin ve süresiz parolalı üç hesap",
+          "got": "['Administrator', 'Guest', 'can.ozkan', 'svc_sql', 'svc_yedek']",
+          "exp": "['Administrator', 'can.ozkan', 'svc_sql']"
+        },
+        {
+          "ok": false,
+          "msg": "Enabled -eq $true koşulunu kullan"
+        },
+        {
+          "ok": false,
+          "msg": "parolası normal süreli hesap (512) gelmemeli",
+          "got": "['Administrator', 'Guest', 'can.ozkan', 'svc_sql', 'svc_yedek']",
+          "exp": "['Administrator', 'can.ozkan', 'svc_sql']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad12:5 gorev «Hardening öncesi: Süresiz parolalı etkin»",
+      "lesson": "ad12",
+      "status": "PASS",
+      "runner": "ad",
+      "runner_status": "pass",
+      "seconds": 0.427,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad13:3 gorev «Sıralı DACL'den tek hakkı hesapla»",
+      "lesson": "ad13",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.387,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad13:3 gorev «Sıralı DACL'den tek hakkı hesapla»",
+      "lesson": "ad13",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.39,
+      "checks_passed": 7,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "gruptan gelen izin",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "owner WriteDacl",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "hedefte bulunan devralınmış ACE",
+          "got": "False",
+          "exp": "True"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad14:2 gorev «Doğrulanmış kenarlarla en kısa yolu bul»",
+      "lesson": "ad14",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.379,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad14:1 tahmin «Üyelik zincirini oku»",
+      "lesson": "ad14",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.386,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad15:1 tahmin «Aynı grup, farklı karar»",
+      "lesson": "ad15",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.031,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad15:2 gorev «Kullanıcının etkili WriteDacl sonucunu r»",
+      "lesson": "ad15",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.002,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad15:2 gorev «Kullanıcının etkili WriteDacl sonucunu r»",
+      "lesson": "ad15",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad14:2 gorev «Doğrulanmış kenarlarla en kısa yolu bul»",
+      "lesson": "ad14",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.406,
+      "checks_passed": 5,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kanıtlı hak ve üyelik zinciri",
+          "got": "[]",
+          "exp": "['ali.kaya', 'svc_sql', 'Sunucu-Operatorleri', 'Altyapi-Yoneticileri', 'Domain Admins']"
+        },
+        {
+          "ok": false,
+          "msg": "hak kenarı olmadan gerçek üyelik yolu",
+          "got": "[]",
+          "exp": "['ayse.demir', 'SOC-Liderleri', 'Domain Admins']"
+        },
+        {
+          "ok": false,
+          "msg": "aynı kaynak ve hedef",
+          "got": "[]",
+          "exp": "['ali.kaya']"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad16:2 tahmin «İzin nerede duruyor?»",
+      "lesson": "ad16",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.394,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad14:4 gorev «SharpHound dışa aktarımında SID ve ACL k»",
+      "lesson": "ad14",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.563,
+      "checks_passed": 7,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "resmi örnekte DU001 → ADMINISTRATORS → DOMAIN ADMINS",
+          "got": "[]",
+          "exp": "['S-1-5-21-2697957641-2271029196-387917394-2202', 'PHANTOM.CORP-S-1-5-32-544', 'S-1-5-21-2697957641-2271029196-387917394-512']"
+        },
+        {
+          "ok": false,
+          "msg": "grup Members üyeden gruba yönelir"
+        },
+        {
+          "ok": false,
+          "msg": "ACL öznesinden nesneye yönelir"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad14:4 gorev «SharpHound dışa aktarımında SID ve ACL k»",
+      "lesson": "ad14",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.617,
+      "checks_passed": 21,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad16:3 gorev «Yapılandırma adaylarını iki yönde çıkar»",
+      "lesson": "ad16",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.425,
+      "checks_passed": 3,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki farklı yön",
+          "got": "[]",
+          "exp": "[('klasik', 'svc_portal', 'MSSQLSvc/sql01.pafta.local:1433'), ('rbcd', 'svc_on', 'MSSQLSvc/sql01.pafta.local:1433')]"
+        },
+        {
+          "ok": false,
+          "msg": "klasik liste boşken yalnız RBCD",
+          "got": "[]",
+          "exp": "[('rbcd', 'svc_on', 'MSSQLSvc/sql01.pafta.local:1433')]"
+        },
+        {
+          "ok": false,
+          "msg": "SPN'siz ve bilinmeyen ön hesap dışarıda; tekrar yok",
+          "got": "[]",
+          "exp": "[('rbcd', 'svc_on', 'MSSQLSvc/sql01.pafta.local:1433')]"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad16:3 gorev «Yapılandırma adaylarını iki yönde çıkar»",
+      "lesson": "ad16",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.494,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad18:1 tahmin «İzin yokken dosya okunur mu?»",
+      "lesson": "ad18",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad18:2 gorev «Gerçek dört deneyi raporla»",
+      "lesson": "ad18",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad18:2 gorev «Gerçek dört deneyi raporla»",
+      "lesson": "ad18",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad18:3 anlat «DC'deki gerçek 4769 XML kanıtı»",
+      "lesson": "ad18",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad17:2 tahmin «Başarılı Self, başarısız Proxy»",
+      "lesson": "ad17",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.44,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad17:3 gorev «Başarılı ve tutarlı zincirleri seç»",
+      "lesson": "ad17",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.455,
+      "checks_passed": 13,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad19:2 tahmin «Onay ve EKU aynı şey mi?»",
+      "lesson": "ad19",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.39,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad17:3 gorev «Başarılı ve tutarlı zincirleri seç»",
+      "lesson": "ad17",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.407,
+      "checks_passed": 10,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "A tamam, B başarısız, C eksik",
+          "got": "[]",
+          "exp": "['A']"
+        },
+        {
+          "ok": false,
+          "msg": "bu işlev KDC politikası değil başarı kanıtı okur",
+          "got": "[]",
+          "exp": "['A']"
+        },
+        {
+          "ok": false,
+          "msg": "dosya sırası yerine sira alanı",
+          "got": "[]",
+          "exp": "['A']"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad19:3 gorev «Bayrak ve kullanım amacı özetini çıkar»",
+      "lesson": "ad19",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.451,
+      "checks_passed": 22,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad19:3 gorev «Bayrak ve kullanım amacı özetini çıkar»",
+      "lesson": "ad19",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.409,
+      "checks_passed": 9,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "temel client şablonu",
+          "got": "(False, False, False, 0, False)",
+          "exp": "(True, False, False, 0, True)"
+        },
+        {
+          "ok": false,
+          "msg": "ad bayrakları 1",
+          "got": "(False, False)",
+          "exp": "(True, False)"
+        },
+        {
+          "ok": false,
+          "msg": "ad bayrakları 65536",
+          "got": "(False, False)",
+          "exp": "(False, True)"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad21:1 tahmin «Dizinde var ama CA yayımlıyor mu?»",
+      "lesson": "ad21",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad21:2 gorev «Canlı şablonun altı alanını raporla»",
+      "lesson": "ad21",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad21:2 gorev «Canlı şablonun altı alanını raporla»",
+      "lesson": "ad21",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "ornek",
+      "where": "ad/ad21:3 anlat «Enrollment ACE'sini gerçekten incele»",
+      "lesson": "ad21",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad21:4 gorev «CA'nın gerçek başvuru kararını oku»",
+      "lesson": "ad21",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad21:4 gorev «CA'nın gerçek başvuru kararını oku»",
+      "lesson": "ad21",
+      "status": "BLOCKED",
+      "runner": "ad-vm",
+      "runner_status": "error",
+      "seconds": 0.0,
+      "error": {
+        "type": "ADLaboratuvarı",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "line": null,
+        "frames": [],
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad20:2 tahmin «Değiştirme ile enrollment izni»",
+      "lesson": "ad20",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.603,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad20:3 gorev «İki bağımsız inceleme listesi»",
+      "lesson": "ad20",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.6,
+      "checks_passed": 18,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad20:3 gorev «İki bağımsız inceleme listesi»",
+      "lesson": "ad20",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.687,
+      "checks_passed": 12,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "iki bağımsız bulgu",
+          "got": "[]",
+          "exp": "[('degistirme', 'EditableClient'), ('enrollment', 'LegacyClient')]"
+        },
+        {
+          "ok": false,
+          "msg": "komşu bit koşulu bozmaz",
+          "got": "[]",
+          "exp": "[('enrollment', 'LegacyClient')]"
+        },
+        {
+          "ok": false,
+          "msg": "komşu bit koşulu bozmaz",
+          "got": "[]",
+          "exp": "[('enrollment', 'LegacyClient')]"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad22:1 tahmin «Sertifika ve StartTLS»",
+      "lesson": "ad22",
+      "status": "BLOCKED",
+      "runner": "ad-client",
+      "runner_status": "error",
+      "seconds": 0.947,
+      "error": {
+        "type": "RuntimeError",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "frames": [
+          {
+            "line": 3,
+            "func": "<module>",
+            "text": "print(mode, probe(mode)[\"ok\"])"
+          }
+        ],
+        "line": 3,
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad22:2 gorev «Gerçek LDAPS sonucunda tam kullanıcıyı a»",
+      "lesson": "ad22",
+      "status": "BLOCKED",
+      "runner": "ad-client",
+      "runner_status": "error",
+      "seconds": 0.871,
+      "error": {
+        "type": "RuntimeError",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "frames": [
+          {
+            "line": 9,
+            "func": "<module>",
+            "text": "print(kullanici_var(\"ali.kaya\"))"
+          },
+          {
+            "line": 6,
+            "func": "kullanici_var",
+            "text": "result = probe(\"valid\", \"(sAMAccountName=\" + value + \")\")"
+          }
+        ],
+        "line": 6,
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad22:2 gorev «Gerçek LDAPS sonucunda tam kullanıcıyı a»",
+      "lesson": "ad22",
+      "status": "BLOCKED",
+      "runner": "ad-client",
+      "runner_status": "fail",
+      "seconds": 0.868,
+      "error": {
+        "type": "RuntimeError",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 9,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "gerçek kullanıcı",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "ikinci gerçek kullanıcı",
+          "got": "False",
+          "exp": "True"
+        },
+        {
+          "ok": false,
+          "msg": "sunucuya gerçekten kaçırılmış tam filtre gönder: (sAMAccountName=\\2a)"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad23:1 tahmin «Aynı TLS, farklı bind sonucu»",
+      "lesson": "ad23",
+      "status": "BLOCKED",
+      "runner": "ad-client",
+      "runner_status": "error",
+      "seconds": 0.721,
+      "error": {
+        "type": "RuntimeError",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "frames": [
+          {
+            "line": 3,
+            "func": "<module>",
+            "text": "print(mode, probe(mode)[\"ok\"])"
+          }
+        ],
+        "line": 3,
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad23:2 gorev «Bağlantının hangi aşamada durduğunu ayır»",
+      "lesson": "ad23",
+      "status": "BLOCKED",
+      "runner": "ad-client",
+      "runner_status": "error",
+      "seconds": 0.561,
+      "error": {
+        "type": "RuntimeError",
+        "msg": "Pafta AD laboratuvarı kurulmamış. tools/setup_ad_vm.py ile bir kez kurun.",
+        "frames": [
+          {
+            "line": 13,
+            "func": "<module>",
+            "text": "print(asama(\"wrong\"))"
+          },
+          {
+            "line": 4,
+            "func": "asama",
+            "text": "result = probe(mode)"
+          }
+        ],
+        "line": 4,
+        "where": "kod"
+      },
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad24:1 tahmin «Allow ile deny aynı anahtar mı?»",
+      "lesson": "ad24",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.425,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad23:2 gorev «Bağlantının hangi aşamada durduğunu ayır»",
+      "lesson": "ad23",
+      "status": "PASS",
+      "runner": "ad-client",
+      "runner_status": "fail",
+      "seconds": 0.52,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "geçerli CBT ile gerçek bind",
+          "got": "'tasima'",
+          "exp": "'basarili'"
+        },
+        {
+          "ok": false,
+          "msg": "CBT yok: sertifika kontrolü geçti",
+          "got": "'tasima'",
+          "exp": "'ldap-bind'"
+        },
+        {
+          "ok": false,
+          "msg": "yanlış CBT: gerçek bind ret",
+          "got": "'tasima'",
+          "exp": "'ldap-bind'"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad24:2 gorev «UTF-16 güvenlik şablonunu oku»",
+      "lesson": "ad24",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.397,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad24:2 gorev «UTF-16 güvenlik şablonunu oku»",
+      "lesson": "ad24",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.413,
+      "checks_passed": 1,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "allow/deny/hizmet ayrı, boş atama korunur",
+          "got": "{}",
+          "exp": "{'SeRemoteInteractiveLogonRight': ['S-1-5-21-1', 'S-1-5-32-544'], 'SeDenyRemoteInteractiveLogonRight': ['S-1-5-21-1'], 'SeServiceLogonRight': []}"
+        },
+        {
+          "ok": false,
+          "msg": "tekrar ve boşluk",
+          "got": "{}",
+          "exp": "{'SeX': ['S-1', 'S-2']}"
+        },
+        {
+          "ok": false,
+          "msg": "kodlama hatasını yutma",
+          "got": "hata yükselmedi",
+          "exp": "UnicodeError"
+        }
+      ]
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad24:3 gorev «Grup değişiklik isteğini kanıt olarak çı»",
+      "lesson": "ad24",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.417,
+      "checks_passed": 4,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad24:3 gorev «Grup değişiklik isteğini kanıt olarak çı»",
+      "lesson": "ad24",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.412,
+      "error": {
+        "type": "IndexError",
+        "msg": "list index out of range",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "SID ile hedef; ADD/REMOVE korunur; sır sızmaz",
+          "got": "[]",
+          "exp": "[{'disabled': False, 'action': 'U', 'clear_users': True, 'clear_groups': False, 'targeting': True, 'members': [('S-1-5-21-1', 'ADD'), ('S-1-5-21-2', 'REMOVE')]}]"
+        }
+      ],
+      "original_audit_status": "FAIL"
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad24:5 gorev «İkili başlığın tam sınırını doğrula»",
+      "lesson": "ad24",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.412,
+      "checks_passed": 9,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad24:5 gorev «İkili başlığın tam sınırını doğrula»",
+      "lesson": "ad24",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.422,
+      "checks_passed": 4,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "kısa/komşu sürüm/bayt sırası/yanlış imza",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "kısa/komşu sürüm/bayt sırası/yanlış imza",
+          "got": "True",
+          "exp": "False"
+        },
+        {
+          "ok": false,
+          "msg": "kısa/komşu sürüm/bayt sırası/yanlış imza",
+          "got": "True",
+          "exp": "False"
+        }
+      ]
+    },
+    {
+      "kind": "tahmin",
+      "where": "ad/ad25:1 tahmin «Aynı güncelleme, farklı sona erme»",
+      "lesson": "ad25",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "ok",
+      "seconds": 0.352,
+      "checks_passed": 0,
+      "failed_checks": []
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad25:2 gorev «Sır içermeyen zaman raporu üret»",
+      "lesson": "ad25",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.321,
+      "checks_passed": 6,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad25:2 gorev «Sır içermeyen zaman raporu üret»",
+      "lesson": "ad25",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.324,
+      "error": {
+        "type": "KeyError",
+        "msg": "'due'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "checks_passed": 0,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "tam son tarih dahil",
+          "got": "{}",
+          "exp": "{'account': 'Administrator', 'updated': 16, 'due': True}"
+        }
+      ],
+      "original_audit_status": "FAIL"
+    },
+    {
+      "kind": "solution",
+      "where": "ad/ad25:3 gorev «Erişim kanıtının sınırını koru»",
+      "lesson": "ad25",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "pass",
+      "seconds": 0.339,
+      "checks_passed": 7,
+      "failed_checks": []
+    },
+    {
+      "kind": "starter",
+      "where": "ad/ad25:3 gorev «Erişim kanıtının sınırını koru»",
+      "lesson": "ad25",
+      "status": "PASS",
+      "runner": "ad-audit",
+      "runner_status": "fail",
+      "seconds": 0.314,
+      "checks_passed": 2,
+      "failed_checks": [
+        {
+          "ok": false,
+          "msg": "ret önce gelir, eski değerle izin çıkarma",
+          "got": "'belirsiz'",
+          "exp": "'erisim-reddi'"
+        },
+        {
+          "ok": false,
+          "msg": "okuma izni ile değer ayrı",
+          "got": "'belirsiz'",
+          "exp": "'izinli-ama-deger-yok'"
+        },
+        {
+          "ok": false,
+          "msg": "açık değer",
+          "got": "'belirsiz'",
+          "exp": "'acik-veri-goruldu'"
+        }
+      ]
+    }
+  ],
+  "curriculum_errors": [],
+  "curriculum_coverage": "",
+  "counts": {
+    "PASS": 152,
+    "BLOCKED": 18
+  },
+  "finished_utc": "2026-10-27T17:29:12.026147+00:00",
+  "source_sha256": {
+    "tracks/ad/lessons/ad01-dizin-ve-dn.md": "73c9c1fb16089bf0eb0f5054e11116394b546996805f75cb3afadda08fb6f82d",
+    "tracks/ad/lessons/ad02-mantik-ve-joker.md": "95996ca328ef97d13c5c9e2c1261a5fde7676d11812f19b022d3affe2c5b7bf0",
+    "tracks/ad/lessons/ad03-karsilastirma-ve-kacis.md": "95e57f484a415c99d3a03f4b562c939c620256295977ab34f33df16877b09e56",
+    "tracks/ad/lessons/ad04-uac-ve-bit-kurallari.md": "8e1ce826ffcf4cac7485b5f5bd6a16f57211f8f5afd3e8a49dae94d5c422d90a",
+    "tracks/ad/lessons/ad05-get-aduser-ve-filter.md": "446dcf2291957a55cd464b8607025d70b018b016d01a86d6909690ee81add891",
+    "tracks/ad/lessons/ad06-bilgisayar-ve-kapsam.md": "f822096042dd6fa3c5bcc383179fa8d6c69ecedea7cabd9bdf1c10b933c37de7",
+    "tracks/ad/lessons/ad07-gruplar-ve-zincir.md": "2526cc7c6ebef3a7221bf61da88d8e353a4710b49da48ba0860b0a9b6d64137f",
+    "tracks/ad/lessons/ad08-spn-ve-hesap-denetimi.md": "bde6a8219fe6d72d767a9b8c5cae874103e6244a723989b11047e3515d5b6cbf",
+    "tracks/ad/lessons/ad09-guvenlik-gunlukleri.md": "68c6641ab280a7921b2e30fb4e3985a3c74b1f7ee6d1a5781dbbc3ad70a93f1d",
+    "tracks/ad/lessons/ad10-gpo-kerberos-ve-cogaltma.md": "8ada4ec230e34b71504861720f586b00618728b38782002fc3b2adf37b77660e",
+    "tracks/ad/lessons/ad11-proje-siki-denetim.md": "25d085443c6bda113c27ff246bc7b8a8de3dd957fa47c9b701c30b00d472e5c5",
+    "tracks/ad/lessons/ad12-lab-kurulumu-ve-sinirlar.md": "fc5474295c87aea36c86cb2206cb6a44b95d9f931efd4546fdb888253608f4c6",
+    "tracks/ad/lessons/ad13-nesne-acl-ve-etkili-hak.md": "8cf92726224b3667c2e5442ec16c81699ba7ed22b4ec22686b91a7e4f7ec69d9",
+    "tracks/ad/lessons/ad14-acl-erisim-yolu.md": "099e80f94b84b7a79398129c2ca223f978817110424f2f18d4902e62a99a8722",
+    "tracks/ad/lessons/ad15-gercek-acl-kabulu.md": "eebbbfd9e997c3a4bddf5e9aec5737d8c7ac80ef6c43ba7b908a2c05196f345c",
+    "tracks/ad/lessons/ad16-s4u-yapilandirma.md": "2531ba40e149b20661856654576e1f048c5a7705b203dcea6484419ff2fb818e",
+    "tracks/ad/lessons/ad17-s4u-kanit-zinciri.md": "4eb8e5d4e36e68e88c888822f796c7629022726a9c90c3f647017f119c0f648b",
+    "tracks/ad/lessons/ad18-gercek-s4u-kabulu.md": "0b993a44aa11a1bce152ff3d984f2d0097d4ccab82eb95904a494f352afecb00",
+    "tracks/ad/lessons/ad19-adcs-sablon-ayarlari.md": "1e4f55bf3707cc592e225817b3a86a050f88c0bf76828b4de1bc61f5ed8f84a7",
+    "tracks/ad/lessons/ad20-adcs-izin-denetimi.md": "fc255af837c75a2bcba2a4174ddbd5e25d75cb3987c45203213322691b5c4b45",
+    "tracks/ad/lessons/ad21-gercek-ca-sablonlari.md": "da9c38592f048eafc46493ef8da9ed854998821534afddae4fd5f2307d5991ec",
+    "tracks/ad/lessons/ad22-ldap-tls-imzalama.md": "7e41a5f7f042443d5abda303eafa8b0c62cb47b4df0473f93208f7214a89f04a",
+    "tracks/ad/lessons/ad23-ldap-channel-binding.md": "7e1960d3e6d26fbab133bce3f1b2b922499df8226749f10d8ae9e22b91b59a19",
+    "tracks/ad/lessons/ad24-sysvol-dosya-denetimi.md": "7252188bee58214c22db0f12c636712f274739d084d7f815c996deffa6619448",
+    "tracks/ad/lessons/ad25-laps-okuma-kaniti.md": "feb6557f8ea7c56ea3d10b4ca98bb332dcaaed9c545e38c9322830e692f916eb"
+  },
+  "original_audit_counts": {
+    "PASS": 150,
+    "BLOCKED": 18,
+    "FAIL": 2
+  },
+  "classification_note": "Auditor label corrected; original runner_status/error/checks unchanged. JSONL remains the original chronological ledger.",
+  "classification_updated_utc": "2026-10-27T19:06:44.668927+00:00",
+  "classifier_sha256": "86ae691ae2e442b3b681b1e798498726eb5606f3448d812ba65b1f1dd74e38e9"
+}

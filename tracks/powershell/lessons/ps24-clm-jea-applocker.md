@@ -675,7 +675,7 @@ try {
     $group=$Girdi[1]
     if (-not $configuration.RoleDefinitions.ContainsKey($group)) { throw 'Grup yok' }
     $roles=@(foreach($name in @($configuration.RoleDefinitions[$group].RoleCapabilities)) {
-        if ($name -notmatch '^[A-Za-z][A-Za-z0-9_-]*$') { throw 'Rol adi kapsam disi' }
+        if ($name -cnotmatch '^[A-Za-z][A-Za-z0-9_-]*$') { throw 'Rol adi kapsam disi' }
         $rolePath=Join-Path (Split-Path (Resolve-Path -LiteralPath $Girdi[0]).Path -Parent) "RoleCapabilities/$name.psrc"
         if (-not (Test-Path -LiteralPath $rolePath -PathType Leaf)) { throw 'Rol dosyasi yok' }
         $role=Import-PowerShellDataFile -LiteralPath $rolePath

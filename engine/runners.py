@@ -143,6 +143,10 @@ class PythonRunner(HarnessRunner):
     ozellik = {"roentgen": True, "dis": "Bytecode"}
     modlar = {"run": "run", "test": "test", "trace": "trace", "dis": "dis"}
 
+    def execute(self, job, timeout=None):
+        prefix = f"import sys; sys.path.insert(0, {os.path.join(ROOT, '.deps')!r})\n"
+        return super().execute(dict(job, setup=prefix + (job.get("setup") or "")), timeout)
+
 
 class PurpleRunner(PythonRunner):
     """Purple Team yolu: Python; her çalıştırmada MITRE ATT&CK özeti (tracks/purple/veri/attack.json,
@@ -201,7 +205,8 @@ class WslRunner(HarnessRunner):
             self.ek = {"proc": {
                 "cmd": ["/bin/bash", "--noprofile", "--norc"],
                 "iz_cmd": ["/bin/bash", "--noprofile", "--norc", "-x"],
-                "dosya": "betik.sh", "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"},
+                "dosya": "betik.sh", "iz_on_ek": "PS4='+ ${LINENO}: '\n",
+                "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"},
                 "satir_deseni": r"betik\.sh: (?:line|satır) (\d+)",
                 "iz_deseni": r"^(?P<derinlik>\++) (?P<satir>\d+): (?P<komut>.*)$",
             }}
@@ -712,7 +717,7 @@ class AdVmRunner(ProcRunner):
 
 
 def _pwsh7_yolu():
-    """PowerShell 7: .deps\pwsh\<sürüm>\pwsh.exe (taşınabilir paket; yönetici gerektirmez), yoksa PATH."""
+    r"""PowerShell 7: .deps\pwsh\<sürüm>\pwsh.exe (taşınabilir paket; yönetici gerektirmez), yoksa PATH."""
     yerel = os.path.join(ROOT, ".deps", "pwsh", PWSH7_SURUM, "pwsh.exe")
     return yerel if os.path.isfile(yerel) else (shutil.which("pwsh") or "")
 
@@ -752,7 +757,8 @@ RUNNERS = {
     "ad": AdRunner(),
     "bash": ProcRunner("bash", {
         "cmd": [BASH or ""], "iz_cmd": [BASH or "", "-x"], "dosya": "betik.sh",
-        "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"}, "sure": 10,
+        "iz_on_ek": "PS4='+ ${LINENO}: '\n",
+                "env": {"PS4": "+ ${LINENO}: ", "LC_ALL": "C.UTF-8"}, "sure": 10,
         "satir_deseni": r"betik\.sh: (?:line|satır) (\d+)",
         "iz_deseni": r"^(?P<derinlik>\++) (?P<satir>\d+): (?P<komut>.*)$",
     }, default_timeout=15, test_timeout=30),
@@ -763,7 +769,7 @@ RUNNERS = {
         "sure": 20, "satir_deseni": r"betik\.ps1:(\d+)",
         "iz_deseni": r"^DEBUG:\s+(?P<satir>\d+)\+\s*(?P<komut>.*)$",
         # Proje kapsamında sabitlenen modüller (Pester 5.9.0) önce aransın: .deps\psmodules
-        "env": {"PSModulePath": os.path.join(ROOT, ".deps", "psmodules") + os.pathsep + os.environ.get("PSModulePath", "")},
+        "env": {"PSModulePath": os.path.join(ROOT, ".deps", "psmodules") + os.pathsep + os.path.join(os.environ.get("SystemRoot", r"C:\Windows"), "System32", "WindowsPowerShell", "v1.0", "Modules")},
     }, default_timeout=25, test_timeout=50,
         kopyala=[os.path.join(ROOT, "tracks", "powershell", "veri", "olaylar.json")]),
     # Adım meta'sında motor: pwsh → aynı tezgah, PowerShell 7'nin taşınabilir paketiyle (New-PSSession

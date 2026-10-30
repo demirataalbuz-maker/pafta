@@ -146,10 +146,14 @@ class BpfNativeTests(unittest.TestCase):
             with self.subTest(expression=expression), self.assertRaises(native.BpfFilterError):
                 native.evaluate(expression, pcap([ipv4()]))
 
+    def test_raw_linktype_101_is_supported(self):
+        self.assertEqual(native.evaluate("tcp dst port 443", pcap([ipv4()[14:]], linktype=101)), [1])
+        self.assertEqual(native.evaluate("tcp dst port 80", pcap([ipv4()[14:]], linktype=101)), [])
+
     def test_bad_file_headers_lengths_and_incomplete_records(self):
         good = pcap([ipv4()])
         examples = [b"", b"\x0a\x0d\x0d\x0a" + good[4:], good[:23], good + b"x",
-                    good[:-1], pcap([ipv4()], linktype=101), pcap([ipv4()], snaplen=1),
+                    good[:-1], pcap([ipv4()], linktype=147), pcap([ipv4()], snaplen=1),
                     pcap([(ipv4(), 1)])]
         for raw in examples:
             with self.subTest(length=len(raw)), self.assertRaises(native.PcapFormatError):
