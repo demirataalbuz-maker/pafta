@@ -1,12 +1,13 @@
 # İnceleme notu (30.10.2026)
 
+Güncelleme: 107 (PU16) ve 108 (PU17) Codex düzeltmesi sonrası Claude bağımsız denetiminden geçti (95 ve 92, Tam); açık eksikleri yok.
+
 Purple tarafını inceleyenler için: puan paneli `docs/denetim/DENETIM_SAYFASI.html`, ham puanlar `docs/denetim/puanlar.json`.
 108 maddenin hepsi A aralığında (≥ 90). Aşağıdakiler kesinleşmiş sayılmamalı:
 
 | Madde | Durum |
 |---|---|
 | 105 · Oltalama e-postası (PU14) | Claude bağımsız denetimi 90. Sonra Claude 5. görevi ekledi (QR kanalı sinyali, kampanya karantinası). Bu ek henüz başka bir denetçi tarafından puanlanmadı. |
-| 108 · Parola özeti biçimleri (PU17) | Claude bağımsız denetimi 90. Açık kapsam notu `puanlar.json` içinde. |
 | 37 · Sentinel kuralı | Kısmen: gerçek Azure portal kabulü yapılmadı. |
 | 60 · AD ACL erişim yolu | Kısmen: kanıt Samba AD DC üzerinde; Windows AccessCheck değil, derse entegre değil. |
 | 63 · LDAP TLS / channel binding | Puan 26.10 gerçek DC denetiminden. Sonraki yol düzeltmesi testlerle geçti; kararın Tam'a dönmesi için yeniden denetim gerekir. |

@@ -1,0 +1,90 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kullanıcı/grup, root hedefi, parola, NOEXEC ve argüman kararları"
+    },
+    {
+      "ok": true,
+      "msg": "rapor sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik doğrulama kanıtı korunur"
+    },
+    {
+      "ok": true,
+      "msg": "rapor sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik doğrulama kanıtı korunur"
+    },
+    {
+      "ok": true,
+      "msg": "rapor sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik doğrulama kanıtı korunur"
+    },
+    {
+      "ok": true,
+      "msg": "rapor sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik doğrulama kanıtı korunur"
+    },
+    {
+      "ok": true,
+      "msg": "rapor sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik doğrulama kanıtı korunur"
+    },
+    {
+      "ok": true,
+      "msg": "üye olunmayan %operators kuralı uygulanmaz"
+    },
+    {
+      "ok": true,
+      "msg": "tam sabit argüman wildcard değildir"
+    },
+    {
+      "ok": true,
+      "msg": "parola koşulu önceliği düşürür"
+    },
+    {
+      "ok": true,
+      "msg": "NOEXEC kuralı elemez"
+    },
+    {
+      "ok": true,
+      "msg": "root dışı hedef root kritik değildir"
+    },
+    {
+      "ok": true,
+      "msg": "root dışı parolalı kural"
+    },
+    {
+      "ok": true,
+      "msg": "sabit systemctl argümanı yanlış pozitif üretmez"
+    },
+    {
+      "ok": false,
+      "msg": "root dışı sınırlı wildcard serbest argüman değildir",
+      "got": "[('SUDO:S1', 'yuksek')]",
+      "exp": "[('SUDO:S1', 'orta')]"
+    }
+  ],
+  "segs": [
+    [
+      "out",
+      "[{'id': 'SUDO:S1', 'kanit': ['sudo -l: analyst (root) NOPASSWD: /usr/bin/less *'], 'onkosul': 'analyst kuralı çağırana eşleşmeli; hedef kullanıcı=root; auth=NOPASSWD; arguments=*; NOEXEC=False.', 'risk': 'kullanıcı=root bağlamında geniş argüman yüzeyi; kimlik doğrulama=NOPASSWD, root_siniri=True.', 'oncelik': 'kritik', 'duzeltme': 'Kuralı tek komut ve tam argüman listesiyle sınırla; gerekiyorsa dar bir sarmalayıcı ve root olmayan hedef kullan.'}, {'id': 'SUDO:S2', 'kanit': ['sudo -l: analyst (root) PASSWD: /usr/bin/less *'], 'onkosul': 'analyst kuralı çağırana eşleşmeli; hedef kullanıcı=root; auth=PASSWD; arguments=*; NOEXEC=False.', 'risk': 'kullanıcı=root bağlamında geniş argüman yüzeyi; kimlik doğrulama=PASSWD, root_siniri=True.', 'oncelik': 'yuksek', 'duzeltme': 'Kuralı tek komut ve tam argüman listesiyle sınırla; gerekiyorsa dar bir sarmalayıcı ve root olmayan hedef kullan.'}, {'id': 'SUDO:S3', 'kanit': ['sudo -l: %operators (svc-backup) NOPASSWD: /usr/bin/tar *'], 'onkosul': '%operators kuralı çağırana eşleşmeli; hedef kullanıcı=svc-backup; auth=NOPASSWD; arguments=*; NOEXEC=False.', 'risk': 'kullanıcı=svc-backup bağlamında geniş argüman yüzeyi; kimlik doğrulama=NOPASSWD, root_siniri=False.', 'oncelik': 'yuksek', 'duzeltme': 'Kuralı tek komut ve tam argüman listesiyle sınırla; gerekiyorsa dar bir sarmalayıcı ve root olmayan hedef kullan.'}, {'id': 'SUDO:S6', 'kanit': ['sudo -l: analyst (:root) NOPASSWD:NOEXEC: /usr/bin/less /var/log/pafta/*.log'], 'onkosul': 'analyst kuralı çağırana eşleşmeli; hedef grup=root; auth=NOPASSWD; arguments=/var/log/pafta/*.log; NOEXEC=True.', 'risk': 'grup=root bağlamında geniş argüman yüzeyi; kimlik doğrulama=NOPASSWD, root_siniri=True.', 'oncelik': 'yuksek', 'duzeltme': 'Kuralı tek komut ve tam argüman listesiyle sınırla; gerekiyorsa dar bir sarmalayıcı ve root olmayan hedef kullan.'}, {'id': 'SUDO:S7', 'kanit': ['sudo -l: analyst (root) NOPASSWD: /usr/bin/systemctl restart pafta-*'], 'onkosul': 'analyst kuralı çağırana eşleşmeli; hedef kullanıcı=root; auth=NOPASSWD; arguments=restart pafta-*; NOEXEC=False.', 'risk': 'kullanıcı=root bağlamında geniş argüman yüzeyi; kimlik doğrulama=NOPASSWD, root_siniri=True.', 'oncelik': 'orta', 'duzeltme': 'Kuralı tek komut ve tam argüman listesiyle sınırla; gerekiyorsa dar bir sarmalayıcı ve root olmayan hedef kullan.'}]\n"
+    ]
+  ],
+  "error": null
+}

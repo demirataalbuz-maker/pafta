@@ -519,3 +519,180 @@ sys.modules["pu17_helpers"] = _helpers
 Önce kaynak ve eşik tipini doğrula; biçimi ayrıştır; çıktı sözlüğünü izin verilen parametrelerden yeniden kur. Parser sözlüğünü doğrudan döndürme.
 ```
 :::
+
+::: anlat Ağ yanıtı ile depolanan özet aynı şey değildir
+NetNTLMv2, bir ağ kimlik doğrulamasının challenge/response kaydıdır; depolanan NT özeti veya doğrudan parola değildir. Responder gibi araçların dışa aktardığı `kullanıcı::domain:server-challenge:proof:blob` metni bu bağlamda okunur. Bu ders Responder çalıştırmaz, ağ yakalaması/zehirleme yapmaz; yalnız sentetik export dosyasını inceler. Server challenge sekiz, proof on altı bayttır; blob ayrıca istemci bağlamı taşır. Biçim tanınması protokol mesajının veya kimlik doğrulamasının kriptografik geçerliliği değildir.
+
+Kerberos exportlarında `$krb5tgs$` TGS, `$krb5asrep$` AS-REP ailesini ayırır. Etype 23 ile 17/18 aynı şema ve checksum uzunluğu değildir. 23 RC4, 17/18 AES ailesidir. AS-REP örneği pre-auth politikasının doğrulanmasını gerektiren bir bulgu oluşturur; tek satır, hesabın güncel yapılandırmasının kesin kanıtı değildir. Servis bileti görmek her servis hesabının zayıf parolalı olduğunu göstermez. Şifreli alanı ayrıştırmak bileti çözmek değildir.
+
+LM eski bir Windows parola özeti biçimidir; NT özetiyle aynı algoritma değildir. İkisi de çıplak 32 hex görünebilir; kaynak sütunu olmadan LM/NT/MD5 ayrımı yapılmaz. Yaygın `aad3b435b51404eeaad3b435b51404ee` LM placeholder'ı tek başına LM saklamanın etkinliğini veya boş parola varlığını kanıtlamaz. Kaynak doğrulanmış gerçek LM kaydı varsa eski saklama politikasının incelenmesi önerilir; burada hiçbir politika değiştirilmez.
+
+Aşağıdaki görev, yalnız gösterilen export profillerini tanır: başka araçların farklı ayraç/etiket sürümlerini tahmin etmez. JSON örneklerinin proof/checksum/ciphertext baytları elle üretilmiştir; geçerli bir oturum veya parola ilişkisi taşımaz. Rapor kullanıcı, domain, SPN, challenge, proof ve şifreli alanı tekrar yayımlamaz. Ham kanıtı ayrı yetkili depoda tutmak ile savunma bulgusunu paylaşmak iki ayrı iştir. Eski 1–4. görevlerin parser ve araç modu sözleşmeleri değişmez.
+
+Biçim referansları: [Hashcat v8 örnek exportları](https://github.com/hashcat/hashcat/blob/v8.0.0/docs/hashcat-example-hashes.md), [Microsoft NTLMv2 istemci yapısı](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nlmp/aee311d6-21a7-4470-92a5-c4ecb022a87b), [Microsoft LM saklama ilkesi](https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/prevent-windows-store-lm-hash-password). Bunlar biçim/bağlam kaynağıdır; araç çalıştırma talimatı değildir.
+:::
+
+::: gorev 5 · NetNTLMv2, Kerberos ve LM için bağlamlı savunma bulgusu
+`ag_ozeti_raporu(metin,kaynak)` yaz. Kaynak yalnız `ag-ntlm`, `kerberos-kdc`, `windows-lm`, `bilinmiyor`; aksi `ValueError`. Girdi boş olmayan ASCII 33–126 metindir. Desteklenen dar export profilleri:
+
+- NetNTLMv2: `user::domain:challenge:proof:blob`. User/domain boş değil; challenge sekiz, proof on altı bayt hex. Blob 32–2048 bayt hex ve `0101000000000000` başlıklı. Bu başlık kısıtı eğitim profilidir; bütün AV_PAIR/protokol doğrulaması yapılmaz.
+- TGS etype 23: `$krb5tgs$23$*user$realm$spn*$checksum$cipher`. User/realm/SPN boş değil ve `$`/`*` içermez; checksum on altı bayt hex.
+- AS-REP etype 23: `$krb5asrep$23$user@realm:checksum$cipher`. User/realm boş değil, `$:@` içermez; checksum on altı bayt hex.
+- TGS/AS-REP etype 17 veya 18: `$krb5tgs$17$user$realm$checksum$cipher` veya aynı profilin `$krb5asrep$`/18 çeşidi. User/realm boş değil, `$`/`*` içermez; checksum on iki bayt hex.
+- Kerberos cipher her profilde 16–2048 bayt hex. Hex çift uzunluklu; büyük/küçük harf olabilir. Bu boyutlar eğitim sınırıdır, bütün biletlerin evrensel boyut kuralı değildir. Destek dışı profil `ValueError` olur.
+- Çıplak 32 hex `windows-lm` bağlamında `lm`, `bilinmiyor` bağlamında `belirsiz-32hex`; diğer iki kaynakta çelişki `ValueError`. Tanınmış ağ/Kerberos biçiminde bilinmeyen kaynak kabul edilir ama uyarı eklenir; yanlış bilinen kaynak `ValueError`.
+
+Çıktı yalnız `tur`, `kaynak`, `etype`, `bulgular`, `parola_dogrulandi` alanlarını taşır. Etype Kerberos'ta sayı, diğerlerinde `None`; parola daima `False`. Bulgu sırası:
+
+- `netntlmv2`: `ag-yaniti-nt-ozeti-degil`, `kimlik-dogrulama-politikasi-incelenmeli`.
+- `krb5asrep`: önce `preauth-politikasi-dogrulanmali`; her Kerberos etype 23'e ardından `kerberos-rc4-politikasi-incelenmeli`. TGS 17/18 için temel liste boş.
+- LM placeholder için `lm-placeholder-varlik-kaniti-degil`, diğer LM için `eski-lm-saklama-politikasi-incelenmeli`.
+- Belirsiz 32 hex için yalnız `algoritma-baglamla-dogrulanmadi`. Diğer tanınmış türlerde kaynak bilinmiyorsa listenin sonuna `kaynak-dogrulanmadi`.
+
+`hash_formats/ag_bicimleri.json` görünür sentetik örnektir. Çalıştır dosyayı okuyup yalnız güvenli raporları gösterir. Hazırlık geçici kopyayı her çalıştırmada yeniler; kalıcılık yoktur. Testler bu dosyadan bağımsızdır.
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from hash_formats_lab import hazirla
+hazirla()
+```
+
+```starter
+def ag_ozeti_raporu(metin,kaynak):
+    # KUSURLU BAŞLANGIÇ KODU: bağlamı yok sayıp bütün kayıtları NTLM ilan ediyor ve ham kanıtı yayımlıyor.
+    return {"tur":"ntlm","kaynak":kaynak,"etype":None,"bulgular":[metin],"parola_dogrulandi":True}
+
+import json
+for ornek in json.load(open("hash_formats/ag_bicimleri.json",encoding="utf-8"))["kayitlar"]:
+    print(ag_ozeti_raporu(ornek["metin"],ornek["kaynak"]))
+```
+
+```test
+import json,copy
+need("ag_ozeti_raporu")
+H="12"*16;C="ab"*16;A="34"*12
+B="0101000000000000"+"00"*24
+net="ogrenci::LAB:"+"56"*8+":"+H+":"+B
+tgs="$krb5tgs$23$*svc$LAB.TEST$HTTP/sunucu*$"+H+"$"+C
+asrep="$krb5asrep$23$ogrenci@LAB.TEST:"+H+"$"+C
+lm="89"*16
+vectors=[(net,"ag-ntlm","netntlmv2",None,["ag-yaniti-nt-ozeti-degil","kimlik-dogrulama-politikasi-incelenmeli"]),
+(tgs,"kerberos-kdc","krb5tgs",23,["kerberos-rc4-politikasi-incelenmeli"]),
+(asrep,"kerberos-kdc","krb5asrep",23,["preauth-politikasi-dogrulanmali","kerberos-rc4-politikasi-incelenmeli"]),
+(lm,"windows-lm","lm",None,["eski-lm-saklama-politikasi-incelenmeli"])]
+for family in ("krb5tgs","krb5asrep"):
+    for et in (17,18):
+        raw="$"+family+"$"+str(et)+"$ogrenci$LAB.TEST$"+A+"$"+C
+        vectors.append((raw,"kerberos-kdc",family,et,["preauth-politikasi-dogrulanmali"] if family=="krb5asrep" else []))
+for raw,source,kind,et,flags in vectors:
+    expected={"tur":kind,"kaynak":source,"etype":et,"bulgular":flags,"parola_dogrulandi":False}
+    eq(ag_ozeti_raporu(raw,source),expected,"biçim, bağlam ve savunma bulgusu")
+    if kind!="lm":
+        e=dict(expected,kaynak="bilinmiyor",bulgular=flags+["kaynak-dogrulanmadi"])
+        eq(ag_ozeti_raporu(raw,"bilinmiyor"),e,"biçim tanımak kaynağı doğrulamaz")
+    for badsource in ("ag-ntlm","kerberos-kdc","windows-lm"):
+        if badsource!=source:raises(ValueError,ag_ozeti_raporu,raw,badsource,msg="kaynak-biçim çelişkisi reddedilir")
+    text=json.dumps(ag_ozeti_raporu(raw,source))
+    for secret in (raw,H,C,A,"ogrenci","svc","LAB.TEST","HTTP/sunucu"):
+        ok(secret not in text,"hesap/realm/SPN/ham kanıt rapora taşınmaz")
+eq(ag_ozeti_raporu(lm,"bilinmiyor"),{"tur":"belirsiz-32hex","kaynak":"bilinmiyor","etype":None,"bulgular":["algoritma-baglamla-dogrulanmadi"],"parola_dogrulandi":False},"LM bağlamı olmayan çıplak hex belirsiz")
+eq(ag_ozeti_raporu("AAD3B435B51404EEAAD3B435B51404EE","windows-lm")["bulgular"],["lm-placeholder-varlik-kaniti-degil"],"LM placeholder parola/LM etkinliği kanıtı değildir")
+# Sabit alanların tam bayt uzunlukları ve iki komşusu.
+for n in (7,9):raises(ValueError,ag_ozeti_raporu,net.replace("56"*8,"56"*n),"ag-ntlm",msg="server challenge tam sekiz bayt")
+for n in (15,17):
+    for raw,source in ((net,"ag-ntlm"),(tgs,"kerberos-kdc"),(asrep,"kerberos-kdc")):
+        raises(ValueError,ag_ozeti_raporu,raw.replace(H,"12"*n),source,msg="RC4/proof tam on altı bayt")
+for family in ("krb5tgs","krb5asrep"):
+    for et in (17,18):
+        for n in (11,13):
+            raw="$"+family+"$"+str(et)+"$u$R$"+"34"*n+"$"+C
+            raises(ValueError,ag_ozeti_raporu,raw,"kerberos-kdc",msg="AES checksum tam on iki bayt")
+for n in (16,2048):
+    eq(ag_ozeti_raporu(tgs.rsplit("$",1)[0]+"$"+"ab"*n,"kerberos-kdc")["tur"],"krb5tgs","şifreli alan eğitim sınırları dahil")
+for n in (15,2049):raises(ValueError,ag_ozeti_raporu,tgs.rsplit("$",1)[0]+"$"+"ab"*n,"kerberos-kdc",msg="şifreli alan sınır dışı")
+for n in (32,2048):eq(ag_ozeti_raporu(net.rsplit(":",1)[0]+":"+B+"00"*(n-32),"ag-ntlm")["tur"],"netntlmv2","blob sınırları dahil")
+for n in (31,2049):raises(ValueError,ag_ozeti_raporu,net.rsplit(":",1)[0]+":"+(B[:n*2] if n==31 else B+"00"*(n-32)),"ag-ntlm",msg="blob sınır dışı")
+for raw in (tgs+"a",tgs.replace(H,"z"*32),net.replace(B,"0201"+B[4:]),net.replace("::",":"),net+":ek",net.replace("ogrenci::","::"),net.replace("::LAB:",":::"),lm[:-1],lm+"a",tgs.replace("$23$","$24$"),asrep.replace("@LAB.TEST:","@:"),tgs.replace("*svc$","*$"),"$krb5asrep$23$bozuk","$krb5tgs$18$bozuk",None,5,"",tgs+"\n",net+" "):
+    raises(ValueError,ag_ozeti_raporu,raw,"bilinmiyor",msg="bozuk/eksik/belirsiz kayıt reddedilir")
+for source in (None,[],"Responder","linux-shadow"):
+    raises(ValueError,ag_ozeti_raporu,net,source,msg="araç adı kaynak türü yerine geçmez")
+# Büyük harfli hex de aynı biçimdir; tek fixture ezberi değildir.
+eq(ag_ozeti_raporu(net.upper(),"ag-ntlm")["tur"],"netntlmv2","hex büyük harf olabilir")
+for user in ("!","~"):
+    eq(ag_ozeti_raporu(net.replace("ogrenci",user),"ag-ntlm")["tur"],"netntlmv2","ASCII alt/üst sınır dahil")
+for user in ("ogr enci",chr(32),chr(127),chr(128)):
+    raises(ValueError,ag_ozeti_raporu,net.replace("ogrenci",user),"ag-ntlm",msg="meta veride ASCII sınırı da korunur")
+for raw,src,_,_,_ in vectors:
+    ok(ag_ozeti_raporu(raw,src)["parola_dogrulandi"] is False,"parola doğrulama bayrağı bool False olmalı")
+
+```
+
+```solution
+import re
+
+def ag_ozeti_raporu(metin,kaynak):
+    if kaynak not in ("ag-ntlm","kerberos-kdc","windows-lm","bilinmiyor"):
+        raise ValueError("Kaynak bağlamı geçersiz")
+    if not isinstance(metin,str):
+        raise ValueError("Metin string olmalı")
+    if any(ord(c)<33 or ord(c)>126 for c in metin):
+        raise ValueError("Boşluksuz ASCII kayıt gerekli")
+    def hex_bayt(s,n=None):
+        if not re.fullmatch(r"[0-9a-fA-F]+",s):
+            raise ValueError("Hex alanı geçersiz")
+        b=bytes.fromhex(s)
+        if n is not None and len(b)!=n:
+            raise ValueError("Sabit bayt uzunluğu geçersiz")
+        return b
+    def sifreli(s):
+        b=hex_bayt(s)
+        if not 16<=len(b)<=2048:
+            raise ValueError("Şifreli alan eğitim sınırı dışında")
+    tur=None;etype=None;bulgular=[];beklenen=None
+    if re.fullmatch(r"[0-9a-fA-F]{32}",metin):
+        if kaynak=="bilinmiyor":
+            tur="belirsiz-32hex";bulgular=["algoritma-baglamla-dogrulanmadi"]
+        elif kaynak=="windows-lm":
+            tur="lm";beklenen="windows-lm"
+            bulgular=["lm-placeholder-varlik-kaniti-degil"] if metin.lower()=="aad3b435b51404eeaad3b435b51404ee" else ["eski-lm-saklama-politikasi-incelenmeli"]
+        else:
+            raise ValueError("Kaynak ve biçim çelişiyor")
+    elif "::" in metin:
+        a=metin.split(":")
+        if len(a)!=6 or a[1] or not a[0] or not a[2]:
+            raise ValueError("NetNTLMv2 alanları geçersiz")
+        hex_bayt(a[3],8);hex_bayt(a[4],16);b=hex_bayt(a[5])
+        if not 32<=len(b)<=2048 or not b.startswith(bytes.fromhex("0101000000000000")):
+            raise ValueError("NTLMv2 blob eğitim profili geçersiz")
+        tur="netntlmv2";beklenen="ag-ntlm";bulgular=["ag-yaniti-nt-ozeti-degil","kimlik-dogrulama-politikasi-incelenmeli"]
+    else:
+        t=re.fullmatch(r"\$krb5tgs\$23\$\*([^$*]+)\$([^$*]+)\$([^$*]+)\*\$([^$]+)\$([^$]+)",metin)
+        a=re.fullmatch(r"\$krb5asrep\$23\$([^$:@]+)@([^$:@]+):([^$]+)\$([^$]+)",metin)
+        e=re.fullmatch(r"\$(krb5tgs|krb5asrep)\$(17|18)\$([^$*]+)\$([^$*]+)\$([^$]+)\$([^$]+)",metin)
+        if t:
+            tur="krb5tgs";etype=23;hex_bayt(t[4],16);sifreli(t[5])
+        elif a:
+            tur="krb5asrep";etype=23;hex_bayt(a[3],16);sifreli(a[4])
+        elif e:
+            tur=e[1];etype=int(e[2]);hex_bayt(e[5],12);sifreli(e[6])
+        else:
+            raise ValueError("Desteklenmeyen export biçimi")
+        beklenen="kerberos-kdc"
+        if tur=="krb5asrep":bulgular.append("preauth-politikasi-dogrulanmali")
+        if etype==23:bulgular.append("kerberos-rc4-politikasi-incelenmeli")
+    if beklenen is not None and kaynak not in (beklenen,"bilinmiyor"):
+        raise ValueError("Kaynak ve biçim çelişiyor")
+    if beklenen is not None and kaynak=="bilinmiyor":bulgular.append("kaynak-dogrulanmadi")
+    return {"tur":tur,"kaynak":kaynak,"etype":etype,"bulgular":bulgular,"parola_dogrulandi":False}
+
+import json
+for ornek in json.load(open("hash_formats/ag_bicimleri.json",encoding="utf-8"))["kayitlar"]:
+    print(ag_ozeti_raporu(ornek["metin"],ornek["kaynak"]))
+```
+
+```hint
+Önce export ailesini ve alanları ayır; hex bayt uzunluğunu doğrula, sonra kaynağı eşleştir. Ham parser verisini rapora kopyalama.
+```
+:::

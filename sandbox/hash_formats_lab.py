@@ -10,7 +10,7 @@ import struct
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "tracks" / "purple" / "fixtures" / "pu17_hash_formats"
-DOSYALAR = ("hashes.json", "shadow.txt", "README.md")
+DOSYALAR = ("hashes.json", "shadow.txt", "README.md", "ag_bicimleri.json")
 
 
 def hazirla(hedef=None):

@@ -1,0 +1,22 @@
+test_bes_gorev_ve_kapsam (__main__.DersDavranisi.test_bes_gorev_ve_kapsam) ... ok
+test_solution_kabul_starter_red (__main__.DersDavranisi.test_solution_kabul_starter_red) ... ok
+test_tahmin_ciktisi (__main__.DersDavranisi.test_tahmin_ciktisi) ... ok
+test_yanlis_cozumler_mutasyonla_reddedilir (__main__.DersDavranisi.test_yanlis_cozumler_mutasyonla_reddedilir) ... ok
+test_fixture_kopyalama_ve_vektor_kimlikleri (__main__.LaboratuvarVeFixture.test_fixture_kopyalama_ve_vektor_kimlikleri) ... ok
+test_md4_rfc_ve_ntlm_vektorleri (__main__.LaboratuvarVeFixture.test_md4_rfc_ve_ntlm_vektorleri) ... ok
+test_utf8_lf (__main__.LaboratuvarVeFixture.test_utf8_lf) ... FAIL
+test_yardimci_guvenli_ice_aktarmalar (__main__.LaboratuvarVeFixture.test_yardimci_guvenli_ice_aktarmalar) ... ok
+
+======================================================================
+FAIL: test_utf8_lf (__main__.LaboratuvarVeFixture.test_utf8_lf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\demo12\Documents\Pafta\tools\test_hash_formats_lesson.py", line 81, in test_utf8_lf
+    self.assertNotIn(b"\r", raw, str(path))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'\r' unexpectedly found in b'{\r\n  "koken": "Elle yaz\xc4\xb1lm\xc4\xb1\xc5\x9f sentetik bi\xc3\xa7im \xc3\xb6rnekleri; ger\xc3\xa7ek hesap/oturum/kriptografik vekt\xc3\xb6r de\xc4\x9fil",\r\n  "kayitlar": [\r\n    {\r\n      "metin": "ogrenci::LAB:5656565656565656:12121212121212121212121212121212:0101000000000000000000000000000000000000000000000000000000000000",\r\n      "kaynak": "ag-ntlm"\r\n    },\r\n    {\r\n      "metin": "$krb5tgs$23$*svc$LAB.TEST$HTTP/sunucu*$12121212121212121212121212121212$abababababababababababababababab",\r\n      "kaynak": "kerberos-kdc"\r\n    },\r\n    {\r\n      "metin": "$krb5asrep$23$ogrenci@LAB.TEST:12121212121212121212121212121212$abababababababababababababababab",\r\n      "kaynak": "kerberos-kdc"\r\n    },\r\n    {\r\n      "metin": "$krb5tgs$18$svc$LAB.TEST$343434343434343434343434$abababababababababababababababab",\r\n      "kaynak": "kerberos-kdc"\r\n    },\r\n    {\r\n      "metin": "89898989898989898989898989898989",\r\n      "kaynak": "windows-lm"\r\n    },\r\n    {\r\n      "metin": "aad3b435b51404eeaad3b435b51404ee",\r\n      "kaynak": "windows-lm"\r\n    },\r\n    {\r\n      "metin": "89898989898989898989898989898989",\r\n      "kaynak": "bilinmiyor"\r\n    }\r\n  ]\r\n}\r\n' : C:\Users\demo12\Documents\Pafta\tracks\purple\fixtures\pu17_hash_formats\ag_bicimleri.json
+
+----------------------------------------------------------------------
+Ran 8 tests in 79.943s
+
+FAILED (failures=1)

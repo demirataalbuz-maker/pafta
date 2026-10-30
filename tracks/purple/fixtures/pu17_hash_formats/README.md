@@ -17,3 +17,6 @@ wordlist, GPU işi veya çevrimiçi sorgu içermez. Özet metni parola/plaintext
 `pu17b` ve `pu17d`, salt tekrarını göstermek için aynı doğrulanabilir sha512crypt
 test vektörünü taşır. Hiçbir fixture gerçek parola doğrulaması veya kırma amacıyla
 kullanılmaz.
+
+## Ag bicimleri ek ornekleri
+`ag_bicimleri.json` elle yazilmis NetNTLMv2/Kerberos/LM bicim verileridir. Gercek kimlik bilgisi, gecerli oturum veya kriptografik test vektoru degildir. Ag yakalama ve parola kirma yapilmaz; yalniz profil ve kaynak baglami incelenir.
