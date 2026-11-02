@@ -6,14 +6,40 @@ timeout: 300
 ---
 
 ::: anlat Gerçek biçimi bil, sentetik temsili ayırt et
-Bir önceki derste model çıktısını katı JSON şemasına sokmayı öğrendik. Ancak şemaya uymak **içeriğin gerçek olduğu** anlamına gelmez: dil modelleri kod denetiminde sıklıkla 5 satırlık bir dosyada `"satir_no": 99` raporlar, var olmayan bir dosya adı (`olmayan_dosya.py`) yazar veya yama önerisinde `ai-saldiri-41` ve `ai-guvence-32` derslerinde gördüğümüz gibi halüsine bir paket (`uydurma-sec-shield`) önerir. Güvenlik mühendisliğinde **kanıt satırıyla eşleşmeyen her model iddiası halüsinasyondur**.
+Büyük dil modellerinin (LLM) statik kod analizi (SAST) ve güvenlik açığı denetimlerinde kullanımı hızla yaygınlaşmaktadır. Bir önceki derste model çıktısını katı bir JSON şemasına zorlamayı öğrendik. Ancak şemaya uymak, üretilen **içeriğin gerçek ve doğrulanabilir olduğu** anlamına gelmez. Dil modelleri olasılıksal belirteç (token) dizilimleri ürettiklerinden, kod tabanını incelerken sıklıkla 5 satırlık bir dosyada `"satir_no": 99` raporlar, repoda var olmayan hayali dosya adları (`olmayan_dosya.py`) uydurur ya da yama önerilerinde gerçekte var olmayan paketler (`uydurma-sec-shield`) önerir.
+
+Güvenlik mühendisliğinde ve MLSecOps süreçlerinde temel aksiyom şudur: **Fiziksel kaynak koduyla ve satır kanıtıyla birebir eşleşmeyen her model iddiası bir halüsinasyondur ve doğrudan elenmelidir.**
+
+### 1. Aracın Altında Ne Olur: Dört Katmanlı Kanıt Merdiveni
+Otomatik bir kanıt eşleştirme motoru, modelden gelen her güvenlik iddiasını sırasıyla dört deterministik doğrulama filtresinden geçirir:
+1. **Dosya Varlığı Doğrulaması (`uydurma_dosya`):** İddia edilen dosya (`dosya_adi`) projenin taranan kaynak haritasında (`kaynak_haritasi["dosyalar"]`) mevcut mu? Eğer model repoda hiç yer almayan bir dosya adı vermişse, iddia ilk adımda elenir.
+2. **Satır Sınırı Kontrolü (`uydurma_satir`):** Araçlar ve modeller satır numaralarını insan gözüyle uyumlu olarak 1-tabanlı (`1..N`) raporlar. Raporlanan `satir_no` değeri ilgili dosyanın toplam satır sayısını (`len(dosyalar[dosya_adi])`) aşıyorsa, satır uydurmadır.
+3. **Kanıt Alt Dizgesi Eşleştirmesi (`uyusmayan_kanit`):** Modelin zafiyet gerekçesi olarak gösterdiği kod parçası (`kanit_alt_dizgesi`), ilgili satır metninin (`dosyalar[dosya_adi][satir_no - 1]`) içinde gerçekten geçiyor mu? Model doğru satır numarasını verip başka bir satırın kodunu kanıt göstermişse veya kodu hayal etmişse eşleşme başarısız olur.
+4. **Paket ve Bağımlılık Doğrulaması (`uydurma_paket`):** Modelin zafiyeti onarmak için önerdiği kütüphane (`onerilen_paket`), kuruluşun onaylı ve taranmış bağımlılık listesinde (`bilinen_paketler`) yer alıyor mu?
+
+### 2. Çıktı Nasıl Okunur: Halüsinasyon Türleri ve Güvenilirlik Kapısı
+Modelin güvenlik analiz performansı yalnız tekil iddiaların doğrulanmasıyla değil, iki temel analitik katmanla değerlendirilir:
+- **Halüsinasyon Hata Dağılımı (`halusinasyon_turleri`):** Modelin en çok hangi aşamada çuvalladığını gösterir (`uydurma_dosya`, `uydurma_satir`, `uyusmayan_kanit`, `uydurma_paket`). Bu dağılım, modelin context window kapasitesi, prompt kalitesi veya RAG retrieval başarımı hakkında doğrudan mühendislik geri bildirimi sağlar.
+- **Rapor Güvenilirlik Kapısı (`rapor_karari`):** Bir güvenlik raporunda halüsinasyon oranı önceden belirlenen güvenlik eşiğini aşarsa (`halusinasyon_orani > max_halusinasyon_orani`) veya raporda doğrulanmış tek bir geçerli bulgu dahi yoksa, rapor bütünüyle `"guvenilmez_model_raporu"` olarak işaretlenir ve otomatik CI/CD ardışık düzeni tarafından reddedilir.
+
+### 3. Saldırgan Neyi Dener? (Threat Vectors)
+- **Paket Halüsinasyonu İstismarı (Slopsquatting / Package Hallucination):** LLM'lerin popüler güvenlik açıklarını kapatmak için sıkça önerdiği ancak kamu depolarında (PyPI, npm, RubyGems) henüz tescil edilmemiş paket adlarını saldırganlar takip eder. Saldırgan bu hayali paket adlarını kamu kayıt defterinde kendi adına tescil edip içine zararlı yük (reverse shell, credential harvester) yerleştirir. Geliştirici modelin önerisine güvenip paketi yüklediğinde tedarik zinciri saldırısı gerçekleşmiş olur.
+- **Alarm Yorgunluğu (Alert Fatigue) ile Boğma:** Saldırgan, kod tabanına veya LLM prompt girdilerine enjekte ettiği yanıltıcı yorum satırlarıyla modelin yüzlerce uydurma güvenlik uyarısı üretmesini sağlayabilir. Triyaj mühendisleri sahte pozitifler arasında boğulurken gerçek güvenlik açıkları gözden kaçar.
+
+### 4. Savunma Neden Kırılır ve Sık Yapılan Geliştirici Tuzakları
+- **İndeksleme Uyuşmazlığı (1-Tabanlı vs 0-Tabanlı):** Model `satir_no = 2` raporladığında, Python listesindeki karşılığı `satirlar[1]`'dir. Geliştiricinin `satirlar[satir_no]` yazması durumunda hem `IndexError` riski doğar hem de kanıt yanlış satırda aranır.
+- **Python'da Boolean Tip Sızıntısı:** Python'da `bool` sınıfı `int` sınıfının alt sınıfıdır (`isinstance(True, int) == True`). Katı tip denetimi yapılmazsa `satir_no = True` değeri `satir_no = 1` olarak işleme alınır ve hatalı onay verilir.
+- **Sessizce Girdiyi Değiştirme (Mutation):** Doğrulama işlevinin girdi sözlüklerini yerinde değiştirmesi veya referansları bozması diğer denetim araçlarında yan etkilere yol açar.
+- **Açık Dünya Varsayımı (Open-World Assumption):** Modelin önerdiği her harici paketi internetten indirmeye kalkışmak, yukarıda bahsedilen slopsquatting saldırılarına kapı aralar. Yalnızca kapalı izin listesinde (`bilinen_paketler`) yer alan paketler doğrulanmış sayılmalıdır.
 
 | Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
 |---|---|---|
-| Yerel Ollama modelinin (`qwen3`) kaynak kod hakkındaki bulgu iddialarını ve gerçek dosya satırlarıyla yapılan deterministik çapraz doğrulamayı | İlk üç görevde `kaynak_dosyalar.json`, `model_bulgu_iddialari.jsonl` ve `triyaj_adaylari.json` içindeki **sentetik** kaynak/iddia verilerini; son görevde canlı `ai_lab.SohbetOturumu` ile kanıt eşleştirme deneyini | Kanıt satırı dosyada gerçekten var olan (`dogrulandi`) bir iddianın çalışma zamanında kesinlikle sömürülebilir (exploitable) olduğunu söyleyemez |
+| Yerel Ollama modelinin (`qwen3` vb.) kaynak kod hakkındaki bulgu iddialarını ve gerçek dosya satırlarıyla yapılan deterministik çapraz doğrulamayı | İlk üç görevde `kaynak_dosyalar.json`, `model_bulgu_iddialari.jsonl` ve `triyaj_adaylari.json` sentetik verilerini; son görevde canlı `ai_lab.SohbetOturumu` ile kanıt eşleştirme deneyini | Kanıt satırı dosyada gerçekten var olan (`dogrulandi`) bir iddianın çalışma zamanında kesinlikle sömürülebilir (exploitable) olduğunu söyleyemez; yalnızca modelin iddia ettiği satır ve kodun fiziksel olarak var olduğunu kanıtlar |
+| SAST / LLM çıktılarındaki paket önerilerinin taranması ve hayali bağımlılıkların (slopsquatting) tespiti | Proje bazlı `bilinen_paketler` izin listesi kontrolü | Bir paketin izin listesinde olması, o paketin sürümünde henüz keşfedilmemiş sıfır-gün (zero-day) açığı bulunmadığını garanti etmez |
+| Güvenlik CI/CD kapısında model raporu güvenilirlik eşiği (`max_halusinasyon_orani`) ve otomatik triyaj filtrelemesi | `kanitli_bulgu_suzgeci` ile doğrulanmış bulguların ayrıştırılması ve rapor kararının (`onaylandi` / `guvenilmez_model_raporu`) üretilmesi | Raporun onaylanması kod tabanında başka hiçbir güvenlik açığı kalmadığını kanıtlamaz; yalnızca eldeki model raporunun güvenilirlik sınırları içinde olduğunu gösterir |
 
-> [!GÜVENLİK]
-> **Kapsam ve dürüstlük sınırı:** İlk üç görevdeki örnek dosyalar **sentetik** eğitim verisidir ve her çalıştırmada (`setup`) çalışma klasörüne yeniden kopyalanır (kalıcılık yoktur). Doğrulayıcı yalnızca yerel bellek/dosya haritasına bakar; dış paket depolarına sorgu atmaz.
+> [!NOT]
+> **Kapsam ve dürüstlük sınırı:** İlk üç görevdeki örnek dosyalar **sentetik** eğitim verisidir ve her çalıştırmada (`setup`) çalışma klasörüne yeniden kopyalanır (kalıcılık yoktur). Doğrulayıcı yalnızca yerel bellek/dosya haritasına bakar; dış paket depolarına sorgu atmaz. Dördüncü görevde yerel Ollama modeliyle canlı kod analizi ve kanıt çapraz doğrulaması yapılır.
 :::
 
 ::: anlat Model iddiası dört katmanlı kanıt merdiveninden geçmeden bulgu sayılmaz
@@ -80,7 +106,7 @@ kaynak = json_yukle("kaynak_dosyalar.json")
 satirlar = metin_yukle("model_bulgu_iddialari.jsonl").splitlines()
 
 def kanit_satiri_eslestir(iddia, kaynak_haritasi):
-    # HATA: Satır sınırını, kanıt alt dizgesini ve paket listesini kontrol etmiyor.
+    # KUSURLU BAŞLANGIÇ KODU: satır sınırını, kanıt alt dizgesini ve paket listesini kontrol etmeden yalnızca dosya varlığına bakıyor!
     var = iddia["dosya_adi"] in kaynak_haritasi["dosyalar"]
     return {
         "iddia_id": iddia["iddia_id"],
@@ -264,7 +290,7 @@ kaynak = json_yukle("kaynak_dosyalar.json")
 iddialar = [json.loads(s) for s in metin_yukle("model_bulgu_iddialari.jsonl").splitlines() if s.strip()]
 
 def halusinasyon_orani_hesapla(iddia_listesi, kaynak_haritasi):
-    # HATA: Tüm iddiaları doğrulanmış sayıyor ve halüsinasyon türlerini toplamıyor.
+    # KUSURLU BAŞLANGIÇ KODU: tüm iddiaları doğrulanmış sayıyor, halüsinasyon türlerini toplamıyor ve oranı sabit 0.0 döndürüyor!
     return {
         "dogrulanan_idleri": [i["iddia_id"] for i in iddia_listesi],
         "halusinasyon_turleri": {},
@@ -472,7 +498,7 @@ kaynak = json_yukle("kaynak_dosyalar.json")
 triyaj = json_yukle("triyaj_adaylari.json")
 
 def kanitli_bulgu_suzgeci(iddia_listesi, kaynak_haritasi, max_halusinasyon_orani=0.35):
-    # HATA: Halüsinasyonlu iddiaları elemiyor ve eşik kontrolü yapmıyor.
+    # KUSURLU BAŞLANGIÇ KODU: halüsinasyonlu iddiaları elemiyor, eşik kontrolü yapmıyor ve her zaman 'onaylandi' döndürüyor!
     return {
         "kabul_edilen_bulgular": [i["iddia_id"] for i in iddia_listesi],
         "elenen_idleri": [],
@@ -681,13 +707,17 @@ timeout: 300
 import ai_lab
 
 def kanit_satiri_eslestir(iddia, kaynak_haritasi):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: satır ve paket kontrollerini yapmadan yalnızca dosya kontrolü yapıyor!
+    var = iddia.get("dosya_adi") in kaynak_haritasi.get("dosyalar", {}) if isinstance(iddia, dict) and isinstance(kaynak_haritasi, dict) else False
+    return {"iddia_id": iddia.get("iddia_id", "") if isinstance(iddia, dict) else "", "durum": "dogrulandi" if var else "uydurma_dosya", "gecerli": var}
 
 def halusinasyon_orani_hesapla(iddia_listesi, kaynak_haritasi):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: tüm iddiaları doğrulanmış sayıyor ve hata türlerini saymıyor!
+    return {"dogrulanan_idleri": [i["iddia_id"] for i in iddia_listesi if isinstance(i, dict)], "halusinasyon_turleri": {}, "halusinasyon_orani": 0.0}
 
 def kanitli_bulgu_suzgeci(iddia_listesi, kaynak_haritasi, max_halusinasyon_orani=0.35):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: eşik denetimi yapmadan tüm iddiaları onaylıyor!
+    return {"kabul_edilen_bulgular": [i["iddia_id"] for i in iddia_listesi if isinstance(i, dict)], "elenen_idleri": [], "halusinasyon_orani": 0.0, "rapor_karari": "onaylandi"}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_ile_guvenlik_02 as deney
@@ -703,6 +733,8 @@ hazirla("ai-ile-guvenlik-02")
 ```
 
 ```test
+import copy
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_ile_guvenlik_02 as D
 
@@ -717,9 +749,29 @@ for ad in ("kanit_satiri_eslestir", "halusinasyon_orani_hesapla", "kanitli_bulgu
 
 sorun = ai_lab.kod_denetimi(
     src,
-    ("kanit_satiri_eslestir_referans", "halusinasyon_orani_hesapla_referans", "kanitli_bulgu_suzgeci_referans"),
+    ("kanit_satiri_eslestir_referans", "halusinasyon_orani_hesapla_referans", "kanitli_bulgu_suzgeci_referans", "kanit_yaz"),
 )
 ok(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı")
+if not all(checks):
+    stop()
+
+try:
+    _ag_tree = ast.parse(src)
+    for _node in ast.walk(_ag_tree):
+        if isinstance(_node, ast.ImportFrom):
+            for _alias in _node.names:
+                if _alias.name == "*":
+                    ok(False, "Kopya/güvenlik ihlali: wildcard (*) import yasaktır")
+        if isinstance(_node, ast.Name) and "referans" in _node.id.lower():
+            ok(False, f"Kopya/güvenlik ihlali: 'referans' kullanımı tespit edildi: {_node.id}")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr.lower():
+            ok(False, f"Kopya/güvenlik ihlali: 'referans' niteliği tespit edildi: {_node.attr}")
+        if isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+            ok(False, f"Kopya/güvenlik ihlali: dinamik fonksiyon çağrısı yasaktır: {_node.func.id}")
+except Exception as _e:
+    ok(False, f"AST ayrıştırma hatası: {_e}")
+if not all(checks):
+    stop()
 
 ORNEK_KAYNAK = {"dosyalar": {"a.py": ["x = 1"]}, "bilinen_paketler": ["json"]}
 ORNEK_IDDIA = {"iddia_id": "i1", "dosya_adi": "a.py", "satir_no": 1, "kanit_alt_dizgesi": "x = 1", "onerilen_paket": "json"}

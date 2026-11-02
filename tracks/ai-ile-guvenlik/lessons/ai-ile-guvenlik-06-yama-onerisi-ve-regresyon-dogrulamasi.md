@@ -681,9 +681,12 @@ def ok(kosul, mesaj):
 for ad in ("yama_ast_kontrolu", "yama_test_kosumu", "aday_yamalari_denetle"):
     need(ad)
 
+# Yamayı exec ile yüklemek bu dersin konusu; bu yüzden exec serbest, dosya okuma yasak.
 sorun = ai_lab.kod_denetimi(
     src,
-    ("yama_ast_kontrolu_referans", "yama_test_kosumu_referans", "aday_yamalari_denetle_referans"),
+    ("yama_ast_kontrolu_referans", "yama_test_kosumu_referans", "aday_yamalari_denetle_referans",
+     "open", "read_text", "read_bytes", "io", "kanit_yaz"),
+    izin=("exec",),
 )
 ok(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı")
 

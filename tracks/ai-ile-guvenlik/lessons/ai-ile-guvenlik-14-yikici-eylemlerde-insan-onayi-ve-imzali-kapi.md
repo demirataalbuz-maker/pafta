@@ -6,14 +6,49 @@ timeout: 300
 ---
 
 ::: anlat Gerçek biçimi bil, sentetik temsili ayırt et
-Bir olay müdahale (`SOAR` / `IR`) ajanına `ip_engelle` veya `hesap_kapat` gibi durum değiştiren araçlar bağlandığında en tehlikeli hata, onay mekanizmasını yalnızca `"onaylandi": true` gibi basit bir Boole bayrağına bırakmaktır: ajan veya araya giren zehirli bir girdi, insan analist onay verdikten sonra hedefi `10.20.9.88` yerine kurumsal ağ geçidi `10.20.1.1` olarak değiştirebilir (`ai-savunma-12` ve `ai-saldiri-18` derslerindeki imzalı onay kapısı ilkelerini hatırla).
+Güvenlik operasyonlarında otomatik olay müdahale (Incident Response - IR) ve SOAR (Güvenlik Orkestrasyonu, Otomasyon ve Müdahale) platformları, bir tehdit algılandığında hızlı karşı tedbirler uygulayabilir. Günümüzde bu orkestrasyon kararları giderek daha fazla otonom büyük dil modeli (LLM) ajanlarına emanet edilmektedir.
+
+Ancak bir güvenlik ajanına `ip_engelle`, `hesap_kapat`, `guvenlik_duvari_kurali_yaz` veya `servis_durdur` gibi durum değiştiren araçlar bağlandığında sistemin karşılaşacağı en ölümcül tehlike, **insan onay mekanizmasını yalnızca `"onaylandi": true` gibi bağlamsız bir Boole bayrağına bırakmaktır**.
+
+### 1. Parametre Değiştirme ve "Şaşkın Vekil" (Confused Deputy) Tuzağı
+Basit bir onay mekanizmasında insan analist meşru bir saldırgan IP adresi olan `10.20.9.88` için engelleme onayını tıklar. Ancak modelin otonom döngüsünde halüsinasyon, yarış durumu (race condition / TOCTOU) veya araya giren dolaylı bir istem enjeksiyonu meydana gelirse, ajan onay bayrağı (`onaylandi: true`) elindeyken parametreyi değiştirebilir: saldırgan IP'si yerine kurumsal ağ geçidi (`10.20.1.1`) veya etki alanı denetleyicisi (Domain Controller) hedefe yazılabilir. Yürütücü katman yalnızca bayrağa baktığı için meşru altyapıyı felç eder ve tüm şirketi çevrimdışı bırakır.
+
+Bu nedenle güvenlik mühendisliğinde temel kural şudur: **Yıkıcı bir eylem için verilen insan onayı, eylemin hedef parametrelerine ve istek kimliğine kriptografik olarak sıkı sıkıya bağlı (parameter-bound HMAC token) olmak zorundadır.**
+
+### 2. Aracın Altında Ne Olur: Kriptografik Parametreye Bağlı HITL Kapısı
+Güvenilir bir Human-in-the-Loop (HITL) onay kapısı üç katmanlı bir mimariyle kurulur:
+1. **Kanonik Görev İmzası (`gorev_imzasi_uret`):**
+   - İnsan operatör onay verdiğinde, onay jetonu soyut bir izin dizesi olarak üretilmez. İstek kimliği, çağrılacak araç ve hedef parametresi deterministik kanonik bir dizgede birleştirilir: `f"{istek_id}:{arac}:{hedef}"`.
+   - Bu kanonik mesaj, yalnızca yetkili operatör konsolu ve güvenlik yürütücüsü tarafından bilinen `gizli_anahtar` ile `HMAC-SHA256` algoritmasından geçirilerek 64 karakterlik onaltılık (`hexdigest`) özet üretilir.
+2. **HITL Doğrulama Kapısı (`hitl_kapisi_dogrula`):**
+   - **Salt-Okunur Eylemler:** `risk_sinifi == "salt_okunur"` olan sorgulama araçları durum değiştirmediği için onay jetonu aranmaksızın serbestçe yürütülür (`"salt_okunur_serbest"`).
+   - **Yıkıcı Eylemler:** `risk_sinifi == "yikici"` olan eylemlerde `onay_jetonu` boşsa istek derhal `"eksik_onay_jetonu"` nedeniyle reddedilir.
+   - Jeton mevcutsa, yürütücü anlık olarak istek parametrelerinden (`iid`, `arac`, `hedef`) beklenen HMAC özetini hesaplar ve gelen jeton ile `hmac.compare_digest` üzerinden karşılaştırır. İstek kimliği, araç adı veya hedef parametresinden tek bir karakter bile farklıysa imza tutmaz ve `"imza_uyumsuz"` kararıyla engellenir.
+3. **Müdahale Kuyruğu Yürütücüsü (`mudahale_kuyrugu_yurut`):**
+   - Gelen tüm müdahale istekleri sırayla HITL kapısından geçirilir. Onaylanan geçerli çağrılar `uygulanan_idleri` listesine, reddedilenler ise nedenleriyle birlikte `reddedilenler` sözlüğüne kaydedilir.
+
+### 3. Çıktı Nasıl Okunur: HITL Denetim İzi
+- `uygulanan_idleri`: Kriptografik onay kapısını başarıyla geçen ve fiilen yürütülen eylemlerin kimlikleri.
+- `reddedilenler`: Güvenlik kapısına takılan eylemlerin kimlikleri ve engellenme nedenleri (`eksik_onay_jetonu`, `imza_uyumsuz`).
+
+### 4. Saldırgan Neyi Dener? (Threat Vectors)
+- **Jeton Yeniden Kullanımı ve Taşıma (Token Replay / Cross-Request Replay):** Saldırgan, meşru bir IP (`req-102: 10.20.9.88`) için üretilmiş onay jetonunu ağ trafiğinden veya loglardan ele geçirip kurumsal ağ geçidini hedefleyen başka bir isteğe (`req-104: 10.20.1.1`) yapıştırmayı dener. Kanonik mesajda `istek_id` ve `hedef` birlikte yer aldığından imza doğrulaması çöker.
+- **Zamanlama Saldırıları (Timing Attacks):** Jeton karşılaştırmasında standart `==` operatörü kullanılırsa dizgeler baştan sona karakter karakter karşılaştırılır ve ilk uyuşmazlıkta durulur. Saldırgan mikrosaniyelik yanıt süresi farklarından jetonun karakterlerini tahmin edebilir. Savunmada `hmac.compare_digest` kullanılarak sabit-zamanlı (constant-time) güvenli karşılaştırma sağlanır.
+- **Onay Yorgunluğu (Approval Fatigue):** Analistin ekranına yüzlerce sahte onay bildirimi göndererek analisti dikkatsizce rastgele onay vermeye teşvik etmek.
+
+### 5. Savunma Neden Kırılır ve Sık Yapılan Geliştirici Hataları
+- **Parametreleri İmzaya Dahil Etmemek:** Yalnızca `istek_id` alanını imzalamak, hedefin sonradan değiştirilmesini engelleyemez. Kanonik şablon mutlaka tüm kritik argümanları içermelidir.
+- **Sabit-Zamanlı Karşılaştırmayı İhmal Etmek:** `==` kullanımı kriptografik doğrulamada kabul edilemez bir zafiyettir.
+- **Boşluk ve Tip Denetimlerini Atlamak:** `strip()` yapılmaması veya parametrelerin `None` olabilmesi imza hesaplamasında `TypeError` veya sessiz güvenlik açıklarına yol açar.
 
 | Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
 |---|---|---|
 | SOAR onay kuyruğunu, `hmac.new(..., hashlib.sha256)` ile parametreye bağlı görev imzasını ve yerel Ollama (`qwen3`) müdahale akışını | İlk üç görevde `mudahale_istekleri.json` içindeki **sentetik** müdahale isteklerini ve HMAC jetonlarını; son görevde canlı `ai_lab.SohbetOturumu` ile HITL kapısı deneyini | Yalnızca HMAC doğrulamasının, insan operatörün yanlış hedefi dikkatsizce onaylamasını (sosyal mühendislik / onay yorgunluğu) tek başına engelleyebileceğini söyleyemez |
+| Parametreye bağlı kanonik görev imzası (`f"{istek_id}:{arac}:{hedef}"`) ve sabit-zamanlı doğrulama (`hmac.compare_digest`) | `gorev_imzasi_uret` ve `hitl_kapisi_dogrula` işlevleri | İmzalı onay jetonunun yetkisiz sızdırılması durumunda gizli anahtarın rotasyonunu veya çok faktörlü operatör doğrulamasını (MFA) tek başına çözebileceğini söyleyemez |
+| Yıkıcı eylemlerde müdahale kuyruğu yürütücüsü ve triyaj ayrımı (`uygulanan_idleri` vs `reddedilenler`) | `mudahale_kuyrugu_yurut` ile onaylı ve engellenen çağrıların yönetimi | Kuyruk yürütücüsünün hedef sistemde uygulanan eylemin (örn. iptables kuralı) ağda beklenmeyen bir yan etki veya kesinti yaratmayacağını garanti ettiğini söyleyemez |
 
-> [!GÜVENLİK]
-> **Kapsam ve dürüstlük sınırı:** İlk üç görevdeki `mudahale_istekleri.json` dosyası ve içindeki `gizli_anahtar` **sentetik** eğitim verisidir; hiçbir gerçek güvenlik duvarı veya kullanıcı hesabı üzerinde işlem yapılmaz.
+> [!NOT]
+> **Kapsam ve dürüstlük sınırı:** İlk üç görevdeki `mudahale_istekleri.json` dosyası ve içindeki `gizli_anahtar` **sentetik** eğitim verisidir; hiçbir gerçek güvenlik duvarı veya kullanıcı hesabı üzerinde işlem yapılmaz ve dosyalar her çalıştırmada (`setup`) yeniden yüklenir (kalıcılık yoktur). Dördüncü görevde yerel Ollama modeliyle canlı HITL kapısı ve imza doğrulama deneyi yürütülür.
 :::
 
 ::: anlat Parametreye bağlı imzalı HITL kapısı üç adımda çalışır
@@ -74,7 +109,7 @@ from ai_ile_guvenlik_veri import json_yukle
 veri = json_yukle("mudahale_istekleri.json")
 
 def gorev_imzasi_uret(istek_id, arac, hedef, gizli_anahtar):
-    # HATA: Hedef parametresini imzaya dahil etmiyor.
+    # KUSURLU BAŞLANGIÇ KODU: hedef ve araç parametrelerini imzaya dahil etmeden boş imza döndürüyor!
     return ""
 
 print(gorev_imzasi_uret("req-102", "ip_engelle", "10.20.9.88", veri["gizli_anahtar"]))
@@ -156,7 +191,7 @@ from ai_ile_guvenlik_veri import json_yukle
 veri = json_yukle("mudahale_istekleri.json")
 
 def hitl_kapisi_dogrula(istek, gizli_anahtar):
-    # HATA: Yıkıcı eylemlerde onay jetonu ve imza doğrulamasını atlıyor.
+    # KUSURLU BAŞLANGIÇ KODU: yıkıcı eylemlerde onay jetonu ve imza doğrulaması yapmadan her isteği doğrudan onaylıyor!
     return {
         "istek_id": istek.get("istek_id", ""),
         "izin_verildi": True,
@@ -262,7 +297,7 @@ from ai_ile_guvenlik_veri import json_yukle
 veri = json_yukle("mudahale_istekleri.json")
 
 def mudahale_kuyrugu_yurut(istekler, gizli_anahtar):
-    # HATA: Tüm istekleri doğrulamadan uyguluyor.
+    # KUSURLU BAŞLANGIÇ KODU: tüm istekleri HITL kapısından geçirmeden doğrudan uygulanan listesine alıyor!
     return {
         "uygulanan_idleri": [i["istek_id"] for i in istekler],
         "reddedilenler": {},
@@ -372,13 +407,16 @@ timeout: 300
 import ai_lab
 
 def gorev_imzasi_uret(istek_id, arac, hedef, gizli_anahtar):
+    # KUSURLU BAŞLANGIÇ KODU: parametreleri imzalamadan boş dize döndürüyor!
     return ""
 
 def hitl_kapisi_dogrula(istek, gizli_anahtar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: onay jetonunu doğrulamadan her isteği onaylıyor!
+    return {"istek_id": istek.get("istek_id", "") if isinstance(istek, dict) else "", "izin_verildi": True, "neden": "imzali_onay_gecerli"}
 
 def mudahale_kuyrugu_yurut(istekler, gizli_anahtar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: istekleri doğrulamadan doğrudan uyguluyor!
+    return {"uygulanan_idleri": [i["istek_id"] for i in istekler if isinstance(i, dict)], "reddedilenler": {}}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_ile_guvenlik_14 as deney
@@ -394,6 +432,8 @@ hazirla("ai-ile-guvenlik-14")
 ```
 
 ```test
+import copy
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_ile_guvenlik_14 as D
 
@@ -408,9 +448,29 @@ for ad in ("gorev_imzasi_uret", "hitl_kapisi_dogrula", "mudahale_kuyrugu_yurut")
 
 sorun = ai_lab.kod_denetimi(
     src,
-    ("gorev_imzasi_uret_referans", "hitl_kapisi_dogrula_referans", "mudahale_kuyrugu_yurut_referans"),
+    ("gorev_imzasi_uret_referans", "hitl_kapisi_dogrula_referans", "mudahale_kuyrugu_yurut_referans", "kanit_yaz"),
 )
 ok(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı")
+if not all(checks):
+    stop()
+
+try:
+    _ag_tree = ast.parse(src)
+    for _node in ast.walk(_ag_tree):
+        if isinstance(_node, ast.ImportFrom):
+            for _alias in _node.names:
+                if _alias.name == "*":
+                    ok(False, "Kopya/güvenlik ihlali: wildcard (*) import yasaktır")
+        if isinstance(_node, ast.Name) and "referans" in _node.id.lower():
+            ok(False, f"Kopya/güvenlik ihlali: 'referans' kullanımı tespit edildi: {_node.id}")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr.lower():
+            ok(False, f"Kopya/güvenlik ihlali: 'referans' niteliği tespit edildi: {_node.attr}")
+        if isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+            ok(False, f"Kopya/güvenlik ihlali: dinamik fonksiyon çağrısı yasaktır: {_node.func.id}")
+except Exception as _e:
+    ok(False, f"AST ayrıştırma hatası: {_e}")
+if not all(checks):
+    stop()
 
 def _on_sozlesme():
     try:

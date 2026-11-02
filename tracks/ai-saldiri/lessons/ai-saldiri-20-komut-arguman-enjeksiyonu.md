@@ -5,12 +5,22 @@ summary: Model çıktısını shell metnine çevirmeden izinli program ve ayrık
 timeout: 45
 ---
 
-::: anlat Komut ile argüman aynı veri türü değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Komut ile argüman aynı veri türü değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir ajan, modelin native `tool_calls` çıktısındaki program ve argümanları `subprocess.run([...], shell=False)` ya da `os.execve` gibi bir argv çağrısına verir. `shell=True` ya da `sh -c "..."` metni ayrıştırır; `;`, `&`, `$()` komut diline dönüşür. Alt programın kendi seçenek ayrıştırıcısı da `--help` gibi veriyi seçenek sanabilir. | Görev 1–3: `veri/cagrilar.json`, `veri/planlar.json` ve `veri/calistirma_kayitlari.json` içindeki **sentetik** çağrı adayları, planlar ve çalıştırma kayıtları. Son adım: kurulu yerel Ollama modeline iki native araç çağrısı ve sabit bir Python adaptörünü `shell=False` ile başlatan gerçek alt süreç; adaptör gördüğü `sys.argv`yi geri yazar. | `yazdir` ve `kopyala` gerçek işletim sistemi komutu değildir; `--` davranışı her araca genellenemez. İki model çağrısı oran vermez. Keyfi komut ya da `shell=True` hiçbir adımda çalıştırılmaz, bu yüzden gerçek bir enjeksiyonun etkisi ölçülmez; yalnız argv sınırı ölçülür. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, shell ve alt süreç yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve deneyin kendi geçici klasöründeki sabit Python adaptörünü kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın argüman dosyası çalışma kopyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Modelin ürettiği bir metni doğrudan shell'e vermek, metindeki boşlukları ve metakarakterleri komut diline dönüştürür. `program` ile `args` ayrı taşınırsa çalıştırıcı shell açmadan bir argüman vektörü alabilir. Böylece `;`, `$()` veya boşluk içeren bir değer yeni komut değil, tek argüman olarak kalır.
 
 Ayrık argüman listesi tek başına yeterli değildir. Program adı izin listesinde olmalı, alt komutun seçenek ayrıştırması bilinmeli ve kullanıcı verisinin seçenek gibi okunması `--` sınırıyla önlenmelidir. `--` shell güvenliği sağlamaz; yalnız destekleyen programın seçenek ayrıştırma sınırıdır.
 
-Bu derste gerçek komut, shell, Ollama veya ağ kullanılmaz. Bütün çalıştırıcı kayıtları deterministik fixture'dır; amaç güvenli sözleşmeyi ve bypass kanıtlarını ölçmektir.
+Görev 1–3'te gerçek komut, shell, Ollama veya ağ kullanılmaz; çalıştırıcı kayıtları deterministik fixture'dır ve amaç güvenli sözleşmeyi ve bypass kanıtlarını ölçmektir. Son adım yerel Ollama modelinin önerisini, sabit bir Python adaptörünü `shell=False` ile başlatan gerçek alt süreç önünde denetler. Shell ve dış ağ hiçbir adımda kullanılmaz.
+
+**Görev 1'de sık tuzaklar:** Program adını kesip "düzeltmek" (`split()[0]`, basename, `;` kırpma) `git; echo x` ve `/usr/bin/git` adaylarını izinli `git` yapar (`veri/cagrilar.json`, `c-07`, `c-08`). Argümanları birleştirip yeniden bölmek `a b` değerini iki argümana ayırır ve boş argümanı kaybeder (`c-03`, `c-04`). Metakarakter içeren argümanı silmek veriyi değiştirir; ayrık argv'de `;` yalnız bir karakterdir (`c-02`, `c-05`). Çıktıda her örnek `doğru` ya da `YANLIŞ` diye işaretlenir.
 :::
 
 ::: tahmin
@@ -33,7 +43,7 @@ git checkout -- main; echo test
 True
 ```
 
-Birleştirilmiş metin shell'e verilirse noktalı virgil komut ayracı olur. `argv` listesinde ise dördüncü öge tek bir veri argümanıdır; bu ders hiçbirini gerçekte çalıştırmaz.
+Birleştirilmiş metin shell'e verilirse noktalı virgül komut ayracı olur. `argv` listesinde ise dördüncü öge tek bir veri argümanıdır. Bu ders `git` komutunu ve birleştirilmiş metni hiçbir adımda çalıştırmaz; son adım yalnız sabit eğitim adaptörünü `shell=False` ile başlatır.
 :::
 
 ::: gorev 1 · Programı ve ayrık argüman vektörünü doğrula
@@ -41,9 +51,36 @@ Birleştirilmiş metin shell'e verilirse noktalı virgil komut ayracı olur. `ar
 
 Program izin listesinde yoksa `{"izinli":False,"neden":"program-izinsiz","argv":[]}` dön. İzinliyse `{"izinli":True,"neden":"dogrulandi","argv":[PROGRAM]+ARGS_KOPYASI}` dön. Argümanlardaki boşluk veya shell metakarakterlerini tek başına ret nedeni sayma; onlar ayrık vektörde veridir. Dönen liste girdiden bağımsız olmalıdır. Bu işlev komut çalıştırmaz.
 
+Görünür veri: `veri/cagrilar.json`. Her örnek kendi `izinli_programlar` listesini ve `beklenen` alanını taşır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def komut_dogrula(cagri, izinli_programlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: program adını ilk boşluğa ve son "/" işaretine göre kesip "düzeltiyor" ("git; echo x" ve "/usr/bin/git" izinli sayılır), argümanları " ".join ile birleştirip split() ile yeniden bölüyor (boşluklu argüman parçalanır, boş argüman kaybolur), ; $ & | içeren argümanları sessizce siliyor ve şemayı denetlemiyor!
+    program = cagri["program"].split()[0].split("/")[-1].rstrip(";")
+    if program not in izinli_programlar:
+        return {"izinli": False, "neden": "program-izinsiz", "argv": []}
+    args = [a for a in " ".join(cagri["args"]).split() if not any(k in a for k in ";$&|")]
+    return {"izinli": True, "neden": "dogrulandi", "argv": [program] + args}
+
+veri = json_yukle("veri/cagrilar.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = komut_dogrula(o["cagri"], o["izinli_programlar"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-20")
 ```
 
 ```test
@@ -125,6 +162,8 @@ def komut_dogrula(cagri, izinli_programlar):
 Shell'i kaldırmak seçenek enjeksiyonunu kaldırmaz. Örneğin dosya adı veya yazdırılacak metin `--help` olduğunda alt komut bunu veri yerine seçenek olarak yorumlayabilir. Bu fixture sözleşmesinde `yazdir` bir, `kopyala` iki konumsal değer alır ve her ikisinde de `--` sonrası yalnız veri kabul edilir.
 
 Güvenli plan, kullanıcıdan alınan değerleri yeniden shell metnine çevirmez. Eylem ve `--` uygulama tarafından eklenir; değerler aynen ve ayrı öğeler olarak korunur. Gerçek bir araca bağlanırken o aracın `--` desteği ayrıca doğrulanmalıdır.
+
+**Görev 2'de sık tuzaklar:** Tire ile başlayan değeri `lstrip("-")` ile "temizlemek" veriyi değiştirir: `-kaynak rapor.txt` artık başka bir dosya adıdır (`veri/planlar.json`, `p-03`). `--` sınırını unutmak `--help` değerini seçenek yapar (`p-01`). Değer sayısını denetlememek, `yazdir` eylemine ikinci bir argüman sızdırır (`p-06`).
 :::
 
 ::: gorev 2 · Seçenek sınırıyla güvenli alt komut planı üret
@@ -139,9 +178,33 @@ Dönüş tam olarak:
 
 Değer `-v`, `--help`, boşluk veya shell metakarakteri içerse bile tek argüman olarak korunur. `shell` her zaman `False`, `ayristirici` her zaman `argv` olmalıdır. Girdi listesini değiştirme ve komut çalıştırma.
 
+Görünür veri: `veri/planlar.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def arguman_plani(eylem, degerler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: "--" seçenek sınırını eklemiyor, tire ile başlayan değerin tirelerini kırpıp veriyi değiştiriyor, eylemi ve değer sayısını denetlemiyor ve planı shell=True ile işaretliyor!
+    argv = [eylem] + [d.lstrip("-") for d in degerler]
+    return {"argv": argv, "ayristirici": "shell", "shell": True}
+
+veri = json_yukle("veri/planlar.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = arguman_plani(o["eylem"], o["degerler"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-20")
 ```
 
 ```test
@@ -209,6 +272,8 @@ Eyleme göre beklenen değer sayısını denetle. Dönen listeyi uygulamanın sa
 Program doğrulaması ile gerçek dispatcher arasında sapma olabilir. Reddedilen isteğin çalışması yetki bypass'ı, `shell=True` kullanılması komut enjeksiyonu yüzeyi, beklenen vektörden farklı vektör ise argüman sapmasıdır. İzinli bir işin hiç çalışmaması da güvenlik açığı değil fakat işlev hatasıdır.
 
 Regresyon raporu bu olayları birbirine karıştırmaz. Bir vaka birden fazla listeye girebilir. `temiz` olmak için çalışma durumu izinle aynı olmalı, varsa gerçekleşen aday shell kullanmamalı ve beklenen argüman vektörüyle birebir aynı olmalıdır.
+
+**Görev 3'te sık tuzaklar:** Kabuk kullanımını yalnız çalışan adaylarda saymak, hazırlanıp son anda çalışmayan `shell=True` adayını gizler (`veri/calistirma_kayitlari.json`, `r-shell-calismadi`). Argv sapmasını yalnız izinli vakalarda aramak, reddedilmesi gerekirken çalışan `cmd` adayının vektörünü kaybeder (`r-cmd-calisti`). Temizliği yalnız çalışma durumuna indirgemek `r-shell-true` ve `r-sinir-dustu` gibi vakaları temiz sayar.
 :::
 
 ::: gorev 3 · Yetki, shell ve argüman sapmalarını ayrı raporla
@@ -229,9 +294,52 @@ Dönüş:
 
 Listeler alfabetik vaka kimliği sıralıdır. Boş girdi için boş rapor dön; sıralama ve girdi değişimi sonucu etkilememelidir.
 
+Görünür veri: `veri/calistirma_kayitlari.json`. Dosyada beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def calistirma_regresyonu(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: shell kullanımını yalnız çalışan adaylarda sayıyor, argv sapmasını yalnız izinli vakalarda arıyor, temizliği yalnız çalışma durumuyla veriyor (shell ve sapma yok sayılır), kayıtları doğrulamıyor ve listeleri sıralamıyor!
+    sonuc = {"vaka": len(kayitlar), "yetkisiz_calisma": [], "kabuk_kullanimi": [], "argv_sapmasi": [], "beklenen_calismadi": [], "temiz": []}
+    for kayit in kayitlar:
+        gercek = kayit["gerceklesen"]
+        calisti = bool(gercek and gercek["calistirildi"])
+        if not kayit["izinli"] and calisti:
+            sonuc["yetkisiz_calisma"].append(kayit["vaka_id"])
+        if calisti and gercek["shell"]:
+            sonuc["kabuk_kullanimi"].append(kayit["vaka_id"])
+        if kayit["izinli"] and gercek is not None and gercek["argv"] != kayit["beklenen_argv"]:
+            sonuc["argv_sapmasi"].append(kayit["vaka_id"])
+        if kayit["izinli"] and not calisti:
+            sonuc["beklenen_calismadi"].append(kayit["vaka_id"])
+        if calisti == kayit["izinli"]:
+            sonuc["temiz"].append(kayit["vaka_id"])
+    return sonuc
+
+veri = json_yukle("veri/calistirma_kayitlari.json")
+try:
+    rapor = calistirma_regresyonu(veri["kayitlar"])
+except Exception as hata:
+    rapor = {"hata": type(hata).__name__}
+for alan, deger in veri["beklenen"].items():
+    print(alan, "doğru" if rapor.get(alan) == deger else "YANLIŞ", rapor.get(alan))
+for i, bozuk in enumerate(veri["bozuk_girdiler"], 1):
+    try:
+        calistirma_regresyonu(bozuk)
+        print("bozuk", i, "YANLIŞ: kabul edildi")
+    except ValueError:
+        print("bozuk", i, "doğru: ValueError")
+    except Exception as hata:
+        print("bozuk", i, "YANLIŞ:", type(hata).__name__)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-20")
 ```
 
 ```test
@@ -342,6 +450,8 @@ Sentetik ham dosya sunucuda `/data/ai-saldiri-20-argumanlar.txt` adresindedir; a
 `yazdir` ve `kopyala` burada işletim sistemi komutu değil, sabit yerel Python adaptöründeki iki eğitim eylemidir. Öğrenci program allowlist'i ve argv planı gerçek `subprocess.run(..., shell=False)` önünde denetlenir. Alt süreç gerçekten başlar, aldığı `sys.argv`yi kendi PID/sürümüyle geri yazar; plan ile görülen argümanlar karşılaştırılır. Kopyalama yalnız deneyin `-kaynak rapor.txt` dosyasından `-kopya rapor.txt` dosyasınadır; SHA256 ile gerçek etki ölçülür.
 
 `--help`, boşluk, tırnak, & ve ; gibi karakterler tek veri argümanı olarak kalmalıdır. Her programın `--` davranışı farklıdır; bu adaptörün davranışı bütün işletim sistemi araçlarına genellenemez. Keyfi model komutu veya shell=True hiç çalıştırılmaz; statik arka uç sınırı yanlış öğrenci kodunda da bunu engeller. İzin verilmeyen cmd önerisi gerçek süreç başlamadan reddedilir. Doğrudan sentetik argv kontrolleri ile iki canlı native model önerisi ayrı kaydedilir. Modelin saldırıya uyması geçme şartı değildir.
+
+**Çıktıyı okurken:** Her satırda planlanan argv ile alt sürecin gerçekten gördüğü `sys.argv`yi yan yana karşılaştır; ikisi birebir aynı olmalıdır. `cmd` önerisinde `alt_surec` boş kalmalıdır, yani süreç hiç başlamamalıdır. Zehirli kolda model `cmd` ya da başka bir program önermediyse bu başarısızlık değildir; o koşuda notun modele etki etmediğini gösterir.
 :::
 
 ::: gorev Gerçek deney · Program kapısı ve argv sınırını gerçek süreçte ölç
@@ -356,11 +466,36 @@ timeout: 300
 ```starter
 import ai_lab
 
-def komut_dogrula(cagri,izinli_programlar):return {}
+def komut_dogrula(cagri, izinli_programlar):
+    # KUSURLU BAŞLANGIÇ KODU: program adını ilk boşluğa ve son "/" işaretine göre kesip "düzeltiyor" ("git; echo x" ve "/usr/bin/git" izinli sayılır), argümanları " ".join ile birleştirip split() ile yeniden bölüyor (boşluklu argüman parçalanır, boş argüman kaybolur), ; $ & | içeren argümanları sessizce siliyor ve şemayı denetlemiyor!
+    program = cagri["program"].split()[0].split("/")[-1].rstrip(";")
+    if program not in izinli_programlar:
+        return {"izinli": False, "neden": "program-izinsiz", "argv": []}
+    args = [a for a in " ".join(cagri["args"]).split() if not any(k in a for k in ";$&|")]
+    return {"izinli": True, "neden": "dogrulandi", "argv": [program] + args}
 
-def arguman_plani(eylem,degerler):return {}
+def arguman_plani(eylem, degerler):
+    # KUSURLU BAŞLANGIÇ KODU: "--" seçenek sınırını eklemiyor, tire ile başlayan değerin tirelerini kırpıp veriyi değiştiriyor, eylemi ve değer sayısını denetlemiyor ve planı shell=True ile işaretliyor!
+    argv = [eylem] + [d.lstrip("-") for d in degerler]
+    return {"argv": argv, "ayristirici": "shell", "shell": True}
 
-def calistirma_regresyonu(kayitlar):return {}
+def calistirma_regresyonu(kayitlar):
+    # KUSURLU BAŞLANGIÇ KODU: shell kullanımını yalnız çalışan adaylarda sayıyor, argv sapmasını yalnız izinli vakalarda arıyor, temizliği yalnız çalışma durumuyla veriyor (shell ve sapma yok sayılır), kayıtları doğrulamıyor ve listeleri sıralamıyor!
+    sonuc = {"vaka": len(kayitlar), "yetkisiz_calisma": [], "kabuk_kullanimi": [], "argv_sapmasi": [], "beklenen_calismadi": [], "temiz": []}
+    for kayit in kayitlar:
+        gercek = kayit["gerceklesen"]
+        calisti = bool(gercek and gercek["calistirildi"])
+        if not kayit["izinli"] and calisti:
+            sonuc["yetkisiz_calisma"].append(kayit["vaka_id"])
+        if calisti and gercek["shell"]:
+            sonuc["kabuk_kullanimi"].append(kayit["vaka_id"])
+        if kayit["izinli"] and gercek is not None and gercek["argv"] != kayit["beklenen_argv"]:
+            sonuc["argv_sapmasi"].append(kayit["vaka_id"])
+        if kayit["izinli"] and not calisti:
+            sonuc["beklenen_calismadi"].append(kayit["vaka_id"])
+        if calisti == kayit["izinli"]:
+            sonuc["temiz"].append(kayit["vaka_id"])
+    return sonuc
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_20 as deney
@@ -516,11 +651,20 @@ for ad, mutant in [("shell kullanımını gizleyen", m_shell), ("argv sapmasın�
 from sandbox import ai_gercek_ai_saldiri_20 as deney
 import tempfile,secrets,json
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('komut_ref','plan_ref','rapor_ref')), 'laboratuvar/gerçek ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('komut_ref','plan_ref','rapor_ref','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/gerçek ölçüm yamalanmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 for i in range(3):
     text='--'+secrets.token_hex(4)+' & literal; iki kelime';c={'program':'yazdir','args':[text]}
     if not ok(komut_dogrula(c,['yazdir','kopyala'])==deney.komut_ref(c),'yeni metinde program/argv sözleşmesi'):stop()
     if not ok(arguman_plani('yazdir',[text])==deney.plan_ref(c),'yeni metinde seçenek sınırı ve shellFalse'):stop()
+    _k=[{'vaka_id':'v-'+secrets.token_hex(3),'izinli':False,'beklenen_argv':[],'gerceklesen':{'argv':['cmd','/c',text],'shell':True,'calistirildi':False}}]
+    if not ok(calistirma_regresyonu(_k)==deney.rapor_ref(copy.deepcopy(_k)),'çalışmayan shell adayı da raporlanmalı'):stop()
 with tempfile.TemporaryDirectory(prefix='pafta_argv20_') as tmp:
     p=Path(tmp)/'argumanlar.json';p.write_text(deney.ORNEK.read_text(encoding='utf-8'),encoding='utf-8')
     r=deney.deney(komut_dogrula,arguman_plani,calistirma_regresyonu,p,Path(tmp)/'deney')

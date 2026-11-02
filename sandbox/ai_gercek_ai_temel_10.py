@@ -6,6 +6,7 @@ değişmesin diye deney modelin bir kopyasında yapılır.
 """
 import copy
 import hashlib
+import math
 
 import ai_lab
 
@@ -26,7 +27,7 @@ def referans_sinifi(*, olcek_tur="alfa/rank", b_sifir=True, dondur=True, yerinde
                 raise ValueError("temel")
             if isinstance(rank, bool) or not isinstance(rank, int) or not 1 <= rank <= min(temel.in_features, temel.out_features):
                 raise ValueError("rank")
-            if isinstance(alfa, bool) or not isinstance(alfa, (int, float)) or not alfa > 0:
+            if isinstance(alfa, bool) or not isinstance(alfa, (int, float)) or not alfa > 0 or not math.isfinite(alfa):
                 raise ValueError("alfa")
             self.temel = temel
             if dondur:
@@ -82,16 +83,21 @@ def lora_tak(model, sinif, rank, alfa):
     return takilan
 
 
+def _tum_ozet(parametreler):
+    return {ad:hashlib.sha256(t.detach().cpu().contiguous().numpy().tobytes()).hexdigest() for ad,t in parametreler}
+
+
 def deney(sinif, rank=8, alfa=16, adim=40, ogrenme=2e-3, seed=2026):
     """Gerçek ince ayar. Sonuç sözlüğü kanıta yazılır; kabul koşullarını test belirler."""
     torch = ai_lab._torch()
     tok, temel_model, _ = ai_lab.dil_modeli()
     torch.manual_seed(seed)
-    orijinal_ozet = _ozet(temel_model.model.layers[0].self_attn.q_proj.weight)
+    ortak_once=_tum_ozet(temel_model.state_dict().items())
     model = copy.deepcopy(temel_model)
     toplam = sum(p.numel() for p in model.parameters())
     for p in model.parameters():
         p.requires_grad_(False)
+    temel_parametreler=list(model.named_parameters());temel_once=_tum_ozet(temel_parametreler)
     once = {"hedef": _kayip(model, tok, HEDEF_METIN), "kontrol": _kayip(model, tok, KONTROL_METNI),
             "uretim": _uret(model, tok, HEDEF_ONEK)}
     takilan = lora_tak(model, sinif, rank, alfa)
@@ -101,19 +107,21 @@ def deney(sinif, rank=8, alfa=16, adim=40, ogrenme=2e-3, seed=2026):
     temel_ozet = [_ozet(l.temel.weight) for l in takilan[:2]]
     opt = torch.optim.Adam(egitilen, lr=ogrenme) if egitilen else None
     ids = torch.tensor([tok(HEDEF_METIN)["input_ids"]])
-    seyir = []
+    seyir = [];egitim_adimlari=[]
     model.train()
     for i in range(adim if opt else 0):
         opt.zero_grad()
         kayip = model(ids, labels=ids).loss
         kayip.backward()
         opt.step()
+        egitim_adimlari.append({"adim":i,"kayip":kayip.item()})
         if i % 10 == 0 or i == adim - 1:
             seyir.append((i, round(kayip.item(), 4)))
     model.eval()
     sonra = {"hedef": _kayip(model, tok, HEDEF_METIN), "kontrol": _kayip(model, tok, KONTROL_METNI),
              "uretim": _uret(model, tok, HEDEF_ONEK)}
-    temel_degismedi = [_ozet(l.temel.weight) for l in takilan[:2]] == temel_ozet
+    temel_sonra=_tum_ozet(temel_parametreler)
+    temel_degismedi=temel_once==temel_sonra
     # Birleştirme: adaptörsüz yeni kopyaya birleşik ağırlıkları yaz, çıktıları karşılaştır
     birlesik = copy.deepcopy(temel_model)
     k = 0
@@ -125,13 +133,14 @@ def deney(sinif, rank=8, alfa=16, adim=40, ogrenme=2e-3, seed=2026):
     kontrol_ids = torch.tensor([tok(KONTROL_METNI + " " + HEDEF_ONEK)["input_ids"]])
     with torch.no_grad():
         birlesme_farki = (model(kontrol_ids).logits - birlesik(kontrol_ids).logits).abs().max().item()
-    return {"rank": rank, "alfa": alfa, "adim": adim, "ogrenme": ogrenme, "seed": seed,
+    ortak_sonra=_tum_ozet(temel_model.state_dict().items())
+    return {"girdiler":{"hedef_metin":HEDEF_METIN,"hedef_tokenlar":ids[0].tolist(),"uretim_oneki":HEDEF_ONEK,"kontrol_metin":KONTROL_METNI,"kontrol_tokenlar":kontrol_ids[0].tolist()},"optimizer":"torch.optim.Adam","egitim_adimlari":egitim_adimlari,"temel_ozetleri":{"once":temel_once,"sonra":temel_sonra},"ortak_ozetleri":{"once":ortak_once,"sonra":ortak_sonra},"rank": rank, "alfa": alfa, "adim": adim, "ogrenme": ogrenme, "seed": seed,
             "hedef_moduller": list(HEDEF_MODULLER), "takilan_katman": len(takilan),
             "toplam_parametre": toplam, "egitilen_parametre": n_egitilen, "oran": n_egitilen / toplam,
             "beklenen_egitilen": sum(rank * (l.temel.in_features + l.temel.out_features) for l in takilan),
             "takinca_hedef_kayip": takili_kayip, "once": once, "sonra": sonra, "seyir": seyir,
             "temel_agirlik_degismedi": temel_degismedi, "birlesme_farki": birlesme_farki,
-            "ortak_model_degismedi": _ozet(temel_model.model.layers[0].self_attn.q_proj.weight) == orijinal_ozet}
+            "ortak_model_degismedi": ortak_once==ortak_sonra}
 
 
 def goster(sinif):

@@ -5,7 +5,15 @@ summary: Kimliği doğrulanmış oturumdan bağla, nesne sahipliği ve işlem ba
 timeout: 45
 ---
 
-::: anlat Modelin söylediği kullanıcı, oturum kullanıcısı değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Modelin söylediği kullanıcı, oturum kullanıcısı değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir ajan sisteminde kimlik, giriş sağlayıcısının (OIDC/OAuth, oturum çerezi, imzalı token) doğruladığı oturumdan gelir. Model native `tool_calls` içinde `kullanici`, `nesne_id`, `eylem` gibi argümanlar üretir. Dispatcher nesne sahipliğini veritabanından okur; Burp Suite gibi araçlar bu istekleri yakalayıp `id` değiştirerek BOLA/IDOR dener. | Görev 1–3: `veri/oturum_cagrilari.json`, `veri/nesne_istekleri.json` ve `veri/karar_kayitlari.json` içindeki **sentetik** oturumlar, nesne ACL'leri ve karar kayıtları. Son adım: sentetik doğrulanmış oturum, kurulu yerel Ollama modeline üç native araç çağrısı ve deneyin kendi geçici SQLite veritabanında gerçek SELECT/UPDATE/DELETE. | Gerçek bir kimlik sağlayıcısı, token imzası, onay süresi ya da tek kullanımlılık sınanmaz. Üç model çağrısı bir saldırı başarı oranı vermez. Kapıların doğru karar vermesi bütün üretim auth sistemlerinin güvenli olduğunu göstermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, ağ ve veritabanı yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve deneyin kendi geçici SQLite dosyalarını kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın istek dosyası çalışma kopyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Model bir araç çağrısında `kullanici="admin"` veya başka bir kullanıcının nesne kimliğini üretebilir. Dispatcher kimliği bu JSON'dan alırsa kimlik bağlama bypass'ı oluşur. Kullanıcı kimliği, kimliği doğrulanmış oturumdan gelmelidir; model yalnız işlem adayını üretir.
 
 Yetkilendirme üç ayrı sorudur:
@@ -14,7 +22,9 @@ Yetkilendirme üç ayrı sorudur:
 2. **Nesne ve işlem:** Bu kullanıcı bu nesne üzerinde bu eylemi yapabilir mi?
 3. **Çalışma:** Politika kararı ile dispatcher'ın gerçekleştirdiği eylem aynı mı?
 
-Bu derste Burp Suite, Ollama, ağ veya gerçek araç kullanılmaz. Oturum, nesne ve karar fixture'larıyla kimlik bağlama, BOLA/IDOR tarzı nesne kontrolü ve çalışma bypass'ı ölçülür.
+Görev 1–3'te Ollama, ağ veya gerçek araç kullanılmaz; oturum, nesne ve karar fixture'larıyla kimlik bağlama, BOLA/IDOR tarzı nesne kontrolü ve çalışma bypass'ı ölçülür. Son adım yerel Ollama modelinin native araç çağrısını deneyin kendi SQLite veritabanı önünde ölçer. Burp Suite ve dış ağ hiçbir adımda kullanılmaz.
+
+**Görev 1'de sık tuzaklar:** Adları `lower()` ile karşılaştırmak `Ayse` ile `ayse`yi aynı kişi yapar (`veri/oturum_cagrilari.json`, `k-09`). `dogrulanmis` alanını doğruluk değeriyle (`if oturum["dogrulanmis"]`) denetlemek `1` ve `"true"` gibi değerleri kabul eder (`k-05`, `k-06`). Ad karşılaştırmasını oturum doğrulamasından önce yapmak, doğrulanmamış oturumda yanlış neden döndürür (`k-04`). Çıktıda her örnek `doğru` ya da `YANLIŞ` diye işaretlenir; `YANLIŞ` satırının açıklaması hangi kuralın eksik olduğunu söyler.
 :::
 
 ::: tahmin
@@ -51,9 +61,36 @@ Dönüş `{"izinli":BOOL,"neden":NEDEN}` biçimindedir:
 
 Önce oturum doğrulamasını denetle. Çağrıdaki kullanıcı adı eşleşse bile doğrulanmamış oturumu kabul etme; bu sonuç yalnız kimlik bağlamadır, nesne yetkisi değildir.
 
+Görünür veri: `veri/oturum_cagrilari.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def kimlik_bagla(oturum, cagri):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kullanıcı adlarını lower() ile karşılaştırıyor (Ayse = ayse), ad eşleşmesini oturum doğrulamasından önce denetliyor, dogrulanmis alanını doğruluk değeriyle okuyor (1 ve "true" geçer) ve şemayı, ek rol alanını hiç denetlemiyor!
+    if str(cagri.get("kullanici", "")).lower() != str(oturum.get("kullanici", "")).lower():
+        return {"izinli": False, "neden": "kimlik-uyusmazligi"}
+    if not oturum.get("dogrulanmis"):
+        return {"izinli": False, "neden": "oturum-dogrulanmamis"}
+    return {"izinli": True, "neden": "bagli"}
+
+veri = json_yukle("veri/oturum_cagrilari.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = kimlik_bagla(o["oturum"], o["cagri"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-19")
 ```
 
 ```test
@@ -119,6 +156,8 @@ def kimlik_bagla(oturum, cagri):
 Kullanıcının oturuma bağlı olması, her nesneye erişebileceği anlamına gelmez. Bu derste okuma sahip veya paylaşım listesine; yazma yalnız sahibe; silme ise sahip ve aynı nesne-işlem için üretilmiş açık onaya bağlıdır. Başka nesnenin kimliğini değiştirmek BOLA/IDOR saldırısının fixture karşılığıdır.
 
 Onay global bir `True` değeri değildir. `{"nesne_id":"d1","eylem":"sil"}` yalnız bu nesnenin silinmesi için geçerlidir. Okuma ve yazma için onay alanı kullanılmaz. Gerçek sistemde onayın süresi, tek kullanımlılığı ve imzası da denetlenmelidir; burada yalnız kapsam bağlaması sınanır.
+
+**Görev 2'de sık tuzaklar:** Paylaşım listesini "erişim var" diye her eyleme genişletmek, paylaşımlı kullanıcıya yazma ve silme verir (`veri/nesne_istekleri.json`, `n-03`, `n-09`). Onayı yalnız "var mı" diye denetlemek, başka nesnenin ya da başka işlemin onayını kabul eder (`n-07`, `n-08`) ve `True` gibi global bir onaya izin verir (`n-11`). Paylaşımı tür denetimi olmadan `in` ile aramak, `"mehmet"` metnini liste gibi kullanır (`n-14`).
 :::
 
 ::: gorev 2 · Nesne sahipliği ve işlem bazlı onayı uygula
@@ -132,9 +171,37 @@ Dönüş `{"izinli":BOOL,"neden":NEDEN}` biçimindedir:
 
 Başarı nedeni `izinli`. Onay verilmişse `None` veya tam iki alanlı dict olmalı; geçersiz onay şeması `ValueError` üretir. Okuma/yazma için onayın içeriği kararı değiştirmez. Sahibi onaydan okuma.
 
+Görünür veri: `veri/nesne_istekleri.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def nesne_yetki(kullanici, nesne, eylem, onay):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: paylaşım listesindeki kullanıcıya yazma ve silme de veriyor, silmede onayı yalnız "var mı" diye denetliyor (başka nesnenin onayı ve True geçer), kullanıcı, nesne, eylem ve onay şemasını hiç denetlemiyor!
+    erisim = kullanici == nesne["sahip"] or kullanici in nesne["paylasim"]
+    if not erisim:
+        return {"izinli": False, "neden": "nesne-erisimi-yok"}
+    if eylem == "sil" and not onay:
+        return {"izinli": False, "neden": "islem-onayi-gerekli"}
+    return {"izinli": True, "neden": "izinli"}
+
+veri = json_yukle("veri/nesne_istekleri.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = nesne_yetki(o["kullanici"], o["nesne"], o["eylem"], o["onay"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-19")
 ```
 
 ```test
@@ -219,6 +286,8 @@ Okuma kararını sahiplik veya paylaşım üyeliğiyle ver. Yazma ve silmede ön
 Bazı bypass'lar politika fonksiyonunda, bazıları dispatcher'dadır. Politika `reddet` derken dispatcher eylemi çalıştırırsa karar doğru görünse bile saldırı gerçekleşir. Tersine her isteği reddeden sistem bypass'ı önler fakat meşru kullanımı bozar.
 
 Regresyon raporu dört ölçüt üretir: beklenen ret yerine izinli karar, beklenen ret yerine çalışan eylem, beklenen izin yerine yanlış ret ve bütünüyle tutarlı vakalar. `tutarli` için karar beklenene eşit olmalı ve `calistirildi` yalnız izinli vakalarda doğru olmalıdır. Bu fixture gerçek log toplamak yerine test sözleşmesini görünür kılar.
+
+**Görev 3'te sık tuzaklar:** Çalışma bypass'ını yalnız karar bypass'ı olan vakalarda aramak, politikanın `reddet` dediği ama dispatcher'ın yine çalıştırdığı vakayı kaybeder (`veri/karar_kayitlari.json`, `r-idor-oku`). Tutarlılıkta `calistirildi` alanını yok saymak, meşru eylemi hiç çalıştırmayan vakayı (`r-paylasim-oku`) ya da her şeyi reddedip yine çalıştıran vakayı tutarlı sayar. Çıktıda her rapor alanı beklenenle karşılaştırılır; dört bozuk girdinin hepsi `ValueError` almalıdır.
 :::
 
 ::: gorev 3 · Karar ve çalışma bypass'ını ayrı raporla
@@ -238,9 +307,48 @@ Dönüş:
 
 Listeler alfabetik vaka kimliği sıralıdır. Bir vaka hem karar hem çalışma bypass'ına girebilir. Boş girdi için boş rapor dön; girdi sırası sonucu etkilememeli ve veri değişmemelidir.
 
+Görünür veri: `veri/karar_kayitlari.json`. Dosyada beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def yetki_regresyonu(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: çalışma bypass'ını yalnız karar bypass'ı olan vakalarda arıyor (reddedilip çalışan eylem kaybolur), tutarlılıkta calistirildi alanını yok sayıyor, kayıtları doğrulamıyor ve listeleri sıralamıyor!
+    sonuc = {"vaka": len(kayitlar), "karar_bypassi": [], "calisma_bypassi": [], "yanlis_ret": [], "tutarli": []}
+    for kayit in kayitlar:
+        if kayit["beklenen"] == "reddet" and kayit["karar"] == "izinli":
+            sonuc["karar_bypassi"].append(kayit["vaka_id"])
+            if kayit["calistirildi"]:
+                sonuc["calisma_bypassi"].append(kayit["vaka_id"])
+        if kayit["beklenen"] == "izinli" and kayit["karar"] == "reddet":
+            sonuc["yanlis_ret"].append(kayit["vaka_id"])
+        if kayit["beklenen"] == kayit["karar"]:
+            sonuc["tutarli"].append(kayit["vaka_id"])
+    return sonuc
+
+veri = json_yukle("veri/karar_kayitlari.json")
+try:
+    rapor = yetki_regresyonu(veri["kayitlar"])
+except Exception as hata:
+    rapor = {"hata": type(hata).__name__}
+for alan, deger in veri["beklenen"].items():
+    print(alan, "doğru" if rapor.get(alan) == deger else "YANLIŞ", rapor.get(alan))
+for i, bozuk in enumerate(veri["bozuk_girdiler"], 1):
+    try:
+        yetki_regresyonu(bozuk)
+        print("bozuk", i, "YANLIŞ: kabul edildi")
+    except ValueError:
+        print("bozuk", i, "doğru: ValueError")
+    except Exception as hata:
+        print("bozuk", i, "YANLIŞ:", type(hata).__name__)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-19")
 ```
 
 ```test
@@ -329,6 +437,8 @@ Her deney kendi SQLite veritabanında benim/ortak/yabanci nesnelerini kurar. Pay
 `kimlik_bagla` önceki sözleşmede oku/yaz/paylas kabul eder. Bu deneyde yalnız kimlik eşleşmesini ölçmek için ona eylem=oku verilir; bu bir silme izni değildir. **Gerçek eylem değişmeden `nesne_yetki` kapısına gider.** İki kapı da izin vermeden yürütme olmaz. Temiz/zehirli korumalı ve iki kapısı atlanmış yerel karşılaştırma kolu native model kullanır. On bir doğrudan sentetik kontrol gerçek diskte meşru okuma/yazma/onaylı silme ile kimlik/nesne/yanlış onay retlerini doğrular; model cevabı diye sunulmaz.
 
 Ham native argümanlar, güvenilir oturum/onay, nesne ACL'i, karar, gerçekten çalışan işlem ve disk önce/sonrası ayrı kaydedilir. Model saldırıya uymayabilir; bu geçerli gözlemdir, saldırı başarısı geçme şartı değildir. Bu sınırlı yerel deney bütün üretim auth sistemlerini kapsamaz.
+
+**Çıktıyı okurken:** Önce `kimlik-nesne-kapisi-yok` kolunun disk önce/sonrası farkına bak; kapılar atlandığında modelin önerdiği işlem doğrudan çalışır. Korumalı kolda aynı öneri `reddedildi` olarak görünmeli ve disk değişmemelidir. Model hiç `yabanci` nesnesini istemediyse bu bir başarısızlık değildir; o koşuda saldırının modele etki etmediğini gösterir.
 :::
 
 ::: gorev Gerçek deney · Model kimliğini ve yabancı nesne işlemini sınırla
@@ -343,11 +453,36 @@ timeout: 300
 ```starter
 import ai_lab
 
-def kimlik_bagla(oturum,cagri):return {}
+def kimlik_bagla(oturum, cagri):
+    # KUSURLU BAŞLANGIÇ KODU: kullanıcı adlarını lower() ile karşılaştırıyor (Ayse = ayse), ad eşleşmesini oturum doğrulamasından önce denetliyor, dogrulanmis alanını doğruluk değeriyle okuyor (1 ve "true" geçer) ve şemayı, ek rol alanını hiç denetlemiyor!
+    if str(cagri.get("kullanici", "")).lower() != str(oturum.get("kullanici", "")).lower():
+        return {"izinli": False, "neden": "kimlik-uyusmazligi"}
+    if not oturum.get("dogrulanmis"):
+        return {"izinli": False, "neden": "oturum-dogrulanmamis"}
+    return {"izinli": True, "neden": "bagli"}
 
-def nesne_yetki(kullanici,nesne,eylem,onay):return {}
+def nesne_yetki(kullanici, nesne, eylem, onay):
+    # KUSURLU BAŞLANGIÇ KODU: paylaşım listesindeki kullanıcıya yazma ve silme de veriyor, silmede onayı yalnız "var mı" diye denetliyor (başka nesnenin onayı ve True geçer), kullanıcı, nesne, eylem ve onay şemasını hiç denetlemiyor!
+    erisim = kullanici == nesne["sahip"] or kullanici in nesne["paylasim"]
+    if not erisim:
+        return {"izinli": False, "neden": "nesne-erisimi-yok"}
+    if eylem == "sil" and not onay:
+        return {"izinli": False, "neden": "islem-onayi-gerekli"}
+    return {"izinli": True, "neden": "izinli"}
 
-def yetki_regresyonu(kayitlar):return {}
+def yetki_regresyonu(kayitlar):
+    # KUSURLU BAŞLANGIÇ KODU: çalışma bypass'ını yalnız karar bypass'ı olan vakalarda arıyor (reddedilip çalışan eylem kaybolur), tutarlılıkta calistirildi alanını yok sayıyor, kayıtları doğrulamıyor ve listeleri sıralamıyor!
+    sonuc = {"vaka": len(kayitlar), "karar_bypassi": [], "calisma_bypassi": [], "yanlis_ret": [], "tutarli": []}
+    for kayit in kayitlar:
+        if kayit["beklenen"] == "reddet" and kayit["karar"] == "izinli":
+            sonuc["karar_bypassi"].append(kayit["vaka_id"])
+            if kayit["calistirildi"]:
+                sonuc["calisma_bypassi"].append(kayit["vaka_id"])
+        if kayit["beklenen"] == "izinli" and kayit["karar"] == "reddet":
+            sonuc["yanlis_ret"].append(kayit["vaka_id"])
+        if kayit["beklenen"] == kayit["karar"]:
+            sonuc["tutarli"].append(kayit["vaka_id"])
+    return sonuc
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_19 as deney
@@ -485,11 +620,22 @@ for ad, mutant in [("reddedip çalışan bypass'ı düşüren", m_calisma), ("ya
 from sandbox import ai_gercek_ai_saldiri_19 as deney
 import tempfile,secrets,json
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('kimlik_ref','nesne_ref','rapor_ref')), 'laboratuvar/gerçek ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('kimlik_ref','nesne_ref','rapor_ref','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/gerçek ölçüm yamalanmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 for i in range(3):
     user='u-'+secrets.token_hex(3);oid='d-'+secrets.token_hex(3);o={'id':oid,'sahip':user,'paylasim':['diger']}
     if not ok(nesne_yetki(user,o,'sil',{'nesne_id':oid,'eylem':'sil'})==deney.nesne_ref(user,o,'sil',{'nesne_id':oid,'eylem':'sil'}),'yeni nesnede işlem bağlı onay'):stop()
     if not ok(kimlik_bagla({'kullanici':user,'dogrulanmis':True},{'kullanici':'baska','eylem':'oku'})=={'izinli':False,'neden':'kimlik-uyusmazligi'},'yeni oturumda kimlik eşleşmesi'):stop()
+    if not ok(kimlik_bagla({'kullanici':user,'dogrulanmis':True},{'kullanici':user.upper(),'eylem':'oku'})=={'izinli':False,'neden':'kimlik-uyusmazligi'},'kullanıcı adı normalleştirilmeden karşılaştırılır'):stop()
+    if not ok(nesne_yetki('diger',o,'sil',{'nesne_id':oid,'eylem':'sil'})==deney.nesne_ref('diger',o,'sil',{'nesne_id':oid,'eylem':'sil'}),'paylaşımlı kullanıcı geçerli onayla da silemez'):stop()
+    _k=[{'vaka_id':'v-'+secrets.token_hex(3),'beklenen':'reddet','karar':'reddet','calistirildi':True}]
+    if not ok(yetki_regresyonu(_k)==deney.rapor_ref(copy.deepcopy(_k)),'reddedilip çalışan eylem çalışma bypass\'ı sayılır'):stop()
 with tempfile.TemporaryDirectory(prefix='pafta_auth19_') as tmp:
     p=Path(tmp)/'istekler.json';p.write_text(deney.ORNEK.read_text(encoding='utf-8'),encoding='utf-8')
     r=deney.deney(kimlik_bagla,nesne_yetki,yetki_regresyonu,p,Path(tmp)/'deney')

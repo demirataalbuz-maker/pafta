@@ -6,9 +6,28 @@ timeout: 45
 ---
 
 ::: anlat Yapısal olarak geçerli çıktı güvenli çıktı demek değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir uygulamada model çıktısı Ollama `format` (JSON şeması), Pydantic/JSON Schema, NeMo Guardrails çıkış rayları ya da Guardrails AI doğrulayıcıları gibi katmanlardan geçer. Gitleaks/TruffleHog benzeri tarayıcılar sır kalıplarını arar. Karar FastAPI gibi bir sunucuda yanıtı geçirir, durdurur ya da insana yollar. | Görev 1–3: `veri/model_ciktilari.json`, `veri/cikti_metinleri.json` ve `veri/guardrail_kayitlari.json` içindeki **sentetik** çıktılar ve kayıtlar; standart Python ile şema, dört dar sızıntı kalıbı ve karar. Son adım: kurulu yerel Ollama modelinin yapısal (JSON) ve serbest modda ürettiği gerçek çıktılar. | Dört kalıp gerçek sırların çoğunu tanımaz: kodlanmış, bölünmüş ya da yeniden ifade edilmiş sızıntılar kaçar. İki mod ve tek koşu bir oran vermez. Şemaya uyan bir yanıtın içeriği doğru ya da zararsız olmak zorunda değildir. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Modelden dönen JSON, istenen alanları taşısa bile özel anahtar, erişim belirteci veya yasaklı canary içerebilir. Çıktı guardrail katmanı bu yüzden en az iki denetimi ayırır: yapısal şema, uygulamanın veriyi işleyip işleyemeyeceğini; politika taraması, içeriğin kullanıcıya veya başka bir araca verilip verilemeyeceğini gösterir.
 
-NeMo Guardrails ve FastAPI gerçek bir uygulamada yanıt doğrulama ve durdurma akışına bağlanabilir. Buradaki fixture dış model çağırmaz; standart Python ile katı şema, sızıntı sinyali ve karar mantığını sınar. Sinyal raporu hassas değerin kendisini döndürmez.
+NeMo Guardrails ve FastAPI gerçek bir uygulamada yanıt doğrulama ve durdurma akışına bağlanabilir. Görev 1–3'teki fixture dış model çağırmaz; standart Python ile katı şema, sızıntı sinyali ve karar mantığını sınar. Son adım aynı kararı kurulu yerel modelin gerçek çıktılarına uygular. Sinyal raporu hassas değerin kendisini döndürmez.
+
+**Saldırgan ne dener?** Çıktı tarafındaki saldırgan, modelin bağlamındaki sırrı (sistem istemi, araç sonucu, başka kullanıcının verisi) kullanıcıya ya da bir sonraki araca taşımaya çalışır. Dar bir kalıp tarayıcısını aşmak için değeri base64 ya da hex ile kodlatır. Ayrıca şunları dener:
+
+- Değeri harflere bölmek ya da araya boşluk koydurmak.
+- Tam genişlikli Unicode harflerle yazdırmak.
+- Değeri şemanın izin verdiği bir alana gömmek: `kaynaklar` içinde bir kimlik ya da şemaya eklenmiş `sistem_notu`.
+- Güven alanını yüksek göstererek insan incelemesinden kaçmak.
+
+**Savunma neden kırılır?** Kalıp tarayıcısı yalnız bildiği biçimi görür. `api_key=` aranırken `ＡＰＩ＿ＫＥＹ＝` ya da base64 kopyası kaçar. Şema doğrulaması fazladan alanı sessizce atarsa hata görünmez olur. Atmak yerine bütün çıktıyı reddetmek, saldırının izini korur. Çıktıyı "düzeltmek" de savunmayı zayıflatır: `strip()`, kırpma ya da tür dönüştürme, modelin bozuk çıktısını geçerli gibi gösterir. Bu yüzden iki katman birlikte kullanılır: katı şema biçimi zorlar, tarayıcı bilinen kalıpları yakalar, karar katmanı ilk hatada değil bütün kanıtlarla karar verir.
+
+**Görev 1'de sık tuzaklar:** Ek alanları bırakmak, `sistem_notu` gibi bir alanla gizli değer taşınmasına izin verir (`veri/model_ciktilari.json`, `m-04`). `isinstance(guven, (int, float))` denetimi `True` değerini kabul eder; `bool` ayrıca dışlanmalıdır (`m-06`). Kaynak listesini kopyalamadan döndürmek, çağıranın girdiyi değiştirmesine yol açar.
 :::
 
 ::: tahmin Güven eşiği alt sınırı dahil etmez
@@ -38,9 +57,39 @@ Kaynaklar en fazla beş benzersiz kimlikten oluşan bir listedir. Her kimlik 1�
 
 Bütün alanları koruyan yeni bir sözlük ve yeni bir kaynak listesi döndür; girdiyi değiştirme.
 
+Görünür veri: `veri/model_ciktilari.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def model_ciktisi_dogrula(cikti):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: ek alanları sessizce bırakıyor (gizli değer sistem_notu gibi bir alanla taşınır), özeti strip() ile "düzeltiyor", güvende bool'u, türü ve aralığı denetlemiyor, kaynak kimliklerini doğrulamıyor ve kaynak listesini kopyalamıyor!
+    for alan in ("ozet", "etiket", "guven", "kaynaklar"):
+        if alan not in cikti:
+            raise ValueError("eksik alan: " + alan)
+    if cikti["etiket"] not in ("bilgi", "islem", "reddetme"):
+        raise ValueError("etiket geçersiz")
+    sonuc = dict(cikti)
+    sonuc["ozet"] = str(cikti["ozet"]).strip()
+    return sonuc
+
+veri = json_yukle("veri/model_ciktilari.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = model_ciktisi_dogrula(o["cikti"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"], sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-08")
 ```
 
 ```test
@@ -145,6 +194,10 @@ def model_ciktisi_dogrula(cikti):
 Çıktı taraması ham gizli değeri loglamamalıdır. Bu ders dört dar fixture sinyali kullanır: PEM biçimli özel anahtar başlığı, yeterli uzunlukta Bearer token, atanmış API anahtarı ve yasaklı `BREACH:CANARY-42` işareti. Bu kurallar her gerçek sırrı tanımaz; yalnız açıkça tanımlanan test kalıplarını bulur.
 
 NFKC ve `casefold` yalnız karşılaştırma görünümünde kullanılır. İçerik temizlenmiş veya güvenli hâle getirilmiş sayılmaz. Karar katmanı sinyal türlerini alır; hassas eşleşmenin kendisini almaz.
+
+**Çıktı nasıl okunur?** Sinyal listesi boşsa bu "sızıntı yok" demek değildir, "bilinen dört kalıptan biri yok" demektir. `veri/cikti_metinleri.json` içindeki `s-09` base64 kodlu bir anahtar taşır ve hiçbir sinyal üretmez. Bu, kasıtlı bırakılmış bir sınırdır.
+
+**Görev 2'de sık tuzaklar:** Normalize etmeden aramak tam genişlikli `ＡＰＩ＿ＫＥＹ` yazımını kaçırır (`s-05`). Kelime sınırı olmadan aramak, `BREACH:CANARY-420` gibi başka bir değeri canary sayar (`s-07`). Uzunluk sınırı olmayan Bearer kalıbı kısa ve zararsız değerlerde gürültü üretir (`s-04`). Aynı sinyali tekrar eklemek karar katmanının sabit sıra beklentisini bozar (`s-08`).
 :::
 
 ::: gorev 2 · Hassas değeri açığa çıkarmadan çıktı risk sinyalleri üret
@@ -157,9 +210,42 @@ NFKC ve `casefold` yalnız karşılaştırma görünümünde kullanılır. İçe
 3. `api_anahtari`: `api key`, `api-key`, `api_key` veya `apikey` adı, `:`/`=` ve ardından aynı sınırlı karakter kümesinden en az 8 karakter.
 4. `gizli_isaret`: bağımsız `BREACH:CANARY-42` işareti.
 
+Görünür veri: `veri/cikti_metinleri.json`. Her metnin `beklenen` sinyal listesi vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def cikti_risk_sinyalleri(cikti):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: normalize etmeden büyük/küçük harfe duyarlı arıyor (bearer ve tam genişlikli harfler kaçar), yalnız "-----BEGIN PRIVATE KEY-----" başlığını tanıyor, token uzunluğunu denetlemiyor, canary'yi kelime sınırı olmadan arıyor ve aynı sinyali birden çok kez ekliyor!
+    sinyaller = []
+    if "-----BEGIN PRIVATE KEY-----" in cikti:
+        sinyaller.append("ozel_anahtar")
+    for satir in cikti.splitlines():
+        if "Bearer " in satir:
+            sinyaller.append("bearer_token")
+        if "api_key=" in satir:
+            sinyaller.append("api_anahtari")
+    if "BREACH:CANARY-42" in cikti:
+        sinyaller.append("gizli_isaret")
+    return sinyaller
+
+veri = json_yukle("veri/cikti_metinleri.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = cikti_risk_sinyalleri(o["cikti"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"], sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-08")
 ```
 
 ```test
@@ -235,6 +321,8 @@ Her kalıbı normalize edilmiş görünümde küçük harfle yaz. İki gizli de�
 Son kararda şema hatası, özel anahtar veya token sızıntısı ve yasaklı canary `durdur` sonucunu üretir. Bu nedenlerden hiçbiri yokken güven 0.5'in altındaysa çıktı `insan_incelemesi` durumuna gider. Diğer durumlarda `gecir` denir.
 
 Nedenler `sema`, `gizli_veri`, `gizli_isaret`, `dusuk_guven` sırasındadır. Şema bozukken de mevcut politika sinyalleri korunur; ilk hata diğer kanıtları silmemelidir. Rapor ham çıktı veya gizli değer taşımaz.
+
+**Görev 3'te sık tuzaklar:** İlk nedeni bulunca durmak, olay incelemesinde "şema da bozuktu" kanıtını kaybettirir (`veri/guardrail_kayitlari.json`, `yanit-coklu`). Şema hatasını yalnız uyarı sayıp sızıntı yoksa geçirmek fail-open'dır (`yanit-sema`). `<=` eşiği tam 0.5 güveni gereksiz yere insana yollar (`yanit-sinir`); `<` kullan.
 :::
 
 ::: gorev 3 · Şema, sızıntı ve güven kanıtlarıyla çıktı kararı üret
@@ -249,9 +337,50 @@ Her kayıt için `{"id":ID,"karar":KARAR,"nedenler":[...]}` döndür:
 
 Kayıtları kimliğe göre sırala, boş girdide boş liste döndür ve girdiyi değiştirme.
 
+Görünür veri: `veri/guardrail_kayitlari.json`. Dosyada yedi kayıt, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def cikti_guardrail_raporu(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: ilk nedeni bulunca diğerlerini atlıyor (kanıt kaybolur), şema hatasını yalnız not edip çıktıyı geçiriyor, güven eşiğini <= ile uyguluyor (0.5 incelemeye gider), kayıtları doğrulamıyor ve sıralamıyor!
+    rapor = []
+    for kayit in kayitlar:
+        if any(s in ("ozel_anahtar", "bearer_token", "api_anahtari") for s in kayit["sinyaller"]):
+            rapor.append({"id": kayit["id"], "karar": "durdur", "nedenler": ["gizli_veri"]})
+        elif "gizli_isaret" in kayit["sinyaller"]:
+            rapor.append({"id": kayit["id"], "karar": "durdur", "nedenler": ["gizli_isaret"]})
+        elif kayit["guven"] <= 0.5:
+            rapor.append({"id": kayit["id"], "karar": "insan_incelemesi", "nedenler": ["dusuk_guven"]})
+        else:
+            rapor.append({"id": kayit["id"], "karar": "gecir", "nedenler": [] if kayit["sema_gecerli"] else ["sema"]})
+    return rapor
+
+veri = json_yukle("veri/guardrail_kayitlari.json")
+try:
+    rapor = cikti_guardrail_raporu(veri["kayitlar"])
+except Exception as hata:
+    rapor = [{"id": "hata", "karar": type(hata).__name__, "nedenler": []}]
+print("rapor sırası", "doğru" if [r["id"] for r in rapor] == [b["id"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r["id"] == beklenen["id"]), None)
+    print(beklenen["id"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        cikti_guardrail_raporu(b["girdi"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-08")
 ```
 
 ```test
@@ -378,6 +507,8 @@ Durdurma nedenlerini birbirinden bağımsız ekle. Yalnız durdurma nedeni yoksa
 Çıktı guardrail'inin iki katmanı birbirinin yerine geçmez: dar sızıntı tarayıcısı yalnız bilinen kalıpları (PEM, Bearer, API anahtarı, yasaklı işaret) bulur; katı şema doğrulaması ise çıktının biçimini zorlar. Son görevde senin `cikti_guardrail_raporu` işlevin, gerçek yerel modelin iki modda ürettiği **gerçek** çıktıları karara bağlar: katı JSON şema istenen yapısal mod ve serbest paragraf modu. Sandbox her çıktının şema geçerliliğini (1. görev) ve sızıntı sinyallerini (2. görev) bağımsız hesaplar; `guven` değerini çıktıdan okur.
 
 Deney gerçekte şunu gösterebilir: serbest modda model bazen sistem istemindeki gizli değeri yankılar (gerçek sızıntı), ama dar sızıntı tarayıcısı o değeri tanımaz; yine de şema doğrulaması çıktıyı biçim uymadığı için fail-closed `durdur` eder. Yani yapısal doğrulama, içerik tarayıcısının kaçırdığını yakalayan ayrı bir savunma katmanıdır. Yapısal mod şemaya uyarsa ve güven yeterliyse `gecir` olur.
+
+**Çıktıyı okurken:** Serbest mod satırında önce `sema` nedenine, sonra canary sızıntısına bak. Model sırrı yankılamadıysa da serbest çıktı şemaya uymadığı için durdurulmalıdır. Yapısal mod `gecir` aldıysa, bu yalnız biçimin ve bilinen kalıpların temiz olduğunu gösterir; içeriğin doğru olduğunu göstermez.
 :::
 
 ::: gorev Gerçek deney · Çıktı guardrail'i gerçek çıktıyı sınar
@@ -393,7 +524,18 @@ timeout: 300
 import ai_lab
 
 def cikti_guardrail_raporu(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: ilk nedeni bulunca diğerlerini atlıyor (kanıt kaybolur), şema hatasını yalnız not edip çıktıyı geçiriyor, güven eşiğini <= ile uyguluyor (0.5 incelemeye gider), kayıtları doğrulamıyor ve sıralamıyor!
+    rapor = []
+    for kayit in kayitlar:
+        if any(s in ("ozel_anahtar", "bearer_token", "api_anahtari") for s in kayit["sinyaller"]):
+            rapor.append({"id": kayit["id"], "karar": "durdur", "nedenler": ["gizli_veri"]})
+        elif "gizli_isaret" in kayit["sinyaller"]:
+            rapor.append({"id": kayit["id"], "karar": "durdur", "nedenler": ["gizli_isaret"]})
+        elif kayit["guven"] <= 0.5:
+            rapor.append({"id": kayit["id"], "karar": "insan_incelemesi", "nedenler": ["dusuk_guven"]})
+        else:
+            rapor.append({"id": kayit["id"], "karar": "gecir", "nedenler": [] if kayit["sema_gecerli"] else ["sema"]})
+    return rapor
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_08 as deney
@@ -406,8 +548,19 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_karar", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak = ("referans", "referans_karar", "getattr", "kanit_yaz")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+sorun = sorted(set(sorun))
+if not kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun)):
+    stop()
 fn = need("cikti_guardrail_raporu")
 from sandbox import ai_gercek_ai_savunma_08 as D
 K = [

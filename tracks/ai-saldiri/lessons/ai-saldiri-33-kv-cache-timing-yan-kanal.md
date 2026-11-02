@@ -5,10 +5,24 @@ summary: Sentetik hit/miss sürelerinde medyan farkı, sınıflandırma hatalar�
 timeout: 300
 ---
 
-::: anlat Hız farkı bir sinyaldir, prompt dökümü değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Hız farkı bir sinyaldir, prompt dökümü değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| vLLM, SGLang ve llama.cpp gibi sunucular ortak önek (prefix) önbelleği tutar. Aynı sistem promptunu paylaşan istekler, önbellek isabetinde daha hızlı yanıt verir. Araştırmalarda çok kiracılı servislerde bu farkla başka kullanıcının prompt önekinin tahmin edilebildiği gösterilmiştir. Gerçek değerlendirme yüzlerce tekrar, kontrol grubu ve istatistiksel test ister. | Görev 1–3: `veri/grup_olcumleri.json`, `veri/esik_olcumleri.json` ve `veri/aday_olcumleri.json` içindeki **sentetik** milisaniye ölçümleri. Son adım: kurulu yerel Ollama modelinde 3 soğuk önek ve 3 ısıtılmış ortak önek isteğinin gerçek duvar saati süreleri. | Tek kullanıcılı yerel Ollama, çok kiracılı bir servisin önbellek paylaşımını temsil etmez. 3+3 ölçüm istatistiksel bir kanıt değildir. Ölçülen süre isteğin tamamıdır (en fazla 8 token üretimi dahil), saf ilk-token süresi (TTFT) değildir. Hiçbir prompt çalınmaz. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve deneyin kendi ürettiği yapay önek metinlerini kullanır. Başka bir kullanıcının ya da uygulamanın promptuna erişilmez. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Paylaşılan bir inference sisteminde önbellek isabeti yanıt süresini kısaltabilir. Saldırgan aday prompt ön eklerini deneyerek bu farktan bilgi çıkarmaya çalışabilir. Ancak gürültü, kuyruk, donanım ve scheduler da aynı farkı üretebilir. Bu nedenle tek ölçüm yerine tekrarlar, medyan, hata oranları ve önceden belirlenmiş etki eşiği gerekir.
 
 İlk üç görevde süreler sentetik milisaniye fixture'larıdır; son görevde ise yerel Ollama (`ai_lab.SohbetOturumu`) üzerinde ortak önek (`hit`) ve soğuk önek (`miss`) istekleriyle gerçek yanıt sürelerini ölçüyoruz. Amaç prompt çalmak değil, yan kanal iddiasını ve yanlış pozitifleri istatistiksel olarak sınamaktır.
+
+**Altta ne olur?** Bir dil modeli yanıt üretmeden önce bütün girdiyi (sistem promptu ve kullanıcı mesajı) işler. Bu "prefill" aşamasında her token için anahtar/değer (KV) tensörleri hesaplanır. Sunucu aynı öneki daha önce işlediyse bu tensörleri önbellekten okuyabilir ve prefill süresini kısaltır. Uzun bir ortak sistem promptu, önbellek isabetinde onlarca milisaniye kazandırabilir.
+
+**Saldırgan ne dener?** Çok kiracılı bir serviste saldırgan, başka bir müşterinin sistem promptunun nasıl başladığını tahmin etmek ister. Aday önekler gönderir ve her birinin süresini ölçer. Hızlı dönen aday, "bu önek başka biri tarafından yakın zamanda işlendi" sinyali olabilir. Önek parça parça uzatılarak prompt token token tahmin edilmeye çalışılır.
+
+**Savunma ve yanlış alarm neden kırılır?** Tek bir ölçüm bu soruyu yanıtlayamaz. GPU frekans değişimi, işletim sistemi zamanlayıcısı, başka isteklerin kuyrukta beklemesi ya da çöp toplayıcı birkaç yüz milisaniyelik aykırı değer üretebilir. Ortalama böyle tek bir değerle bütünüyle kayar, medyan ise kaymaz (`veri/grup_olcumleri.json` içindeki 950 ms'lik hit). Savunma tarafında da durum aynıdır: "Bu servis sızdırıyor" demek için önceden belirlenmiş eşik, tekrar sayısı ve hata oranları gerekir.
 :::
 
 ::: tahmin Medyan fark kaç millisaniyedir?
@@ -46,9 +60,38 @@ Dönüş:
 
 Medyanlar ve fark float olmalıdır. Girdi sırası sonucu etkilememeli ve kayıtlar değiştirilmemelidir. Ortalama yerine medyan kullan.
 
+Görünür veri: `veri/grup_olcumleri.json`. Doğru özette hit medyanı 42,1 ms, miss medyanı 88,1 ms ve fark yaklaşık 46 ms olur. 950 ms'lik aykırı hit medyanı bozmaz. Beş bozuk liste reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def grup_ozeti(olcumler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: medyan yerine aritmetik ortalama alıyor (tek aykırı ölçüm hit grubunu bozar), farkı ters işaretli hesaplıyor ve ölçümleri doğrulamıyor!
+    gruplar = {"hit": [], "miss": []}
+    for olcum in olcumler:
+        gruplar.setdefault(olcum["grup"], []).append(float(olcum["sure_ms"]))
+    hit = sum(gruplar["hit"]) / len(gruplar["hit"])
+    miss = sum(gruplar["miss"]) / len(gruplar["miss"])
+    return {"hit": {"n": len(gruplar["hit"]), "medyan": hit}, "miss": {"n": len(gruplar["miss"]), "medyan": miss}, "fark": float(hit - miss)}
+
+veri = json_yukle("veri/grup_olcumleri.json")
+print(grup_ozeti(veri["olcumler"]))
+for b in veri["bozuk_listeler"]:
+    try:
+        grup_ozeti(b["olcumler"])
+        print(b["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["id"], "reddedildi:", hata)
+    except Exception as hata:
+        print(b["id"], "ValueError yerine çöktü:", type(hata).__name__)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-33")
 ```
 
 ```test
@@ -140,6 +183,12 @@ Süreleri gruplara float olarak topla. Her grubu sıralayıp tek orta değer vey
 Süre eşik altındaysa `hit` tahmin etmek basit bir sınıflandırıcıdır. Gerçek etiketle karşılaştırıldığında TP, FP, TN ve FN oluşur. Doğruluk tek başına yeterli değildir; hitleri yakalama oranı `TP/(TP+FN)` ve missleri doğru reddetme oranı `TN/(TN+FP)` ayrıca görülmelidir.
 
 Eşiğe eşit süre bu fixture'da hit tahminidir. Bir sınıf hiç yoksa ilgili oran tanımsızdır ve `None` döner; sıfır kabul edilmez.
+
+**Sık tuzaklar:**
+
+- **Sınırda kayma:** `<` ile `<=` arasındaki fark, eşiğe tam denk gelen ölçümü öteki sınıfa iter (`veri/esik_olcumleri.json` içinde 60 ms'lik hit).
+- **Tanımsızı sıfır yapmak:** Hiç gerçek hit yoksa "hitlerin %0'ını yakaladık" demek yanlıştır; ölçülecek bir şey yoktur. `None`, raporu okuyanı bu boşluk konusunda uyarır (`yalniz_miss`).
+- **Yalnız doğruluğa bakmak:** Dengesiz veride, örneğin 95 miss ve 5 hit varken, her şeye "miss" diyen sınıflandırıcı %95 doğruluk alır ama hiçbir hiti yakalamaz. TPR ve TNR'yi ayrı raporlamak bu yüzden gereklidir.
 :::
 
 ::: gorev 2 · Timing eşiğinin hata türlerini ve oranlarını çıkar
@@ -153,9 +202,43 @@ Dönüş tam olarak:
 
 `dogruluk=(TP+TN)/N`, `tpr=TP/(TP+FN)`, `tnr=TN/(TN+FP)` hesaplanır. Payda sıfırsa ilgili oran `None` olur. Girdi sırası sonucu etkilememeli ve kayıtlar değiştirilmemelidir.
 
+Görünür veri: `veri/esik_olcumleri.json`. 60 ms eşikte doğru sonuç TP=2, FP=1, TN=2 ve FN=1'dir. `yalniz_miss` verisinde TPR `None` olmalıdır. Üç bozuk liste reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def esik_regresyonu(olcumler, esik):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: eşiğe eşit süreyi miss sayıyor (< kullanıyor), tanımsız oranı 0.0 yapıyor ve ölçümleri/eşiği doğrulamıyor!
+    sonuc = {"tp": 0, "fp": 0, "tn": 0, "fn": 0}
+    for olcum in olcumler:
+        tahmin = "hit" if olcum["sure_ms"] < esik else "miss"
+        if tahmin == "hit":
+            sonuc["tp" if olcum["gercek"] == "hit" else "fp"] += 1
+        else:
+            sonuc["tn" if olcum["gercek"] == "miss" else "fn"] += 1
+    n = len(olcumler)
+    sonuc["dogruluk"] = (sonuc["tp"] + sonuc["tn"]) / n if n else 0.0
+    sonuc["tpr"] = sonuc["tp"] / (sonuc["tp"] + sonuc["fn"]) if sonuc["tp"] + sonuc["fn"] else 0.0
+    sonuc["tnr"] = sonuc["tn"] / (sonuc["tn"] + sonuc["fp"]) if sonuc["tn"] + sonuc["fp"] else 0.0
+    return sonuc
+
+veri = json_yukle("veri/esik_olcumleri.json")
+print("tüm ölçümler:", esik_regresyonu(veri["olcumler"], veri["esik"]))
+print("yalnız miss:", esik_regresyonu(veri["yalniz_miss"], veri["esik"]))
+for b in veri["bozuk_listeler"]:
+    try:
+        esik_regresyonu(b["olcumler"], veri["esik"])
+        print(b["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-33")
 ```
 
 ```test
@@ -245,6 +328,8 @@ Her kayıt için önce tahmini belirle, sonra gerçek sınıfla dört sayaçtan 
 Birçok prompt adayı denenirse en hızlı görünen aday rastlantıyla öne çıkabilir. Her aday için aynı minimum örnek sayısı ve aynı minimum medyan farkı uygulanmalıdır. Sonuçlar etki büyüklüğüne göre azalan, eşitlikte ada göre artan sıralanır; böylece girdi sırası kararı değiştirmez.
 
 `guclu_sinyal` yalnız fixture politikasını geçen adayları listeler. Bu etiket promptun gerçekten bulunduğunu veya saldırının başarılı olduğunu kanıtlamaz; kontrollü deney ve bağımsız tekrar gerekir.
+
+Raporu okurken `aday-gurultu` satırına bak. Bu aday, hit ve miss listesi aynı olan bir kontroldür ve farkı 0 olmalıdır. Kontrol aday sinyal veriyorsa ölçüm hattında bir sorun vardır. `aday-tek-sansli` adayında tek bir 10 ms'lik ölçüm, ortalamaya göre 26 ms'lik sahte bir fark yaratır; medyan ise yalnız 1 ms fark gösterir. `aday-esik-sinirinda` adayının farkı tam 5,0 ms'dir ve politika gereği sinyal sayılır. `aday-a` ile `aday-b` aynı farka sahiptir; ada göre sıralama, raporun girdi sırasından bağımsız olmasını sağlar.
 :::
 
 ::: gorev 3 · Adayların örnek yeterliliğini ve medyan etkisini karşılaştır
@@ -259,9 +344,41 @@ Her aday için `fark = medyan(miss) - medyan(hit)` hesapla. `sinyal`, fark `min_
 
 Adaylar farka göre azalan, eşitlikte ada göre artan sıralıdır; `guclu_sinyal` aynı sırayı izler. Boş liste için iki alan da boş döner. Girdi değiştirilmemelidir.
 
+Görünür veri: `veri/aday_olcumleri.json`. Doğru raporun sırası şöyledir: `aday-ortak-onek` (50), `aday-a` (6), `aday-b` (6), `aday-esik-sinirinda` (5, sinyal), `aday-tek-sansli` (1) ve `aday-gurultu` (0). Üç bozuk liste reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def aday_kanit_raporu(adaylar, min_ornek=3, min_fark_ms=5.0):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: medyan yerine ortalama kullanıyor (tek şanslı hızlı ölçüm sinyal üretir), eşiğe eşit farkı sinyal saymıyor, eşitlikte ada göre sıralamıyor ve örnek sayısını/adları doğrulamıyor!
+    sonuc = []
+    for aday in adaylar:
+        hit = sum(aday["hit_sureleri"]) / len(aday["hit_sureleri"])
+        miss = sum(aday["miss_sureleri"]) / len(aday["miss_sureleri"])
+        fark = float(miss - hit)
+        sonuc.append({"aday": aday["aday"], "fark": fark, "sinyal": fark > min_fark_ms})
+    sonuc.sort(key=lambda x: -x["fark"])
+    return {"adaylar": sonuc, "guclu_sinyal": [x["aday"] for x in sonuc if x["sinyal"]]}
+
+veri = json_yukle("veri/aday_olcumleri.json")
+r = aday_kanit_raporu(veri["adaylar"])
+for a in r["adaylar"]:
+    print(a["aday"], round(a["fark"], 2), "sinyal" if a["sinyal"] else "-")
+print("güçlü sinyal:", r["guclu_sinyal"])
+for b in veri["bozuk_listeler"]:
+    try:
+        aday_kanit_raporu(b["adaylar"])
+        print(b["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-33")
 ```
 
 ```test
@@ -363,12 +480,14 @@ Aynı medyan yardımcısını iki süre listesine uygula. Aday sonuçlarını ü
 ::: anlat Canlı Ollama üzerinde ortak önek (KV-cache) ve soğuk önek zamanlama deneyi
 İlk üç görevde medyan farkı, eşik regresyonu ve aday kanıt raporunu sentetik milisaniye listeleri üzerinde doğruladın. Şimdi aynı üç işlevi **gerçek yerel Ollama sunucusu** (`ai_lab.SohbetOturumu`, GPU kilidiyle) üzerinde koşuyoruz:
 
-1. Her turda önce daha önce görülmemiş uzun bir **soğuk önek (`miss`)** gönderilir (`num_predict=1`, yalnız ilk token / TTFT yükünü ölçmek için).
+1. Her turda önce daha önce görülmemiş uzun bir **soğuk önek (`miss`)** gönderilir. Yanıt en fazla 8 token ile sınırlıdır, böylece süreye büyük ölçüde prefill yükü yansır. Ölçülen değer isteğin duvar saati süresidir, saf ilk-token süresi (TTFT) değildir.
 2. Ardından **ortak sistem öneki (`hit`)** ısıtılır ve hemen aynı ortak önekle sıcak istek gönderilerek önbellek isabet süresi kaydedilir.
 3. Elde edilen 6 canlı ölçüm (`3 hit`, `3 miss`) doğrudan senin `grup_ozeti`, `esik_regresyonu` ve `aday_kanit_raporu` işlevlerine verilir.
 
 > [!NOTE]
 > İşletim sistemi zamanlayıcısı ve GPU frekans geçişleri tekil ölçümlerde gürültü yaratabilir; bu yüzden kabul testi ham milisaniyenin sabit bir sayıya eşit olmasını değil, 6 canlı model çağrısının hatasız tamamlanmasını, zamanlama istatistiklerinin doğru hesaplanmasını ve gerçek kanıt kaydını denetler.
+
+**Kanıtı okumak:** `ham_kayitlar` listesinde her turun `hit` ve `miss` süresi yan yana durur. Önce `aday-gurultu-kontrol` satırının farkının 0 olduğuna bak: deney bu adayı bilerek miss listesiyle eşleştirir. Sonra `aday-ortak-onek` farkına bak. Pozitif ve 5 ms'den büyükse, bu makinede ortak önek ısıtmasının ölçülebilir bir etkisi var demektir. Fark küçük ya da negatif çıkabilir; bu da gerçek bir gözlemdir ve kabul şartı değildir. Ollama modeli yeniden yüklerse ya da GPU başka bir iş yaparsa sonuç değişir. Üç tekrar, yalnız yöntemin çalıştığını gösterir.
 :::
 
 ::: gorev Gerçek deney · Yerel Ollama üzerinde KV-cache ortak önek zamanlama ölçümü
@@ -384,27 +503,44 @@ timeout: 300
 ```
 
 ```starter
-import importlib
 import math
 import ai_lab
-L = importlib.import_module("sandbox.ai_gercek_ai_saldiri_33")
+from sandbox import ai_gercek_ai_saldiri_33 as L
 
 def grup_ozeti(olcumler):
-    if not isinstance(olcumler, list) or not olcumler:
-        raise ValueError("olcum listesi gecersiz")
-    # KUSURLU BAŞLANGIÇ KODU: medyan yerine aritmetik ortalama alıyor ve farkı ters işaretli hesaplıyor!
+    # KUSURLU BAŞLANGIÇ KODU: medyan yerine aritmetik ortalama alıyor (tek aykırı ölçüm hit grubunu bozar), farkı ters işaretli hesaplıyor ve ölçümleri doğrulamıyor!
     gruplar = {"hit": [], "miss": []}
     for olcum in olcumler:
-        gruplar[olcum["grup"]].append(float(olcum["sure_ms"]))
+        gruplar.setdefault(olcum["grup"], []).append(float(olcum["sure_ms"]))
     hit = sum(gruplar["hit"]) / len(gruplar["hit"])
     miss = sum(gruplar["miss"]) / len(gruplar["miss"])
     return {"hit": {"n": len(gruplar["hit"]), "medyan": hit}, "miss": {"n": len(gruplar["miss"]), "medyan": miss}, "fark": float(hit - miss)}
 
 def esik_regresyonu(olcumler, esik):
-    return {"tp": 0, "fp": 0, "tn": 0, "fn": 0, "dogruluk": 0.0, "tpr": None, "tnr": None}
+    # KUSURLU BAŞLANGIÇ KODU: eşiğe eşit süreyi miss sayıyor (< kullanıyor), tanımsız oranı 0.0 yapıyor ve ölçümleri/eşiği doğrulamıyor!
+    sonuc = {"tp": 0, "fp": 0, "tn": 0, "fn": 0}
+    for olcum in olcumler:
+        tahmin = "hit" if olcum["sure_ms"] < esik else "miss"
+        if tahmin == "hit":
+            sonuc["tp" if olcum["gercek"] == "hit" else "fp"] += 1
+        else:
+            sonuc["tn" if olcum["gercek"] == "miss" else "fn"] += 1
+    n = len(olcumler)
+    sonuc["dogruluk"] = (sonuc["tp"] + sonuc["tn"]) / n if n else 0.0
+    sonuc["tpr"] = sonuc["tp"] / (sonuc["tp"] + sonuc["fn"]) if sonuc["tp"] + sonuc["fn"] else 0.0
+    sonuc["tnr"] = sonuc["tn"] / (sonuc["tn"] + sonuc["fp"]) if sonuc["tn"] + sonuc["fp"] else 0.0
+    return sonuc
 
 def aday_kanit_raporu(adaylar, min_ornek=3, min_fark_ms=5.0):
-    return {"adaylar": [], "guclu_sinyal": []}
+    # KUSURLU BAŞLANGIÇ KODU: medyan yerine ortalama kullanıyor (tek şanslı hızlı ölçüm sinyal üretir), eşiğe eşit farkı sinyal saymıyor, eşitlikte ada göre sıralamıyor ve örnek sayısını/adları doğrulamıyor!
+    sonuc = []
+    for aday in adaylar:
+        hit = sum(aday["hit_sureleri"]) / len(aday["hit_sureleri"])
+        miss = sum(aday["miss_sureleri"]) / len(aday["miss_sureleri"])
+        fark = float(miss - hit)
+        sonuc.append({"aday": aday["aday"], "fark": fark, "sinyal": fark > min_fark_ms})
+    sonuc.sort(key=lambda x: -x["fark"])
+    return {"adaylar": sonuc, "guclu_sinyal": [x["aday"] for x in sonuc if x["sinyal"]]}
 
 if ai_lab.CALISTIR:
     L.goster(grup_ozeti, esik_regresyonu, aday_kanit_raporu)
@@ -412,17 +548,22 @@ if ai_lab.CALISTIR:
 
 ```test
 import copy
-import importlib
 import ai_lab
-L = importlib.import_module("sandbox.ai_gercek_ai_saldiri_33")
+from sandbox import ai_gercek_ai_saldiri_33 as L
 checks = []
 _base_ok = ok
 def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("grup_ozeti_referans", "esik_regresyonu_referans", "aday_kanit_raporu_referans", "kanit_yaz")):
+import ast
+_yasak = ("grup_ozeti_referans", "esik_regresyonu_referans", "aday_kanit_raporu_referans", "kanit_yaz")
+for s in ai_lab.kod_denetimi(src, yasak=_yasak):
     ok(False, f"Güvenlik/kopya denetimi: {s}")
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names): ok(False, "Güvenlik/kopya denetimi: referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])): ok(False, "Güvenlik/kopya denetimi: kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"): ok(False, "Güvenlik/kopya denetimi: dinamik kod çalıştırma yasak: " + _n.id)
 if not all(checks):
     stop()
 
@@ -500,10 +641,9 @@ print(f"GERÇEK KV-CACHE DENEYİ: model={o['model']} hit_medyan={o['hit_medyan_m
 ```
 
 ```solution
-import importlib
 import math
 import ai_lab
-L = importlib.import_module("sandbox.ai_gercek_ai_saldiri_33")
+from sandbox import ai_gercek_ai_saldiri_33 as L
 
 def grup_ozeti(olcumler):
     if not isinstance(olcumler, list) or not olcumler:

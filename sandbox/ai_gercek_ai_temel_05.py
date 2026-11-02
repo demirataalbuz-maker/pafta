@@ -100,4 +100,4 @@ def goster(fn):
     print("İlk tokena giden ortalama dikkat (attention sink), katman → oran:", sink)
     print("\nKanıt:", ai_lab.kanit_yaz("temel-dikkat-calistir", {
         "kaynak": "gercek", "kabul": False, "ders": "ai-temel-05", "model_bilgisi": bilgi,
-        "katman": 3, "kafa": 4, "harita": satirlar, "model_farki": fark, "sink": sink}))
+        "metin":DENEY_METNI,"tokenlar":tokenlar,"q":q.tolist(),"k":k.tolist(),"v":v.tolist(),"model_baglami":model_c.tolist(),"agirliklar":w.tolist(),"ogrenci_baglami":r["baglam"].tolist(),"ayarlar":{"dtype_hesap":"float64","nedensel":True,"sink_katmanlari":[0,3,15,29]},"katman": 3, "kafa": 4, "harita": satirlar, "model_farki": fark, "sink": sink}))

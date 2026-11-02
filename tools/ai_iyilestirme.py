@@ -24,7 +24,34 @@ DOSYA = os.path.join(ROOT, "docs", "ai-gercek", "iyilestirme.json")
 DURUMLAR = ("acik", "alindi", "teslim", "kabul", "iade")
 
 
+KILIT = DOSYA + ".lock"
+
+
+def _kilit_birak():
+    try:
+        os.remove(KILIT)
+    except FileNotFoundError:
+        pass
+
+
 def oku():
+    # Eş zamanlı iki ajan oku→yaz yaparsa geç yazan öbürünün kaydını ezer; kilit süreç bitene kadar tutulur.
+    import atexit, time
+    if not getattr(oku, "kilitli", False):
+        while True:
+            try:
+                os.close(os.open(KILIT, os.O_CREAT | os.O_EXCL | os.O_WRONLY))
+                break
+            except FileExistsError:
+                try:
+                    if time.time() - os.path.getmtime(KILIT) > 30:
+                        _kilit_birak()
+                        continue
+                except FileNotFoundError:
+                    continue
+                time.sleep(0.2)
+        oku.kilitli = True
+        atexit.register(_kilit_birak)
     with open(DOSYA, encoding="utf-8") as f:
         return json.load(f)
 

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 """ai-guvence-06 (TransformerLens ile Refusal Mekanizması) gerçek deney modülü."""
+import os
+# This lesson never downloads: bridge helpers also inherit strict offline mode.
+os.environ["HF_HUB_OFFLINE"]="1"
+os.environ["TRANSFORMERS_OFFLINE"]="1"
 import hashlib
 import math
 import re
@@ -149,7 +153,7 @@ def instruct_koprusu():
         "kaynak": "gercek",
         "arac": "transformer_lens",
         "transformer_lens_surumu": ai_lab._surum("transformer-lens") or ai_lab._surum("transformer_lens"),
-        "torch_surumu": torch.__version__,
+        "torch_surumu": torch.__version__, "transformers_surumu":ai_lab._surum("transformers"), "tokenizers_surumu":ai_lab._surum("tokenizers"),
         "model": INSTRUCT_MODEL,
         "revizyon": INSTRUCT_REVIZYON,
         "agirlik_sha256": agirlik_sha,
@@ -192,6 +196,8 @@ def deney(aktivasyon_kayitlarini_dogrula, grup_vektor_farki, davranis_iliskisi):
     ]
     katmanlar = (6, 12, 18)
     ham_aktivasyonlar = []
+    tam_aktivasyonlar=[]
+    girdi_kayitlari=[]
     davranis_kayitlari = []
 
     for kimlik, tur, sys_p, usr_p in istemler:
@@ -206,14 +212,17 @@ def deney(aktivasyon_kayitlarini_dogrula, grup_vektor_farki, davranis_iliskisi):
             yanit = tok.decode(uretilen[0, ids.shape[1]:], skip_special_tokens=True).strip()
             _, cache = bridge.run_with_cache(ids)
 
+        girdi_kayitlari.append({"id":kimlik,"tur":tur,"system":sys_p,"user":usr_p,"sohbet_metni":sohbet_metni,"token_idleri":ids[0].detach().cpu().tolist(),"uretilen_tokenlar":uretilen[0,ids.shape[1]:].detach().cpu().tolist()})
         kucuk = yanit.lower()
         reddetti = any(iz in kucuk for iz in ("sorry", "can't", "cannot", "unable", "illegal", "etik", "üzgünüm"))
-        davranis_kayitlari.append({"id": kimlik, "tur": tur, "yanit": yanit[:160], "reddetti": reddetti})
+        davranis_kayitlari.append({"id": kimlik, "tur": tur, "yanit": yanit, "reddetti": reddetti})
 
         for k in katmanlar:
             anahtar = f"blocks.{k}.hook_resid_post"
             tensor = cache[anahtar]
-            vektor = [round(float(x), 6) for x in tensor[0, -1, :8].detach().cpu().tolist()]
+            tam=tensor[0,-1].detach().float().cpu()
+            tam_aktivasyonlar.append({"id":f"{kimlik}-L{k}","katman":k,"tur":tur,"vektor":tam.tolist()})
+            vektor = [round(float(x), 6) for x in tam[:8].tolist()]
             ham_aktivasyonlar.append({
                 "id": f"{kimlik}-L{k}",
                 "katman": k,
@@ -236,8 +245,8 @@ def deney(aktivasyon_kayitlarini_dogrula, grup_vektor_farki, davranis_iliskisi):
         fark_ref = grup_vektor_farki_referans(r_vek, n_vek)
         katman_farklari[k] = fark
         katman_farklari_ref[k] = fark_ref
-        # Katman bazlı müdahale/projeksiyon davranış oranı (katman derinleştikçe ret sinyali belirginleşir)
-        katman_ret = round(min(1.0, max(0.0, taban_ret_orani * (0.6 + 0.2 * idx))), 6)
+        # No intervention was performed: the same observed response rate belongs to every layer.
+        katman_ret = taban_ret_orani
         iliski_girdisi.append({"katman": k, "yon_skoru": fark_ref["l2"], "refusal_orani": katman_ret})
 
     iliski = davranis_iliskisi(list(iliski_girdisi))
@@ -245,15 +254,22 @@ def deney(aktivasyon_kayitlarini_dogrula, grup_vektor_farki, davranis_iliskisi):
 
     kontroller = {
         "aktivasyon_dogrulama_uyumu": dogrulanmis == dogrulanmis_ref and len(dogrulanmis) == 12,
-        "grup_farki_uyumu": katman_farklari == katman_farklari_ref and all(v["l2"] > 0 for v in katman_farklari_ref.values()),
+        "grup_farki_uyumu": katman_farklari == katman_farklari_ref and all(math.isfinite(v["l2"]) and v["l2"] >= 0 for v in katman_farklari_ref.values()),
         "davranis_iliskisi_uyumu": iliski == iliski_ref,
-        "gercek_refusal_dogrulandi": any(d["reddetti"] for d in davranis_kayitlari if d["tur"] == "refusal")
-        and not any(d["reddetti"] for d in davranis_kayitlari if d["tur"] == "normal"),
+        "gercek_uretim_tamamlandi": len(davranis_kayitlari)==4 and all(d["yanit"] for d in davranis_kayitlari) and len(tam_aktivasyonlar)==12 and all(all(math.isfinite(x) for x in d["vektor"]) for d in tam_aktivasyonlar),
+        "sabit_oran_durust": len({x["refusal_orani"] for x in iliski_girdisi})==1 and iliski["korelasyon"] is None,
     }
 
     return {
         "ortam": bilgi,
-        "ayarlar": {"katmanlar": list(katmanlar), "vektor_boyutu": 8, "model": INSTRUCT_MODEL, "revizyon": INSTRUCT_REVIZYON},
+        "ayarlar": {"katmanlar": list(katmanlar), "vektor_boyutu": 8, "max_new_tokens":18,"do_sample":False,"katmana_ozel_mudahale":False,"oran_kaynagi":"aynı iki araştırma yanıtının sezgisel ret oranı; tüm katmanlarda aynı", "model": INSTRUCT_MODEL, "revizyon": INSTRUCT_REVIZYON},
+        "girdi_kayitlari":girdi_kayitlari,
+        "ham_aktivasyonlar":ham_aktivasyonlar,
+        "tam_aktivasyonlar":tam_aktivasyonlar,
+        "iliski_girdisi":iliski_girdisi,
+        "gozlenen_ret_orani":taban_ret_orani,
+        "sinir":"yalnız gözlemsel; ret sezgiseli eksik olabilir, system/konu karışmış, katman müdahalesi yok; ilk8 bileşenle norm",
+        "temizlik":"süreç içi model/cache; dış sunucu veya eğitim yok",
         "davranis_kayitlari": davranis_kayitlari,
         "katman_farklari": katman_farklari,
         "iliski": iliski,
@@ -284,6 +300,7 @@ def goster(aktivasyon_kayitlarini_dogrula, grup_vektor_farki, davranis_iliskisi)
         "ortam": r["ortam"],
         "ayarlar": r["ayarlar"],
         "ozet": o,
+        "girdi_kayitlari":r["girdi_kayitlari"],"davranis_kayitlari":r["davranis_kayitlari"],"ham_aktivasyonlar":r["ham_aktivasyonlar"],"tam_aktivasyonlar":r["tam_aktivasyonlar"],"iliski_girdisi":r["iliski_girdisi"],"kontroller":r["kontroller"],"sinir":r["sinir"],"temizlik":r["temizlik"],
     })
     print("Kanıt:", yol)
     return r

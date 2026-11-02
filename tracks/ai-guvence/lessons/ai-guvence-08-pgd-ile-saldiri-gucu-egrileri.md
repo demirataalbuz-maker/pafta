@@ -6,15 +6,50 @@ timeout: 45
 ---
 
 ::: anlat Gerçek PGD saldırı eğrisini bil, sentetik temsili ayırt et
-Projected Gradient Descent, FGSM benzeri gradyan işareti adımlarını yineler ve her adımdan sonra sonucu başlangıç örneği çevresindeki epsilon bütçesine geri projekte eder. Adım boyu alpha ile toplam bütçe epsilon farklıdır; alpha epsilonu aşarsa projeksiyon sonucu yine bütçe içine çeker, ancak deney tanımını sade tutmak için bu derste `alpha <= epsilon` şartı kullanılır.
+Projected Gradient Descent (PGD), derin öğrenme modellerinin güvenilirlik ve sağlamlık (adversarial robustness) değerlendirmelerinde endüstri standardı kabul edilen çok adımlı, yinelemeli bir birinci derece saldırı yöntemidir. Tek adımlı Fast Gradient Sign Method (FGSM) saldırısının aksine PGD, kayıp fonksiyonunun gradyanı yönünde küçük adımlar atarak ilerler ve her adımın ardından elde edilen perturbasyonu belirlenen $L_\infty$ epsilon ($\varepsilon$) hiper-küpü ile geçerli girdi uzayı ($[0, 1]$ piksel/özellik sınırları) arakesitine geri projekte eder. Adım büyüklüğü $\alpha$ (alpha) ve toplam perturbasyon bütçesi $\varepsilon$ birbirinden bağımsızdır; $\alpha \le \varepsilon$ koşulu sağlandığında saldırgan modelin karar sınırlarına doğru kontrollü ve yerel kayıp yüzeyindeki doğrusal olmayan dalgalanmaları aşabilen çok adımlı bir tırmanış gerçekleştirir.
 
-| Katman | Gerçek PGD sağlamlık değerlendirmesi ne içerir? | Bu ders ne kullanır? | Ne söyleyemez? |
-|---|---|---|---|
-| Çok adımlı projeksiyon | Her iterasyonda `torch.autograd.grad` ile kayıp türevi, $\alpha \cdot \text{sign}(\nabla_x L)$ adımı ve $[x_0 - \varepsilon, x_0 + \varepsilon] \cap [0, 1]$ projeksiyonu | İlk 3 görevde `veri/pgd_ayari.json` sentetik gradyanları; son görevde `ai_lab.fgsm_siniflandirici()` (64-32-4 PyTorch MLP) üzerinde canlı `autograd` PGD adımları | Sabit $\varepsilon$ altında yüksek PGD doğruluğu, gradyan maskelemesi (obfuscated gradients) yoksa anlamlıdır; tek başına sertifikalı sağlamlık kanıtı değildir |
-| Saldırı gücü eğrisi | Farklı $\varepsilon$ ve iterasyon sayılarında ($t = 0..K$) doğruluk kaybı ve gerçekleşen $L_\infty$ normu | İlk 3 görevde `veri/pgd_kayitlari.json` sentetik gözlemleri; son görevde $\varepsilon \in \{0.1, 0.2\}$ ve $t \in \{0, 1, 2, 3\}$ canlı eğrisi | $L_\infty$ bütçesiyle ölçülen sağlamlık $L_2$ veya anlamsal dönüşümlere doğrudan taşınmaz |
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Çok adımlı PGD sağlamlık değerlendirmesinde her iterasyonda `torch.autograd.grad` ile kayıp türevi $\nabla_x \mathcal{L}$, $\alpha \cdot \text{sign}(\nabla_x \mathcal{L})$ gradyan tırmanışı ve $[x_0 - \varepsilon, x_0 + \varepsilon] \cap [0, 1]$ projeksiyonu | İlk 3 görevde `veri/pgd_ayari.json` sentetik gradyanları; son görevde `ai_lab.fgsm_siniflandirici()` (64-32-4 PyTorch MLP) üzerinde canlı `autograd` PGD adımları | Sabit $\varepsilon$ altında yüksek PGD doğruluğu, gradyan maskelemesi (obfuscated gradients) yoksa anlamlıdır; tek başına sertifikalı sağlamlık kanıtı değildir |
+| Farklı $\varepsilon$ bütçeleri ve iterasyon ($t = 0..K$) boyunca doğruluk kaybı eğrisi ile gerçekleşen $L_\infty$ normu izi | İlk 3 görevde `veri/pgd_kayitlari.json` sentetik gözlemleri; son görevde $\varepsilon \in \{0.1, 0.2\}$ ve $t \in \{0, 1, 2, 3\}$ canlı eğrisi | $L_\infty$ bütçesiyle ölçülen sağlamlık, $L_2$ kürelerine veya anlamsal/geometrik dönüşümlere doğrudan taşınamaz |
 
 > [!NOT]
-> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/pgd_ayari.json` ve `veri/pgd_kayitlari.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
+> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/pgd_ayari.json` ve `veri/pgd_kayitlari.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar. Gerçek deney adımında ise PyTorch üzerinde canlı eğitilmiş bir MLP modeli üzerinde gerçek gradyanlar hesaplanır.
+
+### Aracın Altında Ne Olur?
+PGD değerlendirme motoru şu adımları işletir:
+1. **Girdi ve Parametre Doğrulaması:** Saldırı bütçesi $\varepsilon \in [0, 1]$, adım boyu $\alpha \in [0, 1]$ ve toplam adım sayısı $K \in \mathbb{Z}^+$ doğrulanır. $\alpha \le \varepsilon$ denetimi ile saldırının bütçe sınırını tek adımda kontrolsüz aşması engellenir.
+2. **Yinelemeli Gradyan Tırmanışı:** $t = 0$ anında modelin temiz örneği $x_0$ alınır. Her iterasyonda $t = 1..K$ için:
+   $$y_{t} = x_{t-1} + \alpha \cdot \text{sign}\left(\nabla_x \mathcal{L}(\theta, x_{t-1}, y_{\text{true}})\right)$$
+   hesaplanır.
+3. **Kırpma ve Çift Kademeli Projeksiyon:** Girdi önce geçerli fiziksel uzaya kırpılır: $\tilde{y}_t = \text{clip}(y_t, 0, 1)$. Ardından başlangıç noktası çevresindeki $L_\infty$ hiper-küpüne projekte edilir:
+   $$x_t = \Pi_{x_0, \varepsilon}(\tilde{y}_t) = \text{clip}(\tilde{y}_t, x_0 - \varepsilon, x_0 + \varepsilon)$$
+   Bu işlem, her adımda perturbasyonun başlangıç noktasından en fazla $\varepsilon$ uzaklaşabilmesini garanti eder.
+4. **$L_\infty$ Normu ve İz Takibi:** Her adımda gerçekleşen perturbasyon normu $\|x_t - x_0\|_\infty = \max_i |x_{t,i} - x_{0,i}|$ ölçülür ve kayıt altına alınır.
+5. **Epsilon-Adım Eğrilerinin Çıkarılması:** Farklı $\varepsilon$ ve adım sayıları için test kümesindeki doğruluk oranları toplanır. Adım 0 (`adim=0`) taban doğruluk (baseline clean accuracy) olarak sabitlenir ve her adım için doğruluk kaybı $\text{kayıp}(t) = \text{doğruluk}(0) - \text{doğruluk}(t)$ şeklinde hesaplanır.
+
+### Çıktı Nasıl Okunur?
+- **Taban Doğruluk ($t = 0$):** Modelin hiçbir saldırı uygulanmadığındaki temiz performansıdır; bu adımda $L_\infty = 0$ olmak zorundadır.
+- **Doğruluk Kaybı (Accuracy Drop):** Epsilon bütçesi ve adım sayısı arttıkça model doğruluğundaki düşüşü gösterir. Başarılı bir saldırıda bu değer pozitif yönde büyür.
+- **Doyum Noktası (Saturation):** PGD adım sayısı arttıkça eğrinin düzleştiği noktadır; belirli bir adımdan sonra (örneğin $t \ge 3$) kayıp artmıyorsa saldırı o bütçe için yerel optimuma ulaşmıştır.
+- **Maksimum Kayıp:** İlgili epsilon seviyesinde gözlemlenen en yüksek doğruluk kaybıdır ve modelin o tehdit seviyesindeki kırılganlık sınırını temsil eder.
+
+### Saldırgan Neyi Dener?
+- **Yerel Minimumları Aşma:** Tek adımlı saldırıların takıldığı yerel düzlükleri aşmak için küçük $\alpha$ adımlarıyla çok sayıda iterasyon dener.
+- **Rastgele Başlatma (Random Restarts):** $x_0$ çevresinde rastgele bir noktadan başlayarak ($x_0 + \mathcal{U}(-\varepsilon, \varepsilon)$) farklı kayıp vadilerini keşfeder.
+- **Kritik Epsilon Sınırını Tespit:** Doğruluğun aniden çöktüğü eşik epsilon bütçesini belirleyerek en az fark edilebilir gürültüyle modeli yanıltmayı hedefler.
+
+### Savunma Neden Kırılır?
+- **Gradyan Maskelemesi (Gradient Masking / Obfuscation):** Bazı savunmalar gradyanı sıfırlar, kırar ya da rastgeleleştirir. Bu durumda yalnız FGSM değil, düz PGD de yanılır ve model sahte biçimde dayanıklı görünür (Athalye vd., 2018). Böyle bir savunmayı sınamak için BPDA, EOT, rastgele yeniden başlatma veya başka modelden transfer saldırısı gerekir; "PGD kıramadı" sonucu tek başına dayanıklılık kanıtı değildir.
+- **Kayıp Yüzeyi Parçalanması:** Defansif distilasyon gibi yöntemler softmax'ı doyurarak gradyanı küçültür; kayıp yerine logitler üzerinden kurulan saldırılar (ör. Carlini–Wagner) bu savunmayı aşmıştır. Eğri düz çıkıyorsa önce gradyanın gerçekten bilgi taşıyıp taşımadığı kontrol edilmelidir.
+- **Tek Metrik Yanılgısı:** $L_\infty$ normunda yüksek direnç gösteren bir model, $L_2$ veya dönüşüm saldırılarına karşı tamamen savunmasız kalabilir.
+
+### Sık Yapılan Geliştirici Tuzakları
+- **Projeksiyonu Güncel Noktaya Uygulama Hatası:** Projeksiyon sınırlarını $x_{t-1} \pm \varepsilon$ olarak almak yerine daima ilk temiz örnek $x_0 \pm \varepsilon$ üzerinden hesaplamak şarttır; aksi takdirde kümülatif gürültü $K \cdot \alpha$ seviyesine fırlayarak bütçeyi deler.
+- **Kırpma Sıralaması ve Eşzamanlılık:** $[0, 1]$ aralığına kırpma ile $[x_0-\varepsilon, x_0+\varepsilon]$ projeksiyonunun bağımsız koordinatlar üzerinde tutarlı işletilmesi gerekir.
+- **Bool Tip Tuzağı:** Python'da `isinstance(True, int) == True` olduğundan `type(v) is bool` veya `isinstance(v, bool)` ile açık tip denetimi yapılmalıdır.
+- **Taban Adımı Eksikliği:** Adım 0 kaydı olmayan veya sıfırıncı adımda $L_\infty > 0$ olan kayıtların rapora dahil edilmesi taban kaybı hesabını bozar ve `ValueError` ile engellenmelidir.
+- **Float Yuvarlama Sapmaları:** $L_\infty$ değerinin $\varepsilon$ sınırını $1e-9$ seviyesindeki kayan nokta sapmalarıyla aşabilmesi durumunda `1e-9` toleransı tanınmalıdır.
 :::
 
 ::: anlat Projeksiyon ve taban adımı eğriyi karşılaştırılabilir yapar
@@ -472,9 +507,11 @@ def pgd_ayari_dogrula(ayar):
     return ayar
 
 def pgd_izini_uret(x, gradyanlar, ayar):
+    # KUSURLU BAŞLANGIÇ KODU: adımları ve projeksiyonu işletmeden boş iz döndürüyor!
     return {"id": "", "son": [], "l_inf": 0.0, "iz": []}
 
 def pgd_egri_raporu(kayitlar):
+    # KUSURLU BAŞLANGIÇ KODU: taban ve satır kayıplarını hesaplamadan boş rapor döndürüyor!
     return {"satirlar": [], "ozet": []}
 
 if ai_lab.CALISTIR:
@@ -482,6 +519,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import copy
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_08 as L
@@ -491,6 +529,25 @@ _base_ok = ok
 def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
+
+try:
+    _parsed = ast.parse(src)
+    for _node in ast.walk(_parsed):
+        if isinstance(_node, ast.ImportFrom):
+            if any(alias.name == '*' for alias in _node.names):
+                ok(False, "Güvenlik/kopya denetimi: wildcard import yasak")
+            for alias in _node.names:
+                if "referans" in (alias.name or "") or "referans" in (alias.asname or ""):
+                    ok(False, "Güvenlik/kopya denetimi: referans fonksiyon içe aktarılamaz")
+        if isinstance(_node, ast.Name) and "referans" in _node.id:
+            ok(False, "Güvenlik/kopya denetimi: referans kullanımı tespit edildi")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr:
+            ok(False, "Güvenlik/kopya denetimi: referans nitelik kullanımı tespit edildi")
+        if isinstance(_node, ast.Call):
+            if isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+                ok(False, f"Güvenlik/kopya denetimi: dinamik çağrı ({_node.func.id}) yasak")
+except Exception:
+    pass
 
 for s in ai_lab.kod_denetimi(src, yasak=("pgd_ayari_dogrula_referans", "pgd_izini_uret_referans", "pgd_egri_raporu_referans", "kanit_yaz")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")

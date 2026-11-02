@@ -34,21 +34,32 @@ def referans_rapor(olaylar):
             "token_in": token_in, "token_out": token_out, "turler": turler}
 
 
+AYARLAR={"sicaklik":0.2,"en_fazla":40,"tohumlar":[10,11,12],"num_ctx":4096,"istek_adedi":3}
+
 def deney(telemetri_metrik_raporu):
-    olaylar = []
-    with ai_lab.SohbetOturumu() as oturum:
-        for i, istem in enumerate(ISTEMLER):
-            c = oturum.sohbet([{"role": "user", "content": istem}], seed=10 + i, sicaklik=0.2, en_fazla=40)
-            olaylar.append({"iz_id": f"iz-{i}", "olay_id": f"model-{i}", "parent_id": None, "tur": "model",
-                            "zaman_ms": i * 100, "sure_ms": c["sure_ms"],
-                            "alanlar": {"model": oturum.model, "token_out": c["eval_count"] or 0, "durum": "ok"}})
-        ortam = dict(oturum.kayit)
-    ortam["temizlik"] = oturum.kayit.get("temizlik")
-    rapor = telemetri_metrik_raporu([dict(o, alanlar=dict(o["alanlar"])) for o in olaylar])
-    # mahremiyet: hiçbir olayda ham istem metni geçmemeli
-    metin = str(olaylar)
-    sizan = [istem for istem in ISTEMLER if istem in metin]
-    return {"ortam": ortam, "olaylar": olaylar, "rapor": rapor, "sizan_istem": sizan}
+    import time,math
+    olaylar=[];kayitlar=[];hatalar=[];oturum=None
+    try:
+        with ai_lab.SohbetOturumu() as oturum:
+            bas=time.perf_counter()
+            for i,istem in enumerate(ISTEMLER):
+                zaman=(time.perf_counter()-bas)*1000
+                try:
+                    c=oturum.sohbet([{"role":"user","content":istem}],seed=AYARLAR["tohumlar"][i],sicaklik=AYARLAR["sicaklik"],en_fazla=AYARLAR["en_fazla"])
+                    sure=c["sure_ms"];token=c["eval_count"]
+                    basarili=type(token) is int and token>0 and isinstance(c.get("icerik"),str) and bool(c["icerik"].strip()) and isinstance(sure,(int,float)) and math.isfinite(sure) and sure>=0
+                    kayitlar.append({"istem":istem,"yanit":c,"basarili":basarili,"koken":"yalnız bu açık sentetik laboratuvar istemi"})
+                    if not basarili:hatalar.append({"istek":i,"hata":"tamamlanmamış gerçek yanıt/ölçüm"});continue
+                    olaylar.append({"iz_id":f"iz-{i}","olay_id":f"model-{i}","parent_id":None,"tur":"model","zaman_ms":zaman,"sure_ms":sure,"alanlar":{"model":oturum.model,"token_out":token,"durum":"ok"}})
+                except Exception as exc:
+                    hatalar.append({"istek":i,"hata":str(exc),"tur":type(exc).__name__})
+                    kayitlar.append({"istem":istem,"basarili":False,"hata":str(exc)})
+    finally:
+        ortam=dict(oturum.kayit) if oturum else {}
+    rapor=telemetri_metrik_raporu([dict(o,alanlar=dict(o["alanlar"])) for o in olaylar])
+    metin=str(olaylar)
+    sizan=[istem for istem in ISTEMLER if istem in metin]
+    return {"ortam":ortam,"olaylar":olaylar,"rapor":rapor,"sizan_istem":sizan,"deney_kaydi":kayitlar,"hatalar":hatalar}
 
 
 def ozet(r):
@@ -67,4 +78,4 @@ def goster(telemetri_metrik_raporu):
     print(f"\nMetrik raporu: {r['rapor']}")
     print(f"Mahremiyet: olaylarda sızan ham istem = {len(r['sizan_istem'])} (0 olmalı — telemetri içerik taşımaz)")
     print("Kanıt:", ai_lab.kanit_yaz("savunma-telemetri-calistir", {"kaynak": "gercek", "kabul": False, "ders": "ai-savunma-04",
-                                                                   "ortam": o, "ozet": ozet(r)}))
+                                                                   "ortam": o, "ozet": ozet(r), "olaylar":r["olaylar"], "rapor":r["rapor"], "laboratuvar_deney_kaydi":r["deney_kaydi"], "hatalar":r["hatalar"], "ayarlar":AYARLAR}))

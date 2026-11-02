@@ -6,15 +6,37 @@ timeout: 45
 ---
 
 ::: anlat Gerçek veri soykütüğünü (lineage) bil, sentetik temsili ayırt et
-Bir veri kaydını değerlendirirken yalnız içeriğine bakmak yetmez. Kaynağı, sürümü ve uygulanan dönüşümlerin sırası korunmalıdır. Ham kayıtta dönüşüm listesi boş olabilir; sonraki her işlem açık ve sıralı bir iz bırakmalıdır.
+Bir veri kaydını değerlendirirken yalnız içeriğine bakmak yetmez. Kaynağı, sürümü ve uygulanan dönüşümlerin sırası korunmalıdır. Ham kayıtta dönüşüm listesi boş olabilir; sonraki her işlem açık ve sıralı bir iz bırakmalıdır. Veri soykütüğü (`data lineage`), model eğitimine giren her girdinin hangi kaynaktan geldiğini ve hangi aşamalardan geçtiğini kanıtlanabilir kılar.
 
-| Katman | Gerçek veri bütünlüğü ve köken takibi ne içerir? | Bu ders ne kullanır? | Ne söyleyemez? |
-|---|---|---|---|
-| Veri kökeni (lineage) | DVC/OpenLineage kayıtları, kaynak kimliği, sürüm numarası ve sıralı ön-işleme adımları | İlk 3 görevde `veri/koken_kayitlari.json` sentetik kaydı; son görevde canlı telemetri köken kaydı | Geçerli köken üstverisi, kaynak deponun ele geçirilmediğini kriptografik imza olmadan kanıtlamaz |
-| Dağılım sapması ve şüpheli profili | Toplam varyasyon uzaklığı ($TVD = \frac{1}{2}\sum |p_i - q_i|$) ve örnek bazlı model olasılık sapması ($1 - P(y|x)$) | İlk 3 görevde `veri/dagilim_ve_profil.json` sentetik dağılımları; son görevde 3 sınıflı `LogisticRegression` olasılık sapmaları | Yüksek sapma veya şüpheli bayrağı otomatik zehirleme hükmü değildir; doğal alt-popülasyonları da işaretleyebilir |
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| DVC/OpenLineage köken kayıtlarını, toplam varyasyon uzaklığını ($TVD = \frac{1}{2}\sum |p_i - q_i|$) ve scikit-learn model olasılık sapmalarını | İlk üç görevde `veri/koken_kayitlari.json` ve `veri/dagilim_ve_profil.json` içindeki **sentetik** köken/dağılım kayıtlarını; son görevde `scikit-learn` (`LogisticRegression`) ile canlı telemetri köken ve şüpheli profil analizini | Geçerli köken üstverisinin, kaynak deponun ele geçirilmediğini kriptografik imza olmadan tek başına kanıtlayabileceğini; yüksek sapmanın doğal alt-popülasyonlar yerine kesin zehirleme olduğunu söyleyemez |
 
 > [!NOT]
-> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/koken_kayitlari.json` ve `veri/dagilim_ve_profil.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
+> İlk üç görevde çalışma dizinine kopyalanan `veri/koken_kayitlari.json` ve `veri/dagilim_ve_profil.json` dosyaları **sentetik** eğitim örnekleridir. Her çalıştırmada yeniden kopyalanır; çalıştırmalar arasında **kalıcılık yoktur**. Son adımdaki **Gerçek deney** görevinde yazdığın üç işlev `scikit-learn` sınıflandırıcısının canlı olasılık sapmaları ve telemetri kökeniyle sınanır; harici DVC veya OpenLineage sunucusu çalıştırılmaz.
+:::
+
+::: anlat Veri kökeni ve şüpheli profil hattında ne olur, saldırgan ne dener ve savunma neden kırılır?
+Yapay zeka sistemlerine beslenen verilerin güvenilirliği, verinin üretim kaynağından model girdisine kadar olan zincirin bütünlüğüne bağlıdır:
+
+- **Aracın Altında Ne Olur?**
+  1. *Veri Kökeni ve Soykütüğü Doğrulama (`kayit_kokeni_dogrula`):* Gelen veri paketinin `id`, `kaynak`, `surum` ve sıralı `donusumler` alanları doğrulanır. Kimlik biçimi (ASCII regex), kaynak metin uzunluğu ve sürümün pozitif tamsayı olması denetlenir. Ham veriden eğitime kadar olan adımların (`donusumler`) sırası ve yinelenmezliği garanti edilir.
+  2. *Toplam Varyasyon Uzaklığı ile Dağılım Sapması (`dagilim_sapmasi`):* Beklenen referans dağılım ile gözlenen dağılımın kategorik frekansları kendi toplamlarına bölünerek olasılık dağılımlarına normalize edilir. Toplam varyasyon uzaklığı (\(TVD = \frac{1}{2} \sum |p_i - q_i|\)) hesaplanır ve en çok sapan kategori alfabetik eşitlik kuralıyla saptanır.
+  3. *Şüpheli Kayıt Profillemesi (`supheli_kayit_profili`):* Modelin atanan sınıfa verdiği tahmin olasılığından hesaplanan sapma (\(1 - P(y_{\text{atanan}} \mid x)\)) eşik değerini (\(\ge \text{esik}\)) aşıyorsa veya kaydın etiketinde bir değişiklik (`etiket_degisti = True`) tespit edilmişse kayıt şüpheli kabul edilir. Şüpheli kayıtların kaynaklara göre dağılımı (`kaynaklar`) çıkarılarak dış kaynaklardan sızan zehir profillenir.
+- **Çıktı Nasıl Okunur?**
+  - TVD skoru \(0\) ile \(1\) arasında değişir; \(0\) tam örtüşmeyi, \(1\) ise tamamen ayrık dağılımları gösterir.
+  - Şüpheli kayıt oranı (\(\text{supheli\_orani}\)) toplam girdi evrenine göre hesaplanır; ancak `kaynaklar` sözlüğü yalnız şüpheli kayıtların hangi kaynaktan geldiğini sayar.
+- **Saldırganın Taktikleri:**
+  1. *Soykütüğü Sahteciliği (Lineage Tampering):* Saldırgan, denetim izini örtbas etmek için sahte dönüşüm adımları enjekte eder veya sürüm numaralarını manipüle ederek eski zehirli paketleri meşru gibi sunar.
+  2. *Sessiz Dağılım Kayması (Silent Covariate Shift):* Saldırgan, genel sınıf oranlarını bozmadan altküme özniteliklerini kaydırarak modelin karar sınırlarını bozar.
+- **Savunmanın Kırılma Noktaları:**
+  - Kriptografik imza olmadan yalnızca üstveri metnine güvenmek: Üstveriyi değiştiren bir saldırgan kolayca meşru köken süsü verebilir.
+  - Normalizasyon yapmadan ham frekansları karşılaştırmak: Farklı büyüklükteki veri kümelerinde ham farklar yanıltıcı sapmalar üretir.
+- **Sık Yapılan Geliştirici Tuzakları:**
+  1. Python'da `bool` tipinin `int` alt sınıfı olması (`issubclass(bool, int) is True`): `surum` ve sayısal girdilerde `not isinstance(x, bool)` kontrolünün unutulması.
+  2. Girdi sözlüklerini ve dönüşüm listelerini yerinde kopyalamamak (`list(donusumler)`): Yan etkiler güvenlik izini bozar.
+  3. Eşitlik durumunda alfabetik sıralama kuralını ihmal etmek: `max(farklar, key=...)` aramasında determinizm için kategorilerin önceden sıralanması zorunludur.
+  4. Şüpheli oranının paydası ile kaynaklar sözlüğünün evrenini karıştırmak: Oranın paydası tüm kayıtlarken, kaynak sayımları yalnız şüpheli kayıtları kapsar.
 :::
 
 ::: anlat Sapma ve etiket değişikliği ayrı kanıtlardır
@@ -425,9 +447,11 @@ def kayit_kokeni_dogrula(kayit):
     return kayit
 
 def dagilim_sapmasi(beklenen, gozlenen):
+    # KUSURLU BAŞLANGIÇ KODU: normalizasyon yapmadan boş fark döndürüyor!
     return {"toplam_varyasyon": 0.0, "en_sapkan_kategori": "", "maksimum_fark": 0.0}
 
 def supheli_kayit_profili(kayitlar, esik):
+    # KUSURLU BAŞLANGIÇ KODU: etiket_degisti bayrağını incelemeden boş liste dönüyor!
     return {"supheli_sayisi": 0, "supheli_idler": [], "supheli_orani": 0.0, "kaynaklar": {}}
 
 if ai_lab.CALISTIR:
@@ -435,6 +459,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_11 as L
 
@@ -444,8 +469,25 @@ def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("kayit_kokeni_dogrula_referans", "dagilim_sapmasi_referans", "supheli_kayit_profili_referans", "kanit_yaz")):
-    ok(False, f"Güvenlik/kopya denetimi: {s}")
+for ad in ("kayit_kokeni_dogrula", "dagilim_sapmasi", "supheli_kayit_profili"):
+    need(ad)
+
+yasak = (
+    "referans",
+    "kayit_kokeni_dogrula_referans",
+    "dagilim_sapmasi_referans",
+    "supheli_kayit_profili_referans",
+    "getattr",
+    "kanit_yaz",
+)
+ihlal = ai_lab.kod_denetimi(src, yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node, ast.ImportFrom) and any(a.name in yasak or a.name == "*" for a in node.names):
+            ihlal.append("referans ithali")
+except SyntaxError:
+    ihlal.append("sözdizimi")
+ok(not ihlal, "Kendi çözümünü yaz; referans işlevler ithal edilemez: " + ", ".join(ihlal))
 if not all(checks):
     stop()
 

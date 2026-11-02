@@ -6,14 +6,37 @@ timeout: 45
 ---
 
 ::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Oran ve etki ayrı ölçümlerdir
-Zehirli örnek oranı, zehirli kayıt sayısının bütün kayıtlara bölümüdür. Sıfır zehirli kayıt geçerli taban deneyini verir; bütün kayıtların zehirli olduğu sınır da oran olarak birdir. Sayılar ayrı, oran ise bu sayılardan türetilmiş bir ölçümdür.
+Zehirli örnek oranı, eğitim kümesine kasten enjekte edilmiş zehirli kayıt sayısının toplam veri büyüklüğüne bölümüdür. Sıfır zehirli kayıt modelin tertemiz veriyle eğitildiği geçerli taban (`baseline`) deneyini verir; bütün kayıtların zehirli olduğu sınır durumunda ise oran birdir. Ancak ham sayılar ile bu sayılardan türetilen güvenlik metrikleri birbirinden bağımsız değerlendirilmelidir.
 
-| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
 |---|---|---|
 | Zehirleme araştırmalarında model, artan zehir oranlarıyla defalarca yeniden eğitilir; her oran için hedef ve temiz doğruluk ölçülüp etki eğrisi çizilir | İlk üç görevde `veri/zehir_sayimlari.json` ve `veri/etki_olcumleri.json` içindeki **sentetik** sayım ve ölçümleri; son görevde artan sayıda hedef sınıf etiketi çevrilerek `scikit-learn` (`LogisticRegression`) ile yeniden eğitilen canlı modelleri | Tek bir veri kümesi ve tek model ailesindeki eğri, başka veri, model veya saldırı türü için genel bir "güvenli zehir oranı" vermez |
 
 > [!NOT]
-> İlk üç görevde çalışma dizinine kopyalanan `veri/` dosyaları **sentetik** eğitim örnekleridir. Her çalıştırmada yeniden kopyalanır; çalıştırmalar arasında **kalıcılık yoktur**. Son adımdaki **Gerçek deney** görevinde yazdığın üç işlev canlı yeniden eğitim sonuçlarıyla sınanır.
+> İlk üç görevde çalışma dizinine kopyalanan `veri/` dosyaları **sentetik** eğitim örnekleridir. Her çalıştırmada yeniden kopyalanır; çalıştırmalar arasında **kalıcılık yoktur**. Son adımdaki **Gerçek deney** görevinde yazdığın üç işlev canlı yeniden eğitim sonuçlarıyla sınanır; harici bir saldırı aracı ya da framework çalıştırılmaz.
+:::
+
+::: anlat Bir zehirleme etki eğrisinde ne olur, saldırgan neyi dener ve savunma neden kırılır?
+Yapay zeka modellerinin veri zehirlemesine (`data poisoning`) karşı direncini ölçmek, güvenlik mühendisliğinin en temel güvence testlerinden biridir:
+
+- **Aracın Altında Ne Olur?**
+  1. *Zehirleme Oranı Hesaplama (`zehir_orani_hesapla`):* Toplam veri kümesi ve zehirli kayıt sayıları doğrulanır; oran \(\text{zehirli} / \text{toplam}\) formülüyle altı ondalık basamağa yuvarlanarak hesaplanır.
+  2. *Performans Kaybı Eğrisi (`etki_egrisi`):* Model artan zehir oranlarında (\(0, 8, 16, \dots, 48\)) sıfırdan yeniden eğitilir. Sıfır zehir oranındaki taban doğruluğu (\(\text{taban\_dogruluk}\)) referans alınarak her orandaki doğruluk kaybı (\(\text{kayip} = \text{taban\_dogruluk} - \text{dogruluk}\)) hesaplanır ve satırlar orana göre sıralanır.
+  3. *Eşik ve Doyum Analizi (`esik_doyum_raporu`):* Kaybın kabul edilemez risk eşiğine (ör. \(0.5\)) ilk ulaştığı an *eşik oranı*, modelin zehirlenmeye daha fazla tepki veremeyip performans kaybının plato çizdiği (ardışık iki nokta arasındaki mutlak kayıp farkının \(\le \delta\) olduğu) an ise *doyum noktası* olarak tespit edilir.
+- **Çıktı Nasıl Okunur?**
+  - Çizilen etki eğrisi doğrusal olmak zorunda değildir; modeller genellikle belirli bir eşiğe kadar zehre direnç gösterip ardından ani bir çöküş (`cliff effect`) yaşayabilir.
+  - *Erken Düzlük Tuzağı:* Zehirlenmenin henüz başlangıcında (düşük oranlarda) model doğruluk kaybetmemişse ardışık fark \(\approx 0\) çıkar ve "ilk doyum" henüz saldırı etkisini göstermeden erken düz bölgede yakalanabilir. Bu nedenle doyum oranı mutlaka eşik oranıyla birlikte okunmalıdır.
+- **Saldırganın Taktikleri:**
+  1. *Eşik Altı Zehirleme (Sub-threshold Poisoning):* Saldırgan, savunma ekiplerinin performans izleme eşiklerini tetiklemeyecek kadar az zehir enjekte eder; modelin genel temiz doğruluğunu korurken hedef sınıfta gizli arka kapılar (`backdoors`) oluşturur.
+  2. *Doyum Noktasını Bilmek:* Doyumdan sonra eklenen her zehirli kayıt ek kayıp getirmez, yalnızca tespit riskini artırır; yüksek zehir oranı veri doğrulama ve anomali tespitinde en kolay yakalanan durumdur. Bu yüzden saldırgan doyum noktasını öğrenip zehir miktarını eşik ile doyum arasında, istediği etkiyi veren en küçük orana ayarlamaya çalışır.
+- **Savunmanın Kırılma Noktaları:**
+  - Taban noktasının (\(\text{oran}=0\)) temiz kabul edilip doğrulanmaması: Eğitim verisi zaten baştan zehirlenmişse taban performansı yanıltıcı olur.
+  - Orantısız sınıf dağılımı: Hedef sınıf azınlıktaysa, küçük bir zehirli örnek sayısı bile o sınıfta devasa kayba yol açar.
+- **Sık Yapılan Geliştirici Tuzakları:**
+  1. Python'da `bool` tipinin `int` alt sınıfı olması (`issubclass(bool, int) is True`): `isinstance(True, int)` ifadesi `True` döndürdüğünden, sayım girdilerinde `not isinstance(x, bool)` kontrolünün unutulması.
+  2. Oranı toplam kayıt yerine temiz kayıtlara bölmek (`zehirli / temiz`): Tüm kayıtlar zehirli olduğunda sıfıra bölme hatası (`ZeroDivisionError`) oluşur.
+  3. Kayıtları sıralamadan maksimum kayıp ve eşik aramak: Girdi listesi karışık sıralıysa `next()` ilk eşik yerine rastgele bir noktayı yakalar.
+  4. Maksimum kayıp seçiminde eşitlik durumu: Aynı maksimum kayba sahip birden fazla oran varsa *en küçük oran* seçilmelidir (`min(satirlar, key=lambda x: (-x["_ham"], x["oran"]))`).
 :::
 
 ::: anlat Eşik ve doyum noktası aynı şey değildir
@@ -407,16 +430,19 @@ def zehir_orani_hesapla(toplam, zehirli):
     return {"toplam": toplam, "zehirli": zehirli, "temiz": toplam - zehirli, "oran": round(zehirli / max(toplam - zehirli, 1), 6)}
 
 def etki_egrisi(kayitlar):
-    return {"satirlar": [], "taban_dogruluk": 0.0, "maksimum_kayip": 0.0, "maksimum_oran": 0.0}
+    # KUSURLU BAŞLANGIÇ KODU: kayıtları sıralamadan ve tabanı aramadan boş liste dönüyor!
+    return {"satirlar": list(kayitlar or []), "taban_dogruluk": 0.0, "maksimum_kayip": 0.0, "maksimum_oran": 0.0}
 
 def esik_doyum_raporu(kayitlar, esik, delta):
-    return {"esik_orani": None, "doyum_orani": None, "maksimum_kayip": 0.0}
+    # KUSURLU BAŞLANGIÇ KODU: ardışık farkı denetlemeden doyum oranını ilk eleman sayıyor!
+    return {"esik_orani": None, "doyum_orani": (kayitlar or [{}])[0].get("oran"), "maksimum_kayip": 0.0}
 
 if ai_lab.CALISTIR:
     L.goster(zehir_orani_hesapla, etki_egrisi, esik_doyum_raporu)
 ```
 
 ```test
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_13 as L
 
@@ -426,8 +452,25 @@ def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("zehir_orani_hesapla_referans", "etki_egrisi_referans", "esik_doyum_raporu_referans", "kanit_yaz")):
-    ok(False, f"Güvenlik/kopya denetimi: {s}")
+for ad in ("zehir_orani_hesapla", "etki_egrisi", "esik_doyum_raporu"):
+    need(ad)
+
+yasak = (
+    "referans",
+    "zehir_orani_hesapla_referans",
+    "etki_egrisi_referans",
+    "esik_doyum_raporu_referans",
+    "getattr",
+    "kanit_yaz",
+)
+ihlal = ai_lab.kod_denetimi(src, yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node, ast.ImportFrom) and any(a.name in yasak or a.name == "*" for a in node.names):
+            ihlal.append("referans ithali")
+except SyntaxError:
+    ihlal.append("sözdizimi")
+ok(not ihlal, "Kendi çözümünü yaz; referans işlevler ithal edilemez: " + ", ".join(ihlal))
 if not all(checks):
     stop()
 

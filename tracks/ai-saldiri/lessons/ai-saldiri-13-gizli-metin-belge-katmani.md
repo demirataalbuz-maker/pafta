@@ -5,7 +5,15 @@ summary: PDF metin katmanı, metadata ve OCR kanıtlarını kaynaklarıyla paket
 timeout: 45
 ---
 
-::: anlat Belgenin görünen yüzü bütün içeriği değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Belgenin görünen yüzü bütün içeriği değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir RAG/ajan hattında PDF, pypdf ya da PyMuPDF ile metin katmanına ve `/Info` metadata'sına ayrılır. Görüntüler bir vision modeli ya da OCR motoruyla metne çevrilir. `render mode 3` metin ekranda görünmez ama çıkarıcıya gelir. Bu parçalar normalizasyondan geçip model bağlamına girer. | Görev 1–3: `veri/katmanlar.json`, `veri/katman_kayitlari.json` ve `veri/olaylar.json` içindeki **sentetik** katman kayıtları ve hat olayları. Son adım: kurulu reportlab ile üretilen gerçek PDF, pypdf ile gerçek metin/metadata çıkarımı ve kurulu yerel vision modeliyle gömülü görüntüye gerçek OCR. | Fixture sonucu belirli bir PDF okuyucunun ya da modelin davranışını kanıtlamaz. Tek sayfalık, tek görüntülü kontrollü PDF genel çok sayfalı PDF render/OCR davranışını temsil etmez. Katman farkı, modelin hangi içerikten etkilendiğinin nedensellik kanıtı değildir. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde PDF, model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu reportlab/pypdf/Pillow ve kurulu yerel vision modelini kullanır; ders kurulum ya da indirme yapmaz. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın tarif dosyası çalışma kopyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Bir PDF'de kullanıcının ekranda gördüğü metin, metin çıkarıcının okuduğu nesneler, dosya metadata'sı ve OCR'nin görselden ürettiği metin farklı olabilir. Saldırı yönlendirmesi görünmeyen metin nesnesinde veya metadata alanında bulunabilir. Buna karşılık OCR'de görülüp metin katmanında bulunmayan ifade, görsel-metin ayrışmasının adayıdır.
 
 Katmanları tek stringe birleştirmek kanıtın kaynağını kaybettirir. Her parçayı `belge_id`, `katman`, `asama` ve `metin` ile saklarız. Katman etiketi güven vermez: metin katmanı, metadata ve OCR eşit biçimde güvenilmezdir.
@@ -18,7 +26,9 @@ parcalar = [
 print([p["katman"] for p in parcalar if "BREACH:CANARY-42" in p["metin"].splitlines()])
 ```
 
-Bu derste PyMuPDF veya Pillow ile gerçek dosya açmayız; çıkarım sonuçlarını fixture olarak veririz. Böylece gerçek PDF ve model indirmeden kaynak izi ile fark ölçümünü doğrularız. Fixture sonucu belirli bir PDF okuyucunun veya modelin davranışı hakkında kanıt değildir.
+Görev 1–3'te gerçek PDF açmayız; çıkarım sonuçlarını fixture olarak veririz ve kaynak izi ile fark ölçümünü önce bu kayıtlarla doğrularız. Son adım kurulu reportlab ile gerçek bir PDF üretir, pypdf ile katmanlarını çıkarır ve kurulu yerel vision modeliyle OCR yapar; hiçbir adımda yeni paket ya da model indirilmez. Fixture sonucu belirli bir PDF okuyucunun veya modelin davranışı hakkında kanıt değildir.
+
+**Görev 1'de sık tuzaklar:** `system:` ile başlayan ya da talimat gibi görünen satırları silmek, enjeksiyonun kanıtını yok eder ve saldırgan başka bir yazımla filtreyi aşar (`veri/katmanlar.json`, `fatura-1`). Yalnız `belge_id`'ye göre sıralamak, aynı belgenin katmanlarını girdi sırasına bağlı bırakır; paket deterministik olmaz. Metadata'yı "dosyanın kendi alanı" diye güvenilir saymak yanlıştır: üç katman da eşit biçimde güvenilmezdir.
 :::
 
 ::: tahmin
@@ -52,9 +62,45 @@ Tam satır eşleşmesi `d1` için yalnız metadata'yı gösterir. Alt metin say�
 
 Dönüş, `{"guven":"guvenilmez","katmanlar":[...]}` nesnesinin kanonik JSON stringidir (`ensure_ascii=False`, `sort_keys=True`, `separators=(",", ":")`). Kayıtları `(belge_id, katman, asama)` sırasına göre sırala, alan ve metinleri değiştirme. Aynı sıralama anahtarına sahip yinelenen kayıtta `ValueError` yükselt. Girdi listesini ve kayıtlarını değiştirme; metindeki talimat görünümlü ifadeleri silme.
 
+Görünür veri: `veri/katmanlar.json`. Dosyada beklenen paket ve beş bozuk girdi vardır.
+
 ```starter
+import json
+from ai_saldiri_veri import json_yukle
+
 def katman_paketle(katmanlar):
-    return ""
+    # KUSURLU BAŞLANGIÇ KODU: kayıtları yalnız belge_id'ye göre sıralıyor (katman/aşama sırası girdiye bağlı kalır), "system:" ile başlayan satırları sessizce siliyor (kanıt kaybolur), paketi "guvenilir" etiketliyor, şemayı ve yinelenen kaydı denetlemiyor ve kanonik JSON ayarlarını kullanmıyor!
+    temiz = []
+    for kayit in sorted(katmanlar, key=lambda x: x["belge_id"]):
+        metin = "\n".join(s for s in kayit["metin"].splitlines() if not s.startswith("system:"))
+        temiz.append(dict(kayit, metin=metin))
+    return json.dumps({"guven": "guvenilir", "katmanlar": temiz}, sort_keys=True)
+
+veri = json_yukle("veri/katmanlar.json")
+try:
+    sonuc = katman_paketle(veri["katmanlar"])
+except Exception as hata:
+    sonuc = {"hata": type(hata).__name__}
+print("rapor", "doğru" if sonuc == veri["beklenen"] else "YANLIŞ")
+if isinstance(sonuc, dict) and isinstance(veri["beklenen"], dict):
+    for anahtar, deger in veri["beklenen"].items():
+        print(" ", anahtar, "doğru" if sonuc.get(anahtar) == deger else "YANLIŞ", sonuc.get(anahtar))
+for b in veri["bozuk_girdiler"]:
+    try:
+        katman_paketle(b["girdi"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-13")
 ```
 
 ```test
@@ -138,6 +184,8 @@ def katman_paketle(katmanlar):
 Canary'nin yalnız metadata'da görülmesi, model bağlamına metadata'nın taşındığı deneyle birlikte değerlendirilmelidir. Tek başına katman farkı modelin hangi içerikten etkilendiğini kanıtlamaz. Yine de hangi katmanların bağlama girdiğini ve hangilerinin dışlandığını denetlemek için gereklidir.
 
 Aşağıda her belgeden tam olarak üç katman kaydı istiyoruz. Böylece “OCR yok” ile “OCR'da canary yok” birbirine karışmaz. Canary tam satır aranır; daha uzun satırdaki alıntı veya reddetme cümlesi gözlem değildir.
+
+**Görev 2'de sık tuzaklar:** Alt metin araması (`canary in metin`) OCR'deki alıntıyı gözlem sayar (`veri/katman_kayitlari.json`, `d-alinti`). Eksik katmanı `False` diye doldurmak, "OCR yok" ile "OCR'da canary yok" durumunu birleştirir (bozuk girdi `b-01`). `split("\n")` kullanmak `\r\n` ile biten satırı kaçırır; `splitlines()` kullan (`d-crlf`).
 :::
 
 ::: gorev 2 · Üç belge katmanı arasındaki canary farkını çıkar
@@ -152,9 +200,44 @@ Dönüş:
 
 Boolean değer, canary'nin ilgili katman metninde tam satır bulunmasını gösterir. `farkli`, üç boolean değeri aynı olmayan belgelerin alfabetik listesidir. Belgeler sözlüğünü kimlik sırasıyla kur; boş girdi için boş rapor dön. Kayıt sırası sonucu değiştirmemeli ve girdi değişmemelidir.
 
+Görünür veri: `veri/katman_kayitlari.json`. Dosyada canary, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def katman_farklari(kayitlar, canary):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: canary'yi alt metin olarak arıyor (alıntı da gözlem sayılır), eksik katmanı False sayıp kabul ediyor, şemayı ve yinelenen katmanı denetlemiyor, belgeleri ve farkli listesini sıralamıyor!
+    belgeler = {}
+    for kayit in kayitlar:
+        belgeler.setdefault(kayit["belge_id"], {"metin-katmani": False, "metadata": False, "ocr": False})[kayit["katman"]] = canary in kayit["metin"]
+    farkli = [b for b, d in belgeler.items() if len(set(d.values())) > 1]
+    return {"belgeler": belgeler, "farkli": farkli}
+
+veri = json_yukle("veri/katman_kayitlari.json")
+try:
+    sonuc = katman_farklari(veri["kayitlar"], veri["canary"])
+except Exception as hata:
+    sonuc = {"hata": type(hata).__name__}
+print("rapor", "doğru" if sonuc == veri["beklenen"] else "YANLIŞ")
+if isinstance(sonuc, dict) and isinstance(veri["beklenen"], dict):
+    for anahtar, deger in veri["beklenen"].items():
+        print(" ", anahtar, "doğru" if sonuc.get(anahtar) == deger else "YANLIŞ", sonuc.get(anahtar))
+for b in veri["bozuk_girdiler"]:
+    try:
+        katman_farklari(b["girdi"], veri["canary"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-13")
 ```
 
 ```test
@@ -254,6 +337,8 @@ def katman_farklari(kayitlar, canary):
 Enjeksiyon izini araştırırken ham çıkarım, normalizasyon, model bağlamı ve model yanıtı ayrı gözlem noktalarıdır. Canary ham metadata çıkarımında varsa fakat bağlamda yoksa filtreleme veya veri kaybı söz konusu olabilir. Yalnız model yanıtında görünmesi ise daha erken fixture kaydı olmadığında nedeni açıklamaz.
 
 Aşamaları kod sırasıyla değil, açık bir hat sırasıyla karşılaştırırız: `cikarma → normalizasyon → baglam → model-yaniti`. Aynı belge ve aşamada birden fazla katman gözlenirse hepsi korunur. Bu rapor en erken **gözlenen** aşamadır; enjeksiyonun yaratıldığı aşama olduğunu iddia etmez.
+
+**Görev 3'te sık tuzaklar:** Aşama adlarını string olarak sıralamak yanlış hat sırası verir: alfabede `baglam`, `cikarma`'dan önce gelir (`veri/olaylar.json`, `p-meta`). Aynı aşamadaki ilk katmanla yetinmek, iki katmandan aynı anda gelen kanıtı düşürür. Birleştirici karakter taşıyan çıkarma satırı tam satır değildir; canary ilk kez normalizasyonda görünür (`p-normal`).
 :::
 
 ::: gorev 3 · Canary'nin belge bazında ilk gözlendiği aşamayı raporla
@@ -267,9 +352,44 @@ Yalnız canary'yi tam satır içeren olayları dikkate al. Her belge için hat s
 
 Sonuç belge kimliği sıralı olsun; canary içeren olay yoksa `{}` dön. Daha geç aşamadaki olaylar ilk gözlemi değiştirmemeli, girdi değişmemeli ve olay sırası sonucu etkilememelidir.
 
+Görünür veri: `veri/olaylar.json`. Dosyada canary, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def ilk_gozlem(olaylar, canary):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: aşamaları hat sırası yerine alfabetik sırayla karşılaştırıyor ("baglam", "cikarma"dan önce sayılır), canary'yi alt metin olarak arıyor, eş aşamadaki ikinci katmanı düşürüyor ve şemayı denetlemiyor!
+    sonuc = {}
+    for olay in sorted(olaylar, key=lambda x: x["asama"]):
+        if canary in olay["metin"] and olay["belge_id"] not in sonuc:
+            sonuc[olay["belge_id"]] = {"asama": olay["asama"], "katmanlar": [olay["katman"]]}
+    return sonuc
+
+veri = json_yukle("veri/olaylar.json")
+try:
+    sonuc = ilk_gozlem(veri["olaylar"], veri["canary"])
+except Exception as hata:
+    sonuc = {"hata": type(hata).__name__}
+print("rapor", "doğru" if sonuc == veri["beklenen"] else "YANLIŞ")
+if isinstance(sonuc, dict) and isinstance(veri["beklenen"], dict):
+    for anahtar, deger in veri["beklenen"].items():
+        print(" ", anahtar, "doğru" if sonuc.get(anahtar) == deger else "YANLIŞ", sonuc.get(anahtar))
+for b in veri["bozuk_girdiler"]:
+    try:
+        ilk_gozlem(b["girdi"], veri["canary"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-13")
 ```
 
 ```test
@@ -373,6 +493,8 @@ Aşamaları hat sırasındaki tuple üzerinde `index` ile karşılaştır. İlk 
 Öğrenci gerçek üç katmanı paketler ve fark/ilk gözlem hesaplar. OCR bir çıkarma adımıdır. Metin/metadata/OCR çıkarımı, NFKC normalizasyonu ve kanonik bağlam ayrı olaylardır. Son gerçek sohbet çağrısı yalnız son belgenin metadata alanından tek satırda başlığı çıkarır; bu kaynağın bağlamı bilinir, birden çok katman için nedensellik iddia edilmez. JSON içindeki kaçışlı satırlar tam-satır canary ölçümünde farklı görünebilir. Modelin canary söylemesi kabul koşulu değildir.
 
 PDF yardımcı Python'u varsayılan `.ai-araclar` içindir; `PAFTA_AI_PDF_PYTHON` ile değiştirilebilir. reportlab/pypdf/Pillow veya vision modeli yoksa deney geçmez; ders kurulum yapmaz. `PAFTA_AI_VISION_MODELI` varsayılanı kurulu `qwen2.5vl:3b` modelidir. GPU çağrıları ortak kilitle sıraya girer.
+
+**Çıktıyı okurken:** Önce her belgenin üç katmanında canary'nin nerede tam satır olarak bulunduğuna bak; tarifte `gizli_metin` ya da `metadata` açıksa canary orada beklenir, görünen görüntüde ise hiç yoktur. OCR'de canary çıkarsa bu, modelin görüntüde olmayanı ürettiği anlamına gelir; ayrıca not et. Model yanıtında canary görünmemesi başarısızlık değildir.
 :::
 
 ::: gorev Gerçek deney · PDF metni, metadata ve gerçek vision OCR
@@ -385,13 +507,32 @@ timeout: 300
 ```
 
 ```starter
+import json
 import ai_lab
 
-def katman_paketle(katmanlar):return ""
+def katman_paketle(katmanlar):
+    # KUSURLU BAŞLANGIÇ KODU: kayıtları yalnız belge_id'ye göre sıralıyor (katman/aşama sırası girdiye bağlı kalır), "system:" ile başlayan satırları sessizce siliyor (kanıt kaybolur), paketi "guvenilir" etiketliyor, şemayı ve yinelenen kaydı denetlemiyor ve kanonik JSON ayarlarını kullanmıyor!
+    temiz = []
+    for kayit in sorted(katmanlar, key=lambda x: x["belge_id"]):
+        metin = "\n".join(s for s in kayit["metin"].splitlines() if not s.startswith("system:"))
+        temiz.append(dict(kayit, metin=metin))
+    return json.dumps({"guven": "guvenilir", "katmanlar": temiz}, sort_keys=True)
 
-def katman_farklari(kayitlar,canary):return {}
+def katman_farklari(kayitlar, canary):
+    # KUSURLU BAŞLANGIÇ KODU: canary'yi alt metin olarak arıyor (alıntı da gözlem sayılır), eksik katmanı False sayıp kabul ediyor, şemayı ve yinelenen katmanı denetlemiyor, belgeleri ve farkli listesini sıralamıyor!
+    belgeler = {}
+    for kayit in kayitlar:
+        belgeler.setdefault(kayit["belge_id"], {"metin-katmani": False, "metadata": False, "ocr": False})[kayit["katman"]] = canary in kayit["metin"]
+    farkli = [b for b, d in belgeler.items() if len(set(d.values())) > 1]
+    return {"belgeler": belgeler, "farkli": farkli}
 
-def ilk_gozlem(olaylar,canary):return {}
+def ilk_gozlem(olaylar, canary):
+    # KUSURLU BAŞLANGIÇ KODU: aşamaları hat sırası yerine alfabetik sırayla karşılaştırıyor ("baglam", "cikarma"dan önce sayılır), canary'yi alt metin olarak arıyor, eş aşamadaki ikinci katmanı düşürüyor ve şemayı denetlemiyor!
+    sonuc = {}
+    for olay in sorted(olaylar, key=lambda x: x["asama"]):
+        if canary in olay["metin"] and olay["belge_id"] not in sonuc:
+            sonuc[olay["belge_id"]] = {"asama": olay["asama"], "katmanlar": [olay["katman"]]}
+    return sonuc
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_13 as deney
@@ -562,7 +703,14 @@ for ad, mutant in [("son olayı ilk gözlem sayan", m_son), ("eş aşamadaki kat
 from sandbox import ai_gercek_ai_saldiri_13 as deney
 import tempfile,json,secrets
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('fark_referans','gozlem_referans')), 'laboratuvar/bağımsız ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('fark_referans','gozlem_referans','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/bağımsız ölçüm yamalanmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 for i in range(3):
     marker='MARK-'+secrets.token_hex(4);ident='doc-'+secrets.token_hex(3)
     rows=[dict(belge_id=ident,katman=k,metin=marker if k=='metadata' else 'alıntı '+marker if k=='ocr' else 'görünür not') for k in ('metin-katmani','metadata','ocr')]

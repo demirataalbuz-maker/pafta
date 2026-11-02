@@ -6,15 +6,51 @@ timeout: 45
 ---
 
 ::: anlat Gerçek tehdit modelini bil, sentetik temsili ayırt et
-Evasion, poisoning, gizlilik ve tedarik zinciri riskleri ancak etkilenen varlık, aktör ve varsayım açıklandığında sınanabilir hale gelir. Tehdit kartı bu bağlamı sabitler. Deney sorusu ise hangi ölçütün hangi yönde ve ne kadar değişmesinin beklendiğini belirtir.
+Yapay zeka sistemlerinin güvenilirlik ve siber dayanıklılık denetimlerinde en sık düşülen tuzaklardan biri, tehdit modellemesini soyut ve test edilemeyen bir risk listesi olarak bırakmaktır. "Model veri zehirlemesine açıktır", "Girdi manipülasyonuyla model atlatılabilir" veya "Eğitim verisi sızabilir" gibi genel güvenlik iddiaları doğrudan denetlenemez ve ampirik olarak doğrulanamaz. Güvenilir bir AI güvence (assurance) sürecinde her tehdit; etkilenen varlık, saldırganın yetenekleri ve varsayımları netleştirilerek yapısal bir tehdit kartına (threat card) bağlanmalı; ardından matematiksel olarak ölçülebilir, yönlü ve eşik içeren somut bir deney sorusuna (empirical hypothesis) dönüştürülmelidir.
 
-| Katman | Gerçek ML tehdit modellemesi ne içerir? | Bu ders ne kullanır? | Ne söyleyemez? |
-|---|---|---|---|
-| Tehdit kartı | MITRE ATLAS / OWASP ML Top 10 eşlemesi, saldırgan bilgisi (beyaz/kara kutu), bütçe ve varlık | İlk 3 görevde `veri/tehdit_karti.json` sentetik kartı; son görevde canlı poisoning tehdit kartı | Kart şemasının geçerli olması tehdidin üretim ortamında gerçekten uygulanabilir olduğunu kanıtlamaz |
-| Hipotez sınaması | Tekrarlı taban ve saldırı koşuları arasındaki yönlü etki büyüklüğü ($\Delta$) ve güven aralığı | İlk 3 görevde `veri/olcumler.json` sentetik kayıtları; son görevde 3 tohumlu gerçek `LogisticRegression` temiz/zehirli karşılaştırması | Üç tekrarda eşik aşımı istatistiksel nedensellik veya tüm veri dağılımları için genelleme sağlamaz |
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| ML tehdit modellemesi: MITRE ATLAS ve OWASP ML Top 10 eşlemesi, saldırgan bilgi düzeyi (beyaz/kara kutu), saldırı bütçesi ve kritik varlık tanımı | İlk 3 görevde `veri/tehdit_karti.json` sentetik kartı; son görevde canlı poisoning tehdit kartı | Kart şemasının geçerli olması tehdidin üretim ortamında gerçekten uygulanabilir veya istismar edilebilir olduğunu tek başına kanıtlamaz |
+| Hipotez sınaması: Tekrarlı taban ve saldırı koşuları arasındaki yönlü etki büyüklüğü ($\Delta$) ve istatistiksel eşik karşılaştırması | İlk 3 görevde `veri/olcumler.json` sentetik kayıtları; son görevde 3 tohumlu gerçek `LogisticRegression` temiz/zehirli karşılaştırması | Üç tekrarda eşik aşımı istatistiksel nedensellik veya tüm veri dağılımları için mutlak genelleme güvencesi sağlamaz |
 
 > [!NOT]
-> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/tehdit_karti.json` ve `veri/olcumler.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
+> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/tehdit_karti.json` ve `veri/olcumler.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar. Gerçek deney adımında ise `scikit-learn` ile 3 bağımsız tohumda temiz ve zehirli modeller eğitilerek gerçek ASR ölçümleri toplanır.
+
+### Aracın Altında Ne Olur?
+Tehdit hipotezi doğrulama motoru üç kademeli bir süreç işletir:
+1. **Tehdit Kartı Doğrulaması:** Kartın kimliği (1–64 karakterlik ASCII alfanümerik/tire/alt çizgi deseni), tehdit kategorisi (`evasion`, `poisoning`, `gizlilik`, `tedarik`), hedef varlık, aktör ve varsayım metinleri doğrulanır. Boşluk biçimleri ve kontrol karakteri içermeme kuralları zorunlu tutulur.
+2. **Ölçülebilir Deney Sorusu Üretimi:** Tehdit kategorisi ile ölçülecek metrik arasındaki anlamsal uyum denetlenir:
+   - `evasion` (atlatma) kategorisi için Saldırı Başarı Oranı (`asr`) ve `f1` skoru;
+   - `poisoning` (zehirleme) kategorisi için `asr`, `f1` ve Yanlış Pozitif Oranı (`fpr`);
+   - `gizlilik` (privacy/inversion) kategorisi için Üyelik Sızıntı Oranı (`sizinti_orani`);
+   - `tedarik` (supply chain) kategorisi için `fpr` ve `asr` ölçütleri geçerlidir.
+   Beklenen değişim yönü (`artis` veya `azalis`) ve sayısal eşik değeri ($\tau \in [0, 1]$) belirlenerek tam formatlı soru metni kurulur: `<ID> icin <OLCUT> <YON> esigi <ESIK:0.6f>`.
+3. **Tekrarlı Ölçümlerle Hipotez Değerlendirmesi:** Stokastik dalgalanmaları ve tohum şansını elemek için deney birden fazla bağımsız tekrarda (`tekrar`) koşturulur. Her tekrar için taban (clean/baseline) ve deney (adversarial) skorları toplanır. Yöne göre net yönlü etki ($\Delta$) hesaplanır:
+   - Artış sorusunda: $\Delta_i = \text{deney}_i - \text{taban}_i$
+   - Azalış sorusunda: $\Delta_i = \text{taban}_i - \text{deney}_i$
+   Böylece iki yönde de pozitif $\Delta$ beklenen tehdit etkisini temsil eder.
+4. **Katı Karar Kuralı:** Eğer tüm tekrarlardaki ham farklar eşiğe eşit veya büyükse ($\forall i, \Delta_i \ge \tau$) karar `desteklendi`, aksi takdirde en az bir tekrar eşiğin altında kalırsa `desteklenmedi` olarak üretilir.
+
+### Çıktı Nasıl Okunur?
+- **Karar (`karar`):** `desteklendi` kararı, tehdidin beklenen yön ve şiddette tüm bağımsız denemelerde istikrarlı şekilde gerçekleştiğini gösterir. `desteklenmedi` ise etkinin yetersiz veya değişken olduğunu belirtir.
+- **Ortalama Fark (`ortalama_delta`):** Tekrarlar boyunca gözlemlenen yönlü etki büyüklüklerinin aritmetik ortalamasıdır; tehdidin ortalama şiddetini özetler.
+- **Bulgular (`bulgular`):** Tekrar numarasına göre sıralanmış ayrıntılı $\Delta$ dökümüdür; tekrarlar arasındaki varyansın incelenmesini sağlar.
+
+### Saldırgan Neyi Dener?
+- **Varyans ve Tohum Manipülasyonu:** Saldırgan modelin rastgele tohumuna duyarlı kararsız saldırılar tasarlayabilir; tek seferlik testlerde tesadüfen tespit edilmeyen saldırılar üretim ortamında aniden aktifleşebilir.
+- **Metrik Maskeleme:** Zehirleme saldırılarında genel doğruluğu (`accuracy`) yüksek tutarken yalnızca hedef alt kümede `f1` düşüşü veya arka kapı `asr` artışı oluşturarak genel izleme araçlarını atlatmaya çalışır.
+- **Eşik Altı Etki Büyüklüğü:** Saldırı tespit mekanizmalarını tetiklememek için etkiyi güvenlik eşiklerinin hemen altında tutacak düşük yoğunluklu enjeksiyonlar yapar.
+
+### Savunma Neden Kırılır?
+- **Kategori-Ölçüt Uyumsuzluğu:** Evasion tehdidini sızıntı oranıyla veya gizlilik ihlalini FPR ile ölçmeye kalkışmak anlamsız sonuçlar üretir ve asıl güvenlik açığını gizler.
+- **Ortalama Yanılgısı (Flaw of Averages):** Ortalama delta eşiği geçse dahi bir tekrarın başarısız olması saldırının kararsız olduğunu gösterir; katı güvence standardı ortalamayı değil tüm bağımsız tekrarları (`all(...)`) şart koşar.
+- **Yön Karışıklığı:** Azalış beklenen bir metrikte (örneğin saldırı altında doğruluk veya F1) yönün yanlış tanımlanması negatif farklara yol açarak hipotezin yanlış reddedilmesine neden olur.
+
+### Sık Yapılan Geliştirici Tuzakları
+- **Yönlü Fark Formülü Hatası:** Azalış senaryosunda `taban - deney` yerine alışkanlıkla `deney - taban` yazarak negatif delta üretmek.
+- **Yuvarlanmış Değerlerle Karar Verme:** Karar koşulunu (`f >= esik`) 6 basamağa yuvarlanmış değerler üzerinden işletmek; kayan nokta hassasiyeti nedeniyle kararın ham farklardan (`ham_farklar`) çıkarılması şarttır.
+- **Soru Metni Uyumsuzluğu:** Soru metnindeki eşik değerini `format(esik, ".6f")` ile tam 6 ondalık basamak biçimlendirmemek veya alan adları arasında boşluk hatası yapmak.
+- **Bool Tipi Tuzağı:** Python'da `isinstance(True, int) == True` olduğundan `tekrar` ve `esik` kontrollerinde `isinstance(v, bool)` açıkça denetlenmelidir.
 :::
 
 ::: anlat Ölçüt ve yön tehditle uyumlu olmalıdır
@@ -432,16 +468,19 @@ def tehdit_karti_dogrula(karti):
     return karti
 
 def deney_sorusu_uret(karti, olcut, yon, esik):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kategori-ölçüt uyumunu denetlemeden eksik soru sözlüğü döndürüyor!
+    return {"tehdit_id": "", "olcut": olcut, "yon": yon, "esik": esik, "soru": ""}
 
 def deney_sorusunu_degerlendir(soru, olcumler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: tekrarları değerlendirmeden sabit sonuç döndürüyor!
+    return {"tehdit_id": "", "karar": "desteklenmedi", "ortalama_delta": 0.0, "bulgular": []}
 
 if ai_lab.CALISTIR:
     L.goster(tehdit_karti_dogrula, deney_sorusu_uret, deney_sorusunu_degerlendir)
 ```
 
 ```test
+import ast
 import copy
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_03 as L
@@ -451,6 +490,25 @@ _base_ok = ok
 def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
+
+try:
+    _parsed = ast.parse(src)
+    for _node in ast.walk(_parsed):
+        if isinstance(_node, ast.ImportFrom):
+            if any(alias.name == '*' for alias in _node.names):
+                ok(False, "Güvenlik/kopya denetimi: wildcard import yasak")
+            for alias in _node.names:
+                if "referans" in (alias.name or "") or "referans" in (alias.asname or ""):
+                    ok(False, "Güvenlik/kopya denetimi: referans fonksiyon içe aktarılamaz")
+        if isinstance(_node, ast.Name) and "referans" in _node.id:
+            ok(False, "Güvenlik/kopya denetimi: referans kullanımı tespit edildi")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr:
+            ok(False, "Güvenlik/kopya denetimi: referans nitelik kullanımı tespit edildi")
+        if isinstance(_node, ast.Call):
+            if isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+                ok(False, f"Güvenlik/kopya denetimi: dinamik çağrı ({_node.func.id}) yasak")
+except Exception:
+    pass
 
 for s in ai_lab.kod_denetimi(src, yasak=("tehdit_karti_dogrula_referans", "deney_sorusu_uret_referans", "deney_sorusunu_degerlendir_referans", "kanit_yaz")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")

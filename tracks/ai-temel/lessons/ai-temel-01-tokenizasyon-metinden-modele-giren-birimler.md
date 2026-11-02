@@ -17,6 +17,8 @@ Bu dersin ilk üç görevi küçük ve sentetik bir BPE kullanır; son görev bi
 
 > [!NOT]
 > Görevlerde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `kurallar.json`, `ornekler.json` ve gerçek `merges.txt` biçimini gösteren `merges_ornek.txt`. Bunları okuyabilir, kodunda değiştirerek deneyebilirsin. Kontrol bu dosyaları değil, görmediğin ayrı verileri kullanır; örneklere göre sabit cevap yazmak işe yaramaz.
+>
+> Dosyalar her Çalıştır/Kontrol Et adımında kaynaktan yeniden kopyalanır; `veri/` altında yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Ekranda ayrı bir dosya görüntüleyici de yoktur: içeriği görmek için kodunda `json_yukle(...)` ile oku ve `print` et ya da yüklediğin sözlüğü kodda değiştirerek dene.
 :::
 
 ::: anlat BPE karakterleri öncelikli kurallarla birleştirir

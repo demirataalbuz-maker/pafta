@@ -54,3 +54,6 @@ Devir notunda ders kimliği, değişen dosyalar, görünür veri yolu/kökeni, �
 
 ## 9. Mevcut dersler için kapsam
 Bu karar ileriye dönük öğretim standardıdır. Eski derslere topluca dönüşüm bu kayıtla tamamlanmış sayılmaz. Eski bir ders ele alındığında görünür veri ihtiyacı değerlendirilir; eksikse somut dosya/arayüz işi olarak kaydedilir. Başka ajanın dersini sessizce yeniden yazma. Ders sayısı, model sürümü ve açık işler değişebilir; güncel kaynak tracker, pano ve gerçek dosyalardır.
+
+## 10. Terimler çevrilmez (kullanıcı kararı, 02.11.2026)
+Anlatım Türkçe yazılır, teknik terimler orijinal haliyle kalır: `prompt injection`, `embedding`, `confused deputy`, `gradient masking`, `abliteration`, `retrieval`. Terime Türkçe karşılık uydurulmaz ("Şaşkın Vekil", "Açgözlü Koordinat Gradyanları", "Toplam Varyasyon Uzaklığı" gibi). Terimin ne olduğu gerekiyorsa cümle içinde Türkçe açıklanır: "`confused deputy`, kendi yetkisini başkasının isteğiyle kullanan bileşendir." Bu kural yeni yazılan ve düzeltilen bütün anlatımlar için geçerlidir; denetçi çevrilmiş terimi eksik sayar.

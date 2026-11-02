@@ -6,21 +6,54 @@ timeout: 45
 ---
 
 ::: anlat Gerçek deney defteri biçimini bil, sentetik temsili ayırt et
-Tekrarlanabilir ML güvenliği deneyinde veri, model, tehdit varsayımı, ölçütler ve rastgelelik tohumu önceden kaydedilir. Ölçüt listesi deneyin yalnız ortalama performansını mı yoksa saldırı ve yanlış pozitif davranışını mı izlediğini açık hale getirir. Tohum kaydı tek başına bütün donanım veya kütüphane farklarını ortadan kaldırmaz.
+Makine öğrenmesi güvenliği (MLSecOps) alanında yürütülen savunma ve saldırı testleri, klasik yazılım birim testlerinden temel bir farkla ayrılır: Güvenlik deneyleri yalnızca kaynak kodun doğruluğuna değil; kullanılan veri kümesinin bütünlüğüne, model mimarisine, saldırgan tehdit modeline, stokastik rastgelelik tohumlarına (random seed) ve çoklu metrik protokollerine sıkı sıkıya bağlıdır. Bir saldırının engellendiğini veya bir savunma mekanizmasının dayanıklı olduğunu kanıtlamak, deneyin her adımının şeffaf ve denetlenebilir bir "deney defteri" (experiment ledger) üzerinden kayıt altına alınmasını gerektirir.
 
-| Katman | Gerçek ML güvenliği deney kaydı ne içerir? | Bu ders ne kullanır? | Ne söyleyemez? |
-|---|---|---|---|
-| Deney planı | MLflow/Weights & Biases veya JSON manifest: veri hash'i, model hiperparametreleri, tehdit modeli, tohum ve hedef metrikler | İlk 3 görevde `veri/plan.json` sentetik manifesti; son görevde canlı `sklearn` sınıflandırıcı planı | Tek bir tohum ve sentetik veri kümesi üretim ortamındaki dağılım kaymasını (drift) kanıtlamaz |
-| Tekrarlı ölçümler | Her tohum/katlama (fold) için kaydedilen `dogruluk`, `f1`, `asr`, `fpr` serileri | İlk 3 görevde `veri/olcumler.json` sentetik kayıtları; son görevde 3 farklı tohumla eğitilen gerçek `LogisticRegression` ölçümleri | Eksiksiz kapsam tablosu tek başına modelin tüm saldırılara dayanıklı olduğunu göstermez |
+### 1. ML Güvenliği Deney Defterinin Temel Bileşenleri
+Güvenilir bir güvenlik deney defteri, çalıştırılan her deneyi dört temel boyutta dondurur (freeze):
+1. **Veri Manifestosu:** Eğitilen ve test edilen verilerin kaynak dosyaları, dağılım özellikleri ve kriptografik özetleri (SHA-256). Veri zehirleme (data poisoning) veya arka kapı (backdoor) deneylerinde, temiz veri kümesine enjekte edilen zehirli örneklerin indeksi ve zehirleme oranı tam olarak belgelenmelidir.
+2. **Model ve Hiperparametre Tanımı:** Model sınıfı (örneğin `LogisticRegression`, MLP, ResNet), optimizasyon algoritması, öğrenme oranı, ceza parametreleri ve durma kriterleri. Hiperparametrelerdeki en ufak bir sapma, savunma mekanizmasının etkinliğini dramatik biçimde değiştirebilir.
+3. **Tehdit Modeli ve Saldırgan Varsayımları:** Güvenlik deneylerinde saldırganın yetenekleri (white-box, black-box, gray-box), bilgi düzeyi ve manipülasyon bütçesi açıkça tanımlanmalıdır. Hangi tehdide karşı test yapıldığı (`veri zehirleme`, `kaçınma / evasion`, `model çalma`) belirtilmeden alınan yüksek başarım puanları anlamsızdır.
+4. **Ölçüm Protokolü ve Metrik Seti:** Deneyin yalnız tek bir ortalama doğruluk metriğine mi odaklandığı, yoksa güvenlik ve operasyonel performansı birlikte mi izlediği tanımlanmalıdır.
+
+### 2. Çoklu Tohum ve Donanım Bağımlılıkları Sınırı
+Stokastik makine öğrenmesi modellerinde tek bir tohum (`tohum=0`) ile elde edilen sonuçlar yanıltıcı bir "sahte dayanıklılık" (gradient masking veya şans eseri yüksek başarım) yaratabilir. Model ağırlıklarının ilklendirilmesi, mini-batch örnekleme sırası ve veri bölme işlemleri rastgelelik tohumuna bağımlıdır. Gerçek güvenlik denetimlerinde, modelin saldırıya karşı dayanıklılığı birden fazla bağımsız tohum altında tekrarlanarak (`tekrar 1, 2, 3...`) ölçülür.
+
+Bununla birlikte, yalnızca yazılım düzeyinde `random_state` sabitlemek tam determinizmi garanti etmez. Farklı CPU SIMD talimat setleri (AVX-512 vs AVX2), GPU kayan nokta atomik toplama sıraları veya BLAS kütüphane sürümleri (OpenBLAS vs MKL) aynı tohumda bile mikro düzeyde yuvarlama farkları doğurabilir. Bu nedenle deney defteri, ortam bağımsız mantıksal şemayı ve tekrarlı ölçüm kayıtlarını katı kurallarla izole eder.
+
+### 3. Metrik Setinin Güvenlik Açısından Anlamı
+Bir ML güvenliği deney defterinde yalnızca genel `dogruluk` kaydetmek ciddi bir güvenlik körlüğüdür:
+- **`dogruluk` (Accuracy):** Temiz test kümesindeki genel tahmin doğruluğu. Zehirlenmiş bir model temiz veride %99 doğruluk sergileyebilir.
+- **`f1` (F1-Skoru):** Özellikle dengesiz veri kümelerinde ve azınlık sınıfı saldırılarında modelin kesinlik ve duyarlılık dengesini ölçer.
+- **`asr` (Attack Success Rate - Saldırı Başarı Oranı):** Saldırganın hazırladığı tetikleyicili veya manipüle edilmiş örneklerin hedef sınıfa yönlendirilme oranı. Güvenlik savunmasının temel başarı ölçütüdür; ideal durumda %0'a yakın olmalıdır.
+- **`fpr` (False Positive Rate - Yanlış Pozitif Oranı):** Temiz güvenlik olaylarının yanlışlıkla saldırı olarak etiketlenme sıklığı. Savunma sistemi ASR'yi düşürürken FPR'yi aşırı yükseltirse, sistem kullanılmaz hale gelir (aşırı alarm yorgunluğu).
+
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| MLflow / Weights & Biases deney manifestosu (veri SHA-256 hash'i, hiperparametreler, tehdit türü, tohum ve metrik listesi) | İlk 3 görevde `veri/plan.json` sentetik manifesti; son görevde canlı `sklearn` sınıflandırıcı deney planı | Tek bir tohum ve sentetik veri kümesi üretim ortamındaki dağılım kaymasını (drift) ve sıfır-gün saldırılarını kanıtlamaz |
+| Çoklu tohum/katlama serileri (`dogruluk`, `f1`, `asr`, `fpr` tekrarları) | İlk 3 görevde `veri/olcumler.json` sentetik kayıtları; son görevde 3 bağımsız tohumla eğitilen gerçek `LogisticRegression` ölçümleri | Eksiksiz kapsam tablosu tek başına modelin tüm adverseryal saldırılara dayanıklı olduğunu göstermez; yalnızca tanımlanan protokoldeki ölçüm tutarlılığını belgeler |
+| Güvenlik denetim izi ve CI/CD MLSecOps ledger kontrolü (eksik metrik-tekrar analizi) | `deney_kapsam_raporu` ile beklenen ölçüt ve tekrar uzayının eksiksiz doğrulanması | Kapsam raporunun 'tamam' çıkması modelin güvenli olduğunu değil, yalnızca protokolde vadedilen tüm ölçümlerin eksiksiz icra edildiğini garanti eder |
 
 > [!NOT]
-> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/plan.json` ve `veri/olcumler.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
+> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/plan.json` ve `veri/olcumler.json` (tümü **sentetik** veri temsilleridir). Bu dosyaları inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Dördüncü görevde ise sentetik dosyalar yerine doğrudan bellekte çalışan gerçek `scikit-learn` (`LogisticRegression`) eğitim döngüsü ve canlı ölçümler test edilir. Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
 :::
 
 ::: anlat Kapsam her ölçüt ve tekrar çiftini gerektirir
-Her ölçüm bir ölçüt, pozitif tekrar numarası ve sıfır ile bir arasındaki sonlu değer taşır. Aynı ölçüt-tekrar çifti iki kez yazılamaz. Kapsam raporunda plandaki her ölçüt için `1..beklenen_tekrar` aralığının tamamı aranır.
+Bir deney planı onaylandıktan sonra, deney defterine düşen her ölçüm kaydının matematiksel ve mantıksal tutarlılığı denetlenmelidir. Tekrarlı ölçüm protokolünde her ölçüm tam olarak üç alan taşır:
+1. `olcut`: Planda tanımlı izin verilen ölçütlerden biri (`dogruluk`, `f1`, `asr`, `fpr`).
+2. `tekrar`: 1'den başlayan pozitif tamsayı (`1..beklenen_tekrar`).
+3. `deger`: 0.0 ile 1.0 aralığında, sonlu kayan noktalı sayı.
 
-Eksik çiftler ölçütlerin plan sırası, sonra tekrar numarasıyla listelenir. Hiç eksik yoksa karar `tamam`, aksi halde `eksik` olur. Boş ölçüm listesi geçerli bir girdidir fakat dolu planda tamamlanmış deney anlamına gelmez.
+### Kapsam Doğrulaması ve Matris Tamlığı
+Tekrarlı bir deneyin geçerli sayılabilmesi için, planda ilan edilen her bir ölçütün, 1'den `beklenen_tekrar` değerine kadar olan her bir tekrar numarası için eksiksiz ölçülmüş olması şarttır. Örneğin planda `["dogruluk", "asr"]` ölçütleri ve `beklenen_tekrar = 3` tanımlanmışsa, deney defteri tam olarak `2 × 3 = 6` ölçüm kaydı içermelidir:
+- `(dogruluk, 1)`, `(dogruluk, 2)`, `(dogruluk, 3)`
+- `(asr, 1)`, `(asr, 2)`, `(asr, 3)`
+
+Bu çiftlerden herhangi birinin eksik kalması durumunda deneyin genel sonucu güvenilmez kabul edilir ve kapsam kararı `eksik` olarak işaretlenir.
+
+### Güvenlik Mühendislerinin Sık Düştüğü Hatalar
+- **Kayıp Koşuları Sıfır Varsayma:** Eğitimi çöken veya timeout'a uğrayan bir tohumun ASR değerini `0.0` kabul etmek, saldırının engellendiği yanılgısını yaratır. Eksik koşu mutlaka `eksik` olarak raporlanmalıdır.
+- **Kayan Nokta ve Tip Hataları:** Python'da `True` ve `False` değerlerinin `int` alt sınıfı olması (`isinstance(True, int) == True`), dikkatsiz kodlarda tohum veya tekrar numarasının boolean olarak sızmasına yol açar. Katı tip denetimi (`type(x) is not bool` veya `not isinstance(x, bool)`) zorunludur. Ayrıca `math.isnan()` ve `math.isinf()` kontrolleri ihmal edilirse hesaplama hataları sessizce deftere karışabilir.
+- **Girdi Mutasyonu (In-place Mutation):** Doğrulama işlevlerinin girdi olarak verilen sözlük veya listeleri yerinde değiştirmesi (örneğin `.sort()` veya sözlük alanlarını silip yazma), denetim zincirindeki diğer modüllerin tutarsız durumlarla karşılaşmasına sebep olur. Doğrulama fonksiyonları daima girdi verisinin derin kopyasını oluşturmalı veya yeni veri yapıları döndürmelidir.
 :::
 
 ::: tahmin Ölçüt-tekrar kapsamını tahmin et
@@ -479,9 +512,11 @@ def deney_plani_dogrula(plan):
     return plan
 
 def olcumleri_dogrula(plan, olcumler):
+    # KUSURLU BAŞLANGIÇ KODU: ölçümleri sıralamadan ve aralık/yinelenme denetimi yapmadan döndürüyor!
     return list(olcumler) if isinstance(olcumler, list) else []
 
 def deney_kapsam_raporu(plan, olcumler, beklenen_tekrar):
+    # KUSURLU BAŞLANGIÇ KODU: eksik ölçüt-tekrar çiftlerini aramadan her zaman 'tamam' döndürüyor!
     return {"plan_id": "", "karar": "tamam", "beklenen": 0, "kayitli": 0, "eksikler": []}
 
 if ai_lab.CALISTIR:
@@ -490,6 +525,7 @@ if ai_lab.CALISTIR:
 
 ```test
 import copy
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_01 as L
 
@@ -501,6 +537,24 @@ def ok(kosul, mesaj):
 
 for s in ai_lab.kod_denetimi(src, yasak=("deney_plani_dogrula_referans", "olcumleri_dogrula_referans", "deney_kapsam_raporu_referans", "kanit_yaz")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")
+if not all(checks):
+    stop()
+
+try:
+    _ag_tree = ast.parse(src)
+    for _node in ast.walk(_ag_tree):
+        if isinstance(_node, ast.ImportFrom):
+            for _alias in _node.names:
+                if _alias.name == "*":
+                    ok(False, "Kopya/güvenlik ihlali: wildcard (*) import yasaktır")
+        if isinstance(_node, ast.Name) and "referans" in _node.id.lower():
+            ok(False, f"Kopya/güvenlik ihlali: 'referans' kullanımı tespit edildi: {_node.id}")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr.lower():
+            ok(False, f"Kopya/güvenlik ihlali: 'referans' niteliği tespit edildi: {_node.attr}")
+        if isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+            ok(False, f"Kopya/güvenlik ihlali: dinamik fonksiyon çağrısı yasaktır: {_node.func.id}")
+except Exception as _e:
+    ok(False, f"AST ayrıştırma hatası: {_e}")
 if not all(checks):
     stop()
 

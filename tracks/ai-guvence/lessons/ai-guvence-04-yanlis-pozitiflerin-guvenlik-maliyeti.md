@@ -6,15 +6,44 @@ timeout: 45
 ---
 
 ::: anlat Gerçek maliyet optimizasyonunu bil, sentetik temsili ayırt et
-Yanlış pozitif, gerçekte `diger` olan bir kaydın `yelkovan` olarak işaretlenmesidir. Gereksiz inceleme ve yanlış alarm yükü oluşturabilir. Yanlış negatif ise gerçek yelkovanın kaçırılmasıdır ve aynı maliyete sahip olduğu varsayılamaz. Bu nedenle eşik kararı yalnız doğruluğa değil, hata türlerinin ayrı maliyetlerine dayanmalıdır.
+Siber güvenlik operasyon merkezlerinde (SOC) makine öğrenmesi ve yapay zeka modellerinin karar sınırlarını belirlemek, standart veri bilimi sınıflandırmasından temelde farklı dinamiklere sahiptir. Genel makine öğrenmesi problemlerinde genellikle simetrik doğruluk (`accuracy`) veya $0.5$ varsayılan olasılık eşiği kullanılır; oysa siber savunmada hataların maliyeti asla simetrik değildir. Bir saldırının tespit edilemeyerek kaçırılması (Yanlış Negatif - False Negative / FN), sistemlerin ele geçirilmesi, fidye yazılımı yayılımı veya veri sızıntısı gibi yıkıcı güvenlik felaketlerine yol açarken; meşru bir kullanıcı veya sistem eyleminin yanlışlıkla tehdit olarak işaretlenmesi (Yanlış Pozitif - False Positive / FP), güvenlik analistlerinin alarm yorgunluğu (alert fatigue) yaşamasına, inceleme kuyruklarının tıkanmasına ve meşru iş süreçlerinin kesintiye uğramasına neden olur. Bu nedenle güvenlik modellerinde eşik seçimi, doğruluğu maksimize etmek yerine toplam beklenen güvenlik maliyetini minimize eden maliyet duyarlı eşik kalibrasyonuna (cost-sensitive thresholding) dayanmalıdır.
 
-| Katman | Gerçek SOC/güvenlik eşik kalibrasyonu ne içerir? | Bu ders ne kullanır? | Ne söyleyemez? |
-|---|---|---|---|
-| Maliyet profili | Analist inceleme süresi (FP maliyeti) ve kaçırılan saldırı etkisi (FN maliyeti) | İlk 3 görevde `veri/maliyet_profili.json` sentetik profili; son görevde FN-ağır ve FP-ağır iki canlı profil | Sabit doğrusal maliyet modeli eşzamanlı alarm fırtınasında (alert fatigue) analist kapasitesinin doygunluğunu modellemez |
-| Eşik taraması | ROC/PR eğrisi üzerinde beklenen toplam maliyeti minimize eden karar eşiği ($\tau^*$) | İlk 3 görevde `veri/skor_kayitlari.json` sentetik skorları; son görevde gerçek `LogisticRegression` `predict_proba` skorları | Doğrulama kümesinde seçilen en iyi eşik, sınıf öncülleri (base rate) değiştiğinde optimal kalmayabilir |
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| SOC/güvenlik eşik kalibrasyonu: Analist inceleme süresi ve operasyonel yük (FP maliyeti) ile kaçırılan saldırının potansiyel hasarı (FN maliyeti) | İlk 3 görevde `veri/maliyet_profili.json` sentetik profili; son görevde FN-ağır ve FP-ağır iki canlı profil | Sabit doğrusal maliyet modeli, eşzamanlı alarm fırtınasında analist kapasitesinin doygunluğunu ve kuyruk çöküşünü tam olarak modellemez |
+| Eşik taraması: ROC/PR eğrisi üzerinde beklenen toplam güvenlik maliyetini minimize eden optimal karar eşiği ($\tau^*$) | İlk 3 görevde `veri/skor_kayitlari.json` sentetik skorları; son görevde gerçek `LogisticRegression` `predict_proba` skorları | Doğrulama kümesinde seçilen en iyi eşik, üretim ortamında sınıf taban oranları (base rate / class prior) değiştiğinde optimal kalmayabilir |
 
 > [!NOT]
-> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/maliyet_profili.json` ve `veri/skor_kayitlari.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
+> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/maliyet_profili.json` ve `veri/skor_kayitlari.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar. Gerçek deney adımında ise `scikit-learn` ile eğitilen canlı bir sınıflandırıcının olasılık skorları üzerinde iki farklı maliyet profili sınanır.
+
+### Aracın Altında Ne Olur?
+Maliyet optimizasyon motoru şu adımları işletir:
+1. **Maliyet Profilinin Doğrulanması:** İşletmenin operasyonel gerçeklerine göre belirlenen FP maliyeti ($c_{FP} \ge 0$), FN maliyeti ($c_{FN} \ge 0$) ve para birimi (`TRY`, `USD`, `EUR`) doğrulanır. Finansal veya kritik altyapı sistemlerinde genellikle $c_{FN} \gg c_{FP}$ iken, yoğun kullanıcı trafiği alan tüketici servislerinde $c_{FP}$ baskın olabilir.
+2. **Eşik Tabanlı Hata Matrisi Üretimi:** Modelin ürettiği her olasılık skoru ($s \in [0, 1]$), test edilen karar eşiği $\tau$ ile karşılaştırılır. Kural açıktır: Skor eşiğe eşit veya büyükse ($s \ge \tau$) tahmin pozitif (`yelkovan` / şüpheli), aksi halde ($s < \tau$) negatif (`diger` / temiz) olarak belirlenir. Gerçek etiket ve tahmin birleşimine göre $TP, FP, FN, TN$ hücreleri toplanır.
+3. **Yanlış Pozitif Oranı (FPR) ve Maliyet Hesabı:** Yanlış Pozitif Oranı $FPR = \frac{FP}{FP + TN}$ formülüyle hesaplanır; eğer payda sıfır ise (`FP + TN == 0`) oran tanımsızdır ve `None` döndürülür. Eşiğin toplam güvenlik maliyeti ise doğrusal risk formülüyle bulunur:
+   $$\text{Maliyet}(\tau) = FP(\tau) \cdot c_{FP} + FN(\tau) \cdot c_{FN}$$
+4. **Optimal Karar Eşiğinin Seçimi:** Aday eşikler taranır; toplam maliyeti en küçük olan eşik ($\tau^* = \arg\min_\tau \text{Maliyet}(\tau)$) optimal çalışma noktası olarak seçilir. İki eşiğin ham maliyeti eşit çıktığında, güvenlik tarafında kalmak (daha fazla şüpheliyi yakalamak) amacıyla daha düşük eşik tercih edilir.
+
+### Çıktı Nasıl Okunur?
+- **En İyi Eşik (`en_iyi_esik`):** Verilen maliyet profiline göre işletme açısından riski ve operasyonel yükü minimize eden karar sınırıdır.
+- **Satırlar (`satirlar`):** Eşiğe göre artan sırada listelenen hata matrisi dökümüdür. Eşik yükseldikçe genellikle $FP$ azalır, $FN$ artar; eşik düştükçe $FP$ yükselir, $FN$ sıfıra yaklaşır.
+- **Yanlış Pozitif Oranı (`fpr`):** Temiz trafiğin yüzde kaçının gereksiz yere alarmla sonuçlandığını gösterir; analist yükünün kestirilmesinde anahtar metriktir.
+
+### Saldırgan Neyi Dener?
+- **Eşik Altı Gizlenme (Low-and-Slow / Sub-threshold Evasion):** Saldırgan hedef modelin karar eşiğini (örneğin $\tau = 0.5$) tahmin ederek tespit olasılığını eşiğin hemen altında (örneğin $0.45$) tutacak seyreltilmiş ve parçalı saldırı desenleri kullanır.
+- **Alarm Boğması ve Dikkat Dağıtma (Alert Flooding):** Kasıtlı olarak çok sayıda yanlış pozitif üreten gürültülü aktiviteler yaparak SOC ekibini yanlış alarmlarla kilitler ve asıl kritik saldırıyı oluşan operasyonel kargaşa sırasında gerçekleştirir.
+
+### Savunma Neden Kırılır?
+- **Varsayılan $0.5$ Eşik Hatası:** Çoğu sınıflandırıcı kütüphanesi varsayılan olarak $0.5$ eşiği uygular. Olasılıklar kalibre edilmişse beklenen maliyeti en küçük yapan eşik $\tau^* = \frac{c_{FP}}{c_{FP} + c_{FN}}$ olur. Örneğin $c_{FN} = 100 \cdot c_{FP}$ ise $\tau^* \approx 0.01$ çıkar; yani FN çok pahalıysa eşik $0.5$'in çok altına iner. Model kalibre değilse bu formül yalnız başlangıç noktasıdır; bu derste olduğu gibi aday eşikleri gerçek maliyetle taramak gerekir.
+- **Temel Oran Yanılgısı (Base Rate Fallacy):** Laboratuvar ortamında $\%50 - \%50$ dengeli veride seçilen bir eşik, gerçek hayatta saldırı oranının $\%0.01$ olduğu bir ağda işletildiğinde her gün binlerce yanlış alarm üreterek savunmayı felç eder.
+- **Statik Eşik Tuzağı:** Saldırganların tekniklerini güncellemesi veya ağ trafiğinin mevsimsel değişimi durumunda eşiklerin periyodik olarak yeniden kalibre edilmemesi modeli körleştirir.
+
+### Sık Yapılan Geliştirici Tuzakları
+- **Eşik Karşılaştırma İşareti:** `skor >= esik` yerine `skor > esik` yazmak, tam eşik değerindeki şüpheli kayıtların kaçırılarak yanlışlıkla negatif sınıfa atılmasına yol açar.
+- **FPR Sıfıra Bölme Hatası:** Test kümesinde hiç gerçek negatif olmaması durumunda (`fp + tn == 0`) `ZeroDivisionError` oluşmaması için payda kontrolü yapılmalı ve `None` atanmalıdır.
+- **Eşitlik Durumunda Karar:** Maliyet eşitliğinde rastgele seçim yapmak veya ilk gelen matrisi almak yerine deterministik olarak daha küçük eşiğin seçilmesi kuralına uyulmalıdır.
+- **Bool Tipi Tuzağı:** Python'da `isinstance(False, int) == True` olduğundan sayım ve maliyet alanlarında açıkça `isinstance(v, bool)` kontrolü yapılmalıdır.
+- **Tutarsız Veri Kümeleri:** Farklı eşik matrislerinde $TP + FP + FN + TN$ toplamlarının birbirinden farklı olması matrislerin farklı veri kümelerinden geldiğini gösterir ve `ValueError` ile engellenmelidir.
 :::
 
 ::: anlat Eşik hem matrisi hem maliyeti değiştirir
@@ -445,9 +474,11 @@ def maliyet_profili_dogrula(profil):
     return profil
 
 def esik_matrisi(kayitlar, esik):
+    # KUSURLU BAŞLANGIÇ KODU: eşik karşılaştırması yapmadan sabit sıfır hücreler döndürüyor!
     return {"esik": esik, "tp": 0, "fp": 0, "fn": 0, "tn": 0}
 
 def maliyet_raporu(matrisler, profil):
+    # KUSURLU BAŞLANGIÇ KODU: maliyet hesabı yapmadan sabit 0.5 eşiği döndürüyor!
     return {"para_birimi": "TRY", "en_iyi_esik": 0.5, "satirlar": []}
 
 if ai_lab.CALISTIR:
@@ -455,6 +486,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import copy
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_04 as L
@@ -464,6 +496,25 @@ _base_ok = ok
 def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
+
+try:
+    _parsed = ast.parse(src)
+    for _node in ast.walk(_parsed):
+        if isinstance(_node, ast.ImportFrom):
+            if any(alias.name == '*' for alias in _node.names):
+                ok(False, "Güvenlik/kopya denetimi: wildcard import yasak")
+            for alias in _node.names:
+                if "referans" in (alias.name or "") or "referans" in (alias.asname or ""):
+                    ok(False, "Güvenlik/kopya denetimi: referans fonksiyon içe aktarılamaz")
+        if isinstance(_node, ast.Name) and "referans" in _node.id:
+            ok(False, "Güvenlik/kopya denetimi: referans kullanımı tespit edildi")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr:
+            ok(False, "Güvenlik/kopya denetimi: referans nitelik kullanımı tespit edildi")
+        if isinstance(_node, ast.Call):
+            if isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+                ok(False, f"Güvenlik/kopya denetimi: dinamik çağrı ({_node.func.id}) yasak")
+except Exception:
+    pass
 
 for s in ai_lab.kod_denetimi(src, yasak=("maliyet_profili_dogrula_referans", "esik_matrisi_referans", "maliyet_raporu_referans", "kanit_yaz")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")

@@ -6,11 +6,38 @@ timeout: 45
 ---
 
 ::: anlat Yerel çalışmak tek başına güven sınırı oluşturmaz
-Yerel bir LLM kurulumunda kullanıcı, FastAPI uygulaması, Ollama modeli, araçlar, veri deposu ve dış ağ aynı güven düzeyinde değildir. Modelin aynı bilgisayarda çalışması, kullanıcı girdisinin güvenilir olduğu veya modelin araç çağrısının yetkili olduğu anlamına gelmez.
 
-Güven bölgesi, aynı doğrulama ve yetki varsayımlarını paylaşan bileşenler grubudur. Bu derste `dis`, `uygulama`, `model`, `arac` ve `veri` bölgelerini kullanacağız. Saldırı yüzeyi envanteri yalnız ürün adlarını değil, kimlikleri, türleri ve bölgeleri açıkça kaydeder.
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| STRIDE / MITRE ATLAS tehdit modelleme araçları güven sınırlarını ve akış şemalarını çıkarır | İlk 3 görev bileşen envanteri, yönlü akış geçişleri ve kontrol kapsam matrisi | Dağıtık mikroservis ağ güvenliği, mTLS tünelleme veya kernel düzeyinde IPC izolasyon kanıtı değildir |
+| Ollama yerel LLM ve araç çağırma motoru canlı model->araç yürütme akışları üretir | Gerçek deney model, geçit ve araç arasındaki canlı çalışma zamanı sınır geçişlerini denetler | Çok ajanlı karmaşık sistem mimarilerinde sıfır güven (zero-trust) garantisi veya zararlı kod bağışıklığı kanıtı değildir |
 
-Bütün örnekler sentetik fixture'dır. Ollama, FastAPI, ağ bağlantısı veya gerçek model gerekmez; amaç mimari kararları makine tarafından sınanabilir kurallara dönüştürmektir.
+> [!NOT]
+> `veri/mimari.json` dosyası sentetik bileşen, bağlantı ve güvenlik kontrolü kayıtlarını içerir; canlı telemetri veya gerçek servis yapılandırması değildir. İlk 3 görev bu yerel fixture verisini okur. Her Run/Check işleminde `hazirla("ai-savunma-01")` geçici kopya oluşturur; kalıcı değişiklik saklanmaz. Kodunuzu veya verinizi editörde inceleyebilirsiniz. Gizli değerlendirme testleri ayrı doğrulamalar koşturur. Gerçek deney adımı kurulu Ollama ve yerel modeli doğrudan çağırır; yeni paket veya model indirilmez.
+
+Yerel bir yapay zekâ kurulumunda en sık düşülen yanılgı, tüm bileşenlerin aynı makinede (`localhost`) çalışmasının doğal bir güvenlik kalkanı sağladığı varsayımıdır. Geliştiriciler FastAPI servisinin, yerel Ollama motorunun, yerel SQLite/Chroma veritabanının ve işletim sisteminde çalışan yardımcı komut araçlarının "güvenli bir iç ağda" olduğunu varsayar. Ancak çağdaş siber güvenlik mimarisinde temel kural şudur: "Fiziksel veya mantıksal yakınlık bir güven sınırı oluşturmaz" (Sıfır Güven / Zero Trust prensibi). Bellek adres alanları izole edilmiş olsa bile, süreçler arasındaki her veri ve komut transferi potansiyel bir saldırı yüzeyidir. Bir kullanıcının web arayüzünden gönderdiği girdi ile bir arka plan aracının dosya sistemine yazdığı veri aynı güven düzeyine sahip olamaz.
+
+Güven bölgesi (Trust Zone), aynı doğrulama, kimlik denetimi ve yetki varsayımlarını paylaşan bileşenlerin oluşturduğu mantıksal sınırdır. Bu derste savunma mimarisini beş temel bölgeye ayırıyoruz:
+1. `dis` Bölgesi: Sistemin doğrudan denetimi altında olmayan, saldırgan kontrolüne açık veya filtrelenmemiş tüm dış varlıklar (`kullanici`, `istemci`, `ag`). Dış dünyadan gelen her bayt potansiyel olarak zehirlidir.
+2. `uygulama` Bölgesi: Dış istekleri karşılayan, kimlik doğrulayan, istekleri yönlendiren ve iş mantığını koşturan API geçidi katmanı (`api`).
+3. `model` Bölgesi: Olasılıksal token tamamlama yapan, deterministik olmayan ve prompt enjeksiyonuna (jailbreak, indirect injection) açık dil modeli süreçleri (`model`). Model girdiyi "anlamaz", sadece istatistiksel ağırlıklarla dönüştürür; bu nedenle modelin kendisi asla güvenilir bir karar verici kabul edilemez.
+4. `arac` Bölgesi: İşletim sistemiyle, dosya sistemiyle, dış komutlarla veya harici API'lerle etkileşime girerek yan etki (side-effect) üreten yürütücüler (`arac`). Modelin bu araçları tetiklemesi kritik bir yetki sınırıdır.
+5. `veri` Bölgesi: Kalıcı durum saklayan ilişkisel veritabanları, vektör indeksleri, yapılandırma dosyaları ve model ağırlıkları (`depo`).
+
+Bir mimaride güvenlik zafiyetleri bileşenlerin kendisinden çok, bileşenler arasındaki **yönlü bağlantılarda (flows)** ortaya çıkar. Her akış bir `(kaynak, hedef, kanal)` üçlüsü olarak tanımlanır. Eğer kaynağın güven bölgesi ile hedefin güven bölgesi birbirinden farklıysa (`bolgeler[kaynak] != bolgeler[hedef]`), bu bağlantı kesin olarak bir **Güven Sınırı Geçişi (Trust Boundary Crossing)** barındırır. Örneğin:
+- `kullanici -> api` (http): `dis` bölgesinden `uygulama` bölgesine geçiştir; kimlik doğrulama, şema denetimi ve boyut sınırlaması zorunludur.
+- `model -> arac` (ipc): `model` bölgesinden `arac` bölgesine geçiştir; model çıktısının güvenilmezliği nedeniyle bu geçiş en tehlikeli saldırı vektörüdür.
+
+Saldırganlar yerel LLM mimarilerinde başlıca şu zafiyetleri istismar eder:
+- **Şaşkın Vekil (Confused Deputy) ve Dolaylı Enjeksiyon:** Dış bir kaynaktan (`dis`) gelen kötü niyetli komut modeli (`model`) manipüle eder. Model, kendi yetkilerini kullanarak araç katmanında (`arac`) saldırganın istediği yıkıcı bir eylemi (dosya silme, dış sunucuya veri sızdırma) tetikler. Model yetkilidir fakat niyeti saldırgan tarafından gasp edilmiştir.
+- **Bölge Atlama (Zone Hopping):** Geliştiricinin "yerel IPC güvenlidir" zannıyla API ile veritabanı arasına şema veya yetki kontrolü koymaması sonucu, araya sızan bir model çıktısının doğrudan veri deposunu kirletmesi.
+- **Parametre ve Şema Manipülasyonu:** Modelin araç çağrısı argümanlarında tip kontrolü yapılmadığında oluşan komut enjeksiyonları veya yol aşma (path traversal) açıkları.
+
+Savunmanın kırılma nedenleri ve geliştiricilerin sık yaptığı hatalar:
+- **Yönü Yok Saymak:** Akışın yönünü ihmal etmek; örneğin `api -> model` çağrısı ile `model -> api` yanıtını aynı kabul etmek. Yanıt kanalı, modelin ürettiği kontrolsüz yükleri taşır.
+- **Aynı Bölge Akışlarına Kontrol Atamak:** Aynı güven bölgesindeki bileşenler (örneğin iki yardımcı API servisi) arasındaki akışları sınır geçişi sanmak, güvenlik ekiplerinin kaynaklarını tüketir ve gerçek sınır geçişlerinin gözden kaçmasına yol açar.
+- **Kontrolsüz Geçişleri Toleransla Karşılamak:** Raporlanan `kontrolsuz` geçiş sayısının sıfır olmasının mutlak şart olduğunu unutmak. Tek bir denetimsiz sınır geçişi tüm sistemi ele geçirmeye yeterlidir.
+- **Veri Yapılarını Yerinde Değiştirmek:** Girdi listelerini veya sözlüklerini doğrudan mutasyona uğratarak test sözleşmelerini ve saf fonksiyon ilkelerini ihlal etmek.
 :::
 
 ::: tahmin Bileşen türü güven bölgesini belirler
@@ -41,9 +68,23 @@ Bölgeleri şöyle ata: `kullanici`, `istemci`, `ag` → `dis`; `api` → `uygul
 
 Her bileşen için `{"id":ID,"tur":TUR,"sinir":BOLGE}` döndür. Listeyi kimliğe göre artan sırala, boş liste için boş liste döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-01")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def guven_bolgesi_envanteri(bilesenler):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: tüm bileşenleri ayrım gözetmeksizin uygulama bölgesine atar ve sıralama yapmaz.
+    return [{"id": b["id"], "tur": b["tur"], "sinir": "uygulama"} for b in bilesenler]
+
+v = json_yukle("veri/mimari.json")["bilesenler"]
+print("Normalize envanter örneği:", guven_bolgesi_envanteri(v))
 ```
 
 ```test
@@ -147,9 +188,23 @@ Bağlantı yönü önemlidir. `api → model` ile `model → api` aynı kayıt d
 
 Her bağlantı için aynı üç alana ek olarak `sinir_gecisi` boolean alanı döndür; kaynak ve hedef bölgeleri farklıysa true olsun. Raporu `(kaynak, hedef, kanal)` anahtarıyla artan sırala. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-01")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def sinir_gecisleri_raporu(bilesenler, baglantilar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: bölge kontrolü yapmadan tüm bağlantıları sınır geçişi yok (False) olarak işaretler.
+    return [{"kaynak": a["kaynak"], "hedef": a["hedef"], "kanal": a["kanal"], "sinir_gecisi": False} for a in baglantilar]
+
+m = json_yukle("veri/mimari.json")
+print("Sınır geçişleri örneği:", sinir_gecisleri_raporu(m["bilesenler"], m["baglantilar"]))
 ```
 
 ```test
@@ -293,9 +348,23 @@ Dönüş:
 
 Yalnız sınır geçişlerini raporla. Geçişleri `(kaynak, hedef, kanal)` ile, kontrol adlarını alfabetik artan sırala. Kontrol atanmayan geçiş boş liste taşır. `kontrolsuz`, boş kontrol listesi olan geçiş sayısıdır. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-01")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def kontrol_kapsam_raporu(bilesenler, baglantilar, kontroller):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kontrolleri geçişlerle eşleştirmeden sabit sıfır kontrolsüz geçiş raporlar.
+    return {"gecisler": [{"kaynak": a["kaynak"], "hedef": a["hedef"], "kanal": a["kanal"], "kontroller": []} for a in baglantilar], "kontrolsuz": 0}
+
+m = json_yukle("veri/mimari.json")
+print("Kontrol kapsam örneği:", kontrol_kapsam_raporu(m["bilesenler"], m["baglantilar"], m["kontroller"]))
 ```
 
 ```test
@@ -466,7 +535,8 @@ timeout: 300
 import ai_lab
 
 def canli_gecis_raporu(bilesenler, baglantilar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: bölgeleri karşılaştırmadan tüm canlı bağlantıları sınır geçişi yok (False) sayar.
+    return [{"kaynak": a["kaynak"], "hedef": a["hedef"], "kanal": a["kanal"], "sinir_gecisi": False} for a in baglantilar]
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_01 as deney
@@ -474,6 +544,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import ai_lab
 sonuclar = []
 def kontrol(kosul, mesaj):
@@ -481,6 +552,29 @@ def kontrol(kosul, mesaj):
     return ok(kosul, mesaj)
 sorun = ai_lab.kod_denetimi(src, ("referans", "referans_rapor", "getattr"))
 kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+def ast_denetle(kaynak):
+    try:
+        agac = ast.parse(kaynak)
+    except Exception:
+        return False
+    for dugum in ast.walk(agac):
+        if isinstance(dugum, ast.ImportFrom):
+            if any(a.name == "*" for a in dugum.names):
+                return False
+            if dugum.module and any(x in dugum.module for x in ("referans", "ai_gercek")):
+                return False
+        if isinstance(dugum, ast.Import):
+            if any(any(x in a.name for x in ("referans", "ai_gercek")) for a in dugum.names):
+                return False
+        if isinstance(dugum, ast.Name) and "referans" in dugum.id.lower():
+            return False
+        if isinstance(dugum, ast.Attribute) and "referans" in dugum.attr.lower():
+            return False
+        if isinstance(dugum, ast.Call):
+            if isinstance(dugum.func, ast.Name) and dugum.func.id in ("getattr", "eval", "exec"):
+                return False
+    return True
+kontrol(ast_denetle(src), "kod referans çözüme doğrudan veya dolaylı erişmemeli")
 fn = need("canli_gecis_raporu")
 from sandbox import ai_gercek_ai_savunma_01 as D
 B = [{"id": "gecit", "tur": "api", "sinir": "uygulama"}, {"id": "kullanici", "tur": "kullanici", "sinir": "dis"},

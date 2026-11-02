@@ -5,12 +5,34 @@ summary: HTML metin katmanlarını ayır, tarayıcı eylemlerini alan adı izin 
 timeout: 300
 ---
 
-::: anlat Ekranda görünmeyen DOM metni de bağlama girebilir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Ekranda görünmeyen DOM metni de bağlama girebilir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir tarayıcı ajanı (Playwright tabanlı ajanlar, Browser Use, computer-use) sayfayı birkaç kanaldan alır. Bunlar ekran görüntüsü, `document.body.textContent`, düzen motorunun hesapladığı `innerText` ve erişilebilirlik ağacıdır. Önerdiği tıklama ve gezinme eylemleri bir araç çağrısı olarak uygulamaya gelir. | Görev 1–3: `veri/sayfalar.json`, `veri/eylem_adaylari.json` ve `veri/dom_ekran_kayitlari.json` içindeki **sentetik** sayfa, bağlantı ve kayıtlar. Son adım: kurulu Playwright ile başsız Chromium. Ağ istekleri `route.abort()` ile kesilir; tek yerel sayfa bellekten yüklenir ve ondan `textContent`, `innerText` ve bağlantılar okunur. | Derste dil modeli ya da ajan yoktur. Bu yüzden enjeksiyonun bir ajanı yönlendirdiğini ölçmez; yalnız hangi kanalın talimat görünümlü metni taşıdığını ölçer. HTMLParser sınıf tabanlı CSS'i, ekran dışına itilmiş, sıfır puntolu ya da zeminle aynı renkteki metni tanımaz. Alan adı süzgeci yönlendirme sonrası varışı, DNS'i ve TLS'i denetlemez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde tarayıcı, model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu Playwright Chromium'unu ağı kesilmiş halde kullanır; dış siteye bağlanmaz. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Tarayıcı ajanı yalnız ekran görüntüsünü değil, DOM'dan çıkarılan metni de kullanabilir. `hidden`, `aria-hidden` veya CSS ile gizlenmiş bir metin kullanıcıya görünmezken DOM çıkarımına girebilir. Script ve style içeriği de kullanıcı içeriği değildir; bunları görünür metinle karıştırmak kanıtı bozar.
 
-DOM metnindeki “önceki talimatı yok say” veya “şu bağlantıya tıkla” ifadesi web içeriğidir, system talimatı değildir. Ajanın eylem yetkisi uygulama katmanında sınırlanmalıdır. Bu derste izole HTML fixture'ı, URL adayları ve ekran/DOM kayıtları kullanılır; Playwright, Browser Use, Ollama veya gerçek web sitesi gerekmez.
+DOM metnindeki “önceki talimatı yok say” veya “şu bağlantıya tıkla” ifadesi web içeriğidir, system talimatı değildir. Ajanın eylem yetkisi uygulama katmanında sınırlanmalıdır. Görev 1–3 izole HTML fixture'ları, URL adayları ve ekran/DOM kayıtları kullanır; bu görevler için Playwright, Browser Use, Ollama ya da gerçek web sitesi gerekmez. Son adım ise kurulu Playwright ile gerçek başsız Chromium açar, ama ağı keser ve yalnız bellekteki yerel sayfayı yükler.
 
 Standart `HTMLParser` tam bir tarayıcı değildir: JavaScript çalıştırmaz, gerçek CSS kaskadını hesaplamaz. Buradaki görev yalnız açık `hidden`, `aria-hidden="true"`, `display:none` ve `visibility:hidden` işaretlerini tanır.
+
+**Aracın altında ne olur?** Aynı sayfa, ajanın hangi kanalı okuduğuna göre farklı metin verir:
+
+- `textContent` DOM ağacındaki bütün metin düğümlerini birleştirir. Gizli `div`, `display:none` öğesi, hatta `script` ve `style` içeriği de buna girer.
+- `innerText`, düzen motorunun hesapladığı görünür metindir. CSS ile gizlenen öğe buna girmez.
+- Erişilebilirlik ağacı ekran okuyucunun gördüğüdür. `aria-hidden="true"` öğesi bu ağaçtan çıkar ama **ekranda görünmeye devam eder**. Tersine, ekran dışına itilmiş "yalnız ekran okuyucu" metni ekranda görünmez ama ağaçta kalır.
+
+Bu derste `aria-hidden` gizli katmana konur, çünkü ajanların bir kısmı erişilebilirlik ağacını okur. Bu, "kullanıcı göremez" anlamına gelmez. Her kanalın kör noktası farklı olduğu için enjeksiyon adayı, iki kanal karşılaştırılarak bulunur.
+
+**Saldırgan neyi dener?** Talimatı kullanıcının görmeyeceği ama ajanın okuyacağı bir yere koyar: `hidden` bir `div`, sınıfla gizlenen bir paragraf, `font-size:0`, zeminle aynı renk, `left:-9999px`, `alt` ya da `title` özniteliği, JSON-LD `script` bloğu. Bunu en kolay, başkalarının içerik yazabildiği yerlerde yapar: ürün yorumu, forum iletisi, web postasında açılan e-posta, paylaşılan belge. Talimat çoğu zaman bir eylem ister: "şu bağlantıya tıkla", "formu doldur", "çerezi şu adrese gönder". Bu yüzden ikinci savunma hattı eylem kapısıdır.
+
+**Savunma neden kırılır?** Satır içi işaretlere bakan bir HTMLParser süzgeci, sınıf tabanlı CSS'i bilmez (`veri/sayfalar.json`, `s-06`). Gerçek Chromium o paragrafı gizler, HTMLParser ise görünür sayar. JavaScript'in sayfa yüklendikten sonra eklediği metin hiç görülmez. Alan adını URL metninde arayan bir izin listesi `destek.pafta.test.kotu.test`, `?r=destek.pafta.test` ve `destek.pafta.test@kotu.test` adreslerine kanar (`veri/eylem_adaylari.json`, `e-04`–`e-06`). İzinli alandaki bir açık yönlendirme ise doğru bir izin listesini bile aşar; bu yüzden varış adresi ayrıca denetlenir.
+
+**Görev 1'de sık tuzaklar:** Gizliliği yalnız son açılan etikete bakarak hesaplamak, gizli bölümün çocuklarını görünür yapar (`s-03`). `style` içinde `"display:none"` dizesini aramak `Display : NONE` yazımını kaçırır (`s-02`). Aynı dizeyi ham etiket metninde aramak ise `data-style` özniteliğini yanlışlıkla gizli sayar (`s-04`). `<br/>` ve `<img>` gibi void etiketleri yığına atmak, dengeyi bozup geçerli sayfayı reddettirir (`s-05`).
 :::
 
 ::: tahmin
@@ -49,9 +71,57 @@ Dönüş `{"gorunur":[...],"gizli":[...],"kod":[...]}` biçimindedir. Her metin 
 
 Kapanışı olmayan veya yanlış sırayla kapanan etiketlerde `ValueError` yükselt. `img`, `input`, `meta`, `link`, `br` ve `hr` void etiketlerdir. HTML çalıştırma, ağ isteği yapma veya metindeki talimatları uygulama.
 
+Görünür veri: `veri/sayfalar.json`. Her örneğin `beklenen` alanı vardır; README tablosu nedenlerini açıklar.
+
 ```starter
+from html.parser import HTMLParser
+from ai_saldiri_veri import json_yukle
+
+class KatmanParser(HTMLParser):
+    # KUSURLU BAŞLANGIÇ KODU: gizliliği yalnız son açılan etiketten okuyor (gizli üst düğümün çocukları görünür sayılır), stilde yalnız boşluksuz küçük harfli "display:none" arıyor, aria-hidden ve visibility'yi yok sayıyor, script/style içeriğini görünür sayıyor ve etiket dengesini denetlemiyor!
+    def __init__(self):
+        super().__init__()
+        self.sonuc = {"gorunur": [], "gizli": [], "kod": []}
+        self.gizli = False
+
+    def handle_starttag(self, tag, attrs):
+        oznitelikler = dict(attrs)
+        self.gizli = "hidden" in oznitelikler or "display:none" in (oznitelikler.get("style") or "")
+
+    def handle_endtag(self, tag):
+        self.gizli = False
+
+    def handle_data(self, data):
+        metin = " ".join(data.split())
+        if metin:
+            self.sonuc["gizli" if self.gizli else "gorunur"].append(metin)
+
 def dom_katmanlari(html):
-    return {}
+    parser = KatmanParser()
+    parser.feed(str(html))
+    return parser.sonuc
+
+veri = json_yukle("veri/sayfalar.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = dom_katmanlari(o["html"])
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", sonuc)
+for b in veri["bozuk_girdiler"]:
+    try:
+        dom_katmanlari(b)
+        print(repr(b), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(b), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-31")
 ```
 
 ```test
@@ -154,6 +224,8 @@ Yığında `(tag, gizli, kod)` üçlüsü tut; yeni düğümde üst düğümün 
 Web içeriği bir bağlantıya tıklanmasını isteyebilir; uygulama ise yalnız izinli HTTPS alanlarına navigasyona izin verebilir. URL'nin metinde `ornek.test` geçirmesi yeterli değildir. `urlsplit` ile ayrıştırılan `hostname` izin listesiyle tam eşleşmeli; kullanıcı bilgisi ve açık farklı port reddedilmelidir.
 
 Bu kontrol prompt injection savunmasının tamamı değildir. Yönlendirme sonrası varış alanı, DNS, TLS ve sayfa içeriği ayrıca denetlenir. Burada yalnız eylem adayındaki URL'nin ilk politika kapısını fixture ile sınarız; gerçek bağlantı kurmayız.
+
+**Sık tuzaklar:** `urlsplit(...).port`, `:99999` gibi geçersiz portta `ValueError` yükseltir. Bu hata yakalanmazsa tek bir kötü bağlantı bütün süzgeci düşürür (`e-08`). Sondaki noktalı `destek.pafta.test.` DNS'te aynı adı gösterebilir, ama bu ders tam eşleşme ister ve adayı reddeder (`e-11`). `javascript:` bağlantısının (`e-10`) içinde `https://kotu.test` geçer. Şemaya bakmadan metinde `https://` arayan bir kontrol bu bağlantıyı geçirir. Şemayı her zaman ayrıştırılmış `scheme` alanından denetle.
 :::
 
 ::: gorev 2 · Tarayıcı eylemlerini HTTPS alan izin listesinden geçir
@@ -168,9 +240,39 @@ Bir aday izinlidir yalnız:
 
 Geçersiz port gibi URL ayrıştırma hatalarında adayı reddet; bütün işlemi durdurma. Dönüş `{"izinli":[ID,...],"reddedilen":[ID,...]}` olup aday sırasını korur. Alt alan adlarını otomatik kabul etme, URL metni üzerinde alt string araması yapma. Girdiyi değiştirme.
 
+Görünür veri: `veri/eylem_adaylari.json`. On bir adaydan yalnız ilk ikisi izinli olmalıdır. Dört bozuk girdi `ValueError` almalıdır.
+
 ```starter
+from urllib.parse import urlsplit
+from ai_saldiri_veri import json_yukle
+
 def eylem_suz(adaylar, izinli_alanlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: izinli alan adını URL metninde alt string olarak arıyor (sahte son ek, sorgu parametresi ve kullanıcı bilgisi geçer), şemayı ve portu denetlemiyor, şema ihlalinde ValueError yükseltmiyor!
+    sonuc = {"izinli": [], "reddedilen": []}
+    for aday in adaylar:
+        url = str(aday.get("url", "")).lower()
+        izinli = any(alan.lower() in url for alan in izinli_alanlar)
+        sonuc["izinli" if izinli else "reddedilen"].append(aday.get("id"))
+    return sonuc
+
+veri = json_yukle("veri/eylem_adaylari.json")
+sonuc = eylem_suz(veri["adaylar"], veri["izinli_alanlar"])
+print("sonuç   :", sonuc)
+print("beklenen:", veri["beklenen"])
+for b in veri["bozuk_girdiler"]:
+    try:
+        eylem_suz(b["adaylar"], b["izinli_alanlar"])
+        print(b, "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print("reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-31")
 ```
 
 ```test
@@ -255,6 +357,8 @@ def eylem_suz(adaylar, izinli_alanlar):
 Gizli DOM enjeksiyonu adayını bulmak için aynı vakanın DOM ve ekran/OCR metinleri karşılaştırılır. Canary DOM'da olup ekranda yoksa gizli DOM farkı adayıdır. Ekranda olup DOM'da olmaması da kayda değerdir; iki kanalda bulunması ise gizli metin iddiasını desteklemez.
 
 Tam satır ölçütü, “canary yazma” gibi alıntıları eşleşme dışında bırakır. Bu fark, ajanın enjeksiyonu uyguladığını göstermez; hangi kanalın talimat görünümlü içerik taşıdığını gösterir. Eylem etkisini ayrıca politika ve araç kayıtlarıyla ölçmek gerekir.
+
+**Çıktı nasıl okunur?** `veri/dom_ekran_kayitlari.json` içinde `d-03` canary'yi yalnız ekranda taşır. Bu, örneğin bir kampanya görselindeki yazının ekran görüntüsünden okunduğu durumdur. DOM'u süzen bir savunma bu kanalı hiç görmez; vaka `degisen` listesinden düşmemelidir. `d-04` canary'yi yalnız alıntılayan bir uyarıdır ve eşleşme sayılmaz. `d-05` canary satırını `\r\n` ile bitirir.
 :::
 
 ::: gorev 3 · DOM ve ekran metinleri arasındaki canary farkını çıkar
@@ -262,9 +366,50 @@ Tam satır ölçütü, “canary yazma” gibi alıntıları eşleşme dışınd
 
 Dönüş `{"vaka":N,"yalniz_dom":[...],"yalniz_ekran":[...],"her_iki":[...],"degisen":[...]}` biçimindedir. Canary tam satır aranır. `degisen`, iki kanalın canary durumu farklı olan vakalardır. Bütün listeler alfabetik sıralıdır; boş girdi için boş rapor dön. Kayıt sırası sonucu değiştirmemeli ve girdi değişmemelidir.
 
+Görünür veri: `veri/dom_ekran_kayitlari.json`. Beklenen sonuç dosyanın `beklenen` alanındadır. Üç bozuk girdi `ValueError` almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def dom_ekran_farki(kayitlar, canary):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: canary'yi alt metin olarak arıyor (alıntıyı da sayar), eksik/yinelenen kanalı ve boş canary'yi sessizce geçiyor, yalnız ekranda görülen farkı "degisen" listesine eklemiyor ve listeleri sıralamıyor!
+    vakalar = {}
+    for kayit in kayitlar:
+        vakalar.setdefault(kayit["vaka_id"], {})[kayit["kanal"]] = kayit["metin"]
+    sonuc = {"vaka": len(vakalar), "yalniz_dom": [], "yalniz_ekran": [], "her_iki": [], "degisen": []}
+    for vaka, kanallar in vakalar.items():
+        dom = canary in kanallar.get("dom", "")
+        ekran = canary in kanallar.get("ekran", "")
+        if dom and ekran:
+            sonuc["her_iki"].append(vaka)
+        elif dom:
+            sonuc["yalniz_dom"].append(vaka)
+            sonuc["degisen"].append(vaka)
+        elif ekran:
+            sonuc["yalniz_ekran"].append(vaka)
+    return sonuc
+
+veri = json_yukle("veri/dom_ekran_kayitlari.json")
+sonuc = dom_ekran_farki(veri["kayitlar"], veri["canary"])
+print("sonuç   :", sonuc)
+print("beklenen:", veri["beklenen"])
+for alan in veri["beklenen"]:
+    if sonuc.get(alan) != veri["beklenen"][alan]:
+        print("FARK:", alan, sonuc.get(alan), "≠", veri["beklenen"][alan])
+for b in veri["bozuk_girdiler"]:
+    try:
+        dom_ekran_farki(b["kayitlar"], b["canary"])
+        print(len(b["kayitlar"]), "kayıt, canary", repr(b["canary"]), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(len(b["kayitlar"]), "kayıt, canary", repr(b["canary"]), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-31")
 ```
 
 ```test
@@ -357,6 +502,10 @@ Vaka kimliğinden iki kanalın metnine giden sözlük kur. Her vaka için iki bo
 
 ::: anlat Gerçek başsız tarayıcıda (Playwright + Chromium) DOM ve ekran farkı
 İlk üç görevde saf Python ile kurduğun katman ayrıştırma (`dom_katmanlari`), HTTPS alan süzgeci (`eylem_suz`) ve DOM/ekran farkı (`dom_ekran_farki`), aşağıdaki son görevde **gerçek başsız Chromium tarayıcısı (Playwright)** üzerinde sınanır. Ağa hiç çıkmadan (`route.abort()`) yerel bir HTML sayfası Chromium'a yüklenir; tarayıcının gerçek düzen motorunun (layout engine) oluşturduğu görünür ekran metni (`locator("body").inner_text()`) ile ham DOM metni (`document.body.textContent`) ve `<a>` bağlantıları doğrudan Chromium'dan çekilerek senin işlevlerinle doğrulanır.
+
+Deneyde dil modeli ya da ajan yoktur. Ölçülen, aynı sayfanın iki kanalda farklı metin vermesidir. Sayfanın `hidden` bloğundaki dinamik canary `textContent` içinde tam satırdır, `innerText` içinde yoktur. Kabul için `yalniz_dom` listesinde tam bu vaka olmalıdır. Bağlantılar da `data-eylem` özniteliğinden eylem adayına çevrilir ve senin süzgecinden geçer. İzinli alan `ic.pafta.test` olduğu için dış ve HTTP bağlantıları reddedilmelidir.
+
+Sayfadaki `aria-hidden="true"` paragrafı senin `dom_katmanlari` sonucunda gizli katmandadır, ama Chromium'un `innerText` çıktısında görünür. İki sonuç çelişmez: `aria-hidden` yalnız erişilebilirlik ağacından gizler. Bu deney sayfayı ağ kapalı ve tek seferlik yükler; JavaScript ile sonradan eklenen içerik ya da gerçek bir sitenin davranışı hakkında bilgi vermez.
 :::
 
 ::: gorev Gerçek deney · Başsız Chromium'da DOM katmanlarını ve ekran farkını ölç
@@ -373,14 +522,56 @@ from html.parser import HTMLParser
 from urllib.parse import urlsplit
 import ai_lab
 
+class KatmanParser(HTMLParser):
+    # KUSURLU BAŞLANGIÇ KODU: gizliliği yalnız son açılan etiketten okuyor (gizli üst düğümün çocukları görünür sayılır), stilde yalnız boşluksuz küçük harfli "display:none" arıyor, aria-hidden ve visibility'yi yok sayıyor, script/style içeriğini görünür sayıyor ve etiket dengesini denetlemiyor!
+    def __init__(self):
+        super().__init__()
+        self.sonuc = {"gorunur": [], "gizli": [], "kod": []}
+        self.gizli = False
+
+    def handle_starttag(self, tag, attrs):
+        oznitelikler = dict(attrs)
+        self.gizli = "hidden" in oznitelikler or "display:none" in (oznitelikler.get("style") or "")
+
+    def handle_endtag(self, tag):
+        self.gizli = False
+
+    def handle_data(self, data):
+        metin = " ".join(data.split())
+        if metin:
+            self.sonuc["gizli" if self.gizli else "gorunur"].append(metin)
+
 def dom_katmanlari(html):
-    return {"gorunur": [], "gizli": [], "kod": []}
+    parser = KatmanParser()
+    parser.feed(str(html))
+    return parser.sonuc
 
 def eylem_suz(adaylar, izinli_alanlar):
-    return {"izinli": [], "reddedilen": []}
+    # KUSURLU BAŞLANGIÇ KODU: izinli alan adını URL metninde alt string olarak arıyor (sahte son ek, sorgu parametresi ve kullanıcı bilgisi geçer), şemayı ve portu denetlemiyor, şema ihlalinde ValueError yükseltmiyor!
+    sonuc = {"izinli": [], "reddedilen": []}
+    for aday in adaylar:
+        url = str(aday.get("url", "")).lower()
+        izinli = any(alan.lower() in url for alan in izinli_alanlar)
+        sonuc["izinli" if izinli else "reddedilen"].append(aday.get("id"))
+    return sonuc
 
 def dom_ekran_farki(kayitlar, canary):
-    return {"vaka": 0, "yalniz_dom": [], "yalniz_ekran": [], "her_iki": [], "degisen": []}
+    # KUSURLU BAŞLANGIÇ KODU: canary'yi alt metin olarak arıyor (alıntıyı da sayar), eksik/yinelenen kanalı ve boş canary'yi sessizce geçiyor, yalnız ekranda görülen farkı "degisen" listesine eklemiyor ve listeleri sıralamıyor!
+    vakalar = {}
+    for kayit in kayitlar:
+        vakalar.setdefault(kayit["vaka_id"], {})[kayit["kanal"]] = kayit["metin"]
+    sonuc = {"vaka": len(vakalar), "yalniz_dom": [], "yalniz_ekran": [], "her_iki": [], "degisen": []}
+    for vaka, kanallar in vakalar.items():
+        dom = canary in kanallar.get("dom", "")
+        ekran = canary in kanallar.get("ekran", "")
+        if dom and ekran:
+            sonuc["her_iki"].append(vaka)
+        elif dom:
+            sonuc["yalniz_dom"].append(vaka)
+            sonuc["degisen"].append(vaka)
+        elif ekran:
+            sonuc["yalniz_ekran"].append(vaka)
+    return sonuc
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_31 as deney
@@ -401,8 +592,14 @@ def ok(kosul, mesaj):
 for ad in ("dom_katmanlari", "eylem_suz", "dom_ekran_farki"):
     need(ad)
 
-sorun = ai_lab.kod_denetimi(src, ("dom_katmanlari_referans", "eylem_suz_referans", "dom_ekran_farki_referans"))
-ok(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı")
+import ast
+_yasak = ("dom_katmanlari_referans", "eylem_suz_referans", "dom_ekran_farki_referans", "kanit_yaz")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names): sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])): sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"): sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+ok(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı: " + "; ".join(sorted(set(sorun))))
 
 HTML = '<div>Rapor <span hidden>BREACH:CANARY-42</span><span style="display: none">Gizli</span></div><script>BREACH:CANARY-42</script><p aria-hidden="true">Aria</p><p>Son</p>'
 ADAYLAR = [

@@ -5,7 +5,15 @@ summary: Jailbreak vakalarını dönüştürme, bağlam manipülasyonu ve politi
 timeout: 45
 ---
 
-::: anlat Taksonomi saldırı adını değil mekanizmayı sınıflandırır
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Taksonomi saldırı adını değil mekanizmayı sınıflandırır
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| garak gibi bir tarayıcı, her probe için hedef modele istek gönderir. Ham yanıtı bir detector'dan geçirir ve probe adı, detector adı ve sürümü, ham yanıt ile başarı puanını rapora yazar. Üretimdeki jailbreak sınıflandırıcıları (Llama Guard, Prompt Guard gibi) eğitilmiş modellerdir; kurallı değildir. | Görev 1–3: `veri/metinler.json`, `veri/vakalar.json` ve `veri/olcum_vakalari.json` içindeki **sentetik**, zararsız metin ve etiketler. Son adım: görünür JSONL dosyası ve kurulu yerel Ollama modeli. Model saldırı hedefi olarak değil, ikinci bir sınıflandırıcı olarak çağrılır. | Bir metnin sınıflandırılması, o metnin bir modelde güvenlik sınırını aştığını göstermez. Kurallı sinyaller eş anlamlıyı, başka dili ve farklı kodlamaları kaçırır. Altı vakalık metrik istatistiksel bir değerlendirme değildir; modelin sınıflandırma puanı da güvenlik kanıtı değildir. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın JSONL çalışma kopyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 “Jailbreak” tek bir teknik değildir. Bir vaka metni kodlayabilir, sahte bir rol bağlamı kurabilir ve aynı anda üst düzey talimatla çelişen bir sonuç isteyebilir. Bu yüzden vakayı yalnız tek bir etikete zorlamak mekanizmayı kaybedebilir. Bu derste dört dar sınıf kullanacağız:
 
 - `dogrudan-istek`: Ek dönüştürme veya bağlam manevrası bulunmayan açık istek.
@@ -26,7 +34,9 @@ print(adaylar)
 print(any(t in {"base64", "hex"} for t in ["base64", "rol"]))
 ```
 
-Gerçek garak veya Ollama taramasında da probe çıktısı, detector sürümü ve ham yanıt saklanmalıdır. Bu fixture herhangi bir model veya harici paket çalıştırmaz.
+Gerçek garak veya Ollama taramasında da probe çıktısı, detector sürümü ve ham yanıt saklanmalıdır. Görev 1–3 herhangi bir model ya da harici paket çalıştırmaz. Son adım yerel Ollama modelini yalnız etiketleyici olarak çağırır; garak kullanılmaz.
+
+**Görev 1'de sık tuzaklar:** `lower()`, `ÖNCEKİ` sözcüğündeki `İ` harfini `i` ile birleşik noktaya çevirir; `casefold()` da aynısını yapar. Bu yüzden nokta ayrıca atılmadan `önceki talimat` eşleşmez (`veri/metinler.json`, `t-07`). `"base64" in metin` kontrolü `abcbase64xyz` dosya adını sinyal sayar (`t-02`). Her `0x` önekini hex saymak kısa kodları yakalar (`t-04`). `0x48656c6c6f2c21` gibi bir token ise hem hex hem Base64 benzeri olabilir; sözleşme iki sinyali de korur (`t-03`).
 :::
 
 ::: tahmin Çok etiketli sonuç ve doğrudan istek
@@ -75,9 +85,46 @@ Sinyal sözleşmesi:
 
 `metin` string değilse `ValueError` yükselt. Sinyal yoksa boş liste dön. “Base64” kelimesinin büyük/küçük harf biçimi sonucu değiştirmemeli; `abcbase64xyz` tek başına `base64` sinyali üretmemeli.
 
+Görünür veri: `veri/metinler.json`. Her örneğin `beklenen` alanı vardır; README tablosu nedenlerini açıklar.
+
 ```starter
+import re
+from ai_saldiri_veri import json_yukle
+
 def taktikleri_bul(metin):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: casefold() yerine lower() kullanıyor (ÖNCEKİ → "önceki̇", eşleşmez), "base64"ü kelime içinde de arıyor ama Base64 tokenlarını hiç aramıyor, her "0x"i hex sayıyor, rol/kurgu listeleri eksik, None'u str() ile kabul ediyor ve sonucu sıralamıyor!
+    normal = str(metin).lower()
+    sinyaller = []
+    if "base64" in normal:
+        sinyaller.append("base64")
+    if "hex" in normal or "0x" in normal:
+        sinyaller.append("hex")
+    if any(x in normal for x in ("<|system|>", "system:", "developer mode")):
+        sinyaller.append("sahte-rol")
+    if any(x in normal for x in ("roleplay", "kurgu")):
+        sinyaller.append("kurgu")
+    if "önceki talimat" in normal and "yok say" in normal:
+        sinyaller.append("onceki-talimati-yok-say")
+    return sinyaller
+
+veri = json_yukle("veri/metinler.json")
+for o in veri["ornekler"]:
+    sonuc = taktikleri_bul(o["metin"])
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", sonuc, "" if sonuc == o["beklenen"] else "≠ " + str(o["beklenen"]))
+for b in veri["bozuk_girdiler"]:
+    try:
+        taktikleri_bul(b)
+        print(repr(b), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(b), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-04")
 ```
 
 ```test
@@ -148,6 +195,8 @@ hiç taktik etiketi yok                  → dogrudan-istek
 ```
 
 `dogrudan-istek`, başka etiketle birlikte üretilmez. Vaka kimliği ve ham metin sonuçta korunur; böylece yanlış sınıflandırma incelenirken yalnız etiket değil kaynak örnek de görülebilir. Bu kurallar saldırının başarılı olup olmadığını ölçmez. Başarı ölçümü için model yanıtı ve önceden tanımlı başarı koşulu gerekir.
+
+**Sık tuzak:** Etiketleri gelen vaka sözlüğüne yazıp aynı listeyi döndürmek, çağıranın elindeki ham kaydı değiştirir. Son adımın deneyi bu durumu "Sınıflandırıcı girdiyi değiştirdi" hatasıyla durdurur. `veri/vakalar.json` içindeki `v-05` aynı sinyali iki kez taşır; etiket yine bir kez yazılmalıdır.
 :::
 
 ::: gorev 2 · Vakaları çok etiketli taksonomiyle sınıflandır
@@ -158,9 +207,47 @@ hiç taktik etiketi yok                  → dogrudan-istek
 - Bilinmeyen sinyal adı, boş olmayan string olmayan vaka kimliği veya string olmayan metin `ValueError` yükseltsin. Aynı vaka kimliği iki kez kullanılamaz.
 - Girdi vakalarını ve sinyal koleksiyonlarını değiştirme. Vaka sırasını koru.
 
+Görünür veri: `veri/vakalar.json`. Beklenen sonuç dosyanın `beklenen` alanındadır. Dört bozuk küme `ValueError` almalıdır.
+
 ```starter
+import copy
+from ai_saldiri_veri import json_yukle
+
 def vakalari_siniflandir(vakalar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: if/elif zinciriyle yalnız ilk etiketi alıyor (çok etiket kaybolur), bilinmeyen sinyali sessizce dogrudan-istek sayıyor, kimlik/metin/yinelemeyi denetlemiyor ve etiketleri girdi kayıtlarının içine yazıyor!
+    for vaka in vakalar:
+        kume = set(vaka.get("sinyaller", []))
+        if kume & {"base64", "hex"}:
+            etiket = "donusturme"
+        elif kume & {"sahte-rol", "kurgu"}:
+            etiket = "baglam-manipulasyonu"
+        elif "onceki-talimati-yok-say" in kume:
+            etiket = "politika-catistirma"
+        else:
+            etiket = "dogrudan-istek"
+        vaka["etiketler"] = [etiket]
+    return vakalar
+
+veri = json_yukle("veri/vakalar.json")
+once = copy.deepcopy(veri["vakalar"])
+sonuc = vakalari_siniflandir(veri["vakalar"])
+for s, b in zip(sonuc, veri["beklenen"]):
+    print(s.get("id"), s.get("etiketler"), "doğru" if s == b else "YANLIŞ, beklenen kayıt: " + str(b))
+print("girdi değişmedi" if veri["vakalar"] == once else "GİRDİ DEĞİŞTİ")
+for kume in veri["bozuk_kumeler"]:
+    try:
+        vakalari_siniflandir(kume)
+        print(kume, "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print("reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-04")
 ```
 
 ```test
@@ -235,6 +322,8 @@ Sinyalleri yeni bir kümeye çevir ve etiketleri ayrı bir kümede biriktir. En 
 Precision `TP / (TP + FP)`, recall `TP / (TP + FN)`, F1 ise iki değerin harmonik ortalamasıdır. Payda sıfırsa oran `None` olmalı; sıfır yazmak “ölçülemeyen” ile “başarısız” değerini karıştırır. Precision veya recall `None` ise F1 de `None` olur. İki oran da ölçülebiliyorsa F1 sayısaldır; precision ve recall birlikte sıfır olduğunda da F1 `0.0` olur.
 
 Sınıf bazlı metriklerin yanında vaka kimlikleri ve ham tahminler saklanmalı. Yüksek ortalama, nadir bir taktikteki bütün hataları gizleyebilir. garak gibi gerçek araçlarda da detector adı ve sürümü sabitlenmeden iki tarama sonucunu doğrudan karşılaştırmak güvenilir değildir.
+
+**Çıktı nasıl okunur?** `veri/olcum_vakalari.json` içinde `politika-catistirma` sınıfı hiç tahmin edilmemiştir. Precision `None`, recall `0.0` ve F1 `None` olur. FN'yi saymayan bir hesap ise bu sınıfın recall değerini ölçülmemiş ya da kusursuz gösterir; oysa iki beklenen etiketin ikisi de kaçırılmıştır.
 :::
 
 ::: gorev 3 · Sınıf bazlı precision, recall ve F1 hesapla
@@ -245,9 +334,44 @@ Sınıf bazlı metriklerin yanında vaka kimlikleri ve ham tahminler saklanmalı
 - Sayımları bütün vakalar üzerinden sınıf bazında yap. Payda sıfırsa ilgili oran `None`; iki oran da sayısal olduğunda ve toplamları sıfırdan büyükse `f1 = 2*p*r/(p+r)` olsun.
 - Girdiyi değiştirme. Bilinmeyen etiketleri sessizce yok sayma: bir vakada raporlama koleksiyonu dışında etiket varsa `ValueError` yükselt.
 
+Görünür veri: `veri/olcum_vakalari.json`. Beklenen rapor dosyanın `beklenen` alanındadır. İki bozuk küme `ValueError` almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def siniflandirma_olc(vakalar, etiketler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: FN'yi hiç saymıyor (recall ölçülen her sınıfta 1.0 görünür), payda sıfırken None yerine 0.0 yazıyor ve rapor dışı etiketi sessizce yok sayıyor!
+    rapor = {}
+    for sinif in etiketler:
+        tp = sum(sinif in v["beklenen"] and sinif in v["tahmin"] for v in vakalar)
+        fp = sum(sinif not in v["beklenen"] and sinif in v["tahmin"] for v in vakalar)
+        fn = 0
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+        rapor[sinif] = {"tp": tp, "fp": fp, "fn": fn, "precision": precision, "recall": recall, "f1": f1}
+    return rapor
+
+veri = json_yukle("veri/olcum_vakalari.json")
+rapor = siniflandirma_olc(veri["vakalar"], veri["etiketler"])
+for sinif in veri["etiketler"]:
+    print(sinif, rapor.get(sinif))
+    if rapor.get(sinif) != veri["beklenen"][sinif]:
+        print("   ≠ beklenen", veri["beklenen"][sinif])
+for kume in veri["bozuk_kumeler"]:
+    try:
+        siniflandirma_olc(kume, veri["etiketler"])
+        print(kume[0]["id"], "rapor dışı etiket KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(kume[0]["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-04")
 ```
 
 ```test
@@ -329,19 +453,64 @@ timeout: 300
 ```
 
 ```starter
+import json
+import re
+from pathlib import Path
 import ai_lab
 
 def taktikleri_bul(metin):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: casefold() yerine lower() kullanıyor (ÖNCEKİ → "önceki̇", eşleşmez), "base64"ü kelime içinde de arıyor ama Base64 tokenlarını hiç aramıyor, her "0x"i hex sayıyor, rol/kurgu listeleri eksik, None'u str() ile kabul ediyor ve sonucu sıralamıyor!
+    normal = str(metin).lower()
+    sinyaller = []
+    if "base64" in normal:
+        sinyaller.append("base64")
+    if "hex" in normal or "0x" in normal:
+        sinyaller.append("hex")
+    if any(x in normal for x in ("<|system|>", "system:", "developer mode")):
+        sinyaller.append("sahte-rol")
+    if any(x in normal for x in ("roleplay", "kurgu")):
+        sinyaller.append("kurgu")
+    if "önceki talimat" in normal and "yok say" in normal:
+        sinyaller.append("onceki-talimati-yok-say")
+    return sinyaller
 
 def vakalari_siniflandir(vakalar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: if/elif zinciriyle yalnız ilk etiketi alıyor (çok etiket kaybolur), bilinmeyen sinyali sessizce dogrudan-istek sayıyor, kimlik/metin/yinelemeyi denetlemiyor ve etiketleri girdi kayıtlarının içine yazıyor!
+    for vaka in vakalar:
+        kume = set(vaka.get("sinyaller", []))
+        if kume & {"base64", "hex"}:
+            etiket = "donusturme"
+        elif kume & {"sahte-rol", "kurgu"}:
+            etiket = "baglam-manipulasyonu"
+        elif "onceki-talimati-yok-say" in kume:
+            etiket = "politika-catistirma"
+        else:
+            etiket = "dogrudan-istek"
+        vaka["etiketler"] = [etiket]
+    return vakalar
 
 def siniflandirma_olc(vakalar, etiketler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: FN'yi hiç saymıyor (recall ölçülen her sınıfta 1.0 görünür), payda sıfırken None yerine 0.0 yazıyor ve rapor dışı etiketi sessizce yok sayıyor!
+    rapor = {}
+    for sinif in etiketler:
+        tp = sum(sinif in v["beklenen"] and sinif in v["tahmin"] for v in vakalar)
+        fp = sum(sinif not in v["beklenen"] and sinif in v["tahmin"] for v in vakalar)
+        fn = 0
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+        rapor[sinif] = {"tp": tp, "fp": fp, "fn": fn, "precision": precision, "recall": recall, "f1": f1}
+    return rapor
 
 def vaka_dosyasini_oku(yol):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: bozuk JSON satırını sessizce atlıyor ve alanları, kimlik tekrarını, etiketleri ve vaka sayısını hiç doğrulamıyor!
+    kayitlar = []
+    for satir in Path(yol).read_text(encoding="utf-8").splitlines():
+        try:
+            kayitlar.append(json.loads(satir))
+        except json.JSONDecodeError:
+            continue
+    return kayitlar
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_04 as deney
@@ -416,7 +585,14 @@ raises(ValueError, lambda: siniflandirma_olc([{"id":"x","beklenen":{"yeni-sinif"
 from sandbox import ai_gercek_ai_saldiri_04 as deney
 import json, tempfile, secrets, copy
 from pathlib import Path
-ok(not ai_lab.kod_denetimi(src, ['dosya_referans','metrik_referans']), 'laboratuvar ve bağımsız referanslar yamalanmamalı')
+import ast
+_yasak=('dosya_referans','metrik_referans','dosya_sozlesmesi','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar ve bağımsız referanslar yamalanmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 if not ok(deney.dosya_sozlesmesi(vaka_dosyasini_oku), 'dosya gerçek okunmalı; yeni içerik/bozuk JSON/yinelenen kimlik/etiket doğrulanmalı'):
     stop()
 for i in range(5):

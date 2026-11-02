@@ -5,7 +5,15 @@ summary: RAG belgelerini içerik parmak iziyle kaydet, geri getirme sıralaması
 timeout: 45
 ---
 
-::: anlat Zehirleme modele değil bilgi tabanına yerleşir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Zehirleme modele değil bilgi tabanına yerleşir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir RAG hattında belgeler parçalanır (chunk), embedding modeliyle vektöre çevrilir ve ChromaDB, pgvector ya da FAISS gibi bir indekse yazılır. Sorgu da vektöre çevrilir; en yakın `k` parça, benzerlik skorlarıyla geri gelir ve model bağlamına eklenir. Üretimde indeks kaydı belgenin kaynağını, yükleyenini ve içerik özetini tutar. | Görev 1–3: `veri/belgeler.json`, `veri/corpus.json` ve `veri/retrieval_kayitlari.json` içindeki **sentetik** belge, sorgu ve retrieval kayıtları; skor basit terim sayımıdır. Son adım: görünür sentetik corpus, gerçek SQLite dosyası ve FTS5 indeksi, kurulu yerel Ollama modelinden temiz ve zehirli bağlamla canlı yanıtlar. | Embedding ya da vektör benzerliği kullanılmaz; terim sayımı ve FTS5 BM25, vektör aramasının davranışını temsil etmez. Zehirli belgenin getirilmesi, modelin talimata uyduğunu kanıtlamaz. Gerçek bir bilgi tabanına belge yüklenmez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, veritabanı ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve deneyin kendi SQLite dosyasını kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın corpus çalışma kopyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 RAG sisteminde kullanıcı sorgusu önce bilgi tabanından belge getirir; getirilen metinler model bağlamına eklenir. **Bilgi tabanı zehirleme**, saldırı yönlendirmesi veya yanlış içerik taşıyan belgenin indekse girmesi ve sonraki sorgularda bağlama seçilmesidir. Model bu metni kullanıcı göreviyle aynı bağlamda gördüğünde etkilenebilir.
 
 Zinciri üç ayrı kanıtla izlemek gerekir:
@@ -14,7 +22,7 @@ Zinciri üç ayrı kanıtla izlemek gerekir:
 - **Retrieval:** Sorguda hangi belgeler, hangi sırayla geri geldi?
 - **Bağlam/yanıt:** Hangi belgeler modele verildi ve canary etkisi gözlendi mi?
 
-İlk iki adımı gerçek model olmadan ölçebiliriz. Bu derste indeks ve retrieval fixture'ları kullanılır; ChromaDB ve Ollama varsayılan çalışmanın parçası değildir. Retrieval'da canary taşıyan belge görülmesi, modelin talimatı uyguladığını tek başına kanıtlamaz.
+İlk iki adımı gerçek model olmadan ölçebiliriz. Görev 1–3 indeks ve retrieval fixture'ları kullanır; ChromaDB ve Ollama bu görevlerin parçası değildir. Son adım ChromaDB kullanmaz; SQLite FTS5 ile retrieval yapar ve yerel Ollama modelinden canlı yanıt alır. Retrieval'da canary taşıyan belge görülmesi, modelin talimatı uyguladığını tek başına kanıtlamaz.
 
 ```python
 import hashlib
@@ -24,6 +32,8 @@ print("BREACH:CANARY-42" in metin.splitlines())
 ```
 
 İçerik parmak izi değişiklikleri ayırt etmeye yardımcı olur; belgenin güvenli olduğunu göstermez.
+
+**Görev 1'de sık tuzaklar:** Özeti `strip()` edilmiş metinden almak, yalnız sondaki satır sonuyla ayrılan iki içeriği aynı özete indirir (`veri/belgeler.json`, `kb-02` ve `kb-03`). Böylece sonradan değiştirilen bir belge değişmemiş görünebilir. Belgeyi `dict(belge)` ile kopyalayıp manifestoya koymak, metni de manifestoya taşır. Ayrıca belgede gelen bir `guven` alanını korur; güven düzeyini yükleyen kişi belirlemiş olur.
 :::
 
 ::: tahmin
@@ -64,9 +74,44 @@ Dönüş aşağıdaki nesnenin kanonik JSON stringidir (`ensure_ascii=False`, `s
 
 Kayıtları belge kimliğine göre sırala. `sha256`, metnin UTF-8 baytlarının küçük harfli onaltılık SHA-256 özetidir. Belge metnini manifesto içine ayrıca kopyalama; kaynağı veya güven düzeyini yükseltme. Girdi listesini ve belgeleri değiştirme.
 
+Görünür veri: `veri/belgeler.json`. Beklenen manifesto dosyanın `beklenen` alanındadır. Dört bozuk küme `ValueError` almalıdır.
+
 ```starter
+import hashlib
+import json
+from ai_saldiri_veri import json_yukle
+
 def indeks_manifestosu(belgeler):
-    return ""
+    # KUSURLU BAŞLANGIÇ KODU: belgeyi metniyle birlikte manifestoya kopyalıyor, özeti strip() edilmiş metinden alıyor (yalnız satır sonu farkı olan içerikler aynı özete düşer), belgenin kendi "guven" alanını koruyor, kimliğe göre sıralamıyor, yinelenen kimliği denetlemiyor ve kanonik JSON ayarlarını kullanmıyor!
+    kayitlar = []
+    for belge in belgeler:
+        kayit = dict(belge)
+        kayit["sha256"] = hashlib.sha256(belge["metin"].strip().encode("utf-8")).hexdigest()
+        kayit.setdefault("guven", "guvenilmez")
+        kayitlar.append(kayit)
+    return json.dumps({"belgeler": kayitlar})
+
+veri = json_yukle("veri/belgeler.json")
+sonuc = indeks_manifestosu([dict(b) for b in veri["belgeler"]])
+print("doğru" if sonuc == veri["beklenen"] else "YANLIŞ")
+for kayit in json.loads(sonuc)["belgeler"]:
+    print(kayit["id"], kayit["sha256"][:12], "metin manifestoda!" if "metin" in kayit else "")
+for kume in veri["bozuk_kumeler"]:
+    try:
+        indeks_manifestosu(kume)
+        print([b.get("id") for b in kume], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print([b.get("id") for b in kume], "reddedildi:", hata)
+    except Exception as hata:
+        print([b.get("id") for b in kume], "ValueError yerine", type(hata).__name__, "(yanlış)")
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-14")
 ```
 
 ```test
@@ -159,6 +204,8 @@ Her belge için yeni bir manifesto sözlüğü kur. SHA-256 özetini metnin UTF-
 Zehirli belgenin indekste bulunması ile sorguda ilk sıraya gelmesi farklı olaylardır. Saldırgan belgeyi sorgu terimleriyle doldurarak lexical retrieval'da öne çıkarmayı deneyebilir. Bu etkiyi ölçmek için skor, eşitlik kuralı ve `k` sınırı açık olmalıdır.
 
 Bu dersteki küçük skor, sorgudaki **farklı terimlerin** belgedeki geçiş sayılarının toplamıdır. Böylece sorguda aynı terimi tekrarlamak skoru yapay biçimde katlamaz. Belgede tekrar eden terimler ise skoru yükseltir. Yalnız pozitif skorlu belgeler getirilir; eşit skorda kimlik sırası kullanılır. Bu basit yöntem ChromaDB'nin vektör benzerliğinin yerine geçmez; deterministik bir retrieval fixture'ıdır.
+
+**Çıktı nasıl okunur?** `veri/corpus.json` içinde zehirli `d-03` belgesi `parola` ve `sıfırlama` terimlerini tekrarlayarak `s-1` sorgusunda ilk sıraya çıkar. Terim doldurmanın lexical retrieval'daki etkisi budur. `split()` ile ayrılan `sıfırlama:` belirteci, `sıfırlama` sorgusuyla eşleşmez. `s-5` gibi hiçbir terimin geçmediği sorguda boş liste dönmelidir. Sıfır skorlu belgeyi getirmek, bağlamı ilgisiz metinle doldurur.
 :::
 
 ::: gorev 2 · Deterministik lexical retrieval sıralaması uygula
@@ -166,9 +213,40 @@ Bu dersteki küçük skor, sorgudaki **farklı terimlerin** belgedeki geçiş sa
 
 Sorgu ve metinleri `casefold()` ile küçültüp `re.findall(r"\w+", metin)` ile terimlere ayır. Skor, sorgunun **farklı terimleri** için belgedeki geçiş sayılarının toplamıdır. Pozitif skorlu belgeleri azalan skor, eşitlikte artan belge kimliğiyle sırala; ilk `k` kimliği liste olarak dön. `k=0` boş liste döndürür fakat bütün girdi yine doğrulanır. Girdiyi değiştirme.
 
+Görünür veri: `veri/corpus.json`. Her sorgunun `beklenen` alanı vardır; README tablosu nedenlerini açıklar.
+
 ```starter
+import re
+from ai_saldiri_veri import json_yukle
+
 def rag_getir(sorgu, belgeler, k):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: sorgudaki yinelenen terimi her seferinde sayıyor, split() ile ayırdığı için noktalama terime yapışıyor ("sıfırlama:"), sıfır skorlu belgeleri de getiriyor, eşitlikte kimlik yerine girdi sırasını kullanıyor ve k/şema doğrulaması yapmıyor!
+    terimler = sorgu.lower().split()
+    skorlu = []
+    for belge in belgeler:
+        kelimeler = belge["metin"].lower().split()
+        skorlu.append((sum(kelimeler.count(t) for t in terimler), belge["id"]))
+    skorlu.sort(key=lambda x: -x[0])
+    return [kimlik for _, kimlik in skorlu[:k]]
+
+veri = json_yukle("veri/corpus.json")
+for s in veri["sorgular"]:
+    sonuc = rag_getir(s["sorgu"], veri["belgeler"], s["k"])
+    print(s["id"], "doğru" if sonuc == s["beklenen"] else "YANLIŞ", sonuc, "" if sonuc == s["beklenen"] else "≠ " + str(s["beklenen"]))
+for b in veri["bozuk_girdiler"]:
+    try:
+        rag_getir(b["sorgu"], b["belgeler"], b["k"])
+        print(repr(b["sorgu"]), b["k"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(b["sorgu"]), b["k"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-14")
 ```
 
 ```test
@@ -257,6 +335,8 @@ Sorgu terimlerini kümeye çevir, belge terimlerini liste olarak bırak. `(skor,
 Aynı sorgunun temiz ve zehirli indeks kopyalarında çalıştırılması, yeni getirilen canary belgelerini ayırmayı sağlar. İki indekste de bulunan canary belgesi yeni etki değildir. Yalnız temiz indekste görülüp zehirli indekste kaybolan belgeler de değişimdir; rapor bu durumu gizlememelidir.
 
 Burada retrieval sonuçları `vaka_id`, `kume` ve `belgeler` olarak verilir. Canary'nin belge metninde tam satır bulunması adaylık ölçütüdür. Model yanıtı bulunmadığından rapor, “bilgi tabanı ve retrieval farkı” ile sınırlıdır; prompt injection başarısı veya modelin iç nedeni hakkında sonuç çıkarmaz.
+
+**Sık tuzaklar:** Temiz kümeyi karşılaştırmadan zehirli kümedeki her canary belgesini "yeni" saymak, zaten var olan bir belgeyi zehirlemeye bağlar (`veri/retrieval_kayitlari.json`, `q-vpn`). Temiz kümede görülüp zehirli kümede kaybolan canary de bir değişimdir; `q-izin` bu yüzden `farkli` listesindedir.
 :::
 
 ::: gorev 3 · Temiz ve zehirli retrieval sonuçlarının canary farkını çıkar
@@ -273,9 +353,47 @@ Dönüş:
 
 Canary tam satır aranır. `yalniz_zehirli`, zehirli kümede canary taşıyıp temiz kümede canary taşımayan belge kimlikleridir; `her_iki`, iki kümede de canary taşıyan kimliklerdir. `farkli`, iki kümenin canary taşıyan kimlik kümeleri farklı olan vakalardır. Vaka ve belge kimliklerini alfabetik sırala; her vaka için iki sözlükte de liste üret. Boş kayıt için `{"vaka":0,"yalniz_zehirli":{},"her_iki":{},"farkli":[]}` dön. Kayıt sırası sonucu değiştirmemeli ve girdi değişmemelidir.
 
+Görünür veri: `veri/retrieval_kayitlari.json`. Beklenen rapor dosyanın `beklenen` alanındadır. Dört bozuk girdi `ValueError` almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def rag_fark_raporu(kayitlar, canary):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: canary'yi alt metin olarak arıyor (alıntı sayılır), temiz kümeyi hiç karşılaştırmıyor (zehirli kümedeki her canary belgesi "yeni" sayılır), temiz kümede kaybolan canary'yi farklı saymıyor ve kayıtları doğrulamıyor!
+    sonuc = {"vaka": 0, "yalniz_zehirli": {}, "her_iki": {}, "farkli": []}
+    for kayit in kayitlar:
+        if kayit["vaka_id"] not in sonuc["yalniz_zehirli"]:
+            sonuc["vaka"] += 1
+            sonuc["yalniz_zehirli"][kayit["vaka_id"]] = []
+            sonuc["her_iki"][kayit["vaka_id"]] = []
+        if kayit["kume"] == "zehirli":
+            bulunan = [b["id"] for b in kayit["belgeler"] if canary in b["metin"]]
+            sonuc["yalniz_zehirli"][kayit["vaka_id"]] = bulunan
+            if bulunan:
+                sonuc["farkli"].append(kayit["vaka_id"])
+    return sonuc
+
+veri = json_yukle("veri/retrieval_kayitlari.json")
+sonuc = rag_fark_raporu(veri["kayitlar"], veri["canary"])
+print("sonuç   :", sonuc)
+print("beklenen:", veri["beklenen"])
+for alan in veri["beklenen"]:
+    if sonuc.get(alan) != veri["beklenen"][alan]:
+        print("FARK:", alan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        rag_fark_raporu(b["kayitlar"], b["canary"])
+        print(len(b["kayitlar"]), "kayıt, canary", repr(b["canary"]), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(len(b["kayitlar"]), "kayıt, canary", repr(b["canary"]), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-14")
 ```
 
 ```test
@@ -404,13 +522,44 @@ timeout: 300
 ```
 
 ```starter
+import hashlib
+import json
 import ai_lab
 
-def indeks_manifestosu(belgeler):return ""
+def indeks_manifestosu(belgeler):
+    # KUSURLU BAŞLANGIÇ KODU: belgeyi metniyle birlikte manifestoya kopyalıyor, özeti strip() edilmiş metinden alıyor (yalnız satır sonu farkı olan içerikler aynı özete düşer), belgenin kendi "guven" alanını koruyor, kimliğe göre sıralamıyor, yinelenen kimliği denetlemiyor ve kanonik JSON ayarlarını kullanmıyor!
+    kayitlar = []
+    for belge in belgeler:
+        kayit = dict(belge)
+        kayit["sha256"] = hashlib.sha256(belge["metin"].strip().encode("utf-8")).hexdigest()
+        kayit.setdefault("guven", "guvenilmez")
+        kayitlar.append(kayit)
+    return json.dumps({"belgeler": kayitlar})
 
-def rag_getir(sorgu,belgeler,k):return []
+def rag_getir(sorgu, belgeler, k):
+    # KUSURLU BAŞLANGIÇ KODU: sorgudaki yinelenen terimi her seferinde sayıyor, split() ile ayırdığı için noktalama terime yapışıyor ("sıfırlama:"), sıfır skorlu belgeleri de getiriyor, eşitlikte kimlik yerine girdi sırasını kullanıyor ve k/şema doğrulaması yapmıyor!
+    terimler = sorgu.lower().split()
+    skorlu = []
+    for belge in belgeler:
+        kelimeler = belge["metin"].lower().split()
+        skorlu.append((sum(kelimeler.count(t) for t in terimler), belge["id"]))
+    skorlu.sort(key=lambda x: -x[0])
+    return [kimlik for _, kimlik in skorlu[:k]]
 
-def rag_fark_raporu(kayitlar,canary):return {}
+def rag_fark_raporu(kayitlar, canary):
+    # KUSURLU BAŞLANGIÇ KODU: canary'yi alt metin olarak arıyor (alıntı sayılır), temiz kümeyi hiç karşılaştırmıyor (zehirli kümedeki her canary belgesi "yeni" sayılır), temiz kümede kaybolan canary'yi farklı saymıyor ve kayıtları doğrulamıyor!
+    sonuc = {"vaka": 0, "yalniz_zehirli": {}, "her_iki": {}, "farkli": []}
+    for kayit in kayitlar:
+        if kayit["vaka_id"] not in sonuc["yalniz_zehirli"]:
+            sonuc["vaka"] += 1
+            sonuc["yalniz_zehirli"][kayit["vaka_id"]] = []
+            sonuc["her_iki"][kayit["vaka_id"]] = []
+        if kayit["kume"] == "zehirli":
+            bulunan = [b["id"] for b in kayit["belgeler"] if canary in b["metin"]]
+            sonuc["yalniz_zehirli"][kayit["vaka_id"]] = bulunan
+            if bulunan:
+                sonuc["farkli"].append(kayit["vaka_id"])
+    return sonuc
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_14 as deney
@@ -584,7 +733,14 @@ for ad, mutant in [("alt metni ve kontrolü karıştıran", m_altmetin), ("yeni 
 from sandbox import ai_gercek_ai_saldiri_14 as deney
 import copy,json,secrets,tempfile,hashlib
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('rank_referans','fark_referans')), 'laboratuvar/bağımsız ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('rank_referans','fark_referans','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/bağımsız ölçüm yamalanmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 for i in range(4):
     term='q'+secrets.token_hex(3)
     docs=[dict(id='b',metin=term),dict(id='a',metin=term+' '+term),dict(id='c',metin='başka')]

@@ -188,7 +188,7 @@ def deney(grup_ozeti, esik_regresyonu, aday_kanit_raporu):
 
     return {
         "ortam": ortam,
-        "ayarlar": {"tekrar": 3, "en_fazla_token": 1, "sicaklik": 0.0, "esik_ms": round(esik, 2)},
+        "ayarlar": {"tekrar": 3, "en_fazla_token": 8, "sicaklik": 0.1, "olcum": "istek başına duvar saati süresi (sure_ms); saf TTFT değil", "esik_ms": round(esik, 2)},
         "ham_kayitlar": ham_kayitlar,
         "grup_ozeti": ozet,
         "esik_regresyonu": regresyon,

@@ -5,12 +5,29 @@ summary: RAG belgelerini güvenilmez veri olarak paketle, araç ve URL yetkisini
 timeout: 45
 ---
 
-::: anlat Zincir, bağlamdaki metnin araç eylemine dönüşmesiyle kurulur
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Zincir, bağlamdaki metnin araç eylemine dönüşmesiyle kurulur
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Üretim RAG sistemlerinde (ChromaDB, pgvector, Elasticsearch) çekilen belge, modele bağlam olarak gider. Model `http_get` gibi bir araç önerir. Ağ katmanında mitmproxy, Burp ya da egress logları SSRF ve dışarı gönderimi gösterir. OpenTelemetry span'leri halkaları aynı iz kimliğine bağlar. | Görev 1–3: `veri/rag_belgeleri.json`, `veri/arac_cagrilari.json` ve `veri/zincir_olaylari.json` içindeki **sentetik** belgeler, araç adayları ve zincir olayları. Son adım: gerçek SQLite FTS5 sorgusu, kurulu yerel Ollama modelinin native araç önerisi ve deneyin kendi açtığı iki loopback TLS sunucusu (geçici sertifika, gerçek hostname doğrulaması). | Vektör veritabanı, gerçek dış ağ ve mitmproxy kullanılmaz. Basit string işaretleri yeniden yazılmış talimatları kaçırır. Kontrollü tam zincir, modelin saldırıya uyduğunu göstermez; üç model kolu genel bir davranış iddiası değildir. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, ağ ya da araç çalışmaz. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini, deneyin kendi geçici SQLite veritabanını ve kendi loopback TLS sunucularını kullanır. Dış ağa istek gitmez, sistem sertifika deposu değişmez, yeni araç kurulmaz. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın düzenlenebilir RAG notu ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Zehirlenmiş bir RAG belgesi modele talimat görünümlü metin taşıyabilir. Model bundan bir araç çağrısı önerisi üretirse zincirin ikinci halkası oluşur. Uygulama bu çağrıyı iç ağ adresine veya saldırgan sunucusuna yönlendirirse SSRF, gizli veriyi dışarı gönderirse exfiltration riski doğar.
 
 Ancak yalnız bağlamda `http` veya `SYSTEM` bulunması son halkanın gerçekleştiğini kanıtlamaz. Her halka için ayrı olay ve kimlik gerekir: belge bağlama girdi mi, araç adayı üretildi mi, ağ erişimi gerçekleşti mi, veri dışarı çıktı mı? Eksik halka `tam_zincir=False` olarak görünmelidir.
 
-Bu derste ChromaDB, mitmproxy, Ollama, gerçek model, araç veya ağ yoktur. Bütün kanıtlar deterministik Python fixture'larıdır.
+Görev 1–3'te bütün kanıtlar deterministik Python fixture'larıdır. Son adımda gerçek FTS5 araması, gerçek yerel model ve yerel TLS bağlantıları kullanılır; ChromaDB, mitmproxy ve dış ağ yine yoktur.
+
+**Saldırgan ne dener?** Saldırgan, RAG'in indekslediği bir kaynağa yazabilir. Bu kaynak bir web sayfası, wiki girdisi, destek bileti ya da müşteri yorumu olabilir. Metne iki şey koyar. Birincisi, modeli araç çağırmaya iten bir yönerge: `Tool: http_get https://internal.test/...`. İkincisi, sonucu nereye göndereceğini söyleyen bir hedef. Zincirin her halkası ayrı bir savunma katmanını aşmak zorundadır:
+
+1. **rag:** Zehirli belge sorguyla gerçekten eşleşip bağlama girer.
+2. **arac-cagrisi:** Model belgeden etkilenip bir araç adayı üretir.
+3. **ssrf:** Dispatcher bu adayı iç ağ adresine götürür.
+4. **exfiltration:** İç yanıttaki gizli veri dışarı çıkar.
+
+**İç kaynak güvenilir mi?** Hayır. `veritabani` kaynaklı bir belge, kullanıcı tarafından yazılabilen bir tablodan gelmiş olabilir (`veri/rag_belgeleri.json`, `d-01`). Güven, kaynağın türünden değil uygulamanın yetki kararından gelir; bu yüzden her RAG kaydı `guvenilir: False` olarak paketlenir.
 :::
 
 ::: tahmin Hangi halka eksik?
@@ -47,9 +64,36 @@ Her belge için dönüş kaydı:
 
 `yonlendirme_izi`, içerik küçük harfe çevrildiğinde `system:`, `ignore previous` veya `tool:` içeriyorsa true olur. Bu yalnız inceleme işaretidir; içeriği silme veya değiştirme. Kayıtları kimliğe göre artan sırala ve girdiyi değiştirme.
 
+Görünür veri: `veri/rag_belgeleri.json`. Doğru zarfta beş belgenin hepsi `guvenilir: False` olur. `d-01`, `d-03` ve `d-04` yönlendirme izi taşır. `d-05` boşluklu `system :` yazımı yüzünden işaret almaz; işaretin olmaması güvenlik garantisi değildir. Dört bozuk belge reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def rag_belgelerini_zarfla(belgeler):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: iç veritabanı kaynağını güvenilir sayıyor, izleri büyük/küçük harfe duyarlı arıyor (SYSTEM:, Tool:, Ignore Previous kaçar), şemayı doğrulamıyor ve sıralamıyor!
+    sonuc = []
+    for belge in belgeler:
+        iz = any(x in belge["icerik"] for x in ("system:", "ignore previous", "tool:"))
+        sonuc.append({"id": belge["id"], "kaynak": belge["kaynak"], "rol": "rag-verisi", "guvenilir": belge["kaynak"] == "veritabani", "icerik": belge["icerik"], "yonlendirme_izi": iz})
+    return sonuc
+
+veri = json_yukle("veri/rag_belgeleri.json")
+for z in rag_belgelerini_zarfla(veri["belgeler"]):
+    print(z["id"], z["kaynak"], "guvenilir:", z["guvenilir"], "iz:", z["yonlendirme_izi"])
+for b in veri["bozuk_belgeler"]:
+    try:
+        rag_belgelerini_zarfla([b])
+        print(repr(b["id"]), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(b["id"]), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-29")
 ```
 
 ```test
@@ -143,6 +187,12 @@ Belge kimliğini benzersizlik kümesiyle doğrula. İçeriği aynen yeni kayda t
 RAG içeriğinden etkilenen model `http_get` önerebilir. Dispatcher iki ayrı karar verir: araç izinli mi ve bu aracın girdisi politikaya uygun mu? `http_get` izni bütün URL'lere açık çek değildir; tam URL izin listesiyle sınırlıdır. Araç adındaki veya URL'deki ön ek eşleşmesi yetkiyi genişletmez.
 
 Gerçek sistemde çözümlenen IP, yönlendirmeler ve her yeniden bağlantı ayrıca denetlenmelidir. Bu fixture yalnız tam araç ve URL politikasını sınar; hiçbir isteği gerçekleştirmez.
+
+**Sık tuzaklar:**
+
+- **URL ön eki:** `startswith("https://docs.sirket.test/kargo")` kontrolü şu iki adresi de geçirir: `https://docs.sirket.test/kargo/../../admin` (yol geçişi) ve `https://docs.sirket.test/kargo@internal.test/canary`. İkincisinde `@` işaretinden önceki kısım kullanıcı bilgisidir; asıl host `internal.test` olur.
+- **Araç adı ön eki:** `startswith("http_get")` kontrolü `http_get_ic` adlı başka bir aracı da kapsar. Üstelik URL denetimi yalnız tam `http_get` adına bağlıysa, bu benzer adlı araç URL kontrolünü tamamen atlar (`veri/arac_cagrilari.json`, `c-05`).
+- **Şema düşürme:** `http://` adresini `https://` politikasıyla eşleştirmemek gerekir (`c-06`). Şifresiz kanalda istek ve yanıt yolda değiştirilebilir.
 :::
 
 ::: gorev 2 · Modelin araç ve URL adayını bağımsız politikayla sınırla
@@ -156,9 +206,35 @@ Kararlar:
 
 Girdileri değiştirme ve çağrıyı çalıştırma.
 
+Görünür veri: `veri/arac_cagrilari.json`. Doğru kapıda yalnız `c-01` ve `c-02` izinlidir. Üç bozuk çağrı reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def arac_cagrisi_onayi(cagri, politika):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: araç adını ve URL'yi ön ekle eşleştiriyor (http_get_ic, /kargo/../../admin ve /kargo@internal.test geçer) ve şemayı doğrulamıyor!
+    arac, girdi = cagri["arac"], cagri["girdi"]
+    if not any(arac.startswith(a) for a in politika["araclar"]):
+        return {"izin": False, "neden": "arac-yasak"}
+    if arac == "http_get" and not any(girdi.startswith(u) for u in politika["url_listesi"]):
+        return {"izin": False, "neden": "url-yasak"}
+    return {"izin": True, "neden": "izinli"}
+
+veri = json_yukle("veri/arac_cagrilari.json")
+for c in veri["cagrilar"] + veri["bozuk_cagrilar"]:
+    try:
+        k = arac_cagrisi_onayi({"arac": c["arac"], "girdi": c["girdi"]}, veri["politika"])
+        print(c["id"], c["arac"], repr(c["girdi"][:50]), "→", k["neden"])
+    except ValueError as hata:
+        print(c["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-29")
 ```
 
 ```test
@@ -266,6 +342,8 @@ def arac_cagrisi_onayi(cagri, politika):
 Aynı `zincir_id` altında `rag`, `arac-cagrisi`, `ssrf` ve `exfiltration` olayları sırasıyla bulunmalıdır. Bir aşamanın atlanması veya sıranın bozulması tam zincir kanıtı değildir. Örneğin yalnız RAG ve exfiltration olayı, verinin hangi araç ve ağ adımıyla çıktığını göstermez.
 
 Her olaydaki kanıt alanı boş olamaz. Bu alan fixture'da yalnız olayın varlığını temsil eder; gerçek sistemde imzalı log, span kimliği, istek kaydı veya bağımsız gözlemle güçlendirilmelidir.
+
+Raporu okurken `eksik` listesi, savunmanın hangi katmanda tuttuğunu gösterir. `veri/zincir_olaylari.json` içindeki `z-eksik` zincirinde iç ağa bağlantı kurulmuş ama veri dışarı çıkmamıştır: SSRF gerçek bir bulgudur, exfiltration iddiası ise yapılamaz. `z-atlama` zincirinde ise RAG ve exfiltration var ama araç ile ağ halkası yoktur. "İlk ve son halka varsa tam" diyen bir rapor bu zinciri tam sayar ve yanlış katmanı (dispatcher) suçlar. Oysa canary model yanıtına başka bir yoldan, örneğin bağlamdan doğrudan kopyalanarak girmiş olabilir.
 :::
 
 ::: gorev 3 · Çok aşamalı saldırı zincirinin kanıt bütünlüğünü raporla
@@ -280,9 +358,41 @@ Her zincir için dönüş:
 
 Eksikler standart dört aşama sırasıyla listelenir. `tam_zincir`, yalnız dört aşamanın tamamı doğru sırayla varsa true olur. Raporu `zincir_id` ile artan sırala; girdiyi değiştirme.
 
+Görünür veri: `veri/zincir_olaylari.json`. Doğru raporda yalnız `z-tam` tam zincirdir; `z-eksik` zincirinde `exfiltration`, `z-atlama` zincirinde `arac-cagrisi` ve `ssrf` eksiktir. Dört bozuk olay listesi reddedilmelidir: sıra hatası, ardışık olmayan zincir, tekrar eden aşama ve boş kanıt.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def zincir_kanit_raporu(olaylar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: zinciri yalnız ilk ve son halkaya bakarak "tam" sayıyor; aşama sırasını, ardışıklığı, tekrarı ve kanıtı doğrulamıyor!
+    asamalar = ["rag", "arac-cagrisi", "ssrf", "exfiltration"]
+    gruplar = {}
+    for olay in olaylar:
+        gruplar.setdefault(olay["zincir_id"], []).append(olay["asama"])
+    sonuc = []
+    for kimlik, gozlenen in gruplar.items():
+        eksik = [a for a in asamalar if a not in gozlenen]
+        sonuc.append({"zincir_id": kimlik, "gozlenen": gozlenen, "eksik": eksik, "tam_zincir": "rag" in gozlenen and "exfiltration" in gozlenen})
+    sonuc.sort(key=lambda x: x["zincir_id"])
+    return sonuc
+
+veri = json_yukle("veri/zincir_olaylari.json")
+for z in zincir_kanit_raporu(veri["olaylar"]):
+    print(z["zincir_id"], "tam:", z["tam_zincir"], "eksik:", z["eksik"])
+for b in veri["bozuk_listeler"]:
+    try:
+        zincir_kanit_raporu(b["olaylar"])
+        print(b["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-29")
 ```
 
 ```test
@@ -395,11 +505,13 @@ Aktif zincir kimliği değişince öncekini kapat. Her grup içinde aşama indek
 
 
 ::: anlat Dört halkayı gerçek kaynak ve etkiden kur
-Ham sentetik RAGnotu aynı Pafta sunucusunda `/data/ai-saldiri-29-rag-notu.txt` adresindedir. Mevcut Markdownrenderer linkleri tıklanabilir yapmaz;sunucuadresine bu yolu yaz. Çalıştır ayrı kalıcı `calisma/ai-saldiri-29/rag-notu.txt` kopyasının yolunu/içeriğini gösterir. Dış editör/Python ile değiştirip yeniden Çalıştır,düzenlemen korunur. Test ayrı dosya kullanır.
+Ham sentetik RAG notu aynı Pafta sunucusunda `/data/ai-saldiri-29-rag-notu.txt` adresindedir. Mevcut Markdown renderer linkleri tıklanabilir yapmaz; sunucu adresine bu yolu yaz. Çalıştır, ayrı ve kalıcı `calisma/ai-saldiri-29/rag-notu.txt` kopyasının yolunu ve içeriğini gösterir. Dosyayı dış editörle ya da Python ile değiştirip yeniden Çalıştır'a basabilirsin; düzenlemen korunur. Test ayrı bir dosya kullanır.
 
-Belgeler gerçek SQLiteFTS5 sorgusuyla alınır;ham skorlar ve kaynakDBhashi kaydedilir. Öğrencinin RAGzarfı native model bağlamına,araç/URLkapısı gerçek ağ çağrısından önce gider. Politika HTTPSistediği için ağ deneyinde gerçek TLS vardır:iki kendi loopback sunucusu,geçici sertifika,gerçek hostname/sertifika doğrulaması,TLSsürümü ve peer/fingerprint kanıtı. Sertifika mevcut `.ai-araclar` cryptography ile üretilir (`PAFTA_AI_TLS_PYTHON` mevcut yorumlayıcıyı değiştirebilir). Yeni kurulum yok;OS/tarayıcı sertifika deposu değişmez,SSLdoğrulaması kapatılmaz. Başka origin/port/dışağ erişilemez.
+Belgeler gerçek bir SQLite FTS5 sorgusuyla alınır; ham skorlar ve kaynak veritabanının hash'i kaydedilir. Senin RAG zarfın native model bağlamına, araç/URL kapın ise gerçek ağ çağrısından önce gider. Politika HTTPS istediği için ağ deneyinde gerçek TLS vardır: deneyin kendi açtığı iki loopback sunucusu, geçici sertifika, gerçek hostname ve sertifika doğrulaması, TLS sürümü ile peer/fingerprint kanıtı. Sertifika, mevcut `.ai-araclar` ortamındaki cryptography paketiyle üretilir (`PAFTA_AI_TLS_PYTHON` mevcut yorumlayıcıyı değiştirebilir). Yeni kurulum yapılmaz; işletim sistemi ve tarayıcı sertifika deposu değişmez, SSL doğrulaması kapatılmaz. Başka origin, port ya da dış ağa erişilemez.
 
-Doğrudan sentetik araçadayı kontrolü gerçekRAG→HTTPSredirect→internalcanary→yereldosya zincirini tamamlar. Bu **modelin saldırıbaşarısı değildir**;ölçümün çalıştığı pozitifkontroldür. Temiz/korumalı/kapısız canlı model zincirleri ayrı tutulur. Canlı ssrf aşaması yalnız gerçek internalTLSbağlantısı varsa,exfiltration yalnız gerçek model cevabında tamcanary gözlenip yerel dosyaya kaydedilmişse eklenir. Eksik halka uydurulmaz;modelin saldırıya uyması şart değildir. Engellenen araçadayı da deneme olarak kaydedilir,çalıştı diye gösterilmez. Normal özet ve izinliHTTPSokuma gerçek etkiyle doğrulanır. Yalnız kendiTLSsunucuları kapanır.
+Doğrudan sentetik araç adayı kontrolü, gerçek RAG → HTTPS yönlendirme → iç canary → yerel dosya zincirini tamamlar. Bu **modelin saldırı başarısı değildir**; ölçümün çalıştığını gösteren pozitif kontroldür. Temiz, korumalı ve kapısız canlı model zincirleri ayrı tutulur. Canlı `ssrf` aşaması yalnız gerçek bir iç TLS bağlantısı varsa, `exfiltration` aşaması yalnız gerçek model cevabında tam canary gözlenip yerel dosyaya kaydedilmişse eklenir. Eksik halka uydurulmaz; modelin saldırıya uyması şart değildir. Engellenen araç adayı da deneme olarak kaydedilir, çalıştı diye gösterilmez. Normal özet ve izinli HTTPS okuması gerçek etkiyle doğrulanır. Deney yalnız kendi TLS sunucularını kapatır.
+
+**Kanıtı okumak:** Önce `kontrollu-tam-zincir` raporunun dört halkayı da gösterdiğini doğrula; ölçüm hattı çalışıyor demektir. Sonra her canlı kolun `transport` listesine bak: hangi hostname'e TLS bağlantısı kurulduğu ve sertifika fingerprint'i burada görünür. Korumalı kolda `internal.test` bağlantısı olmamalıdır. Kapısız kolda model iç adresi önerdiyse bağlantı gerçekten kurulur ve zincirde `ssrf` halkası belirir. Exfiltration halkası ise yalnız canary model yanıtında görülürse eklenir.
 :::
 
 ::: gorev Gerçek deney · SQLiteRAG ve native aracı doğrulanmış yerelTLSzincirine bağla
@@ -414,11 +526,35 @@ timeout: 300
 ```starter
 import ai_lab
 
-def rag_belgelerini_zarfla(belgeler):return []
+def rag_belgelerini_zarfla(belgeler):
+    # KUSURLU BAŞLANGIÇ KODU: iç veritabanı kaynağını güvenilir sayıyor, izleri büyük/küçük harfe duyarlı arıyor (SYSTEM:, Tool:, Ignore Previous kaçar), şemayı doğrulamıyor ve sıralamıyor!
+    sonuc = []
+    for belge in belgeler:
+        iz = any(x in belge["icerik"] for x in ("system:", "ignore previous", "tool:"))
+        sonuc.append({"id": belge["id"], "kaynak": belge["kaynak"], "rol": "rag-verisi", "guvenilir": belge["kaynak"] == "veritabani", "icerik": belge["icerik"], "yonlendirme_izi": iz})
+    return sonuc
 
-def arac_cagrisi_onayi(cagri,politika):return {}
+def arac_cagrisi_onayi(cagri, politika):
+    # KUSURLU BAŞLANGIÇ KODU: araç adını ve URL'yi ön ekle eşleştiriyor (http_get_ic, /kargo/../../admin ve /kargo@internal.test geçer) ve şemayı doğrulamıyor!
+    arac, girdi = cagri["arac"], cagri["girdi"]
+    if not any(arac.startswith(a) for a in politika["araclar"]):
+        return {"izin": False, "neden": "arac-yasak"}
+    if arac == "http_get" and not any(girdi.startswith(u) for u in politika["url_listesi"]):
+        return {"izin": False, "neden": "url-yasak"}
+    return {"izin": True, "neden": "izinli"}
 
-def zincir_kanit_raporu(olaylar):return []
+def zincir_kanit_raporu(olaylar):
+    # KUSURLU BAŞLANGIÇ KODU: zinciri yalnız ilk ve son halkaya bakarak "tam" sayıyor; aşama sırasını, ardışıklığı, tekrarı ve kanıtı doğrulamıyor!
+    asamalar = ["rag", "arac-cagrisi", "ssrf", "exfiltration"]
+    gruplar = {}
+    for olay in olaylar:
+        gruplar.setdefault(olay["zincir_id"], []).append(olay["asama"])
+    sonuc = []
+    for kimlik, gozlenen in gruplar.items():
+        eksik = [a for a in asamalar if a not in gozlenen]
+        sonuc.append({"zincir_id": kimlik, "gozlenen": gozlenen, "eksik": eksik, "tam_zincir": "rag" in gozlenen and "exfiltration" in gozlenen})
+    sonuc.sort(key=lambda x: x["zincir_id"])
+    return sonuc
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_29 as deney
@@ -608,7 +744,14 @@ for ad, mutant in [("eksik halkaları uydurma kanıtla kapatan", m_eksik), ("her
 from sandbox import ai_gercek_ai_saldiri_29 as deney
 import tempfile
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('zarf_ref','karar_ref','rapor_ref')), 'laboratuvar/gerçek ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('zarf_ref','karar_ref','rapor_ref','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/gerçek ölçüm yamalanmamalı, referans kullanılmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 with tempfile.TemporaryDirectory(prefix='pafta_ragchain29_') as tmp:
     p=Path(tmp)/'not.txt';p.write_text(deney.ORNEK.read_text(encoding='utf-8'),encoding='utf-8')
     r=deney.deney(rag_belgelerini_zarfla,arac_cagrisi_onayi,zincir_kanit_raporu,p,Path(tmp)/'deney')

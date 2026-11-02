@@ -6,9 +6,30 @@ timeout: 45
 ---
 
 ::: anlat PII tespiti, redaksiyon ve DLP kararı farklı adımlardır
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Microsoft Presidio tanıyıcıları (regex, sağlama toplamı, NER modeli) metindeki varlıkları tür, ofset ve skorla döndürür; anonymizer bu ofsetlere maske/redaksiyon uygular. LLM Guard çıkış tarayıcıları ve kurumsal DLP ürünleri kararı kanal ve hedefe göre verir. | Görev 1–3: `veri/pii_metinleri.json`, `veri/donusum_ornekleri.json` ve `veri/dlp_olaylari.json` içindeki **sentetik** metinler, aralıklar ve kanal olayları; dört dar regex/Luhn tanıyıcısı. Son adım: kurulu yerel Ollama modelinin sentetik bir kayıttan ürettiği gerçek çıktı ve bu çıktıya uygulanan dönüşüm. | Dar tanıyıcılar ad, adres, TC kimlik numarası gibi türleri ve yeniden biçimlendirilmiş değerleri kaçırır. Tek çıktı bir tespit oranı vermez. Maskeleme ya da redaksiyon, verinin başka yollarla (log, önbellek, araç argümanı) sızmadığını göstermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve sentetik bir müşteri kaydını kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Kişisel veri tespiti metindeki varlığın türünü ve konumunu bulur. Maskeleme veya redaksiyon bu konumlara uygulanan dönüşümdür. DLP kararı ise verinin yanıt, log veya dış API kanalına hangi koşulda çıkabileceğini belirler. Bir varlığın bulunması bütün kanallarda aynı kararı gerektirmez.
 
-Presidio ve LLM Guard gerçek sistemlerde tanıyıcı ve politika adımlarına bağlanabilir. Bu derste yalnız sentetik e-posta, dokümantasyon IP'si, geçerli Luhn örneği olan bilinen test kartı ve yapay telefon fixture'ı kullanılır. Dış servis veya gerçek kişi verisi yoktur; tespit raporu eşleşen değerin kendisini döndürmez.
+Presidio ve LLM Guard gerçek sistemlerde tanıyıcı ve politika adımlarına bağlanabilir. Bu derste yalnız sentetik e-posta, dokümantasyon IP'si, geçerli Luhn örneği olan bilinen test kartı ve yapay telefon kullanılır. Görev 1–3 model çağırmaz; son adım kurulu yerel modeli sentetik bir kayıtla çağırır. Hiçbir adımda dış servis veya gerçek kişi verisi yoktur; tespit raporu eşleşen değerin kendisini döndürmez.
+
+**Saldırgan ne dener?** Çıktı DLP'sini aşmak isteyen bir kullanıcı ya da enjekte edilmiş bir belge, modele PII'yi tanıyıcının beklemediği biçimde yazdırır:
+
+- Kart numarasını harflerle ya da araya nokta koyarak yazdırmak.
+- Telefon gruplarını değiştirmek.
+- E-postayı `ornek [at] example [dot] test` gibi yazdırmak.
+- Değeri JSON alanlarına bölmek.
+
+Bir başka yol, PII'yi DLP'nin bakmadığı kanala taşımaktır: yanıt temizlenirken aynı metin log satırına ya da bir araç çağrısının argümanına girer.
+
+**Savunma neden kırılır?** Regex tanıyıcı yalnız biçimi görür. Luhn denetimi olmayan bir kart deseni sipariş numaralarını da kart sayar; yanlış alarm çoğalınca ekip kuralı gevşetir. Aralık denetimi olmayan IP deseni sürüm numaralarını yakalar. Redaksiyonu ofset sırası gözetmeden uygulamak, ikinci varlığı yanlış yere yazar ve gerçek değerin bir kısmı açıkta kalır. Bu yüzden tespit, dönüşüm ve kanal kararı ayrı adımlardır ve her biri ayrı test edilir.
+
+**Görev 1'de sık tuzaklar:** IP parçalarını sayıya çevirip 0–255 aralığını denetlemezsen `256.10.0.1` ve `1.2.3.4.5` IP sayılır (`veri/pii_metinleri.json`, `p-03`, `p-04`). Luhn olmadan her 16 haneli sayı kart olur (`p-05`). Eşleşen değeri rapora koymak, PII'yi tespit raporunun kendisine sızdırır.
 :::
 
 ::: tahmin Maske son dört haneyi korur, redaksiyon türü gösterir
@@ -40,9 +61,43 @@ Maskeleme dar bir görünürlük sağlar; redaksiyon ise değeri bütünüyle ka
 
 Her eşleşme için `{"tur":TUR,"baslangic":B,"bitis":E}` döndür. `metin[B:E]` eşleşmenin tamamını vermelidir. Sonucu başlangıç, ardından `eposta`, `ipv4`, `kart`, `telefon` tür önceliğine göre sırala. Aynı türdeki eşleşmeleri yineleme; eşleşen metnin kendisini sonuca ekleme.
 
+Görünür veri: `veri/pii_metinleri.json`. Her metnin `beklenen` varlık listesi vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def pii_varliklarini_bul(metin):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: IP parçalarının 0–255 aralığını ve komşu rakam/noktayı denetlemiyor (256.10.0.1 ve sürüm numaraları IP sayılır), kartta Luhn toplamını hesaplamıyor, telefonu gevşek "+90 ve rakamlar" kalıbıyla arıyor, eşleşen değeri rapora koyuyor ve sonucu sıralamıyor!
+    import re
+    sonuc = []
+    for tur, desen in (("eposta", r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"),
+                       ("ipv4", r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"),
+                       ("kart", r"\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}"),
+                       ("telefon", r"\+90[ \d]{10,14}")):
+        for es in re.finditer(desen, metin):
+            sonuc.append({"tur": tur, "baslangic": es.start(), "bitis": es.end(), "deger": es.group()})
+    return sonuc
+
+veri = json_yukle("veri/pii_metinleri.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = pii_varliklarini_bul(o["metin"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+    if sonuc != o["beklenen"]:
+        print("   beklenen:", o["beklenen"])
+        print("   bulunan :", sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-09")
 ```
 
 ```test
@@ -138,6 +193,10 @@ Regex eşleşmelerinin `start()` ve `end()` değerlerini kullan. IPv4 parçalar�
 Varlık konumları özgün metne aittir. Baştan başlayarak farklı uzunlukta redaksiyon metinleri eklemek sonraki ofsetleri kaydırır. Bu nedenle geçerli ve çakışmayan aralıklar başlangıca göre azalan sırayla işlenir.
 
 Bu derste `maskele` yalnız son dört karakteri bırakır; dört veya daha kısa değerin tamamını yıldızlar. `redakte` değeri `[PII:tur]` ile değiştirir. `koru` metni aynen bırakır ve işlem sayısına eklenmez. Politika bütün varlık türlerini açıkça belirtmelidir.
+
+**Çıktı nasıl okunur?** `islem_sayisi`, korunmayan varlık sayısıdır; politika bir türü `koru` diyorsa o tür çıktıda aynen kalır ve sayılmaz. Dönüştürülmüş metinde `[PII:tur]` etiketi kalan bilginin yalnız türü olduğunu gösterir.
+
+**Görev 2'de sık tuzaklar:** Baştan başlayarak dönüştürmek, `[PII:eposta]` metni özgün e-postadan kısa olduğu için sonraki bütün ofsetleri kaydırır (`veri/donusum_ornekleri.json`, `d-01`). `"*" * (len - 4)` ifadesi dört karakterden kısa değerde negatif çarpımla boş dize verir ve değer olduğu gibi kalır (`d-04`). Çakışan aralıkları kabul etmek, aynı karakterleri iki kez dönüştürür (`d-06`).
 :::
 
 ::: gorev 2 · Konumları doğrulanmış maskeleme ve redaksiyon uygula
@@ -147,9 +206,48 @@ Varlıklar liste; her kayıt tam olarak `tur`, `baslangic`, `bitis` alanlarını
 
 Her aralığı türünün politika eylemine göre dönüştür. Maskelemede son dört karakter dışındaki her karakter `*` olur; değer en fazla dört karakterse tamamı maskelenir. Redaksiyon `[PII:TUR]`, koruma özgün değerdir. Dönüşümleri sondan başa uygula. `{"metin":YENI,"islem_sayisi":N}` döndür; `N` korunmayan varlık sayısıdır. Girdi listesini ve politika sözlüğünü değiştirme.
 
+Görünür veri: `veri/donusum_ornekleri.json`. Her örneğin `beklenen` sonucu vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def pii_donustur(metin, varliklar, politika):
-    return {"metin": "", "islem_sayisi": 0}
+    # KUSURLU BAŞLANGIÇ KODU: dönüşümleri baştan uyguluyor (ilk redaksiyondan sonra ofsetler kayar), dört karakterden kısa değerleri maskelemeden bırakıyor, "koru" eylemini de işlem sayıyor ve aralık/politika doğrulaması yapmıyor!
+    sonuc = metin
+    islem = 0
+    for varlik in varliklar:
+        eylem = politika[varlik["tur"]]
+        deger = metin[varlik["baslangic"]:varlik["bitis"]]
+        if eylem == "maskele":
+            yeni = "*" * (len(deger) - 4) + deger[-4:]
+        elif eylem == "redakte":
+            yeni = "[PII:" + varlik["tur"] + "]"
+        else:
+            yeni = deger
+        sonuc = sonuc[:varlik["baslangic"]] + yeni + sonuc[varlik["bitis"]:]
+        islem += 1
+    return {"metin": sonuc, "islem_sayisi": islem}
+
+veri = json_yukle("veri/donusum_ornekleri.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = pii_donustur(o["metin"], o["varliklar"], o["politika"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+    if sonuc != o["beklenen"]:
+        print("   beklenen:", o["beklenen"])
+        print("   bulunan :", sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-09")
 ```
 
 ```test
@@ -269,6 +367,8 @@ Aralıkları önce artan sıraya getirip çakışmayı denetle, dönüşümde te
 Bu dersin sabit politikasında log kanalına hiçbir PII çıkmaz. Dış API'ye kart göndermek durdurulur; e-posta veya telefon redakte edilir; yalnız IP varsa insan incelemesi gerekir. Yanıt kanalında kart redakte, e-posta ve telefon redakte, IP ise serbesttir.
 
 Aynı toplam varlık sayısına sahip iki olay farklı türler taşıyorsa kararları da farklı olabilir. Rapor varlık türlerini `eposta`, `ipv4`, `kart`, `telefon` sırasıyla ve tekilleştirilmiş olarak gösterir; kişisel değerleri göstermez.
+
+**Görev 3'te sık tuzaklar:** Log kanalını yanıt kanalı gibi yorumlamak, e-postayı ya da IP'yi kalıcı loglara yazar; loglar genellikle daha uzun saklanır ve daha çok kişi tarafından okunur (`veri/dlp_olaylari.json`, `log-eposta`, `log-ip`). Dış API'de yalnız kartı denetlemek, telefon ve e-postayı üçüncü tarafa gönderir (`api-tel`). Yalnız IP içeren dış API olayını otomatik geçirmek, insan incelemesini atlar (`api-ip`).
 :::
 
 ::: gorev 3 · Kanal ve varlık türüne göre DLP karar raporu üret
@@ -288,9 +388,50 @@ boş varlık (her kanal)            -> gecir
 
 Her olay için `{"id":ID,"karar":KARAR,"varliklar":[TUR,...]}` döndür. Kimliğe göre sırala, boş girdide boş liste döndür ve girdiyi değiştirme.
 
+Görünür veri: `veri/dlp_olaylari.json`. Dosyada dokuz olay, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def dlp_karar_raporu(olaylar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: log kanalında yalnız kartı durduruyor (e-posta ve IP loga yazılır), dış API'de e-posta/telefonu redakte etmeden geçiriyor ve yalnız IP'yi incelemeye göndermiyor, türleri sabit sıraya koymuyor, olayları doğrulamıyor ve raporu sıralamıyor!
+    rapor = []
+    for olay in olaylar:
+        turler = olay["varlik_turleri"]
+        if "kart" in turler and olay["kanal"] in ("log", "dis_api"):
+            karar = "durdur"
+        elif any(t in turler for t in ("kart", "eposta", "telefon")):
+            karar = "redakte" if olay["kanal"] == "yanit" else "gecir"
+        else:
+            karar = "gecir"
+        rapor.append({"id": olay["id"], "karar": karar, "varliklar": list(turler)})
+    return rapor
+
+veri = json_yukle("veri/dlp_olaylari.json")
+try:
+    rapor = dlp_karar_raporu(veri["olaylar"])
+except Exception as hata:
+    rapor = [{"id": "hata", "karar": type(hata).__name__, "varliklar": []}]
+print("rapor sırası", "doğru" if [r["id"] for r in rapor] == [b["id"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r["id"] == beklenen["id"]), None)
+    print(beklenen["id"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        dlp_karar_raporu(b["girdi"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-09")
 ```
 
 ```test
@@ -406,6 +547,8 @@ Boş varlık durumunu önce ele al. Sonra log ve dış API kart yasağını uygu
 Çıktı DLP'si ancak bir modelin **gerçekten ürettiği** metin üzerinde çalıştığında anlam kazanır. Son görevde senin `pii_donustur` işlevin, gerçek yerel modelin sentetik bir kayıttan yankıladığı PII'yi kanal politikasına göre maskeler ve redakte eder. Sandbox önce çıktıdaki PII'yi bağımsız bulur (1. görev kuralları), dönüşümden sonra aynı tarayıcıyı yeniden koşar: kalan PII sayısı DLP'nin gerçekten işe yarayıp yaramadığını ölçer.
 
 Gerçek bir ders daha vardır: desen temelli tespit, değerin biçimine bağlıdır. Model bir numarayı yeniden biçimlendirirse (örneğin telefon gruplarını değiştirirse) dar tanıyıcı onu kaçırabilir. Bu, PII tespitinin neden tek katman olmaması gerektiğini gösterir; kanal kararı (örneğin dış API'ye kart → durdur) ayrı bir güvenlik ağı olarak kalır.
+
+**Çıktıyı okurken:** Önce ham çıktıda kaç PII bulunduğuna, sonra dönüşüm sonrası kalan PII sayısına bak; ikincisi sıfır olmalıdır. Ham çıktıda beklediğin bir değer (ör. telefon) bulunmadıysa modelin onu yeniden biçimlendirmiş olabileceğini ham metinden kontrol et. Bu durumda "kalan PII 0" yalnız tanıyıcının gördüğü değerler için geçerlidir.
 :::
 
 ::: gorev Gerçek deney · Gerçek çıktıdaki PII'yi DLP ile temizle
@@ -421,7 +564,21 @@ timeout: 300
 import ai_lab
 
 def pii_donustur(metin, varliklar, politika):
-    return {"metin": "", "islem_sayisi": 0}
+    # KUSURLU BAŞLANGIÇ KODU: dönüşümleri baştan uyguluyor (ilk redaksiyondan sonra ofsetler kayar), dört karakterden kısa değerleri maskelemeden bırakıyor, "koru" eylemini de işlem sayıyor ve aralık/politika doğrulaması yapmıyor!
+    sonuc = metin
+    islem = 0
+    for varlik in varliklar:
+        eylem = politika[varlik["tur"]]
+        deger = metin[varlik["baslangic"]:varlik["bitis"]]
+        if eylem == "maskele":
+            yeni = "*" * (len(deger) - 4) + deger[-4:]
+        elif eylem == "redakte":
+            yeni = "[PII:" + varlik["tur"] + "]"
+        else:
+            yeni = deger
+        sonuc = sonuc[:varlik["baslangic"]] + yeni + sonuc[varlik["bitis"]:]
+        islem += 1
+    return {"metin": sonuc, "islem_sayisi": islem}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_09 as deney
@@ -434,8 +591,19 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_bul", "referans_dlp", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak = ("referans", "referans_bul", "referans_dlp", "getattr", "kanit_yaz")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+sorun = sorted(set(sorun))
+if not kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun)):
+    stop()
 fn = need("pii_donustur")
 from sandbox import ai_gercek_ai_savunma_09 as D
 METIN = "ornek@example.test 192.0.2.10 4111111111111111 +90 555 123 45 67"

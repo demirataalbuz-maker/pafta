@@ -6,15 +6,39 @@ timeout: 45
 ---
 
 ::: anlat Q/K/V aynı tokenın farklı rolleridir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Attention projeksiyon, ölçek, maske, softmax ve Value karışımı yapar | İlk3görev görünür sentetik iki-boyutlu JSON; final kurulu SmolLM2 katman/kafasından gerçek Q/K/V | Elle yazılmış vektörler gerçek model kaydı değildir; ilk3görev nedensel maske öğretmez |
+| Gerçek kafa çıktısı modelin içinden yakalanabilir | Final RoPE sonrası Q/K, eşlenmiş V ve o_proj girdisiyle gerçek karşılaştırma | Tek kafa bütün model açıklaması veya attention ağırlığı güvenlik/niyet kanıtı değildir |
+
+> [!NOT]
+> `veri/qkv.json` elle hazırlanmış sentetik vektörler ve ağırlıklardır; canlı model kaydı değildir. İlk üç görev aynı dosyayı okur. Setup her Run/Check için geçici kopya kurar; kalıcılık yoktur. Kaynağı editörde aç veya yüklenen sözlüğü kodda değiştirip Run dene. Gizli testler ayrıdır. Final önceden kurulu SmolLM2/torch ile gerçek ileri hesap yapar; yeni indirme yoktur.
+
 Query bilgi arayan temsili, Key eşleşme ölçütünü, Value ise aktarılacak içeriği ifade eder. Lineer projeksiyonlar girdi vektörünü bu rollere taşır. PyTorch üzerindeki matris çarpımlarının küçük bir liste karşılığını kullanacağız; model veya kütüphane indirilmez.
 
 Query ile her Key arasındaki nokta çarpım dikkat skorunu verir. Skor Key boyutunun kareköküne bölünür; ölçekleme büyük boyutlarda softmax doyumunu azaltır.
 :::
 
 ::: anlat Attention Value içeriklerinin karışımıdır
+
+Önce qkv.json dosyasını aç. Üç tokenın temsili ve Wq, Wk, Wv matrisleri görünürdür. İlk görev her temsilin bu üç matristeki projeksiyonunu ayrı ayrı üretir. Aynı girdi vektörünün üç ayrı çıktısı olması üç ayrı token demek değildir; ağırlıklar farklı rol için farklı temsil çıkarır. Dersin satır sözleşmesine göre her çıktı öğesi matrisin bir satırıyla nokta çarpımdır. Matrisin sütunlarını kullanırsan değerler makul görünebilir ama başka dönüşüm hesaplamış olursun. Asimetrik Wq ve Wv bu hatayı örnekte görünür kılar.
+
+Dosyanın projekte alanı birinci görevin doğru çıktısını önceden yazılmış veri olarak taşır. Böylece ikinci ve üçüncü görev önceki editördeki işlevi içe aktarmadan aynı senaryoda ilerler. Bu alan canlı modelden yakalanmış çıktı değildir; iki-boyutlu elle hazırlanmış örnektir. İkinci görev ilk tokenın Query vektörünü üç Key ile karşılaştırır. Üçüncü görev aynı Query ve Key yanında ilgili Value satırlarını da alır. Dosyadaki bir Value değiştiğinde dikkat ağırlıkları değil karışan içerik değişir. Bir Key değiştiğinde ise skorlar ve ağırlıklar değişebilir. Bu ayrımı çıktılara bakarak dene.
+
+Nokta çarpım bir benzerlik skoru üretir, olasılık üretmez. Ölçekli skorlar arasında negatif değer bulunabilir. Softmax bunları pozitif ve toplamı bir olan ağırlıklara dönüştürür. Query sıfırsa bütün skorlar eşit olur ve bu küçük örnekte üç Value eşit ağırlıkla karışır. Büyük skor farklarında sayısal taşmayı önlemek için softmax öncesinde en büyük skoru çıkarmak gerekir. İkinci görev skoru gösterim için altı ondalığa yuvarlar; üçüncü görev bu yuvarlanmış ara değerleri kullanmaz, kendi tam hesapladığı skorlardan ilerler. Erken yuvarlama ile nihai gösterim yuvarlaması aynı şey değildir.
+
+İlk üç görev bir Query ve üç Key üzerinde temel hesabı öğretir. Finalde ise her token bir Query taşır ve skorlar T×T matris olur. Satır bir Query'ye, sütun bir Key'ye karşılık gelir. Gelecek tokenı engellemek için üst üçgen softmax'tan önce maskelenir; köşegen açık kalır. İlk token yalnız kendisine bakabildiği için ilk satırın ilk ağırlığı birdir. Bu, baştaki tokenın her durumda anlamca önemli olduğu sonucunu vermez. Sonraki satırlarda da ilk sütuna yığılan dikkat ayrıca gözlemlenir; laboratuvar bunu sınırlı bir attention sink özeti olarak raporlar.
+
+Bir saldırgan uzun veya dikkat çekici içerik ekleyerek model davranışını değiştirmeyi deneyebilir; bu ders böyle bir saldırının başarı ölçümü değildir. Bir sözcüğün yüksek attention ağırlığı alması onun neden etkili olduğunu tek başına açıklamaz. Modelde çok sayıda katman, kafa, kalıntı bağlantısı ve başka dönüşümler vardır. Burada bütün güvenliği tek kafa resmine bağlamak yanlış olur. Savunma açısından nedensel maske de erişim denetimi değildir: yalnız token sırasındaki geleceği kapatır; geçmişteki yetkisiz belgeyi kendiliğinden çıkartmaz. Kaynak yetkisi ayrı uygulama katmanında denetlenmelidir.
+
+Gerçek deney önceden kurulmuş modelin kendi ağırlıklarıyla çalışır. Hook seçilen katmanın girişini ve çıkış projeksiyonuna giden kafa bağlamını yakalar; kancalar finally ile kaldırılır. Query ve Key konum dönüşümünden sonra alınır, gruplu sorgu düzeninde ilgili Key/Value kafası eşlenir. Öğrencinin float64 hesabı hem referansla hem modelin float32 çıktısıyla farklı toleranslarda karşılaştırılır. Dört gerçek vakadaki metin,katman,kafa,Q/K/V ve sonuçlar kanıtta tutulur. Model yoksa kabul yoktur; Çalıştır yalnız keşif kaydıdır. Harita modelin o koşudaki davranışını gösterir, genel açıklanabilirlik veya güvenlik garantisi vermez.
+
+Kaynak: [PyTorch ölçekli dikkat tanımı](https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html). Belgede aynı temel ölçek/maske/softmax/Value sırası görülebilir; finalde hazır işlevi çağırmak yerine adımları kendin yazarsın.
+
 Skorlar softmax ile ağırlığa dönüşür ve her Value bu ağırlıkla toplanır. Böylece güçlü eşleşen tokenların içeriği bağlamda daha fazla yer kaplar. Dikkat ağırlığı tek başına nedensel açıklama veya güvenlik kanıtı değildir.
 
-Aşağıdaki görevlerde bütün boyutlar sabittir. Amaç büyük model çalıştırmak değil, projeksiyon, skor ve bağlam adımlarının birbirinden farklı olduğunu doğrulamaktır.
+Aşağıdaki görevlerde bütün boyutlar sabittir. İlk üç görevin amacı projeksiyon,skor ve bağlam adımlarını ayırmaktır;son görev küçük gerçek modelin içinden yakalanan veride aynı hesabı doğrular.
 :::
 
 ::: tahmin Skor ve bağlamı tahmin et
@@ -42,15 +66,32 @@ print([round(0.25 * 2 + 0.75 * 4, 3), round(0.25 * 1 + 0.75 * 0, 3)])
 
 Çıktının i. öğesi girdi vektörüyle ağırlığın i. satırının nokta çarpımıdır. Yeni iki öğeli liste döndür; girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-05")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def projeksiyon(vektor, agirlik):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: satırlar yerine sütunların nokta çarpımını alır.
+    return [sum(x*w for x,w in zip(vektor,sutun)) for sutun in zip(*agirlik)]
+
+v=json_yukle("veri/qkv.json")
+print("Sentetik token temsilleri ve matrisler:",v["tokenlar"],v["agirliklar"])
+for ad,w in v["agirliklar"].items(): print(ad,[projeksiyon(x,w) for x in v["tokenlar"]])
 ```
 
 ```test
 W = [[2, 1], [0, 3]]
 def sozlesme(fn):
     try:
+        import copy
+        a=([1.25,-2.5],[[2,1],[0,3]]);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         if fn([1, 0], W) != [2, 0] or fn([1, 2], W) != [4, 6] or fn([-1, 1], W) != [-1, 3]:
             return False
         for args in [(None, W), ([1], W), ([1, True], W), ([1, 2], None), ([1, 2], [[1, 0]]), ([1, 2], [[1], [0, 1]]), ([1, 2], [[1, 0], [False, 1]])]:
@@ -74,12 +115,17 @@ for ad, mutant in [("vektörü bozan", m_vektor), ("ağırlığı bozan", m_agir
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def projeksiyon(vektor, agirlik):
     def satir(x):
         return isinstance(x, list) and len(x) == 2 and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in x)
     if not satir(vektor) or not isinstance(agirlik, list) or len(agirlik) != 2 or any(not satir(s) for s in agirlik):
         raise ValueError("projeksiyon geçersiz")
     return [sum(vektor[j] * satir_agirlik[j] for j in range(2)) for satir_agirlik in agirlik]
+
+v=json_yukle("veri/qkv.json")
+print("Sentetik token temsilleri ve matrisler:",v["tokenlar"],v["agirliklar"])
+for ad,w in v["agirliklar"].items(): print(ad,[projeksiyon(x,w) for x in v["tokenlar"]])
 ```
 
 ```hint
@@ -92,15 +138,32 @@ Her ağırlık satırı için iki çarpımın toplamını al; satırları sütun
 
 Her skoru Query ile Key nokta çarpımının `sqrt(2)` değerine bölünmesiyle hesapla ve altı ondalığa yuvarla. Üç skoru Key sırasıyla döndür.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-05")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def dikkat_skorlari(query, keys):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: sqrt(d) ölçeğini unutur.
+    return [round(sum(q*x for q,x in zip(query,k)),6) for k in keys]
+
+v=json_yukle("veri/qkv.json");a=v["projekte"]
+print("Sentetik projekte Query/Key:",a["query"],a["keys"])
+print("Ölçekli skorlar:",dikkat_skorlari(a["query"],a["keys"]))
 ```
 
 ```test
 K = [[1, 0], [0, 1], [-1, 0]]
 def sozlesme(fn):
     try:
+        import copy
+        a=([1.25,-2.5],[[1,0],[0,1],[-1,0]]);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         if fn([1, 0], K) != [0.707107, 0.0, -0.707107] or fn([0, 0], K) != [0.0, 0.0, 0.0]:
             return False
         if fn([2, 1], K) != [1.414214, 0.707107, -1.414214]:
@@ -126,6 +189,7 @@ for ad, mutant in [("queryyi bozan", m_query), ("key sırasını bozan", m_keys)
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def dikkat_skorlari(query, keys):
     import math
     def vektor(x):
@@ -133,6 +197,10 @@ def dikkat_skorlari(query, keys):
     if not vektor(query) or not isinstance(keys, list) or len(keys) != 3 or any(not vektor(k) for k in keys):
         raise ValueError("Q/K geçersiz")
     return [round(sum(query[j] * k[j] for j in range(2)) / math.sqrt(2), 6) for k in keys]
+
+v=json_yukle("veri/qkv.json");a=v["projekte"]
+print("Sentetik projekte Query/Key:",a["query"],a["keys"])
+print("Ölçekli skorlar:",dikkat_skorlari(a["query"],a["keys"]))
 ```
 
 ```hint
@@ -145,9 +213,23 @@ Her Key için iki öğeli nokta çarpımı hesapla; sonucu `math.sqrt(2)` ile b�
 
 Ölçekli skorlara kararlı softmax uygula. Her Value satırını ilgili ağırlıkla toplayarak iki boyutlu bağlam üret ve öğeleri altı ondalığa yuvarla. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-05")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def attention_baglam(query, keys, values):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: Query/Key skorları yerine bütün Value satırlarının basit ortalamasını alır.
+    return [round(sum(sutun)/len(values),6) for sutun in zip(*values)]
+
+v=json_yukle("veri/qkv.json");a=v["projekte"]
+print("Sentetik Q/K/V:",a)
+print("Ağırlıklı bağlam:",attention_baglam(a["query"],a["keys"],a["values"]))
 ```
 
 ```test
@@ -155,6 +237,9 @@ K = [[1, 0], [1, 0], [0, 1]]
 V = [[1, 0], [0, 1], [2, 2]]
 def sozlesme(fn):
     try:
+        import copy
+        a=([1.25,-2.5],[[1,0],[0,1],[-1,0]],[[1,0],[0,1],[2,2]]);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         if fn([1, 0], K, V) != [0.796664, 0.796664]:
             return False
         if fn([0, 0], K, V) != [1.0, 1.0] or fn([0, 1], K, [[2, 0], [2, 0], [0, 4]]) != [0.99302, 2.013959]:
@@ -180,6 +265,7 @@ for ad, mutant in [("queryyi bozan", m_query), ("keyleri bozan", m_keys), ("valu
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def attention_baglam(query, keys, values):
     import math
     def vektor(x):
@@ -193,6 +279,10 @@ def attention_baglam(query, keys, values):
     paylar = [math.exp(x - tepe) for x in skorlar]
     agirliklar = [x / sum(paylar) for x in paylar]
     return [round(sum(agirliklar[i] * values[i][j] for i in range(3)), 6) for j in range(2)]
+
+v=json_yukle("veri/qkv.json");a=v["projekte"]
+print("Sentetik Q/K/V:",a)
+print("Ağırlıklı bağlam:",attention_baglam(a["query"],a["keys"],a["values"]))
 ```
 
 ```hint
@@ -242,8 +332,12 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "kafa_girdileri", "getattr", "scaled_dot_product_attention"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans/hazır dikkat işlevi çağrılmamalı " + ", ".join(sorun))
+import ast
+yasak=("referans","kafa_girdileri","getattr","scaled_dot_product_attention","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak=yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in n.names): sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi dikkat işlevini yaz: "+"; ".join(sorun)): stop()
 fn = need("nedensel_dikkat")
 try:
     from sandbox import ai_gercek_ai_temel_05 as D
@@ -275,9 +369,13 @@ def sozlesme(f):
         for q, k, v, _, _ in girdiler:
             if not ayni(f(q.clone(), k.clone(), v.clone()), D.referans(q, k, v)):
                 return False
+        for q,k,v in [(torch.tensor([[2.]]),torch.tensor([[-3.]]),torch.tensor([[5.]])),(torch.tensor([[1.,0.],[0.,1.]]),torch.tensor([[0.,1.],[1.,0.]]),torch.tensor([[3.,4.],[-1.,2.]]))]:
+            g=[x.clone() for x in (q,k,v)];once=[x.clone() for x in g]
+            if not ayni(f(*g),D.referans(*once)) or not all(torch.equal(x,y) for x,y in zip(g,once)): return False
         q, k, v = girdiler[0][:3]
         for arg in [(None, k, v), (q.tolist(), k, v), (q[0], k[0], v[0]), (q, k[:-1], v), (q, k, v[:, :-1]),
                     (q.unsqueeze(0), k.unsqueeze(0), v.unsqueeze(0)), (q[:0], k[:0], v[:0]),
+                    (q[:,:0],k[:,:0],v[:,:0]),(q,torch.full_like(k,float("inf")),v),(q,k,torch.full_like(v,float("nan"))),
                     (torch.full_like(q, float("nan")), k, v)]:
             try:
                 f(*arg)
@@ -301,16 +399,18 @@ for ad, kw in [("ölçekleme yok", {"olcek": "yok"}), ("√d yerine d ile bölme
                ("Value yerine Query karıştırılıyor", {"deger": False})]:
     kontrol(not sozlesme(gecerli(lambda q, k, v, kw=kw: D.referans(q, k, v, **kw))), "hatalı çözüm reddedilmeli: " + ad)
 kontrol(not sozlesme(gecerli(lambda q, k, v: sabit)), "hatalı çözüm reddedilmeli: ezber tablo")
-model_farki = []
+model_farki = [];gercek_vakalar=[]
 if all(sonuclar):
-    for q, k, v, model_c, _ in girdiler:
-        model_farki.append((fn(q, k, v)["baglam"].double() - model_c.double()).abs().max().item())
+    for (metin,katman,kafa),(q,k,v,model_c,tokenlar) in zip(vakalar,girdiler):
+        sonuc=fn(q.clone(),k.clone(),v.clone())
+        model_farki.append((sonuc["baglam"].double()-model_c.double()).abs().max().item())
+        gercek_vakalar.append({"metin":metin,"tokenlar":tokenlar,"katman":katman,"kafa":kafa,"q":q.tolist(),"k":k.tolist(),"v":v.tolist(),"model_baglami":model_c.tolist(),"ogrenci":{"agirliklar":sonuc["agirliklar"].tolist(),"baglam":sonuc["baglam"].tolist()}})
     kontrol(max(model_farki) < 1e-4, f"senin bağlamın modelin o kafadaki gerçek çıktısıyla aynı (en büyük fark {max(model_farki):.1e})")
 sink = D.sink_orani(fn) if all(sonuclar) else {}
 yol = ai_lab.kanit_yaz("temel-dikkat", {
     "kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-temel-05", "model_bilgisi": bilgi,
     "ayarlar": {"vakalar": [list(v) for v in vakalar], "tolerans": {"referans": 1e-9, "model": 1e-4}},
-    "tokenlar": [g[4] for g in girdiler], "model_farki": model_farki, "sink": sink})
+    "gercek_vakalar":gercek_vakalar,"tokenlar": [g[4] for g in girdiler], "model_farki": model_farki, "sink": sink})
 if sink:
     ok(True, f"GERÇEK ÇIKTI ({bilgi['model']}@{bilgi['revizyon'][:8]}): modelle en büyük fark {max(model_farki):.1e}; "
              f"4. tokendan itibaren ilk tokena giden ortalama dikkat, katman→oran: {sink}")

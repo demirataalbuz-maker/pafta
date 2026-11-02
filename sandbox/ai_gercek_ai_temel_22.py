@@ -105,7 +105,7 @@ class _Gomucu:
     def __call__(self, metinler):
         govde = {"model": GOMME_MODELI, "input": metinler}
         if not self.once_yukluydu:
-            govde["keep_alive"] = 0
+            govde["keep_alive"] = "5m"
         try:
             sonuc=_istek(self.adres,"/api/embed",govde)
             self.kayit["cagrilar"].append({"istek":govde,"yanit":sonuc})
@@ -115,32 +115,55 @@ class _Gomucu:
             for v in vectors:
                 if not isinstance(v,list) or len(v)!=384 or not any(v) or any(type(x) not in (int,float) or not math.isfinite(x) for x in v):
                     raise ai_lab.GercekLabYok("embed boyutu/değerleri geçersiz")
-            if not self.once_yukluydu:
-                import time
-                son=time.monotonic()+20
-                while True:
-                    with urllib.request.urlopen(self.adres+"/api/ps",timeout=30) as r:
-                        yuklu=[m["name"] for m in json.loads(r.read())["models"]]
-                    self.kayit["model_bosaltildi"]=GOMME_MODELI not in yuklu
-                    if self.kayit["model_bosaltildi"] or time.monotonic()>=son: break
-                    time.sleep(0.1)
             return vectors
         except urllib.error.HTTPError as e:
-            raise RuntimeError(f"Ollama /api/embed HTTP {e.code}") from e
+            hata=e.read().decode("utf-8",errors="replace")
+            self.kayit["cagrilar"].append({"istek":govde,"hata":hata,"http":e.code})
+            raise RuntimeError(f"Ollama /api/embed HTTP {e.code}: {hata}") from e
+
+
+    def kapat(self):
+        if self.once_yukluydu:
+            self.kayit["temizlik"]="korundu: kullanıcı önceden yüklemişti"
+            return
+        import time
+        sonuc=_istek(self.adres,"/api/generate",{"model":GOMME_MODELI,"keep_alive":0,"stream":False},sure=30)
+        self.kayit["bosaltma_yaniti"]=sonuc
+        son=time.monotonic()+20
+        while True:
+            with urllib.request.urlopen(self.adres+"/api/ps",timeout=30) as r:
+                yuklu=[m["name"] for m in json.loads(r.read())["models"]]
+            self.kayit["model_bosaltildi"]=GOMME_MODELI not in yuklu
+            if self.kayit["model_bosaltildi"] or time.monotonic()>=son: break
+            time.sleep(0.1)
 
 
 def deney(getir_ve_olc):
     idler = [p[0] for p in PARCALAR]
     with ai_lab.SohbetOturumu() as oturum:
         gom = _Gomucu(oturum.adres)
-        pv = gom([t for _, t in PARCALAR])
-        sv = gom([s for s, _ in SORULAR])
-        kayitlar = []
-        for (soru, altin), q in zip(SORULAR, sv):
-            r3 = getir_ve_olc(list(q), list(idler), [list(v) for v in pv], list(altin), K)
-            r1 = getir_ve_olc(list(q), list(idler), [list(v) for v in pv], list(altin), 1)
-            kayitlar.append({"soru": soru, "altin": altin, "k3": r3, "k1": r1,
-                             "ilk": r3["sirali"][0], "altin_sira": (r3["sirali"].index(altin[0]) + 1) if altin[0] in r3["sirali"] else None})
+        hata=None
+        try:
+            pv = gom([t for _, t in PARCALAR])
+            sv = gom([s for s, _ in SORULAR])
+            kayitlar = []
+            for (soru, altin), q in zip(SORULAR, sv):
+                r3 = getir_ve_olc(list(q), list(idler), [list(v) for v in pv], list(altin), K)
+                r1 = getir_ve_olc(list(q), list(idler), [list(v) for v in pv], list(altin), 1)
+                kayitlar.append({"soru": soru, "altin": altin, "k3": r3, "k1": r1,
+                                 "ilk": r3["sirali"][0], "altin_sira": (r3["sirali"].index(altin[0]) + 1) if altin[0] in r3["sirali"] else None})
+        except Exception as e:
+            hata=e
+        finally:
+            try:
+                gom.kapat()
+            except Exception as e:
+                if hata is None: hata=e
+        if hata is not None:
+            ai_lab.kanit_yaz("temel-retrieval-hata",{"kaynak":"gercek","kabul":False,"ders":"ai-temel-22",
+                "ortam":{"model":{"ad":GOMME_MODELI}},"gomme":gom.kayit,
+                "hata":f"{type(hata).__name__}: {hata}"})
+            raise ai_lab.GercekLabYok(f"Gerçek gömme deneyi başarısız: {hata}") from hata
         ortam = dict(oturum.kayit)
     ortam["temizlik"] = oturum.kayit.get("temizlik")
     ortam["gomme"] = gom.kayit

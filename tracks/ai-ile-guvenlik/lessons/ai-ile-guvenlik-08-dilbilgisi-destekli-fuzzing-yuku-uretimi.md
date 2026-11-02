@@ -5,15 +5,39 @@ summary: Rastgele bayt mutasyonu yerine hedef şemadan (grammar) geçen sınır 
 timeout: 300
 ---
 
-::: anlat Gerçek biçimi bil, sentetik temsili ayırt et
-Bir API uç noktasına tamamen rastgele baytlar (`{bozuk json`) göndermek, isteğin daha ilk ayrıştırıcıda (`JSON parser`) `400 Bad Request` ile reddedilmesine yol açar ve derin iş mantığı (`business logic`) dallarına hiç ulaşamaz. Tersine, bir dil modelinden yapılandırılmış dilbilgisi (`grammar`) kurallarına uyan fakat sınır değerleri (`-1`, `0`, `50000`) zorlayan geçerli JSON yükleri üretmesini istemek, ön şema kontrolünü geçip iç katmandaki `IndexError` veya `MemoryError` hatalarını tetikler (`ai-saldiri-40` dersindeki kaynak tüketimi sınırlarını ve `ai-savunma-05` dersindeki şema doğrulamasını hatırla).
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Dilbilgisi destekli fuzzing ve sınır değer analizi
+Bir API uç noktasına veya girdi işleyicisine tamamen rastgele baytlar (`{bozuk json%x99\xff`) göndermek geleneksel karadelik fuzzing (`dumb fuzzing`) yöntemidir. Ancak modern yazılımlarda bu rastgele baytlar, uygulamanın en dış kabuğundaki sözdizimi ayrıştırıcısında (`JSON parser`, `deserializer`) anında `400 Bad Request` veya `JSONDecodeError` ile reddedilir. Sonuç olarak, arkada çalışan asıl kritik iş mantığı (`business logic`), yetkilendirme katmanı ve bellek yönetimi kod dallarına hiçbir zaman ulaşılamaz.
+
+Buna karşılık **dilbilgisi destekli fuzzing (`grammar-guided fuzzing`)**, hedefin beklediği veri yapısının biçimsel tanımını (JSON Schema, ANTLR dilbilgisi, Protobuf spesifikasyonu) kılavuz olarak kullanır. Üretilen yükler sözdizimi açısından tamamen geçerlidir; ancak veri alanlarının içindeki değerler sınır (`boundary/corner case`) şartlarını (`-1`, `0`, `50000`, aşırı uzun dizgeler) hedef alacak şekilde mutasyona uğratılır. Böylece ön filtreleri tereyağından kıl çeker gibi geçen yükler, iç servis katmanında beklenmeyen `IndexError` (negatif indeks erişimi) veya `MemoryError` (aşırı bellek tahsisi) anomalilerini tetikler (`ai-saldiri-40` dersindeki kaynak tüketimi sınırlarını ve `ai-savunma-05` dersindeki şema doğrulamasını hatırla).
 
 | Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
 |---|---|---|
-| JSON dilbilgisi doğrulayıcısını, sınır değer mutasyon üretecini ve yerel Ollama modelinin (`qwen3`) önerdiği test yüklerini | İlk üç görevde `aday_yukler.json` ve `dilbilgisi_kurallari.json` içindeki **sentetik** yük verilerini; son görevde canlı `ai_lab.SohbetOturumu` ile dilbilgisi destekli fuzzing deneyini | Kapsam izleme (`coverage-guided instrumentation` / AFL++) olmadan yalnız sabit sınır değer listesiyle tüm gizli kod dallarının keşfedilebileceğini söyleyemez |
+| JSON dilbilgisi doğrulayıcısını, sınır değer mutasyon üretecini ve yerel Ollama modelinin (`qwen3`) önerdiği test yüklerini | İlk üç görevde `aday_yukler.json` ve `dilbilgisi_kurallari.json` içindeki **sentetik** yük verilerini; son görevde canlı `ai_lab.SohbetOturumu` ile dilbilgisi destekli fuzzing deneyini | Kapsam kılavuzlu dinamik enstrümantasyon (`coverage-guided instrumentation` / AFL++, libFuzzer) olmadan yalnız sabit sınır değer listesiyle tüm gizli dalların keşfedilebileceğini söyleyemez |
 
-> [!GÜVENLİK]
-> **Kapsam ve dürüstlük sınırı:** İlk üç görevdeki yükler ve `hedef_isleyici_simule` işlevi **sentetik** eğitim verisidir. Fuzzing kampanyası sırasında yıkıcı komutlar (`"sil"`, `"format"`) deterministik izin listesiyle (`IZINLI_KOMUTLAR`) engellenir.
+> [!NOT]
+> İlk üç görevde kullanılan `aday_yukler.json` ve `hedef_isleyici_simule` işlevi **sentetik** eğitim verisidir; canlı bir mikroservis ya da API ağ geçidi değildir. Kurulum (`setup`) bloğundaki `hazirla("ai-ile-guvenlik-08")` çağrısıyla çalışma ortamına geçici olarak yüklenir; oturumlar arasında **kalıcılık yoktur**. Son adımdaki **Gerçek deney** adımı kurulu yerel modeli (`qwen3`) sorgulayarak hedef şema için sınır değer analizi yaptırır ve dilbilgisi süzgecini çalıştırır. Harici bir fuzzer süreci (AFL, Radamsa, Boofuzz) kurulmaz veya koşturulmaz.
+:::
+
+::: anlat Bir fuzzing hattında ne olur, saldırgan neyi dener ve savunma neden kırılır?
+Dilbilgisi destekli fuzzing mekanizması sözdizimsel geçerlilik ile anlamsal güvenlik arasındaki boşluğu test eder:
+
+- **Aracın Altında Ne Olur?**
+  1. *Dilbilgisi ve Güvenlik Filtresi (`dilbilgisi_yuku_dogrula`):* Gelen ham metin önce `json.loads` ile ayrıştırılır. Ardından şemanın tamlığı (`{"komut", "limit"}` anahtar kümesi), komutun izinli eylemler (`"listele"`, `"detay"`, `"durum"`) içinde bulunması ve `limit` alanının `bool` olmayan saf bir tamsayı (`int`) olması denetlenir. Yıkıcı ya da geçersiz yükler işleyiciye iletilmeden elenir.
+  2. *Sınır Değer Mutasyonu Üretimi (`sinir_mutasyonlari_uret`):* İzinli komutlar için kritik sayısal eşikler (`-1, 0, 1, 1000, 10001`) belirlenir ve `json.dumps(..., sort_keys=True)` ile deterministik test yükleri oluşturulur.
+  3. *Fuzz Kampanyası ve Anomali Sınıflandırma (`fuzz_kampanyasi_kostur`):* Doğrulamadan geçen yükler hedef iç servise (`hedef_isleyici_simule`) gönderilir. Normal yanıt verenler `normal_yukler` listesine, istisna fırlatanlar ise hata türlerine (`IndexError`, `MemoryError`) göre `anomali_yukleri` haritasına kaydedilir.
+- **Saldırganın Taktikleri:**
+  1. *Ayrıştırıcı Atlama ve Yıkıcı Enjeksiyon:* Saldırgan, şema doğrulamasını aşabilmek için biçimsel olarak doğru görünen fakat izin verilmeyen yönetimsel/yıkıcı komutlar (`"sil"`, `"format"`, `"admin_reset"`) enjekte etmeye çalışır.
+  2. *Sınır Değer Taşmaları (Boundary Overflow):* Tamsayı sınırlarını aşan değerler (`-1` ile dizi indeksleme açıkları, `50000` ile bellek tahsisi krizleri) göndererek hedef sistemde hizmet dışı bırakma (`DoS`) veya bellek sızıntısı tetiklemeyi hedefler.
+  3. *Tip Karışıklığı (Type Confusion):* JSON biçiminde `true` veya `"10"` gibi değerler göndererek zayıf tipli kontrolleri atlatmayı dener.
+- **Savunmanın Kırılma Noktaları:**
+  - Yalnızca JSON ayrıştırmasını (`json.loads`) yeterli görüp anahtar kümesini ve tipleri doğrulamamak: Ekstra alanlar (`"admin": true`) kütle atama (`mass assignment`) açıklarına zemin hazırlar.
+  - İzinli liste (`allowlist`) yerine kara liste (`blocklist`) kullanmak: Saldırgan bilinmeyen bir komut adıyla korumayı atlayabilir.
+  - Sayısal aralık sınırlaması (`clamp` / min-max denetimi) koymamak: Pozitif/negatif ekstremumlar iş mantığında beklenmeyen dalları tetikler.
+- **Sık Yapılan Geliştirici Tuzakları:**
+  1. Python'da `bool` sınıfının `int` alt sınıfı olması (`issubclass(bool, int) is True`): `isinstance(True, int)` ifadesi `True` döndürdüğünden, `not isinstance(limit, bool)` kontrolü eklenmezse bayraklar tamsayı gibi işlenir.
+  2. Girdi dizgelerindeki boşlukların kontrol edilmemesi: Yalnızca `isinstance(x, str)` yetmez; boş veya salt boşluk (`"   "`) içeren dizgeler için `x.strip()` denetimi yapılmalıdır.
+  3. JSON serileştirmesinde anahtar sırasının korunmaması: `json.dumps` çağrısında `sort_keys=True` kullanılmadığında karmaşık karşılaştırmalarda test kırılmaları yaşanır.
+  4. Hata sınıflandırmasında genel `Exception` mesajlarına güvenmek: Güvenlik denetim izinde hata sınıfı doğrudan `type(e).__name__` üzerinden deterministik olarak kaydedilmelidir.
 :::
 
 ::: anlat Dilbilgisi kapısı ayrıştırıcıda takılan gürültüyü eler
@@ -76,8 +100,11 @@ from ai_ile_guvenlik_veri import json_yukle
 adaylar = json_yukle("aday_yukler.json")
 
 def dilbilgisi_yuku_dogrula(json_metni):
-    # HATA: Yasak komutları ve limit tipini kontrol etmiyor.
-    veri = json.loads(json_metni)
+    # KUSURLU BAŞLANGIÇ KODU: Yasaklı yıkıcı komutları filtrelemeden ve limit tipinin tamsayı olduğunu denetlemeden JSON'ı doğrudan geçerli sayıyor!
+    try:
+        veri = json.loads(json_metni)
+    except Exception:
+        return {"gecerli": False, "neden": "json_hatasi", "veri": None}
     return {"gecerli": True, "neden": "tamam", "veri": veri}
 
 print(dilbilgisi_yuku_dogrula(adaylar[0]["json_metni"]))
@@ -180,7 +207,7 @@ Girdi kuralları:
 import json
 
 def sinir_mutasyonlari_uret(temel_komut):
-    # HATA: Sınır değerleri üretmiyor ve yasak komutları engellemiyor.
+    # KUSURLU BAŞLANGIÇ KODU: İzinli komut kümesini denetlemeden yalnızca tek bir sabit limit değeri (10) üretiyor; sınır değerlerini üretmiyor!
     return [json.dumps({"komut": temel_komut, "limit": 10}, sort_keys=True)]
 
 print(sinir_mutasyonlari_uret("listele"))
@@ -270,9 +297,9 @@ from ai_gercek_ai_ile_guvenlik_08 import hedef_isleyici_simule
 adaylar = json_yukle("aday_yukler.json")
 
 def fuzz_kampanyasi_kostur(aday_yukler):
-    # HATA: Dilbilgisi ön-elemesi yapmıyor ve anomalileri yakalamıyor.
+    # KUSURLU BAŞLANGIÇ KODU: Dilbilgisi doğrulamasını uygulamadan tüm yükleri normal kabul ediyor ve hedef işleyici anomalilerini yakalamıyor!
     return {
-        "normal_yukler": [],
+        "normal_yukler": [a.get("yuk_id") for a in (aday_yukler or []) if isinstance(a, dict)],
         "elenen_yukler": [],
         "anomali_yukleri": {},
         "anomali_sayisi": 0,
@@ -429,13 +456,21 @@ timeout: 300
 import ai_lab
 
 def dilbilgisi_yuku_dogrula(json_metni):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: Şema ve izinli komut kontrolü yapmadan her yükü geçerli sayıyor!
+    return {"gecerli": True, "neden": "tamam", "veri": {}}
 
 def sinir_mutasyonlari_uret(temel_komut):
+    # KUSURLU BAŞLANGIÇ KODU: Sınır değer listesi yerine boş liste döndürüyor!
     return []
 
 def fuzz_kampanyasi_kostur(aday_yukler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: Fuzz kampanyasını yürütmeden boş sonuç üretiyor!
+    return {
+        "normal_yukler": [],
+        "elenen_yukler": [],
+        "anomali_yukleri": {},
+        "anomali_sayisi": 0,
+    }
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_ile_guvenlik_08 as deney
@@ -451,6 +486,7 @@ hazirla("ai-ile-guvenlik-08")
 ```
 
 ```test
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_ile_guvenlik_08 as D
 
@@ -463,11 +499,22 @@ def ok(kosul, mesaj):
 for ad in ("dilbilgisi_yuku_dogrula", "sinir_mutasyonlari_uret", "fuzz_kampanyasi_kostur"):
     need(ad)
 
-sorun = ai_lab.kod_denetimi(
-    src,
-    ("dilbilgisi_yuku_dogrula_referans", "sinir_mutasyonlari_uret_referans", "fuzz_kampanyasi_kostur_referans"),
+yasak = (
+    "referans",
+    "dilbilgisi_yuku_dogrula_referans",
+    "sinir_mutasyonlari_uret_referans",
+    "fuzz_kampanyasi_kostur_referans",
+    "getattr",
+    "kanit_yaz",
 )
-ok(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı")
+ihlal = ai_lab.kod_denetimi(src, yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node, ast.ImportFrom) and any(a.name in yasak or a.name == "*" for a in node.names):
+            ihlal.append("referans ithali")
+except SyntaxError:
+    ihlal.append("sözdizimi")
+ok(not ihlal, "Kendi çözümünü yaz; referans işlevler ithal edilemez: " + ", ".join(ihlal))
 
 def _on_sozlesme():
     try:

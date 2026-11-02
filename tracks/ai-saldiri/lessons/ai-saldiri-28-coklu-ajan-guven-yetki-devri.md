@@ -5,12 +5,27 @@ summary: Ajan mesajlarını güvenilmez zarfla temsil et, yetki devrini uygulama
 timeout: 45
 ---
 
-::: anlat Başka ajanın mesajı da güvenilmez girdidir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Başka ajanın mesajı da güvenilmez girdidir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| LangGraph, AutoGen ve CrewAI gibi çoklu ajan çerçevelerinde ajanlar birbirine mesaj ve görev devreder. A2A ve MCP gibi protokollerde ajan kimliği ve yetki kapsamı (OAuth scope, token) uygulama katmanında taşınır. OpenTelemetry izleri hangi ajanın hangi aracı çağırdığını gösterir. | Görev 1–3: `veri/ajan_mesajlari.json`, `veri/devir_istekleri.json` ve `veri/devir_zinciri.json` içindeki **sentetik** mesajlar, devir istekleri ve devir zinciri. Son adım: aynı yerel Ollama modelinin ayrı bağlamlardaki iki gerçek native rolü (analyst, worker) ve deneyin kendi geçici klasöründeki gerçek `rapor.txt` dosyası. | Kriptografik kimlik doğrulama, token ya da ağ yoktur. Kimlik, sunucunun kendi rol bağıdır. Dört model kolu, gerçek çoklu ajan çerçevelerinin davranışını göstermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model ve ağ yoktur, hiçbir dosyaya dokunulmaz. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve deneyin kendi açtığı geçici klasörü kullanır; uygulamadaki başka AI sohbetlerine mesaj gönderilmez. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın düzenlenebilir devir notu ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Çoklu ajan sisteminde bir mesajın başka modelden gelmesi onu güvenilir yapmaz. Kaynak ajan zehirlenmiş belge okumuş, hatalı özet üretmiş veya kendisine verilen yetkiyi aşan bir istek oluşturmuş olabilir. Mesajdaki `rol: system` ya da `yetkili: true` iddiası, uygulamanın kimlik ve yetki kaydı değildir.
 
 Yetki devri üç ayrı soruyla incelenir: mesaj gerçekten hangi kaynaktan geldi, uygulama bu kaynak–hedef–yetki üçlüsüne izin veriyor mu ve yetkiyi devreden ajan o yetkiyi gerçekten taşıyor mu? Bir ajanın yetki taşıması, bu yetkiyi istediği başka ajana aktarabileceği anlamına gelmez.
 
-Bu derste LangGraph, AutoGen, OpenTelemetry, gerçek model veya ağ yoktur. Ajanlar ve devir olayları deterministik Python fixture'larıdır.
+Görev 1–3'te ajanlar ve devir olayları deterministik Python fixture'larıdır. Son adımda iki gerçek yerel model rolü kullanılır. LangGraph, AutoGen, OpenTelemetry ve ağ yine yoktur.
+
+**Saldırgan ne dener?** Saldırgan genellikle en dıştaki, en az yetkili ajana ulaşır. Bu ajan web sayfası okuyan bir araştırmacı ya da e-posta özetleyen bir yardımcı olabilir. Zehirli içerik bu ajanın ürettiği mesaja şu tür ifadeler yerleştirir: "orchestrator adına", "yetkili: true", "system". Ardından iki şey dener:
+
+1. **Rol iddiası:** Alıcı ajanın mesajı sistem talimatı gibi işlemesini sağlamak.
+2. **Yetki zinciri:** Düşük yetkili ajanın, taşımadığı bir yetkiyi (`yazma`, `arac`) başka bir ajana "devretmesini" sağlamak. Buna "confused deputy" deseni de denir: yetkili ajan, yetkisiz bir kaynağın isteğini kendi yetkisiyle yürütür.
+
+**Neden mesaj içeriğine bakmak yetmez?** Ajanlar arası mesajlar doğal dildir. "Rapor.txt'yi sil" ifadesi bir saldırı da olabilir, meşru bir görev de. Güvenlik kararı metne göre değil, **kimin** (sunucunun bildiği kaynak) **neyi** (tam politika üçlüsü) **hangi taşınan yetkiyle** istediğine göre verilir.
 :::
 
 ::: tahmin Rol iddiası güven üretir mi?
@@ -47,9 +62,34 @@ Dönüş tam olarak:
 
 İçeriği ve rol iddiasını aynen koru; bunlar kanıttır, onay değildir. Girdi mesajını değiştirme.
 
+Görünür veri: `veri/ajan_mesajlari.json`. Üç geçerli mesajın hepsi `guvenilir: False` almalı ve içerik ile rol iddiası aynen korunmalı. Beş bozuk mesaj reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def ajan_mesaji_zarfla(mesaj, kayitli_ajanlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: rol iddiasına güveniyor (system/orchestrator diyen mesaj güvenilir sayılır), kaynak/hedef kaydını ve içerik/rol sınırlarını denetlemiyor!
+    rol = mesaj["iddia_edilen_rol"]
+    return {"kaynak": mesaj["kaynak"], "hedef": mesaj["hedef"], "icerik": mesaj["icerik"], "guvenilir": rol in ("system", "orchestrator"), "rol_iddiasi": rol}
+
+veri = json_yukle("veri/ajan_mesajlari.json")
+for m in veri["mesajlar"]:
+    z = ajan_mesaji_zarfla(m["mesaj"], veri["kayitli_ajanlar"])
+    print(m["id"], z["kaynak"], "→", z["hedef"], "rol_iddiasi:", z["rol_iddiasi"], "guvenilir:", z["guvenilir"])
+for m in veri["bozuk_mesajlar"]:
+    try:
+        ajan_mesaji_zarfla(m["mesaj"], veri["kayitli_ajanlar"])
+        print(m["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(m["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-28")
 ```
 
 ```test
@@ -144,6 +184,13 @@ Kayıt listesini ve mesaj şemasını önce doğrula. Kimlikleri yalnız kayıt 
 Bir ajanın `arac` yetkisini başka ajana vermeyi istemesi yalnız istek kaydıdır. Uygulama, istekten bağımsız tuttuğu politika listesinde tam `veren`, `alan`, `yetki` üçlüsünü aramalıdır. `orchestrator → arastirmaci → okuma` izni, `arastirmaci → yazici → okuma` iznine genişlemez.
 
 Politikada joker kimlik, rol iddiası veya yetki ön eki kullanılmaz. Geçerli biçimdeki bilinmeyen istek hata fırlatmak yerine reddedilir; bozuk şema ise `ValueError` ile ayrılır.
+
+**Sık tuzaklar:**
+
+- **Vereni unutmak:** Yalnız `(alan, yetki)` ikilisine bakan kapı, politikadaki `orchestrator → analyst → yazma` kaydını kayıtsız bir `saldirgan` ajanın da kullanmasına izin verir (`veri/devir_istekleri.json`, `i-02`).
+- **Joker yorumlamak:** Politikadaki `"*"` bir kimlik dizgisidir. Onu "herkes" diye yorumlamak, tek bir yazım hatasıyla bütün ajanlara yetki dağıtmak demektir (`i-03`).
+- **Ters yön:** `analyst → worker` izni, `worker → analyst` iznini kapsamaz (`i-04`).
+- **Rol iddiasını güvene çevirmek:** `iddia_edilen_rol: system` diyen bir mesajı `guvenilir: True` yapmak, saldırganın tek bir kelimeyle sistem yetkisi almasıdır (`veri/ajan_mesajlari.json`, `m-02`).
 :::
 
 ::: gorev 2 · Kaynak–hedef–yetki üçlüsünü tam politikayla denetle
@@ -151,9 +198,34 @@ Politikada joker kimlik, rol iddiası veya yetki ön eki kullanılmaz. Geçerli 
 
 İstek üçlüsü politikada tam olarak varsa `{"izin":True,"neden":"izinli"}`, yoksa `{"izin":False,"neden":"yetki-devri-yasak"}` dön. Bilinmeyen ajan adı ayrıca kayıt kontrolü gerektirmez; politika dışı olduğu için reddedilir. Girdileri değiştirme.
 
+Görünür veri: `veri/devir_istekleri.json`. Doğru kapıda yalnız `i-01` ve `i-05` izinlidir. Üç bozuk istek reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def yetki_devri_onayi(istek, politika):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: vereni karşılaştırmıyor (herkes politikadaki devri kullanabilir), "*" alanını joker sayıyor ve şemayı doğrulamıyor!
+    for kayit in politika:
+        if kayit["yetki"] == istek["yetki"] and kayit["alan"] in (istek["alan"], "*"):
+            return {"izin": True, "neden": "izinli"}
+    return {"izin": False, "neden": "yetki-devri-yasak"}
+
+veri = json_yukle("veri/devir_istekleri.json")
+for i in veri["istekler"] + veri["bozuk_istekler"]:
+    istek = {k: i[k] for k in ("veren", "alan", "yetki")}
+    try:
+        k = yetki_devri_onayi(istek, veri["politika"])
+        print(i["id"], istek["veren"], "→", istek["alan"], istek["yetki"], "→", k["neden"])
+    except ValueError as hata:
+        print(i["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-28")
 ```
 
 ```test
@@ -250,6 +322,8 @@ Aynı doğrulayıcıyı istek ve her politika kaydına uygula. Politikayı `(ver
 Politika bir devire izin verse bile yürütme katmanı, veren ajanın o anda ilgili yetkiyi taşıdığını ayrıca denetlemelidir. Araştırmacıya yalnız `okuma` verildiyse onun `arac` yetkisini devretme girişimi zincirleme yetki genişlemesidir. Başarısız devir, alan ajana yetki eklemez.
 
 Denetim kaydı olay sırasını korur. Aynı yetkinin daha sonra yetkili bir ajan tarafından devredilmesi geçerlidir; önceki ret, sonraki başarılı devri engellemez. Etkin yetki listeleri deterministik rapor için ada göre sıralanır.
+
+Raporu okurken `reddedilen` listesindeki her adım bir "denendi ama olmadı" kanıtıdır. Görünür zincirde 2. adımda analyst henüz `yazma` taşımadığı için worker'a yazma veremez. 4. adımda orchestrator analyst'e yazma verir ve 5. adımda aynı devir bu kez geçerli olur. 3. adım ise reddedilmiş bir devire dayanmaya çalışır: worker hiç yetki almadığı için `yazici`'ya da bir şey veremez. "Herhangi bir yetkisi var mı?" diye bakan bir kontrol, bu zinciri baştan sona geçirir ve `arac`, `model` gibi kökte hiç olmayan yetkileri bile üretir.
 :::
 
 ::: gorev 3 · Devir zincirindeki etkin yetkileri ve reddedilen adımları çıkar
@@ -269,9 +343,41 @@ Dönüş:
 
 `etkin`, kök ajanı ve en az bir başarılı devir alan ajanları içerir. Yetki listeleri alfabetik sıralıdır. Girdileri değiştirme.
 
+Görünür veri: `veri/devir_zinciri.json`. Doğru raporda worker yalnız `yazma` taşır, `yazici` hiç yetki almaz ve 2, 3, 6, 7 numaralı adımlar reddedilir. İki bozuk devir reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def yetki_zinciri_denetle(devirler, kok_yetkiler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: verenin o yetkiyi taşıyıp taşımadığına değil, herhangi bir yetkisi olup olmadığına bakıyor ve şemayı doğrulamıyor!
+    etkin = {"orchestrator": set(kok_yetkiler)}
+    reddedilen = []
+    for sira, kayit in enumerate(devirler, 1):
+        if not etkin.get(kayit["veren"]):
+            reddedilen.append({"sira": sira, "veren": kayit["veren"], "alan": kayit["alan"], "yetki": kayit["yetki"], "neden": "veren-yetkisiz"})
+            continue
+        etkin.setdefault(kayit["alan"], set()).add(kayit["yetki"])
+    return {"etkin": {ajan: sorted(y) for ajan, y in etkin.items()}, "reddedilen": reddedilen}
+
+veri = json_yukle("veri/devir_zinciri.json")
+r = yetki_zinciri_denetle(veri["devirler"], veri["kok_yetkiler"])
+for ajan, yetkiler in r["etkin"].items():
+    print(ajan, yetkiler)
+print("reddedilen sıralar:", [x["sira"] for x in r["reddedilen"]])
+for b in veri["bozuk_devirler"]:
+    try:
+        yetki_zinciri_denetle([b], veri["kok_yetkiler"])
+        print(b, "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b, "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-28")
 ```
 
 ```test
@@ -379,11 +485,13 @@ Başlangıç kümesini yalnız kök ajan için kur. Her olayda verenin güncel k
 
 
 ::: anlat İki gerçek model rolü arasında yetki taşınırken dosyayı ölç
-Ham sentetik not aynı Pafta sunucusunda `/data/ai-saldiri-28-devir.txt` adresindedir. Mevcut Markdownrenderer linkleri tıklanabilir yapmaz;sunucuadresine bu yolu yaz. Çalıştır ayrı kalıcı `calisma/ai-saldiri-28/devir-notu.txt` kopyasının yolunu/içeriğini gösterir. Dış editör/Python ile değiştirip yeniden Çalıştır,düzenlemen korunur. Test ayrı dosya kullanır.
+Ham sentetik not aynı Pafta sunucusunda `/data/ai-saldiri-28-devir.txt` adresindedir. Mevcut Markdown renderer linkleri tıklanabilir yapmaz; sunucu adresine bu yolu yaz. Çalıştır, ayrı ve kalıcı `calisma/ai-saldiri-28/devir-notu.txt` kopyasının yolunu ve içeriğini gösterir. Dosyayı dış editörle ya da Python ile değiştirip yeniden Çalıştır'a basabilirsin; düzenlemen korunur. Test ayrı bir dosya kullanır.
 
-Analyst ve worker aynı yerel modelin ayrı bağlamlarda yapılan gerçek native çağrılarıdır;uygulamadaki diğer AI sohbetlerine mesaj gönderilmez. Analyst mesaj/devir adayı üretir,kaynak/target başlıklarını sunucu kendi rolünden atar. Öğrenci zarfı içerik/rol iddiasını güvenilir yapmadan worker'a taşır. Bu yerel kimlik bağıdır;kriptografik ağkimlikdoğrulaması uygulandığı iddia edilmez.
+Analyst ve worker, aynı yerel modelin ayrı bağlamlarda yapılan gerçek native çağrılarıdır; uygulamadaki diğer AI sohbetlerine mesaj gönderilmez. Analyst bir mesaj ve devir adayı üretir; kaynak ve hedef başlıklarını sunucu kendi rol kaydından atar. Senin zarfın, içeriği ve rol iddiasını güvenilir yapmadan worker'a taşır. Bu yerel bir kimlik bağıdır; kriptografik ağ kimlik doğrulaması uygulandığı iddia edilmez.
 
-Devir iki kapı ister:tam veren/alan/yetki politika kaydı ve verenin gerçekten taşıdığı yetki. Öğrenci zincir hesabı worker'ın etkin okuma/yazmasını belirler;sonraki gerçek worker çağrısı ancak o yetkiyle kendi `rapor.txt` dosyasına erişir. Politikanın yazmaya izin vermesi,verenin yazmayetkisi taşımadığı durumda yetmez. Dört doğrudan sentetik devir kontrolü gerçekdosyada okunur/yazılır/engellenir. Dört canlı kol temiz/korumalı/kapısız/izinliyazmadır. İzinli pozitifkolda yetki ve eylem enumla yazmaya sınırlandırılır;modelin normal işi gerçekten yazması doğrulanır. Diğer kollarda saldırının başarılı olması şart değildir. Analyst veya worker tamamlanmış metin yanıtıyla çekinebilir;bu gerçek gözlem kaydedilir,sahte native çağrı eklenmez. Açık izinli yazma pozitifkontrolü yine gerçekten yazmalıdır. Başlık/iddia/politika/zincir/gerçekdosyaöncesisonrası ayrıdır.
+Devir iki kapı ister: tam veren/alan/yetki politika kaydı ve verenin gerçekten taşıdığı yetki. Senin zincir hesabın worker'ın etkin okuma/yazma yetkisini belirler; sonraki gerçek worker çağrısı ancak o yetkiyle kendi `rapor.txt` dosyasına erişir. Politikanın yazmaya izin vermesi, veren yazma yetkisi taşımıyorsa yetmez. Dört doğrudan sentetik devir kontrolü gerçek dosyada okur, yazar ya da engeller; gerçek yazma etkisi burada deterministik olarak ölçülür. Dört canlı kol vardır: temiz, korumalı, kapısız ve izinli yazma. İzinli yazma kolunda yetki ve eylem enum ile yazmaya sınırlandırılır. Model bu kolda yazmayı önerirse kapıdan geçip gerçekten yazılmış olmalıdır. Diğer kollarda saldırının başarılı olması şart değildir. Analyst ya da worker tamamlanmış bir metin yanıtıyla çekinebilir; bu gerçek gözlem `bulgu` altında kaydedilir, sahte native çağrı eklenmez ve kabul şartı değildir. Başlık, iddia, politika, zincir ve gerçek dosyanın önceki/sonraki durumu ayrı kaydedilir.
+
+**Kanıtı okumak:** Her kolda önce `zarf.guvenilir` alanının False olduğuna, sonra `yetki.aday_zincir` ile `yetki.etkin_zincir` farkına bak: aday zincir isteği de içerir, etkin zincir yalnız onaylanan devirleri. `etki.once` ve `etki.sonra` hash'leri dosyanın gerçekten değişip değişmediğini gösterir. Kapısız kolda worker, istenen yetkiyi doğrudan aldığı için yazma gerçekleşebilir; korumalı kolda aynı istek `veren-yetkisiz` ile durmalıdır.
 :::
 
 ::: gorev Gerçek deney · Mesaj iddiasını yetkiye çevirme,devir zincirini diskte uygula
@@ -398,11 +506,28 @@ timeout: 300
 ```starter
 import ai_lab
 
-def ajan_mesaji_zarfla(mesaj,kayitli_ajanlar):return {}
+def ajan_mesaji_zarfla(mesaj, kayitli_ajanlar):
+    # KUSURLU BAŞLANGIÇ KODU: rol iddiasına güveniyor (system/orchestrator diyen mesaj güvenilir sayılır), kaynak/hedef kaydını ve içerik/rol sınırlarını denetlemiyor!
+    rol = mesaj["iddia_edilen_rol"]
+    return {"kaynak": mesaj["kaynak"], "hedef": mesaj["hedef"], "icerik": mesaj["icerik"], "guvenilir": rol in ("system", "orchestrator"), "rol_iddiasi": rol}
 
-def yetki_devri_onayi(istek,politika):return {}
+def yetki_devri_onayi(istek, politika):
+    # KUSURLU BAŞLANGIÇ KODU: vereni karşılaştırmıyor (herkes politikadaki devri kullanabilir), "*" alanını joker sayıyor ve şemayı doğrulamıyor!
+    for kayit in politika:
+        if kayit["yetki"] == istek["yetki"] and kayit["alan"] in (istek["alan"], "*"):
+            return {"izin": True, "neden": "izinli"}
+    return {"izin": False, "neden": "yetki-devri-yasak"}
 
-def yetki_zinciri_denetle(devirler,kok_yetkiler):return {}
+def yetki_zinciri_denetle(devirler, kok_yetkiler):
+    # KUSURLU BAŞLANGIÇ KODU: verenin o yetkiyi taşıyıp taşımadığına değil, herhangi bir yetkisi olup olmadığına bakıyor ve şemayı doğrulamıyor!
+    etkin = {"orchestrator": set(kok_yetkiler)}
+    reddedilen = []
+    for sira, kayit in enumerate(devirler, 1):
+        if not etkin.get(kayit["veren"]):
+            reddedilen.append({"sira": sira, "veren": kayit["veren"], "alan": kayit["alan"], "yetki": kayit["yetki"], "neden": "veren-yetkisiz"})
+            continue
+        etkin.setdefault(kayit["alan"], set()).add(kayit["yetki"])
+    return {"etkin": {ajan: sorted(y) for ajan, y in etkin.items()}, "reddedilen": reddedilen}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_28 as deney
@@ -579,7 +704,14 @@ for ad, mutant in [("reddedilen yetkiyi etkin sayan", m_genislet), ("kök yetkiy
 from sandbox import ai_gercek_ai_saldiri_28 as deney
 import tempfile
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('chain_ref',)), 'laboratuvar/gerçek ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('chain_ref','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/gerçek ölçüm yamalanmamalı, referans kullanılmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 with tempfile.TemporaryDirectory(prefix='pafta_delegation28_') as tmp:
     p=Path(tmp)/'not.txt';p.write_text(deney.ORNEK.read_text(encoding='utf-8'),encoding='utf-8')
     r=deney.deney(ajan_mesaji_zarfla,yetki_devri_onayi,yetki_zinciri_denetle,p,Path(tmp)/'deney')

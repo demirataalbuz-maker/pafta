@@ -5,27 +5,49 @@ summary: Farklı istem ve model ayarlarında güvenlik ajanının precision, rec
 timeout: 300
 ---
 
-::: anlat Gerçek biçimi bil, sentetik temsili ayırt et
-Üretim ortamındaki bir SOC veya zafiyet triyajı ajanını değerlendirirken yalnız doğruluk (`F1`) puanına bakmak yanıltıcıdır: çok uzun düşünce zinciri kullanan bir yapılandırma saldırıların tamamını yakalayabilir (`recall = 1.0`), ancak olay başına `950` token ve `2400 ms` gecikme tüketerek gerçek zamanlı kuyruğu tıkayabilir (`ai-guvence-04` ve `ai-savunma-31` derslerindeki bütçe ve değerlendirme ilkelerini hatırla).
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Çok amaçlı ajan optimizasyonu
+Üretim ortamındaki bir Güvenlik Operasyon Merkezi (SOC) triyajında veya otomatik zafiyet analizinde güvenlik ajanlarını değerlendirirken yalnız doğruluk (`F1`) puanına odaklanmak felaketle sonuçlanabilir:
+- Çok turlu düşünce zinciri (Chain of Thought - CoT) veya ReAct döngüsü kullanan aşırı detaylı bir ajan yapılandırması saldırıların tamamına yakınını yakalayabilir (`recall = 1.0`),
+- Ancak olay başına `950` token tüketip `2400 ms` çıkarım gecikmesi (latency) üreterek gerçek zamanlı olay kuyruğunun tıkanmasına (kendi kendini DoS etme durumu) ve bulut bütçesinin saatler içinde tükenmesine yol açar (`ai-guvence-04` ve `ai-savunma-31` derslerindeki bütçe ve değerlendirme ilkelerini hatırla).
 
 | Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
 |---|---|---|
-| Çoklu istem/model değerlendirme koşularını (`promptfoo` / yerel değerlendirici), token sayaçlarını ve gecikme (`ms`) dağılımlarını | İlk üç görevde `ajan_kosu_sonuclari.json` içindeki **sentetik** koşu ölçümlerini; son görevde canlı `ai_lab.SohbetOturumu` ile Pareto seçim deneyini | Yalnızca ortalama gecikme (`ortalama_ms`) ölçümünün, yoğun trafik anındaki kuyruk şişmesini (`p99 tail latency`) tek başına temsil edebileceğini söyleyemez |
+| Çoklu istem/model değerlendirme hatlarını (`promptfoo`, yerel eval harnesses), GPU çıkarım profillerini, token sayaçlarını ve gecikme dağılımlarını | İlk üç görevde `ajan_kosu_sonuclari.json` içindeki **sentetik** koşu ölçümlerini; son görevde canlı `ai_lab.SohbetOturumu` ile dar bütçeli Pareto seçim deneyini | Yalnızca ortalama gecikme (`ortalama_ms`) ölçümünün, anlık trafik patlamalarındaki kuyruk şişmesini (`p99 tail latency`) veya model bağlam penceresi aşım riskini tek başına temsil edebileceğini söyleyemez |
 
-> [!GÜVENLİK]
-> **Kapsam ve dürüstlük sınırı:** İlk üç görevdeki `ajan_kosu_sonuclari.json` dosyası **sentetik** eğitim verisidir; yalnız güvenlik ajanı kalite ve maliyet mühendisliği öğretilir ve dosyalar her çalıştırmada (`setup`) yeniden yüklenir.
+> [!NOT]
+> İlk üç görevde çalışma dizinine hazırlanan `ajan_kosu_sonuclari.json` dosyası **sentetik** bir kıyaslama (benchmark) eğitim verisidir; canlı üretim sunucusu veya ticari değerlendirici kaydı değildir. Kurulum (`setup`) bloğunda `hazirla("ai-ile-guvenlik-16")` çağrısıyla çalışma alanına geçici olarak yüklenir; çalıştırmalar arasında **kalıcılık yoktur**. Son adımdaki **Gerçek deney** adımı kurulu yerel modeli (`qwen3`) çağırarak dar token bütçesinde canlı sınıflandırma yaptırır ve Pareto seçim kapısını doğrular. Promptfoo veya harici eval sunucuları çalıştırılmaz. Amaç tek boyutlu başarı peşinde koşmak değil, bütçe kısıtları altında çok amaçlı optimizasyon (Pareto optimizasyonu) yaparak en dengeli güvenlik ajanını seçmektir.
+:::
+
+::: anlat Bir güvenlik ajanında ne olur, saldırgan neyi dener ve savunma neden kırılır?
+Güvenlik ajanları binlerce gelen şüpheli isteği ve güvenlik alarmını otonom olarak sınıflandırırken karmaşık bir kalite-maliyet dengesi işletir:
+
+- **Aracın Altında Ne Olur?** Güvenlik değerlendiricisi, ajanın her istem/model varyasyonu için elde ettiği Doğru Pozitif (`tp`), Yanlış Pozitif (`fp`), Doğru Negatif (`tn`) ve Yanlış Negatif (`fn`) sayılarını toplar. `precision` (alarm verilenlerin ne kadarı gerçek saldırı?), `recall` (gerçek saldırıların ne kadarı yakalandı?) ve bunların harmonik ortalaması olan `F1` skorunu hesaplar. Eşzamanlı olarak, her çıkarım için harcanan ortalama token miktarı ve milisaniye (`ms`) cinsinden gecikme kaydedilir.
+- **Saldırganın Taktikleri:** Saldırganlar güvenlik ajanlarının operasyonel kısıtlarını doğrudan hedefler:
+  1. *Karmaşıklık ve Kaynak Tüketimi Saldırısı (Algorithmic Complexity / Exhaustion):* Saldırgan, ajanın CoT veya derin düşünme motorunu tetikleyecek karmaşık, iç içe geçmiş veya çelişkili girdi yükleri gönderir. Bu, ajanın token tüketimini tavan yaptırarak SOC kuyruğunun şişmesine ve diğer meşru alarmların işlenememesine yol açar.
+  2. *Eşik Altı Kalma Taktikleri (Low-and-Slow):* Saldırgan, kurumun yüksek gecikmeden kaçınmak için düşük duyarlılıklı (`ayar-hizli-kaba`) bir ajan profili çalıştırdığını fark ettiğinde, saldırı izlerini zayıf sinyallere bölerek hızlı ajanın düşük recall zafiyetinden içeri sızar.
+- **Savunmanın Kırılma Noktaları:** Savunma genellikle iki uçta kırılır: Ya maliyet ve gecikme tamamen unutulup "en yüksek F1 her zaman en iyisidir" yanılgısına düşülür ve üretim kuyruğu kilitlenir; ya da aşırı bütçe kısıtlaması nedeniyle kabul edilemez oranda saldırı (`false negative`) kaçıran ucuz modeller sahaya sürülür. Doğru mühendislik yaklaşımı, asgari kabul edilebilir güvenlik barajını (`asgari_recall`) ve azami bütçe tavanını (`azami_token`, `azami_ms`) katı birer kısıt kapısı olarak uygulamak, ardından Pareto cephesinde elenmemiş en verimli ayarı seçmektir.
+- **Sık Yapılan Geliştirici Tuzakları:**
+  1. Sıfıra bölme hatası: `tp + fp == 0` veya `tp + fn == 0` durumlarında istisna fırlatmamak veya varsayılan `0.0` ile sistemi sessizce bozmak.
+  2. Tip denetimi tuzağı: Python'da `bool` sınıfı `int` sınıfının alt sınıfı olduğundan (`isinstance(True, int) == True`), sayısal alanlarda `isinstance(deger, bool)` kontrolünün unutulması.
+  3. Pareto baskınlık yönü hatası: `F1` metriğinde yüksek olan (`f1_a >= f1_b`) iyiyken, maliyet ve gecikme metriklerinde düşük olan (`token_a <= token_b`, `ms_a <= ms_b`) iyidir. Yönlerin ters çevrilmesi en kötü ayarın en iyi sanılmasına yol açar.
+  4. Kesin üstünlük koşulunu atlamak: Tüm hedeflerde eşit olan iki aday (`f1`, `token`, `ms` aynı) birbirine Pareto baskın değildir; baskınlık için en az bir hedefte kesin üstünlük (`any(d > 0)`) şarttır.
+  5. Sıralama anahtarında kararsızlık: Pareto cephesindeki adaylar sıralanırken eşit F1 durumunda daha az token harcayanı öne almak için `(-x["f1"], x["ortalama_token"], x["ayar_id"])` bileşik anahtarı kullanılmalıdır.
 :::
 
 ::: anlat Doğruluk ve maliyet dengesinde Pareto seçimi üç adımda yapılır
-Güvenlik ajanı yapılandırmaları üç aşamada elenir ve sıralanır:
+Güvenlik ajanı yapılandırmaları şu üç aşamalı eleme ve seçim algoritmasıyla değerlendirilir:
 
 1. **Kalite ve Maliyet Metrikleri (`ajan_metrik_hesapla`):** Her koşu için `precision = round(tp / (tp + fp), 4)`, `recall = round(tp / (tp + fn), 4)` ve `f1 = round((2 * tp) / (2 * tp + fp + fn), 4)` hesaplanır.
 2. **Pareto Baskınlık Kontrolü (`pareto_baskin_mi`):** `A` yapılandırması `B` yapılandırmasından en az onun kadar yüksek `f1` değerine (`f1_A >= f1_B`), en az onun kadar düşük token (`token_A <= token_B`) ve gecikme (`ms_A <= ms_B`) maliyetine sahipse **ve** bu üç ölçütün en az birinde kesin olarak daha iyiyse `A`, `B`'ye **Pareto baskındır** (`True`).
-3. **Kısıt Kapısı ve Optimal Seçim (`optimal_ajan_sec`):** Önce `recall < asgari_recall` olanlar `"dusuk_recall"`, `ortalama_token > azami_token` veya `ortalama_ms > azami_ms` olanlar `"butce_asimi"` nedeniyle elenir. Kalanlar arasında başka bir uygun aday tarafından Pareto baskınlığına uğrayanlar `"pareto_baskin"` olarak ayrılır ve Pareto cephesindeki en yüksek `f1` (eşitlikte en düşük `ortalama_token`) değerine sahip ayar seçilir.
+3. **Kısıt Kapısı ve Optimal Seçim (`optimal_ajan_sec`):**
+   - Önce `recall < asgari_recall` olanlar `"dusuk_recall"` gerekçesiyle elenir.
+   - Ardından `ortalama_token > azami_token` veya `ortalama_ms > azami_ms` olanlar `"butce_asimi"` nedeniyle elenir.
+   - Kalan adaylar arasında, başka bir uygun aday tarafından Pareto baskınlığına uğrayanlar `"pareto_baskin"` olarak işaretlenip elenir.
+   - Pareto cephesinde kalan adaylar `(-f1, ortalama_token, ayar_id)` kuralıyla sıralanır ve ilk sıradaki ayar seçilir.
 :::
 
 ::: anlat Bulguyu sınırlı ve doğrulanabilir yaz: aynı F1 puanında daha hantal olan elenir
-İki ajan yapılandırması aynı `F1 = 0.9` başarısını gösteriyorsa, olay başına `410` token ve `820 ms` harcayan ayar, `540` token ve `1100 ms` harcayan ayara Pareto baskındır. Mühendislik kararı öznel tercihle değil, kısıt kapısı ve Pareto cephesiyle verilir.
+İki ajan yapılandırması aynı `F1 = 0.9` başarısını gösteriyorsa, olay başına `410` token ve `820 ms` harcayan ayar, `540` token ve `1100 ms` harcayan ayara Pareto baskındır. Mühendislik kararı öznel tercihle değil, kısıt kapısı ve Pareto cephesiyle matematiksel olarak verilir.
 :::
 
 ::: tahmin İki ajan ayarı arasında Pareto baskınlığını tahmin et
@@ -66,12 +88,18 @@ from ai_ile_guvenlik_veri import json_yukle
 kosular = json_yukle("ajan_kosu_sonuclari.json")["kosular"]
 
 def ajan_metrik_hesapla(kosu):
-    # HATA: Precision, recall ve F1 oranlarını hesaplamıyor.
+    # KUSURLU BAŞLANGIÇ KODU: Sıfıra bölme kontrolünü yapmadan ve oranları 4 basamağa yuvarlamadan ham bölme uyguluyor!
+    tp = kosu.get("tp", 0)
+    fp = kosu.get("fp", 0)
+    fn = kosu.get("fn", 0)
+    p = tp / max(tp + fp, 1)
+    r = tp / max(tp + fn, 1)
+    f = (2 * p * r) / max(p + r, 0.0001)
     return {
         "ayar_id": kosu.get("ayar_id", ""),
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": p,
+        "recall": r,
+        "f1": f,
         "ortalama_token": kosu.get("ortalama_token", 0),
         "ortalama_ms": kosu.get("ortalama_ms", 0),
     }
@@ -192,8 +220,16 @@ Kurallar:
 
 ```starter
 def pareto_baskin_mi(aday_a, aday_b):
-    # HATA: Token ve gecikme maliyetlerini karşılaştırmadan yalnız F1'e bakıyor.
-    return False
+    # KUSURLU BAŞLANGIÇ KODU: Maliyet ve gecikme metriklerini ters yönde karşılaştırarak kaynak tüketimi daha yüksek olan ayarı baskın sayıyor!
+    f1_a = aday_a.get("f1", 0)
+    f1_b = aday_b.get("f1", 0)
+    token_a = aday_a.get("ortalama_token", 0)
+    token_b = aday_b.get("ortalama_token", 0)
+    ms_a = aday_a.get("ortalama_ms", 0)
+    ms_b = aday_b.get("ortalama_ms", 0)
+    en_az_esit = (f1_a >= f1_b) and (token_a >= token_b) and (ms_a >= ms_b)
+    kesin_iyi = (f1_a > f1_b) or (token_a > token_b) or (ms_a > ms_b)
+    return en_az_esit and kesin_iyi
 
 print(pareto_baskin_mi(
     {"ayar_id": "a", "precision": 0.9, "recall": 0.9, "f1": 0.9, "ortalama_token": 400, "ortalama_ms": 800},
@@ -291,11 +327,22 @@ from ai_ile_guvenlik_veri import json_yukle
 veri = json_yukle("ajan_kosu_sonuclari.json")
 
 def optimal_ajan_sec(kosular, kisitlar):
-    # HATA: Kısıtları ve Pareto baskınlığını kontrol etmeden ilk ayarı seçiyor.
+    # KUSURLU BAŞLANGIÇ KODU: Bütçe kısıtlarını ve Pareto baskınlığını denetlemeden yalnız asgari recall kontrolüyle ilk ayarı seçiyor!
+    asgari_recall = kisitlar.get("asgari_recall", 0.0)
+    elenen = {}
+    uygun = []
+    for k in kosular:
+        aid = k.get("ayar_id", "")
+        r = k.get("tp", 0) / max(k.get("tp", 0) + k.get("fn", 0), 1)
+        if r < asgari_recall:
+            elenen[aid] = "dusuk_recall"
+        else:
+            uygun.append(aid)
+    secilen = uygun[0] if uygun else None
     return {
-        "secilen_ayar_id": kosular[0]["ayar_id"],
-        "pareto_adaylari": [],
-        "elenen_ayarlar": {},
+        "secilen_ayar_id": secilen,
+        "pareto_adaylari": uygun,
+        "elenen_ayarlar": elenen,
     }
 
 print(optimal_ajan_sec(veri["kosular"], veri["kisitlar"]))
@@ -431,13 +478,16 @@ timeout: 300
 import ai_lab
 
 def ajan_metrik_hesapla(kosu):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: Metrikleri hesaplamadan boş şablon döndürüyor!
+    return {"ayar_id": kosu.get("ayar_id", ""), "precision": 0.0, "recall": 0.0, "f1": 0.0, "ortalama_token": 0, "ortalama_ms": 0}
 
 def pareto_baskin_mi(aday_a, aday_b):
+    # KUSURLU BAŞLANGIÇ KODU: Karşılaştırma yapmadan her zaman False dönüyor!
     return False
 
 def optimal_ajan_sec(kosular, kisitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: Kısıt ve Pareto elemesini yapmadan boş seçim dönüyor!
+    return {"secilen_ayar_id": None, "pareto_adaylari": [], "elenen_ayarlar": {}}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_ile_guvenlik_16 as deney
@@ -453,6 +503,7 @@ hazirla("ai-ile-guvenlik-16")
 ```
 
 ```test
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_ile_guvenlik_16 as D
 
@@ -465,11 +516,25 @@ def ok(kosul, mesaj):
 for ad in ("ajan_metrik_hesapla", "pareto_baskin_mi", "optimal_ajan_sec"):
     need(ad)
 
-sorun = ai_lab.kod_denetimi(
-    src,
-    ("ajan_metrik_hesapla_referans", "pareto_baskin_mi_referans", "optimal_ajan_sec_referans"),
+yasak = (
+    "referans",
+    "ajan_metrik_hesapla_referans",
+    "pareto_baskin_mi_referans",
+    "optimal_ajan_sec_referans",
+    "getattr",
+    "kanit_yaz",
 )
-ok(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı")
+ihlal = ai_lab.kod_denetimi(src, yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node, ast.ImportFrom) and any(a.name in yasak or a.name == "*" for a in node.names):
+            ihlal.append("referans ithali")
+except SyntaxError:
+    ihlal.append("sözdizimi")
+
+ok(not ihlal, "Kendi çözümünü yaz; referans işlevler ithal edilemez: " + ", ".join(ihlal))
+if not all(checks):
+    stop()
 
 def _on_sozlesme():
     try:

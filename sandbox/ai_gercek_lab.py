@@ -951,8 +951,11 @@ def guvence_goster(fgsm, epsilon_egrisi):
     print("Kanıt:", kanit_yaz("guvence-fgsm-calistir", {"kaynak": "gercek", "kabul": False, "model_bilgisi": bilgi}))
 
 
-def kod_denetimi(src, yasak=()):
-    """Öğrenci kodu laboratuvarı yamalayamaz ve referans işlevleri çağıramaz. Sorun listesi döndürür."""
+def kod_denetimi(src, yasak=(), izin=()):
+    """Öğrenci kodu laboratuvarı yamalayamaz ve referans işlevleri çağıramaz. Sorun listesi döndürür.
+
+    izin: dersin meşru olarak kullandığı dinamik çalıştırma adları (ör. ("exec",)).
+    """
     import ast
     sorun = []
     try:
@@ -973,6 +976,20 @@ def kod_denetimi(src, yasak=()):
             sorun.append(f"yasak kullanım: {getattr(n, 'id', None) or n.attr}")
         if isinstance(n, ast.Name) and n.id in yasak:
             sorun.append(f"yasak kullanım: {n.id}")
+        # exec(inspect.getsource(m).replace("_referans", "")) referansı adını değiştirip kopyalar.
+        if isinstance(n, ast.ImportFrom) and any(a.name in yasak or a.name == "*" for a in n.names):
+            sorun.append("referans importu yasak")
+        if isinstance(n, (ast.Import, ast.ImportFrom)):
+            adlar =[a.name for a in n.names] + ([n.module] if isinstance(n, ast.ImportFrom) and n.module else [])
+            for ad in adlar:
+                if ad.split(".")[0] in ("inspect", "linecache", "runpy", "builtins") and ad.split(".")[0] not in izin:
+                    sorun.append(f"kaynak okuma yasak: {ad}")
+        if isinstance(n, ast.Name) and n.id in ("exec", "eval", "compile", "__builtins__", "breakpoint") and n.id not in izin:
+            sorun.append(f"dinamik kod çalıştırma yasak: {n.id}")
+        if isinstance(n, ast.Attribute) and n.attr in (
+                "getsource", "getsourcelines", "getsourcefile", "get_source", "__loader__", "__spec__",
+                "__builtins__", "__code__"):
+            sorun.append(f"kaynak okuma yasak: {n.attr}")
     return sorted(set(sorun))
 
 

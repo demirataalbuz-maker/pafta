@@ -6,15 +6,46 @@ timeout: 300
 ---
 
 ::: anlat Ayrık arama sürekli gradyanı doğrudan tokena çeviremez
-GCG benzeri yöntemler gradyan bilgisini aday tokenları sıralamak için kullanabilir; AutoDAN benzeri yöntemler ise ayrık diziler üzerinde genetik arama yapabilir. İkisinde de seçilen sonuç sürekli bir vektör değil, belirli token kimliklerinden oluşan bir dizidir. Aday puanı ile gerçek modelde ölçülen kayıp aynı şey değildir.
 
-İlk üç görevde bütün tokenlar ve ölçümler deterministik fixture olarak verilir; son görevde ise yerel `SmolLM2-135M` (`ai_lab.dil_modeli()`) ve `torch` (`ai_lab.torch_cihazi()`) üzerinde gerçek koordinat gradyanı hesaplanarak hedef dizgeyi (canary) üreten ayrık sonek araması yürütülür.
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| GCG (Greedy Coordinate Gradients) / AutoDAN otomatik ayrık optimizasyon ve transfer saldırıları yürütür | İlk 3 görev ayrık aday seçimi, arama izi özeti ve model transfer başarı raporu | Tüm açık kaynaklı veya kapalı uçlu LLM'lerin aynı soneklerle kırılabileceği veya mutlak saldırı garantisi değildir |
+| SmolLM2-135M ve PyTorch backward() kancaları gerçek koordinat gradyanı ve çapraz entropi kaybı üretir | Gerçek deney hedef canary dizgesi için gerçek embedding gradyanı, aday seçimi ve ileri geçiş kaybı ölçümü | Üretim modellerinde korumaların aşıldığı veya gradyan tabanlı saldırıların her zaman küresel minimuma ulaştığı kanıtı değildir |
+
+> [!NOT]
+> `veri/optimizasyon.json` dosyası sentetik ayrık token adayları, arama izleri ve transfer skorlarını içerir; canlı saldırı kaydı veya model çıktısı değildir. İlk 3 görev bu yerel fixture verisini okur. Her Run/Check işleminde `hazirla("ai-guvence-09")` geçici kopya oluşturur; kalıcı değişiklik saklanmaz. Kodunuzu veya verinizi editörde inceleyebilirsiniz. Gizli değerlendirme testleri ayrı doğrulamalar koşturur. Gerçek deney adımı yerel PyTorch ve SmolLM2-135M modeliyle koordinat gradyanını doğrudan hesaplar; yeni paket veya model indirilmez.
+
+Sürekli girdi uzaylarında çalışan geleneksel derin öğrenme modellerinde (örneğin görüntü sınıflandırma), karşıt saldırılar (adversarial attacks; FGSM, PGD) doğrudan piksel değerlerine gradyan inişi ($\mathbf{x} \leftarrow \mathbf{x} - \eta \nabla_{\mathbf{x}} \mathcal{L}$) uygulanarak optimize edilir. Ancak büyük dil modellerinde (LLM) girdi uzayı sürekli değil, sonlu ve ayrık bir sözlükten ($V$) seçilen token kimliklerinden oluşur. Modelin gömme (embedding) katmanında hesaplanan sürekli gradyan vektörü, sözlükteki herhangi bir gerçek tokene birebir karşılık gelmez. Bu nedenle ayrık token optimizasyonu (discrete token optimization), sürekli gradyan bilgisini ayrık seçim uzayına aktaran özel arama stratejileri gerektirir.
+
+Açık kaynaklı güvenlik araştırmalarında iki temel yöntem öne çıkar:
+1. **Açgözlü Koordinat Gradyanları (Greedy Coordinate Gradients - GCG; Zou ve ark., 2023):** Beyaz kutu (white-box) erişiminde modelin gömme matrisi $E$ üzerindeki gradyanlardan yararlanır. Hedef çıktının (örneğin bir canary veya "Sure, here's how to...") kaybı $\mathcal{L}$ için birinci derece Taylor açılımı yapılarak, sözlükteki her aday token $v \in V$ için yaklaşık kayıp değişimi hesaplanır:
+   $$\text{skor}(v) = (e_v - e_i) \cdot \nabla_{e_i} \mathcal{L}$$
+   Burada en düşük (en negatif) skora sahip adaylar belirlenen bütçeyle (`ayrik_adaylari_sec`) filtrelenir; ardından bu adaylar modelin ileri geçişinde (`forward pass`) gerçek kayıpla doğrulanır.
+2. **AutoDAN (Liu ve ark., 2023):** Doğal dil akışını koruyarak şaşkınlık (perplexity) filtrelerine takılmayan genetik ve hiyerarşik ayrık arama yürütür. (Aynı adı taşıyan Zhu ve ark., 2023 çalışması ise gradyan rehberli, okunabilir sonekleri soldan sağa token token üreten ayrı bir yöntemdir; literatürde ikisini karıştırmamak gerekir.) İstemleri anlamsal olarak akıcı tutmak için mutasyon, çaprazlama ve dil modeli rehberliği kullanır.
 :::
 
 ::: anlat En iyi kayıp tek başına arama maliyetini anlatmaz
-Bir arama izinde adım, o ana kadar yapılan toplam sorgu ve gözlenen kayıp birlikte tutulmalıdır. En düşük kayıp seçilirken eşitlikte daha erken adım tercih edilebilir; toplam sorgu ise son adımın kümülatif değeridir. Sorgu sayıları adımlar boyunca katı biçimde artmalıdır.
+Ayrık optimizasyon süreçlerinin başarısını değerlendirirken yalnızca ulaşılan en düşük kayıp değerine bakmak yanıltıcıdır. Optimizasyonun hesaplama ve sorgu maliyeti, sürecin pratik uygulanabilirliğini belirler. Bu nedenle her yöntem için arama adımları, kümülatif sorgu sayıları ve gözlenen kayıplar birlikte kaydedilir.
 
-Transfer ölçümü ayrıdır: aynı yöntemin farklı hedeflerdeki başarılarının oranı, toplam sorgusu ve ortalama genel yetenek puanı raporlanır. Başarı alanı yalnız gerçek bool değerlerden oluşur; `1` veya `"true"` başarı sayılmaz.
+Arama izi özetinde (`arama_izini_ozetle`):
+- `en_iyi_kayip`: Arama boyunca gözlenen en düşük kayıptır (altı ondalık basamağa yuvarlanır). Eşit kayıp durumunda daha erken (küçük) adım tercih edilir.
+- `toplam_sorgu`: Son adımın kümülatif sorgu değeridir. Adımlar boyunca sorgu sayısının katı biçimde artması zorunludur.
+
+Transfer başarısı (`transfer_ozeti`):
+Bir model üzerinde optimize edilen zararlı sonekin (adversarial suffix) başka hedef modellere genellenebilirliği siber güvenlikte en kritik tehdit unsurudur (Black-Box Transferability). Bir saldırgan yerel bir modelde (örneğin SmolLM veya Llama) gradyan tabanlı optimize ettiği bir soneki, kapalı ve tescilli modellere (GPT-4, Claude vb.) transfer edebilir. Bu durum iki metrikle izlenir:
+1. `transfer_orani`: Başarılı deneme sayısının toplam denemeye oranı (`basari / deneme`). Başarı alanı kesinlikle katı `bool` türünde olmalıdır (`1` veya `"true"` kabul edilmez).
+2. `ortalama_yetenek`: Hedef modellerin genel dünya bilgisini ve akıl yürütme kabiliyetini koruma düzeyidir.
+
+Saldırganlar ayrık optimizasyonda başlıca şu stratejileri izler:
+- **Evrensel ve Aktarılabilir Sonekler (Universal Adversarial Suffixes):** Birden fazla istem ve modeli aynı anda hedef alarak evrensel red kıran token dizileri üretmek.
+- **Şaşkınlık (Perplexity) Gizleme:** AutoDAN gibi yöntemlerle anlamsız GCG harf dizileri yerine grameri düzgün metinler oluşturup girdi filtrelerini atlatmak.
+- **Sorgu Bütçesi Optimizasyonu:** Hızlı aday eleme ile hedef modele asgari sayıda istek göndererek hız sınırlarına (rate limiting) takılmamak.
+
+Geliştiricilerin düştüğü sık tuzaklar:
+- Aday seçiminde skor eşitliğinde küçük token indeksini öne almamak (`(skor, token)` belirlenimlilik kuralı).
+- Sorgu artışının adımlar boyunca katı büyümediğini kontrol etmemek.
+- Transfer analizi yaparken `basari` alanında bool yerine integer/string kullanmak.
+- Model gradyanı ile ayrık token arasındaki asimetriyi göz ardı edip sürekli vektörü doğrudan token sanmak.
 :::
 
 ::: tahmin Ayrık seçim ve transfer oranını tahmin et
@@ -42,9 +73,23 @@ print(sum([True, False, True]))
 
 En düşük skorlu adaylar seçilir; skor eşitliğinde küçük token önce gelir. Bütçe kadar, bütçe aday sayısından büyükse bütün adayları içeren token listesi döndür. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-09")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle
+
 def ayrik_adaylari_sec(adaylar, butce):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: adayları skora göre sıralamadan ilk bütçe kadar elemanı olduğu gibi döndürür.
+    return [a["token"] for a in adaylar[:butce]] if isinstance(adaylar, list) else []
+
+v = json_yukle("veri/optimizasyon.json")
+print("Aday seçimi örneği:", ayrik_adaylari_sec(v["adaylar"], v["butce"]))
 ```
 
 ```test
@@ -140,9 +185,23 @@ Bütün adayları doğruladıktan sonra `(skor, token)` çiftine göre sırala v
 
 Aynı yöntemde adım yinelenemez ve kümülatif sorgu sayısı adımlar boyunca katı artmalıdır. Geçersiz veride `ValueError` yükselt. Her yöntem için `{"yontem":Y,"en_iyi_adim":N,"en_iyi_kayip":X,"toplam_sorgu":N}` üret; en iyi sonuç en düşük kayıp, eşitlikte en küçük adımdır. Kaybı altı ondalık basamağa yuvarla, toplam sorguyu en büyük adımın kümülatif değeri olarak ver ve özeti yöntem adına göre sırala. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-09")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle
+
 def arama_izini_ozetle(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yöntemleri gruplamadan sabit boş liste veya tek kayıt döndürür.
+    return [{"yontem": k["yontem"], "en_iyi_adim": 0, "en_iyi_kayip": 1.0, "toplam_sorgu": 0} for k in kayitlar[:1]]
+
+v = json_yukle("veri/optimizasyon.json")["arama_izi"]
+print("Arama izi örneği:", arama_izini_ozetle(v))
 ```
 
 ```test
@@ -266,9 +325,23 @@ def arama_izini_ozetle(kayitlar):
 
 Her yöntem için `{"yontem":Y,"deneme":N,"basari":N,"transfer_orani":X,"toplam_sorgu":N,"ortalama_yetenek":X}` döndür. Transfer oranı başarı/deneme, ortalama yetenek bütün denemelerin yetenek ortalamasıdır; ikisini de altı ondalık basamağa yuvarla. Özeti yöntem adına göre sırala ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-09")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle
+
 def transfer_ozeti(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: transfer oranını ve ortalama yeteneği hesaplamadan sabit sıfır döndürür.
+    return [{"yontem": k["yontem"], "deneme": 1, "basari": 0, "transfer_orani": 0.0, "toplam_sorgu": 0, "ortalama_yetenek": 0.0} for k in kayitlar[:1]]
+
+v = json_yukle("veri/optimizasyon.json")["transfer_kayitlari"]
+print("Transfer özeti örneği:", transfer_ozeti(v))
 ```
 
 ```test
@@ -372,9 +445,10 @@ Yöntem gruplarını oluştur; başarıları yalnız bool alanından say. Oran v
 ::: anlat Gerçek dil modelinde (SmolLM2-135M + torch) koordinat gradyanı ile ayrık sonek araması
 İlk üç görevde ayrık aday seçimini, arama izi özetini ve transfer raporunu deterministik fixture'lar üzerinde doğruladın. Şimdi aynı üç işlevi **gerçek `SmolLM2-135M` nedensel dil modeli** (`ai_lab.dil_modeli()`) ve `torch` (`ai_lab.torch_cihazi()`) üzerinde çalışan canlı bir GCG koordinat gradyanı deneyine bağlıyoruz:
 
-1. Son sonek konumundaki gömme (embedding) vektörüne göre hedef `PAFTA` tokenının çapraz entropi kaybının **gerçek gradyanı (`backward()`)** alınır ve aday tokenların birinci derece koordinat gradyan skorları hesaplanır.
-2. `ayrik_adaylari_sec` en düşük skorlu aday tokenları bütçeyle seçer.
-3. Seçilen ayrık tokenlar soneke yerleştirilerek modelde gerçek ileri geçiş (`forward pass`) kaybı ölçülür; elde edilen izler `arama_izini_ozetle` ve `transfer_ozeti` ile raporlanıp kanıta yazılır.
+1. **Gömme Gradyanının Hesaplanması:** Girdi dizgisine eklenen sonekin her token konumu için, modelin gömme katmanındaki tek-sıcak (one-hot) tensör temsilleri üzerinden hedef `PAFTA` tokenının negatif log-olabilirlik (çapraz entropi) kaybı $\mathcal{L}$ türetilir. PyTorch `backward()` çağrısı ile son sonek konumundaki gradyan $\nabla_{e} \mathcal{L}$ alınır.
+2. **Koordinat Gradyanı Skoru ve Aday Seçimi:** Modelin tüm sözlük gömme matrisi $W_E \in \mathbb{R}^{V \times d}$ ile bu gradyanın iç çarpımı alınarak sözlükteki $V$ adet tokenin birinci derece Taylor kaybı yaklaşık olarak tahmin edilir: $\text{skor}(v) = - W_E[v] \cdot \nabla_{e} \mathcal{L}$. `ayrik_adaylari_sec` işlevi en düşük skorlu aday tokenları belirlenen bütçeyle (örneğin top-k aday) süzer.
+3. **İleri Geçiş (Forward Pass) ile Gerçek Kayıp Ölçümü:** Seçilen en umut verici aday tokenlar tek tek veya toplu olarak soneke yerleştirilerek modelde gerçek ileri geçiş koşturulur. Gerçek çapraz entropi kaybını en çok düşüren token kalıcı olarak kabul edilir.
+4. **İz ve Transfer Kaydı:** Adımlar boyunca elde edilen kayıp eğrileri ve hedef denemeleri `arama_izini_ozetle` ve `transfer_ozeti` ile yapısal bir rapora dönüştürülüp `kanit_yaz` ile kaydedilir. Bu deney, sürekli gradyan uzayından ayrık dil uzayına geçişin pratik mekaniğini doğrudan doğrular.
 :::
 
 ::: gorev Gerçek deney · SmolLM2-135M üzerinde GCG koordinat gradyanı ve ayrık sonek araması
@@ -397,9 +471,11 @@ def ayrik_adaylari_sec(adaylar, butce):
     return [adaylar[0]["token"]] if adaylar else []
 
 def arama_izini_ozetle(kayitlar):
+    # KUSURLU BAŞLANGIÇ KODU: yöntemleri gruplamadan boş liste döndürüyor!
     return []
 
 def transfer_ozeti(kayitlar):
+    # KUSURLU BAŞLANGIÇ KODU: transfer oranını hesaplamadan boş liste döndürüyor!
     return []
 
 if ai_lab.CALISTIR:
@@ -407,6 +483,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import copy
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_09 as L
@@ -417,8 +494,31 @@ def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("ayrik_adaylari_sec_referans", "arama_izini_ozetle_referans", "transfer_ozeti_referans", "kanit_yaz")):
+for s in ai_lab.kod_denetimi(src, yasak=("ayrik_adaylari_sec_referans", "arama_izini_ozetle_referans", "transfer_ozeti_referans", "kanit_yaz", "getattr")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")
+def ast_denetle(kaynak):
+    try:
+        agac = ast.parse(kaynak)
+    except Exception:
+        return False
+    for dugum in ast.walk(agac):
+        if isinstance(dugum, ast.ImportFrom):
+            if any(a.name == "*" for a in dugum.names):
+                return False
+            if dugum.module and any(x in dugum.module for x in ("referans", "ai_gercek")):
+                return False
+        if isinstance(dugum, ast.Import):
+            if any(any(x in a.name for x in ("referans", "ai_gercek")) for a in dugum.names):
+                return False
+        if isinstance(dugum, ast.Name) and "referans" in dugum.id.lower():
+            return False
+        if isinstance(dugum, ast.Attribute) and "referans" in dugum.attr.lower():
+            return False
+        if isinstance(dugum, ast.Call):
+            if isinstance(dugum.func, ast.Name) and dugum.func.id in ("getattr", "eval", "exec"):
+                return False
+    return True
+ok(ast_denetle(src), "kod referans çözüme doğrudan veya dolaylı erişmemeli")
 if not all(checks):
     stop()
 

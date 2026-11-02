@@ -5,7 +5,15 @@ summary: MCP host, client ve server rollerini ayır; JSON-RPC istek/yanıt korel
 timeout: 45
 ---
 
-::: anlat MCP bağlantısı tek bir güven alanı değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: MCP bağlantısı tek bir güven alanı değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir MCP host (Claude Desktop, IDE, ajan çerçevesi) her server için ayrı bir client bağlantısı açar. stdio ya da HTTP üzerinden JSON-RPC 2.0 ile `initialize`, `tools/list`, `tools/call` gönderir. Modelin seçtiği tool'u kendi politikasıyla onaylar ya da reddeder. MCP Inspector bu mesajları canlı gösterir. | Görev 1–3: `veri/rpc_akisi.json`, `veri/sunucular.json` ve `veri/cagrilar.json` içindeki **sentetik** mesaj akışları, sunucu kayıtları ve çağrılar. Son adım: deneyin başlattığı iki gerçek stdio MCP sunucu süreci, gerçek `tools/list`/`tools/call` ve kurulu yerel sohbet modeli. | Bu ders kimlik doğrulama, HTTP transport, resource, sampling ve elicitation risklerini sınamaz. İki sunucu ve iki istek bir oran vermez. Şema ve onay kapısı, yol ya da nesne bazlı erişim politikası yerine geçmez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde MCP sunucusu, model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız deneyin kendi başlattığı iki yerel MCP sunucu sürecini ve kurulu yerel Ollama modelini kullanır; süreçler ve geçici klasör deney sonunda kapatılır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Model Context Protocol (MCP), bir AI uygulamasının araçları, kaynakları ve istemleri standart mesajlarla keşfetmesini sağlar. Güvenlik açısından ilk adım bileşenleri tek bir “MCP sunucusu” kutusuna sıkıştırmamaktır:
 
 - **Host:** Kullanıcı arayüzünü, modeli ve uygulama politikasını barındırır. Kullanıcının hangi işlemi istediğini ve hangi onayı verdiğini bilen taraf burasıdır.
@@ -30,7 +38,9 @@ print(ilk["jsonrpc"], ilk["method"], ilk["id"])
 print(liste["method"], "params" in liste)
 ```
 
-Bu derste ağ üzerinde gerçek bir MCP server başlatmak yerine önce protokol ve yetki sınırını deterministik mesaj fixture'larıyla ölçeceğiz. Böylece test sonucu harici paket, model veya sunucu durumuna bağlı olmaz. MCP Inspector ile gerçek bir serverı gözlemek ayrı ve isteğe bağlı bir doğrulamadır; fixture, gerçek server davranışının ölçülmüş yerine geçirilmez.
+Görev 1–3'te gerçek bir MCP server başlatmak yerine protokol ve yetki sınırını deterministik mesaj fixture'larıyla ölçeriz; bu görevlerin sonucu harici paket, model veya sunucu durumuna bağlı olmaz. Son adım ise iki gerçek stdio MCP sunucu süreci başlatır ve kurulu yerel modelin ürettiği çağrıları senin kapından geçirir. MCP Inspector ile gerçek bir serverı gözlemek ayrı ve isteğe bağlı bir doğrulamadır; fixture, gerçek server davranışının ölçülmüş yerine geçirilmez.
+
+**Görev 1'de sık tuzaklar:** Yanıtları geliş sırasına göre ilk açık isteğe bağlamak, ters sırada gelen yanıtları yanlış yönteme yazar (`veri/rpc_akisi.json`, `r-01`). `isinstance(kimlik, int)` denetimi `True` değerini kabul eder (`r-06`). İptal bildirimindeki `params.requestId`, mesajı isteğe çevirmez (`r-03`). Çıktıda her akış `doğru` ya da `YANLIŞ` diye işaretlenir.
 :::
 
 ::: tahmin Aynı tool adı kaç farklı hedefe gidiyor?
@@ -83,9 +93,45 @@ Dönüş sözlüğü şu alanları taşısın:
 
 Listeler mesaj sırasını korusun; yalnız `acik` sıralıdır. Yanıt sırasının istek sırasından farklı olması hata değildir.
 
+Görünür veri: `veri/rpc_akisi.json`. Her akışın `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+import json
+from ai_saldiri_veri import json_yukle
+
 def rpc_izle(mesajlar):
-    return {"istekler": [], "yanitlar": [], "bildirimler": [], "acik": []}
+    # KUSURLU BAŞLANGIÇ KODU: yanıtları kimliğe göre değil geliş sırasına göre ilk açık isteğe bağlıyor, jsonrpc sürümünü ve kimlik türünü denetlemiyor (True kimlik geçer), yinelenen açık kimliği ve hiç istenmemiş kimliğe gelen yanıtı reddetmiyor!
+    sonuc = {"istekler": [], "yanitlar": [], "bildirimler": [], "acik": []}
+    bekleyen = []
+    for mesaj in mesajlar:
+        if "method" in mesaj and "id" in mesaj:
+            bekleyen.append((mesaj["id"], mesaj["method"]))
+            sonuc["istekler"].append((mesaj["id"], mesaj["method"]))
+        elif "method" in mesaj:
+            sonuc["bildirimler"].append(mesaj["method"])
+        elif bekleyen:
+            kimlik, yontem = bekleyen.pop(0)
+            sonuc["yanitlar"].append((mesaj.get("id"), yontem))
+    sonuc["acik"] = [kimlik for kimlik, _ in bekleyen]
+    return sonuc
+
+veri = json_yukle("veri/rpc_akisi.json")
+for o in veri["akislar"]:
+    try:
+        sonuc = json.loads(json.dumps(rpc_izle(o["mesajlar"])))
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-01")
 ```
 
 ```test
@@ -173,6 +219,8 @@ uygulama kararı  = kullanıcı onayı + tool izni + argüman/kapsam politikası
 ```
 
 Birden fazla server aynı kısa adı kullandığında sözlüğü yalnız kısa adla kurmak sessizce kayıt ezilmesine yol açabilir. Kanonik referans kullanmak, modelin seçimini doğru bağlantıya bağlamak için gereklidir; fakat tek başına yeterli güvenlik kontrolü değildir.
+
+**Görev 2'de sık tuzaklar:** Sözlüğü kısa adla kurmak, `yerel/read` kaydını `arsiv/read` ile sessizce ezer (`veri/sunucular.json`, `s-01`). Açıklamadaki "GÜVENİLİR, önceden onaylı" ifadesini güven etiketine çevirmek, sunucunun kendi kendine yetki vermesidir. Eksik `inputSchema`'yı `None` bırakmak, sonraki şema denetimini çökertir.
 :::
 
 ::: gorev 2 · Tool kayıtlarını sunucu kapsamında çıkar
@@ -184,9 +232,38 @@ Birden fazla server aynı kısa adı kullandığında sözlüğü yalnız kısa 
 - `guven`, açıklamada ne yazarsa yazsın `"guvenilmez"` olmalı. Metadata'yı güven etiketi üretmek için yorumlama.
 - Girdiyi değiştirme. Farklı serverlardaki aynı kısa adların iki ayrı kayıt olarak kalmasını sağla.
 
+Görünür veri: `veri/sunucular.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def arac_envanteri(sunucular):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kayıtları yalnız kısa tool adıyla tutuyor (aynı ad son sunucuyla ezilir), açıklamasında "güvenilir" ya da "onaylı" geçen aracı guvenilir etiketliyor, eksik inputSchema'yı None bırakıyor ve kimlik/ad denetimi yapmıyor!
+    envanter = {}
+    for sunucu in sunucular:
+        for tool in sunucu.get("tools", []):
+            aciklama = tool.get("description", "")
+            guven = "guvenilir" if any(k in aciklama.lower() for k in ("güvenilir", "onaylı")) else "guvenilmez"
+            envanter[tool["name"]] = {"sunucu": sunucu["id"], "arac": tool["name"], "aciklama": aciklama, "schema": tool.get("inputSchema"), "guven": guven}
+    return envanter
+
+veri = json_yukle("veri/sunucular.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = arac_envanteri(o["sunucular"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-01")
 ```
 
 ```test
@@ -266,7 +343,9 @@ Modelin tool çağrısı üretmesi ile hostun bu çağrıyı çalıştırması a
 
 Onayı yalnız kısa ada vermek, `yerel/read` için alınan onayın `arsiv/read` çağrısına taşınmasına yol açabilir. Şema denetimi de yetki değildir: `/etc/passwd` metin olarak geçerli bir `path` olabilir ama uygulamanın izinli yol politikasına girmeyebilir. Gerçek üretimde buna nesne bazlı kapsam, dosya/ağ hedefi politikası, işlem bazlı onay, kimlik bilgisi ayrımı ve audit kaydı eklenir.
 
-MCP Inspector bir serverın tool listesini ve mesajlarını gözlemek için kullanılabilir. Ancak Inspector'da tool görünmesi, Pafta kullanıcısının o tool'a sınırsız izin verdiği anlamına gelmez. Gerçek Inspector kurulumu ve server başlatılması bu dersin varsayılan fixture testinin parçası değildir; ayrı yetkilendirme ve bağımlılık kapsamıyla yapılır.
+MCP Inspector bir serverın tool listesini ve mesajlarını gözlemek için kullanılabilir. Ancak Inspector'da tool görünmesi, Pafta kullanıcısının o tool'a sınırsız izin verdiği anlamına gelmez. Gerçek Inspector kurulumu bu dersin parçası değildir; ayrı yetkilendirme ve bağımlılık kapsamıyla yapılır. Son adımdaki iki sunucu ise Inspector olmadan, deneyin kendi süreçleri olarak başlatılır.
+
+**Görev 3'te sık tuzaklar:** Onayı kısa adla eşleştirmek, `yerel/read` onayını `arsiv/read`'e taşır (`veri/cagrilar.json`, `c-02`). `isinstance(deger, int)` `True` değerini integer sayar (`c-05`). Bilinmeyen türü "tanımıyorum, geçsin" diye kabul etmek fail-open'dır (`c-08`). `c-07` şemaya uyduğu için izinlidir; bu, şema denetiminin yol politikası yerine geçmediğini gösterir.
 :::
 
 ::: gorev 3 · Kanonik onay ve inputSchema sözleşmesini uygula
@@ -280,9 +359,48 @@ MCP Inspector bir serverın tool listesini ve mesajlarını gözlemek için kull
 - Bilinmeyen bir JSON Schema `type` değeri veya geçersiz şema alanı `(False, "schema-hatasi")` sayılır.
 - Bütün koşullar sağlanırsa `(True, "izinli")` dön. Çağrıyı çalıştırma; yalnız karar ver ve girdileri değiştirme.
 
+Görünür veri: `veri/cagrilar.json`. Dosyada envanter, onay listesi ve beklenen `[karar, neden]` çiftleri vardır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def cagri_denetle(cagri, envanter, onay):
+    # KUSURLU BAŞLANGIÇ KODU: onayı kısa tool adıyla eşleştiriyor (yerel/read onayı arsiv/read'e taşınır), isinstance(deger, int) ile bool'u sayı kabul ediyor, additionalProperties'i ve bilinmeyen şema türlerini yok sayıyor!
+    ref = cagri.get("ref")
+    if ref not in envanter:
+        return False, "bilinmeyen-arac"
+    kisa = ref.split("/")[-1]
+    if not any(o.split("/")[-1] == kisa for o in onay):
+        return False, "kullanici-onayi-yok"
+    arguments = cagri.get("arguments")
+    if not isinstance(arguments, dict):
+        return False, "schema-hatasi"
+    schema = envanter[ref].get("schema") or {}
+    for ad in schema.get("required", []):
+        if ad not in arguments:
+            return False, "schema-hatasi"
+    turler = {"string": str, "boolean": bool, "integer": int, "number": (int, float), "object": dict, "array": list}
+    for ad, deger in arguments.items():
+        tip = schema.get("properties", {}).get(ad, {}).get("type")
+        if tip in turler and not isinstance(deger, turler[tip]):
+            return False, "schema-hatasi"
     return True, "izinli"
+
+veri = json_yukle("veri/cagrilar.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = list(cagri_denetle(o["cagri"], veri["envanter"], set(veri["onay"])))
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"], sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-01")
 ```
 
 ```test
@@ -429,9 +547,35 @@ timeout: 300
 import ai_lab
 
 def arac_envanteri(sunucular):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kayıtları yalnız kısa tool adıyla tutuyor (aynı ad son sunucuyla ezilir), açıklamasında "güvenilir" ya da "onaylı" geçen aracı guvenilir etiketliyor, eksik inputSchema'yı None bırakıyor ve kimlik/ad denetimi yapmıyor!
+    envanter = {}
+    for sunucu in sunucular:
+        for tool in sunucu.get("tools", []):
+            aciklama = tool.get("description", "")
+            guven = "guvenilir" if any(k in aciklama.lower() for k in ("güvenilir", "onaylı")) else "guvenilmez"
+            envanter[tool["name"]] = {"sunucu": sunucu["id"], "arac": tool["name"], "aciklama": aciklama, "schema": tool.get("inputSchema"), "guven": guven}
+    return envanter
 
 def cagri_denetle(cagri, envanter, onay):
+    # KUSURLU BAŞLANGIÇ KODU: onayı kısa tool adıyla eşleştiriyor (yerel/read onayı arsiv/read'e taşınır), isinstance(deger, int) ile bool'u sayı kabul ediyor, additionalProperties'i ve bilinmeyen şema türlerini yok sayıyor!
+    ref = cagri.get("ref")
+    if ref not in envanter:
+        return False, "bilinmeyen-arac"
+    kisa = ref.split("/")[-1]
+    if not any(o.split("/")[-1] == kisa for o in onay):
+        return False, "kullanici-onayi-yok"
+    arguments = cagri.get("arguments")
+    if not isinstance(arguments, dict):
+        return False, "schema-hatasi"
+    schema = envanter[ref].get("schema") or {}
+    for ad in schema.get("required", []):
+        if ad not in arguments:
+            return False, "schema-hatasi"
+    turler = {"string": str, "boolean": bool, "integer": int, "number": (int, float), "object": dict, "array": list}
+    for ad, deger in arguments.items():
+        tip = schema.get("properties", {}).get(ad, {}).get("type")
+        if tip in turler and not isinstance(deger, turler[tip]):
+            return False, "schema-hatasi"
     return True, "izinli"
 
 if ai_lab.CALISTIR:
@@ -446,8 +590,19 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans_envanter", "referans_denetle", "getattr", "McpSunucu"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı " + ", ".join(sorun))
+import ast
+_yasak = ("referans_envanter", "referans_denetle", "getattr", "McpSunucu", "kanit_yaz")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+sorun = sorted(set(sorun))
+if not kontrol(not sorun, "laboratuvar yamalanmamalı, referans işlevler çağrılmamalı " + ", ".join(sorun)):
+    stop()
 env_fn = need("arac_envanteri")
 den_fn = need("cagri_denetle")
 from sandbox import ai_gercek_ai_saldiri_01 as D

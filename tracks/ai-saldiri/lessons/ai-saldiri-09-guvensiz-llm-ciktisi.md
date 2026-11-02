@@ -5,7 +5,15 @@ summary: Model çıktısındaki HTML ve Markdown bağlantılarını güvenilmeye
 timeout: 45
 ---
 
-::: anlat Model çıktısı da güvenilmeyen girdidir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Model çıktısı da güvenilmeyen girdidir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir uygulamada model yanıtı bir sohbet arayüzünde, e-posta önizlemesinde ya da bir Markdown görüntüleyicide render edilir. Burp Suite ya da tarayıcı geliştirici araçları, yanıttaki `<img onerror>` veya `javascript:` bağlantısının DOM'a nasıl girdiğini gösterir. DOMPurify ve bleach gibi sanitizer'lar ile CSP bu yüzeyi daraltır. | Görev 1–3: `veri/html_ornekleri.json`, `veri/url_ornekleri.json` ve `veri/markdown_ornekleri.json` içindeki **sentetik** model çıktıları. Son adım: kurulu yerel Ollama modelinden iki gerçek yanıt ve Python'un gerçek `HTMLParser` ile yapılan etiket ölçümü. | Tarayıcı açılmaz ve JavaScript çalıştırılmaz. `HTMLParser`'ın etiket bulması, bir tarayıcıda XSS çalıştığını kanıtlamaz. Dersin Markdown dönüştürücüsü genel bir Markdown motoru değildir. URL kabulü SSRF koruması değildir. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, tarayıcı ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve deneyin kendi geçici klasörünü kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın düzenlenebilir örnek dosyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Bir metni model üretmiş olması onu HTML, Markdown veya URL bağlamında güvenli yapmaz. Model; kullanıcı girdisini, web belgesini veya araç çıktısını yanıtına aynen taşıyabilir. `<script>` gibi bir etiket, olay işleyici özellik veya `javascript:` bağlantısı da model çıktısında bulunabilir.
 
 Güvenli işleme, çıktının gideceği **sink** bağlamına göre yapılır:
@@ -23,7 +31,9 @@ print(guvenli)
 print("<script>" in guvenli, "&lt;img" in guvenli)
 ```
 
-Kaçış uygulamak içeriği anlamsal olarak zararsız veya doğru yapmaz; yalnız belirtilen HTML metin/attribute karakterlerinin markup olarak yorumlanmasını önler. Bu ders tarayıcı açmaz ve Burp Suite gerektirmez; dönüşüm sözleşmesini standart Python fixture'larıyla test eder.
+Kaçış uygulamak içeriği anlamsal olarak zararsız veya doğru yapmaz; yalnız belirtilen HTML metin/attribute karakterlerinin markup olarak yorumlanmasını önler. Bu ders tarayıcı açmaz ve Burp Suite gerektirmez. Görev 1–3 dönüşüm sözleşmesini sentetik Python fixture'larıyla test eder. Son adım gerçek yerel model yanıtlarını gerçek bir HTML ayrıştırıcısından geçirir; JavaScript yine çalıştırılmaz.
+
+**Sık tuzaklar:** Elle yazılmış bir `replace` zinciri, `&` karakterini en sona bırakırsa önce ürettiği `&lt;` dizisini de bozar (`&amp;lt;`). Tek tırnağı unutursa `title='...'` gibi bir attribute'un dışına çıkılabilir (`veri/html_ornekleri.json`, `h-01`, `h-04`). Önceden kaçışlanmış görünen metni "zaten güvenli" sanıp atlamak da yanlıştır. İşlev her zaman ham girdiyi bir kez kodlar (`h-03`).
 :::
 
 ::: tahmin
@@ -54,9 +64,33 @@ False
 
 Çift kaçış yapmaya çalışma: işlev her çağrıda kendisine verilen ham metni bir kez kodlar. Daha önce kaçışlanmış metin tekrar verilirse `&` karakterinin yeniden kodlanması beklenen davranıştır.
 
+Görünür veri: `veri/html_ornekleri.json`. Beklenen çıktılar README tablosundadır. Üç bozuk girdi `ValueError` almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def html_guvenli(metin):
-    return metin
+    # KUSURLU BAŞLANGIÇ KODU: kaçışı elle ve yanlış sırayla yapıyor (& en son kodlanınca &lt; bozulur), tek tırnağı kaçırmıyor ve string olmayan girdiyi str() ile kabul ediyor!
+    metin = str(metin)
+    return metin.replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace("&", "&amp;")
+
+veri = json_yukle("veri/html_ornekleri.json")
+for o in veri["ornekler"]:
+    print(o["id"], repr(html_guvenli(o["metin"])))
+for b in veri["bozuk_girdiler"]:
+    try:
+        html_guvenli(b)
+        print(repr(b), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(b), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-09")
 ```
 
 ```test
@@ -109,6 +143,8 @@ def html_guvenli(metin):
 `javascript:` ve `data:` şemaları istemcide aktif içerik çalıştırabilir; bu nedenle Markdown bağlantısına izin verilen şemalar açıkça sınırlanır. `http` ve `https` için de yalnız öneki aramak yetmez: `https://` benzeri metin taşıyan kullanıcı bilgisi, eksik alan adı, kontrol karakterleri veya ayrıştırıcı farklılıkları denetlenmelidir.
 
 Bu dersin dar URL sözleşmesinde kontrol/boşluk karakteri ve ters eğik çizgi reddedilir, şema `http` veya `https`, hostname zorunlu, kullanıcı adı/parola yasaktır. Bu politika XSS yüzeyini daraltır; hedef sunucunun güvenli olduğunu veya SSRF yapılamayacağını göstermez. Ağ bağlantısı güvenliği `ai-saldiri-21` dersindeki ayrı kontrolleri gerektirir.
+
+`veri/url_ornekleri.json` içinde "https:// ile başlıyor" kontrolünü geçen ama politikaya uymayan beş adres vardır: kullanıcı bilgisi taşıyan, host'u boş olan, geçersiz portlu, boşluk ve sekme içeren adresler. `JaVaScRiPt:` gibi karışık harfli bir şema ise küçük harfe çevrilmeden yapılan kara liste kontrolünü atlatır. Bu yüzden izin listesi, ayrıştırılmış `scheme` üzerinde kurulur.
 :::
 
 ::: gorev 2 · Markdown hedefinde kullanılabilir URL'yi doğrula
@@ -121,9 +157,36 @@ Bu dersin dar URL sözleşmesinde kontrol/boşluk karakteri ve ters eğik çizgi
 
 Şema karşılaştırması büyük/küçük harf duyarsızdır. URL'de sorgu ve fragment bulunabilir. Bu işlev ağ isteği yapmaz ve hedefin iç ağda olup olmadığını değerlendirmez.
 
+Görünür veri: `veri/url_ornekleri.json`. On iki adresten yalnız ilk ikisi aynen dönmelidir. İki bozuk girdi `ValueError` almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def url_guvenli(url):
+    # KUSURLU BAŞLANGIÇ KODU: yalnız öneke bakıyor (kullanıcı bilgisi, boş host, geçersiz port, boşluk ve sekme geçer) ve string olmayan girdide ValueError yerine None dönüyor!
+    if not isinstance(url, str):
+        return None
+    if url.lower().startswith(("http://", "https://")):
+        return url
     return None
+
+veri = json_yukle("veri/url_ornekleri.json")
+for u in veri["urller"]:
+    print(repr(u), "→", repr(url_guvenli(u)))
+for b in veri["bozuk_girdiler"]:
+    try:
+        url_guvenli(b)
+        print(repr(b), "ValueError yerine sessizce döndü (yanlış)")
+    except ValueError as hata:
+        print(repr(b), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-09")
 ```
 
 ```test
@@ -208,9 +271,40 @@ Algoritma özgün metindeki sınırlı bağlantıları bulur; güvenli URL'yi ko
 
 Dönüşümün sonunda bütün metne `html.escape(..., quote=True)` uygula. Böylece ham HTML, bağlantı metni ve dışarıdaki karakterler kaçışlanır. Yeni satır taşıyan veya sözleşmeye uymayan bağlantı biçimlerini ayrıştırmaya çalışma; onlar da HTML açısından kaçışlanmış düz metin kalır.
 
+Görünür veri: `veri/markdown_ornekleri.json`. Beklenen çıktılar README tablosundadır. Sonuçta hiçbir ham `<` karakteri ya da güvensiz hedef kalmamalıdır. İki bozuk girdi `ValueError` almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
+import re
+
 def markdown_guvenli(metin):
-    return metin
+    # KUSURLU BAŞLANGIÇ KODU: bağlantı hedefini yalnız önekle denetliyor ve sonuca HTML kaçışı uygulamıyor (ham <img onerror> ve <script> metni sink'e aynen gider)!
+    def degistir(eslesme):
+        gorunen, hedef = eslesme.group(1), eslesme.group(2)
+        if hedef.lower().startswith(("http://", "https://")):
+            return eslesme.group(0)
+        return gorunen
+    return re.sub(r"\[([^\]\n]*)\]\(([^)\s]+)\)", degistir, str(metin))
+
+veri = json_yukle("veri/markdown_ornekleri.json")
+for o in veri["ornekler"]:
+    sonuc = markdown_guvenli(o["metin"])
+    print(o["id"], repr(sonuc), "HAM <" if "<" in sonuc else "")
+for b in veri["bozuk_girdiler"]:
+    try:
+        markdown_guvenli(b)
+        print(repr(b), "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(repr(b), "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-09")
 ```
 
 ```test
@@ -309,11 +403,29 @@ timeout: 300
 ```starter
 import ai_lab
 
-def html_guvenli(metin):return metin
+def html_guvenli(metin):
+    # KUSURLU BAŞLANGIÇ KODU: kaçışı elle ve yanlış sırayla yapıyor (& en son kodlanınca &lt; bozulur), tek tırnağı kaçırmıyor ve string olmayan girdiyi str() ile kabul ediyor!
+    metin = str(metin)
+    return metin.replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;").replace("&", "&amp;")
 
-def url_guvenli(url):return None
+def url_guvenli(url):
+    # KUSURLU BAŞLANGIÇ KODU: yalnız öneke bakıyor (kullanıcı bilgisi, boş host, geçersiz port, boşluk ve sekme geçer) ve string olmayan girdide ValueError yerine None dönüyor!
+    if not isinstance(url, str):
+        return None
+    if url.lower().startswith(("http://", "https://")):
+        return url
+    return None
 
-def markdown_guvenli(metin):return metin
+import re
+
+def markdown_guvenli(metin):
+    # KUSURLU BAŞLANGIÇ KODU: bağlantı hedefini yalnız önekle denetliyor ve sonuca HTML kaçışı uygulamıyor (ham <img onerror> ve <script> metni sink'e aynen gider)!
+    def degistir(eslesme):
+        gorunen, hedef = eslesme.group(1), eslesme.group(2)
+        if hedef.lower().startswith(("http://", "https://")):
+            return eslesme.group(0)
+        return gorunen
+    return re.sub(r"\[([^\]\n]*)\]\(([^)\s]+)\)", degistir, str(metin))
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_09 as deney
@@ -436,7 +548,14 @@ for ad, mutant in [("çıktıyı doğrudan HTML sayan", m_dogrudan), ("tehlikeli
 from sandbox import ai_gercek_ai_saldiri_09 as deney
 import html, secrets, tempfile
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('url_referans','markdown_referans','_sink')), 'laboratuvar/referanslar yamalanmamalı'):stop()
+import ast
+_yasak=('url_referans','markdown_referans','_sink','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/referanslar yamalanmamalı, referans kullanılmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 for i in range(5):
     marker=secrets.token_hex(4)
     raw='<b data-x="'+marker+'">'+marker+"</b> & '\""

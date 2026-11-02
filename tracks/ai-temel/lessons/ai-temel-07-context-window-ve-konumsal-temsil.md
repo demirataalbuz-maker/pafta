@@ -6,12 +6,34 @@ timeout: 45
 ---
 
 ::: anlat Bağlam penceresi sınırlı bir bütçedir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Tokenizer metni kimliklere ayırır; model sınırlı bir diziyi işler | İlk üç görev sentetik JSON, final kurulu SmolLM2 tokenizer ve gerçek ileri hesap | Hazır uzunluklar gerçek tokenizer ölçümü değildir |
+| Bağlam kırpılması eski bilgiyi kaldırabilir | Kesintisiz son parça seçimi ve modele gönderilen konumların gözlenmesi | Kısa deney tam pencere kapasitesini, güvenlik başarısını veya uzun bağlam kalitesini kanıtlamaz |
+
+> [!NOT]
+> `veri/baglam.json` elle hazırlanmış sentetik örnektir; sunucu kaydı değildir. İlk üç görev aynı dosyayı okur. Her Çalıştır/Kontrol geçici bir veri/ kopyası kurar; değişiklikler sonraki çalıştırmaya taşınmaz. Kaynak dosyayı kendi editöründe açabilir veya yüklenen sözlüğü ders kodunda değiştirip Çalıştır ile deneyebilirsin. Gizli testler bu dosyadan bağımsızdır. Final önceden kurulu yerel modeli çalıştırır; yeni indirme veya kalıcı sunucu açmaz.
+
 Modele aynı anda sunulan token sayısı sınırlıdır. Bütçe dolunca eski mesajlar kırpılabilir; kırpma yalnız metni değil, güvenlik talimatlarını ve kanıtları da kapsam dışında bırakabilir. Bu yüzden hangi mesajların kaldığı açıkça ölçülmelidir.
 
-Bu derste Transformers modeli açılmaz. Mesaj uzunlukları hazır sayılardır. Sondan başlayarak sığan ardışık mesajlar seçilir; sığmayan ilk eski mesajda durulur. Böylece bağlam her zaman özgün dizinin kesintisiz bir son parçasıdır.
+İlk üç görevde model açılmaz ve mesaj uzunlukları hazır sayılardır; son görevde kurulu Transformers modeli gerçekten çalıştırılır. Sondan başlayarak sığan ardışık mesajlar seçilir; sığmayan ilk eski mesajda durulur. Böylece bağlam her zaman özgün dizinin kesintisiz bir son parçasıdır.
 :::
 
 ::: anlat Konum bilgisi sırayı temsil eder
+
+Önce aynı ham dosyayı oku. tokenlar alanı okunabilir etiketlerden oluşur; gerçek token kimlikleri veya sözcük sınırları olduğunu varsayma. sinir alanını değiştirip ilk görevi Çalıştır: eski başı almakla güncel sonu almak arasındaki fark doğrudan görünür. Kırpılmış liste özgün sırayı korumalıdır. Liste zaten sınıra sığıyorsa bile yeni bir kopya dönmelidir; bir çıktıyı düzenlemek sonraki işleme giden kaynak veriyi sessizce değiştirmemelidir. Negatif dilim sınırları yararlıdır ama Python'da sıfır sınırı bütün listeyi seçebilir. Bu yüzden tür ve aralık doğrulaması dilimlemeden önce gelir. Bool değerinin Python'da int alt sınıfı olması da sınır kontrolünde özellikle ele alınır.
+
+İkinci görev dosyadaki pozisyonlar listesinden yararlanır. Sıfır konumu sıfır vektör değildir: sinüs sıfır, kosinüs birdir. İki kanalı aynı fonksiyondan üretmek veya konumu bir artırmak tabloyu bozabilir. Sonuçları altı ondalığa yuvarlamak bu küçük görevin sözleşmesidir; gerçek modelin bütün konumsal temsillerinin böyle yuvarlandığı anlamına gelmez. Bu iki bileşen klasik sinüzoidal temsilin ilk frekans çiftidir. Modern model başka bir yöntem kullanabilir; finalde modeli bu oyuncak sinüs tablosuyla değiştirmiyoruz. Öğrenci yalnız token dizisine uygun position_ids üretip modelin kendi mekanizmasına gönderir.
+
+Üçüncü görevde dosyadaki mesajlar ve butce alanlarını birlikte incele. Mesaj uzunluğu burada önceden verilmiş sentetik maliyettir. System rolü sayısal bütçeden muaf değildir. En yeni mesaj sığmıyorsa seçilen liste boş kalabilir. Ortadaki büyük bir mesaj sığmayınca daha eski küçük mesajı seçmek, kesintisiz son parça kuralını bozar. Bu yüzden continue ile atlamak yerine ilk aşımda break gerekir. Dosyadaki aralik_ornegi tam bu tuzağı gösterir: son küçük mesaj sığar, ortadaki büyük mesaj sığmaz, en eski küçük mesaj artık aranmaz. Gerçek ürünlerin farklı seçim politikaları olabilir; burada açıkça tanımlanan tek politika ölçülür.
+
+Güvenlik bakımından düşen listesi kayıp talimatları görünür kılar. Bir saldırgan çok miktarda içerikle önceki kısıtları pencere dışına itmeye çalışabilir. Fakat system mesajının listede kalması tek başına itaat veya enjeksiyon direnci kanıtı değildir. Sadece en son mesaja güvenmek de belge içindeki düşük güvenli talimatı yetkili kılmaz. Bu ders saldırının başarı oranını ölçmez; uygulamanın hangi bilgiyi modele gerçekten taşıdığını gözler. Korunması gereken kurallar ve kaynak yetkileri için ayrıca uygulama politikası gerekir. Uzunluk alanına güvenmek yerine üretimde aynı tokenizer ile ölçmek, sohbet şablonu ve çıktı için ayrılacak bütçeyi hesaba katmak gerekir; ilk üç oyuncak görev bu ayrıntıları içermez.
+
+Final metni olduğu gibi tokenize eder. Baştaki boşluğu silmek veya sözcüklere bölmek gerçek kimlikleri değiştirebilir. Tokenların son kısmı seçilir, yeni kısa dizide konumlar sıfırdan başlar ve önbellek kapalı bir ileri hesap yapılır. Bu tercih daha önceki KV cache veya mutlak konum devamlılığını taklit etmez. Modelin config sınırı ayrıca raporlanır; 32 tokenlık laboratuvar sınırını modelin bütün kapasitesi sanma. Bir token, tam 32 token, sığan metin ve kırpılan metin ayrı durumlardır. Çıktıdaki düşen sayı tam token sayısından hesaplanır, görünen karakter sayısından değil.
+
+Logitler olasılık değildir: son konumda sonraki token adaylarına verilen ham sayılardır. Rapordaki ilk sekiz logit sözlük indeksleri sıfırdan yediye aittir; en olası sekiz aday anlamına gelmez. en_olasi_id bütün sözlüğün argmax değeridir. Aynı raporu döndürüp modele başka tokenlar vermek geçerli çözüm değildir; test gerçek forward çağrısının kimliklerini, position_ids değerlerini, use_cache ayarını ve no_grad durumunu gözler. Kanıt özgün girdileri, ayarları, model sürümünü, cihazı ve gerçek sonuçları tutar. Çalıştır keşif kaydı üretir, kabul vermez. Kontrol bütün koşullar sağlanırsa kabul kaydeder. Yerel model eksikse hata görünür ve görev geçmez; ders indirme başlatmaz.
+
 Transformer token sırasını doğrudan bilmez; konumsal temsil bu bilgiyi ekler. Sinüzoidal kodlama farklı frekanslarda sinüs ve kosinüs değerleri kullanır. Biz iki boyutlu, sabit tabanlı küçük bir sürüm kullanacağız.
 
 Konumsal vektör tokenın anlamını tek başına taşımaz. Ayrıca modern modeller farklı konum yöntemleri kullanabilir; buradaki amaç sıra ve pencere kavramlarını deterministik olarak sınamaktır.
@@ -44,17 +66,38 @@ print(sum(uzunluklar[1:]))
 
 Son `sinir` tokenı özgün sırayla yeni listede döndür. Sınır mevcut uzunluktan büyükse bütün listeyi kopyala; girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-07")
+```
+
 ```starter
+from ai_temel_veri import json_yukle,metin_yukle
+
 def pencere_kirp(tokenlar, sinir):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: son pencere yerine en eski tokenları korur.
+    return list(tokenlar[:sinir])
+
+v=json_yukle("veri/baglam.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/baglam.json"))
+print("Pencere:",pencere_kirp(v["tokenlar"],v["sinir"]))
 ```
 
 ```test
+import copy
 T = ["a", "b", "c", "d"]
 def sozlesme(fn):
     try:
         if fn(T, 2) != ["c", "d"] or fn(T, 4) != T or fn(T, 8) != T or fn(T, 1) != ["d"]:
             return False
+        if fn(["a"]*8, 1)!=["a"] or fn(["z"],8)!=["z"]:
+            return False
+        once=list(T)
+        fn(T,2)
+        if T!=once:return False
         sonuc = fn(T, 4)
         sonuc[0] = "x"
         if T[0] != "a" or fn(["a"], 1) != ["a"] or fn(["a"] * 8, 8) != ["a"] * 8:
@@ -80,12 +123,18 @@ for ad, mutant in [("sırayı bozan", m_token), ("sınırı bozan", m_sinir), ("
 ```
 
 ```solution
+from ai_temel_veri import json_yukle,metin_yukle
+
 def pencere_kirp(tokenlar, sinir):
     if not isinstance(tokenlar, list) or not 1 <= len(tokenlar) <= 8 or any(not isinstance(x, str) or not x for x in tokenlar):
         raise ValueError("tokenlar geçersiz")
     if not isinstance(sinir, int) or isinstance(sinir, bool) or not 1 <= sinir <= 8:
         raise ValueError("sınır geçersiz")
     return list(tokenlar[-sinir:])
+
+v=json_yukle("veri/baglam.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/baglam.json"))
+print("Pencere:",pencere_kirp(v["tokenlar"],v["sinir"]))
 ```
 
 ```hint
@@ -98,9 +147,24 @@ Negatif dilim başlangıcı `tokenlar[-sinir:]` son öğeleri özgün sırayla v
 
 `[sin(pozisyon), cos(pozisyon)]` değerlerini altı ondalığa yuvarlayarak döndür. Bu küçük fixture, sinüzoidal kodlamanın ilk iki boyutunu temsil eder.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-07")
+```
+
 ```starter
+from ai_temel_veri import json_yukle,metin_yukle
+
 def konum_vektoru(pozisyon):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: kosinüs kanalı yerine sinüsü ikinci kez kullanır.
+    import math
+    return [round(math.sin(pozisyon),6),round(math.sin(pozisyon),6)]
+
+v=json_yukle("veri/baglam.json")
+print("Sentetik konumlar:",[(p,konum_vektoru(p)) for p in v["pozisyonlar"]])
 ```
 
 ```test
@@ -108,6 +172,9 @@ def sozlesme(fn):
     try:
         if fn(0) != [0.0, 1.0] or fn(1) != [0.841471, 0.540302] or fn(127) != [0.97263, 0.232359]:
             return False
+        import math
+        for p in [2,64,126]:
+            if fn(p)!=[round(math.sin(p),6),round(math.cos(p),6)]:return False
         for deger in [None, True, 1.0, -1, 128]:
             try:
                 fn(deger)
@@ -127,11 +194,16 @@ for ad, mutant in [("pozisyonu kaydıran", m_pozisyon), ("sabit konum", m_sabit)
 ```
 
 ```solution
+from ai_temel_veri import json_yukle,metin_yukle
+
 def konum_vektoru(pozisyon):
     import math
     if not isinstance(pozisyon, int) or isinstance(pozisyon, bool) or not 0 <= pozisyon < 128:
         raise ValueError("pozisyon geçersiz")
     return [round(math.sin(pozisyon), 6), round(math.cos(pozisyon), 6)]
+
+v=json_yukle("veri/baglam.json")
+print("Sentetik konumlar:",[(p,konum_vektoru(p)) for p in v["pozisyonlar"]])
 ```
 
 ```hint
@@ -144,12 +216,35 @@ Aynı pozisyonu `math.sin` ve `math.cos` işlevlerine verip iki sonucu ayrı yuv
 
 Sondan başa doğru mesajları toplam uzunluk bütçeyi aşmadan ekle. Sığmayan ilk mesajda dur. `{"secilen":[...],"dusen":[...]}` döndür; her iki kimlik listesi de özgün mesaj sırasındadır. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-07")
+```
+
 ```starter
-def baglam_sec(mesajlar, butce):
-    return {}
+from ai_temel_veri import json_yukle,metin_yukle
+
+def baglam_sec(mesajlar,butce):
+    # KUSURLU BAŞLANGIÇ KODU: sığmayan mesajı atlayıp daha eskilere gider; ardışıklık bozulur.
+    secilen=[]
+    kalan=butce
+    for m in reversed(mesajlar):
+        if m["uzunluk"] > kalan:
+            continue
+        secilen.insert(0,m["id"])
+        kalan-=m["uzunluk"]
+    return {"secilen":secilen,"dusen":[m["id"] for m in mesajlar if m["id"] not in secilen]}
+
+v=json_yukle("veri/baglam.json")
+print("Sentetik mesaj raporu:",baglam_sec(v["mesajlar"],v["butce"]))
+print("Aralık tuzağı:",baglam_sec(v["aralik_ornegi"]["mesajlar"],v["aralik_ornegi"]["butce"]))
 ```
 
 ```test
+import copy
 M = [{"id": "s", "rol": "system", "uzunluk": 4}, {"id": "a", "rol": "user", "uzunluk": 3}, {"id": "b", "rol": "user", "uzunluk": 2}]
 def sozlesme(fn):
     try:
@@ -157,6 +252,11 @@ def sozlesme(fn):
             return False
         if fn(M, 2) != {"secilen": ["b"], "dusen": ["s", "a"]} or fn(M, 1) != {"secilen": [], "dusen": ["s", "a", "b"]} or fn(M, 16) != {"secilen": ["s", "a", "b"], "dusen": []}:
             return False
+        once=copy.deepcopy(M)
+        fn(M,5)
+        if M!=once:return False
+        trou=[{"id":"old","rol":"system","uzunluk":1},{"id":"big","rol":"user","uzunluk":8},{"id":"new","rol":"user","uzunluk":1}]
+        if fn(trou,2)!={"secilen":["new"],"dusen":["old","big"]}:return False
         tek = {"id": "t", "rol": "user", "uzunluk": 1}
         sekiz = [dict(tek, id=str(i), uzunluk=1) for i in range(8)]
         if fn([tek], 1) != {"secilen": ["t"], "dusen": []} or fn([dict(tek, uzunluk=8)], 8)["secilen"] != ["t"] or len(fn(sekiz, 16)["secilen"]) != 8:
@@ -182,6 +282,8 @@ for ad, mutant in [("mesajları bozan", m_mesaj), ("bütçeyi bozan", m_butce), 
 ```
 
 ```solution
+from ai_temel_veri import json_yukle,metin_yukle
+
 def baglam_sec(mesajlar, butce):
     if not isinstance(mesajlar, list) or not 1 <= len(mesajlar) <= 8:
         raise ValueError("mesaj listesi geçersiz")
@@ -202,6 +304,10 @@ def baglam_sec(mesajlar, butce):
         toplam += m["uzunluk"]
     secilen.reverse()
     return {"secilen": secilen, "dusen": [m["id"] for m in mesajlar if m["id"] not in secilen]}
+
+v=json_yukle("veri/baglam.json")
+print("Sentetik mesaj raporu:",baglam_sec(v["mesajlar"],v["butce"]))
+print("Aralık tuzağı:",baglam_sec(v["aralik_ornegi"]["mesajlar"],v["aralik_ornegi"]["butce"]))
 ```
 
 ```hint
@@ -241,8 +347,8 @@ def gercek_baglam_raporu(metin, butce):
     return {}
 
 if ai_lab.CALISTIR:
-    for b in [2, 8]:
-        print(gercek_baglam_raporu("The old instruction was removed; the latest note is green.", b))
+    from sandbox.ai_gercek_ai_temel_07 import goster
+    goster(gercek_baglam_raporu)
 ```
 
 ```test
@@ -254,7 +360,17 @@ sonuclar = []
 def kontrol(c, mesaj):
     sonuclar.append(bool(c))
     return ok(c, mesaj)
-kontrol(not ai_lab.kod_denetimi(src), "laboratuvar yamalanmamalı")
+import ast
+yasak=("referans", "getattr", "kanit_yaz")
+ihlal=ai_lab.kod_denetimi(src,yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in node.names):
+            ihlal.append("kendi raporunu yaz; referans ithali yasak")
+except SyntaxError:
+    ihlal.append("sözdizimi")
+kontrol(not ihlal,"Kendi bağlam hesabını yaz; referans ve kanıt yordamı çağrılamaz")
+if ihlal:stop()
 fn = need("gercek_baglam_raporu")
 try:
     import torch
@@ -267,7 +383,7 @@ rng = random.SystemRandom()
 metinler = ["The original rule is blue. The latest note is green.",
             "  İstanbul is a city; a model reads tokens, not words.",
             "A " + str(rng.randrange(1000,9999)) + " " + rng.choice(["river", "forest", "city"]) + " message with a final word."]
-ayarlar = [(metinler[0], 1), (metinler[0], 4), (metinler[1], 8), (metinler[2], 32)]
+ayarlar = [(metinler[0], 1), (metinler[0], 4), (metinler[1], 8), (metinler[2], 32), (" the"*40,32)]
 
 def hesap(m, b, bas=False, ters=False, ilk=False, sifir=False):
     tum = tok(m, add_special_tokens=False)["input_ids"]
@@ -303,7 +419,7 @@ def sozlesme(f):
                 pos = kwargs.get("position_ids")
                 cagrilar.append({"ids": ids.detach().tolist() if isinstance(ids,torch.Tensor) else None,
                                  "konumlar": pos.detach().tolist() if isinstance(pos,torch.Tensor) else None,
-                                 "use_cache": kwargs.get("use_cache")})
+                                 "use_cache": kwargs.get("use_cache"),"grad_acik":torch.is_grad_enabled()})
             handle=model.register_forward_pre_hook(izle, with_kwargs=True)
             try:
                 a=f(m,b)
@@ -311,7 +427,7 @@ def sozlesme(f):
                 handle.remove()
             if not ayni(a,ref):
                 return False
-            hedef={"ids":[ref["token_idleri"]],"konumlar":[ref["konumlar"]],"use_cache":False}
+            hedef={"ids":[ref["token_idleri"]],"konumlar":[ref["konumlar"]],"use_cache":False,"grad_acik":False}
             if hedef not in cagrilar:
                 return False
         for args in [("",1),("   ",1),(None,1),(True,1),("hi",0),("hi",33),("hi",True),("hi",1.0)]:
@@ -376,8 +492,8 @@ def gercek_baglam_raporu(metin, butce):
             "ornek_logitler":logits[:8].tolist()}
 
 if ai_lab.CALISTIR:
-    for b in [2,8]:
-        print(gercek_baglam_raporu("The old instruction was removed; the latest note is green.",b))
+    from sandbox.ai_gercek_ai_temel_07 import goster
+    goster(gercek_baglam_raporu)
 ```
 
 ```hint

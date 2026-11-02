@@ -6,14 +6,39 @@ timeout: 45
 ---
 
 ::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Etiket değişiminin yönü önemlidir
-Rastgele etiket gürültüsü farklı sınıflar arasında dağılabilir; hedefli değişiklikler belirli bir hedef sınıfta yoğunlaşabilir. Bu nedenle yalnız değişen etiket oranını değil, hangi eski etiketten hangi yeni etikete geçildiğini de saymak gerekir. Yoğunlaşma tek başına zehirleme kanıtı değildir.
+Eğitim kümelerindeki veri bozulmaları her zaman kasıtlı bir saldırıdan kaynaklanmaz. İnsan etiketleyicilerin yorgunluğu, belirsiz sınır örnekleri veya sensör hataları veri kümesine **rastgele etiket gürültüsü (`random label noise`)** sokabilir. Rastgele gürültüde etiket geçişleri sınıflar arasında homojen ve yönsüz olarak dağılır. Buna karşılık bir saldırganın gerçekleştirdiği **hedefli etiket zehirlemesi (`targeted label flipping`)**, modelin yalnızca belirli bir hedef sınıfı (ör. kötü amaçlı yazılım sınıfı `2`) zararsız sınıfa (`0`) karıştırmasını sağlamak için tek yönlü olarak kurgulanır.
 
-| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+Bu nedenle güvence analizinde yalnız değişen etiket oranını değil, hangi eski etiketten hangi yeni etikete geçildiğini (`"eski>yeni"`) yönlü olarak saymak zorunludur.
+
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
 |---|---|---|
 | Eğitim kümesi denetim araçları (Cleanlab, `scikit-learn` çapraz doğrulama, veri versiyonlama farkları) sınıf geçiş matrislerini ve temiz/hedef altküme doğruluklarını ayrı ayrı raporlar | İlk üç görevde `veri/etiket_gecisleri.json` ve `veri/deney_sonuclari.json` içindeki **sentetik** kayıtları; son görevde `scikit-learn` (`LogisticRegression`) ile `taban`, `rastgele` ve `hedefli` koşullarında eğitilen üç canlı sınıflandırıcıyı | Yalnızca etiket geçiş yoğunluğuna veya tek bir eşik bayrağına bakarak "veri kümesi kesinlikle kasıtlı zehirlenmiştir" hükmü kurulamaz; doğal etiketleme hatası ve sınıf zorluğu da benzer sinyal üretebilir |
 
 > [!NOT]
-> İlk üç görevde çalışma dizinine kopyalanan `veri/etiket_gecisleri.json` ve `veri/deney_sonuclari.json` dosyaları **sentetik** eğitim örnekleridir. Her çalıştırmada yeniden kopyalanır; çalıştırmalar arasında **kalıcılık yoktur**. Son adımdaki **Gerçek deney** görevinde ise yazdığın üç işlev `scikit-learn` sınıflandırıcılarının canlı test doğruluklarıyla sınanır.
+> İlk üç görevde çalışma dizinine kopyalanan `veri/etiket_gecisleri.json` ve `veri/deney_sonuclari.json` dosyaları **sentetik** eğitim örnekleridir. Her çalıştırmada yeniden kopyalanır; çalıştırmalar arasında **kalıcılık yoktur**. Son adımdaki **Gerçek deney** görevinde ise yazdığın üç işlev `scikit-learn` sınıflandırıcılarının canlı test doğruluklarıyla sınanır; harici denetim araçları veya üçüncü parti fuzzer süreçleri çalıştırılmaz.
+:::
+
+::: anlat Rastgele gürültü ile hedefli zehirleme ayrımında ne olur, saldırgan ne dener ve savunma neden kırılır?
+Veri güvenliği operasyonlarında rastgele kalite problemleri ile sofistike veri zehirleme saldırılarını birbirinden ayırt etmek kritik öneme sahiptir:
+
+- **Aracın Altında Ne Olur?**
+  1. *Etiket Geçiş Profili Çıkarma (`etiket_gecis_profili`):* Orijinal ve değiştirilmiş etiket dizileri karşılaştırılır. Değişen etiketler `"eski>yeni"` kalıbıyla yönlü geçiş sözlüğünde toplanır ve alfabetik olarak sıralanır. Rastgele gürültüde geçişler (`0>1, 1>2, 2>0`) dengeli dağılırken, hedefli zehirlemede belirli bir koldan (`2>0`) ezici bir yoğunlaşma saptanır.
+  2. *Etki Karşılaştırması (`etki_karsilastirmasi`):* Üç ayrı senaryoda model eğitilir: Temiz referans (`taban`), rastgele bozulmuş (`rastgele`) ve hedefli manipüle edilmiş (`hedefli`). Her koşul için temiz sınıflardaki doğruluk ile hedef sınıftaki doğruluk ayrı ayrı ölçülür. Taban ortalaması referans alınarak mutlak performans kayıpları (`temiz_kayip` ve `hedef_kayip`) türetilir.
+  3. *Hedef Odaklı İnceleme Sinyali (`deney_bayraklari`):* Rastgele gürültü tüm sınıfların ayrılabilirliğini bozar; bu yüzden hem temiz hem hedef sınıfta kayıp oluşur (`temiz_kayip` büyüktür). Hedefli zehirleme ise temiz sınıfların doğruluğunu neredeyse hiç etkilemez (`temiz_kayip <= temiz_esik`), fakat hedef sınıfı felç eder (`hedef_kayip >= hedef_esik`). Bu asimetrik etki güvenlik analistine hedef odaklı inceleme sinyali (`hedef_odakli: True`) üretir.
+- **Çıktı Nasıl Okunur?**
+  - İnceleme sinyali tek başına adli bir mahkumiyet kararı değildir; hedef sınıfın doğası gereği diğer sınıflarla yüksek örtüşmeye (`class overlap`) sahip olması da benzer bir kayıp tablosu üretebilir.
+  - Sinyal, analistlerin körü körüne tüm veri kümesini silmek yerine, doğrudan o belirli geçişe odaklanmasını sağlar.
+- **Saldırganın Taktikleri:**
+  1. *Temiz Sınıf Maliyetini Asgariye İndirme (Stealth Poisoning):* Saldırgan temiz sınıflara ait etiketlere asla dokunmaz; böylece genel doğruluk tablosunda (`overall validation accuracy`) dikkat çekici bir düşüş yaratmadan modeli hedefine ulaştırır.
+  2. *Gürültüyle Kamufle Olma:* Saldırgan, hedefli zehirlemenin etrafına az miktarda rastgele geçiş ekleyerek geçiş matrisini gürültülü göstermeye çalışır.
+- **Savunmanın Kırılma Noktaları:**
+  - Genel doğruluğa (tüm örnekler üzerinden `accuracy`) odaklanıp sınıf bazlı ayrımı ihmal etmek: Hedef sınıf örneklerin %5'iyse ve tamamen bozulsa bile genel doğruluk %95 civarında kalır, zehirleme gizlenir. Her sınıfa eşit ağırlık veren sınıf bazlı doğruluk ya da macro ortalama bu kaybı ortaya çıkarır.
+  - Yönsüz inceleme: Sadece "kaç etiket değişti" sorusuna cevap arayıp "hangi sınıftan hangi sınıfa dönüştü" matrisini çıkarmamak.
+- **Sık Yapılan Geliştirici Tuzakları:**
+  1. Python'da `bool` sınıfının `int` alt sınıfı olması nedeniyle `isinstance(True, int) == True` tuzağı: Etiket dizilerinde ve doğruluk sayılarında `not isinstance(x, bool)` kontrolünün unutulması.
+  2. Değişmeyen etiket çiftlerini (`0>0`) geçiş sözlüğüne dahil etmek: Geçiş sözlüğü yalnız `eski != yeni` olan çiftleri içermelidir.
+  3. Performans kaybı hesabında oransal fark almak: Kayıp mutlak farktır (`taban - kosul`), tabana bölünen bir yüzdelik oran değildir.
+  4. Koşul gruplarını hesaplarken eksik koşul denetimi yapmamak: Listedeki üç koşulun da (`taban`, `rastgele`, `hedefli`) varlığı doğrulanmazsa sıfıra bölme hatası yaşanır.
 :::
 
 ::: anlat Temiz ve hedef performans ayrı deneylerde karşılaştırılır
@@ -436,16 +461,19 @@ def etiket_gecis_profili(once, sonra):
     return {"toplam": len(once), "degisen": 0, "degisim_orani": 0.0, "gecisler": {}}
 
 def etki_karsilastirmasi(kayitlar):
-    return {"ortalamalar": {}, "temiz_kayip": {}, "hedef_kayip": {}}
+    # KUSURLU BAŞLANGIÇ KODU: taban ortalamasını çıkarmadan kayıpları sıfır bırakıyor!
+    return {"ortalamalar": {}, "temiz_kayip": {"rastgele": 0.0, "hedefli": 0.0}, "hedef_kayip": {"rastgele": 0.0, "hedefli": 0.0}}
 
 def deney_bayraklari(kayitlar, temiz_esik, hedef_esik):
-    return {"rastgele": {}, "hedefli": {}}
+    # KUSURLU BAŞLANGIÇ KODU: temiz kaybı denetlemeden bayrağı doğrudan False dönüyor!
+    return {"rastgele": {"hedef_odakli": False}, "hedefli": {"hedef_odakli": False}}
 
 if ai_lab.CALISTIR:
     L.goster(etiket_gecis_profili, etki_karsilastirmasi, deney_bayraklari)
 ```
 
 ```test
+import ast
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_12 as L
 
@@ -455,8 +483,25 @@ def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("etiket_gecis_profili_referans", "etki_karsilastirmasi_referans", "deney_bayraklari_referans", "kanit_yaz")):
-    ok(False, f"Güvenlik/kopya denetimi: {s}")
+for ad in ("etiket_gecis_profili", "etki_karsilastirmasi", "deney_bayraklari"):
+    need(ad)
+
+yasak = (
+    "referans",
+    "etiket_gecis_profili_referans",
+    "etki_karsilastirmasi_referans",
+    "deney_bayraklari_referans",
+    "getattr",
+    "kanit_yaz",
+)
+ihlal = ai_lab.kod_denetimi(src, yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node, ast.ImportFrom) and any(a.name in yasak or a.name == "*" for a in node.names):
+            ihlal.append("referans ithali")
+except SyntaxError:
+    ihlal.append("sözdizimi")
+ok(not ihlal, "Kendi çözümünü yaz; referans işlevler ithal edilemez: " + ", ".join(ihlal))
 if not all(checks):
     stop()
 

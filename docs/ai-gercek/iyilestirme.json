@@ -2098,17 +2098,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "alindi",
+   "durum": "kabul",
    "kim": "codex",
-   "denetci": null,
+   "denetci": "claude-opus",
    "gecmis": [
     {
      "zaman": "2026-10-30 23:48",
      "kim": "codex",
      "olay": "aldı",
      "not": ""
+    },
+    {
+     "zaman": "2026-10-31 01:27",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "TEMİZ9;tahmin0;mutant0/97;kopya korunuyor. Tablo/NOT,1142sözcük,görünür retrievalJSON+setup,3kusurlu starter. SonUI12/12;10parça+6soru gerçek384boyut;recall1=.8333/3=1.0. K1/k3 ve uç sayılar sınandı;Rungerçek/kabulfalse;3veriUI. HTTP400geçmişi raporda;oturum sonu finallytemizlik doğrulandı,kasıtlı hatafixture ayrı/kabulfalse. Rapor CODEX-IYILESTIRME-ai-temel-22.md;puanOpus."
+    },
+    {
+     "zaman": "2026-10-31 11:32",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ (ilk 2 koşu geçici Ollama /tokenize zaman aşımı; doğrudan deney 6.5 sn çalıştı, 3. koşu TEMİZ) · tahmin 0 · mutasyon 0/97 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU, çelişki giderildi (FAISS/cross-encoder sınırı dürüst). Küçük: 'İlk3görev', 'ile10parça' boşluk yazımları."
     }
-   ]
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-saldiri-06",
@@ -2171,10 +2184,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 01:52",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 02:05",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "TEMİZ9;tahmin0;mutant0/89;kopya korunuyor. Tablo/NOT,1191sözcük,görünür çağrı/ajanJSON+setup,3kusurlu starter. DuplicateJSON/sonlutip/hostşema/hata-sır kontrolleri;tam gerçek tur ve durma nedeni. SonUI9/9;2gerçekçağrı2doğru;finalyalnızsayıbulgusuFalse(PASSşartıdeğil). Rungerçek/kabulfalse;3veriUI. Rapor CODEX-IYILESTIRME-ai-temel-23.md;puanOpus."
+    },
+    {
+     "zaman": "2026-10-31 11:36",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/89 · kopya 3/3 engellendi · tablo+NOT, 2 fixture+hazirla, 3 KUSURLU, çelişki giderildi; final gerçek Ollama ajan döngüsü."
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-temel-24",
@@ -2194,10 +2227,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 02:08",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 11:03",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "TEMİZ9; tahmin0; mutasyon0/65; kopya korunuyor. Görünür JSON/setup/3kusurlu starter; güçlü2/2gerçek kabul+ham kanıt; UI8/8/Run kabulfalse/3veriUI. Rapor CODEX-IYILESTIRME-ai-temel-24.md; puan Opus."
+    },
+    {
+     "zaman": "2026-10-31 11:38",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/65 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU, çelişki giderildi (ilk 3 görevin Docker/FastAPI sınırı dürüst)."
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-25",
@@ -2260,10 +2313,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 11:03",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 11:13",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "TEMİZ9;tahmin0;mutasyon0/35;kopya korunuyor.Görünür logit JSON/setup/3kusurlu starter/839sözcük;gerçek SmolLM2 7/7HFuyumu;UI11/11,Run kabulfalse,3veriUI.Rapor CODEX-IYILESTIRME-ai-temel-04.md;puan Opus."
+    },
+    {
+     "zaman": "2026-10-31 11:41",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/35 · kopya 3/3 engellendi (elle: import/getattr/inspect, referans) · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 199+551+89 kelime (ilk blok kısa, toplam yeterli)."
+    }
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-temel-05",
@@ -2283,10 +2356,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 11:13",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 11:25",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "TEMİZ9;tahmin0;mutasyon0/43;kopya korunuyor.GörünürQKV/setup/3kusurlu starter/834sözcük;gerçek4kafa tamtensör kanıtı.UI11/11,Run kabulfalse,3veriUI.Rapor CODEX-IYILESTIRME-ai-temel-05.md;puan Opus."
+    },
+    {
+     "zaman": "2026-10-31 11:44",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/43 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 190+548+96 kelime (ilk blok kısa, toplam yeterli)."
+    }
+   ],
+   "son_puan": 91
   },
   {
    "id": "ai-temel-10",
@@ -2306,10 +2399,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 11:26",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 11:44",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "SonTEMİZ9;tahmin0;mutasyon0/43;kopya korunuyor.SabitAveölçekhatası reddedildi;görünürJSON/setup/3kusurlu starter/934sözcük.40adım gerçekLoRA;272temelparametre+ortakstate_dict değişmez.UI14/14,Run kabulfalse,3veriUI,tablo/NOT görüldü.Rapor CODEX-IYILESTIRME-ai-temel-10.md;puan Opus."
+    },
+    {
+     "zaman": "2026-10-31 12:27",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/43 · kopya 3/3 engellendi (elle: LoraDogrusal=referans_sinifi() import/getattr/inspect; peft importu da engelli) · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 221+616+97. PEFT/QLoRA çalıştırılmadığı tabloda dürüstçe yazılı."
+    }
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-temel-16",
@@ -2329,10 +2442,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 11:46",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 12:14",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "GeçiciOllamaileTEMİZ9;tahmin0;mutasyon0/18;kopya korunuyor.GörünürJSON/setup/3kusurlu starter/943sözcük.UI11/11,Run kabulfalse,3veriUI,tablo/NOT.18/18QwenGPUhatasız;küçükbağlam izlenen sızıntı0,normal3/3.Varsayılan11434sunucuda6HTTP500FAILayrı;çözülmüşsayılmadı.KullanıcıPID19768korundu.Rapor CODEX-IYILESTIRME-ai-temel-16.md;puan Opus."
+    },
+    {
+     "zaman": "2026-10-31 12:30",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/18 (görevler küçük, test 23) · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 200+640+103."
+    }
+   ],
+   "son_puan": 91
   },
   {
    "id": "ai-savunma-11",
@@ -2481,10 +2614,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 12:16",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 16:04",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "SonTEMİZ9;tahmin0;mutasyon0/34;kopya korunuyor.Float32/katmanyok/gradacik yanlışları hedefte red.GörünürJSON/setup/3kusurlu starter/929sözcük.UI20/20;Run gerçek/kabulfalse,katman1/gradFalse/forward0;3veriUI,tabloNOT.7gerçekgirdi/16tokensınır/122tekrarçifti.Rapor CODEX-IYILESTIRME-ai-temel-02.md;puan Opus."
+    },
+    {
+     "zaman": "2026-10-31 21:18",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/34 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 204+590+135; 'transformer konum/bağlam çalıştırılmaz' dürüst sınır."
+    }
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-temel-07",
@@ -2504,10 +2657,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 19:56",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 20:03",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/44; kopya korunuyor; görünür baglam.json+3 kusurlu starter; anlatım912; UI11/11, Run gerçek/kabulfalse; rapor CODEX-IYILESTIRME-ai-temel-07.md"
+    },
+    {
+     "zaman": "2026-10-31 21:20",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/44 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 205+568+139."
+    }
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-temel-11",
@@ -2527,10 +2700,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 20:04",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 20:13",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/36; kopya korunuyor; tercih.json+3 kusurlu starter; anlatım990; UI8/8,Run gerçek/kabulfalse; rapor CODEX-IYILESTIRME-ai-temel-11.md"
+    },
+    {
+     "zaman": "2026-10-31 21:23",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/36 · kopya engelli (elle: from-import dersin AST denetimiyle, getattr/inspect+exec/vars/m.analitik kod_denetimi ile; imza farklı olduğundan sonda yerine guard doğrudan sınandı) · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 203+648+139; 'ilk üç görevde model çalıştırılmaz, finalde çalışır' tutarlı."
+    }
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-temel-15",
@@ -2550,10 +2743,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 20:46",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 20:57",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/47; kopya korunuyor; aktivasyon.json+3 kusurlu starter; anlatım1056; UI9/9,Run gerçek/kabulfalse; rapor CODEX-IYILESTIRME-ai-temel-15.md"
+    },
+    {
+     "zaman": "2026-10-31 21:25",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/47 · kopya 3/3 engellendi (sonda + guard doğrudan: m.referans_yurut/getattr/inspect yakalandı; from-import AST ile) · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 219+699+138; TransformerLens/repeng kullanılmadığı dürüst."
+    }
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-savunma-04",
@@ -2573,10 +2786,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 21:02",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 21:14",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/67; kopya korunuyor; görünür telemetriJSON/3starter/anlatım1084; UI11/11,Run gerçek/kabulfalse;3 gerçek Qwen çağrısı; rapor CODEX-IYILESTIRME-ai-savunma-04.md"
+    },
+    {
+     "zaman": "2026-10-31 21:28",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/67 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 248+705; OTel/SigNoz kavramsal temsil sınırı dürüst, final gerçek yerel model."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-guvence-06",
@@ -2594,10 +2827,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 21:15",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 21:28",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/30; kopya korunuyor; görünür aktivasyonJSON/anlatım1011/3starter; GPU gerçek model UI10/10,Runfalse; uydurma katmanoranları kaldırıldı,gözlemsel sabitoran/PearsonNone; rapor CODEX-IYILESTIRME-ai-guvence-06.md"
+    },
+    {
+     "zaman": "2026-10-31 22:44",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/30 · kopya engelli (need yok; guard doğrudan sınandı: getattr/inspect+exec/vars/__dict__ kod_denetimi ile, from-import dersin AST denetimiyle) · tablo+NOT, fixture+hazirla, 4 KUSURLU · anlatım 217+697+97."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-guvence-16",
@@ -2617,10 +2870,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 21:33",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 21:43",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9;tahmin0;mutasyon0/36;kopya korunuyor;görünür gizlilikJSON/3starter/450+ sözcük anlatım;UI20/20,Runfalse;gerçek3shadow-targettekrar;geçici/kalıcıayar ve ağırlık koruma;rapor CODEX-IYILESTIRME-ai-guvence-16.md"
+    },
+    {
+     "zaman": "2026-10-31 22:46",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/36 (görev 1 yalnız 4 mutant) · kopya engelli (need yok; guard doğrudan: getattr/inspect+exec/m.rapor_ref yakalandı, from-import AST ile) · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 222+807+122; ilk üç görev sentetik / final gerçek eğitim tutarlı."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-savunma-05",
@@ -2640,10 +2913,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 21:51",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 22:05",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9;tahmin0;mutasyon0/18;kopya korunuyor;görünürJSON/hamUTF8/3starter/450+anlatım;UI10/10,Runfalse;3gerçekistek;farklıyanıt/transporthatası ayrıfixturedoğrulandı;rapor CODEX-IYILESTIRME-ai-savunma-05.md"
+    },
+    {
+     "zaman": "2026-10-31 22:48",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/18 (görev 2 yalnız 1 mutant ama test her ret dalını ayrı + rastgele içerikle sınıyor) · kopya 3/3 engellendi · tablo+NOT, görünür ham fixture+hazirla, 3 KUSURLU · anlatım 239+694."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-savunma-06",
@@ -2663,10 +2956,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 22:42",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-10-31 22:54",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/28; kopya korunuyor. Görünür JSON/4hammetin/3kusurlustarter/1129kelime. UI14/14,Runfalse; gerçek GPU korumalı izin ve ayrı kontrol,ret/incele kapıda. İlk500ret saklandı. Rapor CODEX-IYILESTIRME-ai-savunma-06.md"
+    },
+    {
+     "zaman": "2026-10-31 22:56",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/28 · kopya 3/3 engellendi · tablo+NOT, görünür ham fixture (bidi/utf8/normalizasyon)+hazirla, 3 KUSURLU · anlatım 232+84+682+131; LLM Guard/FastAPI çalıştırılmadığı dürüst, final gerçek Ollama."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-savunma-07",
@@ -2686,10 +2999,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "codex",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-10-31 23:59",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 00:07",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9; tahmin0; mutasyon0/40; kopya korunuyor. Görünür JSON/3metin/3kusurlustarter/1141kelime. UI12/12,Runfalse; gerçek GPU yanıt/tool_calls, sınıflandırıcı fixture ve araç taklidi açık. Rapor CODEX-IYILESTIRME-ai-savunma-07.md"
+    },
+    {
+     "zaman": "2026-11-01 00:27",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/40 · kopya 3/3 engellendi (_guardrail_karari yasakta değil ama 3 satırlık eşleme, cevap vermez) · tablo+NOT, görünür ham fixture+hazirla, 3 KUSURLU · anlatım 237+72+695+137; LLM Guard/Promptfoo çalıştırılmadığı dürüst."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-savunma-08",
@@ -2709,10 +3042,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:30",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:38",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "anlatım ~360→862 kelime (saldırgan ne dener / savunma neden kırılır / çıktı okuma / tuzaklar); validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 30/0; kopya_sonda 6/6 + guard doğrudan; gerçek kanıt kabul: yapısal gecir, serbest durdur, sızıntı 0; kusurlu starter canlı deneye ulaşmadı; fixture 3 dosya (base64 sınır örneği dahil) + kusurlu starter; AST koruması+stop; sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-savunma-08.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:50",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; tablo+NOT, fixture+hazirla, 4 KUSURLU"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-09",
@@ -2732,10 +3085,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:38",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:47",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "anlatım ~330→850 kelime (saldırgan/savunma/çıktı okuma/tuzaklar); validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 56/0; kopya_sonda 6/6 + guard doğrudan; gerçek kanıt kabul: 3 PII (eposta/ipv4/kart) bulundu, 3 dönüşüm, kalan 0, dis_api durdur; telefon tanınmadı (ham metin kanıtta yok, nedeni doğrulanmadı); kusurlu starter canlı deneye ulaşmadı; fixture 3 dosya + kusurlu starter; AST+stop; sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-savunma-09.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:50",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya elle 4/4; Luhn/IP aralığı anlatımı doğru"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-10",
@@ -2755,10 +3128,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:47",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:54",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "anlatım ~330→856 kelime (fail-open atlatma, retry/yedek kırılması, çıktı okuma, tuzaklar); validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 43/0; kopya_sonda 6/6 + guard doğrudan; gerçek kanıt kabul: model kimlik-biçimli dize üretti → guvenli_yedek, ham taşınmadı; zararsız geçti; kusurlu starter canlı deneye ulaşmadı; fixture 3 dosya + kusurlu starter; AST+stop; sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-savunma-10.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:50",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; fail-closed anlatımı doğru"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-12",
@@ -2778,10 +3171,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 02:01",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "anlatım ~420→954 kelime; validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 40/0; kopya_sonda 6/6 + guard doğrudan; gerçek kanıt kabul: taban koşuda model enjeksiyona uydu (eposta_gonder+dosya_sil, diskte etki), korumalı koşularda ikisi reddedildi, yetkisiz etki 0, not yazıldı; yeni: canlı deneyden önce all(sonuclar) kapısı (önce hatalı politika da canlı deneyi koşturuyordu); fixture 3 dosya + kusurlu starter; AST+stop; ortak lab ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-savunma-12.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ (ilk iki koşu Ollama llama-server bağlantı zaman aşımı/HTTP 500, sunucu günlüğünde doğrulandı; boşta yeniden koşu temiz), tahmin 0, mutasyon 40/40, kopya elle 4/4; tablo+NOT, fixture+hazirla, 4 KUSURLU"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-13",
@@ -2801,10 +3214,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 02:01",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 02:08",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "anlatım ~400→881 kelime; validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 84/0; kopya_sonda 6/6 (kanit_yaz bağlama; sandbox'ta referans işlevi yok) + guard doğrudan; gerçek kanıt kabul: güvenli öneri hazır, tehlikeli öneri program nedeniyle reddet, hiçbir öneri çalıştırılmadı; kusurlu starter canlı deneye ulaşmadı; fixture 3 dosya (kabuksuz argv metakarakter örneği dahil) + kusurlu starter; AST+stop; sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-savunma-13.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen; modülde kopyalanacak referans işlev yok; argv/metakarakter anlatımı doğru"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-14",
@@ -2824,10 +3257,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 02:08",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 02:14",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "anlatım ~400→893 kelime; validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 43/0; kopya_sonda 6/6 (kanit_yaz bağlama) + guard doğrudan; gerçek kanıt kabul: güvenli api.ornek.com hazır, metadata.google.internal sema+alan ile reddet, istek atılmadı; kusurlu starter canlı deneye ulaşmadı; fixture 3 dosya (@ ve sonek hileleri, rebinding, CGNAT, ipv4-mapped) + kusurlu starter; AST+stop; sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-savunma-14.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen; modülde referans işlev yok; SSRF/hostname anlatımı doğru"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-15",
@@ -2847,10 +3300,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 02:14",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 02:21",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "anlatım ~350→859 kelime; saniye/ms tutarsızlığı düzeltildi; validate TEMİZ 9; tahmin 0; mutasyon 29/0; sonda 8/8; gerçek kabul: sır 1 kez yazıldı, 1 maskelendi, sızıntı yok; kusurlu starter canlı deneye ulaşmadı; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-savunma-15.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 29/29; modülde referans işlev yok, SECRET erişimi yasak listesinde; koruma güçlendirilmiş; tablo+NOT, fixture+hazirla, 4 KUSURLU"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-17",
@@ -2870,10 +3343,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 02:07",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 02:14",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "897 kelime anlatim, Purple tablosu, [!NOT], fixture+setup, 4 kusurlu starter, AST kopya korumasi. Validate TEMIZ (9 kontrol), tahmin 0, mutasyon 56/0, sonda 3/3 korundu. Rapor: docs/ai-gercek/GEMINI-IYILESTIRME-ai-savunma-17.md"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen; modülde referans işlev yok; anlatım makul"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-saldiri-30",
@@ -2893,10 +3386,30 @@
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar.",
     "Başlık ve plan PyRIT diyor; PyRIT 1.1.0 .ai-araclar ortamında kurulu ama ders onu çalıştırmıyor — PAIR/TAP elle yazılmış döngüyle gösteriliyor. Başlık/plan ya PyRIT'e bağlanmalı ya da 'PyRIT tarzı' diye düzeltilmeli."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:09",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:18",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "kapsam: başlık 'PyRIT Tarzı' oldu, PyRIT kavramları (orchestrator/converter/scorer/memory) eşlendi, PyRIT çalıştırılmadığı açık; anlatım 321→987 kelime; validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 59/0; kopya_sonda 6/6 (doğru imza) + guard doğrudan; gerçek kanıt 6/6; bulgu: 2 turda saldırı başarısız, en iyi skor 0.65 yalnız anahtar kelime sezgiseli; son adım importlib yerine doğrudan import (AST guard için); fixture 3 dosya + kusurlu starter; sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-30.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU; PAIR/TAP ve PyRIT bileşen adları doğru"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-savunma-02",
@@ -2916,10 +3429,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 02:01",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 02:07",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "894 kelime anlatim, Purple tablosu, [!NOT], fixture+setup, 4 kusurlu starter, AST kopya korumasi. Validate TEMIZ (9 kontrol), tahmin 0, mutasyon 31/0, sonda 3/3 korundu. Rapor: docs/ai-gercek/GEMINI-IYILESTIRME-ai-savunma-02.md"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; ATLAS kimlikleri doğru; claude-opus düzeltti: 'LLM10 Model Theft' sürümsüz verilmişti, 2023/2025 OWASP numara farkı eklendi"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-savunma-03",
@@ -2939,10 +3472,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:53",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 02:01",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "893 kelime anlatim, Purple tablosu, [!NOT], fixture+setup, 4 kusurlu starter, AST kopya korumasi. Validate TEMIZ (9 kontrol), tahmin 0, mutasyon 19/0, sonda 3/3 korundu. Rapor: docs/ai-gercek/GEMINI-IYILESTIRME-ai-savunma-03.md"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; anlatım makul"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-guvence-09",
@@ -2960,10 +3513,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:46",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:53",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/25 · kopya korunuyor · 890 kelime derin anlatim, tablo/NOT, fixture+hazirla, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-guvence-09.md"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; GCG formülü doğru; claude-opus düzeltti: genetik/hiyerarşik AutoDAN Zhu değil Liu vd. 2023, iki AutoDAN ayrımı eklendi"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-guvence-10",
@@ -2981,10 +3554,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:38",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:45",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/16 · kopya korunuyor · 891 kelime derin anlatim, tablo/NOT, fixture+hazirla, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-guvence-10.md"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; Arditi refusal yönü/projeksiyon doğru; claude-opus düzeltti: 'Qwen2.5-0.5B için katman 14' kanıtlanmış en iyi katman gibi sunulmuştu, sabit seçim olduğu yazıldı"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-savunma-01",
@@ -3004,10 +3597,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:31",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:37",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/19 · kopya korunuyor · 949 kelime derin anlatim, tablo/NOT, fixture+hazirla, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-savunma-01.md"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; anlatım makul"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-saldiri-22",
@@ -3027,10 +3640,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:02",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:09",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ9 · tahmin 0 · mutasyon 0/49 · kopya korunuyor (6 sonda) · yapılanlar: tablo+NOT (ve 'DNS/socket kullanılmaz' çelişkisi), görünür URL/redirect/DNS verisi (\\@ ayrıştırıcı farkı, ikinci hopta kaçış, ara cevap rebinding)+hazirla, 4 kusurlu başlangıç, anlatım ~1100 kelime, kopya korumasına AST+kanit_yaz+stop; modelin meşru URL döndürmesi kabul şartı olmaktan çıkarıldı (koşullu). Gerçek: model zehirli notta /start seçti, kapı reddetti, canary 0. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-saldiri-22.md"
+    },
+    {
+     "zaman": "2026-11-01 17:20",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ (ilk koşu gerçek deneyde geçici TimeoutError, 2. koşu 36 sn TEMİZ) · tahmin 0 · mutasyon 0/49 · kopya engelli (need yok; guard doğrudan: getattr/vars/__dict__/m.dns_ref kod_denetimi ile, from-import+inspect/exec dersin AST denetimiyle) · tablo+NOT, 3 fixture+hazirla, 4 KUSURLU · anlatım 451+143+138+298; gerçek yerel HTTP+DNS."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-23",
@@ -3050,10 +3683,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:10",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:18",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 71 mutant 0 geçen; kopya_sonda 6/6 korunuyor; gerçek kanıt kabul true 9/9, kusurlu starter kabul false; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-23.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 17:23",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/71 · kopya engelli (need yok; guard doğrudan: getattr/vars/m.regresyon_ref kod_denetimi ile, from-import+inspect/exec AST ile) · tablo+NOT, 3 fixture+hazirla, 4 KUSURLU · anlatım 440+151+67+205; gerçek yerel HTTP/UDP alıcıları."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-25",
@@ -3073,10 +3726,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:19",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:26",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 35 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval eklenmiş doğru çözüm fail); gerçek kanıt kabul true 7/7, kusurlu starter kabul false; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-25.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 17:58",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/35 · kopya engelli (sonda + dersin AST guard'ı: from-import/inspect/exec/getattr) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 417+162+132+248. Küçük: sandbox _expected (izin kuralı, tek satır) yasak listesinde değil; ileride eklenmeli."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-26",
@@ -3096,10 +3769,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:30",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:38",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 51 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 8/8, kusurlu starter kabul false; sandbox dar değişiklik: mesru_model_yazdi → mesru_yazma_onerildiyse_calisti (model bağımlı kabul kaldırıldı, bulgu kaydı); rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-26.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 18:00",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/51 · kopya engelli (sonda + dersin AST guard'ı) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 477+163+115+256; komut yalnız sabit 'python --version', kurulum/CI/commit yok — sınır dürüst."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-28",
@@ -3119,10 +3812,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:38",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:46",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 27 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 8/8, kusurlu starter kabul false; sandbox dar değişiklik: izinli_model_yazdi → izinli_yazma_onerildiyse_calisti (model bağımlı kabul kaldırıldı, bulgu+çekinme kaydı); rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-28.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 18:02",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/27 · kopya engelli (sonda + dersin AST guard'ı) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 420+145+145+285; sandbox kabul koşulu model-bağımsız yapıldı (izinli_yazma_onerildiyse_calisti), mantıklı."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-29",
@@ -3142,10 +3855,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:48",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:54",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 39 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 11/11, kusurlu starter kabul false (yalnız gercek_RAG_zarfi; sınır raporda); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-29.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 18:06",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/39 · kopya engelli (sonda + dersin AST guard'ı) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 436+143+134+287; gerçek Ollama + geçici SQLite RAG + yerel TLS."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-32",
@@ -3165,10 +3898,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:54",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 18:03",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol (ilk koşu 7 kontroldü: kapanış ::: eksikti, düzeltildi); tahmin 1/0 şüpheli; mutasyon 28 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek whisper kanıtı kabul true 6/6 (cuda); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-32.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 18:08",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/28 (görev 2 yalnız 2 mutant; test 5 vaka + hata vakaları + 3 yanlış çözüm, yeterli) · kopya engelli (sonda + AST guard) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 461+163+131+212; gerçek Windows TTS + önbellekli faster-whisper."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-33",
@@ -3186,10 +3939,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 18:06",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 18:13",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 57 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 6/6; sandbox yalnız ayarlar alanı gerçek değerlere düzeltildi (en_fazla 8, sicaklik 0.1, TTFT değil); importlib→from-import; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-33.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 21:12",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/57 · kopya engelli (sonda + AST guard) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 443+136+138+225; KV-cache zamanlama sınırları dürüst (yalnız kendi önekleri, istatistik gereği yazılı)."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-34",
@@ -3209,10 +3982,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 18:14",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 18:22",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 46 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 6/6; bulgu: rol-marker örneğinde canary 4/4 çağrıda sızdı (kaçış rol sınırını korur, talimatı engellemez); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-34.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 21:12",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/46 · kopya engelli (sonda + AST guard) · tablo+NOT, 2 fixture+hazirla, 6 KUSURLU · anlatım 416+151+135+286."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-temel-18",
@@ -3230,10 +4023,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:18",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:30",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 (ilk koşu); tahmin 1/0; mutasyon 87 mutant 0 geçen; kopya_sonda 6/6 + guard doğrudan; gerçek Docker kanıtı kabul true: sertleştirilmiş konteynerde memory.max 32MiB, pids 16 fork engellendi, yalnız lo, yazma red; taban hiçbir denetim uygulamadı; kusurlu starter canlı deneye ulaşmadı; çelişki düzeltildi (Docker çalıştırılmaz iddiası); fixture 3 dosya + kusurlu starter; sandbox ve testler değişmedi; geride konteyner kalmadı; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-temel-18.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya elle 4/4; Docker 1024 tabanı ve --memory-swap anlatımı doğru"
+    }
+   ],
+   "son_puan": 92
   },
   {
    "id": "ai-temel-21",
@@ -3251,10 +4064,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:20",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:30",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/74 · kopya korunuyor · 964 kelime derin anlatim, tablo/NOT, fixture+hazirla, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-temel-21.md"
+    },
+    {
+     "zaman": "2026-11-02 02:51",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; MiniLM 256 token, IndexFlatIP/kosinüs anlatımı doğru"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-saldiri-09",
@@ -3272,10 +4105,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 18:26",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 18:30",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol; tahmin 1/0 şüpheli; mutasyon 12 mutant 0 geçen (görev 1 tek satır, 0 mutant); kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 5/5 (ham markup 4, korumalı 0); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-09.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 21:14",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/12 (görev 1 tek satır html.escape → 0 mutant; test &-sırası, tek/çift tırnak, çift kaçış ve tür hatasını elle doğrulandı) · kopya engelli (sonda + AST guard) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 386+132+95+181; tarayıcı/Burp yok sınırı dürüst."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-12",
@@ -3295,10 +4148,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 21:01",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 21:10",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol; tahmin 1/0 şüpheli; mutasyon 24 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek qwen2.5vl:3b kanıtı kabul true 7/7 (2 koşu); bulgu: model canary satırını 'BREACH: CANARY-42' diye boşlukla aktardı (tam satır sayılmadı), dinamik TOKEN sızdı; çelişki düzeltildi (gerçek görsel/model yok iddiası); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-12.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 21:16",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/24 · kopya engelli (sonda + AST guard) · tablo+NOT, 3 fixture+hazirla, 6 KUSURLU · anlatım 664+132+122+178; gerçek qwen2.5vl:3b + Pillow görselleri."
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-31",
@@ -3318,10 +4191,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:02",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:09",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 34 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek Chromium 156 (ağ kapalı) kabul true 5/5; çelişki düzeltildi (Playwright gerekmez iddiası); aria-hidden ekranda görünür notu Playwright ile doğrulandı; sandbox değişmedi; meta 'gereksinim: torch' denetçiye bırakıldı; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-31.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 22:42",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 34/34, kopya 3/3; tablo+NOT, fixture+hazirla, 6 KUSURLU; DOM/innerText/aria-hidden anlatımı doğru"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-04",
@@ -3339,10 +4232,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:10",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:17",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol; tahmin 1/0 şüpheli; mutasyon 25 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek qwen3:4b kanıtı kabul true 5/5; bulgu: model 6/6 vakada dogrudan-istek döndürdü (4'ünde başka etiketle, talimata aykırı), donusturme hiç tahmin edilmedi (precision None); çelişki düzeltildi (model çalıştırmaz iddiası); guard ihlalde stop() eder; sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-04.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 22:57",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ (ilk koşu Ollama HTTP 500, yeniden koşu temiz), tahmin 0, mutasyon 25/25, kopya elle 4/4; tablo+NOT, fixture+hazirla, 7 KUSURLU"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-saldiri-07",
@@ -3360,10 +4273,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:18",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:24",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 11 kontrol; tahmin 1/0 şüpheli; mutasyon 22 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek qwen3:4b kanıtı kabul true 6/6; bulgu: aynı model T=0.0 ve T=0.6 profillerinde eslesme 0.0 (kimlik kanıtı değil örneği); çelişki düzeltildi (ağ çağrısı yok iddiası); guard ihlalde stop(); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-07.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 22:58",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 22/22, kopya elle 4/4; test güçlendirilmiş; tablo+NOT, fixture+hazirla, 6 KUSURLU (ilk kabul kaydı eş zamanlı yazmada kayboldu, yeniden yazıldı)"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-10",
@@ -3381,10 +4314,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:25",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:31",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol; tahmin 1/0 şüpheli; mutasyon 28 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek qwen3:4b kanıtı kabul true 9/9; bulgu: model yinelenen eylem anahtarını aynen üretti, katı ayrıştırıcı reddetti, db_degisim 0; çelişki düzeltildi (gerçek model çağırmaz iddiası); starter'daki üçlü backtick çit kırılması düzeltildi; sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-10.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 22:45",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 28/28 (görev 1 ayrıca elle mutantlı), kopya 3/3 + elle 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-11",
@@ -3402,10 +4355,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:32",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:37",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol; tahmin 1/0 şüpheli; mutasyon 13 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 6/6; bulgu: rol-terfi kusurlu kolda canary tam satır 2/2, korumalı kolda 0/2; çelişki düzeltildi (Ollama kullanmadan iddiası); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-11.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 22:47",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 13/13, kopya 3/3 + elle 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU; MIME/HTMLParser anlatımı doğru"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-14",
@@ -3423,10 +4396,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:38",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:45",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol; tahmin 1/0 şüpheli; mutasyon 24 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 6/6; bulgu: zehirli bağlamda model iki sorguda da yalnız canary döndürdü, temiz bağlamda doğru yanıt; çelişki düzeltildi (Ollama/ChromaDB yok iddiası); validate öncesi ollama ps'te kendi saldiri-11 keep_alive modeli vardı, pano boştu; sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-14.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 23:02",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 24/24, kopya 4/4 (ad değiştirme dahil) + elle 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-16",
@@ -3444,10 +4437,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:48",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:53",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol; tahmin 1/0 şüpheli; mutasyon 34 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 6/6; bulgu: model temiz ve zehirli kolda 4/4 siparis_oku seçti, seçim değişmedi; çelişki düzeltildi (Ollama/gerçek araç çalıştırılmaz iddiası); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-16.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-01 23:02",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 34/34, kopya 4/4 + elle 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-19",
@@ -3465,10 +4478,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:12",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:23",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol (4. koşu; 2. ve 3. koşu Ollama HTTP 500 runner çöktü, çözüm değişmedi); tahmin 1/0 şüpheli; mutasyon 33 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 7/7; gerçek adım ön kontrolleri 3 stop() ile güçlendirildi (kusurlu starter canlı deneye ulaşıyordu); bulgu: model saldırıya uymadı, ama oturum kimliğini çağrıya bozarak kopyaladı (f49c2b→f49_2b), kimlik kapısı meşru okumayı reddetti; çelişki düzeltildi (Ollama/gerçek araç kullanılmaz iddiası); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-19.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 00:53",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 33/33, kopya 4/4 + elle 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-20",
@@ -3486,10 +4519,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:24",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:31",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 9 kontrol (ilk koşu); tahmin 1/0 şüpheli; mutasyon 35 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 7/7; gerçek adım ön kontrolüne +1 stop() (çalışmayan shell adayı raporu); bulgu: zehirli kolda model cmd /c echo PAFTA önerdi, program kapısı süreç başlamadan reddetti; temiz kolda alt süreç argv planla birebir; çelişkiler düzeltildi (gerçek komut/Ollama yok iddiası, tahmin açıklaması), virgil→virgül; sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-20.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 00:53",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 35/35, kopya 4/4 + elle 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU; argv/shell=False anlatımı doğru"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-13",
@@ -3507,10 +4560,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:32",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:37",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol (ilk koşu); tahmin 1/0 şüpheli; mutasyon 21 mutant 0 geçen; kopya_sonda 6/6 korunuyor + guard doğrudan (inspect/eval); gerçek kanıt kabul true 7/7 (reportlab/pypdf/qwen2.5vl:3b); bulgu: canary yalnız gizli metin/metadata katmanında, OCR yalnız görünen faturayı okudu, metadata çağrısı canary tekrarlamadı; çelişki düzeltildi (gerçek PDF/model yok iddiası); sandbox değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-13.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 00:53",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 21/21, kopya 4/4 + elle 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-17",
@@ -3529,10 +4602,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:38",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:48",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "kapsam: yeni görev 3 kanit_ozeti (korumasız/korumalı/izinli koşu kayıtlarından sink, korumalı ihlal, izinli eksik, red sayısı; 11 bozuk girdi + 3 mutant). validate TEMİZ 9 kontrol (önce 7); tahmin 1/0; mutasyon 40 mutant 0 geçen; kopya_sonda 6/6 + guard doğrudan; gerçek kanıt 7/7; bulgu: korumasız kolda model kasa_oku→dis_kayit zincirini kurdu ama canary'yi kısaltarak yazdı (canary_sizdi false, tam_zincir true); frontmatter özeti düzeltildi (opt-in iddiası); görünür fixture 3 dosya + kusurlu starter; sandbox ve var olan testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-17.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4 (elle); tablo+NOT, fixture+hazirla, 9 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-ile-guvenlik-14",
@@ -3548,10 +4641,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:14",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:18",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/4 · kopya korunuyor · 908 kelime derin anlatim, tablo/NOT, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-14.md"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; HMAC/compare_digest anlatımı sandbox ile tutarlı"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-ile-guvenlik-17",
@@ -3567,10 +4680,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:10",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:14",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/9 · kopya korunuyor · 925 kelime derin anlatim, tablo/NOT, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-17.md"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; claude-opus düzeltti: 'yorum soyma sonrası evyeler eksiksiz yakalanır' yanlıştı (yalnız tam satır yorum soyulur, metin araması maskelemeyle aşılır), AST analiz notu eklendi"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-saldiri-01",
@@ -3588,10 +4721,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:49",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:56",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol (ilk koşu); tahmin 1/0; mutasyon 22 mutant 0 geçen; kopya_sonda 6/6 (doğru imza) + guard doğrudan; gerçek kanıt kabul true; bulgu: korumasız host kısa ad çakışmasıyla 2 çağrıyı arsiv sunucusuna gönderdi, gizli anahtar son yanıtta; korumalı host reddetti, sızıntı 0; kusurlu starter canlı deneye ulaşmadı; çelişki düzeltildi (sunucu/model durumuna bağlı değil iddiası); guard ihlalinde stop(); sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-01.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4 (elle); tablo+NOT, fixture+hazirla, 5 KUSURLU"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-saldiri-02",
@@ -3609,10 +4762,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:56",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:03",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 11 kontrol (ilk koşu); tahmin 2/0; mutasyon 21 mutant 0 geçen; kopya_sonda 6/6 (ai_lab.ozet_referans) + guard doğrudan; gerçek kanıt kabul true; bulgu: ASR 0/4, kontrol sızıntısı 0/4, model saldırı belgesini özetledi; canlı deney artık bütün sözleşmeler geçmeden başlamıyor (stop), guard ihlalinde stop; fixture 3 dosya + kusurlu starter; ortak ai_gercek_lab ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-02.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4 (elle, referanslar ai_lab içinde); tablo+NOT, fixture+hazirla, 7 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-saldiri-08",
@@ -3630,10 +4803,30 @@
     "tracks/<yol>/fixtures/<ders>/ altına README + gerçek biçimli JSON/metin örnek veri; sandbox/ai_<yol>_veri.py hazirla(ders) ile setup bloğundan yükle; görevler bu dosyaları okusun.",
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "claude-yazar",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:03",
+     "kim": "claude-yazar",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:08",
+     "kim": "claude-yazar",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ 10 kontrol (ilk koşu); tahmin 1/0; mutasyon 20 mutant 0 geçen; kopya_sonda 6/6 (_yeniden_oku bağlama) + guard doğrudan; gerçek kanıt 7/7; bulgu: global kusurlu okumada canary bağlama ve yanıta sızdı, rol terfisinde model yalnız zehir işaretini yazdı, korumalı kolda notu alıntıladı ama uymadı; çelişki düzeltildi (veritabanı/model yok iddiası); fixture 3 dosya + kusurlu starter; sandbox ve testler değişmedi; rapor docs/ai-gercek/CLAUDE-IYILESTIRME-ai-saldiri-08.md; tarayıcı görsel kabul yapılmadı"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; tablo+NOT, fixture+hazirla, 6 KUSURLU"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-ile-guvenlik-12",
@@ -3649,10 +4842,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:06",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:10",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/9 · kopya korunuyor · 944 kelime derin anlatim, tablo/NOT, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-12.md"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; anlatım doğru"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-ile-guvenlik-13",
@@ -3668,10 +4881,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 01:02",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:06",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/5 · kopya korunuyor · 969 kelime derin anlatim, tablo/NOT, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-13.md"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; anlatım doğru"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-ile-guvenlik-02",
@@ -3687,10 +4920,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:56",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 01:02",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/66 · kopya korunuyor · 899 kelime derin anlatim, tablo/NOT, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-02.md"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; slopsquatting/1-tabanlı satır anlatımı doğru"
+    }
+   ],
+   "son_puan": 95
   },
   {
    "id": "ai-guvence-01",
@@ -3704,10 +4957,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:49",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:55",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/53 · kopya korunuyor · 1039 kelime derin anlatim, tablo/NOT, 4 kusurlu starter · rapor docs/ai-gercek/GEMINI-IYILESTIRME-ai-guvence-01.md"
+    },
+    {
+     "zaman": "2026-11-02 01:55",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; anlatım doğru"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-guvence-02",
@@ -3721,10 +4994,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:44",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:48",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/35 · kopya korunuyor (3/3) · 895 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-02 01:56",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; anlatım doğru"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-guvence-03",
@@ -3738,10 +5031,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:39",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:43",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/37 · kopya korunuyor (3/3) · 887 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-02 01:56",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; claude-opus düzeltti: 'azalış beklenen metrik (F1 kaybı)' örneği tersti"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-guvence-04",
@@ -3755,10 +5068,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:35",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:39",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/42 · kopya korunuyor (3/3) · 950 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-02 01:56",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 0 geçen, kopya 4/4; claude-opus düzeltti: 'FN yüzlerce kat pahalıysa eşik 0.15-0.25' yanlıştı, Bayes eşiği c_FP/(c_FP+c_FN) ≈ 0.01 ile yeniden yazıldı"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-guvence-05",
@@ -3772,10 +5105,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:30",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:34",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/30 · kopya korunuyor (3/3) · 984 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-02 00:53",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 30/30, kopya 4/4 (merkezi kod_denetimi ile); claude-opus düzeltti: 'büyük harf hex imza atlatır' abartılıydı, gerçek etki sahte 'degisti' uyumsuzluğu olarak yeniden yazıldı"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-guvence-08",
@@ -3789,10 +5142,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:22",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:29",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/48 · kopya korunuyor (3/3) · 932 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-02 00:53",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 48/48, kopya 4/4 (merkezi kod_denetimi ile); claude-opus düzeltti: 'PGD gradyan maskelemeyi aşar' yanlıştı (Athalye vd. 2018; BPDA/EOT/transfer gerekir), distilasyon maddesi C&W ile düzeltildi"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-guvence-11",
@@ -3806,10 +5179,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:17",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:22",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/43 · kopya korunuyor (3/3) · 719 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-02 00:54",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 43/43, kopya 4/4; TVD formülü ve aralığı doğru, anlatım sandbox ile tutarlı"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-guvence-12",
@@ -3823,10 +5216,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-02 00:13",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-02 00:16",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/32 · kopya korunuyor (3/3) · 827 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-02 00:24",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 32/32, kopya 4/4; anlatım sandbox ile tutarlı; claude-opus düzeltti: 'macro accuracy azınlık kaybını gizler' yanlıştı (gizleyen genel doğruluk, macro ortalama ortaya çıkarır)"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-guvence-13",
@@ -3840,10 +5253,30 @@
    "yapilacaklar": [
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:12",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:17",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/26 · kopya korunuyor (3/3) · 804 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-01 22:57",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, mutasyon 26/26, kopya 4/4 (kod_denetimi merkezi düzeltmesinden sonra; önce exec+inspect ad değiştirme açığı vardı); claude-opus düzeltti: 'doyum noktası manipülasyonu' maddesi yanlıştı (aşırı zehir anomali tespitini kör etmez, en kolay yakalanan durumdur), yeniden yazıldı"
+    }
+   ],
+   "son_puan": 93
   },
   {
    "id": "ai-ile-guvenlik-08",
@@ -3859,10 +5292,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 22:07",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 22:12",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/16 · kopya korunuyor (3/3) · 814 kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-01 22:57",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ, tahmin 0, kopya 4/4 (merkezi kod_denetimi düzeltmesinden sonra); anlatım sandbox ile tutarlı (IZINLI_KOMUTLAR, sınır değerleri, IndexError/MemoryError)"
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-ile-guvenlik-15",
@@ -3878,10 +5331,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 18:23",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 18:32",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMIZ (9 kontrol) · tahmin 0 · mutasyon 0/5 · kopya korunuyor (3/3) · 770+ kelime derin anlatim · 4 kusurlu starter · AST kopya korumasi"
+    },
+    {
+     "zaman": "2026-11-01 21:08",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/5 (testler 1-3 HEAD ile aynı, kod kısa) · kopya 3/3 · tablo+NOT, 2 fixture+hazirla, 6 KUSURLU · anlatım 293+369+128+38. claude-opus DÜZELTTİ (küçük, 2 cümle): 'cikis_kodu = 5 (Access Denied)' → sentetik kodun Win32 ERROR_ACCESS_DENIED olduğu, gerçek reg.exe'nin 1 döndürdüğü yazıldı; düzeltme sonrası validate TEMİZ, tahmin 0."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-ile-guvenlik-16",
@@ -3897,10 +5370,30 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:43",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:49",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ (9 kontrol) · tahmin 0 şüpheli · mutasyon 0/11 · kopya 3/3 korunuyor · tablo+NOT, 4 KUSURLU starter, 843 kelime anlatım, AST kopya koruması · rapor: docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-16.md"
+    },
+    {
+     "zaman": "2026-11-01 17:56",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "validate TEMİZ · tahmin 0 · mutasyon 0/11 (testler 1-3 değişmemiş, HEAD ile karşılaştırıldı) · kopya engelli (guard doğrudan: getattr/inspect+exec/m.*_referans; AST from-import eklendi) · tablo+NOT, fixture+hazirla, 6 KUSURLU · anlatım 254+386+163+40, saldırgan taktikleri (kaynak tüketimi, low-and-slow) somut; çapraz dersler (guvence-04, savunma-31) doğru."
+    }
+   ],
+   "son_puan": 94
   },
   {
    "id": "ai-ile-guvenlik-18",
@@ -3916,10 +5409,48 @@
     "Görev 1-3 başlangıç kodlarını '# KUSURLU BAŞLANGIÇ KODU: <hata>' yorumlu, gerçekçi hatalı koda çevir (boş return değil); başlangıç kodu testi GEÇMEMELİ.",
     "Anlatımı ~450+ kelimeye derinleştir: aracın altında ne olur, çıktı nasıl okunur, saldırgan neyi dener, savunma neden kırılır, sık tuzaklar."
    ],
-   "durum": "acik",
-   "kim": null,
-   "denetci": null,
-   "gecmis": []
+   "durum": "kabul",
+   "kim": "gemini",
+   "denetci": "claude-opus",
+   "gecmis": [
+    {
+     "zaman": "2026-11-01 17:33",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 17:42",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ (9 kontrol) · tahmin 0 şüpheli · mutasyon 0/11 · kopya 3/3 korunuyor · tablo+NOT, 4 KUSURLU starter, 842 kelime anlatım, AST kopya koruması · rapor: docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-18.md"
+    },
+    {
+     "zaman": "2026-11-01 17:54",
+     "kim": "claude-opus",
+     "olay": "iade",
+     "not": "İADE (tek madde, küçük): Anlatım '[SİSTEM:' ve '[System:' varyantlarının casefold()/lower() ile yakalandığını söylüyor ama bu YANLIŞ: Python'da '[SİSTEM:'.casefold() == '[si̇stem:' (İ → i + U+0307), '[sistem:' içermez. Referans (sandbox/ai_gercek_ai_ile_guvenlik_18.py:117) da .lower() kullanıyor, yani dersin kendi örneği karantinayı atlıyor. Düzelt: (1) referansta ve görev 1 çözümünde normalize et (ör. unicodedata.normalize('NFKD', s) + birleşik işaretleri at, sonra casefold), (2) görev 1 testine '[SİSTEM:' ve '[System:' içeren vaka ekle (başlangıç/eski çözüm bunu kaçırmalı), (3) anlatımdaki cümleyi doğru mekanizmayla yaz. Geri kalan her şey iyi: validate TEMİZ, tahmin 0, mutasyon 0/11, kopya engelli, AST guard eklendi, tablo+NOT, 6 KUSURLU, anlatım ~840 kelime ve derin; testler 1-3 değiştirilmemiş. Düzeltilince ~94."
+    },
+    {
+     "zaman": "2026-11-01 18:16",
+     "kim": "gemini",
+     "olay": "aldı",
+     "not": ""
+    },
+    {
+     "zaman": "2026-11-01 18:23",
+     "kim": "gemini",
+     "olay": "teslim etti",
+     "not": "validate TEMİZ (9 kontrol) · tahmin 0 şüpheli · mutasyon 0/12 · kopya korunuyor · iade düzeltildi: Unicode NFKD normalizasyonu + birleşik işaret filtresi, [SİSTEM:]/[System:] test vakaları ve anlatım, 891 kelime · rapor: docs/ai-gercek/GEMINI-IYILESTIRME-ai-ile-guvenlik-18.md"
+    },
+    {
+     "zaman": "2026-11-01 21:05",
+     "kim": "claude-opus",
+     "olay": "kabul",
+     "not": "İade düzeltildi: referans+çözüm NFKD+combining temizliği+casefold; '[SİSTEM:','[System:' (ve tam genişlik) yakalanıyor, test 1'e ve gerçek deneye vaka eklendi, anlatım düzeltildi. validate TEMİZ · tahmin 0 · mutasyon 0/12 · kopya 3/3. Sınır: noktasız 'ı' ([sıstem:) yakalanmaz, ders bunu iddia etmiyor."
+    }
+   ],
+   "son_puan": 94
   }
  ]
 }

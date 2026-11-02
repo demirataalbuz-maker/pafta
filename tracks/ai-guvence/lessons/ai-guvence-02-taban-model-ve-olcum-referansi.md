@@ -6,15 +6,45 @@ timeout: 45
 ---
 
 ::: anlat Gerçek taban referansını bil, sentetik temsili ayırt et
-Taban modelin sonucu ancak hangi kayıtların eğitimde ve testte kullanıldığı biliniyorsa yorumlanabilir. Aynı kayıt kimliğinin iki bölümde bulunması veri sızıntısıdır; yinelenen kimlikler de bağımsız ölçümü bozar. Sınıf etiketleri ve bölüm adları kapalı bir listede tutulduğunda yanlışlıkla oluşan yeni kategoriler erken fark edilir.
+Yapay zeka güvenliği ve güvence (AI assurance) çalışmalarında temel ilke, savunma veya saldırı deneylerinin etkisini anlamlı kılacak sağlam bir taban model (baseline model) referansı kurmaktır. Bir savunma mekanizmasının modeli ne kadar koruduğu veya bir saldırının modeli ne derece çökerttiği, ancak temiz koşullarda eğitilmiş taban modelin performansı ve belirsizlik marjı biliniyorsa yorumlanabilir. Taban modelin bilimsel ve operasyonel geçerliliği ise iki ana unsura dayanır: Eğitim ve test kümelerinin birbirinden matematiksel ve mantıksal olarak kesin bir şekilde ayrılması (veri sızıntısının önlenmesi) ve modelin sadece kaba doğruluk (`accuracy`) ile değil, sınıf bazlı karışıklık matrisi ve olasılıksal tahmin belirsizliği (uncertainty margin) ile çok boyutlu değerlendirilmesidir.
 
-| Katman | Gerçek taban model değerlendirmesi ne içerir? | Bu ders ne kullanır? | Ne söyleyemez? |
-|---|---|---|---|
-| Veri ayrımı | Eğitim/test indekslerinin kriptografik hash'i ve grup/zaman sızıntısı denetimi | İlk 3 görevde `veri/ayrim_kayitlari.json` sentetik kayıtları; son görevde 160 örneklik canlı `sklearn` ayrımı | Kimlik ayrımı tek başına öznitelikler arası dolaylı sızıntıyı (feature leakage) engellemez |
-| Sınıf ve belirsizlik ölçümü | Karışıklık matrisi (`TP, FP, FN, TN`), duyarlılık, kesinlik ve `predict_proba` olasılık marjı | İlk 3 görevde `veri/taban_tahminleri.json` sentetik dizileri; son görevde gerçek `LogisticRegression` tahmin ve olasılıkları | `min(p, 1-p)` marjı kalibre edilmemiş modellerde gerçek olasılıksal güven aralığı değildir |
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Veri ayrımı: Eğitim/test indekslerinin kriptografik hash'i, grup ve zaman tabanlı veri sızıntısı (leakage) denetimi | İlk 3 görevde `veri/ayrim_kayitlari.json` sentetik kayıtları; son görevde 160 örneklik canlı `sklearn` ayrımı | Kayıt kimliği ayrımı tek başına öznitelikler arası dolaylı korelasyon sızıntısını (feature leakage) engellemez |
+| Sınıf ve belirsizlik ölçümü: Karışıklık matrisi (`TP, FP, FN, TN`), duyarlılık, kesinlik ve `predict_proba` olasılık marjı | İlk 3 görevde `veri/taban_tahminleri.json` sentetik dizileri; son görevde gerçek `LogisticRegression` tahmin ve olasılıkları | $\min(p, 1-p)$ marjı, kalibre edilmemiş modellerde gerçek istatistiksel güven aralığı değildir; göreli bir karar sınırı göstergesidir |
 
 > [!NOT]
-> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/ayrim_kayitlari.json` ve `veri/taban_tahminleri.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
+> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/ayrim_kayitlari.json` ve `veri/taban_tahminleri.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar. Gerçek deney adımında ise `scikit-learn` ile canlı eğitilen bir `LogisticRegression` modelinin sızıntısız veri ayrımı, sınıf metrikleri ve olasılık belirsizliği test edilir.
+
+### Aracın Altında Ne Olur?
+Taban model güvence motoru üç aşamalı bir analiz yürütür:
+1. **Veri Ayrımı ve Bütünlük Doğrulaması:** Her örneğin kimliği (1–64 karakterlik ASCII alfanümerik/tire/alt çizgi deseni), gerçek sınıf etiketi (`yelkovan` veya `diger`) ve veri bölümü (`egitim` veya `test`) doğrulanır. Aynı kimliğin iki kez geçmesi veya hem eğitim hem testte yer alması (veri sızıntısı - data leakage) kesinlikle engellenir. Her iki bölümün de en az bir kayıt içermesi şart koşulur ve kimlikler deterministik karşılaştırma için her bölümde alfabetik olarak sıralanır.
+2. **Karışıklık Matrisi ve Sınıf Ölçümleri:** `yelkovan` pozitif sınıf kabul edilerek $TP, FP, FN, TN$ sayıları hesaplanır. Doğruluk $\frac{TP + TN}{n}$, duyarlılık $\frac{TP}{TP + FN}$ ve kesinlik $\frac{TP}{TP + FP}$ formülleriyle bulunur. Eğer ilgili metrikte payda sıfır ise (örneğin hiç pozitif tahmin yapılmadığında kesinlik paydası sıfırdır), tanımsız değeri sıfır sanma hatasını önlemek için `None` değeri atanır; diğer tüm oranlar 6 ondalık basamağa yuvarlanır.
+3. **Olasılıksal Tahmin Belirsizliği Marjı:** Modelin ürettiği pozitif sınıf olasılıkları ($p \in [0, 1]$) için karar sınırına ($0.5$) olan yakınlık ölçülür:
+   $$\text{belirsizlik} = \min(p, 1 - p)$$
+   $p = 0$ veya $p = 1$ uçlarında belirsizlik $0.0$ (tam kesinlik), $p = 0.5$ noktasında ise maksimum belirsizlik $0.5$ olur. Belirlenen eşik değerine göre yüksek belirsizliğe sahip örnek sayısı ($\text{belirsizlik} \ge \text{esik}$), ortalama belirsizlik ve maksimum belirsizlik çıkarılır.
+
+### Çıktı Nasıl Okunur?
+- **Doğruluk vs Duyarlılık / Kesinlik:** Dengesiz sınıflarda $\%95$ doğruluk aldatıcı olabilir; eğer model nadir sınıfı hiç yakalayamıyorsa ($TP = 0$), duyarlılık $0.0$ olarak modelin operasyonel iflasını ortaya koyar.
+- **Paydası Sıfır Metrikler (`None`):** Kesinlik veya duyarlılıkta `None` görülmesi, o sınıfa ait tahmin veya gerçek örnek bulunmadığını açıkça gösterir.
+- **Ortalama ve Yüksek Belirsizlik:** Yüksek belirsizlik oranının fazla olması, modelin karar sınırında çok sayıda sınır örneği (borderline cases) bulundurduğunu ve hafif saldırı perturbasyonlarında kolayca manipüle edilebileceğini gösterir.
+
+### Saldırgan Neyi Dener?
+- **Veri Sızıntısını İstismar Etme:** Saldırgan eğitim ve test kümeleri arasına kasten örtüşen örnekler sokarak modelin denetim ortamında sahte bir başarı göstermesini, üretimde ise genelleme yapamayarak çökmesini sağlayabilir.
+- **Belirsizlik Bölgesine Sızma:** Karar sınırına yakın ($\min(p, 1-p) \approx 0.5$) hassas örnekleri tespit ederek çok küçük perturbasyonlarla sınıf atlatma (evasion) gerçekleştirir.
+- **Aşırı Özgüvenli Hataları Kışkırtma:** Modelin kalibre edilmemiş olmasından yararlanarak tamamen yanlış tahmin ettiği örneklerde bile $p \approx 0.99$ olasılık üretmesini sağlayıp alarm filtrelerini atlatır.
+
+### Savunma Neden Kırılır?
+- **Doğruluk Paradoksu (Accuracy Paradox):** Güvenlik analistlerinin sadece kaba doğruluğa odaklanıp sınıf bazlı duyarlılık ve kesinlik kayıplarını gözden kaçırması.
+- **Dolaylı Özellik Sızıntısı (Feature Leakage):** Kimlikler ayrı olsa bile, eğitim özelliklerinin içine geleceğe ait veya hedef etiketle doğrudan korele sızıntı alanlarının karışması.
+- **Kalibrasyon Yoksunluğu:** Olasılık skorlarının gerçek frekanslarla uyuşmaması nedeniyle eşik belirleme ve belirsizlik filtreleme mekanizmalarının tutarsız çalışması.
+
+### Sık Yapılan Geliştirici Tuzakları
+- **Sıfıra Bölme Hatası:** `tp + fn == 0` veya `tp + fp == 0` durumlarında doğrudan bölme yaparak `ZeroDivisionError` tetiklemek veya `None` yerine `0.0` dönerek tanımsızlığı yanlış raporlamak.
+- **Belirsizlik Formülü Hatası:** $\min(p, 1-p)$ yerine doğrudan olasılık değerlerinin ortalamasını alarak belirsizlik marjını çarpıtmak.
+- **Eşik Eşitliği Koşulu:** `belirsizlik >= esik` yerine `belirsizlik > esik` yazarak sınır değerindeki belirsiz örnekleri kaçırmak.
+- **Bool Tipi Tuzağı:** Python'da `isinstance(True, int) == True` olduğundan olasılık, eşik ve kimlik kontrollerinde boolean tipleri açıkça engellememek.
+- **Deterministik Sıralama İhmali:** Bölüm kimlik listelerini alfabetik `sorted()` yapmadan döndürerek test sözleşmelerini bozmak.
 :::
 
 ::: anlat Tek doğruluk oranı bütün hataları anlatmaz
@@ -371,9 +401,11 @@ def veri_ayrimi_dogrula(kayitlar):
     return {"egitim": [k.get("id", "") for k in (kayitlar or []) if isinstance(k, dict)], "test": []}
 
 def sinif_olcumleri(gercek, tahmin):
+    # KUSURLU BAŞLANGIÇ KODU: yalnız toplam doğruluğu hesaplayıp duyarlılık ve kesinliği sabit None bırakıyor!
     return {"tp": 0, "fp": 0, "fn": 0, "tn": 0, "dogruluk": 0.0, "duyarlilik": None, "kesinlik": None}
 
 def belirsizlik_ozeti(olasiliklar, esik=0.25):
+    # KUSURLU BAŞLANGIÇ KODU: min(p, 1-p) marjını hesaplamadan sıfır belirsizlik döndürüyor!
     return {"adet": 0, "ortalama_belirsizlik": 0.0, "yuksek_belirsizlik": 0, "maksimum_belirsizlik": 0.0}
 
 if ai_lab.CALISTIR:
@@ -381,6 +413,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import copy
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_02 as L
@@ -390,6 +423,25 @@ _base_ok = ok
 def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
+
+try:
+    _parsed = ast.parse(src)
+    for _node in ast.walk(_parsed):
+        if isinstance(_node, ast.ImportFrom):
+            if any(alias.name == '*' for alias in _node.names):
+                ok(False, "Güvenlik/kopya denetimi: wildcard import yasak")
+            for alias in _node.names:
+                if "referans" in (alias.name or "") or "referans" in (alias.asname or ""):
+                    ok(False, "Güvenlik/kopya denetimi: referans fonksiyon içe aktarılamaz")
+        if isinstance(_node, ast.Name) and "referans" in _node.id:
+            ok(False, "Güvenlik/kopya denetimi: referans kullanımı tespit edildi")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr:
+            ok(False, "Güvenlik/kopya denetimi: referans nitelik kullanımı tespit edildi")
+        if isinstance(_node, ast.Call):
+            if isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+                ok(False, f"Güvenlik/kopya denetimi: dinamik çağrı ({_node.func.id}) yasak")
+except Exception:
+    pass
 
 for s in ai_lab.kod_denetimi(src, yasak=("veri_ayrimi_dogrula_referans", "sinif_olcumleri_referans", "belirsizlik_ozeti_referans", "kanit_yaz")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")

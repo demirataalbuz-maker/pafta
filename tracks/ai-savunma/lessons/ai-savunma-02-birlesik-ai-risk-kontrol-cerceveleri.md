@@ -6,11 +6,44 @@ timeout: 45
 ---
 
 ::: anlat Çerçeveler farklı sorulara cevap verir
-OWASP LLM risk başlıkları neyin yanlış gidebileceğini, MITRE ATLAS teknikleri saldırganın yöntemini, NIST AI RMF işlevleri ise yönetişim çalışmasının hangi aşamada ele alınacağını gösterir. Bunlar birbirinin yerine geçen veya her zaman bire bir eşleşen listeler değildir.
 
-Bir risk birden çok ATLAS tekniğiyle ilişkilendirilebilir ve birden çok NIST işlevinde çalışma gerektirebilir. Bu derste kullanılan kimlikler sentetik bir çapraz referans fixture'ıdır; resmî veya eksiksiz bir eşleme tablosu iddiası taşımaz. Amaç, kurumun kendi eşlemesini kayıp ve yinelenme olmadan ifade edebilmesidir.
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| OWASP Top 10 for LLM, MITRE ATLAS ve NIST AI RMF kurumsal yapay zekâ risk ve kontrol standartlarını tanımlar | İlk 3 görev çapraz çerçeve eşlemeleri, sahip atamalı kontrol matrisi ve test kanıtlı güvence raporu | Yasal uyumluluk (EU AI Act, ISO 42001) denetim sertifikası veya sızma testi bağışıklık garantisi değildir |
+| Ollama yerel LLM ve canary enjeksiyon testleri canlı model güvenliğini ve prompt sızıntısını ölçer | Gerçek deney LLM01 kontrolü için gerçek model üzerinde canary sızıntı deneyiyle güvence kanıtı üretir | Çok aşamalı jailbreak saldırılarına karşı mutlak direnç veya sıfır gün zafiyetlerine karşı tam koruma kanıtı değildir |
 
-NIST işlevleri `GOVERN`, `MAP`, `MEASURE` ve `MANAGE` olarak yazılır. Risk kimliği `LLM01`–`LLM10`, teknik kimliği ise `AML.T` ve dört rakam biçimindedir.
+> [!NOT]
+> `veri/cerceve.json` dosyası sentetik risk eşleme, kontrol matrisi ve test kanıtı kayıtlarını içerir; resmi kurumsal uyumluluk veya canlı telemetri verisi değildir. İlk 3 görev bu yerel fixture verisini okur. Her Run/Check işleminde `hazirla("ai-savunma-02")` geçici kopya oluşturur; kalıcı değişiklik saklanmaz. Kodunuzu veya verinizi editörde inceleyebilirsiniz. Gizli değerlendirme testleri ayrı doğrulamalar koşturur. Gerçek deney adımı kurulu Ollama ve yerel modeli doğrudan çağırır; yeni paket veya model indirilmez.
+
+Kurumsal ortamlarda yapay zekâ sistemlerinin güvenliğini sağlamak, tek bir mühendislik ekibinin veya tek bir güvenlik uzmanının altından kalkabileceği bir görev değildir. Bir yapay zekâ uygulamasının yaşam döngüsünde farklı disiplinler farklı sorular sorar ve farklı kavram setleriyle çalışır. CISO ve risk yöneticileri "Hangi risk başlıklarına maruz kalıyoruz?", güvenlik operasyonları ve kırmızı takımlar (red team) "Saldırgan sistemimize hangi taktik ve tekniklerle saldırabilir?", uyumluluk ve iç denetim ekipleri ise "Bu riskleri yönetişimin ve süreçlerin hangi aşamasında kontrol altına alıyoruz?" sorularına yanıt arar. Eğer bu ekipler birbirinden kopuk çalışırsa, güvenlik çalışmaları silolar hâlinde yürütülür; kontroller mükerrer yazılır veya daha kötüsü, bazı kritik riskler bütünüyle sahipsiz kalır. Bu derste modern siber güvenlik mimarisinde kabul gören üç ana çerçeveyi—OWASP Top 10 for LLM, MITRE ATLAS ve NIST AI RMF—birleşik bir kontrol matrisinde ve test kanıtlarıyla harmanlayan güvence mimarisini inceliyoruz.
+
+Bu üç çerçeve birbirinin alternatifi veya rakibi değildir; aksine birbirini tamamlayan üç farklı boyuttur:
+1. OWASP Top 10 for LLM (Risk Boyutu): LLM tabanlı uygulamalarda neyin yanlış gidebileceğini, sistemin hangi temel zaaflara sahip olduğunu kategorize eder. `LLM01` (Prompt Injection) seviyesinden `LLM10` seviyesine kadar uzanan 10 temel risk başlığı tanımlar. Numaralar sürüme göre değişir: 2023 (v1.1) listesinde `LLM10` "Model Theft" iken 2025 listesinde "Unbounded Consumption" olmuştur; bu yüzden bir eşlemede liste sürümü de kaydedilmelidir. Bu kimlikler standart olarak `LLM01`–`LLM10` biçiminde çift haneli rakamlarla ifade edilir.
+2. MITRE ATLAS (Saldırı Tekniği Boyutu): Adversarial Threat Landscape for AI Systems projesi, saldırganların makine öğrenimi ve LLM sistemlerini hedef alırken kullandığı somut taktik ve teknikleri listeler. Örneğin prompt enjeksiyonu riski (`LLM01`), ATLAS kapsamında `AML.T0051` (LLM Prompt Injection) ve `AML.T0054` (LLM Jailbreak) gibi birden çok teknikle gerçekleştirilebilir. Her teknik kimliği `AML.T` ön eki ve dört haneli sayıdan oluşur.
+3. NIST AI RMF (Yönetişim ve Süreç Boyutu): National Institute of Standards and Technology Yapay Zekâ Risk Yönetim Çerçevesi, yapay zekâ risklerinin kurumsal yaşam döngüsünde hangi aşamada ele alınacağını dört temel işlevle tanımlar:
+   - `GOVERN` (Yönetişim): Kurumsal kültür, politikalar, roller ve yasal sorumlulukların belirlenmesi.
+   - `MAP` (Haritalama): Sistemin bağlamının, paydaşlarının, sınırlarının ve potansiyel risklerinin tespit edilmesi.
+   - `MEASURE` (Ölçme): Risklerin, performans metriklerinin, testlerin ve değerlendirme araçlarının işletilmesi.
+   - `MANAGE` (Yönetme): Önceliklendirilen risklere karşı kontrollerin uygulanması, izlenmesi ve hafifletilmesi.
+
+Bir risk tek bir çerçeve maddesiyle sınırlı kalmaz; birden çok ATLAS saldırı tekniği barındırabilir ve birden çok NIST işlevinde çalışma gerektirebilir. Bu eşlemelerin kayıp ve yinelenme olmadan normalize edilmesi, kurumsal risk haritasının omurgasını oluşturur. Ancak kâğıt üzerindeki eşlemeler tek başına koruma sağlamaz; bu eşlemelerin somut kontrollere (`kontroller`) ve her kontrolün açık bir sahibe (`sahip`) bağlanması şarttır. Sahibi belirlenmemiş bir güvenlik kontrolü, hiçbir zaman işletilmeyen ölü bir kuraldan ibarettir. Kontrol kimlikleri `K-` ön ekiyle tanımlanır (örneğin `K-GIRD-1`, `K-DLP-2`) ve kontrolün ait olduğu NIST işlevi, riskin normalize eşlemesinde yer alan işlevlerden biri olmak zorundadır. Eğer bir risk için tanımlanmış hiçbir kontrol yoksa, o risk `kontrolsuz` olarak işaretlenir. Kontrolsüz riskleri rapordan gizlemek veya silmek, kuruma sahte bir güvence hissi verir ve en tehlikeli yönetim tuzağıdır.
+
+Daha da önemlisi: Bir kontrolün matriste yer alması, o kontrolün çalıştığını veya etkili olduğunu kanıtlamaz. Güvenlik mühendisliğinde temel kural "Doğrulanmamış kontrol, mevcut olmayan kontroldür" ilkesidir. Her kontrol için yürütülen testlerin sonuçları (`gecti`, `kaldi`, `uygulanmadi`) toplanmalı ve riskin genel güvence durumu katı bir öncelik sırasıyla hesaplanmalıdır:
+- `kontrolsuz`: Risk için matriste hiçbir kontrol tanımlanmamıştır.
+- `kritik`: Tanımlı kontrollerden en az bir tanesinin testi başarısız olmuştur (`kaldi`). Diğer kontroller geçmiş olsa bile tek bir başarısız test tüm riski kritik seviyeye çeker.
+- `eksik_kanit`: Başarısız kontrol yoktur ancak bazı kontrollerin testi hiç yapılmamıştır (`test_yok`) veya test uygulanmamıştır (`uygulanmadi`).
+- `kapsali`: Riskin tüm kontrolleri test edilmiş ve tamamı başarıyla geçmiştir (`gecti`).
+
+Saldırganlar kurumsal AI mimarilerini hedeflerken şu açık noktaları istismar eder:
+- Kâğıt Üzerinde Uyum (Paper Compliance) Açıkları: Şirketin politika belgelerinde "prompt enjeksiyonu engellenmektedir" yazmasına rağmen, gerçekte kontrolün test kanıtının bulunmamasını (`eksik_kanit`) fırsat bilerek doğrudan enjeksiyon denemeleri yapmak.
+- Sorumluluk Boşlukları (Ownership Gaps): Geliştirme ekibi ile altyapı ekibi arasında sahibi netleştirilmemiş kontrollerin güncellenmemesini veya bypass edilmesini istismar etmek.
+- Canary ve Sistem İpucu Sızıntısı: Modele sağlanan gizli sistem promptunu veya gizli anahtarları dışarı sızdırmak için dolaylı manipülasyonlar yürütmek.
+
+Geliştiricilerin sık yaptığı hatalar:
+- Kontrol Varlığını Güvence Zannetmek: Test kanıtı olmadan matrise eklenen her kontrolü başarılı kabul etmek.
+- Durum Önceliklerini Karıştırmak: Bir kontrol kaldığında (`kaldi`), diğer üç kontrol geçtiği için çoğunluk kuralına dayanıp riski "kapsalı" veya "orta" ilan etmek.
+- Uygulanmamış Teste Kanıt Yazmak: `uygulanmadi` durumundaki bir teste içi dolu açıklama koyarak test sözleşmesini bozmak.
+- Girdi Verilerini Değiştirmek: Parametre listelerini yerinde sıralayarak çağıran uygulamanın belleğini kirletmek.
 :::
 
 ::: tahmin Normalize etme sıra ve yinelenmeyi yönetir
@@ -38,9 +71,23 @@ Sıfırlı risk kimliği normalize edilirken başka bir biçime çevrilmez; kiml
 
 Her kaydın `owasp`, `atlas`, `nist` alanlarını yeni bir sözlükte döndür; ATLAS ve NIST listelerini alfabetik, riskleri OWASP kimliğine göre sırala. Boş girdi için boş liste döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-02")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def risk_eslemelerini_normalize(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: şema doğrulaması yapmaz, ATLAS ve NIST listelerini alfabetik sıralamaz ve OWASP sırasını bozabilir.
+    return [{"owasp": k.get("owasp"), "atlas": k.get("atlas", []), "nist": k.get("nist", [])} for k in (kayitlar or [])]
+
+v = json_yukle("veri/cerceve.json")["eslemeler"]
+print("Normalize eşlemeler örneği:", risk_eslemelerini_normalize(v))
 ```
 
 ```test
@@ -165,9 +212,24 @@ Dönüş:
 
 Riskleri ve kontrolsüz listesini OWASP kimliğine, kontrolleri kontrol kimliğine göre sırala. Kontrol kaydında `owasp` alanını tekrar etme. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-02")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def kontrol_matrisi_kur(eslemeler, kontroller):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kontrolleri risklerle eşleştirmez, kontrolsüz risk listesini boş döner ve sıralama yapmaz.
+    return {"riskler": [{"owasp": e.get("owasp"), "atlas": e.get("atlas", []), "nist": e.get("nist", []), "kontroller": []} for e in (eslemeler or [])], "kontrolsuz": []}
+
+veri = json_yukle("veri/cerceve.json")
+e, k = veri["eslemeler"], veri["kontroller"]
+print("Örnek kontrol matrisi:", kontrol_matrisi_kur(e, k))
 ```
 
 ```test
@@ -331,9 +393,24 @@ Her risk için `owasp`, `toplam`, `gecti`, `kaldi`, `uygulanmadi`, `test_yok`, `
 
 Riskleri OWASP kimliğine göre sırala, özet sayaçlarını risk durumlarından üret ve girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-02")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def risk_guvence_raporu(eslemeler, kontroller, testler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: durum önceliklerini dikkate almaz, tüm riskleri kapsalı raporlar ve özet sayaçlarını sıfırlar.
+    return {"riskler": [{"owasp": e.get("owasp"), "toplam": 0, "gecti": 0, "kaldi": 0, "uygulanmadi": 0, "test_yok": 0, "durum": "kapsali"} for e in (eslemeler or [])], "ozet": {"kapsali": len(eslemeler or []), "eksik_kanit": 0, "kritik": 0, "kontrolsuz": 0}}
+
+veri = json_yukle("veri/cerceve.json")
+e, k, t = veri["eslemeler"], veri["kontroller"], veri["testler"]
+print("Örnek risk güvence raporu:", risk_guvence_raporu(e, k, t))
 ```
 
 ```test
@@ -542,7 +619,8 @@ timeout: 300
 import ai_lab
 
 def risk_guvence_raporu(eslemeler, kontroller, testler):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: durum önceliklerini dikkate almaz, tüm riskleri kapsalı raporlar.
+    return {"riskler": [{"owasp": e.get("owasp"), "toplam": 0, "gecti": 0, "kaldi": 0, "uygulanmadi": 0, "test_yok": 0, "durum": "kapsali"} for e in (eslemeler or [])], "ozet": {"kapsali": len(eslemeler or []), "eksik_kanit": 0, "kritik": 0, "kontrolsuz": 0}}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_02 as deney
@@ -550,7 +628,30 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import ai_lab
+
+def _ast_denetle(kod):
+    agac = ast.parse(kod)
+    yasakli = {"eval", "exec", "getattr", "setattr"}
+    for dugum in ast.walk(agac):
+        if isinstance(dugum, ast.ImportFrom):
+            if any(a.name == "*" for a in dugum.names):
+                return False, "wildcard import yasak"
+            if any("referans" in a.name for a in dugum.names):
+                return False, "referans fonksiyonu import edilemez"
+        if isinstance(dugum, ast.Call):
+            if isinstance(dugum.func, ast.Name) and dugum.func.id in yasakli:
+                return False, f"{dugum.func.id} çağrısı yasak"
+            if isinstance(dugum.func, ast.Attribute) and dugum.func.attr in yasakli:
+                return False, f"{dugum.func.attr} kullanımı yasak"
+            if isinstance(dugum.func, ast.Attribute) and "referans" in dugum.func.attr:
+                return False, "referans niteliğine doğrudan erişilemez"
+    return True, ""
+
+gecerli_kod, gerekce = _ast_denetle(src)
+ok(gecerli_kod, f"kod güvenlik denetiminden geçmeli: {gerekce}")
+
 sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))

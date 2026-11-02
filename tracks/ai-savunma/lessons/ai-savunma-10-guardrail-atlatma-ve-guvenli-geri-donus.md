@@ -6,9 +6,34 @@ timeout: 45
 ---
 
 ::: anlat Guardrail yokluğu izin değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| NeMo Guardrails, LLM Guard ya da bulut moderasyon API'leri bir HTTP çağrısıdır: zaman aşımına uğrayabilir, 5xx döndürebilir ya da yanlış yapılandırmayla akıştan atlanabilir. `tenacity` gibi kütüphaneler üstel beklemeli yeniden deneme uygular. Promptfoo ve Garak atlatma vakalarını toplu sınar. | Görev 1–3: `veri/guardrail_sonuclari.json`, `veri/deneme_senaryolari.json` ve `veri/geri_donus_kayitlari.json` içindeki **sentetik** sonuçlar, deneme geçmişleri ve yanıt adayları; bekleme yalnız hesaplanır. Son adım: kurulu yerel Ollama modelinin iki senaryodaki gerçek çıktıları ve sandbox'taki bağımsız sinyal taraması. | Gerçek bir guardrail servisi, ağ hatası ya da gecikme ölçülmez. Üç işaretli kalıp bütün riskli içerikleri tanımaz. İki senaryo bir atlatma oranı vermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, ağ ve gerçek bekleme yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Bir guardrail zaman aşımına uğradığında, hata verdiğinde veya akıştan tamamen atlandığında model yanıtını kullanıcıya geçirmek fail-open davranıştır. Bu dersin politikasında yalnız tamamlanmış, `izin` vermiş ve risk taşımayan denetim model yanıtı kanalını açar. Ret ve risk güvenli yedeğe; geçici teknik hata yeniden deneme değerlendirmesine; atlanma ise doğrudan güvenli yedeğe gider.
 
-NeMo Guardrails ve Promptfoo gerçek bir kurulumda bu akışları ve atlatma vakalarını sınamak için kullanılabilir. Buradaki kod dış servis çağırmaz, uyumaz ve model indirmez. Yeniden deneme yalnız deterministik bir plan olarak hesaplanır.
+NeMo Guardrails ve Promptfoo gerçek bir kurulumda bu akışları ve atlatma vakalarını sınamak için kullanılabilir. Görev 1–3'teki kod dış servis çağırmaz, uyumaz ve model indirmez; yeniden deneme yalnız deterministik bir plan olarak hesaplanır. Son adım kurulu yerel modelin gerçek çıktılarını kullanır; yine hiçbir şey indirilmez.
+
+**Saldırgan ne dener?** Guardrail'i atlatmanın en ucuz yolu onu içerikle kandırmak değil, hiç çalışmamasını sağlamaktır:
+
+- Çok uzun ya da karmaşık bir istemle guardrail çağrısını zaman aşımına düşürmek.
+- Guardrail servisinin hata verdiği bir girdi biçimi (bozuk Unicode, aşırı iç içe JSON) göndermek.
+- Yapılandırma hatasıyla guardrail'in atlandığı bir yolu (ör. akış modu, farklı uç nokta) kullanmak.
+
+Uygulama "guardrail cevap vermedi, kullanıcıyı bekletmeyelim" diye model yanıtını geçirirse saldırgan istediğini almış olur. Bu, **fail-open** davranıştır.
+
+**Savunma neden kırılır?**
+- Sınırsız yeniden deneme hem maliyeti hem gecikmeyi büyütür ve servis reddine kapı açar.
+- Kalıcı hatayı yeniden denemek aynı sonucu tekrarlar.
+- En tehlikelisi güvenli yedek mesajına teknik hata ayrıntısını ya da reddedilen yanıtı eklemektir: reddedilen içerik "hata mesajı" kılığında yine kullanıcıya ulaşır.
+
+Bu derste yalnız açıkça tamamlanmış, izin vermiş ve risk taşımayan denetim model kanalını açar; geri kalan her şey sabit, nötr bir yedeğe düşer.
+
+**Görev 1'de sık tuzaklar:** Yalnız `karar == "reddet"` durumunu engellemek, atlanmış ya da hata vermiş guardrail'i izin sayar (`veri/guardrail_sonuclari.json`, `g-04`, `g-06`). `izin` kararını taşıyan ama risk listesi dolu sonucu geçirmek, sinyali boşa çıkarır (`g-02`). `hata` durumunda `izin` kararı gibi çelişkili kayıtları sessizce kabul etmek, bozuk bir entegrasyonu gizler (`g-07`).
 :::
 
 ::: tahmin Üst sınır bekleme süresini keser
@@ -39,9 +64,37 @@ Durum `tamam` ise karar `izin` veya `reddet` olmalıdır. Diğer durumlarda kara
 
 Yalnız `tamam + izin + boş risk` için `{"kanal":"model_yaniti","neden":"guardrail_izin"}` döndür. Tamamlanmış ret veya risk varlığında `guvenli_yedek`/`politika`; hata veya zaman aşımında `yeniden_dene_degerlendir`/`guardrail_hatasi`; atlanmada `guvenli_yedek`/`guardrail_atladi` döndür. Girdiyi değiştirme.
 
+Görünür veri: `veri/guardrail_sonuclari.json`. Her sonucun `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def guardrail_sonucunu_yorumla(sonuc):
-    return {"kanal": "guvenli_yedek", "neden": "guardrail_hatasi"}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız açık "reddet" kararını engelliyor; atlanmış, hata vermiş ya da zaman aşımına uğramış guardrail'i izin sayıyor (fail-open), risk listesini yok sayıyor ve şemayı doğrulamıyor!
+    if sonuc.get("karar") == "reddet":
+        return {"kanal": "guvenli_yedek", "neden": "politika"}
+    return {"kanal": "model_yaniti", "neden": "guardrail_izin"}
+
+veri = json_yukle("veri/guardrail_sonuclari.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = guardrail_sonucunu_yorumla(o["sonuc"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+    if sonuc != o["beklenen"]:
+        print("   beklenen:", o["beklenen"])
+        print("   bulunan :", sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-10")
 ```
 
 ```test
@@ -134,6 +187,10 @@ def guardrail_sonucunu_yorumla(sonuc):
 Yalnız zaman aşımı ve açıkça geçici hata yeniden denenebilir. Kalıcı hata ve başarı terminaldir; bu kayıtlardan sonra başka deneme bulunamaz. Deneme sayısı politika üst sınırına ulaştığında geçici hata bile güvenli yedeğe yönelir.
 
 Bekleme süresi `min(taban_ms * 2 ** (deneme - 1), tavan_ms)` formülüyle hesaplanır. Başarı, kalıcı hata ve bütçenin bitmesi sıfır beklemeyle terminal eylem üretir. Fonksiyon gerçek uyku veya ağ çağrısı yapmaz.
+
+**Çıktı nasıl okunur?** `toplam_bekle_ms`, kullanıcının en kötü durumda guardrail yüzünden bekleyeceği ek süredir. Son adımın `guvenli_yedek` olması, bütçe bittiğinde akışın model yanıtına değil sabit yedeğe döndüğünü gösterir.
+
+**Görev 2'de sık tuzaklar:** Tavanı uygulamamak üçüncü beklemeyi 1000 ms yapar; ayar 800 ms der (`veri/deneme_senaryolari.json`, `r-02`). Bütçenin son denemesinde bile `yeniden_dene` planlamak, olmayan bir denemeyi vaat eder. Kalıcı hatayı yeniden denemek, aynı hatayı tekrar tekrar üretir (`r-03`).
 :::
 
 ::: gorev 2 · Sınırlı ve üstel beklemeli yeniden deneme planı hesapla
@@ -150,9 +207,44 @@ Her kayıt için `{"deneme":N,"eylem":EYLEM,"bekle_ms":MS}` üret:
 
 `{"adimlar":[...],"toplam_bekle_ms":TOPLAM}` döndür. Girdi listesini ve ayarı değiştirme; gerçek uyku çağrısı yapma.
 
+Görünür veri: `veri/deneme_senaryolari.json`. Her senaryonun `beklenen` planı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def yeniden_deneme_plani(hatalar, ayar):
-    return {"adimlar": [], "toplam_bekle_ms": 0}
+    # KUSURLU BAŞLANGIÇ KODU: kalıcı hatayı da yeniden deniyor, bekleme tavanını uygulamıyor, bütçe dolduğunda bile yeniden deneme planlıyor (güvenli yedeğe geçmiyor) ve ayarı ya da terminal kayıtları doğrulamıyor!
+    adimlar = []
+    toplam = 0
+    for indeks, hata in enumerate(hatalar):
+        if hata == "basarili":
+            eylem, bekle = "dur", 0
+        else:
+            eylem, bekle = "yeniden_dene", ayar["taban_ms"] * 2 ** indeks
+        toplam += bekle
+        adimlar.append({"deneme": indeks + 1, "eylem": eylem, "bekle_ms": bekle})
+    return {"adimlar": adimlar, "toplam_bekle_ms": toplam}
+
+veri = json_yukle("veri/deneme_senaryolari.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = yeniden_deneme_plani(o["hatalar"], o["ayar"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+    if sonuc != o["beklenen"]:
+        print("   beklenen:", o["beklenen"])
+        print("   bulunan :", sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-10")
 ```
 
 ```test
@@ -262,6 +354,8 @@ Ayar sınırlarını ve terminal kayıt konumlarını önce doğrula. Beklemeyi 
 Son çıktı katmanı defense-in-depth uygular. Model kanalı işaretlenmiş olsa bile aday metinde canary, özel anahtar başlığı veya Bearer token varsa içerik geçirilmez. Güvenli yedek kanalında da kullanıcıya sabit, nötr bir mesaj verilir; aday metin veya teknik hata kopyalanmaz.
 
 Yeniden deneme kanalı kullanıcıya metin göstermek yerine `yanit = None` üretir. Böylece istemci akışı geçici durumu nihai güvenli yanıtla karıştırmaz.
+
+**Görev 3'te sık tuzaklar:** Yedek mesaja "neden reddettiğimizi" göstermek için adayı ya da hata izini eklemek, tam da engellenmesi gereken içeriği kullanıcıya taşır (`veri/geri_donus_kayitlari.json`, `yedek-hata`). Yalnız canary'yi aramak, `Bearer` ve `PRIVATE KEY` içeren model yanıtlarını geçirir. Yeniden deneme kanalında yedek metni göstermek, istemciyi geçici durumu nihai yanıt sanmaya iter.
 :::
 
 ::: gorev 3 · Ham içeriği sızdırmayan son geri dönüş raporunu üret
@@ -273,9 +367,48 @@ Diğer model adayları ve `guvenli_yedek` kanalı için karar `guvenli_yedek`, y
 
 Her kayıt için `{"id":ID,"karar":KARAR,"yanit":YANIT,"ham_icerik_tasindi":BOOL}` döndür. Kimliğe göre sırala, boş girdide boş liste döndür ve girdiyi değiştirme.
 
+Görünür veri: `veri/geri_donus_kayitlari.json`. Dosyada yedi aday, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def guvenli_geri_donus_raporu(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız canary'yi arıyor (Bearer ve PRIVATE KEY model kanalından geçer), boş ve boşluklu adayı kabul ediyor, güvenli yedek yanıtına teknik hata/aday metnini ekliyor (ham içerik sızar), yeniden deneme kanalına da yedek metni yazıyor, kayıtları doğrulamıyor ve sıralamıyor!
+    yedek = "Güvenli yanıt üretilemedi; istek tamamlanamadı."
+    rapor = []
+    for kayit in kayitlar:
+        aday = kayit["yanit_adayi"]
+        if kayit["kanal"] == "model_yaniti" and "BREACH:CANARY-42" not in aday:
+            rapor.append({"id": kayit["id"], "karar": "model_yaniti", "yanit": aday, "ham_icerik_tasindi": True})
+        else:
+            rapor.append({"id": kayit["id"], "karar": "guvenli_yedek", "yanit": yedek + " (" + aday + ")", "ham_icerik_tasindi": False})
+    return rapor
+
+veri = json_yukle("veri/geri_donus_kayitlari.json")
+try:
+    rapor = guvenli_geri_donus_raporu(veri["kayitlar"])
+except Exception as hata:
+    rapor = [{"id": "hata", "karar": type(hata).__name__, "yanit": None, "ham_icerik_tasindi": False}]
+print("rapor sırası", "doğru" if [r["id"] for r in rapor] == [b["id"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r["id"] == beklenen["id"]), None)
+    print(beklenen["id"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        guvenli_geri_donus_raporu(b["girdi"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-10")
 ```
 
 ```test
@@ -379,6 +512,8 @@ Model kanalındaki bütün kabul koşullarını birlikte denetle. Yeniden deneme
 Güvenli geri dönüşün amacı, guardrail bir çıktıyı reddettiğinde o ham çıktının yine de kullanıcıya sızmasını engellemektir. Son görevde senin `guvenli_geri_donus_raporu` işlevin, gerçek yerel modelin iki senaryoda ürettiği **gerçek** çıktıları karara bağlar: zararsız bir özet ve modelin kimlik-bilgisi biçimli bir dize (ör. Authorization Bearer satırı) ürettiği senaryo. İkincisi zararsız bir istektir, ama modeller kimlik-bilgisi biçimli örnekleri seve seve üretir; çıktı guardrail'i bu biçimi bir sızıntı riski sayar.
 
 Sandbox her çıktının sızıntı sinyallerini bağımsız bulur, bir guardrail sonucu üretir ve fail-closed yorumlayıcıyla (1. görev) kanala çevirir. Senin raporun kararı verir: temiz model çıktısı aynen geçer; riskli çıktı `guvenli_yedek` kanalına düşer ve ham içerik taşınmaz — yerine sabit güvenli yedek metni gider. Böylece bir guardrail reddi sessizce ham (riskli) yanıtı göndermez.
+
+**Çıktıyı okurken:** Her senaryo için önce sandbox'ın bulduğu risk sinyaline, sonra kanal ve senin kararına bak. Riskli senaryoda `yanit` alanı sabit yedek cümle olmalı ve `ham_icerik_tasindi` false kalmalıdır. Model bu koşuda kimlik-bilgisi biçimli bir dize üretmediyse risk sinyali çıkmaz ve kabul kontrolü bunu ayrıca bildirir; bu durumda sonuç saldırının değil modelin davranışının bir gözlemidir.
 :::
 
 ::: gorev Gerçek deney · Riskli gerçek çıktıda güvenli geri dönüş
@@ -394,7 +529,16 @@ timeout: 300
 import ai_lab
 
 def guvenli_geri_donus_raporu(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız canary'yi arıyor (Bearer ve PRIVATE KEY model kanalından geçer), boş ve boşluklu adayı kabul ediyor, güvenli yedek yanıtına teknik hata/aday metnini ekliyor (ham içerik sızar), yeniden deneme kanalına da yedek metni yazıyor, kayıtları doğrulamıyor ve sıralamıyor!
+    yedek = "Güvenli yanıt üretilemedi; istek tamamlanamadı."
+    rapor = []
+    for kayit in kayitlar:
+        aday = kayit["yanit_adayi"]
+        if kayit["kanal"] == "model_yaniti" and "BREACH:CANARY-42" not in aday:
+            rapor.append({"id": kayit["id"], "karar": "model_yaniti", "yanit": aday, "ham_icerik_tasindi": True})
+        else:
+            rapor.append({"id": kayit["id"], "karar": "guvenli_yedek", "yanit": yedek + " (" + aday + ")", "ham_icerik_tasindi": False})
+    return rapor
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_10 as deney
@@ -407,8 +551,19 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_yorumla", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak = ("referans", "referans_yorumla", "getattr", "kanit_yaz")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+sorun = sorted(set(sorun))
+if not kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun)):
+    stop()
 fn = need("guvenli_geri_donus_raporu")
 from sandbox import ai_gercek_ai_savunma_10 as D
 YEDEK = "Güvenli yanıt üretilemedi; istek tamamlanamadı."

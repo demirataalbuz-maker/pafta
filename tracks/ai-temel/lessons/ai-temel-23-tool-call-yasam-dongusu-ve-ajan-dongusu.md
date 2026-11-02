@@ -6,12 +6,36 @@ timeout: 45
 ---
 
 ::: anlat Araç çağrısı modelin önerdiği veridir ve iki tel biçimiyle gelir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Araç çağrısı API yanıtında öneri olarak gelir; uygulama doğrulayıp yürütür | İlk üç görev görünür sentetik OpenAI/Ollama biçimleri ve betikli model; final gerçek yerel Ollama ajanı | FastAPI/Pydantic veya uzaktaki OpenAI servisi çalıştırıldığı anlamına gelmez |
+| Ajan araç sonucunu bağlama alıp yeni karar verir | Final gerçek Python toplama/çarpma işlevleri ve en çok altı model turu | Dosya/ağ yetkisi, kullanıcı onayı, genel ajan güvenliği veya saldırı başarısı testi değildir |
+
+> [!NOT]
+> `veri/cagrilar.json` ve `veri/ajan.json` elle hazırlanmış sentetik örneklerdir; canlı model kaydı değildir. İlk üç görev bu dosyaları okur. Setup her Run/Check için geçici kopya oluşturur; kalıcılık yoktur. Kaynağı editörle aç veya kodda yüklenen kopyayı değiştirip Run dene. Gizli testler ayrıdır. Final kurulu yerel modeli gerçekten çağırır; yeni indirme yoktur.
+
 İstemci araçları istekte `tools` listesiyle bildirir: her öğe `{"type": "function", "function": {"name": ..., "description": ..., "parameters": <JSON Schema>}}` biçimindedir. Model aracı çalıştırmaz; yalnız `tool_calls` alanı dolu bir asistan mesajı üretir. OpenAI Chat Completions yanıtında her çağrı `id`, `type: "function"` ve `function.name` taşır; `function.arguments` ise modelin ürettiği bir JSON **string**idir ve geçersiz JSON, nesne olmayan bir değer ya da şemaya uymayan alanlar içerebilir. `finish_reason` genellikle `"tool_calls"` olur, ancak `tool_choice` belirli bir fonksiyonu zorladığında `"stop"` gelebilir; bu yüzden döngü `finish_reason`'a değil `tool_calls` alanının doluluğuna bakar. Ollama'nın yerel `/api/chat` uç noktasında `arguments` doğrudan bir JSON **nesnesi**dir, sıra `function.index` ile verilir ve sunucunun `ToolCall` yapısında `type` alanı yoktur; çağrı kimliği `id` v0.12.10 sürümünde eklendi, daha eski sunucular onu hiç göndermez. Aynı sunucunun OpenAI uyumlu `/v1/chat/completions` uç noktası ise OpenAI gibi string döndürür, yani tek sunucu iki farklı tür üretebilir.
 
-Bu fark bir güvenlik sınırıdır: tek biçimi varsayan ayrıştırıcı ya çöker ya da yanlış türdeki içeriği sessizce kabul eder. Doğru yaklaşım, çağrıları sınırda tek bir iç biçime (`id`, `ad`, `argumanlar`) çevirmek ve argümanları aracın bildirilen `parameters` şemasına karşı **yürütmeden önce** doğrulamaktır: bildirilmemiş araç, nesneye çözülmeyen argüman, eksik `required` alanı, `additionalProperties: false` ile yasaklanan fazla alan ve yanlış tür onarılmadan reddedilir. JSON Schema'da `true` bir `integer` değildir, Python'da ise `bool` `int`'in alt sınıfıdır; bu yüzden tür denetimi `isinstance` ile değil tam tür karşılaştırmasıyla yapılır. Gerçek bir FastAPI servisinde bu iş Pydantic modelleriyle yapılır: `model_config = ConfigDict(extra="forbid")` bilinmeyen alanı reddeder, `model_validate_json(...)` OpenAI'nin string argümanını, `model_validate(...)` Ollama'nın sözlüğünü doğrular; varsayılan lax modda `"2"` gibi bir string `int`'e çevrilebildiği için tam tür denetimi `strict=True` ister. Bu derste Ollama, FastAPI veya Pydantic çalıştırılmaz ve hiçbir model çağrılmaz; mesajlar belgelenen biçimleri izleyen sabit fixture'lardır, şema yalnız `string` ve `integer` türlerini içeren küçük bir JSON Schema alt kümesidir ve `id` göndermeyen eski Ollama sunucuları için iç kimliği `ollama-0` gibi sıra numarasından türetmek bu derse özgü bir kuraldır.
+Bu fark bir güvenlik sınırıdır: tek biçimi varsayan ayrıştırıcı ya çöker ya da yanlış türdeki içeriği sessizce kabul eder. Doğru yaklaşım, çağrıları sınırda tek bir iç biçime (`id`, `ad`, `argumanlar`) çevirmek ve argümanları aracın bildirilen `parameters` şemasına karşı **yürütmeden önce** doğrulamaktır: bildirilmemiş araç, nesneye çözülmeyen argüman, eksik `required` alanı, `additionalProperties: false` ile yasaklanan fazla alan ve yanlış tür onarılmadan reddedilir. JSON Schema'da `true` bir `integer` değildir, Python'da ise `bool` `int`'in alt sınıfıdır; bu yüzden tür denetimi `isinstance` ile değil tam tür karşılaştırmasıyla yapılır. Gerçek bir FastAPI servisinde bu iş Pydantic modelleriyle yapılır: `model_config = ConfigDict(extra="forbid")` bilinmeyen alanı reddeder, `model_validate_json(...)` OpenAI'nin string argümanını, `model_validate(...)` Ollama'nın sözlüğünü doğrular; varsayılan lax modda `"2"` gibi bir string `int`'e çevrilebildiği için tam tür denetimi `strict=True` ister. Görevler 1–3 belgelenen biçimleri izleyen sentetik dosyalarda çalışır; final kurulu Ollama modeliyle gerçek ajan döngüsünü yürütür. FastAPI/Pydantic bu derste kullanılmaz; şema yalnız `string` ve `integer` türlerini içeren küçük bir JSON Schema alt kümesidir ve `id` göndermeyen eski Ollama sunucuları için iç kimliği `ollama-0` gibi sıra numarasından türetmek bu derse özgü bir kuraldır.
 :::
 
 ::: anlat Ajan döngüsü her çağrıya tek sonuç verir ve bütçeyle durur
+
+Önce cagrilar.json dosyasını aç. Aynı hava/saat isteğinin OpenAI biçiminde JSON metni, Ollama biçiminde doğrudan nesne argümanı vardır. İlk görev bunları tek iç biçime çevirir. Dosyadaki normalize listesi ikinci görevin girdisidir; yerel örnek hava ve saat işlevleri gerçek servis değildir, dosyadaki sentetik sonuçları döndürür. ajan.json üçüncü görev için sırayla iki asistan mesajı taşır. Buradaki betikli model yalnız bu mesajları sırayla verir; internet veya dil modeli kullanmaz. Böylece önce yaşam döngüsünü anlaşılır veride izler, finalde gerçekten üretilmiş çağrıları aynı doğrulama mantığıyla işlersin.
+
+Çağrı kimliği araç adı değildir. Aynı araca iki ayrı çağrı geldiğinde sonuçlar kendi kimliklerine bağlanmalıdır. Öte yandan eski yerel tel biçimi kimlik göndermeyebilir; dersin normalize kimliği yalnız öğretim kuralıdır, bütün sunucuların garantisi değildir. İlk görevin küçük şema altkümesi yalnız string ve integer tanır. Finaldeki şema ise sayı/metin alanları kullanır; sayı burada bool olmayan sonlu int/float kabul eder. İki görevdeki argüman sözleşmesini aynı sanarak ondalıklı değeri ilk görevde kabul etme. Metin olarak gelen bir argümanı sessizce sayıya çevirmek de katı doğrulama değildir.
+
+Bir mesajın bütün çağrılarını önce doğrulamak önemlidir. İlk çağrıyı hemen çalıştırıp ikinci çağrının bozuk olduğunu sonra fark edersen işlem kısmen gerçekleşmiştir. İkinci görev bu yüzden iki geçiş yapar: önce tüm kimlik, araç ve argüman yapıları; sonra yürütme. Bu bir veritabanı işlemi veya geri alma mekanizması değildir. Gerçek araç yan etki yapıyorsa hata sonrası önceki etkileri nasıl telafi edeceğin ayrıca tasarlanır. Bu derste gerçek finalin araçları yalnız aritmetik hesapladığı için dosya, ağ veya öğrenci verisi üzerinde yan etki oluşturmaz.
+
+Sonuç içeriklerinin biçimi de güven sınırıdır. Bir Python sözlüğünü str ile yazmak JSON üretmez; JSON'a çevrilemeyen küme ise TypeError verir. İkinci ve üçüncü görev bu hatayı yalnız sınıf adıyla sonuç mesajına yazar. İstisnanın özel metnini modele göndermek bir dosya yolu veya anahtar sızdırabilir. Buna karşılık SystemExit gibi Exception dışında kalan durumlar yutulmaz. Hata mesajını modele geri vermek, araç sonucunun güvenilir talimata dönüştüğü anlamına gelmez. Sonraki bir model çağrısı bu içeriği veri olarak kullanır; izin ve kaynak politikası başka bir katmandır.
+
+Döngü bütçesi model çağrılarını sayar. Son turda araç istenirse o çağrı yürütülüp sonuç geçmişe eklenir, fakat bütçe bittiyse model bir kez daha çağrılmaz. Böyle bir sonuç tamam değil adim_siniri olarak görünmelidir. Betikte iki mesaj bulunması iki araç çağrısı demek değildir; tek mesaj çok sayıda çağrı içerebilir. Geçmişin derin kopyasını modele vermek, betikli modelin geçmişi geriye dönük değiştirmesini önler. Bütün döngü boyunca kimliklerin tekil kalması sonuçların yanlış tura bağlanmasını engeller.
+
+Gerçek final iki aritmetik araç sunar ve hesaplama için modelin bunları seçmesini bekler. Her turdaki tam mesajlar, örnekleme ayarları, ham model yanıtı, çağrılar ve sonuçlar kanıtta kalır. Son metin 444 yerine açıklama içerirse sonuç ayrı bulgu olarak kaydedilir; sabit metin eşleşmesi geçme koşulu değildir. Bununla birlikte gerçek bir araç çağrısı ve öğrenci dispatch'inin doğru çalışması gerekir. Model çağrısı hatası veya hiç çalışmamış deney geçme sayılmaz. Final doğruluğu artık beklenen sayının metin içinde rastgele alt dizi olarak bulunmasıyla ölçülmez; yalnız tek sayısal yanıt ayrıca karşılaştırılır.
+
+Kaynak: [Ollama tool calling](https://docs.ollama.com/capabilities/tool-calling). Yerel sonuç mesajındaki tool_name ile uygulamanın iç çağrı kimliği farklı alanlardır; dersin sınırlı biçimleri bütün SDK ve sürümlerin birebir kopyası değildir.
+
 Uygulama çağrıları yürüttükten sonra her sonucu bağlama ayrı bir mesaj olarak ekler. OpenAI biçiminde bu mesaj `{"role": "tool", "tool_call_id": ..., "content": ...}` şeklindedir ve çağrıları içeren asistan mesajının hemen ardından, her `id` için bir tane gelir; yanıtlanmamış bir çağrı kimliği bırakılırsa API sonraki isteği reddeder. Ollama yerel biçiminde sonuç mesajı aracı `tool_name` alanıyla adlandırır (`tool_call_id` OpenAI biçiminin alanıdır ve Ollama'nın OpenAI uyumlu `/v1` uç noktasında kullanılır); çağrı kimliği göndermeyen eski sunucularda eşleme ad ve sıra üzerinden yapılır ve aynı araca yapılan iki çağrı ancak sırayla ayırt edilir. Bu derste string sonuç içeriğe olduğu gibi girer, diğer sonuçlar JSON'a çevrilir. Araç hatası istisna olarak döngüyü kırmaz, `HATA: TypeError` gibi içerik olarak modele döner ki model isteğini düzeltebilsin; ancak istisna mesajı değil yalnız sınıf adı gönderilir, çünkü hata metinleri dosya yolu, anahtar veya yığın izi taşıyabilir ve modelin çıktısı sonunda kullanıcıya ulaşır.
 
 Ajan döngüsü bu adımları tekrarlar: modeli geçmişle çağır, `tool_calls` boşsa son yanıtı al, doluysa bütün çağrıları önce doğrula, sonra sırayla yürüt, sonuçları ekle ve modeli yeniden çağır. Adım sınırı olmadan sürekli araç isteyen bir model, ya da bir araç sonucuna gömülü talimatla buna yönlendirilmiş bir model, sınırsız maliyet ve sınırsız eylem demektir; bu yüzden `max_adim` model çağrılarını sınırlar ve `adim_siniri` durumu `tamam` durumundan ayrı kaydedilir. Modele geçmişin derin kopyası verilir ki model kodu dökümü geriye dönük değiştiremesin; kimlikler bütün döngü boyunca tekildir, böylece her sonuç tek bir çağrıya bağlanır. Araç sonuçları bağlama geri giren güvenilmeyen veridir; hangi aracın hangi izin, onay ve kaynak politikasıyla çalışacağı sonraki dersin konusudur.
@@ -47,13 +71,33 @@ True
 ::: gorev 1 · İki tel biçimindeki araç çağrılarını şemaya göre normalize et
 `cagrilari_normalize(mesaj, bicim, araclar)` işlevini yaz. `bicim` tam olarak `"openai"` veya `"ollama"` stringidir. `araclar` boş olmayan sözlüktür: anahtarı boş olmayan string araç adı, değeri tam `required`, `properties` anahtarlı şema sözlüğüdür. `properties` sözlüğünün (boş olabilir) anahtarları boş olmayan string alan adları, değerleri `"string"` veya `"integer"`dir; `required`, `properties` içinde bulunan alan adlarının yinelenmeyen listesidir (boş olabilir). `mesaj` tam `role`, `content`, `tool_calls` anahtarlı sözlüktür: `role` `"assistant"`, `content` string veya `None`, `tool_calls` 1–8 öğeli listedir.
 
-OpenAI biçiminde her çağrı tam `id`, `type`, `function` anahtarlı sözlüktür: `type` `"function"`, `function` tam `name`, `arguments` anahtarlı sözlük, `arguments` ise JSON object'e çözülen bir stringdir. Ollama biçiminde her çağrı `function` anahtarını taşıyan, isteğe bağlı olarak `id` ve `type` anahtarlarını da içerebilen ve başka anahtarı olmayan sözlüktür; `type` varsa `"function"` olmalıdır. Ollama'da `function` tam `index`, `name`, `arguments` anahtarlı sözlüktür; `index` çağrının listedeki 0'dan başlayan sırasına eşit bool olmayan int, `arguments` doğrudan sözlüktür. Kimlik `id` anahtarı varsa onun değeri, yoksa `"ollama-" + str(index)` olur; kimlik boş olmayan string olmalı ve aynı mesajda yinelenmemelidir. Her iki biçimde `name`, `araclar` anahtarlarından biri olan stringdir ve argüman sözlüğü o aracın şemasına uymalıdır: yalnız `properties` alanlarını ve `required` alanlarının hepsini içerir; `"string"` alanın değeri `str`, `"integer"` alanın değeri bool olmayan `int`'tir. Geçersiz veride `ValueError` yükselt.
+OpenAI biçiminde her çağrı tam `id`, `type`, `function` anahtarlı sözlüktür: `type` `"function"`, `function` tam `name`, `arguments` anahtarlı sözlük, `arguments` ise JSON object'e çözülen bir stringdir. Ollama biçiminde her çağrı `function` anahtarını taşıyan, isteğe bağlı olarak `id` ve `type` anahtarlarını da içerebilen ve başka anahtarı olmayan sözlüktür; `type` varsa `"function"` olmalıdır. Ollama'da `function` tam `index`, `name`, `arguments` anahtarlı sözlüktür; `index` çağrının listedeki 0'dan başlayan sırasına eşit bool olmayan int, `arguments` doğrudan sözlüktür. Kimlik `id` anahtarı varsa onun değeri, yoksa `"ollama-" + str(index)` olur; kimlik boş olmayan string olmalı ve aynı mesajda yinelenmemelidir. Her iki biçimde `name`, `araclar` anahtarlarından biri olan stringdir ve argüman sözlüğü o aracın şemasına uymalıdır: yalnız `properties` alanlarını ve `required` alanlarının hepsini içerir; `"string"` alanın değeri `str`, `"integer"` alanın değeri bool olmayan `int`'tir. OpenAI JSON argümanında yinelenen anahtar da geçersizdir. Geçersiz veride `ValueError` yükselt.
 
 Çağrı sırasıyla `{"id": ..., "ad": ..., "argumanlar": ...}` sözlüklerinin listesini döndür; `argumanlar` çözülmüş argüman sözlüğüdür. Aracı çalıştırma. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-23")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def cagrilari_normalize(mesaj, bicim, araclar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: kimlikleri yeniden üretir, şemayı doğrulamadan argümanı kabul eder.
+    import json
+    out=[]
+    for c in mesaj["tool_calls"]:
+        f=c["function"];arg=f["arguments"]
+        out.append({"id":"ayni-kimlik","ad":f["name"],"argumanlar":json.loads(arg) if isinstance(arg,str) else arg})
+    return out
+
+v=json_yukle("veri/cagrilar.json")
+for bicim in ("openai","ollama"):
+    print("Sentetik ham çağrı:",bicim,v[bicim])
+    print("Normalize:",cagrilari_normalize(v[bicim],bicim,v["semalar"]))
 ```
 
 ```test
@@ -114,6 +158,7 @@ def sozlesme(fn):
             (msj([oc(arg={})]), "openai", A), (msj([oc(arg=b"{}")]), "openai", A), (msj([oc(arg="{bozuk")]), "openai", A),
             (msj([oc(arg="[1]")]), "openai", A), (msj([oc(arg='"x"')]), "openai", A), (msj([oc(ad="sil")]), "openai", A),
             (msj([oc(ad=None)]), "openai", A), (msj([oc(ad=["saat"])]), "openai", A), (msj([oc("ayni"), oc("ayni")]), "openai", A),
+            (ha('{"sehir":"Ankara","sehir":"Van"}'),"openai",A),
             (ha('{"il": "Van"}'), "openai", A), (ha('{"sehir": 1}'), "openai", A), (ha('{"sehir": "Van", "gun": true}'), "openai", A),
             (ha('{"sehir": "Van", "gun": 2.0}'), "openai", A), (ha('{"sehir": "Van", "gun": "2"}'), "openai", A),
             (ha('{"sehir": "Van", "ek": "x"}'), "openai", A), (ha('{"gun": 2}'), "openai", A), (ha("{}"), "openai", A),
@@ -150,8 +195,15 @@ for ad, mutant in [("çağrı sırasını bozan", m_sira), ("model kimliğini at
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def cagrilari_normalize(mesaj, bicim, araclar):
     import json
+    def nesne(ciftler):
+        out={}
+        for key,value in ciftler:
+            if key in out: raise ValueError("yinelenen anahtar")
+            out[key]=value
+        return out
     if bicim not in ("openai", "ollama") or not isinstance(araclar, dict) or not araclar:
         raise ValueError("girdi")
     for ad, s in araclar.items():
@@ -177,7 +229,7 @@ def cagrilari_normalize(mesaj, bicim, araclar):
         if bicim == "openai":
             if set(c) != {"id", "type", "function"} or not isinstance(f, dict) or set(f) != {"name", "arguments"} or not isinstance(f["arguments"], str):
                 raise ValueError("openai")
-            arg = json.loads(f["arguments"])
+            arg = json.loads(f["arguments"],object_pairs_hook=nesne)
         else:
             if not isinstance(f, dict) or set(f) != {"index", "name", "arguments"} or type(f["index"]) is not int or f["index"] != i:
                 raise ValueError("ollama")
@@ -194,6 +246,11 @@ def cagrilari_normalize(mesaj, bicim, araclar):
     if len({s["id"] for s in sonuc}) != len(sonuc):
         raise ValueError("kimlik")
     return sonuc
+
+v=json_yukle("veri/cagrilar.json")
+for bicim in ("openai","ollama"):
+    print("Sentetik ham çağrı:",bicim,v[bicim])
+    print("Normalize:",cagrilari_normalize(v[bicim],bicim,v["semalar"]))
 ```
 
 ```hint
@@ -208,9 +265,27 @@ def cagrilari_normalize(mesaj, bicim, araclar):
 
 Her çağrı için bir `{"role": "tool", "tool_call_id": id, "content": icerik}` sözlüğü üret ve listeyi çağrı sırasıyla döndür. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-23")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def cagrilari_yurut(cagrilar, kayit):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız ilk çağrıyı çalıştırır, sonucu çağrı kimliği yerine araç adına bağlar.
+    import json
+    c=next(iter(cagrilar));v=kayit[c["ad"]](**c["argumanlar"])
+    return [{"role":"tool","tool_call_id":c["ad"],"content":v if isinstance(v,str) else json.dumps(v,ensure_ascii=False,sort_keys=True)}]
+
+def _ornek_araclar(v):
+    return {"hava":lambda sehir:dict(v["arac_sonuclari"]["hava"],sehir=sehir),"saat":lambda:v["arac_sonuclari"]["saat"]}
+v=json_yukle("veri/cagrilar.json")
+print("Sentetik normalize çağrılar:",v["normalize"])
+print("Sonuç mesajları:",cagrilari_yurut(v["normalize"],_ornek_araclar(v)))
 ```
 
 ```test
@@ -290,6 +365,7 @@ for ad, mutant in [("doğrulamadan önce yürüten", m_teker), ("hatayı yutan",
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def cagrilari_yurut(cagrilar, kayit):
     import json
     if not isinstance(kayit, dict) or any(not isinstance(k, str) or not callable(v) for k, v in kayit.items()):
@@ -312,6 +388,12 @@ def cagrilari_yurut(cagrilar, kayit):
             icerik = "HATA: " + type(e).__name__
         mesajlar.append({"role": "tool", "tool_call_id": c["id"], "content": icerik})
     return mesajlar
+
+def _ornek_araclar(v):
+    return {"hava":lambda sehir:dict(v["arac_sonuclari"]["hava"],sehir=sehir),"saat":lambda:v["arac_sonuclari"]["saat"]}
+v=json_yukle("veri/cagrilar.json")
+print("Sentetik normalize çağrılar:",v["normalize"])
+print("Sonuç mesajları:",cagrilari_yurut(v["normalize"],_ornek_araclar(v)))
 ```
 
 ```hint
@@ -326,9 +408,29 @@ Geçmiş `[{"role": "user", "content": istek}]` ile başlar. Her turda `model(ge
 
 Geçerli mesajı geçmişe ekle. `tool_calls` boşsa `{"durum": "tamam", "adim": tur_sayisi, "yanit": content, "gecmis": gecmis}` döndür. Doluysa çağrıları sırayla `araclar[ad](**argumanlar)` ile yürüt ve her biri için `{"role": "tool", "tool_call_id": id, "content": icerik}` ekle; içerik Görev 2'deki kuralla üretilir: string sonuç olduğu gibi kalır, diğerleri `json.dumps(deger, ensure_ascii=False, sort_keys=True)` sonucudur, yürütme veya çevirme sırasında oluşan `Exception` için `"HATA: " + sınıf adı` olur ve döngü sürer; `Exception` sınıfından türemeyen istisnalar (ör. `SystemExit`) yakalanmaz. Model en çok `max_adim` kez çağrılır; son turda gelen çağrılar da yürütülüp sonuçları eklenir, ardından `{"durum": "adim_siniri", "adim": max_adim, "yanit": None, "gecmis": gecmis}` döndür. `tur_sayisi` modelin kaçıncı çağrısında durulduğudur.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-23")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def ajan_dongusu(model, araclar, istek, max_adim):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: araç çağrıları varken tamam sayar ve hiçbir sonucu modele geri göndermez.
+    g=[{"role":"user","content":istek}];m=model(g)
+    return {"durum":"tamam","adim":1,"yanit":m["content"],"gecmis":g+[m]}
+
+def _ornek_araclar(v):
+    return {"hava":lambda sehir:dict(v["arac_sonuclari"]["hava"],sehir=sehir),"saat":lambda:v["arac_sonuclari"]["saat"]}
+import copy
+v=json_yukle("veri/cagrilar.json");a=json_yukle("veri/ajan.json")
+adimlar=iter(a["model_betigi"])
+def ornek_model(gecmis): return copy.deepcopy(next(adimlar))
+print("Sentetik model betiği:",a)
+print("Döngü:",ajan_dongusu(ornek_model,_ornek_araclar(v),a["istek"],a["max_adim"]))
 ```
 
 ```test
@@ -443,6 +545,7 @@ for ad, mutant in [("bütçeyi aşan", m_butce), ("sonucu modele göstermeyen", 
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def ajan_dongusu(model, araclar, istek, max_adim):
     import copy, json
     if not callable(model) or not isinstance(araclar, dict) or not araclar or any(not isinstance(k, str) or not callable(v) for k, v in araclar.items()):
@@ -474,6 +577,15 @@ def ajan_dongusu(model, araclar, istek, max_adim):
                 icerik = "HATA: " + type(e).__name__
             gecmis.append({"role": "tool", "tool_call_id": c["id"], "content": icerik})
     return {"durum": "adim_siniri", "adim": max_adim, "yanit": None, "gecmis": gecmis}
+
+def _ornek_araclar(v):
+    return {"hava":lambda sehir:dict(v["arac_sonuclari"]["hava"],sehir=sehir),"saat":lambda:v["arac_sonuclari"]["saat"]}
+import copy
+v=json_yukle("veri/cagrilar.json");a=json_yukle("veri/ajan.json")
+adimlar=iter(a["model_betigi"])
+def ornek_model(gecmis): return copy.deepcopy(next(adimlar))
+print("Sentetik model betiği:",a)
+print("Döngü:",ajan_dongusu(ornek_model,_ornek_araclar(v),a["istek"],a["max_adim"]))
 ```
 
 ```hint
@@ -484,8 +596,8 @@ Döngüden önce görülen kimlikler için bir küme tut ve her mesajın çağr�
 ::: gorev Gerçek deney · Şemalı dispatch ve gerçek ajan döngüsü
 `arac_calistir(cagri, semalar, araclar)` işlevini yaz.
 
-- Doğrulama (yapı bozuksa `ValueError`): `cagri` tam `ad` (boş olmayan str) ve `arg` (sözlük) anahtarlı sözlük. `semalar` sözlüktür; her değeri `gerekli` (string listesi) ve `tipler` (anahtar→`"sayi"`/`"metin"` sözlüğü) anahtarlı sözlük ve `tipler`'in anahtarları `gerekli` ile aynı. `araclar` sözlüktür; anahtarları `semalar` ile aynı, değerleri çağrılabilir.
-- Çağrıyı değerlendir (modelin hatasında **yükseltme**, hata sözlüğü döndür): `ad` `semalar`'da yoksa `{"durum": "hata", "hata": "..."}`. `arg` anahtarları şemanın `gerekli`siyle birebir değilse hata. Bir argümanın tipi şemaya uymuyorsa (`"sayi"` → bool olmayan int/float, `"metin"` → str) hata. Hepsi geçerliyse `araclar[ad](**arg)` çalıştır; işlev hata verirse de hata sözlüğü döndür. Başarıda `{"durum": "ok", "sonuc": dönen değer}`.
+- Doğrulama (yapı bozuksa `ValueError`): `cagri` tam `ad` (boş olmayan str) ve `arg` (sözlük) anahtarlı sözlük. `semalar` araç adları boş olmayan string olan sözlüktür;gerekli alanları boş olmayan stringlerden oluşan,yinelenmeyen listelerdir.  her değeri `gerekli` (string listesi) ve `tipler` (anahtar→`"sayi"`/`"metin"` sözlüğü) anahtarlı sözlük ve `tipler`'in anahtarları `gerekli` ile aynı. `araclar` sözlüktür; anahtarları `semalar` ile aynı, değerleri çağrılabilir.
+- Çağrıyı değerlendir (modelin hatasında **yükseltme**, hata sözlüğü döndür): `ad` `semalar`'da yoksa `{"durum": "hata", "hata": "..."}`. `arg` anahtarları şemanın `gerekli`siyle birebir değilse hata. Bir argümanın tipi şemaya uymuyorsa (`"sayi"` → bool olmayan sonlu int/float, `"metin"` → str) hata. Hepsi geçerliyse `araclar[ad](**arg)` çalıştır; işlev hata verirse de hata sözlüğü döndür. Başarıda `{"durum": "ok", "sonuc": dönen değer}`.
 
 ```meta
 motor: ai-gercek
@@ -495,6 +607,7 @@ timeout: 300
 
 ```starter
 import ai_lab
+import math
 
 def arac_calistir(cagri, semalar, araclar):
     return {"durum": "hata", "hata": "yazılmadı"}
@@ -510,8 +623,12 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_calistir", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak=("referans","referans_calistir","getattr","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak=_yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in _yasak or a.name=="*" for a in n.names): sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi dispatch işlevini yaz: "+"; ".join(sorun)): stop()
 fn = need("arac_calistir")
 from sandbox import ai_gercek_ai_temel_23 as D
 SEMA = {"topla": {"gerekli": ["a", "b"], "tipler": {"a": "sayi", "b": "sayi"}},
@@ -531,7 +648,20 @@ def sozlesme(f):
             return False
         if f({"ad": "carp", "arg": {"a": 1, "b": True}}, SEMA, ARAC)["durum"] != "hata":
             return False
-        for kotu in [(None, SEMA, ARAC), ({"ad": "carp"}, SEMA, ARAC), ({"ad": "", "arg": {}}, SEMA, ARAC),
+        import copy
+        h={"ad":"topla","arg":{"a":1,"b":2}};once=copy.deepcopy((h,SEMA))
+        if f(h,SEMA,ARAC)!={"durum":"ok","sonuc":3} or (h,SEMA)!=once: return False
+        for v in (float("nan"),float("inf")):
+            if f({"ad":"topla","arg":{"a":v,"b":2}},SEMA,ARAC)["durum"]!="hata": return False
+        met={"yaz":{"gerekli":["x"],"tipler":{"x":"metin"}}}
+        if f({"ad":"yaz","arg":{"x":"örnek"}},met,{"yaz":lambda x:x})!={"durum":"ok","sonuc":"örnek"}: return False
+        def patla(a,b): raise KeyError("SAHTE-SIR-TEST")
+        hata=f(h,SEMA,dict(ARAC,topla=patla))
+        if hata.get("durum")!="hata" or "KeyError" not in hata.get("hata","") or "SAHTE-SIR-TEST" in str(hata): return False
+        iz=[]
+        def izle(a,b): iz.append(1);return a+b
+        if f({"ad":"topla","arg":{"a":True,"b":2}},SEMA,dict(ARAC,topla=izle))["durum"]!="hata" or iz:return False
+        for kotu in [(h,{"x":{"gerekli":[["a"]],"tipler":{}}},{"x":lambda:0}),(h,{"x":{"gerekli":["a","a"],"tipler":{"a":"sayi"}}},{"x":lambda a:a}),(h,SEMA,dict(ARAC,topla=3)),(None, SEMA, ARAC), ({"ad": "carp"}, SEMA, ARAC), ({"ad": "", "arg": {}}, SEMA, ARAC),
                      ({"ad": "carp", "arg": 5}, SEMA, ARAC), ({"ad": "carp", "arg": {}, "ek": 1}, SEMA, ARAC)]:
             try:
                 f(*kotu)
@@ -552,12 +682,15 @@ if all(sonuclar):
         kontrol(False, f"GERÇEK MODEL YOK, deney yapılmadı: {e}")
         stop()
     kontrol(r["hata"] is None, f"ajan döngüsü hatasız koştu: {r['hata']}")
+    kontrol(r["durum"] in ("tamam","adim_siniri") and len(r["turler"])<=r["tur_siniri"],"döngü durma nedeni ve gerçek model çağrı bütçesi kaydedildi")
     oz = D.ozet(r)
     kontrol(oz["arac_cagri"] > 0, f"model gerçekten araç çağırdı: {oz['arac_cagri']} çağrı, araçlar {oz['kullanilan_araclar']}")
     kontrol(oz["dogru_cagri"] > 0 and oz["dogru_cagri"] == oz["arac_cagri"],
             f"senin dispatch'in araçları doğru çalıştırdı: {oz['dogru_cagri']}/{oz['arac_cagri']} doğru")
-yol = ai_lab.kanit_yaz("temel-ajan", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-temel-23",
-                                      "ortam": (r or {}).get("ortam"), "deney": r, "ozet": oz})
+if r is not None:
+    yol = ai_lab.kanit_yaz("temel-ajan", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-temel-23",
+                                          "ortam": (r or {}).get("ortam"), "deney": r, "ozet": oz})
+
 if oz:
     ok(True, f"BULGU ({r['ortam']['model']['ad']}): {oz['tur']} turlu ajan döngüsü, {oz['arac_cagri']} araç çağrısı "
              f"({oz['dogru_cagri']} doğru), araçlar {oz['kullanilan_araclar']}; final doğru: {oz['final_dogru']} (beklenen {r['beklenen']}).")
@@ -565,6 +698,7 @@ if oz:
 
 ```solution
 import ai_lab
+import math
 
 def arac_calistir(cagri, semalar, araclar):
     if not isinstance(cagri, dict) or set(cagri) != {"ad", "arg"} or not isinstance(cagri["ad"], str) or not cagri["ad"] \
@@ -572,9 +706,10 @@ def arac_calistir(cagri, semalar, araclar):
         raise ValueError("cagri tam ad(str) ve arg(dict) içermeli")
     if not isinstance(semalar, dict) or not isinstance(araclar, dict) or set(araclar) != set(semalar):
         raise ValueError("semalar ve araclar aynı anahtarlara sahip sözlük olmalı")
+    if any(not isinstance(ad,str) or not ad for ad in semalar): raise ValueError("araç adı")
     for s in semalar.values():
         if not isinstance(s, dict) or set(s) != {"gerekli", "tipler"} or not isinstance(s["gerekli"], list) \
-                or not isinstance(s["tipler"], dict) or set(s["tipler"]) != set(s["gerekli"]) \
+                or not isinstance(s["tipler"], dict) or any(not isinstance(k,str) or not k for k in s["gerekli"]) or len(set(s["gerekli"]))!=len(s["gerekli"]) or set(s["tipler"]) != set(s["gerekli"]) \
                 or any(t not in ("sayi", "metin") for t in s["tipler"].values()):
             raise ValueError("şema gerekli(list) ve tipler(sayi/metin) içermeli")
     if any(not callable(a) for a in araclar.values()):
@@ -587,7 +722,7 @@ def arac_calistir(cagri, semalar, araclar):
         return {"durum": "hata", "hata": "argüman anahtarları şemayla uyuşmuyor"}
     for anahtar, tip in sema["tipler"].items():
         v = arg[anahtar]
-        if tip == "sayi" and (isinstance(v, bool) or not isinstance(v, (int, float))):
+        if tip == "sayi" and (isinstance(v, bool) or not isinstance(v, (int, float)) or (isinstance(v,float) and not math.isfinite(v))):
             return {"durum": "hata", "hata": f"{anahtar} sayı olmalı"}
         if tip == "metin" and not isinstance(v, str):
             return {"durum": "hata", "hata": f"{anahtar} metin olmalı"}

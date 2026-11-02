@@ -6,9 +6,40 @@ timeout: 45
 ---
 
 ::: anlat SSRF savunması URL metninden ibaret değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Web'e çıkan ajanlar (tarayıcı/fetch araçları, RAG crawler'ları) Squid ya da Envoy gibi bir egress proxy'si üzerinden çıkar. Bulut ortamında `169.254.169.254` ve `metadata.google.internal` IMDS uç noktaları kimlik bilgisi verir. Savunma; izin listesi, DNS sonucunun genel adres denetimi, bağlantının o adrese sabitlenmesi ve yönlendirme sınırıdır. | Görev 1–3: `veri/politikalar.json`, `veri/url_istekleri.json` ve `veri/dns_cozumleri.json` içindeki **sentetik** politikalar, URL'ler ve çözümleme sonuçları; `urllib.parse` ve `ipaddress` ile karar. Son adım: kurulu yerel Ollama modelinin `istek_at` aracıyla ürettiği gerçek URL önerileri; hiçbir istek **atılmaz**. | Gerçek DNS, TLS, proxy ya da yönlendirme zinciri sınanmaz. Dar izin listesi IDN/punycode, IPv6 zone kimliği ve URL ayrıştırıcıları arasındaki farkları tam kapsamaz. İki senaryo bir oran vermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, ağ ve DNS yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini kullanır ve önerilen URL'lere hiçbir istek atmaz. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Model veya araç bir URL ürettiğinde şema, kullanıcı bilgisi, alan adı, port ve yönlendirme sayısı birlikte denetlenir. Alan adı izinli olsa bile DNS sonucu loopback, özel ağ veya bağlantı-yerel adresine dönüşürse bağlantı açılmaz. Docker ağ segmentasyonu ve Squid egress proxy bu kararları gerçek uygulamada destekler.
 
-Bu dersteki işlevler ağ isteği veya DNS sorgusu yapmaz. URL ve çözümleme kayıtları deterministik fixture olarak verilir; amaç, bağlantıdan önce uygulanacak fail-closed kararları sınamaktır.
+Bu dersteki işlevler ağ isteği veya DNS sorgusu yapmaz. Görev 1–3'te URL ve çözümleme kayıtları deterministik fixture olarak verilir; son adımda URL'ler yerel modelden gelir, ama yine hiçbir istek atılmaz. Amaç, bağlantıdan önce uygulanacak fail-closed kararları sınamaktır.
+
+**Saldırgan ne dener?** Model bir belgeden "şu URL'yi getir" talimatı alırsa saldırganın hedefi genellikle iç ağdır:
+
+- Bulut metadata servisi (`http://169.254.169.254/latest/meta-data/`).
+- Yerel yönetim panelleri (`http://localhost:8080`).
+- Özel ağdaki veritabanı arayüzleri.
+
+İzin listesini aşmak için URL ayrıştırma hilelerini kullanır:
+
+- `https://api.ornek.com@evil.test/`: Gerçek host `evil.test`'tir, `api.ornek.com` yalnız kullanıcı adıdır.
+- `https://api.ornek.com.evil.test/`: İzinli adı önek olarak taşır.
+- `[::1]` ya da `0x7f000001`: Loopback'i farklı biçimde yazar.
+
+Ad doğrulandıktan sonra da saldırganın elinde **DNS rebinding** vardır: kendi alanının DNS yanıtını önce genel, sonra `127.0.0.1` döndürecek şekilde değiştirir ya da tek yanıtta genel ve özel adresi birlikte verir.
+
+**Savunma neden kırılır?**
+- İzinli alanı URL metninde `in` ile aramak, iki hilenin de geçmesine izin verir.
+- `hostname` yerine `netloc` ile karşılaştırmak kullanıcı bilgisini gözden kaçırır.
+- Yalnız ilk DNS adresine bakmak ya da "en az bir genel adres varsa geç" demek, saldırganın yanıta eklediği özel adresi görünmez kılar.
+- Açık port yokken portu hiç denetlememek, `http://` şemasının örtük 80 portunu gözden kaçırır.
+- Yönlendirme sınırı olmadan, izinli bir alan saldırganın kontrolündeki bir yönlendirmeyle iç hedefe zıplatılabilir.
+
+**Görev 1'de sık tuzaklar:** Alan listesine IP literal (`169.254.169.254`) ya da joker (`*.ornek.com`) yazmak, izin listesini anlamsızlaştırır (`veri/politikalar.json`, `e-04`, `e-06`). Büyük harf ve sondaki nokta, karşılaştırmayı belirsiz kılar (`e-05`, `e-09`). Varsayılanı `izin` yapmak, listede olmayan her hedefi açar (`e-03`).
 :::
 
 ::: anlat Genel olmayan adres bağlantı hedefi olamaz
@@ -42,9 +73,36 @@ Alan adları boş olmayan ve yinelenmeyen listedir. Her alan adı en çok 253 ka
 
 Politikayı yeni listelerle döndür; girdiyi değiştirme.
 
+Görünür veri: `veri/politikalar.json`. Her politikanın `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def egress_politikasi_dogrula(politika):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: "izin" varsayılanını kabul ediyor, alan adlarının yalnız boş olmamasına bakıyor (IP literal, büyük harf, joker ve sondaki nokta geçer), port listesini ve yönlendirme sınırını denetlemiyor ve girdiyi kopyalamadan döndürüyor!
+    if politika.get("varsayilan") not in ("reddet", "izin"):
+        raise ValueError("varsayılan geçersiz")
+    if not politika.get("alan_adlari"):
+        raise ValueError("alan listesi boş")
+    return politika
+
+veri = json_yukle("veri/politikalar.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = egress_politikasi_dogrula(o["politika"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-14")
 ```
 
 ```test
@@ -157,6 +215,10 @@ Alan adını etiketlerine ayırarak doğrula. IP literal kontrolünü DNS deseni
 İstek kimliği ve URL biçimi geçerli olduktan sonra politika nedenleri `sema`, `kimlik`, `alan`, `port`, `yonlendirme` sırasıyla toplanır. HTTP, URL içindeki kullanıcı bilgisi, izinsiz alan veya port ve fazla yönlendirme ayrı ayrı raporlanır. Neden yoksa karar `hazir`, aksi halde `reddet` olur.
 
 Buradaki `hazir` yalnız URL katmanının geçtiğini söyler. Bağlantıdan önce üçüncü görevdeki DNS adres denetimi de gereklidir.
+
+**Çıktı nasıl okunur?** `hedef` alanı `urlsplit().hostname` değeridir; bağlantının gerçekten gideceği adı gösterir. `veri/url_istekleri.json` içindeki `kullanici-hilesi` için bu değer `evil.test`'tir; URL metninde `api.ornek.com` görünmesi yanıltıcıdır.
+
+**Görev 2'de sık tuzaklar:** Alanı URL metninde alt dizge olarak aramak `kullanici-hilesi` ve `sonek-hilesi` isteklerini geçirir. Açık port yoksa portu atlamak, şema denetimi ayrı olsa da yanlış bir güven verir; HTTPS için örtük port 443'tür. İlk nedende durmak, metadata isteğinin hem şema hem alan ihlali olduğunu gizler.
 :::
 
 ::: gorev 2 · HTTPS hedeflerini egress politikasıyla denetle
@@ -166,9 +228,54 @@ HTTPS olmayan şema için `sema`, kullanıcı adı/parola için `kimlik`, eksik 
 
 Her kayıt için `{"id":ID,"karar":KARAR,"nedenler":[...],"hedef":HOSTNAME}` döndür; hostname yoksa boş string kullan. Kimliğe göre sırala, boş istekte boş liste döndür ve girdileri değiştirme.
 
+Görünür veri: `veri/url_istekleri.json`. Dosyada politika, on bir URL, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def egress_url_deneti(istekler, politika):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: izinli alanı URL metninde alt dizge olarak arıyor ("api.ornek.com@evil.test" ve "api.ornek.com.evil.test" geçer), kullanıcı bilgisini ve yönlendirme sınırını denetlemiyor, açık port yoksa portu hiç denetlemiyor, ilk nedende duruyor, girdileri doğrulamıyor ve raporu sıralamıyor!
+    from urllib.parse import urlsplit
+    rapor = []
+    for istek in istekler:
+        parca = urlsplit(istek["url"])
+        hedef = parca.hostname or ""
+        if not istek["url"].startswith("https://"):
+            nedenler = ["sema"]
+        elif not any(alan in istek["url"] for alan in politika["alan_adlari"]):
+            nedenler = ["alan"]
+        elif parca.port is not None and parca.port not in politika["portlar"]:
+            nedenler = ["port"]
+        else:
+            nedenler = []
+        rapor.append({"id": istek["id"], "karar": "reddet" if nedenler else "hazir", "nedenler": nedenler, "hedef": hedef})
+    return rapor
+
+veri = json_yukle("veri/url_istekleri.json")
+try:
+    rapor = egress_url_deneti(veri["istekler"], veri["politika"])
+except Exception as hata:
+    rapor = [{"id": "hata", "hata": type(hata).__name__}]
+print("rapor sırası", "doğru" if [r["id"] for r in rapor] == [b["id"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r["id"] == beklenen["id"]), None)
+    print(beklenen["id"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        egress_url_deneti(b["girdi"], veri["politika"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-14")
 ```
 
 ```test
@@ -320,6 +427,8 @@ def egress_url_deneti(istekler, politika):
 Alan adı izin listesinde olsa bile çözümleme sonucu değişebilir. Bu nedenle alan, boş DNS yanıtı ve her IP adresi ayrı denetlenir. Nedenler `alan`, `dns`, `ip` sırasındadır; bütün adreslerin genel olması ve en az bir adres bulunması gerekir.
 
 Gerçek sistemde bağlantı, doğrulanan adrese sabitlenirken TLS sunucu adı ve sertifika denetimi özgün alan adıyla sürdürülür. Bu ders yalnız karar verisini üretir.
+
+**Görev 3'te sık tuzaklar:** "Adreslerden biri genelse geç" mantığı DNS rebinding'e açıktır (`veri/dns_cozumleri.json`, `rebinding`). Özel aralıkları metin önekiyle (`127.`, `10.`) aramak link-local `169.254.169.254`, CGNAT `100.64.0.10`, IPv4-mapped `::ffff:10.0.0.5` ve IPv6 adreslerini kaçırır; `ipaddress` nesnesinin `is_global` özelliğini kullan. Boş yanıtı geçirmek, çözülemeyen hedefi "temiz" sayar (`bos-yanit`).
 :::
 
 ::: gorev 3 · DNS çözümleme sonucundaki SSRF hedeflerini engelle
@@ -329,9 +438,48 @@ Alan politika listesinde değilse `alan`, adres listesi boşsa `dns`, adreslerde
 
 Her kayıt için `{"id":ID,"karar":KARAR,"nedenler":[...],"adresler":[normalize adresler]}` döndür. Kimliğe göre sırala, boş çözümde boş liste döndür ve girdileri değiştirme.
 
+Görünür veri: `veri/dns_cozumleri.json`. Dosyada politika, sekiz çözüm, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def dns_cozum_deneti(cozumler, politika):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız bütün adresler "127." ya da "10." ile başlıyorsa reddediyor (DNS rebinding'de özel adres genel adresin yanında saklanır; 169.254, 100.64, ::1 ve multicast kaçar), boş DNS yanıtını geçiriyor, alan ve adres biçimini doğrulamıyor ve raporu sıralamıyor!
+    rapor = []
+    for cozum in cozumler:
+        nedenler = []
+        if cozum["alan"] not in politika["alan_adlari"]:
+            nedenler.append("alan")
+        if cozum["adresler"] and all(a.startswith(("127.", "10.")) for a in cozum["adresler"]):
+            nedenler.append("ip")
+        rapor.append({"id": cozum["id"], "karar": "reddet" if nedenler else "hazir", "nedenler": nedenler, "adresler": list(cozum["adresler"])})
+    return rapor
+
+veri = json_yukle("veri/dns_cozumleri.json")
+try:
+    rapor = dns_cozum_deneti(veri["cozumler"], veri["politika"])
+except Exception as hata:
+    rapor = [{"id": "hata", "hata": type(hata).__name__}]
+print("rapor sırası", "doğru" if [r["id"] for r in rapor] == [b["id"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r["id"] == beklenen["id"]), None)
+    print(beklenen["id"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        dns_cozum_deneti(b["girdi"], veri["politika"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-14")
 ```
 
 ```test
@@ -467,6 +615,8 @@ Adresleri `ip_address` ile ayrıştırıp nesne olarak sakla. Boş liste ile gen
 Egress denetçisi ancak modelin **gerçekten önerdiği** bir URL üzerinde çalıştığında anlam kazanır. Son görevde senin `egress_url_deneti` işlevin, gerçek yerel modelin bir `istek_at` aracıyla ürettiği URL'leri fail-closed egress politikasına göre denetler. Deney iki senaryoda koşar: izinli alana giden bir HTTPS isteği ve bulut metadata uç noktasına (`metadata.google.internal`) giden bir SSRF-benzeri istek.
 
 Denetim ağ çağrısından **önce** çalışır; hiçbir istek atılmaz. İzin listesindeki alan + port `hazir` olur; izin listesinde olmayan alan, HTTPS olmayan şema veya kimlik bilgisi `reddet` üretir. Burada asıl savunma **default-deny**'dir: model dizeyi mangle etse veya metadata hedefini önerse bile, allow-list'te olmayan her host engellenir. Böylece SSRF yüzeyi, modelin verdiği host'a güvenmeden kapatılır.
+
+**Çıktıyı okurken:** Her senaryo için modelin önerdiği URL'yi, ayrıştırılan `hedef`'i ve nedenleri birlikte oku. SSRF senaryosunda `alan` nedeni beklenir; model şemayı `http` yazdıysa `sema` da eklenir. Güvenli senaryonun `hazir` olması yalnız URL katmanını geçtiğini gösterir; gerçek bir sistemde sıradaki adım DNS çözümünün de genel adres olduğunu doğrulamaktır.
 :::
 
 ::: gorev Gerçek deney · Gerçek URL önerisini egress politikasıyla denetle
@@ -482,7 +632,22 @@ timeout: 300
 import ai_lab
 
 def egress_url_deneti(istekler, politika):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: izinli alanı URL metninde alt dizge olarak arıyor ("api.ornek.com@evil.test" ve "api.ornek.com.evil.test" geçer), kullanıcı bilgisini ve yönlendirme sınırını denetlemiyor, açık port yoksa portu hiç denetlemiyor, ilk nedende duruyor, girdileri doğrulamıyor ve raporu sıralamıyor!
+    from urllib.parse import urlsplit
+    rapor = []
+    for istek in istekler:
+        parca = urlsplit(istek["url"])
+        hedef = parca.hostname or ""
+        if not istek["url"].startswith("https://"):
+            nedenler = ["sema"]
+        elif not any(alan in istek["url"] for alan in politika["alan_adlari"]):
+            nedenler = ["alan"]
+        elif parca.port is not None and parca.port not in politika["portlar"]:
+            nedenler = ["port"]
+        else:
+            nedenler = []
+        rapor.append({"id": istek["id"], "karar": "reddet" if nedenler else "hazir", "nedenler": nedenler, "hedef": hedef})
+    return rapor
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_14 as deney
@@ -495,8 +660,19 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak = ("referans", "getattr", "kanit_yaz")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+sorun = sorted(set(sorun))
+if not kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun)):
+    stop()
 fn = need("egress_url_deneti")
 from sandbox import ai_gercek_ai_savunma_14 as D
 P = {"varsayilan": "reddet", "alan_adlari": ["api.ornek.com"], "portlar": [443], "max_yonlendirme": 2}

@@ -6,15 +6,41 @@ timeout: 300
 ---
 
 ::: anlat Yön çıkarma bir projeksiyon işlemidir
-Bir aktivasyon vektöründen seçilen yönün bileşenini çıkarmak için önce yön birim vektöre normalize edilir. `u` birim yön ve `x` aktivasyon olmak üzere çıktı `x - dot(x,u)u` olur. Böylece çıktının bu yöndeki bileşeni ideal olarak sıfırlanırken diğer bileşenleri korunur.
 
-İlk üç görevde vektörler ile ölçümler deterministik fixture olarak verilir; son görevde ise TransformerLens 4.3 (`TransformerBridge`) ve PyTorch forward hook kullanılarak sabit revizyonlu `Qwen/Qwen2.5-0.5B-Instruct` (`rev: 7ae557604adf67be50417f59c2c2f167def9a775`) üzerinde katman 14 refusal yönü ortogonal projeksiyonla kaldırılıp güvenlik ve yetenek etkisi ölçülür.
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| TransformerLens / PyTorch kancaları residual stream aktivasyon tensorlerini ve refusal yönünü çıkarır | İlk 3 görev saf Python normalizasyonu, ortogonal projeksiyon formülü ve iki eksenli ablasyon karşılaştırması | Büyük dil modellerinde tüm güvenlik mekanizmalarının tek bir vektöre indirgenebileceği veya kalıcı güvenlik garantisi değildir |
+| Qwen2.5-0.5B-Instruct yerel ağırlıkları katman 14 forward hook ile canlı refusal yönü ablasyonunu uygular | Gerçek deney TransformerLens köprüsü, katman 14 rezidüel kancası, canlı taban/ablite güvenlik ve yetenek ölçümü | Üretim ortamında jailbreak bağışıklığı, zararlı kullanımın tamamen engellendiği veya genel akıl yürütme kaybı olmadığı kanıtı değildir |
+
+> [!NOT]
+> `veri/abliteration.json` dosyası sentetik yön vektörü, aktivasyon ve skor kayıtlarını içerir; model ağırlığı veya canlı aktivasyon çıktısı değildir. İlk 3 görev bu yerel fixture verisini okur. Her Run/Check işleminde `hazirla("ai-guvence-10")` geçici kopya oluşturur; kalıcı değişiklik saklanmaz. Kodunuzu veya verinizi editörde inceleyebilirsiniz. Gizli değerlendirme testleri ayrı doğrulamalar koşturur. Gerçek deney adımı yerel PyTorch ve TransformerLens ile Qwen2.5-0.5B-Instruct modelinde katman 14 kancasını doğrudan çalıştırır; yeni paket veya model indirilmez.
+
+Modern büyük dil modellerinde güvenlik hizalaması (RLHF, DPO veya KTO), modelin zararlı, yasa dışı veya etik dışı komutları tespit edip reddetmesini ("I cannot fulfill this request...") sağlar. Son dönem mekanistik yorumlanabilirlik (Mechanistic Interpretability) ve temsil mühendisliği (Representation Engineering; Zou ve ark., 2023; Arditi ve ark., 2024) araştırmaları, bu reddetme mekanizmasının modelin artık akışında (residual stream) çoğunlukla baskın, neredeyse doğrusal tek bir yön (Refusal Direction) boyunca kodlandığını ortaya koymuştur. Model, zararlı bir girdiyle karşılaştığında orta ve geç katmanlardaki aktivasyonlarını bu refusal vektörü doğrultusunda kaydırır; bu kayma nihai logits katmanında standart red şablonlarının olasılığını zirveye taşır.
+
+Matematiksel olarak bir aktivasyon vektöründen ($\mathbf{x} \in \mathbb{R}^d$) bu refusal yönünü ($\mathbf{y} \in \mathbb{R}^d$) silme işlemi bir **Ortogonal Projeksiyon (Orthogonal Projection)** problemidir. İlk adım, hedef yönü birim uzunluğa normalize etmektir:
+$$\mathbf{u} = \frac{\mathbf{y}}{\|\mathbf{y}\|_2} = \frac{\mathbf{y}}{\sqrt{\sum_{i=1}^d y_i^2}}$$
+Burada $\|\mathbf{y}\|_2 > 0$ olmalıdır; sıfır vektör veya tanımsız değerler matematiksel olarak anlamsızdır. Birim yön $\mathbf{u}$ elde edildikten sonra, aktivasyonun bu doğrultudaki skaler izdüşümü iç çarpım ile hesaplanır: $\text{proj}_{\mathbf{u}}(\mathbf{x}) = (\mathbf{x} \cdot \mathbf{u}) \mathbf{u} = \left(\sum_{i=1}^d x_i u_i\right) \mathbf{u}$. Aktivasyondan bu bileşen çıkarıldığında arta kalan vektör refusal yönüne tam olarak dik (ortogonal) hale gelir:
+$$\mathbf{x}_{\text{ablite}} = \mathbf{x} - (\mathbf{x} \cdot \mathbf{u}) \mathbf{u}$$
+Böylece aktivasyonun refusal yönündeki iz düşümü ideal olarak sıfırlanırken ($\mathbf{x}_{\text{ablite}} \cdot \mathbf{u} = 0$), diğer tüm anlamsal boyutlar korunur. Bu işleme literatürde **Abliteration (Ablasyon + Obliteration)** adı verilir.
 :::
 
 ::: anlat Güvenlik etkisi yetenek maliyetinden ayrı raporlanır
-Yalnız reddetme davranışının azalması müdahalenin yararlı veya güvenli olduğunu göstermez. Aynı değerlendirme kayıtlarında taban ve ablite koşullarının güvenlik ile genel yetenek ortalamaları birlikte karşılaştırılmalıdır. Güvenlik değişimi `ablite-taban`, yetenek kaybı `taban-ablite` olarak hesaplanır.
+Bir modelin güvenlik mekanizmasına müdahale edildiğinde en kritik hata, yalnız red davranışının azalmasına odaklanmaktır. Refusal yönünün residual stream'den çıkarılması, modelin "zararlı talepleri yerine getirmesini" sağlarken aynı zamanda modelin genel dil kabiliyetini, olgusal bilgisini, matematiksel akıl yürütmesini veya kodlama yeteneğini ciddi biçimde bozabilir. Çünkü yüksek boyutlu temsil uzaylarında kavramlar nadiren tamamen bağımsızdır; güvenlik yönü ile genel yetenek yönleri arasında kısmi örtüşmeler (polysemanticity ve interference) mevcuttur.
 
-Pozitif yetenek kaybı genel yeteneğin gerilediğini, negatif güvenlik değişimi ise güvenlik puanının düştüğünü gösterir. Fixture puanları gerçek bir modelin güvenlik iddiası değildir; deney tasarımında bu iki eksenin birbirini maskelemesini önler.
+Bu nedenle abliteration deneyi iki eksenli bir değerlendirme çerçevesiyle yürütülmelidir:
+1. **Güvenlik Ekseni (`guvenlik`):** Zararlı veya riskli istemlere karşı modelin doğru davranış sergileme (güvenlik filtrelerini koruma) puanıdır. `guvenlik_degisimi = ablite_guvenlik - taban_guvenlik` formülüyle hesaplanır. Güvenlik değişiminin negatif olması, modelin korumalarının zayıfladığını veya çöktüğünü ifade eder.
+2. **Genel Yetenek Ekseni (`yetenek`):** Modelin genel dünya bilgisi ve mantıksal tamamlama performansıdır (örneğin `"The capital of France is" -> "Paris"`). `yetenek_kaybi = taban_yetenek - ablite_yetenek` formülüyle hesaplanır. Yetenek kaybının pozitif olması, müdahalenin modelin genel bilişsel zekâsına zarar verdiğini kanıtlar.
+
+Saldırganlar açık kaynaklı modeller üzerinde şu teknikleri dener:
+- **Ağırlık Seviyesinde Abliteration (Weight-Level Uncensoring):** Çıkarım anında kanca takmak yerine modelin ağırlık matrislerine rank-1 güncelleme uygulayarak ($W \leftarrow W - \mathbf{u} \mathbf{u}^T W$) sansürsüz (uncensored) modeller türetmek ve bunları dağıtmak.
+- **Kritik Katman Arama:** Modelin tüm katmanlarına müdahale etmek yerine, yetenek kaybının en düşük olduğu ve red sinyalinin en yoğun toplandığı katmanı izole etmek. Bu katman modelden modele değişir ve aday katmanlar taranarak ölçülür; bu dersin gerçek deneyindeki 24 katmanlı Qwen2.5-0.5B için kullanılan katman 14 sabit bir seçimdir, kanıtlanmış en iyi katman değildir.
+- **Güvenlik Eğitimi Atlama:** Sistem istemlerini (system prompt) veya ince ayar (fine-tuning) kısıtlamalarını baypas ederek modelin zararlı içerik üretimini zorlamak.
+
+Geliştiricilerin düştüğü başlıca tuzaklar şunlardır:
+- Yön vektörünü normalize etmeden ham vektörle çıkarma yapmak; bu durum aktivasyonu anlamsız ölçekte bozarak model çıktısını anlamsız token çorbasına dönüştürür.
+- Ara hesaplamalarda iç çarpımı erken yuvarlamak; kayan nokta hassasiyetinin kaybolması ortogonaliteyi bozar. Yuvarlama yalnız en son raporda (`round(x, 6)`) yapılmalıdır.
+- Güvenlik değişimi ve yetenek kaybı formüllerindeki işaretleri ters yazmak veya koşul gruplarını (`taban`, `ablite`) birbirine karıştırmak.
+- Puanların $[0, 1]$ aralığında sonlu sayılar olduğunu denetlememek veya tek bir koşuldan gelen verilerle ortalama almaya kalkışmak.
 :::
 
 ::: tahmin Projeksiyon ve farkları tahmin et
@@ -42,9 +68,23 @@ print(round(0.8 - 0.65, 6))
 
 Her koordinatı norma böl, altı ondalık basamağa yuvarlanmış yeni liste döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-10")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle
+
 def yon_normallestir(yon):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: vektörü normalize etmeden sabit 1.0 koordinatları döndürür.
+    return [1.0 for _ in yon] if isinstance(yon, list) else []
+
+v = json_yukle("veri/abliteration.json")["yon"]
+print("Normalize yön örneği:", yon_normallestir(v))
 ```
 
 ```test
@@ -109,9 +149,23 @@ Normu bütün koordinatların karelerinden hesapla. Bölmeden önce sıfır norm
 
 Yönü işlev içinde normalize et. `u` birim yön olmak üzere her koordinatta `x[i]-dot(x,u)*u[i]` hesapla. Projeksiyon sonucunu altı ondalık basamağa yuvarlanmış yeni liste olarak döndür.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-10")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle
+
 def yon_bilesenini_kaldir(x, yon):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yön bileşenini çıkarmak yerine aktivasyon vektörünü olduğu gibi döndürür.
+    return [round(float(v), 6) for v in x] if isinstance(x, list) else []
+
+v = json_yukle("veri/abliteration.json")
+print("Projeksiyon örneği:", yon_bilesenini_kaldir(v["aktivasyon"], v["yon"]))
 ```
 
 ```test
@@ -195,9 +249,23 @@ Normalize edilmiş yönü ayrı tut. İç çarpımı ham girdiyle hesapla ve yal
 
 Her koşulun güvenlik ve yetenek ortalamasını altı ondalık basamağa yuvarla. `{"taban":{"guvenlik":X,"yetenek":X},"ablite":{"guvenlik":X,"yetenek":X},"guvenlik_degisimi":X,"yetenek_kaybi":X}` döndür. Güvenlik değişimi yuvarlanmamış ablite ortalaması eksi taban ortalaması, yetenek kaybı yuvarlanmamış taban ortalaması eksi ablite ortalamasıdır; farkları da altı ondalık basamağa yuvarla. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-10")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle
+
 def ablite_karsilastirmasi(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: koşul ayrımı yapmadan sabit sıfır değişim ve kayıp döndürür.
+    return {"taban": {"guvenlik": 0.0, "yetenek": 0.0}, "ablite": {"guvenlik": 0.0, "yetenek": 0.0}, "guvenlik_degisimi": 0.0, "yetenek_kaybi": 0.0}
+
+v = json_yukle("veri/abliteration.json")["kayitlar"]
+print("Karşılaştırma örneği:", ablite_karsilastirmasi(v))
 ```
 
 ```test
@@ -310,8 +378,8 @@ Ham ortalamaları önce ayrı tut. Çıktı ortalamalarını ve farkları aynı 
 İlk üç görevde yön normalizasyonunu (`yon_normallestir`), ortogonal projeksiyonu (`yon_bilesenini_kaldir`) ve taban–ablite karşılaştırmasını (`ablite_karsilastirmasi`) deterministik fixture'larda doğruladın. Şimdi aynı üç işlevi **TransformerLens 4.3 (`TransformerBridge.boot_transformers`) ve PyTorch forward hook** ile yerel `Qwen/Qwen2.5-0.5B-Instruct` (`rev: 7ae557604adf67be50417f59c2c2f167def9a775`) modelinde canlı sınamaya bağlıyoruz:
 
 1. Katman 14'teki (`blocks.14.hook_resid_post`) gerçek refusal–normal aktivasyon farkından birim refusal yönü çıkarılır; 8 boyutlu dilimde `yon_normallestir` ve `yon_bilesenini_kaldir` doğrulanır.
-2. Katman 14 çıkışına ortogonal projeksiyon (`h - (h·u)u`) uygulayan bir PyTorch forward hook takılarak **taban** ve **ablite** koşullarında hem refusal olasılığı (`guvenlik`) hem de genel bilgi tamamlaması (`"The capital of France is" -> "Paris"`, `yetenek`) ölçülür.
-3. Canlı ölçümler `ablite_karsilastirmasi` ile özetlenip kanıt dosyasına kaydedilir.
+2. Katman 14 çıkışına ortogonal projeksiyon (`h - (h·u)u`) uygulayan bir PyTorch forward hook takılarak **taban** ve **ablite** koşullarında hem refusal olasılığı (`guvenlik`) hem de genel bilgi tamamlaması (`"The capital of France is" -> "Paris"`, `yetenek`) ölçülür. PyTorch kancaları (forward hooks), modelin ileri geçişi (forward pass) sırasında residual stream aktivasyon tensorlerini `(batch, seq, d_model)` biçiminde yakalar. Yön vektörü son boyuta (`d_model`) yayınlanarak (broadcasting) her bir token pozisyonu için bağımsız projeksiyon hesaplanır ve model ağırlıkları değiştirilmeksizin çıkarım zamanında (inference-time) dinamik müdahale sağlanır.
+3. Canlı ölçümler `ablite_karsilastirmasi` ile özetlenip kanıt dosyasına kaydedilir. Bu deney, abliteration tekniğinin gerçek bir Transformer mimarisi üzerinde nasıl çalıştığını, güvenlik kalkanını ne ölçüde zayıflattığını ve modelin temel olgusal tamamlama yeteneğinde bir regresyona yol açıp açmadığını doğrudan kanıtlar.
 :::
 
 ::: gorev Gerçek deney · Qwen2.5-0.5B-Instruct üzerinde ortogonal refusal yönü kaldırma (abliteration)
@@ -343,6 +411,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import copy
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_10 as L
@@ -353,8 +422,31 @@ def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("yon_normallestir_referans", "yon_bilesenini_kaldir_referans", "ablite_karsilastirmasi_referans", "kanit_yaz")):
+for s in ai_lab.kod_denetimi(src, yasak=("yon_normallestir_referans", "yon_bilesenini_kaldir_referans", "ablite_karsilastirmasi_referans", "kanit_yaz", "getattr")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")
+def ast_denetle(kaynak):
+    try:
+        agac = ast.parse(kaynak)
+    except Exception:
+        return False
+    for dugum in ast.walk(agac):
+        if isinstance(dugum, ast.ImportFrom):
+            if any(a.name == "*" for a in dugum.names):
+                return False
+            if dugum.module and any(x in dugum.module for x in ("referans", "ai_gercek")):
+                return False
+        if isinstance(dugum, ast.Import):
+            if any(any(x in a.name for x in ("referans", "ai_gercek")) for a in dugum.names):
+                return False
+        if isinstance(dugum, ast.Name) and "referans" in dugum.id.lower():
+            return False
+        if isinstance(dugum, ast.Attribute) and "referans" in dugum.attr.lower():
+            return False
+        if isinstance(dugum, ast.Call):
+            if isinstance(dugum.func, ast.Name) and dugum.func.id in ("getattr", "eval", "exec"):
+                return False
+    return True
+ok(ast_denetle(src), "kod referans çözüme doğrudan veya dolaylı erişmemeli")
 if not all(checks):
     stop()
 

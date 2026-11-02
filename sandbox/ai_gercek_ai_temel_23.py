@@ -6,6 +6,8 @@
 Araçlar zararsız aritmetiktir (topla, carp). Model bu deney yüklediyse sonunda boşaltılır.
 """
 import json
+import copy
+import math
 
 import ai_lab
 
@@ -36,7 +38,7 @@ def referans_calistir(cagri, semalar, araclar, *, sema_yok=False, tip_yok=False)
     if not sema_yok and not tip_yok:
         for anahtar, tip in sema["tipler"].items():
             v = arg.get(anahtar)
-            if tip == "sayi" and (isinstance(v, bool) or not isinstance(v, (int, float))):
+            if tip == "sayi" and (isinstance(v, bool) or not isinstance(v, (int, float)) or (isinstance(v,float) and not math.isfinite(v))):
                 return {"durum": "hata", "hata": f"{anahtar} sayı olmalı"}
             if tip == "metin" and not isinstance(v, str):
                 return {"durum": "hata", "hata": f"{anahtar} metin olmalı"}
@@ -60,12 +62,17 @@ def deney(arac_calistir, tur_siniri=6):
         mesajlar = [{"role": "system", "content": "Sen hesap yapan bir asistansın. Aritmetik için yalnız verilen araçları kullan."},
                     {"role": "user", "content": GOREV}]
         turler, cagrilar, final, hata = [], [], None, None
+        ham_turlar=[]
         for tur in range(tur_siniri):
+            iz={"tur":tur,"mesajlar":copy.deepcopy(mesajlar),"seed":7+tur,"sicaklik":0.1,"en_fazla":400,"arac_tanimlari":copy.deepcopy(OLLAMA_ARAC)}
+            ham_turlar.append(iz)
             try:
                 c = oturum.sohbet(mesajlar, seed=7 + tur, sicaklik=0.1, en_fazla=400, araclar=OLLAMA_ARAC)
             except Exception as e:
                 hata = f"{type(e).__name__}: {e}"
+                iz["hata"]=hata
                 break
+            iz["yanit"]=copy.deepcopy(c)
             tc = c["arac_cagrilari"]
             turler.append({"tur": tur, "arac_cagri_sayisi": len(tc), "icerik": c["icerik"][:200], "sure_ms": c["sure_ms"]})
             if not tc:
@@ -87,14 +94,21 @@ def deney(arac_calistir, tur_siniri=6):
         ortam = dict(oturum.kayit)
     ortam["temizlik"] = oturum.kayit.get("temizlik")
     return {"ortam": ortam, "gorev": GOREV, "beklenen": BEKLENEN, "turler": turler, "cagrilar": cagrilar,
-            "final": final, "hata": hata, "tur_siniri": tur_siniri}
+            "final": final, "hata": hata, "tur_siniri": tur_siniri,"ham_turlar":ham_turlar,"gecmis":mesajlar,
+            "durum":"model_hatasi" if hata else ("tamam" if final is not None else "adim_siniri")}
 
 
 def ozet(r):
     dogru = [c for c in r["cagrilar"] if c["dogru"]]
+    from decimal import Decimal,InvalidOperation
+    try:
+        sayi=Decimal((r["final"] or "").strip())
+        final_dogru=sayi.is_finite() and sayi==Decimal(r["beklenen"])
+    except (InvalidOperation,ValueError):
+        final_dogru=False
     return {"tur": len(r["turler"]), "arac_cagri": len(r["cagrilar"]), "dogru_cagri": len(dogru),
             "kullanilan_araclar": sorted({c["ad"] for c in r["cagrilar"] if c["ad"]}),
-            "final_dogru": bool(r["final"]) and str(r["beklenen"]) in (r["final"] or ""),
+            "final_dogru": final_dogru,"final_olcutu":"Tam metnin sonlu Decimal değeri beklenen sayıya eşit",
             "final": (r["final"] or "")[:160]}
 
 

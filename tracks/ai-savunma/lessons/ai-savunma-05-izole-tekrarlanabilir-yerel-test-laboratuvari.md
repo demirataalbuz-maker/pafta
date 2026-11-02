@@ -6,9 +6,18 @@ timeout: 45
 ---
 
 ::: anlat İzolasyon gerçek kaynaklardan kopuştur
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| İzolasyon araçları ağ/dosya/yetki sınırlarını uygulayabilir | İlk görev sentetik ayar sözlüğünü doğrular | Bu doğrulama işletim sistemi sandbox'ı, ağ engeli veya gerçek salt okunur izin kurmaz |
+| Aynı dosyanın baytları ve tekrar çıktıları karşılaştırılabilir | Görünür JSON ve ham UTF-8 dosyalar; final kurulu Ollama'ya üç gerçek istek | Üç eşit çıktı genel determinizm garantisi değildir; sabit tohum farklı sürüm/cihazda aynı sonucu zorunlu kılmaz |
+
+> [!NOT]
+> `veri/laboratuvar.json` ve `veri/ham/` altındaki dosyalar elle hazırlanmış sentetik örneklerdir. İlk üç görev aynı laboratuvar verisinden ilerler; ilk Çalıştır ham JSON'u gösterir. Setup her Run/Check için yeni geçici veri/ kopyası kurar, değişiklikler sonraki çalıştırmaya taşınmaz. Kaynağı haricî editörde veya yüklenen sözlüğü kodda değiştirip Çalıştır deneyebilirsin. Gizli testler ayrıdır. Final gerçek yerel model çağırır; Docker/Promptfoo veya işletim sistemi izolasyonu kurulduğunu iddia etmez.
+
 Güvenlik testi gerçek kullanıcı verisine, üretim kimlik bilgisine veya dış ağa ihtiyaç duymamalıdır. Bu dersin laboratuvar sözleşmesinde ağ kapalı, model fixture, veri sentetik, yetki salt okunur ve geçici dizin dar bir göreli addır. Tohum sabitlenir; böylece aynı girdinin tekrar koşulması karşılaştırılabilir olur.
 
-Docker, Ollama ve Promptfoo gerçek bir kurulumda bu sınırları uygulayan araçlardır; ancak burada onları başlatmıyoruz. Yapılandırma ve koşu kayıtları standart Python ile sınanır. Bu fixture, gerçek sandbox veya ağ yalıtımı kurulduğunu tek başına kanıtlamaz; yalnız laboratuvar tanımının beklenen sözleşmeye uyduğunu doğrular.
+Docker, Ollama ve Promptfoo farklı görevler üstlenir; tek başlarına aynı izolasyon garantisini vermezler. İlk üç görev yapılandırma ve kayıtları standart Python ile sınar; final kurulu Ollama üzerinden gerçek yerel model çağırır. Docker/Promptfoo bu derste başlatılmaz. Bu fixture, gerçek sandbox veya ağ yalıtımı kurulduğunu tek başına kanıtlamaz; yalnız laboratuvar tanımının beklenen sözleşmeye uyduğunu doğrular.
 :::
 
 ::: tahmin Aynı baytlar aynı SHA-256 özetini üretir
@@ -37,9 +46,24 @@ True
 
 Alanları ve değerleri koruyan yeni bir sözlük döndür; girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-05")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle,metin_yukle
+
 def lab_yapilandirmasi_dogrula(ayar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız anahtarları kopyalar, izolasyon değerlerini ve yolları doğrulamaz.
+    return dict(ayar)
+
+v=json_yukle("veri/laboratuvar.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/laboratuvar.json"))
+print("Ayar:",lab_yapilandirmasi_dogrula(v["ayar"]))
 ```
 
 ```test
@@ -65,6 +89,10 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        if fn(dict(A,gecici_dizin="a"))["gecici_dizin"]!="a":return False
+        for ad in ["lab\\tmp","éx","a\n","C:tmp"]:
+            try:fn(dict(A,gecici_dizin=ad));return False
+            except ValueError:pass
         return True
     except Exception:
         return False
@@ -86,6 +114,9 @@ for ad, mutant in [("ağı açan", m_ag), ("üretim verisi yazan", m_veri), ("to
 ```
 
 ```solution
+from ai_savunma_veri import json_yukle,metin_yukle
+from pathlib import Path
+
 def lab_yapilandirmasi_dogrula(ayar):
     import re
     zorunlu = {"ag", "model", "veri", "yetki", "tohum", "gecici_dizin"}
@@ -110,6 +141,10 @@ def lab_yapilandirmasi_dogrula(ayar):
     if not re.fullmatch(r"[a-z][a-z0-9_-]*", dizin):
         raise ValueError("geçici dizin geçersiz")
     return dict(ayar)
+
+v=json_yukle("veri/laboratuvar.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/laboratuvar.json"))
+print("Ayar:",lab_yapilandirmasi_dogrula(v["ayar"]))
 ```
 
 ```hint
@@ -118,6 +153,23 @@ Dört izolasyon alanını sabit bir sözlükle karşılaştır. Tohumda `type(..
 :::
 
 ::: anlat Manifesto fixture kimliğini kanıtlar
+
+Önce laboratuvar.json dosyasının ayar alanını oku. İlk görevdeki ag=kapali,model=fixture ve yetki=salt_okunur değerleri bir sözleşmeyi tarif eder; işletim sistemine erişim kuralı uygulamaz. Bir sözlükte ağı kapalı yazmak soket açılmasını önlemez. Salt okunur yazmak da dosyanın yazılamadığını kanıtlamaz. Bu dersin ilk görevi hangi laboratuvar tanımının kabul edildiğini açıkça denetler. Gerçek final yerel HTTP üzerinden Ollama'ya bağlandığı için bu fixture yapılandırmasını aynen yürütüyor gibi sunulmaz. Gerçek izolasyon kabulü için ayrıca ağ, dosya ve yetki etkilerini sınayan bir çalışma gerekir; burada yapılmış sayılmaz.
+
+Tohumun bool olmayan tamsayı olması önemlidir. Python'da True bir int alt türü olduğundan genel isinstance kontrolü yeterli olmayabilir. Sıfır ve en büyük izinli değer geçerli, bunların dışı hatadır. Geçici dizin alanı dar bir göreli addır; büyük harf, ayırıcı, iki nokta veya dizin geçişi kabul edilmez. Bu biçim kontrolü her işletim sistemindeki bütün dosya adı kısıtlarını kapsamaz. Örneğin bir platformun ayırdığı özel adlar ayrıca değerlendirilebilir. Öğrencinin döndürdüğü sözlük kaynağıyla aynı nesne olmamalıdır; sonraki bir adımda çıkan raporu değiştirmek özgün ayarı etkilememelidir.
+
+İkinci görev JSON'daki dosya_adlari listesinden veri/ham altındaki gerçek çalışma dosyalarını okur. Bunlar canlı model kaydı değil, UTF-8 ve satır sonunu incelemek için hazırlanmış sentetik metinlerdir. Dosyayı haricî editörde açarak karakter ve satır sonlarını görebilirsin. Ş gibi bir karakterin Python string uzunluğu ile UTF-8 bayt uzunluğu farklıdır. Dosyada CRLF varsa iki ayrı bayt vardır; okuma sırasında satır sonunu dönüştürmek farklı bir özet üretir. Gösterim için metni normalize edip sonra özetlemek, özgün dosyanın kimliğini ölçmez. Demo okuma yolu çalışma klasörü içinde kalır; öğrencinin manifestosu da kendi ad ve şema kontrollerini yapmalıdır.
+
+SHA-256 özeti aynı baytları karşılaştırmaya yarar, fakat dosyanın güvenilir kaynaktan geldiğini tek başına ispatlamaz. Bir saldırgan dosyayı ve yanında duran özeti birlikte değiştirebiliyorsa ikisi tutarlı görünebilir. Özetleri güvenilir bir temel kayıtla karşılaştırmak ve kaynak yetkisini ayrıca doğrulamak gerekir. Ayrıca tahmin edilebilir küçük bir sırrın özetini paylaşmak onu otomatik olarak anonimleştirmez. Bu örneklerde yalnız sentetik veri kullanılır. Manifesto göreli adı, UTF-8 bayt sayısını ve küçük hex özeti taşır; girdiyi veya dosyaları değiştirmez.
+
+Üçüncü görev aynı JSON'un kosular alanını okur. Test adı ile koşum numarası birlikte kaydı tanımlar; farklı testler aynı koşum numarasını kullanabilir. Her testte en az iki kayıt gerekir. Aynı testin tohum, girdi özeti, çıktı özeti veya durumu değiştiğinde ilgili neden görünür olmalıdır. Bütün koşular aynı biçimde hata veriyorsa da başarılı bir regresyon kanıtı yoktur; durum nedeni bir kez eklenir. Neden sırası sözleşmede sabittir. Koşum numaralarını karşılaştırmaya katmak ise her tekrarı yanlışlıkla farklı sayabilir. Dosyadaki bir çıktı özetini değiştirip raporun nasıl değiştiğini incele.
+
+Final aynı zararsız istemi aynı sampler ayarlarıyla üç kez gerçek modele gönderir. Model adı ve digest, Ollama sürümü, bağlam ve tohum gibi ayarlar kayda girer. Girdi SHA256 burada istemin UTF-8 baytlarını özetler; bütün model ortamının hash'i değildir. Model çıktısı olduğu gibi alınır; baş/son boşluğu veya satır sonu farkı da farklı çıktı özeti üretir. İstenen aritmetik sonucun belirli bir metin olması test şartı değildir. Görev matematik bilgisini değil raporlamanın gerçek koşuları doğru yansıtmasını sınar.
+
+Sabit tohum ve sıcaklık0 yeniden üretimi kolaylaştırabilir; aynı cevabı her cihaz, sürüm veya paralel yürütmede garanti eden bir güvenlik özelliği değildir. Üç eşit çıktı yalnız bu üç gözlemin tutarlı olduğunu gösterir. Farklı çıktı gelirse doğru öğrenci raporu cikti nedenini yazmalı ve yine hesaplama kabulünü geçebilmelidir. Bu, deneyin başarısızlığını gizlemek değildir: transport hatası veya eksik gerçek yanıt varsa deney tamamlanmış sayılmaz ve PASS verilmez. Çıktı çeşitliliği ile istek hatası ayrı kavramlardır. Gerçek cevaplar, süreler, token sayıları, tekrar denemeleri ve hatalar kanıtta tutulur.
+
+Yerel model sunucusu zaten kullanıcı tarafından çalıştırılıyorsa kapatılmaz. Gerekirse laboratuvar yalnız kendi sunucusunu başlatır ve kendi süreç ağacını kapatır; önceden yüklü kullanıcı modeline, WSL'ye ve Docker'a dokunmaz. Yeni paket veya model indirilmez. Çalıştır keşif kaydını kabulfalse üretir. Kontrol önce saf sözleşmeyi, sonra eksiksiz gerçek istekleri ve bağımsız rapor hesabını sınar. Model yokluğu, çağrı hatası veya yapılmamış deney PASS değildir. Bu kapsamı işletim sistemi sandbox'ı kurulmuş veya model bütünüyle deterministik kanıtlanmış gibi yorumlama.
+
 Her fixture dosyasının göreli adı, UTF-8 bayt sayısı ve SHA-256 özeti manifestoya yazılır. Böylece iki koşunun aynı veriyi kullanıp kullanmadığı karşılaştırılabilir. Dosya içeriğini rapora kopyalamak yerine özetini taşımak, sentetik olmayan içeriğin yanlışlıkla yayılmasını da azaltır.
 
 Dosya adı `/` ile ayrılmış göreli parçalardan oluşabilir. Boş parça, `.`, `..`, ters eğik çizgi, sürücü iki noktası veya mutlak yol kabul edilmez. Aynı ad iki kez tanımlanamaz. Manifesto ada göre sıralanır.
@@ -128,9 +180,32 @@ Dosya adı `/` ile ayrılmış göreli parçalardan oluşabilir. Boş parça, `.
 
 Her dosya için `{"ad":AD,"bayt":N,"sha256":HASH}` döndür. `bayt`, içeriğin UTF-8 bayt uzunluğu; `sha256`, aynı baytların küçük harf hex özetidir. Listeyi ada göre sırala, boş girdi için boş liste döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-05")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle,metin_yukle
+from pathlib import Path
+
 def fixture_manifestosu_olustur(dosyalar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: UTF-8 bayt sayısı yerine karakter sayısını kaydeder.
+    import hashlib
+    return [{"ad":d["ad"],"bayt":len(d["icerik"]),"sha256":hashlib.sha256(d["icerik"].encode("utf-8")).hexdigest()} for d in sorted(dosyalar,key=lambda x:x["ad"])]
+
+v=json_yukle("veri/laboratuvar.json")
+kaynak=Path("veri/ham").resolve()
+dosyalar=[]
+for ad in v["dosya_adlari"]:
+    yol=(kaynak/ad).resolve()
+    yol.relative_to(kaynak)
+    dosyalar.append({"ad":ad,"icerik":metin_yukle(yol)})
+print("Sentetik ham metinler:",dosyalar)
+print("Manifesto:",fixture_manifestosu_olustur(dosyalar))
 ```
 
 ```test
@@ -165,6 +240,11 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        import secrets,hashlib
+        metin=secrets.token_hex(5)+"ş\r\n"
+        ham=metin.encode("utf-8")
+        ornek=[{"ad":"gorulmemis.txt","icerik":metin}]
+        if fn(ornek)!=[{"ad":"gorulmemis.txt","bayt":len(ham),"sha256":hashlib.sha256(ham).hexdigest()}]:return False
         return True
     except Exception:
         return False
@@ -188,6 +268,9 @@ for ad, mutant in [("yol sınırını bozan", m_yol), ("baytı karakter sayan", 
 ```
 
 ```solution
+from ai_savunma_veri import json_yukle,metin_yukle
+from pathlib import Path
+
 def fixture_manifestosu_olustur(dosyalar):
     import hashlib
     import re
@@ -226,6 +309,16 @@ def fixture_manifestosu_olustur(dosyalar):
         adlar.add(ad)
         sonuc.append({"ad": ad, "bayt": len(baytlar), "sha256": hashlib.sha256(baytlar).hexdigest()})
     return sorted(sonuc, key=lambda x: x["ad"])
+
+v=json_yukle("veri/laboratuvar.json")
+kaynak=Path("veri/ham").resolve()
+dosyalar=[]
+for ad in v["dosya_adlari"]:
+    yol=(kaynak/ad).resolve()
+    yol.relative_to(kaynak)
+    dosyalar.append({"ad":ad,"icerik":metin_yukle(yol)})
+print("Sentetik ham metinler:",dosyalar)
+print("Manifesto:",fixture_manifestosu_olustur(dosyalar))
 ```
 
 ```hint
@@ -250,9 +343,25 @@ Her test için:
 
 Döndür. Testi ada göre sırala. Tohum, girdi, çıktı veya durum alanlarının koşular arasında farklı değerleri varsa ilgili nedeni ekle. Bütün koşular `gecti` değilse `durum` nedenine eklenir; aynı neden yinelenmez. Yalnız nedenler boşsa tekrarlanabilir true olur. Boş girdi için boş liste döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-05")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle,metin_yukle
+
 def tekrarlanabilirlik_raporu(kosular):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız tohumu karşılaştırır, çıktı farkını ve başarısız durumları görmez.
+    gruplar={}
+    for k in kosular:gruplar.setdefault(k["test"],[]).append(k)
+    return [{"test":t,"kosum_sayisi":len(v),"tekrarlanabilir":len({x["tohum"] for x in v})==1,"nedenler":[] if len({x["tohum"] for x in v})==1 else ["tohum"]} for t,v in sorted(gruplar.items())]
+
+v=json_yukle("veri/laboratuvar.json")
+print("Sentetik tekrar raporu:",tekrarlanabilirlik_raporu(v["kosular"]))
 ```
 
 ```test
@@ -294,6 +403,11 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        for durum in ["kaldi","hata"]:
+            rows=[dict(K[0],durum=durum),dict(K[1],durum=durum)]
+            if fn(rows)[0]["nedenler"]!=["durum"] or fn(rows)[0]["tekrarlanabilir"]:return False
+        fark=[K[0],dict(K[1],tohum=8,girdi_sha256=H2,cikti_sha256=H1,durum="hata")]
+        if fn(fark)[0]["nedenler"]!=["tohum","girdi","cikti","durum"]:return False
         return True
     except Exception:
         return False
@@ -312,6 +426,9 @@ for ad, mutant in [("tohum farkını silen", m_tohum), ("başarısızlığı ba�
 ```
 
 ```solution
+from ai_savunma_veri import json_yukle,metin_yukle
+from pathlib import Path
+
 def tekrarlanabilirlik_raporu(kosular):
     import re
     if not isinstance(kosular, list):
@@ -365,6 +482,9 @@ def tekrarlanabilirlik_raporu(kosular):
             nedenler.append("durum")
         rapor.append({"test": test, "kosum_sayisi": len(kayitlar), "tekrarlanabilir": not nedenler, "nedenler": nedenler})
     return rapor
+
+v=json_yukle("veri/laboratuvar.json")
+print("Sentetik tekrar raporu:",tekrarlanabilirlik_raporu(v["kosular"]))
 ```
 
 ```hint
@@ -372,8 +492,9 @@ Koşuları test adına göre grupla. Dört alanın her biri için kümedeki değ
 ```
 :::
 
-::: anlat Determinizm kâğıt üstünde değil, gerçek koşuyla kanıtlanır
-Tekrarlanabilir bir regresyon laboratuvarının temeli determinizmdir: aynı girdi, aynı tohum ve sıcaklık 0 ile model her koşuda **aynı** çıktıyı vermeli. Değilse, bir savunmanın "işe yaradığı" bir koşuda görülüp başka koşuda kaybolabilir ve hiçbir kanıt güvenilir olmaz. Son görevde senin `tekrarlanabilirlik_raporu` işlevin, aynı istemi aynı tohumla **gerçek modele** birkaç kez koşan bir deneyin kayıtlarıyla çalışır: her koşunun çıktı SHA-256 özeti alınır ve rapor, özetlerin koşular arası aynı kalıp kalmadığına (determinizm) karar verir. Çıktı özetleri aynıysa test tekrarlanabilirdir; farklıysa `cikti` nedeni eklenir ve laboratuvar güvenilmezdir.
+::: anlat Tutarlılık varsayılmaz, gerçek koşulardan ölçülür
+Aynı istem, tohum ve sıcaklık0 ile yapılan üç gerçek isteğin çıktı özetleri karşılaştırılır. Eşit çıkmaları yalnız bu koşular için bulgudur; genel determinizm garantisi değildir. Farklı çıkarlarsa doğru rapor cikti nedenini ekler. Öğrenci kabulü cevapların aynı olmasına değil gerçek kayıtların doğru raporlanmasına bağlıdır. Eksik veya başarısız istek ise ayrı hata olarak kabulü engeller.
+
 :::
 
 ::: gorev Gerçek deney · Gerçek koşularda determinizm raporu
@@ -402,8 +523,15 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_rapor", "getattr"))
+import ast
+yasak=("referans","referans_rapor","getattr","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in node.names):sorun.append("referans ithali")
+except SyntaxError:sorun.append("sözdizimi")
 kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+if sorun:stop()
 fn = need("tekrarlanabilirlik_raporu")
 from sandbox import ai_gercek_ai_savunma_05 as D
 H = "a" * 64
@@ -411,7 +539,55 @@ H2 = "b" * 64
 KO = [{"test": "t", "kosum": 1, "tohum": 7, "girdi_sha256": H, "cikti_sha256": H, "durum": "gecti"},
       {"test": "t", "kosum": 2, "tohum": 7, "girdi_sha256": H, "cikti_sha256": H, "durum": "gecti"}]
 FARK = [KO[0], dict(KO[1], cikti_sha256=H2)]
-def sozlesme(f):
+import copy
+H1 = "a" * 64
+H2 = "b" * 64
+K = [
+    {"test": "enjeksiyon", "kosum": 2, "tohum": 7, "girdi_sha256": H1, "cikti_sha256": H2, "durum": "gecti"},
+    {"test": "enjeksiyon", "kosum": 1, "tohum": 7, "girdi_sha256": H1, "cikti_sha256": H2, "durum": "gecti"},
+    {"test": "tohum-farki", "kosum": 1, "tohum": 1, "girdi_sha256": H1, "cikti_sha256": H2, "durum": "gecti"},
+    {"test": "tohum-farki", "kosum": 2, "tohum": 2, "girdi_sha256": H1, "cikti_sha256": H1, "durum": "kaldi"},
+]
+BEKLENEN = [
+    {"test": "enjeksiyon", "kosum_sayisi": 2, "tekrarlanabilir": True, "nedenler": []},
+    {"test": "tohum-farki", "kosum_sayisi": 2, "tekrarlanabilir": False, "nedenler": ["tohum", "cikti", "durum"]},
+]
+def sozlesme(fn):
+    try:
+        once = copy.deepcopy(K)
+        if fn(K) != BEKLENEN or K != once or fn(list(reversed(K))) != BEKLENEN or fn([]) != []:
+            return False
+        for tohum in (0, 4294967295):
+            if not fn([dict(K[0], tohum=tohum), dict(K[1], tohum=tohum)])[0]["tekrarlanabilir"]:
+                return False
+        for kosular in [
+            None, {}, [None], [dict(K[0], ek=1)],
+            [dict(K[0], test=""), dict(K[1], test="")],
+            [dict(K[0], test=" x"), dict(K[1], test=" x")],
+            [dict(K[0], kosum=True), K[1]], [dict(K[0], kosum=0), K[1]],
+            [dict(K[0], tohum=-1), K[1]], [dict(K[0], tohum=4294967296), K[1]],
+            [dict(K[0], girdi_sha256="a" * 63), K[1]],
+            [dict(K[0], girdi_sha256="a" * 65), K[1]],
+            [dict(K[0], cikti_sha256="A" * 64), K[1]],
+            [dict(K[0], durum="belirsiz"), K[1]],
+            [K[0]], [K[0], K[0]], [dict(K[0], kosum=1), K[1]],
+        ]:
+            try:
+                fn(kosular)
+                return False
+            except ValueError:
+                pass
+        for durum in ["kaldi","hata"]:
+            rows=[dict(K[0],durum=durum),dict(K[1],durum=durum)]
+            if fn(rows)[0]["nedenler"]!=["durum"] or fn(rows)[0]["tekrarlanabilir"]:return False
+        fark=[K[0],dict(K[1],tohum=8,girdi_sha256=H2,cikti_sha256=H1,durum="hata")]
+        if fn(fark)[0]["nedenler"]!=["tohum","girdi","cikti","durum"]:return False
+        return True
+    except Exception:
+        return False
+for ad,mut in [("boş",None),("sabit",lambda *a:[]),("hep tekrarlanabilir",lambda ks:[{"test":"t","kosum_sayisi":len(ks),"tekrarlanabilir":True,"nedenler":[]}])]:
+    kontrol(not sozlesme(mut),"hatalı çözüm reddedilmeli: "+ad)
+def _eski_sozlesme(f):
     try:
         if f([dict(k) for k in KO]) != D.referans_rapor(KO) or f([dict(k) for k in FARK]) != D.referans_rapor(FARK) or f([]) != []:
             return False
@@ -425,6 +601,7 @@ def sozlesme(f):
         return True
     except Exception:
         return False
+kontrol(_eski_sozlesme(fn),"önceki dar sınırlar ve yalnız çıktı farkı kontrolü korunuyor")
 kontrol(sozlesme(fn), "determinizm raporu (çıktı/durum farkı, en az iki koşu) doğru; geçersiz girdi reddedilmeli")
 r, oz = None, None
 if all(sonuclar):
@@ -433,12 +610,13 @@ if all(sonuclar):
     except ai_lab.GercekLabYok as e:
         kontrol(False, f"GERÇEK MODEL YOK, deney yapılmadı: {e}")
         stop()
+    kontrol(len(r["cagri_kayitlari"])==D.TEKRAR and not r["hatalar"] and all(x["basarili"] for x in r["cagri_kayitlari"]),"üç gerçek istek tamamlandı, hatalar kabul edilmedi")
     kontrol(r["rapor"] == D.referans_rapor(r["kosular"]), "determinizm raporu bağımsız hesapla aynı")
-    beklenen = len(set(r["ciktilar"])) == 1
+    beklenen = all(k["durum"]=="gecti" for k in r["kosular"]) and len(set(r["ciktilar"])) == 1
     kontrol(r["rapor"][0]["tekrarlanabilir"] == beklenen, f"rapor gerçek çıktı tutarlılığını yansıttı: {len(set(r['ciktilar']))} benzersiz çıktı → tekrarlanabilir {r['rapor'][0]['tekrarlanabilir']}")
     oz = D.ozet(r)
-yol = ai_lab.kanit_yaz("savunma-lab", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-savunma-05",
-                                       "ortam": (r or {}).get("ortam"), "ozet": oz})
+yol = ai_lab.kanit_yaz("savunma-lab", {"kaynak": "gercek" if r and r.get("cagri_kayitlari") else "fixture", "kabul": all(sonuclar), "ders": "ai-savunma-05",
+                                       "ortam": (r or {}).get("ortam"), "ozet": oz, "istem":(r or {}).get("istem"), "ayarlar":D.AYARLAR, "ciktilar":(r or {}).get("ciktilar"), "kosular":(r or {}).get("kosular"), "rapor":(r or {}).get("rapor"), "cagri_kayitlari":(r or {}).get("cagri_kayitlari"), "hatalar":(r or {}).get("hatalar"), "sinir":"üç gözlem; işletim sistemi izolasyonu ve genel determinizm garantisi değil"})
 if oz:
     ok(True, f"BULGU ({r['ortam']['model']['ad']}): aynı istem + tohum={r['tohum']} + sıcaklık 0 ile {oz['tekrar']} koşu → {oz['benzersiz_cikti']} benzersiz çıktı; "
              f"tekrarlanabilir: {oz['tekrarlanabilir']} (nedenler {oz['nedenler']}). Determinizm regresyon laboratuvarının temelidir.")

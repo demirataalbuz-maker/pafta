@@ -61,22 +61,24 @@ def uret(fn, metin, ayar, n=12, seed=0):
     tok, model, _ = ai_lab.dil_modeli()
     ids = tok(metin)["input_ids"]
     g = torch.Generator().manual_seed(seed)
-    boyutlar = []
+    boyutlar = [];uretilen_idler=[];secim_izi=[]
     for _ in range(n):
         with torch.no_grad():
             logit = model(torch.tensor([ids])).logits[0, -1]
         if ayar is None:
             sonraki = int(torch.argmax(logit))
-            boyutlar.append(1)
+            boyutlar.append(1);secim_izi.append({"id":sonraki,"olasilik":1.0,"greedy":True})
         else:
             d = fn(logit, **ayar)
             boyutlar.append(len(d["adaylar"]))
             secim = torch.multinomial(torch.tensor(d["olasiliklar"], dtype=torch.float64), 1, generator=g).item()
             sonraki = d["adaylar"][secim]
+            secim_izi.append({"id":sonraki,"olasilik":d["olasiliklar"][secim],"greedy":False})
+        uretilen_idler.append(sonraki)
         ids.append(sonraki)
         if sonraki == tok.eos_token_id:
             break
-    return {"metin": tok.decode(ids[len(tok(metin)["input_ids"]):]), "aday_boyutlari": boyutlar}
+    return {"metin": tok.decode(ids[len(tok(metin)["input_ids"]):]), "aday_boyutlari": boyutlar,"uretilen_idler":uretilen_idler,"secim_izi":secim_izi}
 
 
 DENEY_METNI = "Once upon a time, in a small village,"
@@ -106,4 +108,4 @@ def goster(fn):
         print(f"  {ad:14} {uretimler[ad]['metin']!r}")
     print("\nKanıt:", ai_lab.kanit_yaz("temel-ornekleme-calistir", {
         "kaynak": "gercek", "kabul": False, "ders": "ai-temel-04", "model_bilgisi": bilgi,
-        "aday_kumesi_boyutlari": boyutlar, "uretimler": uretimler}))
+        "ayarlar":{"metin":DENEY_METNI,"tohum":7,"en_fazla_token":12,"uretim":DENEY_AYARLARI},"aday_kumesi_boyutlari": boyutlar, "uretimler": uretimler}))

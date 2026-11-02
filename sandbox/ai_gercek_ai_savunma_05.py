@@ -34,22 +34,31 @@ def referans_rapor(kosular):
     return out
 
 
+AYARLAR={"tohum":TOHUM,"sicaklik":0.0,"en_fazla":20,"tekrar":TEKRAR,"num_ctx":4096,"girdi_sha256_kapsami":"yalnız istem UTF-8 baytları"}
+
 def deney(tekrarlanabilirlik_raporu):
-    g_sha = hashlib.sha256(ISTEM.encode("utf-8")).hexdigest()
-    ciktilar, kosular = [], []
-    with ai_lab.SohbetOturumu() as oturum:
-        for n in range(TEKRAR):
-            c = oturum.sohbet([{"role": "user", "content": ISTEM}], seed=TOHUM, sicaklik=0.0, en_fazla=20)
-            y = c["icerik"]
-            ciktilar.append(y)
-            kosular.append({"test": "determinizm", "kosum": n + 1, "tohum": TOHUM, "girdi_sha256": g_sha,
-                            "cikti_sha256": hashlib.sha256(y.encode("utf-8")).hexdigest(), "durum": "gecti"})
-        ortam = dict(oturum.kayit)
-    ortam["temizlik"] = oturum.kayit.get("temizlik")
-    rapor = tekrarlanabilirlik_raporu([dict(k) for k in kosular])
-    ayni_cikti = len(set(ciktilar)) == 1
-    return {"ortam": ortam, "istem": ISTEM, "tohum": TOHUM, "tekrar": TEKRAR, "ciktilar": ciktilar,
-            "kosular": kosular, "rapor": rapor, "ayni_cikti": ayni_cikti}
+    import math
+    g_sha=hashlib.sha256(ISTEM.encode("utf-8")).hexdigest()
+    ciktilar=[];kosular=[];cagrilar=[];hatalar=[];oturum=None
+    try:
+        with ai_lab.SohbetOturumu() as oturum:
+            for n in range(TEKRAR):
+                y="";basarili=False
+                try:
+                    c=oturum.sohbet([{"role":"user","content":ISTEM}],seed=TOHUM,sicaklik=0.0,en_fazla=20)
+                    y=c["icerik"] if isinstance(c.get("icerik"),str) else ""
+                    basarili=isinstance(y,str) and bool(y.strip()) and type(c["eval_count"]) is int and c["eval_count"]>0 and isinstance(c["sure_ms"],(int,float)) and math.isfinite(c["sure_ms"]) and c["sure_ms"]>=0
+                    cagrilar.append({"kosum":n+1,"yanit":c,"basarili":basarili})
+                    if not basarili:hatalar.append({"kosum":n+1,"hata":"eksik yanıt veya gerçek ölçüm"})
+                except Exception as exc:
+                    hatalar.append({"kosum":n+1,"tur":type(exc).__name__,"hata":str(exc)})
+                    cagrilar.append({"kosum":n+1,"basarili":False,"hata":str(exc)})
+                ciktilar.append(y)
+                kosular.append({"test":"determinizm","kosum":n+1,"tohum":TOHUM,"girdi_sha256":g_sha,"cikti_sha256":hashlib.sha256(y.encode("utf-8")).hexdigest(),"durum":"gecti" if basarili else "hata"})
+    finally:
+        ortam=dict(oturum.kayit) if oturum else {}
+    rapor=tekrarlanabilirlik_raporu([dict(k) for k in kosular])
+    return {"ortam":ortam,"istem":ISTEM,"tohum":TOHUM,"tekrar":TEKRAR,"ciktilar":ciktilar,"kosular":kosular,"rapor":rapor,"ayni_cikti":len(set(ciktilar))==1,"cagri_kayitlari":cagrilar,"hatalar":hatalar}
 
 
 def ozet(r):
@@ -68,6 +77,7 @@ def goster(tekrarlanabilirlik_raporu):
     oz = ozet(r)
     print(f"\nTekrarlanabilirlik raporu: {r['rapor']}")
     print(f"Sonuç: {oz['benzersiz_cikti']} benzersiz çıktı ({r['tekrar']} koşuda) → tekrarlanabilir: {oz['tekrarlanabilir']}")
-    print("Sabit tohum + sıcaklık 0 → aynı çıktı; determinizm bir regresyon laboratuvarının temelidir.")
+    print("Bu sonuç yalnız üç gerçek gözlemin tutarlılığını gösterir; sabit tohum ve sıcaklık0 genel determinizm garantisi değildir.")
+    print("Çağrı hataları:",r["hatalar"])
     print("Kanıt:", ai_lab.kanit_yaz("savunma-lab-calistir", {"kaynak": "gercek", "kabul": False, "ders": "ai-savunma-05",
-                                                             "ortam": o, "ozet": oz}))
+                                                             "ortam": o, "ozet": oz, "istem":r["istem"], "ayarlar":AYARLAR,"ciktilar":r["ciktilar"],"kosular":r["kosular"],"rapor":r["rapor"],"cagri_kayitlari":r["cagri_kayitlari"],"hatalar":r["hatalar"]}))

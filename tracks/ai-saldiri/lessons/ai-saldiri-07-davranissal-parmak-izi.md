@@ -5,7 +5,15 @@ summary: Tekrarlanan yerel sorgularla yanıt kararlılığını ölç, kanonik d
 timeout: 45
 ---
 
-::: anlat Davranış gözlemi modelin kendisi değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Davranış gözlemi modelin kendisi değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek bir extraction ya da parmak izi çalışmasında bir API uç noktasına yüzlerce, binlerce sorgu gönderilir. İstekler ve ham yanıtlar (Ollama'da `/api/chat` gövdesi, `model`, `seed`, `temperature`, `done_reason`) kaydedilir. Sonra yanıt dağılımı ya da logit/olasılık bilgisi bir aday modelle karşılaştırılır. Fiyatlandırma, hız sınırı ve kullanım şartları da sorgu bütçesini belirler. | Görev 1–3: `veri/sorgu_seti.json` (sorgular ve kayıttan oynatılan yanıt kaseti), `veri/gozlem_kayitlari.json` ve `veri/uc_karsilastirma.json` içindeki **sentetik** kayıtlar. Son adım: kendi CPU Ollama sunucusunda kurulu yerel modele iki profille (`T=0.0` ve `T=0.6`) 2 sorgu × 2 tekrar × 2 profil = 8 gerçek çağrı. | Birkaç sorgu, bir modelin ağırlıklarını, mimarisini ya da kimliğini ortaya çıkarmaz. Eşleşme oranı yalnız bu sorgu setinde ölçülür. Son adımdaki iki profil aynı modeldir; farklılık kimlik farkı değildir. Ders başka birinin uç noktasına sorgu göndermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model ve ağ yoktur; model çağrısı kaydedilmiş yanıtları sırayla veren bir adaptördür. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini kendi CPU sunucusunda kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Model extraction bazen model parametrelerini veya eşdeğer bir kopyayı çıkarma, bazen de yalnız dışarıdan gözlenen davranışı çıkarma anlamında kullanılır. Bu derste ikinci, sınırlı anlamı ölçüyoruz: sabit sorgulara verilen yanıtları kaydetmek. Elde edilen parmak izi modelin mimarisini, ağırlıklarını veya gerçek kimliğini kanıtlamaz.
 
 Bir davranış deneyinde en az şu katmanlar ayrılmalıdır:
@@ -25,7 +33,9 @@ print(len(kayit), kayit[0]["yanit"])
 print(hashlib.sha256(kanonik.encode("utf-8")).hexdigest()[:12])
 ```
 
-Gerçek modelde `temperature=0` bile her ortamda mutlak tekrarlanabilirlik garantisi değildir. Sürüm, çalışma zamanı, kuantizasyon ve sohbet şablonu değişebilir. Bu ders ağ çağrısı yapmadan deterministik fixture kullanır; sonuçları gerçek model extraction başarısı olarak sunmayız.
+Gerçek modelde `temperature=0` bile her ortamda mutlak tekrarlanabilirlik garantisi değildir. Sürüm, çalışma zamanı, kuantizasyon ve sohbet şablonu değişebilir. Görev 1–3 ağ çağrısı yapmadan deterministik fixture kullanır. Son adım yalnız yerel Ollama modelini çağırır. İki durumda da sonuçları gerçek model extraction başarısı olarak sunmayız.
+
+**Görev 1'de sık tuzaklar:** Doğrulamayı çağrılarla aynı döngüde yapmak, bozuk sette önceki geçerli sorgular için modeli çağırır. Gerçek bir API'de bu, ücreti ödenmiş ve kaydı tutulmuş istekler demektir (`veri/sorgu_seti.json`, altıncı bozuk set). `range(tekrar)` tekrarları `0`'dan sayar. `int(True)` ve `int(2.0)` bozuk değerleri sessizce kabul eder. Adaptör hatasını `"HATA"` yanıtına çevirmek, taşıma hatasını bir model davranışı gibi gösterir ve parmak izine karıştırır (`kesinti`).
 :::
 
 ::: tahmin
@@ -60,9 +70,58 @@ q2 True
 
 Her vaka için tekrar `1..tekrar` sırasıyla `model_cagir(metin)` çağır. Dönüş kayıtları `vaka_id`, `tekrar`, `metin`, `yanit` alanlarını taşısın; sorgu ve tekrar sırası korunsun. Adaptör hatasını yakalayıp sahte yanıt üretme. Girdi listesini değiştirme.
 
+Görünür veri: `veri/sorgu_seti.json`. Adaptör, kasetteki yanıtları sırayla verir ve kaç kez çağrıldığını sayar. Bozuk setlerde model hiç çağrılmamalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def sorgu_matrisi(sorgular, model_cagir):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: doğrulamayı çağrılarla iç içe yapıyor (geçersiz sorgudan önceki sorgular modeli çağırır), tekrarı 0'dan sayıyor, int() ile bool/float tekrarı kabul ediyor, 1..4 sınırını ve yinelenen kimliği denetlemiyor ve adaptör hatasını "HATA" yanıtına çeviriyor!
+    kayitlar = []
+    for sorgu in sorgular:
+        if not sorgu["id"]:
+            raise ValueError("sorgu kimliği boş")
+        for tekrar in range(int(sorgu["tekrar"])):
+            try:
+                yanit = model_cagir(sorgu["metin"])
+            except Exception:
+                yanit = "HATA"
+            kayitlar.append({"vaka_id": sorgu["id"], "tekrar": tekrar, "metin": sorgu["metin"], "yanit": yanit})
+    return kayitlar
+
+veri = json_yukle("veri/sorgu_seti.json")
+def adaptor_kur():
+    sira = {m: list(y) for m, y in veri["kaset"].items()}
+    sayac = [0]
+    def model_cagir(metin):
+        sayac[0] += 1
+        if metin.startswith("KESİNTİ"):
+            raise TimeoutError("model çağrısı zaman aşımına uğradı")
+        return sira[metin].pop(0) if sira.get(metin) else "x"
+    return model_cagir, sayac
+model_cagir, _ = adaptor_kur()
+sonuc = sorgu_matrisi(veri["sorgular"], model_cagir)
+print("doğru" if sonuc == veri["beklenen"] else "YANLIŞ", [(k["vaka_id"], k["tekrar"], k["yanit"]) for k in sonuc])
+for kume in veri["bozuk_setler"]:
+    model_cagir, sayac = adaptor_kur()
+    try:
+        sorgu_matrisi(kume, model_cagir)
+        print(kume, "KABUL edildi (yanlış), çağrı:", sayac[0])
+    except ValueError as hata:
+        print("reddedildi:", hata, "| çağrı:", sayac[0], "(0 olmalı)")
+model_cagir, _ = adaptor_kur()
+try:
+    print("kesinti yutuldu (yanlış):", sorgu_matrisi(veri["kesinti"]["sorgular"], model_cagir))
+except TimeoutError as hata:
+    print("kesinti görünür kaldı:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-07")
 ```
 
 ```test
@@ -153,6 +212,8 @@ def sorgu_matrisi(sorgular, model_cagir):
 Aynı yanıtları farklı sırada toplamak gözlem içeriğini değiştirmez; kayıtları `(vaka_id, tekrar)` ile sıralayıp kanonik JSON üretmek bu sıra farkını ortadan kaldırır. Buna karşılık bir yanıtın değişmesi parmak izini değiştirmelidir. Tekrar anahtarı yinelenirse kayıt kümesi belirsizdir ve imza hesaplanmamalıdır.
 
 Kararlılık ayrı bir ölçümdür. Her vaka için tekrar yanıtlarının kümesi tek elemanlıysa vaka kararlıdır. Üç vakanın ikisi kararlıysa oran `2/3` olur. Tek bir parmak izi, farklı iki modelin aynı fixture'da aynı cevabı veremeyeceğini göstermez; yalnız bu gözlem setinin aynı olduğunu gösterir.
+
+**Sık tuzaklar:** Yanıtları `strip()` ile "düzeltmek", ölçülen davranışı değiştirir. `veri/gozlem_kayitlari.json` içindeki `HAYIR\n` yanıtı ayrı bir gözlemdir. Normalleştirme gerekiyorsa sözleşmede açıkça yazılmalıdır. `ensure_ascii` varsayılanıyla `Türkçe` yanıtı `\u` kaçışına döner ve başka bir imza üretir. Kararlılığı kayıt sayısına bölmek, tekrar sayısı fazla olan vakaya gereğinden fazla ağırlık verir.
 :::
 
 ::: gorev 2 · Kanonik davranış parmak izi ve kararlılık üret
@@ -160,9 +221,47 @@ Kararlılık ayrı bir ölçümdür. Her vaka için tekrar yanıtlarının küme
 
 Kayıtları `(vaka_id, tekrar)` ile artan sıralayıp kanonik JSON (`ensure_ascii=False`, `sort_keys=True`, `separators=(",", ":")`) üzerinden SHA-256 hex özeti hesapla. Dönüş `{"imza", "gozlem", "kararli_vaka", "kararlilik"}` sözlüğüdür. `gozlem` kayıt sayısıdır; `kararli_vaka`, bütün tekrarları aynı yanıtı veren vaka sayısıdır; `kararlilik = kararli_vaka / vaka_sayisi`, vaka yoksa `None` olur. Girdiyi değiştirme.
 
+Görünür veri: `veri/gozlem_kayitlari.json`. Beklenen sonuç dosyanın `beklenen` alanındadır. Ters sırada verilen kayıtlar aynı imzayı üretmelidir.
+
 ```starter
+import hashlib
+import json
+from ai_saldiri_veri import json_yukle
+
 def parmak_izi(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kayıtları sıralamadan ve ensure_ascii=True ile özetliyor (kayıt sırası imzayı değiştirir), yanıtları strip() ile "düzeltiyor", kararlılığı vaka yerine kayıt sayısına bölüyor, boş sette 0.0 dönüyor ve yinelenen anahtarı denetlemiyor!
+    temiz = [dict(k, yanit=str(k["yanit"]).strip()) for k in kayitlar]
+    kanonik = json.dumps(temiz, sort_keys=True)
+    yanitlar = {}
+    for k in temiz:
+        yanitlar.setdefault(k["vaka_id"], set()).add(k["yanit"])
+    kararli = sum(len(v) == 1 for v in yanitlar.values())
+    return {
+        "imza": hashlib.sha256(kanonik.encode("utf-8")).hexdigest(),
+        "gozlem": len(kayitlar),
+        "kararli_vaka": kararli,
+        "kararlilik": kararli / len(kayitlar) if kayitlar else 0.0,
+    }
+
+veri = json_yukle("veri/gozlem_kayitlari.json")
+sonuc = parmak_izi(veri["kayitlar"])
+print("sonuç   :", sonuc)
+print("beklenen:", veri["beklenen"])
+print("ters sırada aynı imza:", parmak_izi(list(reversed(veri["kayitlar"])))["imza"] == sonuc["imza"])
+for kume in veri["bozuk_kumeler"]:
+    try:
+        parmak_izi(kume)
+        print(kume, "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print("reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-07")
 ```
 
 ```test
@@ -260,6 +359,8 @@ def parmak_izi(kayitlar):
 İki davranış kaydını karşılaştırırken aynı vaka ve tekrar anahtarları bulunmalıdır. Bir taraftaki ekstra veya eksik gözlemleri sessizce atmak, seçilmiş ortak alt küme üzerinden yapay olarak yüksek benzerlik üretir. Tam anahtar eşleşmesi yoksa karşılaştırma yapılmaz.
 
 `eslesme = ayni_yanit / gozlem` yalnız ölçülen sorgu setindeki benzerliktir. Yüzde 100 eşleşme iki modelin aynı olduğunu, düşük eşleşme ise kesinlikle farklı mimariye sahip olduklarını kanıtlamaz. Farklı sorgu setleri, rastgelelik, sürüm ve sistem talimatları sonucu değiştirebilir.
+
+**Çıktı nasıl okunur?** `veri/uc_karsilastirma.json` içinde `eksik_uc_b`, `q-sayi` gözlemleri atılmış kayıttır. Ortak anahtarlar üzerinden hesap yapan bir kod burada `1.0` eşleşme bulur. Oysa tek farklı vaka tam da atılan vakadır. Anahtar kümeleri eşit değilse karşılaştırma reddedilir.
 :::
 
 ::: gorev 3 · İki gözlem setinin yanıt eşleşmesini ölç
@@ -267,9 +368,42 @@ def parmak_izi(kayitlar):
 
 Dönüş `{"gozlem", "ayni", "eslesme", "farkli_vakalar"}` sözlüğüdür. `gozlem` ortak kayıt sayısı, `ayni` aynı yanıtı veren kayıt sayısıdır. `eslesme = ayni / gozlem`; boş sette `None` olur. `farkli_vakalar`, en az bir tekrarı farklı olan vaka kimliklerinin alfabetik listesidir. Kayıt sırası sonucu etkilememeli ve girdiler değişmemelidir.
 
+Görünür veri: `veri/uc_karsilastirma.json`. Beklenen sonuç dosyanın `beklenen` alanındadır. Üç bozuk çift `ValueError` almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def gozlem_karsilastir(sol, sag):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız ortak anahtarları karşılaştırıyor (eksik/fazla gözlem sessizce atılır, benzerlik yapay yükselir), yinelenen anahtarda son kaydı tutuyor, yanıt türünü denetlemiyor, boş sette 0.0 dönüyor ve farklı vakaları sıralamıyor!
+    a = {(k["vaka_id"], k["tekrar"]): k["yanit"] for k in sol}
+    b = {(k["vaka_id"], k["tekrar"]): k["yanit"] for k in sag}
+    ortak = [x for x in a if x in b]
+    ayni = 0
+    farkli = []
+    for x in ortak:
+        if a[x] == b[x]:
+            ayni += 1
+        elif x[0] not in farkli:
+            farkli.append(x[0])
+    return {"gozlem": len(ortak), "ayni": ayni, "eslesme": ayni / len(ortak) if ortak else 0.0, "farkli_vakalar": farkli}
+
+veri = json_yukle("veri/uc_karsilastirma.json")
+sonuc = gozlem_karsilastir(veri["uc_a"], veri["uc_b"])
+print("sonuç   :", sonuc)
+print("beklenen:", veri["beklenen"])
+for cift in veri["bozuk_ciftler"]:
+    try:
+        print("KABUL edildi (yanlış):", gozlem_karsilastir(cift["sol"], cift["sag"]))
+    except ValueError as hata:
+        print("reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-07")
 ```
 
 ```test
@@ -414,16 +548,52 @@ _d07.ornek_dosya_hazirla("ornek_gozlem.jsonl")
 ```
 
 ```starter
+import hashlib
+import json
 import ai_lab
 
 def sorgu_matrisi(sorgular, model_cagir):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: doğrulamayı çağrılarla iç içe yapıyor (geçersiz sorgudan önceki sorgular modeli çağırır), tekrarı 0'dan sayıyor, int() ile bool/float tekrarı kabul ediyor, 1..4 sınırını ve yinelenen kimliği denetlemiyor ve adaptör hatasını "HATA" yanıtına çeviriyor!
+    kayitlar = []
+    for sorgu in sorgular:
+        if not sorgu["id"]:
+            raise ValueError("sorgu kimliği boş")
+        for tekrar in range(int(sorgu["tekrar"])):
+            try:
+                yanit = model_cagir(sorgu["metin"])
+            except Exception:
+                yanit = "HATA"
+            kayitlar.append({"vaka_id": sorgu["id"], "tekrar": tekrar, "metin": sorgu["metin"], "yanit": yanit})
+    return kayitlar
 
 def parmak_izi(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kayıtları sıralamadan ve ensure_ascii=True ile özetliyor (kayıt sırası imzayı değiştirir), yanıtları strip() ile "düzeltiyor", kararlılığı vaka yerine kayıt sayısına bölüyor, boş sette 0.0 dönüyor ve yinelenen anahtarı denetlemiyor!
+    temiz = [dict(k, yanit=str(k["yanit"]).strip()) for k in kayitlar]
+    kanonik = json.dumps(temiz, sort_keys=True)
+    yanitlar = {}
+    for k in temiz:
+        yanitlar.setdefault(k["vaka_id"], set()).add(k["yanit"])
+    kararli = sum(len(v) == 1 for v in yanitlar.values())
+    return {
+        "imza": hashlib.sha256(kanonik.encode("utf-8")).hexdigest(),
+        "gozlem": len(kayitlar),
+        "kararli_vaka": kararli,
+        "kararlilik": kararli / len(kayitlar) if kayitlar else 0.0,
+    }
 
 def gozlem_karsilastir(sol, sag):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız ortak anahtarları karşılaştırıyor (eksik/fazla gözlem sessizce atılır, benzerlik yapay yükselir), yinelenen anahtarda son kaydı tutuyor, yanıt türünü denetlemiyor, boş sette 0.0 dönüyor ve farklı vakaları sıralamıyor!
+    a = {(k["vaka_id"], k["tekrar"]): k["yanit"] for k in sol}
+    b = {(k["vaka_id"], k["tekrar"]): k["yanit"] for k in sag}
+    ortak = [x for x in a if x in b]
+    ayni = 0
+    farkli = []
+    for x in ortak:
+        if a[x] == b[x]:
+            ayni += 1
+        elif x[0] not in farkli:
+            farkli.append(x[0])
+    return {"gozlem": len(ortak), "ayni": ayni, "eslesme": ayni / len(ortak) if ortak else 0.0, "farkli_vakalar": farkli}
 
 
 if ai_lab.CALISTIR:
@@ -448,10 +618,15 @@ def ok(kosul, mesaj):
 for ad in ("sorgu_matrisi", "parmak_izi", "gozlem_karsilastir"):
     need(ad)
 
-ok(
-    not ai_lab.kod_denetimi(src, ("matris_referans", "parmak_izi_referans", "karsilastir_referans")),
-    "laboratuvar yamalanmamalı, test referansları çağrılmamalı",
-)
+import ast
+_yasak = ("matris_referans", "parmak_izi_referans", "karsilastir_referans", "kanit_yaz")
+_sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names): _sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])): _sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"): _sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+if not ok(not _sorun, "laboratuvar yamalanmamalı, test referansları çağrılmamalı: " + "; ".join(sorted(set(_sorun)))):
+    stop()
 
 ornek_yol = Path("ornek_gozlem.jsonl")
 ok(ornek_yol.is_file() and "sentetik-fixture" in ornek_yol.read_text(encoding="utf-8"), "görünür sentetik çalışma dosyası (ornek_gozlem.jsonl) çalışma klasöründe erişilebilir olmalı")

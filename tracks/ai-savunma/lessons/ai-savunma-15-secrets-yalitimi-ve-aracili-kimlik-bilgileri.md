@@ -6,9 +6,33 @@ timeout: 45
 ---
 
 ::: anlat Gerçek sır model bağlamına girmez
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| HashiCorp Vault, AWS STS ya da GCP Workload Identity kısa ömürlü, dar kapsamlı kimlik bilgisi üretir. Bir broker (ör. FastAPI üzerinde) bu bilgiyi araç çağrısına modelin göremeyeceği bir kanaldan ekler. Gitleaks/TruffleHog ve log redaksiyon katmanları sızan değeri arar. | Görev 1–3: `veri/log_kayitlari.json`, `veri/kapsamlar.json` ve `veri/broker_istekleri.json` içindeki **sentetik** log satırları, kapsamlar ve broker istekleri; zamanlar milisaniye ölçeğindedir. Son adım: kurulu yerel Ollama modelinin ürettiği iki metin ve sandbox'ın her çalıştırmada yeni ürettiği sentetik `sk-test-...` sırrıyla maskeleme. | Gerçek bir sır deposu, imza ya da token iptali sınanmaz. Birebir dize maskelemesi bölünmüş, kodlanmış ya da harf büyüklüğü değişmiş sırrı yakalamaz. İki senaryo bir oran vermez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model, ağ ve sır deposu yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini ve sandbox'ın ürettiği yapay bir sırrı kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 API anahtarı model istemine, araç çıktısına veya günlüğe açık metin olarak eklenmez. HashiCorp Vault gibi bir sır deposu ile FastAPI üzerindeki broker, kısa ömürlü ve yalnız belirli araç-eylem-kaynak kapsamında kimlik bilgisi üretebilir. Model yalnız opak bir referans veya kullanım kararı görür.
 
-Bu dersteki bütün değerler yapay fixture verisidir. Maskeleme, günlükte yanlışlıkla görünen değeri temizlemek içindir; sırları modele göndermeyi güvenli hale getirme yöntemi değildir. Temel savunma, gerçek sırrı bağlama hiç eklememektir.
+Bu dersteki bütün sır değerleri yapaydır: görev 1–3'te fixture verisi, son adımda sandbox'ın her çalıştırmada ürettiği sentetik bir token. Son adımın metinleri ise gerçek yerel modelden gelir. Maskeleme, günlükte yanlışlıkla görünen değeri temizlemek içindir; sırları modele göndermeyi güvenli hale getirme yöntemi değildir. Temel savunma, gerçek sırrı bağlama hiç eklememektir.
+
+**Saldırgan ne dener?** Prompt injection'ın en değerli hedeflerinden biri, ajanın kullandığı API anahtarıdır. Sır sistem istemine, araç çıktısına ya da hata mesajına bir kez girerse saldırgan modele şunları yaptırmaya çalışır:
+
+- Sırrı tekrar etmek.
+- Harf harf yazmak ya da base64 ile kodlamak.
+- Bir URL parametresine eklemek (`?k=...`).
+
+Kimlik bilgisi uzun ömürlü ve geniş kapsamlıysa sızan tek bir değer her şeye erişim verir. Kısa ömürlü olsa bile, broker kanalı dışından "doğrudan" kullanılabiliyorsa ya da aynı belirteç tekrar kabul ediliyorsa saldırgan onu yeniden oynatır.
+
+**Savunma neden kırılır?**
+- Maskeleme yalnız bildiği biçimi yakalar. Bölünmüş, büyük harfe çevrilmiş ya da kodlanmış bir sır günlüğe olduğu gibi düşer.
+- Birbirinin öneki olan sırlarda kısa olanı önce maskelemek uzun sırrın kuyruğunu açıkta bırakır.
+- Kapsamda birim karışıklığı (300 ms yerine 300 saniye) belirtecin ömrünü bin kat uzatır.
+- Broker kararında ham anahtarı döndürmek bütün mimariyi boşa çıkarır; model yalnız opak bir referans görmelidir.
+
+**Görev 1'de sık tuzaklar:** Sırları verildiği sırayla maskelemek, `onek-cakisma` kaydında `[GIZLI]CD34` kuyruğu bırakır (`veri/log_kayitlari.json`). Bulguyu sır türü sayısı olarak tutmak, aynı token iki satırda geçse de 1 yazar (`http-log`). `bolunmus` ve `buyuk-harf` kayıtları doğru çözümde de maskelenmez; bu kaçınılmaz sınırı raporda gizlemek yerine bilmek gerekir.
 :::
 
 ::: anlat Çakışan değerlerde en uzun sır önce maskelenir
@@ -46,9 +70,49 @@ Her gizli değer 4–128 karakterlik, yinelenmeyen ve satır sonu/NUL içermeyen
 
 Her kayıt için `{"id":ID,"maskeli_metin":METIN,"bulgu":SAYI}` döndür. Kimliğe göre sırala, boş kayıtta boş liste döndür ve girdileri değiştirme.
 
+Görünür veri: `veri/log_kayitlari.json`. Dosyada altı kayıt, beklenen rapor ve dört bozuk girdi vardır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def sir_maskele(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: sırları verildiği sırayla maskeliyor (kısa önek sır önce değişirse uzun sırrın kuyruğu açıkta kalır), bulguyu eşleşme sayısı yerine "bulunan sır türü" olarak sayıyor, gizli değerlerin uzunluğunu ve kontrol karakterlerini doğrulamıyor ve raporu sıralamıyor!
+    rapor = []
+    for kayit in kayitlar:
+        metin = kayit["metin"]
+        bulgu = 0
+        for sir in kayit["gizliler"]:
+            if sir in metin:
+                bulgu += 1
+                metin = metin.replace(sir, "[GIZLI]")
+        rapor.append({"id": kayit["id"], "maskeli_metin": metin, "bulgu": bulgu})
+    return rapor
+
+veri = json_yukle("veri/log_kayitlari.json")
+try:
+    rapor = sir_maskele(veri["kayitlar"])
+except Exception as hata:
+    rapor = [{"id": "hata", "hata": type(hata).__name__}]
+print("rapor sırası", "doğru" if [r["id"] for r in rapor] == [b["id"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r["id"] == beklenen["id"]), None)
+    print(beklenen["id"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        sir_maskele(b["girdi"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-15")
 ```
 
 ```test
@@ -156,9 +220,11 @@ def sir_maskele(kayitlar):
 :::
 
 ::: anlat Kapsam hem yetkiyi hem süreyi sınırlar
-Aracılı kimlik bilgisi yalnız belirli araç, eylem ve kaynaklarda kullanılabilir. Modelin gerçek değeri görmesi yasaktır. Ömür bir ile 300 saniye arasındadır; son geçerlilik anı kullanım kararında hâlâ geçerlidir, sonrası süresi dolmuş sayılır.
+Aracılı kimlik bilgisi yalnız belirli araç, eylem ve kaynaklarda kullanılabilir. Modelin gerçek değeri görmesi yasaktır. Bu derste ömür 1 ile 300 **milisaniye** arasındadır; gerçek sistemlerdeki dakikalar mertebesindeki ömrün kısaltılmış, sentetik bir ölçeğidir. Son geçerlilik anı kullanım kararında hâlâ geçerlidir, sonrası süresi dolmuş sayılır.
 
 Kapsam listelerindeki değerler benzersizdir. Böylece aynı yetkinin yinelenmesi denetim raporunu ve politika karşılaştırmasını bulandırmaz.
+
+**Görev 2'de sık tuzaklar:** Ömrü saniye sanmak 300 saniyelik (300000 ms) bir kapsamı geçirir (`veri/kapsamlar.json`, `k-03`). `if kapsam["model_gorebilir"]` denetimi `0` değerini kapalı sayar; `is False` gerekir (`k-05`). Kaynak listesine joker ya da araca `sil` eylemi girmesi, "dar kapsam" iddiasını boşa çıkarır (`k-06`, `k-07`).
 :::
 
 ::: gorev 2 · Kısa ömürlü ve dar kimlik kapsamını doğrula
@@ -168,9 +234,37 @@ Zamanlar bool olmayan sıfır/pozitif int olmalı; son geçerlilik verilişten b
 
 Kapsamı yeni listelerle döndür; girdiyi değiştirme.
 
+Görünür veri: `veri/kapsamlar.json`. Her kapsamın `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def kimlik_kapsami_dogrula(kapsam):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: ömrü saniye sanıp 300000 ms'ye kadar kabul ediyor, model_gorebilir alanını doğruluk değeriyle okuyor (0 kabul edilir), araç, eylem ve kaynak listelerini doğrulamıyor (joker, sil, boş liste geçer) ve girdiyi kopyalamadan döndürüyor!
+    if kapsam.get("model_gorebilir"):
+        raise ValueError("model gerçek sırrı göremez")
+    omur = kapsam["son_gecerlilik_ms"] - kapsam["verilis_ms"]
+    if not 0 < omur <= 300000:
+        raise ValueError("ömür geçersiz")
+    return kapsam
+
+veri = json_yukle("veri/kapsamlar.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = kimlik_kapsami_dogrula(o["kapsam"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-15")
 ```
 
 ```test
@@ -264,6 +358,8 @@ def kimlik_kapsami_dogrula(kapsam):
 İstek kapsam dışındaysa `kapsam`, broker dışı kanaldan geldiyse `kanal`, kullanım zamanı aralık dışındaysa `zaman`, kimlik bilgisi daha önce kullanıldıysa `tekrar` nedeni eklenir. Nedenler bu sıradadır ve birden fazlası görünür kalır.
 
 Karar `izin` olsa bile dönen değer gerçek API anahtarı değil, opak `kisa-omurlu-belirtec` referansıdır. Ret kararında referans `None` olur. Böylece model veya günlük kaydı gerçek sırrı elde etmez.
+
+**Görev 3'te sık tuzaklar:** Yalnız aracı karşılaştırmak, aynı araçla başka kaynağa ya da başka eyleme gidilmesine izin verir (`veri/broker_istekleri.json`, `baska-kaynak`, `baska-eylem`). Kanal ve tekrar denetimi olmadan sızan belirteç broker dışından ya da ikinci kez kullanılabilir. `<` ile son anı dışarıda bırakmak sözleşmedeki kapalı aralığı bozar (`mesru` tam son geçerlilik anındadır). İzin kararına ham anahtarı koymak, broker'ın tek amacını tersine çevirir.
 :::
 
 ::: gorev 3 · Aracılı kimlik bilgisi kullanımını denetle
@@ -273,9 +369,51 @@ Araç, eylem veya kaynak kapsam dışındaysa `kapsam`; kanal broker değilse `k
 
 Her kayıt için `{"id":ID,"karar":KARAR,"nedenler":[...],"referans":REFERANS}` döndür. Yalnız izinde `kisa-omurlu-belirtec`, rette `None` kullan. Kimliğe göre sırala, boş istekte boş liste döndür ve girdileri değiştirme.
 
+Görünür veri: `veri/broker_istekleri.json`. Dosyada kapsam, `simdi_ms`, altı istek, 1 ms geç kalan örnek ve dört bozuk girdi vardır.
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def broker_kullanim_deneti(istekler, kapsam, simdi_ms):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: yalnız aracı kapsamla karşılaştırıyor (eylem ve kaynak kaçar), doğrudan kanalı ve tekrar kullanımı denetlemiyor, son geçerlilik anını dışarıda bırakıyor, izin verilen kayda opak referans yerine ham anahtarı koyuyor, girdileri doğrulamıyor ve raporu sıralamıyor!
+    rapor = []
+    for istek in istekler:
+        nedenler = []
+        if istek["arac"] != kapsam["arac"]:
+            nedenler.append("kapsam")
+        if not (kapsam["verilis_ms"] <= simdi_ms < kapsam["son_gecerlilik_ms"]):
+            nedenler.append("zaman")
+        rapor.append({"id": istek["id"], "karar": "reddet" if nedenler else "izin", "nedenler": nedenler,
+                      "referans": None if nedenler else "sk-test-AB12CD34"})
+    return rapor
+
+veri = json_yukle("veri/broker_istekleri.json")
+try:
+    rapor = broker_kullanim_deneti(veri["istekler"], veri["kapsam"], veri["simdi_ms"])
+except Exception as hata:
+    rapor = [{"id": "hata", "hata": type(hata).__name__}]
+print("rapor sırası", "doğru" if [r["id"] for r in rapor] == [b["id"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r["id"] == beklenen["id"]), None)
+    print(beklenen["id"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+gec = broker_kullanim_deneti(veri["istekler"][:1], veri["kapsam"], veri["gec_kalan"]["simdi_ms"])
+print("1 ms geç", "doğru" if gec == veri["gec_kalan"]["beklenen"] else "YANLIŞ", gec)
+for b in veri["bozuk_girdiler"]:
+    try:
+        broker_kullanim_deneti(b["girdi"], veri["kapsam"], veri["simdi_ms"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-15")
 ```
 
 ```test
@@ -423,6 +561,8 @@ Kapsam ve zaman hatalarını ayrı bayraklarla topla; son geçerlilik anını ka
 Secrets yalıtımının son hattı maskelemedir: bir sır modelin çıktısına ya da bir log satırına sızsa bile, saklanan/telemetriye giden metin ham değeri taşımamalıdır. Son görevde senin `sir_maskele` işlevin, gerçek yerel modelin ürettiği metinleri broker'ın bildiği sır değeriyle maskeler. Deney iki görev koşar: modelin bir sır token'ı içeren Authorization log satırı yazdığı senaryo ve zararsız bir özet.
 
 Sır değerini yalnız broker (sandbox) bilir; model onu yalnızca bu deneyde, maskelemenin çalıştığını gösterebilmek için yazar. Maskeleme sonrası loglanacak metinde ham sır **kalmaz**, yalnız `[GIZLI]` ve olay sayısı (bulgu) kalır. Böylece gerçek değer değil, yalnız olayın kendisi telemetriye taşınır.
+
+**Çıktıyı okurken:** Log senaryosunda modelin sırrı kaç kez yazdığını (`ham_sir_sayisi`) ve senin `bulgu` sayını karşılaştır; ikisi eşit olmalıdır. Model sırrı yeniden biçimlendirdiyse (büyük harf, araya boşluk) ham sayı da maskeleme de onu görmez. Bu yüzden asıl hedef, sırrın modele hiç verilmemesidir; bu deney yalnız son hat savunmasını ölçer.
 :::
 
 ::: gorev Gerçek deney · Gerçek çıktıdaki sırrı maskele
@@ -438,7 +578,17 @@ timeout: 300
 import ai_lab
 
 def sir_maskele(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: sırları verildiği sırayla maskeliyor (kısa önek sır önce değişirse uzun sırrın kuyruğu açıkta kalır), bulguyu eşleşme sayısı yerine "bulunan sır türü" olarak sayıyor, gizli değerlerin uzunluğunu ve kontrol karakterlerini doğrulamıyor ve raporu sıralamıyor!
+    rapor = []
+    for kayit in kayitlar:
+        metin = kayit["metin"]
+        bulgu = 0
+        for sir in kayit["gizliler"]:
+            if sir in metin:
+                bulgu += 1
+                metin = metin.replace(sir, "[GIZLI]")
+        rapor.append({"id": kayit["id"], "maskeli_metin": metin, "bulgu": bulgu})
+    return rapor
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_15 as deney
@@ -451,8 +601,19 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak = ("referans", "getattr", "kanit_yaz", "SECRET")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+sorun = sorted(set(sorun))
+if not kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun)):
+    stop()
 fn = need("sir_maskele")
 from sandbox import ai_gercek_ai_savunma_15 as D
 K = [

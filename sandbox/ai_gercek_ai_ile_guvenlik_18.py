@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import unicodedata
 
 LOG_ALANLARI = {"olay_id", "kaynak_ip", "yol", "durum_kodu", "user_agent"}
 POLITIKA_ALANLARI = {"izinli_ipler", "gizli_anahtar"}
@@ -100,6 +101,11 @@ def _mudahale_kontrol(mudahale: dict) -> None:
         raise ValueError("kanit_olay_idleri boş olmayan string listesi olmalı")
 
 
+def _zehirli_mi(ua: str) -> bool:
+    temiz = "".join(c for c in unicodedata.normalize("NFKD", ua) if not unicodedata.combining(c)).casefold()
+    return "[sistem:" in temiz or "[system:" in temiz
+
+
 def anomali_adaylarini_cikar_referans(olay_loglari: list[dict]) -> dict:
     if not isinstance(olay_loglari, list) or not olay_loglari:
         raise ValueError("olay_loglari boş olmayan liste olmalı")
@@ -114,7 +120,7 @@ def anomali_adaylarini_cikar_referans(olay_loglari: list[dict]) -> dict:
         if oid in indeks:
             raise ValueError("tekrarlanan olay_id")
         kopya = dict(log)
-        if "[sistem:" in log["user_agent"].lower():
+        if _zehirli_mi(log["user_agent"]):
             kopya["user_agent"] = "[KARANTINA]"
             zehirli_sayisi += 1
         indeks[oid] = kopya

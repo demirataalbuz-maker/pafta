@@ -6,15 +6,47 @@ timeout: 45
 ---
 
 ::: anlat Gerçek kanıt paketini bil, sentetik temsili ayırt et
-Tekrarlanabilirlik çalışması veri ve model sürümünü, rastgelelik tohumunu, ortam bilgisini ve çıktı dosyalarının bütünlüğünü birlikte kaydeder. Tohum tek başına yeterli değildir; farklı veri, kütüphane veya çıktı özeti aynı tohumla bile farklı sonuç üretebilir.
+Yapay zeka sistemlerinin güvenilirlik, güvenlik ve adli bilişim (forensics) denetimlerinde tekrarlanabilirlik (reproducibility) ve kanıt paketi bütünlüğü temel bir gereksinimdir. Bir makine öğrenmesi modelinin bağımsız denetçiler tarafından yeniden üretilebilmesi için veri sürümü, model sürümü, determinizm tohumu (random seed) ve çalışma ortamı bağımlılıkları eksiksiz bir manifestoda kilitlenmelidir. Ancak tohum tek başına asla yeterli bir güvence sağlamaz; donanım mimarisindeki kayan nokta (floating point) yuvarlama farklılıkları, kütüphane sürümlerindeki iç mantık güncellemeleri veya veri setindeki sessiz kaymalar aynı tohumla tamamen farklı ağırlıklar ve metrikler üretebilir. Bu nedenle modern MLOps ve AI güvence süreçlerinde model ağırlıkları, ara çıktılar ve doğrulama metrikleri SHA-256 kriptografik özetleri ve bayt boyutlarıyla birlikte kayıt altına alınarak bir kanıt paketi (proof bundle) oluşturulur.
 
-| Katman | Gerçek tekrarlanabilirlik paketi ne içerir? | Bu ders ne kullanır? | Ne söyleyemez? |
-|---|---|---|---|
-| Ortam manifesti | Python/kütüphane sürümleri, kilit dosyası (lockfile), donanım/CUDA bilgisi ve rastgelelik tohumu | İlk 3 görevde `veri/manifest.json` sentetik manifesti; son görevde canlı `sys.version` ve `sklearn.__version__` manifesti | Aynı manifest farklı GPU mimarilerinde kayan nokta yuvarlama farklarını tamamen sıfırlamaz |
-| Dosya bütünlüğü | Üretilen ağırlık ve metrik dosyalarının göreli yolu, bayt boyutu ve SHA-256 özeti | İlk 3 görevde `veri/dosyalar.json` sentetik özetleri; son görevde diskte üretilen gerçek `model_agirlik.json` ve `cikti/metrik.json` SHA-256 özetleri | Birebir aynı SHA-256 özeti deneyin yalnızca deterministik olarak tekrarlandığını kanıtlar; metodolojik doğruluğu kanıtlamaz |
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Ortam manifesti: Python ve kütüphane sürümleri, bağımlılık kilit dosyası (lockfile), donanım ve rastgelelik tohumu | İlk 3 görevde `veri/manifest.json` sentetik manifesti; son görevde canlı `sys.version` ve `sklearn.__version__` manifesti | Aynı manifest farklı GPU mimarilerinde kayan nokta yuvarlama farklarını tamamen sıfırlamaz |
+| Dosya bütünlüğü: Üretilen ağırlık ve metrik dosyalarının göreli yolu, bayt boyutu ve SHA-256 kriptografik özeti | İlk 3 görevde `veri/dosyalar.json` sentetik özetleri; son görevde diskte üretilen gerçek `model_agirlik.json` ve `cikti/metrik.json` SHA-256 özetleri | Birebir aynı SHA-256 özeti deneyin yalnızca deterministik olarak tekrarlandığını kanıtlar; metodolojik doğruluğu veya model güvenliğini kanıtlamaz |
 
 > [!NOT]
-> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/manifest.json` ve `veri/dosyalar.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar.
+> İlk üç görevde örnek dosyalar çalışma klasörünün `veri/` altına kopyalanır: `veri/manifest.json` ve `veri/dosyalar.json` (tümü **sentetik**). Bu dosyaları kodundan okuyup inceleyebilirsin; ancak her çalıştırmada temiz kopya yeniden yazılır (**kalıcılık yoktur**). Kontrol adımı bu dosyalardan bağımsız gizli verilerle sınama yapar. Gerçek deney adımında ise `scikit-learn` ile canlı eğitilen modellerin ağırlık ve metrik dosyaları disk üzerinde oluşturulup gerçek SHA-256 özetleri karşılaştırılır.
+
+### Aracın Altında Ne Olur?
+Tekrarlanabilirlik doğrulama motoru üç aşamalı bir denetim yürütür:
+1. **Manifest Doğrulaması:** Deney kimliği (1–64 karakterlik ASCII alfanümerik/tire/alt çizgi deseni), veri sürümü, model sürümü ve negatif olmayan tamsayı tohum değeri denetlenir. `ortam` alt sözlüğündeki `python` ve `kutuphane` sürüm metinlerinin boşluk biçimleri ve kontrol karakteri içermeme şartı doğrulanır; girdi sözlüğünün dışarıdan değiştirilmesini engellemek için ortam kopyalanarak döndürülür.
+2. **Kriptografik Dosya Kanıtlarının Toplanması:** Kanıt paketindeki her dosya için göreli dosya yolu, SHA-256 karma özeti ve bayt boyutu denetlenir. Yollar `/` ayraçlı, normalize edilmiş ve benzersiz olmalıdır; `.` veya `..` gibi dizin aşım parçaları kesinlikle reddedilir. SHA-256 özetinin tam olarak 64 küçük onaltılık (hexadecimal `[0-9a-f]{64}`) karakter olması şart koşulur. Tüm geçerli kayıtlar deterministik karşılaştırma için dosya yoluna göre alfabetik olarak sıralanır.
+3. **Küme Tabanlı Kanıt Paketi Fark Analizi:** Beklenen ($B$) ve gözlemlenen ($G$) paketlerin dosya yolları birleşim kümesi ($B \cup G$) üzerinde sıralı olarak karşılaştırılır:
+   - Beklenen pakette olup gözlemlenen pakette yer almayan dosyalar `eksik` (missing) olarak etiketlenir.
+   - Gözlemlenen pakette olup beklenen pakette bulunmayan dosyalar `eklenen` (added) olarak etiketlenir.
+   - Her iki pakette de mevcut olan ancak SHA-256 özeti veya dosya boyutu farklılık gösteren dosyalar `degisti` (modified) olarak sınıflanır.
+   - Hiçbir fark saptanmazsa karar `tekrarlanabilir`, aksi takdirde `fark_var` olarak üretilir ve değişiklik sayısı raporlanır.
+
+### Çıktı Nasıl Okunur?
+- **Karar (`karar`):** `tekrarlanabilir` kararı, beklenen ve gözlemlenen paketlerdeki tüm dosyaların yolları, boyutları ve SHA-256 özetlerinin kusursuz şekilde örtüştüğünü; deneyin bit düzeyinde deterministik olarak yeniden üretildiğini gösterir. `fark_var` kararı ise en az bir uyumsuzluk bulunduğunu belirtir.
+- **Değişiklik Sayısı (`degisiklik_sayisi`):** Eksik, eklenen ve değişen dosya kayıtlarının toplam adedidir; sıfırdan büyük olması durumunda adli inceleme gerektirir.
+- **Fark Listesi (`farklar`):** Yola göre alfabetik sıralanmış detaylı anomali listesidir. Her eleman dosyanın yolunu, durumunu (`eksik`, `eklenen`, `degisti`) ve iki paketteki beklenen/gözlemlenen kayıt sözlüklerini açıkça gösterir.
+
+### Saldırgan Neyi Dener?
+- **Gizli Arka Kapı Enjeksiyonu (Trojan / Backdoor Injection):** Saldırgan model ağırlıklarını zehirleyip dosya boyutunu değiştirmeden bırakmayı deneyebilir; yalnızca dosya boyutunu kontrol eden sistemler bu saldırıyı kaçırır, ancak SHA-256 karma özeti değişikliği anında açığa çıkarır.
+- **Dizin Aşımı ile Dosya Sahteciliği (Path Traversal):** Kanıt paketine `../../etc/passwd` veya `C:\Windows\System32` gibi mutlak veya üst dizine çıkan yollar ekleyerek denetim motorunu yanıltmayı veya hassas dosya içeriklerinin özetlerini sızdırmayı hedefler.
+- **Determinizm İhlali ve Gizli Sapmalar:** Eğitim koduna rassal dropout veya tohumsuz gürültü ekleyerek modelin denetim ortamında farklı, üretim ortamında farklı davranmasını sağlayabilir.
+
+### Savunma Neden Kırılır?
+- **Yalnızca Tohuma Güvenme Hatası:** Çoğu veri bilimci yalnızca `random.seed` veya `torch.manual_seed` belirlemenin tekrarlanabilirlik için yeterli olduğunu varsayar; oysa donanım mimarisi, BLAS/MKL iş parçacığı sıralaması veya CUDA bellek tahsisatı sonuçları değiştirebilir.
+- **Gevşek Yol Doğrulaması:** Windows ters eğik çizgilerinin (`\`), çift bölülerin (`//`) veya göreli dizin parçalarının (`.`, `..`) kabul edilmesi kanıt paketinde yinelenen veya örtüşen sahte yollara yol açar.
+- **Büyük/Küçük Harf Tuzağı:** Aynı özet `ab12…` ve `AB12…` olarak yazılabilir; özetler metin olarak karşılaştırıldığında bu iki yazım farklı sayılır ve değişmemiş bir dosya `degisti` görünür. Bu yüzden ders tek bir kanonik biçim (64 küçük onaltılık karakter) ister. 64 karakter uzunluğunu esnetmek ise kesilmiş ya da başka algoritmaya ait bir özetin SHA-256 diye kabul edilmesine yol açar.
+- **Determinizm Yanılsaması:** Birebir aynı SHA-256 özetine sahip olmak, modelin metodolojik olarak doğru eğitildiğini veya güvenlik açıklarından arındığını kanıtlamaz; yalnızca verilen girdilerle çıktının aynı olduğunu ispatlar.
+
+### Sık Yapılan Geliştirici Tuzakları
+- **İç Sözlükleri Doğrudan Döndürme:** `kanit_manifestu_dogrula` işlevinde `manifest["ortam"]` sözlüğünü derin kopyalamadan döndürmek, dış kodun sözlüğü mutate ederek denetim izini kirletmesine imkan tanır (`sonuc["ortam"] is manifest["ortam"]` hatası).
+- **Bool Tipinin Tamsayı Sayılması:** Python'da `isinstance(True, int) == True` olduğundan `tohum` ve `boyut` alanlarında `isinstance(v, bool)` kontrolü açıkça yapılmalıdır; aksi takdirde `tohum=True` geçerli sayılarak sisteme sızabilir.
+- **Gözlemlenen Paketin Boş Olabilmesi:** `kanit_fark_raporu` fonksiyonunda beklenen paket boş olamazken, gözlemlenen paketin boş liste olabileceği (`bos_olabilir=True`) unutulmamalıdır; örneğin tüm çıktı dosyalarının silindiği bir senaryoda tüm kayıtlar `eksik` olarak raporlanmalıdır.
+- **Sıralama ve Determinizm İhmali:** Dosya listelerini alfabetik `yol` sırasına dizmeden karşılaştırmak veya raporlamak denetim sistemlerinde hatalı eşleşmelere yol açar.
 :::
 
 ::: anlat Fark raporu yalnız özete bakmaz
@@ -436,9 +468,11 @@ def kanit_manifestu_dogrula(manifest):
     return manifest
 
 def dosya_kanitlarini_dogrula(dosyalar):
+    # KUSURLU BAŞLANGIÇ KODU: yol ve SHA-256 denetimi yapmadan ham listeyi döndürüyor!
     return list(dosyalar) if isinstance(dosyalar, list) else []
 
 def kanit_fark_raporu(beklenen, gozlemlenen):
+    # KUSURLU BAŞLANGIÇ KODU: farkları hesaplamadan daima tekrarlanabilir döndürüyor!
     return {"karar": "tekrarlanabilir", "degisiklik_sayisi": 0, "farklar": []}
 
 if ai_lab.CALISTIR:
@@ -446,6 +480,7 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import copy
 import ai_lab
 from sandbox import ai_gercek_ai_guvence_05 as L
@@ -455,6 +490,25 @@ _base_ok = ok
 def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
+
+try:
+    _parsed = ast.parse(src)
+    for _node in ast.walk(_parsed):
+        if isinstance(_node, ast.ImportFrom):
+            if any(alias.name == '*' for alias in _node.names):
+                ok(False, "Güvenlik/kopya denetimi: wildcard import yasak")
+            for alias in _node.names:
+                if "referans" in (alias.name or "") or "referans" in (alias.asname or ""):
+                    ok(False, "Güvenlik/kopya denetimi: referans fonksiyon içe aktarılamaz")
+        if isinstance(_node, ast.Name) and "referans" in _node.id:
+            ok(False, "Güvenlik/kopya denetimi: referans kullanımı tespit edildi")
+        if isinstance(_node, ast.Attribute) and "referans" in _node.attr:
+            ok(False, "Güvenlik/kopya denetimi: referans nitelik kullanımı tespit edildi")
+        if isinstance(_node, ast.Call):
+            if isinstance(_node.func, ast.Name) and _node.func.id in ("getattr", "eval", "exec"):
+                ok(False, f"Güvenlik/kopya denetimi: dinamik çağrı ({_node.func.id}) yasak")
+except Exception:
+    pass
 
 for s in ai_lab.kod_denetimi(src, yasak=("kanit_manifestu_dogrula_referans", "dosya_kanitlarini_dogrula_referans", "kanit_fark_raporu_referans", "kanit_yaz")):
     ok(False, f"Güvenlik/kopya denetimi: {s}")

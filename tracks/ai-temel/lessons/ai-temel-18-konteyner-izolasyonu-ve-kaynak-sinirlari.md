@@ -6,6 +6,14 @@ timeout: 45
 ---
 
 ::: anlat Konteyner ayrı makine değil, paylaşılan çekirdekte daraltılmış bir görünümdür
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| `docker run` bayrakları Docker Engine API'sinde `HostConfig` alanlarına iner. Linux çekirdeği bunları namespace, cgroup v2 (`memory.max`, `pids.max`, `cpu.max`), capability ve seccomp olarak uygular. `docker inspect` ile `State.OOMKilled` ve uygulanan sınırlar okunur. | Görev 1–3: `veri/kaynak_sinirlari.json`, `veri/run_komutlari.json` ve `veri/baglamalar.json` içindeki **sentetik** dizgeler, token listeleri ve bağlama istekleri. Son adım: kurulu Docker daemon'ı ve yerelde bulunan küçük `busybox` imajıyla sertleştirilmiş ve sınırsız iki gerçek `docker run --rm` konteyneri; cgroup değerleri konteyner içinden okunur. | Çekirdek açığı, konteyner kaçışı, seccomp profili içeriği, symlink çözümü ve rootless/user-namespace kurulumu sınanmaz. Tek imaj ve tek host bütün Docker kurulumlarını temsil etmez. Görev 2'nin ayrıştırıcısı Docker CLI'ın yalnız metinde yazılan alt kümesini tanır. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde Docker çağrılmaz, konteyner başlatılmaz. Son adımdaki **Gerçek deney** görevi yalnız çalışan Docker daemon'ını ve yerelde zaten bulunan imajı kullanır; imaj indirilmez, konteynerler `--rm` ile kendiliğinden silinir. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Docker konteyneri sanal makine değildir: süreçleri host çekirdeğinde çalışır; Linux namespace'leri (pid, mnt, net, uts, ipc, isteğe bağlı user) onlara ayrı süreç ağacı, dosya sistemi ve ağ yığını görünümü verir, cgroup'lar ise bellek, CPU ve süreç sayısını sınırlar. Bu yüzden bir çekirdek açığı ya da fazladan verilmiş ayrıcalık doğrudan host'a kaçış yoludur; user namespace eşlemesi kurulmamışsa konteynerdeki root, host'ta da UID 0'dır. `--privileged` bütün capability'leri ve host aygıtlarını açıp seccomp/AppArmor kısıtlarını kaldırır; `--network host` host'un ağ namespace'ini paylaştırır ve host'ta yalnız localhost'a bağlı servisleri de erişilebilir yapar. `/var/run/docker.sock` bağlamak daemon API'sini konteynere verir: içerideki saldırgan host'un `/` dizinini bağlayan yeni bir ayrıcalıklı konteyner başlatabildiği için bu fiilen host root'udur.
 
 Model servisinde savunmanın amacı, ele geçirilmiş bir sunucu sürecinin yapabileceklerini daraltarak yayılımı kesmektir. `--read-only` kök dosya sistemini salt okunur bağlar, geçici yazma için `--tmpfs /tmp` eklenir; model ağırlıkları `:ro` ile bağlanınca saldırgan ağırlıkları değiştirip kalıcı arka kapı bırakamaz. `--cap-drop ALL` Docker'ın varsayılan capability kümesini (ör. NET_RAW, CHOWN) de kaldırır, `--security-opt no-new-privileges` çekirdeğin no_new_privs bitini açarak setuid ikililerle yetki yükseltmeyi engeller, `--user 1000:1000` süreci root olmayan kullanıcıyla başlatır. Ağda `--network none` ya da `docker network create --internal` ile kurulan iç ağ ve yalnız bir çıkış vekili üzerinden izinli hedefler, veri sızdırma kanalını kapatır. `--gpus` ise HostConfig.DeviceRequests üzerinden host aygıtlarını açar; GPU sürücüsü de saldırı yüzeyine girdiği için yalnız gereken aygıt verilmelidir.
@@ -14,7 +22,9 @@ Model servisinde savunmanın amacı, ele geçirilmiş bir sunucu sürecinin yapa
 ::: anlat Kaynak sınırları HostConfig alanlarına bayt ve nano-CPU birimiyle iner
 `docker run` bayrakları Docker Engine API'sinde `POST /containers/create` gövdesinin `HostConfig` nesnesine çevrilir: `--memory` → `Memory` (bayt), `--memory-swap` → `MemorySwap`, `--cpus` → `NanoCpus`, `--pids-limit` → `PidsLimit`, `--read-only` → `ReadonlyRootfs`, `--cap-drop` → `CapDrop`, `--security-opt` → `SecurityOpt`, `--network` → `NetworkMode`, `--privileged` → `Privileged`, bind mount'lar → `"kaynak:hedef[:ro]"` biçimli `Binds`; `--user` ise HostConfig'te değil, üst düzey `Config.User` alanındadır. Bellek dizgelerinde b, k, m, g ekleri 1024 tabanlıdır ve Docker belgeleri `--memory` için en az 6m ister. `MemorySwap` yalnız takas değil bellek+takas toplamıdır: `Memory` ile eşitse takas yoktur, `-1` sınırsız takas demektir, verilmezse ya da 0 verilirse ayarlanmamış sayılır ve host'ta takas varsa konteyner bellek kadar takas kullanabilir; 0 dışında bellekten küçük değer reddedilir. `--cpus=1.5` CFS kotasına `NanoCpus=1500000000` olarak iner; daemon 0.01'den küçük ya da host'taki CPU sayısından büyük değerleri reddeder.
 
-Sınırın aşılma biçimi de farklıdır: CPU kotası aşılınca süreç yalnız kısılır, bellek sınırı aşılınca çekirdeğin OOM killer'ı cgroup içindeki bir süreci SIGKILL ile öldürür. Öldürülen süreç konteynerin ana süreci (PID 1) ise konteyner 137 (128+9) koduyla çıkar ve `docker inspect` çıktısında `State.OOMKilled` true görünür; yalnız bir alt süreç öldürülürse konteyner çalışmayı sürdürebilir. Uzun bağlamlı istekler model servisini bu yoldan düşürebilir; ders 17'deki token sınırı bellek sınırıyla birlikte tasarlanmalıdır. `--pids-limit` fork bombasını cgroup düzeyinde durdurur, 0 ya da -1 ise sınırsız demektir. Bind mount yolunu dizge önekiyle karşılaştırmak hatalıdır: `/srv/modeller-yedek` dizge olarak `/srv/modeller` ile başlar ama onun altında değildir, `..` bileşenleri de normalleştirmeden sonra izinli kökten çıkabilir. `posixpath.normpath` baştaki tam iki `/` işaretini POSIX gereği korur (`//models`), bu yüzden karşılaştırmadan önce tek `/` yapılmalıdır. Dizge denetimi sembolik bağlantıları da çözmez: izinli kökün altındaki bir symlink host'ta başka bir dizini gösterebilir; bunu yalnız host tarafında `realpath` ile çözmek ve dizin sahipliğini kısıtlamak kapatır. Bu derste Docker çalıştırılmaz ve konteyner başlatılmaz; görevler gerçek CLI token'larını, bellek/CPU dizgelerini ve `Binds` biçimini deterministik olarak işler ve Docker'ın kabul ettiği biçimlerin (ör. `1.5g`, `512mb`, kısa `-v`) yalnız görev metninde yazılan alt kümesini kabul eder.
+Sınırın aşılma biçimi de farklıdır: CPU kotası aşılınca süreç yalnız kısılır, bellek sınırı aşılınca çekirdeğin OOM killer'ı cgroup içindeki bir süreci SIGKILL ile öldürür. Öldürülen süreç konteynerin ana süreci (PID 1) ise konteyner 137 (128+9) koduyla çıkar ve `docker inspect` çıktısında `State.OOMKilled` true görünür; yalnız bir alt süreç öldürülürse konteyner çalışmayı sürdürebilir. Uzun bağlamlı istekler model servisini bu yoldan düşürebilir; ders 17'deki token sınırı bellek sınırıyla birlikte tasarlanmalıdır. `--pids-limit` fork bombasını cgroup düzeyinde durdurur, 0 ya da -1 ise sınırsız demektir. Bind mount yolunu dizge önekiyle karşılaştırmak hatalıdır: `/srv/modeller-yedek` dizge olarak `/srv/modeller` ile başlar ama onun altında değildir, `..` bileşenleri de normalleştirmeden sonra izinli kökten çıkabilir. `posixpath.normpath` baştaki tam iki `/` işaretini POSIX gereği korur (`//models`), bu yüzden karşılaştırmadan önce tek `/` yapılmalıdır. Dizge denetimi sembolik bağlantıları da çözmez: izinli kökün altındaki bir symlink host'ta başka bir dizini gösterebilir; bunu yalnız host tarafında `realpath` ile çözmek ve dizin sahipliğini kısıtlamak kapatır. Görev 1–3'te Docker çalıştırılmaz ve konteyner başlatılmaz; bu görevler gerçek CLI token'larını, bellek/CPU dizgelerini ve `Binds` biçimini deterministik olarak işler ve Docker'ın kabul ettiği biçimlerin (ör. `1.5g`, `512mb`, kısa `-v`) yalnız görev metninde yazılan alt kümesini kabul eder. Son adım ise ürettiğin bayraklarla gerçek bir konteyner başlatır ve sınırların çekirdekte uygulandığını konteyner içinden ölçer.
+
+**Görev 1'de sık tuzaklar:** Ekleri 1000 tabanlı saymak `512m` değerini yaklaşık %5 küçük yazar (`veri/kaynak_sinirlari.json`, `r-07`). `--memory-swap` değerini bellek üstüne eklenecek takas sanmak, `3g`yi 5 GiB yapar (`r-02`). `float(cpus) * 1e9` bazı kesirlerde bir nano-CPU kayar (`r-05`). Takasın bellekten küçük olması ve 0.01 CPU altı gibi sınırları denetlememek, daemon'ın reddedeceği bir yapılandırmayı "geçerli" gösterir.
 :::
 
 ::: tahmin Sınır birimlerini ve önek tuzağını tahmin et
@@ -52,9 +62,46 @@ print(128 + 9)
 
 `cpus` bir stringdir: bir ya da daha çok ASCII rakam, isteğe bağlı olarak nokta ve ardından 1–9 ASCII rakam. `NanoCpus` değeri × 10⁹ olarak kayan nokta kullanmadan tam hesaplanır ve 10000000 (0.01 CPU) ile `cekirdek` × 10⁹ arasında (iki uç dahil) olmalıdır. `cekirdek` en az 1 olan `int` değeridir; `bool` kabul edilmez.
 
+Görünür veri: `veri/kaynak_sinirlari.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+import json
+from ai_temel_veri import json_yukle
+
 def kaynak_siniri(bellek, takas, cpus, cekirdek):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: ekleri 1000 tabanlı sayıyor, "mb" ve boşluklu değerleri kırpıp kabul ediyor, takası bellekten ayrı miktar sanıp toplamı yanlış yazıyor, NanoCpus'u float çarpımıyla hesaplıyor ve alt/üst sınırları denetlemiyor!
+    carpan = {"b": 1, "k": 1000, "m": 1000 ** 2, "g": 1000 ** 3}
+    def bayt(s):
+        s = s.strip().lower().rstrip("b") or "0"
+        if s[-1] in carpan:
+            return int(float(s[:-1]) * carpan[s[-1]])
+        return int(s)
+    mem = bayt(bellek)
+    if takas is None:
+        swap = 0
+    elif takas == "-1":
+        swap = -1
+    else:
+        swap = mem + bayt(takas)
+    return {"Memory": mem, "MemorySwap": swap, "NanoCpus": int(float(cpus) * 1e9)}
+
+veri = json_yukle("veri/kaynak_sinirlari.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = json.loads(json.dumps(kaynak_siniri(o["bellek"], o["takas"], o["cpus"], o["cekirdek"])))
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"], sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-18")
 ```
 
 ```test
@@ -162,9 +209,57 @@ Koşulu sağlanan bulgu kodlarını şu sırayla liste olarak döndür:
 - `pids_siniri_yok`: `--pids-limit` yok ya da sayısal değeri 0 veya negatif.
 - `root_kullanici`: `--user` yok ya da değerin ilk `:` öncesi kısmı `root` veya `str.isdecimal()` olup `int` değeri 0.
 
+Görünür veri: `veri/run_komutlari.json`. Her komutun `beklenen` bulgu listesi vardır; `null`, `ValueError` demektir.
+
+**Sık tuzaklar:** Komutu tek metne birleştirip aramak, imajdan sonraki konteyner argümanlarını Docker bayrağı sanar (`d-03`). Yolu normalleştirmeden karşılaştırmak `/var/run/../run/docker.sock` bağlamasını kaçırır (`d-04`). `--pids-limit -1` bir sınır değildir ve `--user 00:0` hâlâ root'tur (`d-05`).
+
 ```starter
+import json
+from ai_temel_veri import json_yukle
+
 def run_denetle(argv):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: argv'yi tek metne birleştirip alt metin arıyor (imajdan sonraki konteyner komutu da denetlenir), docker.sock yolunu normalleştirmiyor, --ad=değer biçimini ve küçük harfli "all" değerini tanımıyor, pids/user değerlerini yorumlamıyor ve seçenekleri doğrulamıyor!
+    metin = " ".join(argv)
+    bulgular = []
+    if "--privileged" in metin:
+        bulgular.append("privileged")
+    if "--network host" in metin:
+        bulgular.append("host_ag")
+    if "--network" not in metin:
+        bulgular.append("varsayilan_ag")
+    if "/var/run/docker.sock:" in metin:
+        bulgular.append("docker_sock")
+    if "--read-only" not in metin:
+        bulgular.append("salt_okunur_yok")
+    if "--cap-drop ALL" not in metin:
+        bulgular.append("cap_drop_yok")
+    if "no-new-privileges" not in metin:
+        bulgular.append("nnp_yok")
+    if "--memory" not in metin:
+        bulgular.append("bellek_siniri_yok")
+    if "--pids-limit" not in metin:
+        bulgular.append("pids_siniri_yok")
+    if "--user" not in metin:
+        bulgular.append("root_kullanici")
+    return bulgular
+
+veri = json_yukle("veri/run_komutlari.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = json.loads(json.dumps(run_denetle(o["argv"])))
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"], sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-18")
 ```
 
 ```test
@@ -295,9 +390,48 @@ Kaynak ve hedef `posixpath.normpath` ile normalleştirilir; normpath'in koruduğ
 
 Hiçbiri uymazsa bağlamaya izin verilir. `{"Binds": [...], "red": [...]}` döndür: `Binds` izinli bağlamaları giriş sırasıyla `normal_kaynak:normal_hedef:kip` biçiminde (kip her zaman yazılır), `red` ise reddedilenleri giriş sırasıyla `(sıra, neden)` demetleri olarak içerir; sıra 0 tabanlı giriş konumudur.
 
+Görünür veri: `veri/baglamalar.json`. Dosyada izinli kökler, model dizini, on bir bağlama ve beklenen sonuç vardır; JSON'da demetler liste olarak yazılır.
+
+**Sık tuzaklar:** `kaynak.startswith(kok)` denetimi `/srv/modeller-yedek` yolunu kabul eder; `kok + "/"` gerekir. `..` bileşenini normalleştirmeden sonra aramak hiçbir zaman bulamaz; ham yolda ara. Model ağırlıklarını `/models` altında `ro` bağlayıp aynı kaynağı başka bir hedefe `rw` bağlamak, salt okunurluğu boşa çıkarır (`[7, "yazilabilir_model"]`).
+
 ```starter
+import json
+from ai_temel_veri import json_yukle
+
 def baglama_politikasi(baglamalar, izinli_kokler, model_dizini):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: kökü "/" olmadan dizge önekiyle denetliyor (/srv/modeller-yedek geçer), ".." bileşenini normalleştirmeden sonra aradığı için kaçışı göremiyor, docker.sock ve kök bağlamasını reddetmiyor, yinelenen hedefi ve yazılabilir model bağlamasını denetlemiyor!
+    import posixpath
+    binds, red = [], []
+    for sira, b in enumerate(baglamalar):
+        parca = b.split(":")
+        kaynak, hedef = posixpath.normpath(parca[0]), posixpath.normpath(parca[1])
+        kip = parca[2] if len(parca) > 2 else "rw"
+        if ".." in kaynak.split("/"):
+            red.append((sira, "kacis"))
+        elif not any(kaynak.startswith(k) for k in izinli_kokler):
+            red.append((sira, "izinsiz"))
+        else:
+            binds.append(kaynak + ":" + hedef + ":" + kip)
+    return {"Binds": binds, "red": red}
+
+veri = json_yukle("veri/baglamalar.json")
+try:
+    sonuc = json.loads(json.dumps(baglama_politikasi(veri["baglamalar"], veri["izinli_kokler"], veri["model_dizini"])))
+except Exception as hata:
+    sonuc = {"Binds": [], "red": [], "hata": type(hata).__name__}
+print("Binds", "doğru" if sonuc["Binds"] == veri["beklenen"]["Binds"] else "YANLIŞ", sonuc["Binds"])
+for r in veri["beklenen"]["red"]:
+    print("red", r, "doğru" if r in sonuc["red"] else "YANLIŞ: bulunamadı")
+fazla = [r for r in sonuc["red"] if r not in veri["beklenen"]["red"]]
+print("fazla red", "doğru" if not fazla else "YANLIŞ", fazla)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-18")
 ```
 
 ```test
@@ -422,7 +556,18 @@ timeout: 300
 import ai_lab
 
 def sertlestirme_argv(spec):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: --memory-swap eklemiyor (takas açık kalır), ağ kararını tersine çeviriyor (ag=True iken --network=none), --cap-drop'u küçük harfle ve no-new-privileges olmadan yazıyor ve spec'i doğrulamıyor!
+    argv = ["--memory=%dm" % spec["bellek_mb"]]
+    if spec["cpus"] is not None:
+        argv.append("--cpus=%s" % spec["cpus"])
+    argv.append("--pids-limit=%d" % spec["pids"])
+    if spec["ag"]:
+        argv.append("--network=none")
+    if spec["salt_okunur"]:
+        argv.append("--read-only")
+    if spec["yetki_dus"]:
+        argv.append("--cap-drop=all")
+    return argv
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_temel_18 as deney
@@ -435,8 +580,19 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_argv", "getattr"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+import ast
+_yasak = ("referans", "referans_argv", "getattr", "kanit_yaz")
+sorun = list(ai_lab.kod_denetimi(src, _yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        sorun.append("referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        sorun.append("kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        sorun.append("dinamik kod çalıştırma yasak: " + _n.id)
+sorun = sorted(set(sorun))
+if not kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun)):
+    stop()
 fn = need("sertlestirme_argv")
 from sandbox import ai_gercek_ai_temel_18 as D
 TAM = {"imaj": "busybox:1.36", "bellek_mb": 32, "pids": 16, "cpus": 0.5, "ag": False, "salt_okunur": True, "yetki_dus": True}

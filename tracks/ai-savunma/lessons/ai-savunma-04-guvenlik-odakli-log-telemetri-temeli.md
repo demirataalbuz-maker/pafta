@@ -6,9 +6,18 @@ timeout: 45
 ---
 
 ::: anlat İzlenebilirlik ham içeriği kaydetmek değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Model çağrısı gerçek süre ve çıktı token sayısı üretir | İlk üç görev görünür sentetik JSON; final kurulu Ollama modeline üç gerçek istek | Sentetik olaylar servis kaydı değildir; token_in finalde ölçülmez |
+| Güvenli telemetri ölçüm ve ilişkileri içerikten ayırır | Alan izin listesi, trace doğrulama, sayısal rapor ve gerçek olayların şema kontrolü | OpenTelemetry SDK, OTLP dışa aktarımı veya SigNoz servisi çalıştırıldığı anlamına gelmez |
+
+> [!NOT]
+> `veri/telemetri.json` elle hazırlanmış sentetik örnektir. İlk üç görev aynı dosyayı okur; ilk Çalıştır ham dosyayı gösterir. Setup her çalıştırmada yeni geçici veri/ kopyası kurar; değişiklikler sonraki çalıştırmaya taşınmaz. Kaynak dosyayı haricî editörde veya yüklenen sözlüğü kodda değiştirip Çalıştır deneyebilirsin. Gizli testler ayrıdır. Final gerçek yerel model çağırır. Laboratuvarın yalnız zararsız sentetik istem/yanıtları içeren deney kaydı güvenli telemetri akışından ayrıdır; gerçek kullanıcı içeriğini toplama izni değildir.
+
 Bir AI isteğini izlemek için trace kimliği, olay kimliği, parent ilişkisi, olay türü, zaman ve süre yeterlidir. Prompt, model yanıtı, API anahtarı, Authorization başlığı veya kullanıcı e-postası güvenlik telemetrisine eklenmemelidir. Model adı, HTTP kodu, guardrail kararı ve token sayıları gibi dar alanlar ise ölçüm için kullanılabilir.
 
-Bu derste alan izin listesi fail-closed çalışır: bilinmeyen alan sessizce loglanmaz, olay geçersiz sayılır. Böylece `prompt` veya `yanit` gibi yeni bir alanın şemaya yanlışlıkla eklenmesi engellenir. OpenTelemetry ve SigNoz kavramları standart Python fixture'larıyla temsil edilir; gerçek servis veya model gerekmez.
+Bu derste alan izin listesi fail-closed çalışır: bilinmeyen alan sessizce loglanmaz, olay geçersiz sayılır. Böylece `prompt` veya `yanit` gibi yeni bir alanın şemaya yanlışlıkla eklenmesi engellenir. İlk üç görev OpenTelemetry ve SigNoz kavramlarını standart Python verileriyle temsil eder; final gerçek yerel modeli çağırır. OpenTelemetry SDK/OTLP veya SigNoz servisi bu derste çalıştırılmaz.
 :::
 
 ::: tahmin İzin listesi bilinmeyen alanı görünür kılar
@@ -45,9 +54,24 @@ True
 
 Metin alanlarının baş/son boşluğu olamaz. Bilinmeyen alan veya geçersiz veride `ValueError` yükselt. Olayı ve alanlar sözlüğünü kopyalayarak döndür, girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-04")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle,metin_yukle
+
 def guvenli_telemetri_olayi(olay):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: iç alanları paylaşır ve bilinmeyen alanları kabul eder.
+    return dict(olay)
+
+v=json_yukle("veri/telemetri.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/telemetri.json"))
+print("Model olayı:",guvenli_telemetri_olayi(v["olaylar"][v["model_indeksi"]]))
 ```
 
 ```test
@@ -85,6 +109,22 @@ def sozlesme(fn):
         for kod in (100, 599):
             if fn(dict(O, tur="http", alanlar={"http_kod": kod}))["alanlar"]["http_kod"] != kod:
                 return False
+        # Aynı olay sözleşmesi tüm bağımsız görevlerde korunur.
+        temel={"iz_id":"t","olay_id":"e","parent_id":None,"tur":"model","zaman_ms":0,"sure_ms":0,"alanlar":{}}
+        boz=[dict(temel,parent_id=True),dict(temel,parent_id=" e"),dict(temel,parent_id="e"),dict(temel,zaman_ms=-1)]
+        for tur,alan in [("model","model"),("http","yontem"),("arac","arac"),("model","hata_kodu")]:
+            for val in [None,True,""," x","x "]:
+                boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for tur,alan,val in [("http","http_kod",True),("model","token_out",True),("model","token_in",-1),("guardrail","karar","x"),("model","durum","x"),("model","Authorization","sentetik"),("model","eposta","demo@example.invalid")]:
+            boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for olay in boz:
+            try:
+                fn(olay)
+                return False
+            except ValueError:pass
+        for tur,alan,val in [("arac","arac","yerel"),("http","yontem","POST"),("model","hata_kodu","E"),("guardrail","karar","izin"),("guardrail","karar","hata")]:
+            olay=dict(temel,tur=tur,alanlar={alan:val})
+            fn(olay)
         return True
     except Exception:
         return False
@@ -106,6 +146,8 @@ for ad, mutant in [("ham prompt ekleyen", m_prompt), ("süreyi değiştiren", m_
 ```
 
 ```solution
+from ai_savunma_veri import json_yukle,metin_yukle
+
 def guvenli_telemetri_olayi(olay):
     import math
     zorunlu = {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}
@@ -168,6 +210,10 @@ def guvenli_telemetri_olayi(olay):
     sonuc = dict(olay)
     sonuc["alanlar"] = {alan: alanlar[alan] for alan in sorted(alanlar)}
     return sonuc
+
+v=json_yukle("veri/telemetri.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/telemetri.json"))
+print("Model olayı:",guvenli_telemetri_olayi(v["olaylar"][v["model_indeksi"]]))
 ```
 
 ```hint
@@ -176,13 +222,30 @@ def guvenli_telemetri_olayi(olay):
 :::
 
 ::: anlat Trace ilişkisi olayları tek istekte birleştirir
+
+Önce telemetri.json dosyasındaki olaylar dizisini incele. Olay kimlikleri ve süreler elle seçilmiştir; bunları canlı sunucunun ölçümleri sanma. İlk görev model türündeki tek olayı doğrular, ikinci görev aynı diziden iz zincirleri çıkarır, üçüncü görev aynı olayların sayısal özetini hesaplar. Böylece sadece fonksiyon tarifine değil ham kayıt biçimine de bakarsın. veri sözlüğündeki bir süreyi veya parent kimliğini kod içinde değiştirip Çalıştır ile etkisini gözle. Geçici dosyanın her çalıştırmada yeniden kurulduğunu unutma; değişikliklerini korumak istiyorsan ders koduna veya haricî kaynak kopyana yaz.
+
+İzin listesi yalnız alan adlarını sınırlar. model veya hata_kodu gibi izin verilen bir string alanına gizli bilgi yazılması hâlâ sızıntıdır. Bu ders boşluk ve tür sözleşmesini doğrular; izinli stringlerin anlamını okuyup tüm kişisel veriyi bulduğu iddia edilmez. Üretimde bu alanları kullanıcıdan gelen serbest metinle doldurmak yerine denetlenen değer kümeleriyle üretmek gerekir. Authorization veya prompt adındaki alanları sessizce atmak, veri üreticisindeki hatayı gizler; bu görev açık ValueError ister. İzin listesini geliştirirken her olay türünün ayrı alan kümesini koru. Örneğin model olayına http_kod koymak da yanlış şemadır.
+
+Kimlik ve parent ilişkileri yalnız biçim bilgisi değildir. Aynı olay kimliği farklı trace'lerde kullanılabilir, aynı trace içinde iki kez kullanılamaz. Birinci ve üçüncü görev parent'ın biçimini ve olayın kendisine işaret etmemesini denetler. Parent'ın gerçekten aynı trace içinde bulunması, zaman sırası ve döngü kontrolü ikinci görevin ek sorumluluğudur. Böylece yalnız sayısal metrik üreten işlevle bütün iz grafiğini doğrulayan işlevin kapsamı karışmaz. Parent ve çocuk aynı anda başlayabilir; eşit zaman tek başına hata değildir. Eşit zamanda olay kimliğiyle sıralamak sonucu deterministik kılar, nedenselliğin tek kaynağı bu sıralama değildir.
+
+İz süresi olay sürelerinin toplamından farklıdır. Paralel model ve araç işleri üst üste binebilir. Bu ders en erken başlangıç ile en geç bitiş arasındaki aralığı alır. Trace içindeki bir child kökten sonra bitebilir; dersin sözleşmesi çocuğun başlangıcını parent başlangıcından önce yasaklar, parent bitişi içinde kalmasını ayrıca istemez. Bir kayıt üreticisinin saatleri birbirinden kayıksa bu basit karşılaştırma yanlış alarm verebilir. Dağıtık saat eşleme veya eksik span onarımı bu küçük laboratuvarın kabulü değildir. Olayları sadece liste sırasına göre zincirlemek veya bütün parentları None yapmak gerçek ilişkiyi kaybettirir.
+
+Üçüncü görevde hata sayısı ile guardrail reddi ayrı tutulur. Aynı olay hem durum=hata hem hata_kodu taşıyorsa tek hatadır. Guardrail'in reddet kararı teknik hata olmadan da gelebilir. İki sayacı eşitlemek savunmanın normal retlerini arıza gibi gösterebilir. Token alanı yoksa sıfır kabul edilir; bu, token tüketiminin gerçekten sıfır ölçüldüğü anlamına gelmez. Son gerçek deney yalnız çıktı token sayısını Ollama'nın eval_count alanından alır; giriş tokenını ölçmediği için rapordaki token_in sıfırının bu sınırı açıklanır. Üç ondalık süre ortalaması gösterim içindir; ham süreler kanıtta korunur.
+
+Finalde yerel modele üç zararsız istem gönderilir. Cevabın belli bir kelime olması şart değildir; isteklerin gerçekten tamamlanması, model sürelerinin sonlu olması ve token sayısının gerçek yanıttan gelmesi denetlenir. Olay başlangıçları artık uydurulmuş aralıklar yerine monotonic saatten ölçülür. Olaylara ham istem ve yanıt eklenmez. Ayrı laboratuvar kanıtında yalnız bu açık, sentetik istemlerin ayarları ve gerçek çıktıları saklanır; öğrenci böylece ölçümün kaynağını inceleyebilir. Bu araştırma kaydı telemetriye gönderilen veri değildir ve kullanıcının özel konuşmalarının kaydedildiği anlamına gelmez.
+
+Bir saldırgan aşırı uzun veya hassas alanlarla log hattını kirletmeyi, farklı trace parentlarıyla ilişkiyi bozmayı veya hataları normalmiş gibi göstermeyi deneyebilir. Buradaki şema ve grafik kontrolleri bazı biçim hatalarını yakalar; bütün sahtecilik, içerik sızıntısı veya kullanılabilirlik saldırıları için yeterli değildir. Kimlik doğrulama, erişim sınırı ve kayıtların saklama süresi ayrıca tasarlanmalıdır. Prompt dizgisinin olayda bulunmadığını aramak tek başına mahremiyet kanıtı olmaz: farklı bir sır da sızabilir. Bu yüzden final olayları da alan sözleşmesiyle tek tek denetlenir ve bu ölçümün kapsamı açık tutulur.
+
+Çalıştır keşif kaydını kabulfalse üretir. Kontrol bütün koşullar sağlanınca kabul verir. Eksik model, başarısız çağrı veya tamamlanmamış üç istek PASS sayılmaz. Deney kendi açtığı sunucuyu kapatır; kullanıcının çalışan Ollama sunucusunu, önceden yüklü modelini, WSL veya Docker'ı kapatmaz. Yeni paket veya model indirilmez. Modelin adı, digest bilgisi, sürümler, ayarlar, cihaz, gerçek olaylar ve temizlik sonucu kanıtta saklanır. Bu ders yerel ölçüm hattını sınar; dış telemetri altyapısının kurulduğu veya denetlendiği iddia edilmez.
+
 Her olay aynı trace içinde benzersiz bir olay kimliği taşır. Parent kimliği None ise olay köktür; aksi hâlde parent aynı trace içinde bulunmalı ve başlangıç zamanı çocuğun başlangıcından sonra olmamalıdır. Başka trace'e parent vermek veya döngü oluşturmak korelasyonu bozar.
 
 Trace süresi olay sürelerinin toplamı değildir; paralel işlerde süreler çakışabilir. Bu ders `maksimum(zaman + süre) - minimum(zaman)` hesabını kullanır. Olaylar başlangıç zamanı ve kimlikle sıralanır.
 :::
 
 ::: gorev 2 · Olayları doğrulanmış trace zincirlerine dönüştür
-`iz_zinciri_raporu(olaylar)` işlevini yaz. Her olay ilk görevin kurallarını sağlasın. `(iz_id, olay_id)` çifti benzersiz, parent aynı trace içinde kayıtlı ve parent başlangıcı çocuk başlangıcından büyük olmamalıdır. Parent zinciri döngü içeremez. Geçersiz veride `ValueError` yükselt.
+`iz_zinciri_raporu(olaylar)` işlevini yaz. Her olay ilk görevin kurallarını sağlasın. İlk görevin tam doğrulayıcısını bu bağımsız kod alanına da alabilirsin. `(iz_id, olay_id)` çifti benzersiz, parent aynı trace içinde kayıtlı ve parent başlangıcı çocuk başlangıcından büyük olmamalıdır. Parent zinciri döngü içeremez. Geçersiz veride `ValueError` yükselt.
 
 Her trace için:
 
@@ -193,9 +256,30 @@ Her trace için:
 
 Trace'leri iz kimliğine, kökleri ve olayları `(zaman_ms, olay_id)` sırasına göre sırala. Boş girdi için boş liste döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-04")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle,metin_yukle
+
 def iz_zinciri_raporu(olaylar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: paralel süreleri toplar, parent grafiğini doğrulamaz.
+    gruplar={}
+    for o in olaylar:gruplar.setdefault(o["iz_id"],[]).append(o)
+    sonuc=[]
+    for k,vs in sorted(gruplar.items()):
+        vs=sorted(vs,key=lambda x:(x["zaman_ms"],x["olay_id"]))
+        b=min(o["zaman_ms"] for o in vs);t=max(o["zaman_ms"]+o["sure_ms"] for o in vs)
+        sonuc.append({"iz_id":k,"kokler":[o["olay_id"] for o in vs if o["parent_id"] is None],"olaylar":[o["olay_id"] for o in vs],"baslangic_ms":b,"bitis_ms":t,"sure_ms":sum(o["sure_ms"] for o in vs)})
+    return sonuc
+
+v=json_yukle("veri/telemetri.json")
+print("Sentetik iz zincirleri:",iz_zinciri_raporu(v["olaylar"]))
 ```
 
 ```test
@@ -235,6 +319,28 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        # Aynı olay sözleşmesi tüm bağımsız görevlerde korunur.
+        temel={"iz_id":"t","olay_id":"e","parent_id":None,"tur":"model","zaman_ms":0,"sure_ms":0,"alanlar":{}}
+        boz=[dict(temel,parent_id=True),dict(temel,parent_id=" e"),dict(temel,parent_id="e"),dict(temel,zaman_ms=-1)]
+        for tur,alan in [("model","model"),("http","yontem"),("arac","arac"),("model","hata_kodu")]:
+            for val in [None,True,""," x","x "]:
+                boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for tur,alan,val in [("http","http_kod",True),("model","token_out",True),("model","token_in",-1),("guardrail","karar","x"),("model","durum","x"),("model","Authorization","sentetik"),("model","eposta","demo@example.invalid")]:
+            boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for olay in boz:
+            try:
+                fn([olay])
+                return False
+            except ValueError:pass
+        for tur,alan,val in [("arac","arac","yerel"),("http","yontem","POST"),("model","hata_kodu","E"),("guardrail","karar","izin"),("guardrail","karar","hata")]:
+            olay=dict(temel,tur=tur,alanlar={alan:val})
+            fn([olay])
+        for kod in [100,599]:
+            if fn([dict(temel,tur="http",alanlar={"http_kod":kod})])[0]["sure_ms"]!=0:return False
+        fn([dict(temel,alanlar={"token_in":0,"token_out":0})])
+        for kod in [99,600]:
+            try:fn([dict(temel,tur="http",alanlar={"http_kod":kod})]);return False
+            except ValueError:pass
         return True
     except Exception:
         return False
@@ -257,6 +363,64 @@ for ad, mutant in [("parent ilişkisini silen", m_parent), ("süreleri toplayan"
 ```
 
 ```solution
+from ai_savunma_veri import json_yukle,metin_yukle
+
+def guvenli_telemetri_olayi(olay):
+    import math
+    zorunlu = {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}
+    if not isinstance(olay, dict):
+        raise ValueError("olay geçersiz")
+    if set(olay) != zorunlu:
+        raise ValueError("olay şeması geçersiz")
+    for alan in ("iz_id", "olay_id"):
+        deger = olay[alan]
+        if not isinstance(deger, str):
+            raise ValueError("kimlik geçersiz")
+        if not deger or deger != deger.strip():
+            raise ValueError("kimlik geçersiz")
+    # Parent türü, kapsamı ve döngüsü aşağıda aynı trace grafiğinde doğrulanır.
+    tur = olay["tur"]
+    if tur not in ("http", "model", "guardrail", "arac"):
+        raise ValueError("olay türü geçersiz")
+    for alan in ("zaman_ms", "sure_ms"):
+        deger = olay[alan]
+        if isinstance(deger, bool) or not isinstance(deger, (int, float)):
+            raise ValueError("süre geçersiz")
+        if not math.isfinite(deger):
+            raise ValueError("süre sonlu olmalı")
+        if deger < 0:
+            raise ValueError("süre negatif olamaz")
+    alanlar = olay["alanlar"]
+    if not isinstance(alanlar, dict):
+        raise ValueError("alanlar geçersiz")
+    izinli = {"durum", "hata_kodu"} | {
+        "http": {"http_kod", "yontem"}, "model": {"model", "token_in", "token_out"},
+        "guardrail": {"karar"}, "arac": {"arac"},
+    }[tur]
+    if any(alan not in izinli for alan in alanlar):
+        raise ValueError("bilinmeyen veya hassas alan")
+    for alan in ("hata_kodu", "yontem", "model", "arac"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if not isinstance(deger, str) or not deger or deger != deger.strip():
+                raise ValueError("metin alanı geçersiz")
+    if "durum" in alanlar and alanlar["durum"] not in ("ok", "hata"):
+        raise ValueError("durum geçersiz")
+    if "karar" in alanlar and alanlar["karar"] not in ("izin", "reddet", "hata"):
+        raise ValueError("karar geçersiz")
+    if "http_kod" in alanlar:
+        kod = alanlar["http_kod"]
+        if type(kod) is not int or kod < 100 or kod > 599:
+            raise ValueError("HTTP kodu geçersiz")
+    for alan in ("token_in", "token_out"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if type(deger) is not int or deger < 0:
+                raise ValueError("token sayısı geçersiz")
+    sonuc = dict(olay)
+    sonuc["alanlar"] = {alan: alanlar[alan] for alan in sorted(alanlar)}
+    return sonuc
+
 def iz_zinciri_raporu(olaylar):
     import math
     if not isinstance(olaylar, list):
@@ -264,28 +428,7 @@ def iz_zinciri_raporu(olaylar):
     izler = {}
     kimlikler = set()
     for olay in olaylar:
-        if not isinstance(olay, dict):
-            raise ValueError("olay geçersiz")
-        if set(olay) != {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}:
-            raise ValueError("olay şeması geçersiz")
-        for alan in ("iz_id", "olay_id"):
-            if not isinstance(olay[alan], str) or not olay[alan] or olay[alan] != olay[alan].strip():
-                raise ValueError("kimlik geçersiz")
-        if olay["tur"] not in ("http", "model", "guardrail", "arac"):
-            raise ValueError("olay türü geçersiz")
-        for alan in ("zaman_ms", "sure_ms"):
-            deger = olay[alan]
-            if isinstance(deger, bool) or not isinstance(deger, (int, float)):
-                raise ValueError("süre türü geçersiz")
-            if not math.isfinite(deger):
-                raise ValueError("süre sonlu olmalı")
-            if deger < 0:
-                raise ValueError("süre negatif olamaz")
-        if not isinstance(olay["alanlar"], dict):
-            raise ValueError("alanlar geçersiz")
-        izinli = {"durum", "hata_kodu"} | {"http": {"http_kod", "yontem"}, "model": {"model", "token_in", "token_out"}, "guardrail": {"karar"}, "arac": {"arac"}}[olay["tur"]]
-        if any(a not in izinli for a in olay["alanlar"]):
-            raise ValueError("hassas alan")
+        olay=guvenli_telemetri_olayi(olay)
         kimlik = (olay["iz_id"], olay["olay_id"])
         if kimlik in kimlikler:
             raise ValueError("olay kimliği yinelenemez")
@@ -317,6 +460,9 @@ def iz_zinciri_raporu(olaylar):
         bitis = max(x["zaman_ms"] + x["sure_ms"] for x in kayitlar)
         sonuc.append({"iz_id": iz_id, "kokler": [x["olay_id"] for x in sirali if x["parent_id"] is None], "olaylar": [x["olay_id"] for x in sirali], "baslangic_ms": baslangic, "bitis_ms": bitis, "sure_ms": bitis - baslangic})
     return sonuc
+
+v=json_yukle("veri/telemetri.json")
+print("Sentetik iz zincirleri:",iz_zinciri_raporu(v["olaylar"]))
 ```
 
 ```hint
@@ -331,7 +477,7 @@ Ortalama süre üç ondalık basamağa yuvarlanır. Çıktı yalnız sabit ölç
 :::
 
 ::: gorev 3 · Tür bazında güvenli telemetri metrikleri hesapla
-`telemetri_metrik_raporu(olaylar)` işlevini yaz. Olaylar ilk görevdeki bütün şema, tür ve alan kurallarını sağlasın; olay kimliklerinin trace içinde yinelenmediğini de doğrula. Geçersiz veride `ValueError` yükselt.
+`telemetri_metrik_raporu(olaylar)` işlevini yaz. İlk görevin tam doğrulayıcısını bu bağımsız kod alanına da alabilirsin. Olaylar ilk görevdeki bütün şema, tür ve alan kurallarını sağlasın; olay kimliklerinin trace içinde yinelenmediğini de doğrula. Geçersiz veride `ValueError` yükselt.
 
 Dönüş:
 
@@ -343,9 +489,26 @@ Dönüş:
 
 `hatali`, durumu `hata` olan veya `hata_kodu` taşıyan olay sayısıdır; aynı olay iki koşulda da bir kez sayılır. `reddedildi`, `karar = reddet` olaylarıdır. Token alanları bulunmadığında sıfır kabul edilir. Türleri alfabetik sıralı sözlükte, her ortalama süreyi üç ondalığa yuvarlanmış şekilde döndür. Boş girdi için türler boş, sayaçlar sıfır olur. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-04")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle,metin_yukle
+
 def telemetri_metrik_raporu(olaylar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: hata kodunu saymaz ve guardrail reddini hataya eşitler.
+    gruplar={}
+    for o in olaylar:gruplar.setdefault(o["tur"],[]).append(o["sure_ms"])
+    hata=sum(o["alanlar"].get("durum")=="hata" for o in olaylar)
+    return {"toplam":len(olaylar),"iz_sayisi":len({o["iz_id"] for o in olaylar}),"hatali":hata,"reddedildi":hata,"token_in":sum(o["alanlar"].get("token_in",0) for o in olaylar),"token_out":sum(o["alanlar"].get("token_out",0) for o in olaylar),"turler":{t:{"sayi":len(v),"ortalama_sure_ms":round(sum(v)/len(v),3)} for t,v in sorted(gruplar.items())}}
+
+v=json_yukle("veri/telemetri.json")
+print("Sentetik metrikler:",telemetri_metrik_raporu(v["olaylar"]))
 ```
 
 ```test
@@ -389,6 +552,22 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        # Aynı olay sözleşmesi tüm bağımsız görevlerde korunur.
+        temel={"iz_id":"t","olay_id":"e","parent_id":None,"tur":"model","zaman_ms":0,"sure_ms":0,"alanlar":{}}
+        boz=[dict(temel,parent_id=True),dict(temel,parent_id=" e"),dict(temel,parent_id="e"),dict(temel,zaman_ms=-1)]
+        for tur,alan in [("model","model"),("http","yontem"),("arac","arac"),("model","hata_kodu")]:
+            for val in [None,True,""," x","x "]:
+                boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for tur,alan,val in [("http","http_kod",True),("model","token_out",True),("model","token_in",-1),("guardrail","karar","x"),("model","durum","x"),("model","Authorization","sentetik"),("model","eposta","demo@example.invalid")]:
+            boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for olay in boz:
+            try:
+                fn([olay])
+                return False
+            except ValueError:pass
+        for tur,alan,val in [("arac","arac","yerel"),("http","yontem","POST"),("model","hata_kodu","E"),("guardrail","karar","izin"),("guardrail","karar","hata")]:
+            olay=dict(temel,tur=tur,alanlar={alan:val})
+            fn([olay])
         return True
     except Exception:
         return False
@@ -411,76 +590,91 @@ for ad, mutant in [("hata kodunu saymayan", m_hata), ("ret sayısını hataya e�
 ```
 
 ```solution
-def telemetri_metrik_raporu(olaylar):
+from ai_savunma_veri import json_yukle,metin_yukle
+
+def guvenli_telemetri_olayi(olay):
     import math
-    if not isinstance(olaylar, list):
-        raise ValueError("olay listesi geçersiz")
-    kimlikler = set()
-    gruplar = {}
-    hatali = 0
-    reddedildi = 0
-    token_in = 0
-    token_out = 0
+    zorunlu = {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}
+    if not isinstance(olay, dict):
+        raise ValueError("olay geçersiz")
+    if set(olay) != zorunlu:
+        raise ValueError("olay şeması geçersiz")
+    for alan in ("iz_id", "olay_id"):
+        deger = olay[alan]
+        if not isinstance(deger, str):
+            raise ValueError("kimlik geçersiz")
+        if not deger or deger != deger.strip():
+            raise ValueError("kimlik geçersiz")
+    parent = olay["parent_id"]
+    if parent is not None:
+        if not isinstance(parent, str):
+            raise ValueError("parent geçersiz")
+        if not parent or parent != parent.strip():
+            raise ValueError("parent geçersiz")
+        if parent == olay["olay_id"]:
+            raise ValueError("olay kendi parentı olamaz")
+    tur = olay["tur"]
+    if tur not in ("http", "model", "guardrail", "arac"):
+        raise ValueError("olay türü geçersiz")
+    for alan in ("zaman_ms", "sure_ms"):
+        deger = olay[alan]
+        if isinstance(deger, bool) or not isinstance(deger, (int, float)):
+            raise ValueError("süre geçersiz")
+        if not math.isfinite(deger):
+            raise ValueError("süre sonlu olmalı")
+        if deger < 0:
+            raise ValueError("süre negatif olamaz")
+    alanlar = olay["alanlar"]
+    if not isinstance(alanlar, dict):
+        raise ValueError("alanlar geçersiz")
+    izinli = {"durum", "hata_kodu"} | {
+        "http": {"http_kod", "yontem"}, "model": {"model", "token_in", "token_out"},
+        "guardrail": {"karar"}, "arac": {"arac"},
+    }[tur]
+    if any(alan not in izinli for alan in alanlar):
+        raise ValueError("bilinmeyen veya hassas alan")
+    for alan in ("hata_kodu", "yontem", "model", "arac"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if not isinstance(deger, str) or not deger or deger != deger.strip():
+                raise ValueError("metin alanı geçersiz")
+    if "durum" in alanlar and alanlar["durum"] not in ("ok", "hata"):
+        raise ValueError("durum geçersiz")
+    if "karar" in alanlar and alanlar["karar"] not in ("izin", "reddet", "hata"):
+        raise ValueError("karar geçersiz")
+    if "http_kod" in alanlar:
+        kod = alanlar["http_kod"]
+        if type(kod) is not int or kod < 100 or kod > 599:
+            raise ValueError("HTTP kodu geçersiz")
+    for alan in ("token_in", "token_out"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if type(deger) is not int or deger < 0:
+                raise ValueError("token sayısı geçersiz")
+    sonuc = dict(olay)
+    sonuc["alanlar"] = {alan: alanlar[alan] for alan in sorted(alanlar)}
+    return sonuc
+
+def telemetri_metrik_raporu(olaylar):
+    if not isinstance(olaylar,list):raise ValueError("olay listesi geçersiz")
+    kimlikler=set();gruplar={}
+    hatali=reddedildi=token_in=token_out=0
     for olay in olaylar:
-        if not isinstance(olay, dict) or set(olay) != {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}:
-            raise ValueError("olay şeması geçersiz")
-        for alan in ("iz_id", "olay_id"):
-            if not isinstance(olay[alan], str) or not olay[alan] or olay[alan] != olay[alan].strip():
-                raise ValueError("kimlik geçersiz")
-        anahtar = (olay["iz_id"], olay["olay_id"])
-        if anahtar in kimlikler:
-            raise ValueError("olay kimliği yinelenemez")
+        olay=guvenli_telemetri_olayi(olay)
+        anahtar=(olay["iz_id"],olay["olay_id"])
+        if anahtar in kimlikler:raise ValueError("olay kimliği yinelenemez")
         kimlikler.add(anahtar)
-        tur = olay["tur"]
-        if tur not in ("http", "model", "guardrail", "arac"):
-            raise ValueError("olay türü geçersiz")
-        for alan in ("zaman_ms", "sure_ms"):
-            deger = olay[alan]
-            if isinstance(deger, bool) or not isinstance(deger, (int, float)):
-                raise ValueError("süre türü geçersiz")
-            if not math.isfinite(deger):
-                raise ValueError("süre sonlu olmalı")
-            if deger < 0:
-                raise ValueError("süre negatif olamaz")
-        alanlar = olay["alanlar"]
-        if not isinstance(alanlar, dict):
-            raise ValueError("alanlar geçersiz")
-        izinli = {"durum", "hata_kodu"} | {"http": {"http_kod", "yontem"}, "model": {"model", "token_in", "token_out"}, "guardrail": {"karar"}, "arac": {"arac"}}[tur]
-        if any(a not in izinli for a in alanlar):
-            raise ValueError("hassas alan")
-        if "durum" in alanlar and alanlar["durum"] not in ("ok", "hata"):
-            raise ValueError("durum geçersiz")
-        if "karar" in alanlar and alanlar["karar"] not in ("izin", "reddet", "hata"):
-            raise ValueError("karar geçersiz")
-        if "http_kod" in alanlar:
-            kod = alanlar["http_kod"]
-            if type(kod) is not int:
-                raise ValueError("HTTP kodu türü geçersiz")
-            if kod < 100:
-                raise ValueError("HTTP kodu küçük")
-            if kod > 599:
-                raise ValueError("HTTP kodu büyük")
-        for alan in ("token_in", "token_out"):
-            if alan in alanlar:
-                deger = alanlar[alan]
-                if type(deger) is not int:
-                    raise ValueError("token sayısı türü geçersiz")
-                if deger < 0:
-                    raise ValueError("token sayısı negatif olamaz")
-        if alanlar.get("durum") == "hata":
-            hatali += 1
-        elif "hata_kodu" in alanlar:
-            hatali += 1
-        if alanlar.get("karar") == "reddet":
-            reddedildi += 1
-        token_in += alanlar.get("token_in", 0)
-        token_out += alanlar.get("token_out", 0)
-        gruplar.setdefault(tur, []).append(olay["sure_ms"])
-    turler = {}
-    for tur in sorted(gruplar):
-        sureler = gruplar[tur]
-        turler[tur] = {"sayi": len(sureler), "ortalama_sure_ms": round(sum(sureler) / len(sureler), 3)}
-    return {"toplam": len(olaylar), "iz_sayisi": len({x["iz_id"] for x in olaylar}), "hatali": hatali, "reddedildi": reddedildi, "token_in": token_in, "token_out": token_out, "turler": turler}
+        a=olay["alanlar"]
+        if a.get("durum")=="hata" or "hata_kodu" in a:hatali+=1
+        if a.get("karar")=="reddet":reddedildi+=1
+        token_in+=a.get("token_in",0);token_out+=a.get("token_out",0)
+        gruplar.setdefault(olay["tur"],[]).append(olay["sure_ms"])
+    turler={t:{"sayi":len(v),"ortalama_sure_ms":round(sum(v)/len(v),3)} for t,v in sorted(gruplar.items())}
+    return {"toplam":len(olaylar),"iz_sayisi":len({x["iz_id"] for x in olaylar}),"hatali":hatali,"reddedildi":reddedildi,"token_in":token_in,"token_out":token_out,"turler":turler}
+
+
+v=json_yukle("veri/telemetri.json")
+print("Sentetik metrikler:",telemetri_metrik_raporu(v["olaylar"]))
 ```
 
 ```hint
@@ -518,27 +712,149 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "referans_rapor", "getattr"))
+import ast
+yasak=("referans","referans_rapor","getattr","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in node.names):sorun.append("referans ithali")
+except SyntaxError:sorun.append("sözdizimi")
 kontrol(not sorun, "laboratuvar yamalanmamalı, referans kullanılmamalı " + ", ".join(sorun))
+if sorun:stop()
 fn = need("telemetri_metrik_raporu")
 from sandbox import ai_gercek_ai_savunma_04 as D
 ornek = [{"iz_id": "a", "olay_id": "m1", "parent_id": None, "tur": "model", "zaman_ms": 0, "sure_ms": 12.0, "alanlar": {"model": "yerel", "token_out": 5, "durum": "ok"}},
          {"iz_id": "a", "olay_id": "g1", "parent_id": "m1", "tur": "guardrail", "zaman_ms": 1, "sure_ms": 2, "alanlar": {"karar": "reddet"}}]
-def sozlesme(f):
+import copy
+import copy
+O = [
+    {"iz_id": "a", "olay_id": "h1", "parent_id": None, "tur": "http", "zaman_ms": 0, "sure_ms": 10, "alanlar": {"http_kod": 200}},
+    {"iz_id": "a", "olay_id": "m1", "parent_id": "h1", "tur": "model", "zaman_ms": 1, "sure_ms": 1, "alanlar": {"token_in": 3, "token_out": 2, "durum": "hata"}},
+    {"iz_id": "b", "olay_id": "m2", "parent_id": None, "tur": "model", "zaman_ms": 0, "sure_ms": 2, "alanlar": {"token_in": 4, "hata_kodu": "E1"}},
+    {"iz_id": "b", "olay_id": "g1", "parent_id": "m2", "tur": "guardrail", "zaman_ms": 2, "sure_ms": 2, "alanlar": {"karar": "reddet", "durum": "hata", "hata_kodu": "E2"}},
+]
+BEKLENEN = {"toplam": 4, "iz_sayisi": 2, "hatali": 3, "reddedildi": 1, "token_in": 7, "token_out": 2, "turler": {"guardrail": {"sayi": 1, "ortalama_sure_ms": 2.0}, "http": {"sayi": 1, "ortalama_sure_ms": 10.0}, "model": {"sayi": 2, "ortalama_sure_ms": 1.5}}}
+def sozlesme(fn):
     try:
-        if f([dict(o, alanlar=dict(o["alanlar"])) for o in ornek]) != D.referans_rapor(ornek) or f([]) != {"toplam": 0, "iz_sayisi": 0, "hatali": 0, "reddedildi": 0, "token_in": 0, "token_out": 0, "turler": {}}:
+        once = copy.deepcopy(O)
+        if fn(O) != BEKLENEN or O != once or fn(list(reversed(O))) != BEKLENEN:
             return False
-        for ol in [None, [None], ornek + [ornek[0]], [dict(ornek[0], ek=1)], [dict(ornek[0], alanlar={"prompt": "x"})],
-                   [dict(ornek[0], sure_ms=-1)], [dict(ornek[0], iz_id="")], [dict(ornek[0], alanlar={"token_out": True, "model": "y"})]]:
+        if fn([]) != {"toplam": 0, "iz_sayisi": 0, "hatali": 0, "reddedildi": 0, "token_in": 0, "token_out": 0, "turler": {}}:
+            return False
+        uc = [dict(O[0], olay_id=str(i), sure_ms=x) for i, x in enumerate((1, 2, 2))]
+        if fn(uc)["turler"]["http"]["ortalama_sure_ms"] != 1.667:
+            return False
+        if fn([dict(O[0], sure_ms=0)])["turler"]["http"]["ortalama_sure_ms"] != 0.0:
+            return False
+        for kod in (100, 599):
+            if fn([dict(O[0], alanlar={"http_kod": kod})])["toplam"] != 1:
+                return False
+        sifir_token = fn([dict(O[1], alanlar={"token_in": 0, "token_out": 0})])
+        if sifir_token["token_in"] != 0 or sifir_token["token_out"] != 0 or sifir_token["hatali"] != 0:
+            return False
+        for olaylar in [
+            None, {}, [None], O + [O[0]], [dict(O[0], ek=1)],
+            [dict(O[0], zaman_ms=True)], [dict(O[0], sure_ms=float("nan"))],
+            [dict(O[0], iz_id="")], [dict(O[0], iz_id=" x")], [dict(O[0], olay_id=None)],
+            [dict(O[0], alanlar={"prompt": "x"})],
+            [dict(O[1], alanlar={"token_in": True})],
+            [dict(O[0], alanlar={"http_kod": 99})],
+            [dict(O[0], alanlar={"http_kod": 600})],
+        ]:
             try:
-                f(ol)
+                fn(olaylar)
                 return False
             except ValueError:
                 pass
+        # Aynı olay sözleşmesi tüm bağımsız görevlerde korunur.
+        temel={"iz_id":"t","olay_id":"e","parent_id":None,"tur":"model","zaman_ms":0,"sure_ms":0,"alanlar":{}}
+        boz=[dict(temel,parent_id=True),dict(temel,parent_id=" e"),dict(temel,parent_id="e"),dict(temel,zaman_ms=-1)]
+        for tur,alan in [("model","model"),("http","yontem"),("arac","arac"),("model","hata_kodu")]:
+            for val in [None,True,""," x","x "]:
+                boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for tur,alan,val in [("http","http_kod",True),("model","token_out",True),("model","token_in",-1),("guardrail","karar","x"),("model","durum","x"),("model","Authorization","sentetik"),("model","eposta","demo@example.invalid")]:
+            boz.append(dict(temel,tur=tur,alanlar={alan:val}))
+        for olay in boz:
+            try:
+                fn([olay])
+                return False
+            except ValueError:pass
+        for tur,alan,val in [("arac","arac","yerel"),("http","yontem","POST"),("model","hata_kodu","E"),("guardrail","karar","izin"),("guardrail","karar","hata")]:
+            olay=dict(temel,tur=tur,alanlar={alan:val})
+            fn([olay])
         return True
     except Exception:
         return False
+for ad,mutant in [("boş",None),("sabit",lambda *a:{}),("hep boş metrik",lambda *a:D.referans_rapor([]))]:
+    kontrol(not sozlesme(mutant),"hatalı çözüm reddedilmeli: "+ad)
 kontrol(sozlesme(fn), "güvenli telemetri metrikleri doğru; hassas alan ve geçersiz girdi reddedilmeli")
+def _olay_denetle(olay):
+    import math
+    zorunlu = {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}
+    if not isinstance(olay, dict):
+        raise ValueError("olay geçersiz")
+    if set(olay) != zorunlu:
+        raise ValueError("olay şeması geçersiz")
+    for alan in ("iz_id", "olay_id"):
+        deger = olay[alan]
+        if not isinstance(deger, str):
+            raise ValueError("kimlik geçersiz")
+        if not deger or deger != deger.strip():
+            raise ValueError("kimlik geçersiz")
+    parent = olay["parent_id"]
+    if parent is not None:
+        if not isinstance(parent, str):
+            raise ValueError("parent geçersiz")
+        if not parent or parent != parent.strip():
+            raise ValueError("parent geçersiz")
+        if parent == olay["olay_id"]:
+            raise ValueError("olay kendi parentı olamaz")
+    tur = olay["tur"]
+    if tur not in ("http", "model", "guardrail", "arac"):
+        raise ValueError("olay türü geçersiz")
+    for alan in ("zaman_ms", "sure_ms"):
+        deger = olay[alan]
+        if isinstance(deger, bool) or not isinstance(deger, (int, float)):
+            raise ValueError("süre geçersiz")
+        if not math.isfinite(deger):
+            raise ValueError("süre sonlu olmalı")
+        if deger < 0:
+            raise ValueError("süre negatif olamaz")
+    alanlar = olay["alanlar"]
+    if not isinstance(alanlar, dict):
+        raise ValueError("alanlar geçersiz")
+    izinli = {"durum", "hata_kodu"} | {
+        "http": {"http_kod", "yontem"}, "model": {"model", "token_in", "token_out"},
+        "guardrail": {"karar"}, "arac": {"arac"},
+    }[tur]
+    if any(alan not in izinli for alan in alanlar):
+        raise ValueError("bilinmeyen veya hassas alan")
+    for alan in ("hata_kodu", "yontem", "model", "arac"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if not isinstance(deger, str) or not deger or deger != deger.strip():
+                raise ValueError("metin alanı geçersiz")
+    if "durum" in alanlar and alanlar["durum"] not in ("ok", "hata"):
+        raise ValueError("durum geçersiz")
+    if "karar" in alanlar and alanlar["karar"] not in ("izin", "reddet", "hata"):
+        raise ValueError("karar geçersiz")
+    if "http_kod" in alanlar:
+        kod = alanlar["http_kod"]
+        if type(kod) is not int or kod < 100 or kod > 599:
+            raise ValueError("HTTP kodu geçersiz")
+    for alan in ("token_in", "token_out"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if type(deger) is not int or deger < 0:
+                raise ValueError("token sayısı geçersiz")
+    sonuc = dict(olay)
+    sonuc["alanlar"] = {alan: alanlar[alan] for alan in sorted(alanlar)}
+    return sonuc
+
+def sozlesme_olay(o):
+    try:_olay_denetle(o);return True
+    except ValueError:return False
+
 r, oz = None, None
 if all(sonuclar):
     try:
@@ -546,70 +862,101 @@ if all(sonuclar):
     except ai_lab.GercekLabYok as e:
         kontrol(False, f"GERÇEK MODEL YOK, deney yapılmadı: {e}")
         stop()
+    kontrol(len(r["deney_kaydi"])==3 and not r["hatalar"] and all(x.get("basarili") for x in r["deney_kaydi"]),"üç gerçek istek tamamlandı; hata yok")
+    kontrol(all(sozlesme_olay(o) for o in r["olaylar"]),"gerçek olaylar izinli şema ve içerik sınırını koruyor")
     kontrol(r["rapor"] == D.referans_rapor(r["olaylar"]), "gerçek telemetri metrikleri bağımsız hesapla aynı")
     kontrol(not r["sizan_istem"], f"telemetri olaylarında ham istem sızmadı (sızan: {r['sizan_istem'] or 'yok'})")
     oz = D.ozet(r)
     kontrol(oz["token_out"] > 0 and oz["olay"] > 0, f"gerçek token/süre ölçüldü: {oz['olay']} olay, token_out {oz['token_out']}, ort süre {oz['model_ort_sure_ms']} ms")
-yol = ai_lab.kanit_yaz("savunma-telemetri", {"kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-savunma-04",
-                                             "ortam": (r or {}).get("ortam"), "ozet": oz})
+yol = ai_lab.kanit_yaz("savunma-telemetri", {"kaynak": "gercek" if r and r.get("deney_kaydi") else "fixture", "kabul": all(sonuclar), "ders": "ai-savunma-04",
+                                             "ortam": (r or {}).get("ortam"), "ozet": oz, "olaylar":(r or {}).get("olaylar"), "rapor":(r or {}).get("rapor"), "laboratuvar_deney_kaydi":(r or {}).get("deney_kaydi"), "hatalar":(r or {}).get("hatalar"), "ayarlar":D.AYARLAR, "sinir":"Bu deney kaydı yalnız açık sentetik istemlerin kanıtıdır; güvenli telemetri içerik taşımaz; token_in ölçülmedi"})
 if oz:
     ok(True, f"BULGU ({r['ortam']['model']['ad']}): {oz['olay']} gerçek istekten telemetri — token_out {oz['token_out']}, model ort süre {oz['model_ort_sure_ms']} ms; "
              f"sızan ham istem: {oz['sizan_istem']}. Telemetri gerçek ölçüleri taşır ama içerik taşımaz.")
 ```
 
 ```solution
-import math
 import ai_lab
 
-def telemetri_metrik_raporu(olaylar):
-    if not isinstance(olaylar, list):
-        raise ValueError("olay listesi geçersiz")
-    kimlikler, gruplar = set(), {}
-    hatali = reddedildi = token_in = token_out = 0
-    for olay in olaylar:
-        if not isinstance(olay, dict) or set(olay) != {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}:
-            raise ValueError("olay şeması geçersiz")
-        for alan in ("iz_id", "olay_id"):
-            if not isinstance(olay[alan], str) or not olay[alan] or olay[alan] != olay[alan].strip():
-                raise ValueError("kimlik geçersiz")
-        anahtar = (olay["iz_id"], olay["olay_id"])
-        if anahtar in kimlikler:
-            raise ValueError("olay kimliği yinelenemez")
-        kimlikler.add(anahtar)
-        tur = olay["tur"]
-        if tur not in ("http", "model", "guardrail", "arac"):
-            raise ValueError("olay türü geçersiz")
-        for alan in ("zaman_ms", "sure_ms"):
-            d = olay[alan]
-            if isinstance(d, bool) or not isinstance(d, (int, float)) or not math.isfinite(d) or d < 0:
-                raise ValueError("süre geçersiz")
-        alanlar = olay["alanlar"]
-        if not isinstance(alanlar, dict):
-            raise ValueError("alanlar geçersiz")
-        izinli = {"durum", "hata_kodu"} | {"http": {"http_kod", "yontem"}, "model": {"model", "token_in", "token_out"}, "guardrail": {"karar"}, "arac": {"arac"}}[tur]
-        if any(a not in izinli for a in alanlar):
-            raise ValueError("hassas alan")
-        if "durum" in alanlar and alanlar["durum"] not in ("ok", "hata"):
-            raise ValueError("durum geçersiz")
-        if "hata_kodu" in alanlar and (not isinstance(alanlar["hata_kodu"], str) or not alanlar["hata_kodu"]):
-            raise ValueError("hata kodu geçersiz")
-        if "karar" in alanlar and alanlar["karar"] not in ("izin", "reddet", "hata"):
-            raise ValueError("karar geçersiz")
-        if "http_kod" in alanlar and (type(alanlar["http_kod"]) is not int or not 100 <= alanlar["http_kod"] <= 599):
+def guvenli_telemetri_olayi(olay):
+    import math
+    zorunlu = {"iz_id", "olay_id", "parent_id", "tur", "zaman_ms", "sure_ms", "alanlar"}
+    if not isinstance(olay, dict):
+        raise ValueError("olay geçersiz")
+    if set(olay) != zorunlu:
+        raise ValueError("olay şeması geçersiz")
+    for alan in ("iz_id", "olay_id"):
+        deger = olay[alan]
+        if not isinstance(deger, str):
+            raise ValueError("kimlik geçersiz")
+        if not deger or deger != deger.strip():
+            raise ValueError("kimlik geçersiz")
+    parent = olay["parent_id"]
+    if parent is not None:
+        if not isinstance(parent, str):
+            raise ValueError("parent geçersiz")
+        if not parent or parent != parent.strip():
+            raise ValueError("parent geçersiz")
+        if parent == olay["olay_id"]:
+            raise ValueError("olay kendi parentı olamaz")
+    tur = olay["tur"]
+    if tur not in ("http", "model", "guardrail", "arac"):
+        raise ValueError("olay türü geçersiz")
+    for alan in ("zaman_ms", "sure_ms"):
+        deger = olay[alan]
+        if isinstance(deger, bool) or not isinstance(deger, (int, float)):
+            raise ValueError("süre geçersiz")
+        if not math.isfinite(deger):
+            raise ValueError("süre sonlu olmalı")
+        if deger < 0:
+            raise ValueError("süre negatif olamaz")
+    alanlar = olay["alanlar"]
+    if not isinstance(alanlar, dict):
+        raise ValueError("alanlar geçersiz")
+    izinli = {"durum", "hata_kodu"} | {
+        "http": {"http_kod", "yontem"}, "model": {"model", "token_in", "token_out"},
+        "guardrail": {"karar"}, "arac": {"arac"},
+    }[tur]
+    if any(alan not in izinli for alan in alanlar):
+        raise ValueError("bilinmeyen veya hassas alan")
+    for alan in ("hata_kodu", "yontem", "model", "arac"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if not isinstance(deger, str) or not deger or deger != deger.strip():
+                raise ValueError("metin alanı geçersiz")
+    if "durum" in alanlar and alanlar["durum"] not in ("ok", "hata"):
+        raise ValueError("durum geçersiz")
+    if "karar" in alanlar and alanlar["karar"] not in ("izin", "reddet", "hata"):
+        raise ValueError("karar geçersiz")
+    if "http_kod" in alanlar:
+        kod = alanlar["http_kod"]
+        if type(kod) is not int or kod < 100 or kod > 599:
             raise ValueError("HTTP kodu geçersiz")
-        for alan in ("token_in", "token_out"):
-            if alan in alanlar and (type(alanlar[alan]) is not int or alanlar[alan] < 0):
+    for alan in ("token_in", "token_out"):
+        if alan in alanlar:
+            deger = alanlar[alan]
+            if type(deger) is not int or deger < 0:
                 raise ValueError("token sayısı geçersiz")
-        if alanlar.get("durum") == "hata" or "hata_kodu" in alanlar:
-            hatali += 1
-        if alanlar.get("karar") == "reddet":
-            reddedildi += 1
-        token_in += alanlar.get("token_in", 0)
-        token_out += alanlar.get("token_out", 0)
-        gruplar.setdefault(tur, []).append(olay["sure_ms"])
-    turler = {t: {"sayi": len(v), "ortalama_sure_ms": round(sum(v) / len(v), 3)} for t, v in sorted(gruplar.items())}
-    return {"toplam": len(olaylar), "iz_sayisi": len({x["iz_id"] for x in olaylar}), "hatali": hatali,
-            "reddedildi": reddedildi, "token_in": token_in, "token_out": token_out, "turler": turler}
+    sonuc = dict(olay)
+    sonuc["alanlar"] = {alan: alanlar[alan] for alan in sorted(alanlar)}
+    return sonuc
+
+def telemetri_metrik_raporu(olaylar):
+    if not isinstance(olaylar,list):raise ValueError("olay listesi geçersiz")
+    kimlikler=set();gruplar={}
+    hatali=reddedildi=token_in=token_out=0
+    for olay in olaylar:
+        olay=guvenli_telemetri_olayi(olay)
+        anahtar=(olay["iz_id"],olay["olay_id"])
+        if anahtar in kimlikler:raise ValueError("olay kimliği yinelenemez")
+        kimlikler.add(anahtar)
+        a=olay["alanlar"]
+        if a.get("durum")=="hata" or "hata_kodu" in a:hatali+=1
+        if a.get("karar")=="reddet":reddedildi+=1
+        token_in+=a.get("token_in",0);token_out+=a.get("token_out",0)
+        gruplar.setdefault(olay["tur"],[]).append(olay["sure_ms"])
+    turler={t:{"sayi":len(v),"ortalama_sure_ms":round(sum(v)/len(v),3)} for t,v in sorted(gruplar.items())}
+    return {"toplam":len(olaylar),"iz_sayisi":len({x["iz_id"] for x in olaylar}),"hatali":hatali,"reddedildi":reddedildi,"token_in":token_in,"token_out":token_out,"turler":turler}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_04 as deney

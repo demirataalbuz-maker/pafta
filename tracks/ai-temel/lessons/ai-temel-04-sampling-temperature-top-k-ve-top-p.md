@@ -6,12 +6,36 @@ timeout: 45
 ---
 
 ::: anlat Sıcaklık dağılımın keskinliğini değiştirir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Model her token adımında sözlük boyunca logit üretir | Görevler1–3 görünür sentetik üç-token JSON; final kurulu SmolLM2-135M ile gerçek ileri hesap ve üretim | Üç örnek logit gerçek model kaydı değildir; üretim metninin doğruluğu garanti edilmez |
+| Örnekleme ayarları aday kümesini ve seçimi değiştirir | Final float64 sıcaklık→top-k→top-p ve Transformers işlemcileriyle karşılaştırma | Sıcaklık güvenlik filtresi değildir; aynı tohum farklı sürüm/cihazda aynı metin garantisi vermez |
+
+> [!NOT]
+> `veri/logitler.json` elle hazırlanmış sentetik veridir; canlı model çıktısı değildir. İlk üç görev aynı dosyayı okur. Setup her Run/Check için geçici kopya kurar; kalıcılık yoktur. Kaynağı editörde aç veya kodda yüklenen sözlüğü değiştirip Run dene. Gizli test verisi ayrıdır. Final yerelde önceden kurulu model ağırlıklarını gerçekten kullanır; yeni indirme yoktur.
+
 Temperature ile logitler softmax öncesinde sıcaklığa bölünür. Birden küçük sıcaklık farkları büyütür; birden büyük sıcaklık dağılımı yumuşatır. Sıfır sıcaklık bu formülde tanımsızdır ve ayrı bir greedy üretim politikası olarak ele alınmalıdır.
 
-Bu derste Transformers veya gerçek model gerekmez. Amaç üretim parametrelerinin aday olasılıklarını nasıl değiştirdiğini görmek ve saldırı testlerinde farklı yapılandırmaları birbirine karıştırmamaktır.
+İlk üç görev için Transformers veya gerçek model gerekmez; son görev kurulu Transformers/torch ile gerçek SmolLM2 modelini çalıştırır. Amaç üretim parametrelerinin aday olasılıklarını nasıl değiştirdiğini görmek ve saldırı testlerinde farklı yapılandırmaları birbirine karıştırmamaktır.
 :::
 
 ::: anlat Top-k sayı, top-p kütle sınırıdır
+
+Görünür logitler.json dosyasında aynı bağlam için üç aday, token kimliği ve ham logit bulunur. Bunlar gerçek tokenizer çıktısı değil, hesap sırasını incelemek için seçilmiş öğretim değerleridir. İlk görev sıcaklıkları tek tek uygular; ikinci görev bu ham logitlerden farklı k değerleriyle aday kimliklerini seçer; üçüncü görev farklı p eşiklerinde çekirdek kümeyi çıkarır. Dosyanın token_etiketleri alanı yalnız çıktıyı okumayı kolaylaştırır. Bir etiketin anlamı logiti hesaplamaz; model olsaydı bu değerleri ağırlıklar ve önceki tokenlar üretirdi. Örnekleri ezberlemek yerine dosyanın değerlerini değiştirip sıralamanın ve kütlenin nasıl değiştiğini izle.
+
+Logit henüz olasılık değildir. Negatif olması adayın imkânsız olduğu anlamına gelmez; göreli fark önemlidir. Softmax hesaplanırken en büyük logiti hepsinden çıkarmak dağılımı değiştirmez ve üstel hesabın taşma riskini azaltır. İlk görev yalnız bölme ve üç ondalık gösterim yapar; bu yuvarlamayı gerçek model finaline taşıma. Final bütün hesabı float64 yapar, çünkü birikimli kütle eşiğinde küçük fark farklı son aday seçebilir. Eşit değerlerde küçük token kimliğini öne alma bu dersin açık sözleşmesidir; bütün üretim kütüphanelerinin eşitlik politikasının aynı olduğu iddia edilmez.
+
+Top-k ile top-p aynı sınır değildir. Birincisi kaç aday kalacağını, ikincisi toplam olasılığın ne kadarının tutulacağını söyler. Top-p için adayı ekledikten sonra eşiği kontrol etmelisin. Eşiği aşan son adayı dışarıda bırakırsan hedef kütleye ulaşmamış olursun. Finalde önce top-k uygulanır, kalan dağılım yeniden normalize edilir, sonra top-p hesaplanır. Tam dağılımda top-p seçip ardından top-k uygulamak başka sonuç verebilir. Küçük görevler bu iki kavramı ayrı öğretir; gerçek deney ikisini aynı dağılımda birleştirir. Son seçilen olasılıklar yeniden normalize edilerek toplamı bir olan örnekleme dağılımına dönüşür.
+
+Sıcaklık sıfır bu bölme formülünün geçerli girdisi değildir. Greedy üretim en büyük logiti seçen ayrı bir yoldur. Sıcaklığı yükseltmek aday sayısını büyütebilir fakat modelin daha doğru, daha yaratıcı veya daha saldırgan olmasını tek başına garanti etmez. Güvenlik deneyinde bir istemi farklı ayarlarla karşılaştırırken model, sürüm, bağlam ve üretim bütçesini de kaydetmelisin. Aksi halde gözlediğin değişimin istemden mi örneklemeden mi geldiğini ayıramazsın. Bir saldırgan düşük olasılıklı davranışları çok denemeyle arayabilir; bu derste saldırı üretilmez, bu tür ölçümlerde karıştırılan örnekleme değişkeni görünür hale getirilir.
+
+Gerçek final aynı kısa metinden dört ayarla en çok on iki token üretir. Ham gerçek logitler üzerinde rastgele istemler ve ayarlar da sınanır. Transformers işlemcileriyle karşılaştırma, bu koşullarda aday kümesi ve olasılıkların uyuştuğunu gösterir; her modelin bütün üretim seçeneklerini kapsamaz. Tekrar cezası, yasak token, araç şeması veya farklı durdurma kuralları bu dersin kapsamı dışındadır. Üretilen metnin dilbilgisi veya doğruluğu test şartı değildir. Aynı süreçte aynı tohumla referans hesapla öğrenci hesabının eşit üretim vermesi algoritma kontrolüdür; sabit bir cümleye karşı karşılaştırma yapılmaz.
+
+Çıktıda önce sıcaklık ve p başına aday sayısını oku; sonra metnin değişimini incele. Yalnız son metne bakarsan aday kümesi farkını kaçırırsın. Kanıtta model revizyonu, sürümler, cihaz, istemler, ayarlar, gerçek aday sonuçları ve seçilen token kimlikleri tutulur. Tam sözlük logit dizisi yerine boyut, SHA256 ve üst aday örnekleri saklanır; bu özetle tüm logitler yeniden oluşturulmuş sayılmaz. Model yoksa kontrol geçmez. Çalıştır düğmesi keşif kaydı, Kontrol et gerçek deney kabulü üretir.
+
+Kaynak: [Transformers üretim işlemcileri](https://huggingface.co/docs/transformers/main/en/internal/generation_utils). Belge kavramları destekler; gerçek kanıttaki kurulu sürüm sonuçları bu dersin uygulama doğrulamasıdır.
+
 Top-k en yüksek olasılıklı sabit sayıda adayı tutar. Top-p ise olasılığı büyükten küçüğe ekleyerek toplam kütlesi eşiğe ulaşan en küçük aday kümesini seçer. Eşiği aşan son aday da kümede kalır; aksi halde yeniden normalizasyon anlamsızlaşır.
 
 Her iki yöntemde de eşit logitlerde küçük indeks önce gelir. Deterministik sıralama, aynı fixture üzerinde test sonuçlarının ve güvenlik ölçümlerinin tekrarlanabilmesi için gereklidir.
@@ -42,14 +66,31 @@ print([0.5, 0.5 + 0.25, 0.5 + 0.25 + 0.25])
 
 Her logiti sıcaklığa böl ve üç ondalığa yuvarlayarak yeni liste döndür. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-04")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def sicaklik_olcekle(logitler, sicaklik):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: sıcaklığa bölmek yerine çarpar.
+    return [round(x*sicaklik,3) for x in logitler]
+
+v=json_yukle("veri/logitler.json")
+print("Sentetik ham dağılım:",v)
+for t in v["sicakliklar"]: print("T=",t,sicaklik_olcekle(v["logitler"],t))
 ```
 
 ```test
 def sozlesme(fn):
     try:
+        import copy
+        a=([1.125,-2.5,0.0],0.75);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         if fn([0, 1, 2], 0.5) != [0.0, 2.0, 4.0] or fn([0, 1, 2], 2) != [0.0, 0.5, 1.0]:
             return False
         if fn([1, 1, 1], 0.1) != [10.0, 10.0, 10.0] or fn([1, 1, 1], 5) != [0.2, 0.2, 0.2] or fn([1, 1, 1], 0.3) != [3.333, 3.333, 3.333]:
@@ -75,12 +116,17 @@ for ad, mutant in [("logitleri bozan", m_logit), ("sıcaklığı bozan", m_sicak
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def sicaklik_olcekle(logitler, sicaklik):
     if not isinstance(logitler, list) or len(logitler) != 3 or any(not isinstance(x, (int, float)) or isinstance(x, bool) for x in logitler):
         raise ValueError("logitler geçersiz")
     if not isinstance(sicaklik, (int, float)) or isinstance(sicaklik, bool) or not 0.1 <= sicaklik <= 5:
         raise ValueError("sıcaklık geçersiz")
     return [round(x / sicaklik, 3) for x in logitler]
+
+v=json_yukle("veri/logitler.json")
+print("Sentetik ham dağılım:",v)
+for t in v["sicakliklar"]: print("T=",t,sicaklik_olcekle(v["logitler"],t))
 ```
 
 ```hint
@@ -93,14 +139,31 @@ def sicaklik_olcekle(logitler, sicaklik):
 
 Adayları logit büyüklüğüne göre azalan, eşitlikte indeks artan sırala. İlk k indeksi liste olarak döndür; girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-04")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def top_k(logitler, k):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: büyük logitler yerine küçükleri seçer.
+    return sorted(range(len(logitler)),key=lambda i:logitler[i])[:k]
+
+v=json_yukle("veri/logitler.json")
+print("Sentetik ham logitler:",v["logitler"])
+for k in v["k_degerleri"]: print("k=",k,top_k(v["logitler"],k))
 ```
 
 ```test
 def sozlesme(fn):
     try:
+        import copy
+        a=([2.25,2.25,-1],2);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         if fn([3, 1, 2], 2) != [0, 2] or fn([3, 1, 2], 1) != [0] or fn([3, 1, 2], 3) != [0, 2, 1]:
             return False
         if fn([2, 2, 1], 2) != [0, 1] or fn([-1, -1, -1], 3) != [0, 1, 2]:
@@ -126,12 +189,17 @@ for ad, mutant in [("logitleri bozan", m_logit), ("k değerini bozan", m_k), ("b
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def top_k(logitler, k):
     if not isinstance(logitler, list) or len(logitler) != 3 or any(not isinstance(x, (int, float)) or isinstance(x, bool) for x in logitler):
         raise ValueError("logitler geçersiz")
     if not isinstance(k, int) or isinstance(k, bool) or not 1 <= k <= 3:
         raise ValueError("k geçersiz")
     return sorted(range(3), key=lambda i: (-logitler[i], i))[:k]
+
+v=json_yukle("veri/logitler.json")
+print("Sentetik ham logitler:",v["logitler"])
+for k in v["k_degerleri"]: print("k=",k,top_k(v["logitler"],k))
 ```
 
 ```hint
@@ -144,15 +212,38 @@ Sıralama anahtarında negatif logit ve indeks ikilisi kullan; sonra yalnız ilk
 
 Kararlı softmax uygula. İndeksleri olasılık azalan, eşitlikte indeks artan sırala. Kümülatif olasılık p değerine ulaşana kadar aday ekle; eşiği geçen adayı da dahil et ve seçilen indeksleri sıralama düzeninde döndür. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-04")
+```
+
 ```starter
+from ai_temel_veri import json_yukle
 def top_p(logitler, p):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: eşik aşılmadan durur, son gerekli adayı dışarıda bırakır.
+    import math
+    a=[math.exp(x-max(logitler)) for x in logitler];q=[x/sum(a) for x in a]
+    out=[];toplam=0
+    for i in sorted(range(len(logitler)),key=lambda i:-q[i]):
+        if toplam+q[i]>p: break
+        out.append(i);toplam+=q[i]
+    return out
+
+v=json_yukle("veri/logitler.json")
+print("Sentetik ham logitler:",v["logitler"])
+for p in v["p_degerleri"]: print("p=",p,top_p(v["logitler"],p))
 ```
 
 ```test
 import math
 def sozlesme(fn):
     try:
+        import copy
+        a=([0,-1,-2],0.9);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         if fn([0, 1, 2], 0.7) != [2, 1] or fn([0, 1, 2], 0.1) != [2] or fn([0, 1, 2], 1) != [2, 1, 0]:
             return False
         esit = [0, -math.log(2), -math.log(2)]
@@ -179,6 +270,7 @@ for ad, mutant in [("logitleri bozan", m_logit), ("eşiği bozan", m_p), ("boyut
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def top_p(logitler, p):
     import math
     if not isinstance(logitler, list) or len(logitler) != 3 or any(not isinstance(x, (int, float)) or isinstance(x, bool) for x in logitler):
@@ -197,6 +289,10 @@ def top_p(logitler, p):
         if toplam >= p:
             break
     return secim
+
+v=json_yukle("veri/logitler.json")
+print("Sentetik ham logitler:",v["logitler"])
+for p in v["p_degerleri"]: print("p=",p,top_p(v["logitler"],p))
 ```
 
 ```hint
@@ -246,8 +342,12 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans", "hf_referans", "son_logitler", "getattr", "uret"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans işlevleri çağrılmamalı " + ", ".join(sorun))
+import ast,hashlib
+yasak=("referans","hf_referans","son_logitler","getattr","uret","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak=yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in n.names): sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi örnekleme işlevini yaz: "+"; ".join(sorun)): stop()
 fn = need("ornekleme_dagilimi")
 try:
     from sandbox import ai_gercek_ai_temel_04 as D
@@ -281,6 +381,10 @@ def sozlesme(f):
     try:
         if not all(ayni(f(logit[m].clone(), sicaklik=T, k=k, p=p), D.referans(logit[m], T, k, p)) for m, T, k, p in vakalar):
             return False
+        for t in (torch.tensor([0.,0.,0.],dtype=torch.float64),torch.tensor([0.,-100.,-200.],dtype=torch.float64)):
+            for kw in ({"sicaklik":0.1,"k":1,"p":0.5},{"sicaklik":5,"k":3,"p":1.0}):
+                once=t.clone()
+                if not ayni(f(t,**kw),D.referans(once,**kw)) or not torch.equal(t,once): return False
         t = logit[vakalar[0][0]]
         for arg, kw in [(None, {}), ([1.0, 2.0], {}), (torch.tensor([1.0]), {}), (torch.tensor([[1.0, 2.0]]), {}),
                         (torch.tensor([1.0, float("nan")]), {}), (t, {"sicaklik": 0}), (t, {"sicaklik": 5.1}),
@@ -318,6 +422,11 @@ for m, T, k, p in vakalar:
     h, r = D.hf_referans(logit[m], T, k, p), D.referans(logit[m], T, k, p)
     hf.append(set(h) == set(r["adaylar"]) and max(abs(h[i] - q) for i, q in zip(r["adaylar"], r["olasiliklar"])) < 1e-6)
 kontrol(all(hf), f"bağımsız karşılaştırma: transformers işlemcileri aynı aday kümesini veriyor ({sum(hf)}/{len(hf)})")
+gercek_vakalar=[]
+if all(sonuclar):
+    for m,T,k,p in vakalar:
+        lg=logit[m];ids=torch.argsort(-lg,stable=True)[:10]
+        gercek_vakalar.append({"metin":m,"token_idleri":tok(m)["input_ids"],"ayarlar":{"sicaklik":T,"k":k,"p":p},"logit_boyutu":len(lg),"logit_sha256":hashlib.sha256(lg.numpy().tobytes()).hexdigest(),"logit_dtype":str(lg.dtype),"ust_logitler":[{"id":int(i),"logit":float(lg[i])} for i in ids],"sonuc":fn(lg.clone(),sicaklik=T,k=k,p=p)})
 uretimler = {}
 if all(sonuclar):
     for ad, ayar in D.DENEY_AYARLARI:
@@ -328,7 +437,7 @@ boyutlar = D.kume_boyutlari(fn) if all(sonuclar) else {}
 yol = ai_lab.kanit_yaz("temel-ornekleme", {
     "kaynak": "gercek", "kabul": all(sonuclar), "ders": "ai-temel-04", "model_bilgisi": bilgi,
     "ayarlar": {"vakalar": [list(v) for v in vakalar], "tolerans": 1e-7, "uretim_tohumu": 7, "uretim_metni": D.DENEY_METNI},
-    "hf_uyumu": hf, "aday_kumesi_boyutlari": boyutlar, "uretimler": uretimler})
+    "gercek_vakalar":gercek_vakalar,"uretim_ayarlari":D.DENEY_AYARLARI, "hf_uyumu": hf, "aday_kumesi_boyutlari": boyutlar, "uretimler": uretimler})
 if boyutlar:
     ok(True, f"GERÇEK ÇIKTI ({bilgi['model']}@{bilgi['revizyon'][:8]}, sözlük {V}): {D.DENEY_METNI!r} için p=0.9 aday sayısı "
              f"T=0.5'te {boyutlar['T=0.5, p=0.9']}, T=1.5'te {boyutlar['T=1.5, p=0.9']}; "

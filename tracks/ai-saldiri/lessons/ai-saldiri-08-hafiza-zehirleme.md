@@ -5,7 +5,15 @@ summary: Hafıza anahtarlarını kullanıcı ve oturum kapsamında kur, dış ka
 timeout: 45
 ---
 
-::: anlat Hafızaya yazmak talimat vermek değildir
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Hafızaya yazmak talimat vermek değildir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Gerçek asistanlar kalıcı hafızayı Redis, SQLite/Postgres ya da ChromaDB gibi bir vektör deposunda kullanıcı/oturum anahtarıyla tutar. LangChain/LangGraph benzeri çerçeveler sonraki oturumda kayıtları bağlama ekler. Zehirli bir web notu ya da yanlış kapsamlı bir sorgu burada kalıcı hale gelir. | Görev 1–3: `veri/kimlikler.json`, `veri/hafiza_yazimlari.json` ve `veri/okuma_sorgulari.json` içindeki **sentetik** kimlikler, yazımlar ve sorgular; hafıza bellek içi sözlüktür. Son adım: görünür JSONL'den gerçek disk SQLite'a yazma, bağlantı kapatılıp yeniden okuma ve kurulu yerel Ollama modeline dört karşılaştırmalı çağrı. | Vektör araması, gömme benzerliği, saklama süresi ve silme hakkı sınanmaz. Dört model çağrısı bir oran vermez. Canary ölçümü bütün kalıcı talimat zehirleme biçimlerini kapsamaz. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde veritabanı, model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız deneyin kendi SQLite dosyasını ve kurulu yerel Ollama modelini kullanır. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın hafıza JSONL çalışma kopyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Kalıcı hafıza, önceki oturumlardan kullanıcı notlarını veya tercihlerini sonraki modele taşır. Web sayfasından, araç çıktısından veya kullanıcı metninden gelen “bunu sistem kuralı olarak sakla” ifadesi ise yalnız içeriktir. Bellekte bulunması ona üst düzey yetki vermez; geri getirildiğinde de `guvenilmez_veri` etiketi korunmalıdır.
 
 İki ayrı risk vardır:
@@ -13,7 +21,7 @@ Kalıcı hafıza, önceki oturumlardan kullanıcı notlarını veya tercihlerini
 - **Kalıcı talimat zehirleme:** Güvenilmez içerik sonraki oturumda talimat gibi yorumlanır.
 - **Kapsam sızıntısı:** Bir kullanıcının veya oturumun kaydı başka bir kapsamda okunur.
 
-Redis, ChromaDB veya LangChain kullanmak bu sınırları kendiliğinden sağlamaz. Uygulama anahtarın kapsamını ve kaydın güven etiketini açıkça kurmalıdır. Burada harici servis yerine bellek içi fixture kullanıyoruz; gerçek veritabanına veya modele bağlanmıyoruz.
+Redis, ChromaDB veya LangChain kullanmak bu sınırları kendiliğinden sağlamaz. Uygulama anahtarın kapsamını ve kaydın güven etiketini açıkça kurmalıdır. Görev 1–3'te harici servis yerine bellek içi fixture kullanırız; veritabanına veya modele bağlanmayız. Son adım aynı işlevleri gerçek disk SQLite ve kurulu yerel Ollama modeliyle sınar; harici servis yine kullanılmaz.
 
 ```python
 kayit = {
@@ -28,6 +36,8 @@ print(kayit["kaynak"], "guvenilmez_veri")
 ```
 
 Anahtarı basitçe `kullanici + ":" + oturum` diye birleştirmek ayraç taşıyan kimliklerde çakışma yaratabilir. Bu derste doğrulanmış iki parçalı demet kullanacağız. Demet, depolama sistemine aktarılırken uzunlukları belli alanlarla serileştirilebilir; güvenlik kararı serileştirilmiş metni tahmin etmeye bırakılmaz.
+
+**Görev 1'de sık tuzaklar:** Kimliği `lower()`/`strip()` ile "düzeltmek", `Uya-1` ile `uya-1`'i aynı kişi yapar (`veri/kimlikler.json`, `k-05`, `k-06`). Uzun kimliği kesmek, iki farklı kullanıcıyı aynı 32 karakterlik anahtara düşürebilir (`k-04`). `:` ile birleştirmek `uya:1`+`x` ve `uya`+`1:x` çiftlerini çakıştırır (`k-07`, `k-08`).
 :::
 
 ::: tahmin
@@ -60,9 +70,33 @@ Aynı kullanıcının farklı oturumu ve aynı oturum adındaki farklı kullanı
 
 Dönüş `(kullanici, oturum)` demetidir. Kimlikleri normalize etme, kesme veya birleştirme. Böylece `"uya-1", "oturum-2"` ile başka kapsamlar aynı anahtara düşmez.
 
+Görünür veri: `veri/kimlikler.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def hafiza_anahtari(kullanici, oturum):
-    return "", ""
+    # KUSURLU BAŞLANGIÇ KODU: kimlikleri strip() ve lower() ile "düzeltiyor", 32 karakterden uzununu sessizce kesiyor, ":" ile tek metne birleştiriyor ("uya:1"+"x" ile "uya"+"1:x" aynı anahtara düşer) ve şemayı denetlemiyor!
+    return str(kullanici).strip().lower()[:32] + ":" + str(oturum).strip().lower()[:32]
+
+veri = json_yukle("veri/kimlikler.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = hafiza_anahtari(o["kullanici"], o["oturum"])
+        sonuc = list(sonuc) if isinstance(sonuc, tuple) else sonuc
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"], sonuc)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-08")
 ```
 
 ```test
@@ -124,6 +158,8 @@ Tam eşleşme deseni tek karakterli kimliği ve ilk/son karakterleri alfanümeri
 Zehirli metni bellekten tamamen silmek her zaman doğru çözüm değildir; olay incelemesinde hangi içeriğin geldiğini bilmek gerekebilir. Güvenli sözleşme, içeriği saklarken kaynağını ve güvenilmez veri rolünü kaybetmemektir. `web` veya `arac` kaynağındaki metin kullanıcı notuna dönüştürülmez; `kullanici` kaynaklı metin de otomatik olarak sistem talimatı olmaz.
 
 Aşağıdaki görevde her kayıt `tip: veri` alır. Bu alan daha sonra bağlam kuran kodun kaydı talimat kanalına değil veri kanalına koymasını sağlar. Tek başına etiket bütün savunma değildir; bağlam kurucunun bu alanı gerçekten uygulaması gerekir. Ayrıca yazma işlevi eski hafızayı yerinde değiştirirse test veya geri alma akışları beklenmeyen yan etki görür; bu derste yeni dış sözlük ve listeler döndürürüz.
+
+**Görev 2'de sık tuzaklar:** `hafiza.setdefault(...).append(...)` girdi hafızasını yerinde değiştirir; sürücü bunu `(girdi hafızası değişti)` diye gösterir. Kaynağı `kullanici` olan notu "güvenilir" diye talimata yükseltmek de rol terfisidir. Kayıtla gelen `tip` alanını kabul etmek, dışarıdan `system` tipi enjekte etmeye izin verir (`veri/hafiza_yazimlari.json`, `y-07`).
 :::
 
 ::: gorev 2 · Kaynağı ve güvenilmez veri rolünü koruyarak yaz
@@ -131,9 +167,48 @@ Aşağıdaki görevde her kayıt `tip: veri` alır. Bu alan daha sonra bağlam k
 
 Kaydı ilgili kapsamın listesinin sonuna ekle ve kayda `tip: "veri"` ekle. İçeriği “talimat” ifadesi taşısa bile değiştirme veya çalıştırma. Dönüş yeni bir hafıza sözlüğü olsun; önceki listeleri ve kayıt sözlüklerini de kopyala. Girdi hafızasını ve yeni kayıt sözlüğünü değiştirme.
 
+Görünür veri: `veri/hafiza_yazimlari.json`. Başlangıç hafızasına sırayla uygulanacak yazımlar ve beklenen son hafıza vardır.
+
 ```starter
+import copy
+from ai_saldiri_veri import json_yukle
+
 def hafiza_yaz(hafiza, kayit):
+    # KUSURLU BAŞLANGIÇ KODU: eski hafızayı yerinde değiştiriyor, kaynağı denetlemiyor (system kabul edilir), kullanıcı ya da system kaynaklı notu "talimat" tipine yükseltiyor ve kimlik/içerik şemasını doğrulamıyor!
+    tip = "talimat" if kayit.get("kaynak") in ("kullanici", "system") else "veri"
+    hafiza.setdefault((kayit["kullanici"], kayit["oturum"]), []).append(dict(kayit, tip=tip))
     return hafiza
+
+veri = json_yukle("veri/hafiza_yazimlari.json")
+def sozluge(liste):
+    return {(x["kullanici"], x["oturum"]): x["kayitlar"] for x in liste}
+hafiza = sozluge(veri["baslangic"])
+for adim in veri["adimlar"]:
+    once = copy.deepcopy(hafiza)
+    try:
+        yeni = hafiza_yaz(hafiza, adim["kayit"])
+    except ValueError:
+        yeni = None
+    except Exception as hata:
+        yeni = type(hata).__name__
+    bozuldu = hafiza != once
+    if adim["beklenen_gecerli"]:
+        dogru = isinstance(yeni, dict) and not bozuldu
+        if isinstance(yeni, dict):
+            hafiza = yeni
+    else:
+        dogru = yeni is None and not bozuldu
+    print(adim["id"], "doğru" if dogru else "YANLIŞ", adim["aciklama"], "(girdi hafızası değişti)" if bozuldu else "")
+son = [{"kullanici": u, "oturum": o, "kayitlar": l} for (u, o), l in sorted(hafiza.items())]
+print("son hafıza", "doğru" if son == veri["beklenen_son"] else "YANLIŞ")
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-08")
 ```
 
 ```test
@@ -215,6 +290,8 @@ def hafiza_yaz(hafiza, kayit):
 Hafızayı kapsamlı yazıp geri getirirken bütün kayıtlarda metin araması yapmak kullanıcılar arası sızıntıyı yeniden açar. Vektör benzerliği veya arama puanı erişim denetimi değildir: sorgu önce tam `(kullanici, oturum)` kapsamına uygulanır, ancak sonra o küme içinde arama yapılır.
 
 Bu son görevde okuma yalnız tam anahtarı kullanır. Olmayan kapsam boş liste verir; başka kapsama geri dönüş yapılmaz. Döndürülen kayıtlar da kopyalanır. Böylece çağıran kod listedeki bir içeriği değiştirdiğinde kalıcı fixture sessizce bozulmaz. Gerçek sistemde ayrıca kimlik doğrulaması, kiracı yetkilendirmesi, silme ve saklama süresi denetlenmelidir.
+
+**Görev 3'te sık tuzaklar:** Oturumu yok sayıp kullanıcının bütün kayıtlarını getirmek, eski oturumdaki canary'yi yeni oturuma taşır (`veri/okuma_sorgulari.json`, `o-01`). Kapsam boşsa "bir şey dönsün" diye bütün hafızaya geri düşmek, başka kiracının kaydını sızdırır (`o-03`). Kayıtları kopyalamadan vermek, çağıranın kalıcı hafızayı değiştirmesine izin verir.
 :::
 
 ::: gorev 3 · Yalnız istenen kapsamın kopyasını geri getir
@@ -222,9 +299,38 @@ Bu son görevde okuma yalnız tam anahtarı kullanır. Olmayan kapsam boş liste
 
 Başka kullanıcı veya oturumun kaydını metin benzerliği ya da kaynak etiketiyle sonuca ekleme. Dönüşteki liste ve kayıt sözlükleri yeni nesneler olmalı; hafızayı değiştirme.
 
+Görünür veri: `veri/okuma_sorgulari.json`. Dosyada üç kapsamlı hafıza ve beklenen sorgu sonuçları vardır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def hafiza_oku(hafiza, kullanici, oturum):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: oturumu yok sayıp kullanıcının bütün kayıtlarını getiriyor, kapsam boşsa bütün hafızaya geri dönüyor, kimlikleri doğrulamıyor ve kalıcı kayıtları kopyalamadan veriyor!
+    sonuc = [k for (u, o), liste in hafiza.items() if u == kullanici for k in liste]
+    return sonuc or [k for liste in hafiza.values() for k in liste]
+
+veri = json_yukle("veri/okuma_sorgulari.json")
+hafiza = {(x["kullanici"], x["oturum"]): x["kayitlar"] for x in veri["hafiza"]}
+for o in veri["sorgular"]:
+    try:
+        sonuc = hafiza_oku(hafiza, o["kullanici"], o["oturum"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+kopya = hafiza_oku(hafiza, "uya-1", "oturum-1")
+if kopya:
+    kopya[0]["icerik"] = "DEGISTI"
+print("kalıcı kayıt", "doğru" if hafiza[("uya-1", "oturum-1")][0]["icerik"] != "DEGISTI" else "YANLIŞ: okunan kayıt hafızayı değiştirdi")
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-08")
 ```
 
 ```test
@@ -300,6 +406,8 @@ List comprehension her seferinde yeni liste üretir; `dict(kayit)` de her kaydı
 Öğrencinin üç işlevi gerçek SQLite'a yazılacak anlık görüntüyü kurar. Bağlantı kapanır, dosya yeniden açılır; geri getirmeyi senin `hafiza_oku` işlevin yapar. Uygulama yeniden açılması ile farklı kullanıcı/oturum kapsamı aynı şey değildir: burada aynı kapsam diskte kalır, farklı kapsamlar ayrılır. Dört karşılaştırma vardır: temiz not, korumalı zehirli not, kapsamları birleştiren kusurlu okuma ve web notunu sistem kanalına yükselten kusurlu bağlam. Kusurlu akış yalnız izole sentetik laboratuvardadır; öğrenci çözümü değildir.
 
 Gerçek SQLite dosyası Çalıştır sonucunda incelemen için öğrenci klasöründe korunur. Model yanıtları, bağlamdaki canary ve yanıttaki canary ayrı kaydedilir. Bağlama giren bir sır model söylemese de erişim sınırının ihlalidir. Canary ölçümü bütün jailbreak türlerini kapsamaz; modelin zehirli talimata uyması kabul şartı değildir. Test verisi çalışma kopyandan ayrıdır.
+
+**Çıktıyı okurken:** Her kol için önce "bağlamdaki canary" satırına bak. Kapsamları birleştiren kusurlu okumada canary bağlama girer; model onu söylemese de sınır ihlal edilmiştir. Rol terfisi kolunda web notunun sistem kanalına geçtiğini ve modelin buna uyup uymadığını ayrı oku. Korumalı kolda bağlam yalnız kendi kapsamını içermelidir.
 :::
 
 ::: gorev Gerçek deney · Disk hafızası, kapsam sızıntısı ve rol terfisi
@@ -314,14 +422,20 @@ timeout: 300
 ```starter
 import ai_lab
 
-def hafiza_anahtari(kullanici,oturum):
-    return "", ""
+def hafiza_anahtari(kullanici, oturum):
+    # KUSURLU BAŞLANGIÇ KODU: kimlikleri strip() ve lower() ile "düzeltiyor", 32 karakterden uzununu sessizce kesiyor, ":" ile tek metne birleştiriyor ("uya:1"+"x" ile "uya"+"1:x" aynı anahtara düşer) ve şemayı denetlemiyor!
+    return str(kullanici).strip().lower()[:32] + ":" + str(oturum).strip().lower()[:32]
 
-def hafiza_yaz(hafiza,kayit):
+def hafiza_yaz(hafiza, kayit):
+    # KUSURLU BAŞLANGIÇ KODU: eski hafızayı yerinde değiştiriyor, kaynağı denetlemiyor (system kabul edilir), kullanıcı ya da system kaynaklı notu "talimat" tipine yükseltiyor ve kimlik/içerik şemasını doğrulamıyor!
+    tip = "talimat" if kayit.get("kaynak") in ("kullanici", "system") else "veri"
+    hafiza.setdefault((kayit["kullanici"], kayit["oturum"]), []).append(dict(kayit, tip=tip))
     return hafiza
 
-def hafiza_oku(hafiza,kullanici,oturum):
-    return []
+def hafiza_oku(hafiza, kullanici, oturum):
+    # KUSURLU BAŞLANGIÇ KODU: oturumu yok sayıp kullanıcının bütün kayıtlarını getiriyor, kapsam boşsa bütün hafızaya geri dönüyor, kimlikleri doğrulamıyor ve kalıcı kayıtları kopyalamadan veriyor!
+    sonuc = [k for (u, o), liste in hafiza.items() if u == kullanici for k in liste]
+    return sonuc or [k for liste in hafiza.values() for k in liste]
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_08 as deney
@@ -464,7 +578,14 @@ for ad, mutant in [("bütün kapsamları döndüren", m_global), ("oturumu yok s
 from sandbox import ai_gercek_ai_saldiri_08 as deney
 import tempfile, secrets, copy
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('_kaydet','_yeniden_oku')), 'laboratuvar ve depolama kanıtı yamalanmamalı'):stop()
+import ast
+_yasak=('_kaydet','_yeniden_oku','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar ve depolama kanıtı yamalanmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 # Yeni kimlik ve notlar: sabit cevap, yalnız kullanıcı kapsamı, sığ kopya ve rol terfisini yakala.
 for i in range(4):
     u='u-'+secrets.token_hex(3);s='s-'+secrets.token_hex(3);text='NOT-'+secrets.token_hex(4)

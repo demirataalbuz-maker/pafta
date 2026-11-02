@@ -5,12 +5,32 @@ summary: URL'yi tek bir kanonik origin'e indir, her yönlendirme hedefini yenide
 timeout: 45
 ---
 
-::: anlat Filtrenin okuduğu hedef ile bağlanılan hedef aynı olmalı
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Filtrenin okuduğu hedef ile bağlanılan hedef aynı olmalı
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Burp Suite veya mitmproxy ile bir LLM aracının attığı HTTP istekleri izlenir. Yönlendirme zinciri, DNS çözümü ve sunucunun gördüğü gerçek TCP peer adresi kaydedilir. Bulutta asıl hedef genellikle metadata servisidir (`169.254.169.254`). | Görev 1–3: `veri/url_ornekleri.json`, `veri/redirect_zincirleri.json` ve `veri/dns_kayitlari.json` içindeki **sentetik** URL, yönlendirme ve DNS kayıtları. Son adım: deneyin kendi açtığı iki yerel HTTP sunucusuna gerçek TCP bağlantıları kurulur ve kurulu yerel Ollama modelinin seçtiği URL aynı kapıdan geçirilir. | Bu ders yalnız `http`, açık port ve IPv4 içeren dar bir politikayı modeller. IPv6, HTTPS SNI, proxy zinciri ve gerçek DNS rebinding saldırısı kapsam dışıdır. Son adımdaki rebinding negatifleri sentetik DNS kayıtlarıdır. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde ağ, DNS veya model kullanılmaz. Son adımdaki **Gerçek deney** görevi yalnız deneyin kendi açtığı iki yerel HTTP sunucusuna bağlanır ve kurulu yerel Ollama modelini çalıştırır. Dış ağa istek gitmez, yeni araç indirilmez. mitmproxy ve Burp Suite çalıştırılmaz. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın düzenlenebilir URL vaka dosyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 SSRF filtresi URL string'ine bakarken HTTP istemcisi ayrıştırıcı, yönlendirme ve DNS katmanlarından geçer. Bu katmanlar farklı hedefler görürse ilk kontrol doğru olsa bile son bağlantı iç servise gidebilir. Özellikle userinfo, eksik port, trailing dot, şema değişimi ve `//host/...` biçimindeki ağ-yolu referansları basit string kontrollerini bozar.
 
 Savunma tek bir kontrol noktasında üç şeyi bağlar: kanonik origin, her redirect sonrası yeniden politika kontrolü ve DNS'de karar verilen IP ile socket'e verilen IP'nin aynılığı. İlk URL'nin izinli olması son hedef için kanıt değildir.
 
-Bu derste mitmproxy, Burp Suite, DNS veya gerçek socket kullanılmaz. URL ve çözümleme kayıtları deterministik fixture'dır; 21. dersteki gerçek loopback laboratuvarı değiştirilmez.
+Görev 1–3 URL, yönlendirme ve DNS kayıtlarını sentetik olarak işler. Son adım aynı kapıyı gerçek HTTP bağlantılarının önüne koyar; 21. dersteki gerçek loopback laboratuvarı yeniden kullanılır.
+
+**LLM aracında SSRF neden kolaylaşır?** Klasik SSRF'de saldırgan bir web formuna URL yazar. LLM uygulamasında ise URL'yi çoğu zaman model üretir: "şu sayfayı özetle", "bu belgede geçen bağlantıyı aç". Saldırganın doğrudan erişimi olmasa bile, modelin okuyacağı bir belgeye "asıl kaynak `http://169.254.169.254/...` adresinde" diye yazması yeter. Model bu URL'yi aracın argümanına koyar, araç sunucunun kendi ağından isteği atar ve yanıt modelin bağlamına, oradan da kullanıcıya döner.
+
+**Saldırgan bakışı:** Filtre URL metnine bakar, HTTP istemcisi ise başka bir şeye bağlanır. Saldırgan bu farkı kullanır:
+
+- `http://public.test:80\@internal.test/`: Bazı ayrıştırıcılar `\` karakterini yol, bazıları userinfo ayıracı sayar ve iki farklı host görür.
+- `http://user@...`: Bilgilendirme gibi görünen userinfo bölümü bazı filtreleri şaşırtır.
+- `PUBLIC.test.`: Büyük harf ve sondaki nokta, string karşılaştırmasıyla yapılan izin listelerini atlatır.
+- İzinli bir sayfanın `302` ile iç adrese yönlendirmesi.
+- DNS cevabını ilk kontrolden sonra değiştirmek (rebinding).
+
+`veri/` dosyalarındaki her vaka bu yollardan birini gösterir.
 :::
 
 ::: tahmin Göreli gibi görünen hedef aynı origin'de mi?
@@ -41,9 +61,33 @@ Yeni hedef aynı scheme'i kullansa da origin değişmiştir. Bu nedenle her `Loc
 
 Dönüş tam olarak `{"origin":"http://HOST:PORT","host":HOST,"port":PORT}` biçimindedir. Path ve query origin kararını değiştirmez. Gerçek DNS veya ağ erişimi yapma.
 
+Görünür veri: `veri/url_ornekleri.json`. Beklenen sonuçlar README tablosundadır. İlk üç URL origin üretmeli, kalan yedi URL reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def url_origin(url):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: hostu küçültmüyor ve sondaki noktayı silmiyor, userinfo/fragment/ters eğik çizgiyi reddetmiyor, porta yoksa 80 varsayıyor ve https'i de kabul ediyor!
+    from urllib.parse import urlsplit
+    u = urlsplit(url)
+    host = u.hostname or ""
+    port = u.port or 80
+    return {"origin": f"http://{host}:{port}", "host": host, "port": port}
+
+veri = json_yukle("veri/url_ornekleri.json")
+for u in veri["urller"]:
+    try:
+        print(repr(u), "→", url_origin(u)["origin"])
+    except ValueError as hata:
+        print(repr(u), "→ RED:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-22")
 ```
 
 ```test
@@ -117,6 +161,13 @@ def url_origin(url):
 `Location: /ok` aynı origin'de kalırken `Location: //internal.test:80/canary` hostu değiştirir. Filtre yalnız başlangıç URL'sine uygulanırsa ikinci istek kontrolden kaçar. Güvenli iz, başlangıç ve her çözümlenmiş hedef için aynı doğrulamayı çalıştırır.
 
 Hop sınırı da politikanın parçasıdır. Sınır aşıldığında yeni hedefi doğrulamadan kabul etmek yerine bütün zincir reddedilir. Bu görev HTTP yanıtı üretmez; yalnız istemcinin sırayla hangi URL'lere istek açacağını hesaplar.
+
+**Sık tuzaklar:**
+
+- **Yalnız başlangıcı denetlemek:** Python'un `urllib` ve `requests` kütüphaneleri yönlendirmeleri varsayılan olarak kendileri izler. Filtre yalnız ilk URL'ye bakarsa son hedefi hiç görmez. `veri/redirect_zincirleri.json` içindeki `ikinci-hopta-kacis` zincirinde ilk yönlendirme masumdur.
+- **Origin'i string olarak karşılaştırmak:** `http://PUBLIC.TEST.:80` ile `http://public.test:80` aynı origin'dir. Karşılaştırma kanonik biçimle yapılır, ham metinle yapılmaz.
+- **Örtük port:** `http://public.test/ok` port yazmaz. Dar politika açık port ister. Böylece `:80` ile `:8080` farkı gözden kaçmaz.
+- **Kırpılmış zincir:** Sınır aşıldığında ilk N hedefi kabul edip devam etmek, saldırgana "N+1. adımda kaçış" yolu bırakır.
 :::
 
 ::: gorev 2 · Başlangıç ve her redirect hedefini aynı origin'e bağla
@@ -124,9 +175,36 @@ Hop sınırı da politikanın parçasıdır. Sınır aşıldığında yeni hedef
 
 Dönüş `{"hop":N,"son_url":SON,"istekler":[BASLANGIC,...]}` biçimindedir. `istekler` başlangıç ve kabul edilmiş bütün hedefleri sırayla içerir; girdi listesinden bağımsızdır. Ağ erişimi yapma.
 
+Görünür veri: `veri/redirect_zincirleri.json`. Yalnız `ayni-origin` ve `buyuk-harf-host` zincirleri kabul edilmelidir.
+
 ```starter
+from urllib.parse import urljoin, urlsplit
+from ai_saldiri_veri import json_yukle
+
 def redirect_originleri(baslangic, locationlar, izinli_origin, max_hop=3):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: yalnız BAŞLANGIÇ URL'sinin hostunu denetliyor, yönlendirme hedeflerini doğrulamadan izliyor ve hop sınırı aşılınca kalan Location'ları sessizce atıyor!
+    if urlsplit(baslangic).hostname != urlsplit(izinli_origin).hostname:
+        raise ValueError("başlangıç izinsiz")
+    istekler = [baslangic]
+    for loc in locationlar[:max_hop]:
+        istekler.append(urljoin(istekler[-1], loc))
+    return {"hop": len(istekler) - 1, "son_url": istekler[-1], "istekler": istekler}
+
+veri = json_yukle("veri/redirect_zincirleri.json")
+for z in veri["zincirler"]:
+    try:
+        r = redirect_originleri(z["baslangic"], z["locationlar"], veri["izinli_origin"], veri["max_hop"])
+        print(z["ad"], "→", r["hop"], "hop, son:", r["son_url"])
+    except ValueError as hata:
+        print(z["ad"], "→ RED:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-22")
 ```
 
 ```test
@@ -260,6 +338,8 @@ Tek bir yerel origin doğrulayıcı yaz ve hem başlangıçta hem her `urljoin` 
 Bir hostname politikada bir IP'ye, hemen ardından socket açılırken başka IP'ye çözümlenirse DNS rebinding boşluğu oluşur. Birden fazla çözümleme kaydı tutulduğunda ilk ve son cevabın aynı görünmesi de yeterli değildir; ara cevaplardan biri kısıtlı ağı gösterebilir. Dar fixture politikasında bütün cevaplar izinli IP'ye eşit olmalı ve bağlantı son denetlenen IP'yi kullanmalıdır.
 
 Regresyon dört ayrı sınıf üretir: cevaplar arasında değişim, izinsiz DNS cevabı, socket IP sapması ve bütünüyle temiz vaka. Böylece “DNS kontrolü var” iddiası ile gerçek bağlantı kanıtı birbirinden ayrılır.
+
+`veri/dns_kayitlari.json` içindeki `v-ara-cevap` vakasında ilk ve son cevap aynıdır, ama aradaki cevap `10.0.0.5` iç adresidir. Yalnız ilk ve son cevabı karşılaştıran bir kontrol bu vakayı temiz sayar. `v-socket-sapma` vakasında ise bütün DNS cevapları temizdir, ama istemci başka bir IP'ye bağlanmıştır. Bu durum, DNS denetiminin socket'e sabitlenmediğini gösterir. Gerçek savunma, denetlenen IP'yi bağlantıya doğrudan verir; hostname'i ikinci kez çözdürmez.
 :::
 
 ::: gorev 3 · DNS rebinding ve socket IP sapmasını raporla
@@ -279,9 +359,42 @@ Dönüş:
 
 Listeler alfabetik vaka kimliği sıralıdır. Bir vaka birden fazla sorun listesine girebilir. Boş girdi için boş rapor dön; girdi sırası sonucu etkilememeli ve girdi değişmemelidir.
 
+Görünür veri: `veri/dns_kayitlari.json`. Beklenen sınıflar README tablosundadır. `v-ara-cevap` vakası hem `rebinding` hem `yetkisiz_dns` listesinde yer almalıdır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def dns_regresyonu(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: rebinding için yalnız ilk ve son cevabı karşılaştırıyor (aradaki iç IP'yi kaçırır), yetkisiz DNS için yalnız son cevaba bakıyor ve IP biçimini doğrulamıyor!
+    rapor = {"vaka": len(kayitlar), "rebinding": [], "yetkisiz_dns": [], "socket_sapmasi": [], "temiz": []}
+    for k in sorted(kayitlar, key=lambda x: x["vaka_id"]):
+        c = k["cozumler"]
+        rebind = c[0] != c[-1]
+        yabanci = c[-1] != k["izinli_ip"]
+        sapma = k["baglanti_ip"] != c[-1]
+        for ad, var in (("rebinding", rebind), ("yetkisiz_dns", yabanci), ("socket_sapmasi", sapma)):
+            if var:
+                rapor[ad].append(k["vaka_id"])
+        if not (rebind or yabanci or sapma):
+            rapor["temiz"].append(k["vaka_id"])
+    return rapor
+
+veri = json_yukle("veri/dns_kayitlari.json")
+print(dns_regresyonu(veri["kayitlar"]))
+for b in veri["bozuk_kayitlar"]:
+    try:
+        dns_regresyonu([b])
+        print(b["vaka_id"], "KABUL edildi (yanlış)")
+    except (ValueError, IndexError) as hata:
+        print(b["vaka_id"], "reddedildi:", type(hata).__name__, hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-22")
 ```
 
 ```test
@@ -386,7 +499,16 @@ Ham sentetik örnek aynı Pafta sunucusunda `/data/ai-saldiri-22-url-vakalari.tx
 
 Öğrencinin `redirect_originleri` planı başlangıçta ve her yeni gerçek Location sonrası, sonraki bağlantıdan **önce** çalışır. `url_origin` son hedefin origin'ini denetler; yalnız izinli origin devam eder. Yerel modelin ham URLseçimi de bu kapıya girer. Her istek gerçek HTTP/TCPdir; kanıtta gerçek peer ve sunucuolayı vardır. Normal doğrudan ve iki hoplu okuma çalışmalı, iç origin/yanlışport/userinfo/fragment ve cross-originredirect engellenmelidir. Yalnız deneyin kendi iki sunucusuna bağlantı açılabilir;21'in sınırlandırılmış HTTPsınıfı yeniden kullanılır.
 
-Virtualtesthostname'ler localhosta eşlenir. OS'nin gerçek localhost çözümü ve bağlantının gerçek TCPpeer'i raporlanır. Rebinding ve peerdrift negatifleri **ayrı sentetik DNS kayıtlarıdır**; gerçek DNS sunucusuna saldırı yapıldığı söylenmez. Modelin saldırıya uyması geçme şartı değildir. Kendi sunucuları kapanır, kullanıcının servislerine dokunulmaz.
+Virtualtesthostname'ler localhosta eşlenir. OS'nin gerçek localhost çözümü ve bağlantının gerçek TCPpeer'i raporlanır. Rebinding ve peerdrift negatifleri **ayrı sentetik DNS kayıtlarıdır**; gerçek DNS sunucusuna saldırı yapıldığı söylenmez. Modelin saldırıya uyması geçme şartı değildir. Temiz kolda model meşru URL'yi döndürdüyse içeriğin gerçekten getirilmiş olması beklenir. Model başka bir şey döndürürse bu kaydedilir; kabulü bozmaz. Kendi sunucuları kapanır, kullanıcının servislerine dokunulmaz.
+
+Kanıtı okurken önce `dogrudan` kayıtlarına bak. Burada yedi sentetik URL gerçek HTTP'ye gider:
+
+- **İki meşru URL:** `200` ile döner.
+- **Beş saldırı biçimi:** iç origin, yanlış port, fragment, userinfo ve iç adrese yönlendiren `/start`. Bunların hepsi bağlantıdan önce reddedilir ve iç sunucunun canary sayacı artmaz.
+
+Sonra `cagrilar` kaydında modelin zehirli nota uyup uymadığına bak. Uyduysa seçtiği URL `ret` alanında görünür; uymadıysa meşru URL getirilmiştir. Son olarak `DNS_canli_kayit` alanı, her bağlantıda işletim sisteminin `localhost` çözümünü ve sunucunun gördüğü gerçek peer adresini gösterir.
+
+Ders yazılırken bu makinede `qwen3:4b-instruct-2507` ile yapılan koşuda model temiz kolda meşru `/ok` adresini döndürdü ve içerik `200` ile getirildi. Zehirli kolda ise nottaki talimata uyup `/start` adresini seçti. Bu adres iç origin'e yönlendirir. Öğrenci kapısı zinciri yönlendirme anında reddetti ve iç sunucunun canary sayacı artmadı. Tek koşuluk bir gözlemdir; modelin nota uyması geçme şartı değildir.
 :::
 
 ::: gorev Gerçek deney · Kanonik origin ve DNS raporunu gerçek HTTPye bağla
@@ -400,12 +522,29 @@ timeout: 300
 
 ```starter
 import ai_lab
+from urllib.parse import urljoin, urlsplit
 
-def url_origin(url):return {}
+def url_origin(url):
+    # KUSURLU BAŞLANGIÇ KODU: userinfo ve fragment içeren URL'leri reddetmiyor; "http://user@public.test:PORT/ok" ve "...#x" gerçek HTTP'ye gider!
+    u = urlsplit(url)
+    if u.scheme != "http" or not u.hostname or u.port is None:
+        raise ValueError("URL geçersiz")
+    host = u.hostname.lower().rstrip(".")
+    return {"origin": f"http://{host}:{u.port}", "host": host, "port": u.port}
 
-def redirect_originleri(baslangic,locationlar,izinli_origin,max_hop=3):return {}
+def redirect_originleri(baslangic, locationlar, izinli_origin, max_hop=3):
+    istekler = [baslangic]
+    for loc in locationlar:
+        istekler.append(urljoin(istekler[-1], loc))
+    for u in istekler:
+        if url_origin(u)["origin"] != izinli_origin:
+            raise ValueError("origin izinsiz")
+    if len(locationlar) > max_hop:
+        raise ValueError("hop sınırı aşıldı")
+    return {"hop": len(locationlar), "son_url": istekler[-1], "istekler": istekler}
 
-def dns_regresyonu(kayitlar):return {}
+def dns_regresyonu(kayitlar):
+    return {"vaka": len(kayitlar), "rebinding": [], "yetkisiz_dns": [], "socket_sapmasi": [], "temiz": []}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_22 as deney
@@ -569,7 +708,14 @@ for ad, mutant in [("ara DNS değişimini kaçıran", m_rebinding), ("yalnız so
 from sandbox import ai_gercek_ai_saldiri_22 as deney
 import tempfile
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('dns_ref',)), 'laboratuvar/gerçek ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('dns_ref','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/gerçek ölçüm yamalanmamalı, referans kullanılmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 with tempfile.TemporaryDirectory(prefix='pafta_origin22_') as tmp:
     p=Path(tmp)/'vaka.json';p.write_text(deney.ORNEK.read_text(encoding='utf-8'),encoding='utf-8')
     r=deney.deney(url_origin,redirect_originleri,dns_regresyonu,p,Path(tmp)/'deney')

@@ -6,11 +6,36 @@ timeout: 45
 ---
 
 ::: anlat Tek bir guardrail bütün sistemi korumaz
-Katmanlı savunmada girdi, model, çıktı, araç ve veri katmanları farklı hataları yakalar. Girdi şeması bozuk isteği durdurur; model katmanı sistem promptu ve model sürümünü sabitler; çıktı katmanı yapı ve veri sızıntısını denetler; araç katmanı yetkiyi; veri katmanı ise kiracı ve kaynak kapsamını korur.
 
-Bu katmanlar birbirinin yedeği olmak zorunda değildir, fakat tek bir filtrenin hatası bütün sistemi savunmasız bırakmamalıdır. Kontrollerin bağımsız olması, aynı kontrol kimliğinin birden çok katmanda tekrar yazılması değil, her katmanın kendi sınanabilir kararının bulunmasıdır.
+| Gerçek araç / model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| OWASP Top 10 for LLM ve NIST AI RMF katmanlı savunma ve fail-closed filtre mimarilerini tanımlar | İlk 3 görev beş katmanlı doğrulama, fail-closed karar motoru ve yedeklilik etki analizi | Dağıtık mikroservis ağ güvenliği, WAF/API Gateway altyapı performansı veya kernel düzeyinde eBPF filtreleme kanıtı değildir |
+| Ollama yerel LLM ve çıktı doğrulama guardrail'leri yapısal model çıktılarını denetler | Gerçek deney çıktı şeması denetimiyle canlı model yanıtlarının fail-closed doğrulamasını sınar | Çok modelli yönlendirme orkestrasyonunda sıfır hata toleransı veya her türlü prompt sızıntısına karşı mutlak bağışıklık garantisi değildir |
 
-Bu dersteki FastAPI ve Ollama akışı sentetik olaylarla temsil edilir. Gerçek servis, model veya ağ gerekmez.
+> [!NOT]
+> `veri/savunma.json` dosyası sentetik katman, kontrol, olay ve arıza senaryoları kayıtlarını içerir; canlı telemetri veya gerçek servis yapılandırması değildir. İlk 3 görev bu yerel fixture verisini okur. Her Run/Check işleminde `hazirla("ai-savunma-03")` geçici kopya oluşturur; kalıcı değişiklik saklanmaz. Kodunuzu veya verinizi editörde inceleyebilirsiniz. Gizli değerlendirme testleri ayrı doğrulamalar koşturur. Gerçek deney adımı kurulu Ollama ve yerel modeli doğrudan çağırır; yeni paket veya model indirilmez.
+
+Yapay zekâ ve büyük dil modellerini (LLM) içeren sistemlerde en yaygın güvenlik zaafı, sistemin güvenliğini tek bir sihirli kalkanın veya tekil bir guardrail filtresinin sağlayabileceği yanılgısıdır. Birçok yazılım ekibi, yalnızca modelin önüne yerleştirilen bir prompt enjeksiyonu tespit kütüphanesine veya sistem promptuna eklenen "asla zararlı komut çalıştırma" yönergesine güvenir. Oysa karmaşık yapay zekâ uygulamalarında saldırganlar sürekli yeni baypas teknikleri, anlamsal şaşırtmalar (adversarial jailbreak), dolaylı enjeksiyonlar (indirect prompt injection) ve çok adımlı manipülasyonlar geliştirir. Tek bir savunma mekanizmasına bağımlı bir mimari, o filtrenin aşılması veya bir arıza anında çalışmaması durumunda tamamen savunmasız kalır. Bu derste modern siber güvenlik mühendisliğinin temel taşı olan Savunma Derinliği (Defense-in-Depth) ve Sıfır Güven (Zero Trust) ilkelerini beş katmanlı bir referans mimarisinde inceliyoruz.
+
+Katmanlı savunma mimarisi, bir isteğin yaşam döngüsü boyunca geçtiği tüm mantıksal aşamaları bağımsız güvenlik alanlarına (security domains) ayırır. Bu mimaride her katman sistemin farklı bir parçasını korur ve kendine özgü tehditleri engeller:
+1. Girdi Katmanı (`girdi`): Dış dünyadan veya istemciden gelen ilk istekleri karşılar. İstek gövdesinin sözdizimsel geçerliliğini denetleyen `sema`, hizmet reddi (DoS) saldırılarını ve bağlam penceresi tüketimini önleyen `boyut` ve bilinen zararlı kalıpları arayan `icerik` kontrollerini barındırır.
+2. Model Katmanı (`model`): Deterministik olmayan olasılıksal üretim sürecini sınırlandırır. Modelin çekirdek davranışını, rolünü ve izin sınırlarını dikte eden değiştirilemez `sistem_promptu` ile modelin çalışma anında rastgele veya habersiz güncellenmesini engelleyen `model_sabitleme` kontrolleri bu katmandadır.
+3. Çıktı Katmanı (`cikti`): Modelin ürettiği yanıtın güvenliğini ve doğruluğunu garanti altına alır. Üretilen verinin uygulamanın beklediği tip ve şablona uygunluğunu denetleyen `cikti_semasi` ile modelin eğitim verilerinden veya bağlamından gizli anahtar, parola veya PII sızdırmasını engelleyen `dlp` (Data Loss Prevention) kontrollerini icra eder.
+4. Araç Katmanı (`arac`): Modelin dış dünyada yan etki üretmesine, işletim sistemi komutları koşturmasına veya API istekleri yapmasına aracılık eder. Çağrıyı yapmaya çalışan aktörün yetkisini doğrulayan `yetki`, geri dönüşü olmayan kritik eylemlerde insan onayını şart koşan `onay` ve kod çalıştırmalarını işletim sisteminden tecrit eden `sandbox` kontrollerinden oluşur.
+5. Veri Katmanı (`veri`): Kalıcı durum saklayan ilişkisel veritabanları, vektör indeksleri ve dosya depolarını korur. Çok kiracılı mimarilerde kiracı sınırlarını ayıran `kiraci`, modele beslenen bağlam belgelerinin güvenilirliğini ve kaynağını doğrulayan `provenance` ve SQL/vektör enjeksiyonlarını önleyen `sorgu` kontrollerini içerir.
+
+Bu katmanlar birbirinin kopyası veya yedeklemesi değildir; ancak her birinin bağımsız bir karar üretebilmesi zorunludur. Gerçek bir üretim ortamında güvenlik olayları ve telemetri kayıtları akarken, mimarinin bu olayları değerlendirme yöntemi hayati önem taşır. Güvenlik mühendisliğinde en temel kural fail-closed (arıza durumunda kapalı kalma) yaklaşımıdır. Bir güvenlik kontrolü başarısız olduğunda (`kaldi`) veya beklenmeyen bir ağ hatası, zaman aşımı ya da bellek yetersizliği nedeniyle çalışamadığında (`hata`), sistem asla "kontrol edilemedi ama izin verelim" diyemez (fail-open hatası). Hem `kaldi` hem de `hata` kararları kesin olarak erişimin engellenmesini (`reddet`) gerektirir. Eğer bir kontrol hiç çalıştırılmamışsa veya telemetri verisinde eksikse (`eksik`), sistem yine geçişe izin veremez; karar `eksik` olarak işaretlenmeli ve istek bloke edilmelidir. Yalnızca tüm kontroller başarıyla geçtiğinde (`gecti`) nihai karar `izin` olabilir.
+
+Saldırganlar katmanlı mimarileri hedef alırken özellikle şu zafiyet noktalarını istismar etmeye çalışır:
+- Şaşkın Vekil (Confused Deputy) Saldırıları: Dış girdideki şema kontrolünü aşamayan saldırgan, üçüncü taraf bir veri kaynağına veya e-postaya gizlenmiş dolaylı enjeksiyon ile model katmanını ele geçirir. Model meşru bir ajan yetkisine sahip olduğu için araç katmanına zararlı komutlar gönderir. Eğer araç katmanında `yetki` veya `onay` kontrolleri yoksa sistem çöker.
+- Arıza Enjeksiyonu ve Filtre Çökertme: Saldırgan, girdi veya çıktı filtrelerini aşırı büyük yüklerle veya özel bayt dizilimleriyle çökerterek (`hata`) uygulamanın hata yakalama bloğunu atlatmayı ve fail-open mantığıyla izinsiz geçiş yapmayı hedefler.
+- Tek Hata Noktası (SPOF) İstismarı: Çok katmanlı gibi görünen ancak bir katmanında yalnızca tek bir kontrol barındıran mimarilerde, o kontrolün bozulması durumunda tüm katman tamamen körleşir. Örneğin araç katmanında sadece `sandbox` varsa ve konteyner kaçışı (escape) gerçekleşirse, ek bir `yetki` denetimi olmadığı için tüm altyapı ele geçer.
+
+Yazılım geliştiricilerin katmanlı savunma tasarlarken en sık düştüğü tuzaklar:
+- Hata Durumlarında Sessiz Geçişe İzin Vermek: Kodlama sırasında `try-except` bloklarında istisnaları yakalayıp loglamak fakat isteğin akışına devam etmesine izin vermek (`pass` diyerek varsayılan izne dönmek).
+- Mimari Sıra ile Alfabetik Sırayı Karıştırmak: Olayların işlenme sırası deterministik mimari sıraya (`girdi` -> `model` -> `cikti` -> `arac` -> `veri`) dayanmalıdır. Kontroller alfabetik sıralansa bile katman önceliği asla bozulmamalıdır; reddetme gerekçesi mimari sıradaki ilk hatayı bildirmelidir.
+- Girdi Verilerini Yerinde Değiştirmek: Parametre olarak gelen mimari ve olay listelerini `sort()`, `pop()` gibi yöntemlerle yerinde değiştirerek (in-place mutation) çağıran tarafın durumunu bozmak.
+- Eksik Kontrolleri Başarılı Saymak: Raporlanan telemetride yer almayan kontrolleri "rapor yoksa sorun da yoktur" varsayımıyla atlamak.
 :::
 
 ::: tahmin Mimari sıra alfabetik sıra değildir
@@ -45,9 +70,23 @@ Karar akışında tanımlı mimari sıra kullanılır; alfabetik sıralama yaln�
 
 Geçersiz veride `ValueError` yükselt. Katmanları yukarıdaki mimari sırayla, kontrolleri alfabetik sırayla yeni listeler hâlinde döndür. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-03")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def savunma_mimarisini_dogrula(katmanlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: katmanları mimari sıraya koymaz, kontrolleri alfabetik sıralamaz ve şema doğrulaması yapmaz.
+    return [{"id": k.get("id"), "kontroller": k.get("kontroller", [])} for k in (katmanlar or [])]
+
+v = json_yukle("veri/savunma.json")["katmanlar"]
+print("Normalize mimari örneği:", savunma_mimarisini_dogrula(v))
 ```
 
 ```test
@@ -168,9 +207,24 @@ Dönüş:
 
 Herhangi bir `kaldi` veya `hata` varsa `reddet`; yoksa eksik kontrol varsa `eksik`; bütün kontroller `gecti` ise `izin` döndür. Reddetmede `neden`, mimari sıradaki ilk hatalı/başarısız olaydır; diğer kararlarda None olur. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-03")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def istek_karari_hesapla(mimari, olaylar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: fail-closed kuralını çiğner, hata durumlarında izin verir ve neden detayını üretmez.
+    return {"karar": "izin", "neden": None, "eksik": []}
+
+veri = json_yukle("veri/savunma.json")
+m, o = veri["katmanlar"], veri["olaylar"]
+print("Örnek istek kararı:", istek_karari_hesapla(m, o))
 ```
 
 ```test
@@ -326,9 +380,24 @@ Her senaryo için, en az bir kontrolü bozulan ve hiç sağlam kontrolü kalmaya
 
 Senaryoları kimliğe göre sırala. `tek_nokta_sayisi`, tek nokta içeren senaryo sayısıdır. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_savunma_veri import hazirla
+hazirla("ai-savunma-03")
+```
+
 ```starter
+from ai_savunma_veri import json_yukle
+
 def katman_yedeklilik_raporu(mimari, senaryolar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: arızalı katmanları tek nokta olarak tespit etmez ve tüm senaryoları yedekli raporlar.
+    return {"senaryolar": [{"id": s.get("id", ""), "tek_noktalar": [], "yedekli": True} for s in (senaryolar or [])], "tek_nokta_sayisi": 0}
+
+veri = json_yukle("veri/savunma.json")
+m, s = veri["katmanlar"], veri["senaryolar"]
+print("Örnek yedeklilik raporu:", katman_yedeklilik_raporu(m, s))
 ```
 
 ```test
@@ -488,7 +557,8 @@ timeout: 300
 import ai_lab
 
 def istek_karari_hesapla(mimari, olaylar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: fail-closed kuralını çiğner, her durumda izin verir.
+    return {"karar": "izin", "neden": None, "eksik": []}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_savunma_03 as deney
@@ -496,7 +566,30 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ast
 import ai_lab
+
+def _ast_denetle(kod):
+    agac = ast.parse(kod)
+    yasakli = {"eval", "exec", "getattr", "setattr"}
+    for dugum in ast.walk(agac):
+        if isinstance(dugum, ast.ImportFrom):
+            if any(a.name == "*" for a in dugum.names):
+                return False, "wildcard import yasak"
+            if any("referans" in a.name for a in dugum.names):
+                return False, "referans fonksiyonu import edilemez"
+        if isinstance(dugum, ast.Call):
+            if isinstance(dugum.func, ast.Name) and dugum.func.id in yasakli:
+                return False, f"{dugum.func.id} çağrısı yasak"
+            if isinstance(dugum.func, ast.Attribute) and dugum.func.attr in yasakli:
+                return False, f"{dugum.func.attr} kullanımı yasak"
+            if isinstance(dugum.func, ast.Attribute) and "referans" in dugum.func.attr:
+                return False, "referans niteliğine doğrudan erişilemez"
+    return True, ""
+
+gecerli_kod, gerekce = _ast_denetle(src)
+ok(gecerli_kod, f"kod güvenlik denetiminden geçmeli: {gerekce}")
+
 sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))

@@ -6,12 +6,40 @@ timeout: 45
 ---
 
 ::: anlat Gizlilik riski varlık ve erişimle tanımlanır
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Üyelik saldırısı, görünür model çıktısından eğitim üyeliği tahmin eder | İlk üç görev görünür sentetik JSON; final gerçek autograd ile eğitilen küçük PyTorch shadow/target sınıflandırıcıları | Sentetik etiketler gerçek kişisel veri değildir; sohbet modeli gizliliği ölçülmez |
+| TPR-FPR ve doğruluk tabanı farklı sorulara cevap verir | Ayrı shadow verisinden eşik; üç hedef deneyinin olasılıkları ve ölçümleri | Pozitif avantaj veya kanıt bayrağı zorunlu değildir; genel gizlilik garantisi verilmez |
+
+> [!NOT]
+> `veri/gizlilik.json` elle hazırlanmış sentetik çalışma verisidir. İlk üç görev aynı dosyayı okur; ilk Çalıştır ham dosyayı gösterir. Setup her Run/Check için yeni geçici veri/ kopyası kurar, bu kopyanın değişiklikleri kalıcı değildir. Kaynağı haricî editörde veya yüklenen sözlüğü kodda değiştirip Çalıştır deneyebilirsin. Finalin `calisma/ai-guvence-16/gizlilik.json` ayarı ayrı ve kalıcıdır; mevcut dosya üzerine yazılmaz. Gizli test bu dosyalardan bağımsız seed kullanır. Yeni indirme yapılmaz.
+
 Tehdit modelinde korunacak varlıklar, modelin görünür çıktı kanalları ve saldırganın önceden bildikleri açıkça yazılır. Metin, olasılık veya embedding çıktısı aynı bilgiyi açığa vurmayabilir; mimari bilmek ile örnek veriye sahip olmak da aynı varsayım değildir.
 
-Bu derste gerçek kişisel veri, eğitim kaydı, model veya sorgu API'si kullanılmaz. Bütün üyelik etiketleri ve ölçümler sentetik, deterministik fixture olarak verilir. Amaç tehdit varsayımlarını ve kanıtları denetlenebilir biçimde kaydetmektir.
+İlk üç görevde model veya sorgu API'si çalıştırılmaz; ölçümler elle hazırlanmış sentetik örneklerdir. Finalde sentetik rastgele veriyle küçük sınıflandırıcılar gerçekten eğitilir ve gerçek model olasılıkları ölçülür. Gerçek kişisel veri kullanılmaz. Amaç tehdit varsayımlarını ve kanıtları denetlenebilir biçimde kaydetmektir.
 :::
 
 ::: anlat Doğruluk tek başına bilgi sızıntısı kanıtı değildir
+
+Önce gizlilik.json dosyasının tehdit_modeli alanını aç. Varlık neyin korunacağını, çıktı kanalı saldırganın neyi görebildiğini, saldırgan bilgisi ise hangi önbilgiye sahip olduğunu anlatır. Bunlar aynı şey değildir. Model mimarisini bilmek eğitim örneklerini bildiğini göstermez; olasılık çıktısına erişmek de gizli parametre dosyasını okuyabildiğin anlamına gelmez. Birinci görev bu ayrımı dar izin kümeleriyle kaydeder. Alanı sessizce atmak yerine bilinmeyen alanı reddetmek, varsayımın raporda kaybolmasını önler. Liste sırası modelin içeriğini değiştirmediği için çıktı alfabetik sıralanır; ancak kaynak listeyi yerinde sıralamak başka bir adımın ham kaydını bozabilir. Bağımsız kopya bu yüzden sözleşmenin parçasıdır.
+
+İkinci görev aynı dosyanın uyelik_kayitlari alanını kullanır. uye gerçek deneyin değerlendirme etiketini, tahmin_uye ise saldırının kararını temsil eder. İlk üç görevde her ikisi de elle yazılmıştır. Dört olası sonucu ayrı say: gerçek üye ve tahmin üye TP, gerçek üye olmayan ve tahmin üye FP, ikisi de hayır TN, gerçek üye olup kaçırılan FN olur. Sadece doğru tahmin sayısını toplamak yanlış alarm oranını gizler. Bu dersin avantajı TPR eksi FPR'dir; negatif avantaj da geçerli bir sonuçtur. Üyelerin tamamını üye olmayan sayan bir saldırı düşük TPR verebilir, ama dengesiz örnekte yüksek doğruluk gösterebilir.
+
+Payda sıfırsa bu küçük görevin oranı `0.0` kabul edilir. Bu seçim ölçümün evrensel istatistik kuralı değildir; üyeler veya üye olmayanlar hiç yoksa o oran için yeterli gözlem bulunmadığını ayrıca not etmek gerekir. Gerçek final dengeli üye/üyeolmayan örnekler kullanır, dolayısıyla çoğunluk tabanı `0.5` olur. Üçüncü görev dosyanın deney_sonuclari alanında daha farklı tabanları da karşılaştırır. Aynı doğruluk değerinin farklı sınıf dağılımlarında farklı anlamı olabileceğini görmek için tabanı değiştirip Çalıştır. Tabana eşit doğruluk kanıt sayılmaz; avantajın eşik değerine eşit olması ise yeterlidir.
+
+Üçüncü görevde aynı deney adındaki tekrarların ortalamaları alınır. Karar, ekranda yuvarlanmış sayılarla verilmez. Örneğin ham avantaj eşikten az ama altı ondalık gösterimde eşik gibi görünüyorsa kanıt bayrağı yine False olmalıdır. Kanıtlı adaylar ham avantaj, sonra ham doğruluk ve sonra alfabetik adla seçilir. Üçüncü eşitlik kuralı raporu girdi sırasından bağımsız yapar. Kazananı seçmeden önce ortalamayı yuvarlamak veya doğruluğu tabana büyük-eşit ile kıyaslamak anlamlı biçimde yanlış sonuç verebilir. Uygun aday yoksa None dönmek normaldir; yüksek bir sayı çıkarmak için zorla seçim yapılmaz.
+
+Finalde her tekrarda ayrı bir shadow model ve ayrı bir target model kurulur. Özellikler 24 boyutlu rastgele sayılar, etiketler rastgele iki sınıftır. Bu kurgu gerçek müşteri verisini veya bir dil modelinin eğitim kümesini temsil etmez; küçük bir sınıflandırıcının eğitim örneklerine aşırı uyumunu kontrollü incelemeyi sağlar. İki katmanlı ağ gerçek PyTorch parametreleri, cross-entropy, backward ve Adam ile 100 adım eğitilir. Olasılıklar gerçek ileri hesapta softmax ile elde edilir. Bu nedenle üyelik kayıtlarının kaynağı gerçek model çalışmasıdır; fakat alttaki özellik ve etiketlerin kökeni sentetiktir.
+
+Saldırgan için görünür skor örneğin gerçek sınıfına verilen olasılıktır; örneğin etiketini bildiği varsayımı bu nedenle önemlidir. Shadow modelin üye ve dış örnekleri üzerinde TPR-FPR'yi en büyük yapan eşik seçilir. Target modelin üyelik etiketleri bu eşiği ayarlamak için kullanılmaz; yalnız son ölçümü değerlendirmeye yarar. Aynı hedef etiketlerle eşik arayıp sonra başarıyı yine aynı örneklerde raporlamak değerlendirmeyi iyimserleştirirdi. Bu deney üç ayrı seed ile tekrarlanır; sonuçların değişmesi bulgudur. Pozitif avantaj, kanıt=True veya belirli bir başarı oranı kabul şartı değildir.
+
+Ham eğitim loss izleri, logits, gerçek sınıf olasılıkları, örnek özellik/etiketleri, üyelik kararları, model parametre sayısı, ağırlık dosyası özeti, sürüm ve cihaz kanıtta bulunur. Shadow ve target kayıtları ayrı tutulduğu için eşiğin nereden geldiğini inceleyebilirsin. Eğitim süresi donanıma göre değişir ve test sabit milisaniye istemez. Kontrol kendi geçici ağırlık klasörlerini kapanınca temizler; ölçüm JSON'ları kalır. Çalıştır kendi deney klasöründeki ağırlıkları inceleme için korur. Bunlar öğrencinin diğer dosyaları veya kurulu modelleri değildir.
+
+Bir saldırgan, yetkili bir laboratuvarda modelin güven skorlarından üyelik farkı arayabilir. Bu fark gerçek bir bireyin verisinin kesin olarak eğitimde bulunduğunu göstermez. Küçük örnek sayısı, veri dağılımı, rastgele etiketler ve eşik seçimi sonucu etkiler. Parametre erişimi, embedding tersine çevirme, gerçek kişisel kayıt çıkarma veya sohbet modelinden sır alma bu dersin deneyi değildir. Savunmayı değerlendirirken yalnız doğruluğun düşmesine değil yanlış alarm, üye yakalama oranı ve normal işlevin kalmasına da bakmak gerekir. Buradaki rapor bir inceleme sinyali üretir; tek başına gizlilik güvencesi veya hukuki hüküm değildir.
+
+İlk üç görevdeki çalışma dosyası her seferinde geçici kopyadır. Finalin ayar dosyası ise Çalıştır çıktısında mutlak konumuyla gösterilen, uygulamanın veri dizinindeki ayrı kalıcı kopyadır. Aynı adlara rağmen bu iki dosyayı karıştırma. Kalıcı ayarda seed ve ornek alanlarını değiştirerek kendi deneyini tekrar çalıştırabilirsin; Kontrol ayrı geçici ayar üretir ve kendi sınamasını senin ayarına bağlamaz. Boş, sabit veya anlamlı yanlış çözüm; eksik bağımlılık; başarısız veya yarım deney geçmez. Çalıştır kabulfalse keşif kaydı, Kontrol bütün koşullar sağlanırsa kabul kaydı üretir. Yeni paket veya model indirilmez, kullanıcı sunucuları kapatılmaz.
+
 Üyelik çıkarımında tahminler TP, FP, TN ve FN olarak sayılır. Üye doğru tahmin oranı ile üye olmayanların yanlış üye tahmin oranı arasındaki fark, bu derste avantaj olarak kullanılır. Paydası sıfır olan oran `0.0` kabul edilir.
 
 Bir deneyin doğruluğu, sınıf dağılımından kaynaklanan taban doğrulukla karşılaştırılmalıdır. Kanıt bayrağı için avantaj eşiğe eşit veya büyük, doğruluk ise taban doğruluktan katı biçimde büyük olmalıdır. Bu ölçüm kesin sızıntı hükmü değil, ek inceleme gerektiren bir sinyaldir.
@@ -42,9 +70,24 @@ True
 
 Üç alan da boş olmayan, yinelenmeyen string listeleridir. Varlıklar yalnız `egitim_verisi`, `model_parametreleri`, `kullanici_girdisi`; çıktılar yalnız `metin`, `olasilik`, `embedding`; saldırgan bilgisi yalnız `mimari`, `ornek_veri`, `sorgu_erisimi` içerebilir. Geçersiz veride `ValueError` yükselt. Aynı alanları, listeleri alfabetik sıralanmış bağımsız kopyalarla döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-16")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def tehdit_modeli_dogrula(model):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: dış sözlüğü kopyalar ama listeleri paylaşır ve izin kümelerini doğrulamaz.
+    return dict(model)
+
+v=json_yukle("veri/gizlilik.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/gizlilik.json"))
+print("Tehdit modeli:",tehdit_modeli_dogrula(v["tehdit_modeli"]))
 ```
 
 ```test
@@ -77,6 +120,9 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        for ad in ["_a","-a","éx","a\n"]:
+            try:fn(dict(M,id=ad));return False
+            except ValueError:pass
         return True
     except Exception:
         return False
@@ -92,6 +138,8 @@ for ad, mutant in [("varlıkları silen", m_varlik), ("çıktıları silen", m_c
 ```
 
 ```solution
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def tehdit_modeli_dogrula(model):
     import re
     if not isinstance(model, dict):
@@ -120,6 +168,10 @@ def tehdit_modeli_dogrula(model):
         if not set(degerler) <= izinli:
             raise ValueError(alan + " izinli değerler dışında")
     return {"id": model["id"], "varliklar": sorted(model["varliklar"]), "cikti_kanallari": sorted(model["cikti_kanallari"]), "saldirgan_bilgisi": sorted(model["saldirgan_bilgisi"])}
+
+v=json_yukle("veri/gizlilik.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/gizlilik.json"))
+print("Tehdit modeli:",tehdit_modeli_dogrula(v["tehdit_modeli"]))
 ```
 
 ```hint
@@ -132,9 +184,28 @@ Her listenin türünü, boşluğunu, tekrarını ve izinli kümesini ayrı doğr
 
 `{"toplam":N,"tp":N,"fp":N,"tn":N,"fn":N,"dogruluk":X,"avantaj":X}` döndür. Doğruluk `(TP+TN)/toplam`; avantaj `TP/(TP+FN)-FP/(FP+TN)` olur. Paydası sıfır olan oran `0.0` kabul edilir. İki ölçümü de altı ondalık basamağa yuvarla ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-16")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def uyelik_kaniti_olc(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: doğruluğu üyelik avantajı yerine koyar.
+    tp=sum(x["uye"] and x["tahmin_uye"] for x in kayitlar)
+    fp=sum(not x["uye"] and x["tahmin_uye"] for x in kayitlar)
+    tn=sum(not x["uye"] and not x["tahmin_uye"] for x in kayitlar)
+    fn=sum(x["uye"] and not x["tahmin_uye"] for x in kayitlar)
+    a=round((tp+tn)/len(kayitlar),6)
+    return {"toplam":len(kayitlar),"tp":tp,"fp":fp,"tn":tn,"fn":fn,"dogruluk":a,"avantaj":a}
+
+v=json_yukle("veri/gizlilik.json")
+print("Sentetik üyelik ölçümü:",uyelik_kaniti_olc(v["uyelik_kayitlari"]))
 ```
 
 ```test
@@ -188,6 +259,8 @@ for ad, mutant in [("üyeliği silen", m_uye), ("tahminleri silen", m_tahmin), (
 ```
 
 ```solution
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def uyelik_kaniti_olc(kayitlar):
     import re
     if not isinstance(kayitlar, list):
@@ -218,6 +291,9 @@ def uyelik_kaniti_olc(kayitlar):
     tpr = tp / (tp + fn) if tp + fn > 0 else 0.0
     fpr = fp / (fp + tn) if fp + tn > 0 else 0.0
     return {"toplam": len(kayitlar), "tp": tp, "fp": fp, "tn": tn, "fn": fn, "dogruluk": round((tp + tn) / len(kayitlar), 6), "avantaj": round(tpr - fpr, 6)}
+
+v=json_yukle("veri/gizlilik.json")
+print("Sentetik üyelik ölçümü:",uyelik_kaniti_olc(v["uyelik_kayitlari"]))
 ```
 
 ```hint
@@ -230,9 +306,30 @@ Dört kararı say, sonra iki oranın paydasını ayrı ele al. Avantaj üye yaka
 
 Her deneyin üç ortalamasını altı ondalık basamağa yuvarla. Ham avantaj eşiğe eşit veya büyük ve ham doğruluk ham tabandan katı büyükse `kanit=True` olur. Kanıtlı deneylerden en yüksek ham avantaj, eşitlikte en yüksek ham doğruluk, sonra alfabetik ad seçilir. `{"satirlar":[{"deney":D,"dogruluk":X,"taban_dogrulugu":X,"avantaj":X,"kanit":BOOL},...],"secilen":D veya None}` döndür. Satırları deney adına göre sırala; uygun yoksa `None` döndür ve girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-16")
+```
+
 ```starter
-def gizlilik_kanit_raporu(kayitlar, avantaj_esik):
-    return {}
+from ai_guvence_veri import json_yukle,metin_yukle
+
+def gizlilik_kanit_raporu(kayitlar,avantaj_esik):
+    # KUSURLU BAŞLANGIÇ KODU: tabana eşit doğruluğu da kanıt sayar.
+    satirlar=[]
+    for ad in sorted({x["deney"] for x in kayitlar}):
+        vs=[x for x in kayitlar if x["deney"]==ad]
+        a=sum(x["dogruluk"] for x in vs)/len(vs);b=sum(x["taban_dogrulugu"] for x in vs)/len(vs);v=sum(x["avantaj"] for x in vs)/len(vs)
+        satirlar.append({"deney":ad,"dogruluk":round(a,6),"taban_dogrulugu":round(b,6),"avantaj":round(v,6),"kanit":v>=avantaj_esik and a>=b})
+    aday=[x for x in satirlar if x["kanit"]]
+    secilen=min(aday,key=lambda x:(-x["avantaj"],-x["dogruluk"],x["deney"]))["deney"] if aday else None
+    return {"satirlar":satirlar,"secilen":secilen}
+
+v=json_yukle("veri/gizlilik.json")
+print("Sentetik kanıt raporu:",gizlilik_kanit_raporu(v["deney_sonuclari"],v["avantaj_esik"]))
 ```
 
 ```test
@@ -285,6 +382,12 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        empate=[{"deney":"z","dogruluk":0.8,"taban_dogrulugu":0.5,"avantaj":0.4},{"deney":"a","dogruluk":0.8,"taban_dogrulugu":0.5,"avantaj":0.4}]
+        if fn(empate,0.4)["secilen"]!="a":return False
+        if fn([dict(empate[0],dogruluk=0.9),empate[1]],0.4)["secilen"]!="z":return False
+        tiny=[{"deney":"a","dogruluk":0.80000001,"taban_dogrulugu":0.8,"avantaj":0.39999999}]
+        if fn(tiny,0.4)["secilen"] is not None:return False
+        if fn([dict(tiny[0],avantaj=0.4)],0.4)["secilen"]!="a":return False
         return True
     except Exception:
         return False
@@ -300,6 +403,8 @@ for ad, mutant in [("avantajı silen", m_avantaj), ("doğruluğu silen", m_dogru
 ```
 
 ```solution
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def gizlilik_kanit_raporu(kayitlar, avantaj_esik):
     import math
     import re
@@ -348,6 +453,9 @@ def gizlilik_kanit_raporu(kayitlar, avantaj_esik):
         del satir["_dogruluk"]
         del satir["_avantaj"]
     return {"satirlar": satirlar, "secilen": secilen}
+
+v=json_yukle("veri/gizlilik.json")
+print("Sentetik kanıt raporu:",gizlilik_kanit_raporu(v["deney_sonuclari"],v["avantaj_esik"]))
 ```
 
 ```hint
@@ -386,6 +494,19 @@ if ai_lab.CALISTIR:
 ```
 
 ```test
+import ai_lab,ast
+sonuclar=[]
+_ok=ok
+def ok(kosul,mesaj):
+    sonuclar.append(bool(kosul));return _ok(kosul,mesaj)
+yasak=("olcu_ref","rapor_ref","_train","kanit_yaz","getattr")
+ihlal=ai_lab.kod_denetimi(src,yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in node.names):ihlal.append("referans ithali")
+except SyntaxError:ihlal.append("sözdizimi")
+ok(not ihlal,"Kendi gizlilik ölçümünü yaz; referans ithali yasak")
+if ihlal:stop()
 import copy
 M = {"id": "gizlilik-1", "varliklar": ["kullanici_girdisi", "egitim_verisi"], "cikti_kanallari": ["olasilik", "metin"], "saldirgan_bilgisi": ["sorgu_erisimi", "mimari"]}
 BEKLENEN = {"id": "gizlilik-1", "varliklar": ["egitim_verisi", "kullanici_girdisi"], "cikti_kanallari": ["metin", "olasilik"], "saldirgan_bilgisi": ["mimari", "sorgu_erisimi"]}
@@ -415,6 +536,9 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        for ad in ["_a","-a","éx","a\n"]:
+            try:fn(dict(M,id=ad));return False
+            except ValueError:pass
         return True
     except Exception:
         return False
@@ -525,6 +649,12 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        empate=[{"deney":"z","dogruluk":0.8,"taban_dogrulugu":0.5,"avantaj":0.4},{"deney":"a","dogruluk":0.8,"taban_dogrulugu":0.5,"avantaj":0.4}]
+        if fn(empate,0.4)["secilen"]!="a":return False
+        if fn([dict(empate[0],dogruluk=0.9),empate[1]],0.4)["secilen"]!="z":return False
+        tiny=[{"deney":"a","dogruluk":0.80000001,"taban_dogrulugu":0.8,"avantaj":0.39999999}]
+        if fn(tiny,0.4)["secilen"] is not None:return False
+        if fn([dict(tiny[0],avantaj=0.4)],0.4)["secilen"]!="a":return False
         return True
     except Exception:
         return False
@@ -538,6 +668,7 @@ def m_taban(kayitlar, esik):
 for ad, mutant in [("avantajı silen", m_avantaj), ("doğruluğu silen", m_dogruluk), ("tabanı değiştiren", m_taban)]:
     ok(not sozlesme(mutant), "yanlış çözüm/mutant yakalanmalı: " + ad)
 
+if not all(sonuclar):stop()
 from sandbox import ai_gercek_ai_guvence_16 as deney
 import tempfile,secrets,json
 from pathlib import Path
@@ -548,7 +679,7 @@ with tempfile.TemporaryDirectory(prefix='pafta_privacy16_') as tmp:
     p=Path(tmp)/'ayar.json';p.write_text(json.dumps({'seed':secrets.randbelow(1000000),'ornek':32}),encoding='utf-8')
     r=deney.deney(tehdit_modeli_dogrula,uyelik_kaniti_olc,gizlilik_kanit_raporu,p,Path(tmp)/'deney')
     for k,v in r['kontroller'].items():ok(v,'gerçek deney: '+k)
-    accepted=all(r['kontroller'].values());ai_lab.kanit_yaz('guvence-16-gizlilik',dict(r,kabul=accepted));ok(accepted,'gerçek autograd/modelolasılığı/üyelikölçümü; saldırıbaşarısı şart değil')
+    accepted=all(sonuclar) and all(r['kontroller'].values());ai_lab.kanit_yaz('guvence-16-gizlilik',dict(r,kabul=accepted));ok(accepted,'gerçek autograd/modelolasılığı/üyelikölçümü; saldırıbaşarısı şart değil')
 
 ```
 

@@ -6,15 +6,41 @@ timeout: 45
 ---
 
 ::: anlat LoRA düşük ranklı bir fark öğrenir
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| LoRA dondurulmuş ağırlığa düşük ranklı güncelleme ekler | İlk üç görev görünür sentetik matris JSON; final kurulu SmolLM2 ile gerçek autograd ve Adam eğitimi | Küçük matris hesabı tek başına model eğitimi değildir; ilk örneğin rank 2/2 matrisi tasarruf garantisi vermez |
+| Adaptör birleştirme ve öğrenme ayrı ölçülür | Final elle yazılan sınıfı q_proj/v_proj katmanlarına takar;40 adım CPU eğitimi | PEFT, bitsandbytes, QLoRA çalıştırılmaz; tek cümleyi öğrenmek genel uzmanlık veya güvenlik başarısı değildir |
+
+> [!NOT]
+> `veri/lora.json` elle hazırlanmış sentetik matrislerdir; canlı eğitim kaydı değildir. İlk üç görev aynı dosyayı okur. Setup her Run/Check için geçici kopya kurar; kalıcılık yoktur. Kaynağı editörde aç veya yüklenen sözlüğü kodda değiştirip Run dene. Gizli testler ayrıdır. Final önceden kurulu yerel modeli gerçekten eğitir; adaptör/öğrenci ağırlıkları kalıcı kaydedilmez, yeni indirme yoktur.
+
 LoRA temel ağırlığı dondurup güncellemeyi iki küçük matrisin çarpımıyla temsil eder. `B @ A` temel ağırlıkla aynı boyutta bir fark üretir; rank arttıkça adaptör kapasitesi ve parametre maliyeti artar. Ölçek katsayısı bu farkın etkisini ayarlar.
 
-Bu derste Transformers, PEFT veya bitsandbytes çalıştırılmaz. İki çarpı iki sentetik matrisler, matris çarpımının boyutunu ve birleştirme sırasını görünür kılar. Gerçek projelerde hedef modül seçimi ayrıca deney gerektirir.
+İlk üç görev saf Python ile çalışır; final Transformers/torch ve elle yazılan adaptörle gerçek eğitim yapar. PEFT ve bitsandbytes kullanılmaz. İki çarpı iki sentetik matrisler, matris çarpımının boyutunu ve birleştirme sırasını görünür kılar. Gerçek projelerde hedef modül seçimi ayrıca deney gerektirir.
 :::
 
 ::: anlat Birleştirme ile eğitim parametre sayısı farklıdır
+
+Önce lora.json dosyasındaki temel, a, b ve olcek alanlarını aç. İlk görev güncelleme matrisini hesaplar. Çarpım sırası B@A olmalıdır; aynı boyutlu iki matrisin ters sırası da çalışabildiği için yalnız boyut denetimi yanlış hesabı yakalamaz. Dosyadaki asimetrik değerler bu farkı görünür kılar. İkinci görev aynı güncellemeyi temel ağırlığa ekler. Güncellemenin dosyadaki önceden hesaplanmış kopyası yalnız görevleri bağımsız çalıştırabilmek içindir; birinci görevin işlevini diğer editörden import etmen gerekmez. Üçüncü görev farklı boyut/rank örneklerinden eğitilen parametre oranını çıkarır.
+
+Bu küçük örnekte iki matris de ikiye ikidir. Gerçek tasarruf için rankın büyük giriş/çıkış boyutlarından küçük olması beklenir; öğretim örneğinde kare matris kullanmak kendiliğinden düşük maliyet sağlamaz. Maliyet işlevi bu yüzden oran birden büyük olduğunda da doğru sayıyı döndürür. Örneğin küçük bir katmanda yüksek rank seçmek temel katmandan fazla adaptör parametresi üretebilir. Üçüncü görev yalnız sayım formülünü öğretir ve rank 3/çıkış 2 gibi karşılaştırma örneklerini kabul eder; final LoRA sınıfı ise rankı min(giriş, çıkış) ile sınırlar. İki sözleşmeyi birbirine karıştırma. Parametre oranı toplam RAM veya VRAM oranı değildir. Aktivasyonlar, gradyanlar, optimizer durumları ve temel modelin yüklü ağırlıkları bellekte yer kaplar. Bu ders bir tepe bellek ölçümü yapmıyor; yalnız parametre sayısını ve eğitimi raporluyor.
+
+Finalde A biçimi rank×giriş, B biçimi çıkış×rank olur. PyTorch Linear ağırlığı çıkış×giriş saklandığından B@A bu ağırlığa eklenebilir. İleri hesapta ise son boyutu giriş olan x önce A'nın, sonra B'nin transpozu ile çarpılır. B sıfır başlatılırsa adaptörün ilk çıktısı sıfırdır ve takma anındaki model kaybı değişmez. A da sıfır başlatılırsa öğrenmenin başlangıç gradyan yolu sorunlu hale gelir; bu derste A küçük rastgele değerlerle başlatılır. B sıfırken ilk adımda A gradyanının sıfır olması tek başına hata değildir; B güncellendikten sonra iki matris birlikte öğrenebilir.
+
+Temel parametreleri dondurmak, ileri hesabı bütünüyle no_grad içine almak demek değildir. İleri grafiği adaptörlere gradyan taşımalıdır; yalnız temel ağırlıkların requires_grad bayrağı kapalı kalır. Test gerçek q_proj ve v_proj kopyalarında biçim, ölçek, ileri hesap, gradyan ve birleştirmeyi ayrı denetler. Birleştirme yeni bir tensör döndürür; temele yerinde ekleme yaparsan tekrar birleştirmede aynı farkı iki kez uygulayabilirsin. Adaptörlü ve birleşik modelin logit farkının küçük olması bu uygulama kontrolüdür; iki yolun farklı cihaz ve çekirdeklerde bit düzeyinde eşitliği beklenmez.
+
+Gerçek eğitim yalnız sentetik bir laboratuvar cümlesini kırk Adam adımında tekrarlar. Hedef kaybın düşmesi bu cümlenin öğrenildiğini gösterir; genelleme göstermez. İlgisiz kontrol metninin kaybı da önce ve sonra kaydedilir. Bu değer bozulursa dar eğitimin başka davranışlara maliyeti olabileceğini görürsün; tek kontrol metni bütün yan etkileri kapsamaz. Üretilen devam metni bir bulgudur, belli bir cümleyi yazmak zorunlu geçme şartı değildir. Öğrencinin sınıfı öğrenme hesabını doğru yapmalı; gerçek eğitim çalışmamışsa kabul verilmez.
+
+Güvenlik açısından adaptör model davranışını değiştiren ayrı bir bileşendir. Dondurulmuş temel, davranışın değişmeyeceğini garanti etmez; zaten adaptörün amacı davranışı değiştirmektir. Bir savunmayı yalnız temel model adını kontrol ederek değerlendirmek bu bileşeni gözden kaçırır. Bu deney zararlı yük veya backdoor eğitmez; sentetik bir cümlede öğrenme mekanizmasını görünür kılar. Daha sonra adaptör kökeni ve bütünlük denetimini tartışırken ağırlık kimliği ve eğitim ayarlarının neden kaydedildiğini bu örnekle bağlayabilirsin.
+
+Kanıtta eğitim/kontrol metinleri, tokenlar, tohum, öğrenme oranı, rank/alfa, hedef modüller ve kırk adımın kaybı bulunur. Bütün temel parametrelerin eğitim öncesi/sonrası özetleri ve ortak modelin durumu denetlenir. Deney modelin bir kopyasını eğitir; ortak önbellekteki modeli değiştirmez. Çalıştır yalnız keşif kaydıdır; Kontrol et sözleşmeleri ve gerçek eğitimi birlikte kabul eder. Adapter dosyasının kalıcı kaydedildiği veya belleğin tamamının ölçüldüğü iddia edilmez.
+
 Inference öncesinde LoRA farkı temel ağırlığa eklenebilir. Böylece ayrı adaptör çağrısı yerine tek birleşik ağırlık kullanılır. Temel ağırlığı değiştirmeden yeni fark döndürmek deneylerin tekrarlanmasını kolaylaştırır.
 
 Eğitilen parametre sayısı rank çarpı giriş ve çıkış boyutlarının toplamıdır. Bu sayıyı temel matrisin parametre sayısıyla karşılaştırmak bellek tasarrufunu ölçmenin basit bir yoludur; toplam bellekte aktivasyon ve optimizer ayrıca hesaba katılır.
+
+Kaynak: [Hugging Face LoRA kavramları](https://huggingface.co/docs/peft/main/en/conceptual_guides/lora). Temel ağırlığın dondurulması, iki güncelleme matrisi ve alfa/rank ölçeği için açıklama sağlar; bu ders PEFT paketini çalıştırmaz.
 :::
 
 ::: tahmin LoRA farkını tahmin et
@@ -44,9 +70,23 @@ print(2 * (4 + 8))
 
 `olcek * (b @ a)` matrisini hesapla. Çıktı iki çarpı iki listedir ve her değer altı ondalığa yuvarlanır. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-10")
+```
+
 ```starter
-def lora_fark(a, b, olcek):
-    return []
+from ai_temel_veri import json_yukle
+def lora_fark(a,b,olcek):
+    # KUSURLU BAŞLANGIÇ KODU: B@A yerine A@B hesaplar.
+    return [[round(olcek*sum(a[i][k]*b[k][j] for k in range(2)),6) for j in range(2)] for i in range(2)]
+
+v=json_yukle("veri/lora.json")
+print("Sentetik A/B/ölçek:",v["a"],v["b"],v["olcek"])
+print("Güncelleme:",lora_fark(v["a"],v["b"],v["olcek"]))
 ```
 
 ```test
@@ -54,6 +94,9 @@ A = [[1, 2], [3, 4]]
 B = [[0, 1], [1, 0]]
 def sozlesme(fn):
     try:
+        import copy
+        a=([[1,2],[3,4]],[[0,1],[1,0]],0.5);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         if fn(A, B, 1) != [[3.0, 4.0], [1.0, 2.0]] or fn([[1, 0], [0, 1]], [[2, 0], [0, 2]], 0.5) != [[1.0, 0.0], [0.0, 1.0]]:
             return False
         if fn(A, B, 4) != [[12.0, 16.0], [4.0, 8.0]] or fn(A, B, 1 / 3) != [[1.0, 1.333333], [0.333333, 0.666667]]:
@@ -79,6 +122,7 @@ for ad, mutant in [("A matrisini bozan", m_a), ("B matrisini bozan", m_b), ("öl
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def lora_fark(a, b, olcek):
     def matris(m):
         return isinstance(m, list) and len(m) == 2 and all(isinstance(s, list) and len(s) == 2 and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in s) for s in m)
@@ -87,6 +131,10 @@ def lora_fark(a, b, olcek):
     if not isinstance(olcek, (int, float)) or isinstance(olcek, bool) or not 0 < olcek <= 4:
         raise ValueError("ölçek geçersiz")
     return [[round(olcek * sum(b[i][k] * a[k][j] for k in range(2)), 6) for j in range(2)] for i in range(2)]
+
+v=json_yukle("veri/lora.json")
+print("Sentetik A/B/ölçek:",v["a"],v["b"],v["olcek"])
+print("Güncelleme:",lora_fark(v["a"],v["b"],v["olcek"]))
 ```
 
 ```hint
@@ -99,9 +147,26 @@ def lora_fark(a, b, olcek):
 
 Karşılıklı hücreleri toplayarak yeni matris döndür ve değerleri altı ondalığa yuvarla. Özellikle temel matrisi yerinde değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-10")
+```
+
 ```starter
-def agirlik_birlestir(temel, fark):
-    return []
+from ai_temel_veri import json_yukle
+def agirlik_birlestir(temel,fark):
+    # KUSURLU BAŞLANGIÇ KODU: temel ağırlığı yerinde değiştirir.
+    for i,satir in enumerate(temel):
+        for j,x in enumerate(satir): temel[i][j]=round(x+fark[i][j],6)
+    return temel
+
+v=json_yukle("veri/lora.json")
+print("Sentetik temel ve fark:",v["temel"],v["fark"])
+print("Birleşik:",agirlik_birlestir(v["temel"],v["fark"]))
+print("Çağrı sonrası temel:",v["temel"])
 ```
 
 ```test
@@ -110,6 +175,9 @@ W = [[1, 0], [0, 1]]
 D = [[0.5, 1], [-1, 2]]
 def sozlesme(fn):
     try:
+        import copy
+        a=([[1,0],[0,1]],[[0.5,1],[-1,2]]);once=copy.deepcopy(a);fn(*a)
+        if a!=once: return False
         once = copy.deepcopy(W)
         if fn(W, D) != [[1.5, 1.0], [-1.0, 3.0]] or W != once:
             return False
@@ -136,12 +204,18 @@ for ad, mutant in [("temeli bozan", m_temel), ("farkı bozan", m_fark), ("boyutu
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def agirlik_birlestir(temel, fark):
     def matris(m):
         return isinstance(m, list) and len(m) == 2 and all(isinstance(s, list) and len(s) == 2 and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in s) for s in m)
     if not matris(temel) or not matris(fark):
         raise ValueError("matris geçersiz")
     return [[round(temel[i][j] + fark[i][j], 6) for j in range(2)] for i in range(2)]
+
+v=json_yukle("veri/lora.json")
+print("Sentetik temel ve fark:",v["temel"],v["fark"])
+print("Birleşik:",agirlik_birlestir(v["temel"],v["fark"]))
+print("Çağrı sonrası temel:",v["temel"])
 ```
 
 ```hint
@@ -154,9 +228,24 @@ def agirlik_birlestir(temel, fark):
 
 Temel parametre sayısı `girdi*cikti`, eğitilen LoRA parametre sayısı `rank*(girdi+cikti)` olsun. `{"temel":T,"egitilen":E,"oran":R}` döndür; oran eğitilen/temel değeridir.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-10")
+```
+
 ```starter
-def lora_maliyet(girdi, cikti, rank):
-    return {}
+from ai_temel_veri import json_yukle
+def lora_maliyet(girdi,cikti,rank):
+    # KUSURLU BAŞLANGIÇ KODU: iki adaptör yerine yalnız giriş tarafını sayar.
+    temel=girdi*cikti;egitilen=rank*girdi
+    return {"temel":temel,"egitilen":egitilen,"oran":egitilen/temel}
+
+v=json_yukle("veri/lora.json")
+print("Sentetik boyut/rank vakaları:",v["maliyet_vakalari"])
+for a in v["maliyet_vakalari"]: print(a,lora_maliyet(**a))
 ```
 
 ```test
@@ -187,6 +276,7 @@ for ad, mutant in [("girdiyi bozan", m_girdi), ("çıktıyı bozan", m_cikti), (
 ```
 
 ```solution
+from ai_temel_veri import json_yukle
 def lora_maliyet(girdi, cikti, rank):
     if any(not isinstance(x, int) or isinstance(x, bool) or x not in (2, 4, 8) for x in (girdi, cikti)):
         raise ValueError("boyut geçersiz")
@@ -195,6 +285,10 @@ def lora_maliyet(girdi, cikti, rank):
     temel = girdi * cikti
     egitilen = rank * (girdi + cikti)
     return {"temel": temel, "egitilen": egitilen, "oran": egitilen / temel}
+
+v=json_yukle("veri/lora.json")
+print("Sentetik boyut/rank vakaları:",v["maliyet_vakalari"])
+for a in v["maliyet_vakalari"]: print(a,lora_maliyet(**a))
 ```
 
 ```hint
@@ -211,7 +305,7 @@ Bu deneyde senin LoRA sınıfın SmolLM2-135M'nin 30 katmanındaki `q_proj` ve `
 ::: gorev Gerçek deney · Elle LoRA ile gerçek modelde ince ayar
 `LoraDogrusal(torch.nn.Module)` sınıfını yaz: `LoraDogrusal(temel, rank, alfa)`.
 
-- Doğrulama, aksi hâlde `ValueError`: `temel` bir `torch.nn.Linear`; `rank` bool olmayan int, 1 ile `min(giriş, çıkış)` arası; `alfa` bool olmayan, pozitif int/float.
+- Doğrulama, aksi hâlde `ValueError`: `temel` bir `torch.nn.Linear`; `rank` bool olmayan int, 1 ile `min(giriş, çıkış)` arası; `alfa` bool olmayan, sonlu pozitif int/float.
 - `temel`'i `self.temel` olarak sakla ve bütün parametrelerini dondur (`requires_grad=False`).
 - `self.A = nn.Parameter(...)` biçimi `[rank, giriş]`, küçük rastgele değerler (ör. `randn * 0.01`); `self.B = nn.Parameter(...)` biçimi `[çıkış, rank]`, **sıfır**. Eğitilen parametreler yalnız bu ikisi olmalı.
 - `self.olcek = alfa / rank`.
@@ -229,6 +323,7 @@ timeout: 300
 ```starter
 import torch
 import ai_lab
+import math
 
 class LoraDogrusal(torch.nn.Module):
     def __init__(self, temel, rank, alfa):
@@ -254,8 +349,12 @@ sonuclar = []
 def kontrol(kosul, mesaj):
     sonuclar.append(bool(kosul))
     return ok(kosul, mesaj)
-sorun = ai_lab.kod_denetimi(src, ("referans_sinifi", "lora_tak", "getattr", "peft", "LoraConfig"))
-kontrol(not sorun, "laboratuvar yamalanmamalı, referans LoRA/PEFT kullanılmamalı " + ", ".join(sorun))
+import ast
+yasak=("referans_sinifi","lora_tak","getattr","peft","LoraConfig","kanit_yaz")
+sorun=ai_lab.kod_denetimi(src,yasak=yasak)
+for n in ast.walk(ast.parse(src)):
+    if isinstance(n,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in n.names): sorun.append("referans importu yasak")
+if not kontrol(not sorun,"Kendi LoRA sınıfını yaz: "+"; ".join(sorun)): stop()
 Sinif = need("LoraDogrusal")
 try:
     from sandbox import ai_gercek_ai_temel_10 as D
@@ -283,6 +382,7 @@ def sozlesme(S):
                 return False
             if m.B.abs().max().item() != 0 or m.A.abs().max().item() == 0 or abs(m.olcek - alfa / r) > 1e-12:
                 return False
+            if torch.unique(m.A.detach()).numel()<2: return False
             x = torch.randn(3, 5, lin.in_features)
             with torch.no_grad():
                 if (m(x) - lin(x)).abs().max().item() > 1e-6:
@@ -304,9 +404,15 @@ def sozlesme(S):
             m(x).sum().backward()
             if lin.weight.grad is not None or m.A.grad is None or m.B.grad is None:
                 return False
+        for boyut in (1,2):
+            lin=torch.nn.Linear(boyut,boyut,bias=True);once={a:b.detach().clone() for a,b in lin.named_parameters()}
+            m=S(lin,boyut,0.5);x=torch.randn(2,boyut);x0=x.clone()
+            if not torch.allclose(m(x),lin(x),atol=1e-6) or not torch.equal(x,x0): return False
+            W=m.birlestir()
+            if W.data_ptr()==lin.weight.data_ptr() or any(not torch.equal(v,dict(lin.named_parameters())[a]) for a,v in once.items()): return False
         lin = copy.deepcopy(gercek_katmanlar[1])
         for arg in [(torch.nn.Conv1d(2, 2, 1), 2, 8), (None, 2, 8), (lin, 0, 8), (lin, 193, 8), (lin, True, 8), (lin, 2.0, 8),
-                    (lin, 2, 0), (lin, 2, -1.0), (lin, 2, True)]:
+                    (lin, 2, 0), (lin, 2, -1.0), (lin, 2, True), (lin,2,float("inf")),(lin,2,float("nan"))]:
             try:
                 S(*arg)
                 return False
@@ -358,6 +464,7 @@ if r:
 ```solution
 import torch
 import ai_lab
+import math
 
 class LoraDogrusal(torch.nn.Module):
     def __init__(self, temel, rank, alfa):
@@ -366,7 +473,7 @@ class LoraDogrusal(torch.nn.Module):
             raise ValueError("temel bir nn.Linear olmalı")
         if isinstance(rank, bool) or not isinstance(rank, int) or not 1 <= rank <= min(temel.in_features, temel.out_features):
             raise ValueError("rank geçersiz")
-        if isinstance(alfa, bool) or not isinstance(alfa, (int, float)) or not alfa > 0:
+        if isinstance(alfa, bool) or not isinstance(alfa, (int, float)) or not alfa > 0 or not math.isfinite(alfa):
             raise ValueError("alfa pozitif olmalı")
         self.temel = temel
         for p in temel.parameters():

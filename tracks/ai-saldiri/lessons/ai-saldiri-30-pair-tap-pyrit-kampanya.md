@@ -1,16 +1,42 @@
 ---
 id: ai-saldiri-30
-title: PAIR, TAP ve PyRIT ile Otomatik Saldırı Kampanyaları
-summary: PAIR/TAP yinelemelerini sentetik aday ve skorlarla modelle; deterministik ağaç, tur kararı ve sonda yerel saldırgan + hedef model ile gerçek kampanya kanıtı üret.
+title: PAIR, TAP ve PyRIT Tarzı Otomatik Saldırı Kampanyaları
+summary: PAIR/TAP yinelemelerini sentetik aday ve skorlarla modelle; PyRIT'in orkestratör/skorlayıcı/bellek kavramlarını elle yazılmış bir döngüyle eşle; sonda yerel saldırgan + hedef model ile gerçek kampanya kanıtı üret.
 timeout: 300
 ---
 
-::: anlat Otomasyon, ölçüm disiplinini kaldırmaz
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Otomasyon, ölçüm disiplinini kaldırmaz
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| PAIR (Chao vd., 2023) bir **saldırgan LLM**, bir **hedef LLM** ve bir **değerlendirici (judge) LLM** ile yinelemeli istem iyileştirmesi yapar. TAP (Mehrotra vd., 2023) bunu ağaçta dallandırır ve konu dışı ya da düşük skorlu dalları budar. PyRIT (Microsoft) aynı akışı orkestratör, prompt converter, scorer ve kalıcı bellek (memory) bileşenleriyle kayıt altına alır. | Görev 1–3: `veri/agac_parametreleri.json`, `veri/pair_turlari.json` ve `veri/kampanya_denemeleri.json` içindeki **sentetik** ağaç parametreleri, skorlar ve denemeler. Son adım: kurulu yerel Ollama modelinin hem saldırgan hem hedef rolünde koştuğu iki turluk canlı PAIR/TAP döngüsü; skor kural tabanlı canary değerlendiricisidir. | Bu ders **PyRIT kütüphanesini çalıştırmaz**; PyRIT kavramlarını elle yazılmış bir döngüyle gösterir. İki tur, iki dal ve tek model bir saldırı başarı oranı vermez. Kural tabanlı skor, bir judge LLM'in anlamsal değerlendirmesinin yerine geçmez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde model ve ağ yoktur. Son adımdaki **Gerçek deney** görevi yalnız kurulu yerel Ollama modelini kullanır; ders paket ya da model indirmez. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 PAIR, saldırı varyantını hedef ve değerlendirici geri bildirimiyle yineleyen bir akış; TAP ise aramayı ağaç biçiminde genişletir. PyRIT gibi araçlar bu denemeleri kampanya kayıtlarına dönüştürebilir. Ancak çok sayıda varyant üretmek tek başına başarı kanıtı değildir.
 
 Tekrarlanabilir çalışma için aday kimliği, ebeveyn ilişkisi, tur, skor eşiği ve durma kuralı önceden belirlenir. Aynı skora sahip adaylarda girdi sırasına göre seçim yapmak sonucu değiştirir; kimlikle tie-break gerekir. Başarı eşiği ile iyileşme yokluğu da birbirinden ayrılmalıdır.
 
 İlk üç görevde ağaç düğümleri ve skorlar deterministik fixture'lardır; son görevde ise hem saldırgan hem hedef yerel Ollama modeli üzerinde çalışarak canlı bir PAIR/TAP kampanyası yürütür.
+
+**Aracın altında ne olur?** Bir PAIR turunda saldırgan modele hedef görev, önceki istem, hedefin yanıtı ve değerlendiricinin skoru verilir; saldırgan bunlardan yeni bir istem üretir. Hedef bu istemi yanıtlar, değerlendirici yanıtı 0–1 arasında puanlar. Döngü eşik aşılınca ya da tur bütçesi bitince durur. TAP, her düğümden birden fazla çocuk istem üretir; değerlendiriciden önce konu dışı dalları, sonra en düşük skorlu dalları budar. Böylece aynı bütçeyle daha geniş bir arama yapar. Ağaç büyüklüğü genişlik^derinlik ile katlanarak arttığı için derinlik ve genişlik sınırı aynı zamanda **maliyet sınırıdır**.
+
+**PyRIT bu akışı nasıl adlandırır?** PyRIT'te hedefle konuşan bileşen *orchestrator*, istemi dönüştüren katman *converter*, yanıtı puanlayan katman *scorer*, bütün istem/yanıt/skor geçmişini saklayan katman *memory*dir. Bu dersteki karşılıkları şöyledir:
+
+- `tap_agaci_uret` aday dallarını,
+- `pair_tur_karari` orkestratörün tur kararını,
+- `kampanya_ozeti` ise bellekten üretilen raporu temsil eder.
+
+Bu makinedeki `.ai-araclar` ortamında PyRIT kurulu olabilir, ama ders onu içe aktarmaz. Kurulu bir kütüphane, dersin ölçtüğü şeyin o kütüphanenin davranışı olduğu anlamına gelmez.
+
+**Saldırgan ne dener, savunma neden kırılır?** Saldırgan model aynı hedefi rol yapma, kodlama, parçalara bölme ya da "denetim formu" gibi meşru görünen çerçevelerle tekrar tekrar dener. Tek bir sabit istemi engelleyen filtre, yüzlerce varyantın birinde kırılabilir. Ölçüm tarafı da kırılabilir:
+
+- Değerlendirici alıntıyı ya da reddetme cümlesini başarı sayarsa ASR şişer.
+- Eşitlikte girdi sırasıyla seçim yapmak aynı veriden farklı sonuç üretir.
+- Başarısız kampanyaya `0` turunu yazmak "ilk turda başardı" ile karışır.
+
+**Görev 1'de sık tuzaklar:** Özyinelemeli DFS ağacı doğru düğümleri üretir, ama sırayı bozar (`veri/agac_parametreleri.json`, `t-03`); BFS beklenir. `True` değeri `int`'tir; `type(x) is int` kullanmazsan `True` derinlik 1 sayılır (`t-07`). Kökte `/` bulunması, `a/b/1` gibi kimliklerin başka bir dalla çakışmasına yol açar (`t-06`).
 :::
 
 ::: tahmin En yüksek skor tek başına seçim yeterli mi?
@@ -39,9 +65,39 @@ Eşik aşıldığı bilinse bile hangi adayın seçileceği belirsizdir. Determi
 
 Kök düğüm `{"id":KOK,"ebeveyn":None,"derinlik":0}` biçimindedir. Her ebeveyn, sırayla `1..genislik` çocuk üretir; çocuk kimliği `EBEVEYN/INDEX`, derinliği ebeveyn derinliği + 1 olur. Ağacı seviye seviye (BFS), aynı seviyede ebeveyn ve çocuk sırasını koruyarak liste olarak döndür. Toplam düğüm sayısı `Σ genislik^d` (`d=0..derinlik`) olmalıdır.
 
+Görünür veri: `veri/agac_parametreleri.json`. Her örneğin `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def tap_agaci_uret(kok="kok", derinlik=3, genislik=2):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: ağacı derinlik öncelikli (DFS) sırayla üretiyor (seviye sırası bozulur), kökü ve derinlik/genişlik sınırlarını doğrulamıyor ("/" içeren kök kimlik çakışması yaratır, True derinlik 1 sayılır)!
+    sonuc = []
+    def gez(kimlik, ebeveyn, d):
+        sonuc.append({"id": kimlik, "ebeveyn": ebeveyn, "derinlik": d})
+        if d < derinlik:
+            for indeks in range(1, genislik + 1):
+                gez(kimlik + "/" + str(indeks), kimlik, d + 1)
+    gez(kok, None, 0)
+    return sonuc
+
+veri = json_yukle("veri/agac_parametreleri.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = tap_agaci_uret(o["kok"], o["derinlik"], o["genislik"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-30")
 ```
 
 ```test
@@ -127,6 +183,10 @@ Kökü listeye ekle ve yalnız önceki seviyenin kimliklerini tut. Her seviyede 
 Bir turda en iyi aday eşiği geçtiyse kampanya başarıyla durur. Eşik geçilmediyse fakat en iyi skor mevcut skordan yüksekse yeni adayla devam edilir. Skor mevcut seviyeyi aşmıyorsa iyileşme yoktur; aynı turu rastgele tekrarlamak yerine durum açıkça raporlanır.
 
 Seçim anahtarı `(-skor, id)` biçimindedir. Böylece skor azalan, eşitlikte kimlik artan sıralanır. Bu işlem yalnız fixture kararıdır; skorun gerçek saldırı başarısı olduğunu varsaymaz.
+
+**Çıktı nasıl okunur?** `devam` kararı, kampanyanın bütçe harcamaya devam ettiğini söyler; `iyilesme-yok` ise saldırganın aynı seviyede takıldığını gösterir. Gerçek PAIR uygulamalarında bu durumda saldırgana farklı bir strateji ipucu verilir ya da kampanya erken kesilir. Kararın yanında seçilen aday kimliği de kaydedilir; aksi halde "hangi istem başardı?" sorusu yanıtsız kalır.
+
+**Görev 2'de sık tuzaklar:** `max()` eşitlikte ilk gördüğünü seçer; `b` önce geldiği için `a` yerine `b` seçilir (`veri/pair_turlari.json`, `p-01`). Eşiği `>` ile karşılaştırmak tam 0.8'i başarısız sayar (`p-02`). Tamsayı skoru `float`'a çevirmemek `1` ile `1.0`'ın farklı raporlanmasına yol açar (`p-05`).
 :::
 
 ::: gorev 2 · PAIR turunda aday seçimini ve durma kararını hesapla
@@ -140,9 +200,40 @@ Seçim anahtarı `(-skor, id)` biçimindedir. Böylece skor azalan, eşitlikte k
 
 Dönüş `{"durum":DURUM,"secilen":ID,"skor":SKOR}` biçimindedir; skor float olmalıdır. Girdi sırası sonucu etkilememeli ve kayıtlar değiştirilmemelidir.
 
+Görünür veri: `veri/pair_turlari.json`. Her turun `beklenen` alanı vardır; `null`, `ValueError` demektir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def pair_tur_karari(adaylar, mevcut_skor, esik=0.8):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: eşit skorda girdi sırasındaki ilk adayı seçiyor (kimlik tie-break yok), eşiği > ile karşılaştırıyor (tam eşik başarı sayılmaz), skoru float'a çevirmiyor ve adayları/skorları doğrulamıyor!
+    secilen = max(adaylar, key=lambda x: x["skor"])
+    skor = secilen["skor"]
+    if skor > esik:
+        durum = "basarili"
+    elif skor <= mevcut_skor:
+        durum = "iyilesme-yok"
+    else:
+        durum = "devam"
+    return {"durum": durum, "secilen": secilen["id"], "skor": skor}
+
+veri = json_yukle("veri/pair_turlari.json")
+for o in veri["ornekler"]:
+    try:
+        sonuc = pair_tur_karari(o["adaylar"], o["mevcut_skor"], o["esik"])
+    except ValueError:
+        sonuc = None
+    except Exception as hata:
+        sonuc = type(hata).__name__
+    print(o["id"], "doğru" if sonuc == o["beklenen"] else "YANLIŞ", o["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-30")
 ```
 
 ```test
@@ -239,7 +330,9 @@ Adayları `(-skor, id)` ile sırala. İlk adayın skorunu önce eşikle, sonra m
 ::: anlat Kampanya kanıtı deneme geçmişinden türetilir
 Kampanya raporu yalnız son turu değil bütün denemeleri içermelidir. Deneme sayısı maliyeti, en iyi skor erişilen seviyeyi, ilk başarı turu ise ne zaman durulabileceğini gösterir. Başarısız kampanyada ilk başarı turu `None` olur; sıfır tur ile karıştırılmaz.
 
-Aynı kampanya–tur–aday üçlüsünün tekrarı kayıt bütünlüğü hatasıdır. Farklı turlarda aynı aday kimliği bulunabilir; bunlar ayrı ölçümlerdir. Gerçek PyRIT çalışmasında buna model, prompt ve değerlendirici sürümleri de eklenmelidir.
+Aynı kampanya–tur–aday üçlüsünün tekrarı kayıt bütünlüğü hatasıdır. Farklı turlarda aynı aday kimliği bulunabilir; bunlar ayrı ölçümlerdir. Gerçek bir PyRIT çalışmasında bu kayıtlar `memory` veritabanında tutulur ve her kayda model, prompt, converter ve scorer sürümleri de eklenir. Bu derste aynı bilgiyi elle tutulan deneme listesi taşır.
+
+**Görev 3'te sık tuzaklar:** Girdide ilk görülen başarılı kaydın turunu almak, sıralı olmayan logda yanlış "ilk başarı" verir (`veri/kampanya_denemeleri.json`, `tap-otel`: ilk görülen 3, doğru değer 2). Başarısız kampanyaya `0` yazmak, "hiç başaramadı" ile "sıfırıncı turda başardı" arasındaki farkı siler (`pair-banka`). Yinelenen kaydı saymak maliyeti şişirir.
 :::
 
 ::: gorev 3 · Kampanyaların deneme, en iyi skor ve ilk başarı kanıtını özetle
@@ -254,9 +347,47 @@ Her kampanya için:
 
 Başarı, skoru eşiğe eşit veya büyük en az bir denemedir. İlk başarı turu yalnız başarılı denemelerin minimum turudur. Raporu kampanya adına göre artan sırala; girdi sırası sonucu etkilememeli ve kayıtlar değiştirilmemelidir.
 
+Görünür veri: `veri/kampanya_denemeleri.json`. Dosyada eşik, denemeler, beklenen özet ve dört bozuk girdi vardır.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def kampanya_ozeti(denemeler, esik=0.8):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: ilk başarı turunu girdide ilk görülen başarılı kayıttan alıyor (en küçük tur değil), başarısız kampanyada None yerine 0 yazıyor, yinelenen denemeleri reddetmiyor ve raporu sıralamıyor!
+    gruplar = {}
+    for kayit in denemeler:
+        gruplar.setdefault(kayit["kampanya"], []).append(kayit)
+    sonuc = []
+    for ad, kayitlar in gruplar.items():
+        basarili = [k["tur"] for k in kayitlar if k["skor"] >= esik]
+        sonuc.append({"kampanya": ad, "deneme": len(kayitlar), "en_iyi": max(k["skor"] for k in kayitlar), "basarili": bool(basarili), "ilk_basari_turu": basarili[0] if basarili else 0})
+    return sonuc
+
+veri = json_yukle("veri/kampanya_denemeleri.json")
+try:
+    rapor = kampanya_ozeti(veri["denemeler"], veri["esik"])
+except Exception as hata:
+    rapor = [{"hata": type(hata).__name__}]
+print("rapor sırası", "doğru" if [r.get("kampanya") for r in rapor] == [b["kampanya"] for b in veri["beklenen"]] else "YANLIŞ")
+for beklenen in veri["beklenen"]:
+    bulunan = next((r for r in rapor if r.get("kampanya") == beklenen["kampanya"]), None)
+    print(beklenen["kampanya"], "doğru" if bulunan == beklenen else "YANLIŞ", bulunan)
+for b in veri["bozuk_girdiler"]:
+    try:
+        kampanya_ozeti(b["girdi"], veri["esik"])
+        print(b["id"], "YANLIŞ: kabul edildi", b["aciklama"])
+    except ValueError:
+        print(b["id"], "doğru: ValueError", b["aciklama"])
+    except Exception as hata:
+        print(b["id"], "YANLIŞ:", type(hata).__name__, b["aciklama"])
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-30")
 ```
 
 ```test
@@ -371,6 +502,8 @@ Kayıtları kampanyaya grupla. Her grup için başarılı turları ayrı listele
 2. Her turda **saldırgan rolündeki yerel model**, bir önceki turun geri bildirimini kullanarak hedefteki sentetik `canary` değerini sızdırmayı deneyen yeni bir istem üretir.
 3. **Hedef rolündeki yerel model** (`ai_lab.injection_sistemi(canary)`) bu istemi yanıtlar; değerlendirici yanıtı `[0, 1]` aralığında skorlar.
 4. Her turun sonunda `pair_tur_karari`, kampanya sonunda ise `kampanya_ozeti` canlı deneme geçmişini özetler ve kanıt yazar.
+
+**Çıktıyı okurken:** Önce saldırganın ürettiği istemlere bak; saldırgan model güvenlik eğitimi nedeniyle saldırı istemi üretmeyi reddedebilir. Bu da kampanyanın bir sonucudur. Sonra hedef yanıtlarında canary'nin geçip geçmediğini ve değerlendirici skorunu karşılaştır. Kampanya özeti başarısız çıksa bile deney geçerlidir; kabul şartı saldırının başarısı değil, kararların ve özetin canlı geçmişle tutarlı olmasıdır.
 :::
 
 ::: gorev Gerçek deney · Saldırgan + hedef yerel model ile canlı PAIR/TAP kampanyası
@@ -386,20 +519,43 @@ timeout: 300
 ```
 
 ```starter
-import importlib
 import math
 import ai_lab
-L = importlib.import_module("sandbox.ai_gercek_ai_saldiri_30")
+from sandbox import ai_gercek_ai_saldiri_30 as L
 
 def tap_agaci_uret(kok="kok", derinlik=3, genislik=2):
-    # KUSURLU BAŞLANGIÇ KODU: yalnız kök düğümü döndürüyor, çocuk dalları üretmiyor!
-    return [{"id": kok, "ebeveyn": None, "derinlik": 0}]
+    # KUSURLU BAŞLANGIÇ KODU: ağacı derinlik öncelikli (DFS) sırayla üretiyor (seviye sırası bozulur), kökü ve derinlik/genişlik sınırlarını doğrulamıyor ("/" içeren kök kimlik çakışması yaratır, True derinlik 1 sayılır)!
+    sonuc = []
+    def gez(kimlik, ebeveyn, d):
+        sonuc.append({"id": kimlik, "ebeveyn": ebeveyn, "derinlik": d})
+        if d < derinlik:
+            for indeks in range(1, genislik + 1):
+                gez(kimlik + "/" + str(indeks), kimlik, d + 1)
+    gez(kok, None, 0)
+    return sonuc
 
 def pair_tur_karari(adaylar, mevcut_skor, esik=0.8):
-    return {"durum": "iyilesme-yok", "secilen": adaylar[0]["id"] if adaylar else "yok", "skor": 0.0}
+    # KUSURLU BAŞLANGIÇ KODU: eşit skorda girdi sırasındaki ilk adayı seçiyor (kimlik tie-break yok), eşiği > ile karşılaştırıyor (tam eşik başarı sayılmaz), skoru float'a çevirmiyor ve adayları/skorları doğrulamıyor!
+    secilen = max(adaylar, key=lambda x: x["skor"])
+    skor = secilen["skor"]
+    if skor > esik:
+        durum = "basarili"
+    elif skor <= mevcut_skor:
+        durum = "iyilesme-yok"
+    else:
+        durum = "devam"
+    return {"durum": durum, "secilen": secilen["id"], "skor": skor}
 
 def kampanya_ozeti(denemeler, esik=0.8):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: ilk başarı turunu girdide ilk görülen başarılı kayıttan alıyor (en küçük tur değil), başarısız kampanyada None yerine 0 yazıyor, yinelenen denemeleri reddetmiyor ve raporu sıralamıyor!
+    gruplar = {}
+    for kayit in denemeler:
+        gruplar.setdefault(kayit["kampanya"], []).append(kayit)
+    sonuc = []
+    for ad, kayitlar in gruplar.items():
+        basarili = [k["tur"] for k in kayitlar if k["skor"] >= esik]
+        sonuc.append({"kampanya": ad, "deneme": len(kayitlar), "en_iyi": max(k["skor"] for k in kayitlar), "basarili": bool(basarili), "ilk_basari_turu": basarili[0] if basarili else 0})
+    return sonuc
 
 if ai_lab.CALISTIR:
     L.goster(tap_agaci_uret, pair_tur_karari, kampanya_ozeti)
@@ -416,8 +572,17 @@ def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("tap_agaci_uret_referans", "pair_tur_karari_referans", "kampanya_ozeti_referans", "kanit_yaz")):
+import ast
+_yasak = ("tap_agaci_uret_referans", "pair_tur_karari_referans", "kampanya_ozeti_referans", "kanit_yaz")
+for s in ai_lab.kod_denetimi(src, yasak=_yasak):
     ok(False, f"Güvenlik/kopya denetimi: {s}")
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n, ast.ImportFrom) and any(a.name in _yasak or a.name == "*" for a in _n.names):
+        ok(False, "Güvenlik/kopya denetimi: referans importu yasak")
+    if isinstance(_n, (ast.Import, ast.ImportFrom)) and any(x and x.split(".")[0] in ("inspect", "importlib", "runpy") for x in [a.name for a in _n.names] + ([_n.module] if isinstance(_n, ast.ImportFrom) else [])):
+        ok(False, "Güvenlik/kopya denetimi: kaynak okuma/dinamik import yasak")
+    if isinstance(_n, ast.Name) and _n.id in ("exec", "eval", "compile", "__builtins__"):
+        ok(False, "Güvenlik/kopya denetimi: dinamik kod çalıştırma yasak: " + _n.id)
 if not all(checks):
     stop()
 
@@ -507,10 +672,9 @@ print(f"GERÇEK PAIR/TAP KAMPANYA DENEYİ: model={o['model']} toplam_cagri={o['t
 ```
 
 ```solution
-import importlib
 import math
 import ai_lab
-L = importlib.import_module("sandbox.ai_gercek_ai_saldiri_30")
+from sandbox import ai_gercek_ai_saldiri_30 as L
 
 def tap_agaci_uret(kok="kok", derinlik=3, genislik=2):
     if not isinstance(kok, str):

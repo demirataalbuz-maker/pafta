@@ -6,12 +6,38 @@ timeout: 300
 ---
 
 ::: anlat Aktivasyon izi davranışla birlikte okunur
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Aktivasyon cache'i belirli girdinin katman çıktılarını verir | İlk üç görev görünür sentetik JSON; final kurulu Qwen2.5-0.5B-Instruct ve TransformerBridge | Sentetik vektörler model kaydı değildir; grup adı gözlenen ret kararı değildir |
+| Ortalama fark ve davranış gözlemi birlikte raporlanabilir | Gerçek son-token aktivasyonlarının ilk sekiz bileşeni, dört gerçek yanıt ve dar ret sezgiseli | Müdahale, evrensel refusal yönü veya katmana özel ret oranı ölçülmez; aynı oran için korelasyon None'dır |
+
+> [!NOT]
+> `veri/aktivasyon.json` elle hazırlanmış sentetik çalışma verisidir. İlk üç görev aynı dosyayı okur, ilk Çalıştır ham JSON'u gösterir. Setup her Run/Check için geçici veri/ kopyası kurar; değişiklikler sonraki çalıştırmaya taşınmaz. Kaynak dosyayı haricî editörde veya yüklenen sözlüğü kodda değiştirip yeniden Çalıştır deneyebilirsin. Gizli testler ayrıdır. Final yalnız önceden kurulu model ve TransformerLens'i kullanır; yeni indirme yoktur.
+
 Mekanistik yorumlanabilirlik çalışmasında belirli katmanlardaki aktivasyonların refusal ve normal örnekler arasında nasıl değiştiği incelenebilir. Grup ortalamaları arasındaki fark bir yön özeti verir. Ancak bu özet tek başına modelin refusal kararını o yönün ürettiğini göstermez; davranışsal test ve müdahale deneyleri gerekir.
 
 İlk üç görevde aktivasyonlar ve davranış oranları deterministik fixture olarak verilir; son görevde ise TransformerLens 4.3 (`TransformerBridge.boot_transformers`) kullanılarak sabit revizyonlu `Qwen/Qwen2.5-0.5B-Instruct` (`rev: 7ae557604adf67be50417f59c2c2f167def9a775`) modeli üzerinde gerçek katman aktivasyonları ve reddetme davranışı ölçülür.
 :::
 
 ::: anlat Yön farkı ve korelasyon farklı sorulara cevap verir
+
+Önce aktivasyon.json dosyasındaki kayitlar alanını aç. Her kayıt kimliği, katmanı, grup etiketini ve küçük bir vektörü taşır. Grupların refusal ve normal diye adlandırılması, bu sentetik satırlardan birinin gerçekten bir modelin reddetme durumuna ait olduğunu göstermez. İlk görev yalnız biçimi doğrular ve sıralı bağımsız kopyalar döndürür. Kaynak listeyi sıralamak veya iç vektörü paylaşmak, sonraki görevin girdisini sessizce değiştirebilir. Sonucun bir bileşenini değiştirdiğinde kaynak aynı kalmalıdır. Kimliği ASCII kurallarıyla sınırlamak da Unicode harf kabul eden genel bir karakter sınıfıyla aynı şey değildir; boşluk ve satır sonu gibi görünmeyen farklar ayrı kontrol ister.
+
+İkinci görev dosyanın refusal ve normal vektör gruplarını alır. Örnek sayıları aynı olmak zorunda değildir; eşit olması gereken vektör boyutudur. Her grubun ortalaması kendi örnek sayısına bölünür. Bir grupta üç kayıt, diğerinde iki kayıt varsa toplamları doğrudan çıkarmak farklı bir nicelik üretir. Farkın L2 normunu yuvarlanmamış koordinatlardan hesapla. Önce koordinatları altı ondalığa yuvarlamak küçük farkların normunu bozabilir. İki ortalama aynıysa sıfır fark ve sıfır norm geçerlidir; bu, veri veya modelin bütün davranışlarının aynı olduğunu göstermez. Dosyadaki bir vektörü değiştirip farkın yönünü ve büyüklüğünü birlikte izle.
+
+Üçüncü görev katman_bulgulari alanını kullanır. Buradaki oranlar da sentetik öğretim sayılarıdır. Pearson korelasyonu iki serinin birlikte değişimini ölçer. Skorlar değişirken bütün oranlar aynı kalıyorsa paydadaki varyans sıfırdır ve sonuç None olmalıdır. None değerini sıfır korelasyon diye yorumlama; burada korelasyon tanımlanamamıştır. En güçlü katman seçimi ise ayrı bir kuraldır: mutlak skor en büyük, eşitlikte katman numarası en küçük olan seçilir. Negatif büyük bir skorun mutlak büyüklüğünü unutmak veya aynı skorda son kaydı seçmek yanlış katmanı öne çıkarır. Girdi sırası bu eşitlik kararını etkilememelidir.
+
+Gerçek finalde kurulu instruct model dört açık laboratuvar istemini yanıtlar. İki istem reddetme araştırması için, ikisi normal kullanım için seçilmiştir; bu tasarım etiketleri modelin mutlaka reddedeceği anlamına gelmez. İstemlerin system metinleri de farklıdır. Dolayısıyla grup ortalama farkı yalnız refusal davranışına bağlanamaz: talimat biçimi, konu ve token dizisi gibi etkenler karışıktır. Model bazen şaşırtıcı bir yanıt verebilir ve bu bulgu saklanır. Deneyin geçmesi belirli bir ret cümlesine veya saldırı başarısına bağlanmaz; tamamlanmış gerçek üretim ve doğru ölçüm gerekir.
+
+TransformerBridge aynı gerçek girdinin katman cache'ini döndürür. Katman 6,12 ve18 için son konumun residual çıktısı alınır. Öğrencinin sayısal işlevleri ilk sekiz bileşen üzerinde çalışır; bunların normu bütün gizli boyutun normu değildir. Tam yakalanmış vektörler ayrıca kanıtta tutulur. Bu örnekleme öğretimi kolaylaştırır, bütün refusal mekanizmasını açıklamaz. Hedef model revizyonu, ağırlık SHA256, tokenizer girdileri, chat şablonlu tam metin, üretilen tokenlar, gerçek yanıtlar ve çalışma ayarları kaydedilir. Model dosyası veya ağırlığı eğitilmez, dış servis açılmaz.
+
+Ret gözlemi birkaç dilsel işareti arayan sınırlı bir sezgiseldir. Yanıtta cannot geçmesi bir reddetme işareti olabilir; her dildeki veya dolaylı reddetmeyi kapsamaz. Normal bir açıklamada bu kelimenin bulunması da yanlış pozitif üretebilir. Bu nedenle ham yanıt ve işaret eşleşmeleri birlikte gösterilir. İki araştırma istemindeki sezgisel ret oranı bütün katmanlara aynı gözlem olarak eklenir; bu deney katmanlara müdahale etmediğinden üç farklı katman ret oranı üretemez. Oran sabit olduğundan gerçek finalde Pearson None kalır. Katman derinliğiyle oranı çarpıp artan bir sayı çizmek ölçüm değildir ve yapılmaz.
+
+Bir saldırgan izinli bir araştırma ortamında girdileri değiştirip farklı aktivasyon izlerini inceleyebilir. Bir fark vektörünü bulmak, o vektörü silince güvenliğin kalkacağını veya ekleyince güvenliğin artacağını kanıtlamaz. Böyle bir iddia kontrollü müdahale, ayrı değerlendirme örnekleri ve normal işler üzerindeki yan etkilerin ölçümünü gerektirir. Bu dersin finali gözlemseldir; intervention veya ablation kabulü değildir. Dört örnek istatistiksel genelleme için yeterli sayılmaz. Örnek seçimi ve sezgisel etiket hataları açıklanmadan yüksek korelasyon görmek de güvence sağlamaz.
+
+Çalıştır gerçek gözlemleri keşif kaydı olarak kabulfalse saklar. Kontrol önce görülmemiş sentetik sınır vakalarıyla öğrenci işlevlerini sınar, ardından gerçek model ve cache yolunu doğrular. Eksik model veya kütüphane, başarısız üretim, kayıp aktivasyon veya yarım deney PASS sayılmaz. Hiçbir bağımlılık otomatik indirilmez. Rastgele veya sürüme duyarlı yanıt sabit metinle karşılaştırılmaz. Başarılı bir ders sonucu öğrencinin hesaplarının ve ölçüm yolunun doğru çalıştığını gösterir; modelin genel güvenliğinin veya belirli bir ret mekanizmasının kanıtı değildir.
+
 Refusal ve normal grupların ortalama vektörleri arasındaki fark `ortalama(refusal)-ortalama(normal)` olarak hesaplanır. Farkın L2 normu, yön özetinin büyüklüğünü gösterir. Katman bazındaki yön skorları ile refusal oranları arasındaki Pearson korelasyonu ise birlikte değişimi ölçer.
 
 Korelasyon için iki değişkenin de varyansı sıfırdan büyük olmalıdır; sabit seride sonuç `None` döndürülür. En güçlü katman, mutlak yön skoru en büyük olan katmandır ve eşitlikte düşük katman numarası seçilir. Korelasyon nedensellik değildir.
@@ -42,9 +68,24 @@ None
 
 Vektör boş olmayan listedir; her değer bool olmayan sonlu sayıdır. Bütün vektörler aynı boyutta olmalıdır. Geçersiz veride `ValueError` yükselt. Kayıtları `(katman, tur, id)` ile artan sıralayıp vektörleri de kopyalanmış yeni sözlüklerle döndür. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-06")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def aktivasyon_kayitlarini_dogrula(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: sıralar fakat kaynak sözlük/vektörleri paylaşır ve şemayı doğrulamaz.
+    return sorted(kayitlar,key=lambda x:(x["katman"],x["tur"],x["id"]))
+
+v=json_yukle("veri/aktivasyon.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/aktivasyon.json"))
+print("Kayıtlar:",aktivasyon_kayitlarini_dogrula(v["kayitlar"]))
 ```
 
 ```test
@@ -79,6 +120,13 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        kaynak={x["id"]:x for x in A}
+        if any(x is kaynak[x["id"]] or x["vektor"] is kaynak[x["id"]]["vektor"] for x in sonuc):return False
+        sonuc[0]["vektor"][0]=99
+        if A!=once:return False
+        for ad in ["_abc","-abc","éx","a\n"]:
+            try:fn([dict(A[0],id=ad)]);return False
+            except ValueError:pass
         return True
     except Exception:
         return False
@@ -94,6 +142,8 @@ for ad, mutant in [("katmanları silen", m_katman), ("vektörleri silen", m_vekt
 ```
 
 ```solution
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def aktivasyon_kayitlarini_dogrula(kayitlar):
     import math
     import re
@@ -140,6 +190,10 @@ def aktivasyon_kayitlarini_dogrula(kayitlar):
         kimlikler.add(kimlik)
         sonuc.append({"id": kimlik, "katman": katman, "tur": kayit["tur"], "vektor": list(vektor)})
     return sorted(sonuc, key=lambda x: (x["katman"], x["tur"], x["id"]))
+
+v=json_yukle("veri/aktivasyon.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/aktivasyon.json"))
+print("Kayıtlar:",aktivasyon_kayitlarini_dogrula(v["kayitlar"]))
 ```
 
 ```hint
@@ -152,9 +206,25 @@ def aktivasyon_kayitlarini_dogrula(kayitlar):
 
 Her koordinatta grup ortalamalarını bul ve `refusal_normal_farki = ortalama(refusal)-ortalama(normal)` hesapla. `{"fark":[X,...],"l2":X}` döndür. Fark koordinatlarını ve L2 normunu altı ondalık basamağa yuvarla. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-06")
+```
+
 ```starter
-def grup_vektor_farki(refusal, normal):
-    return {}
+from ai_guvence_veri import json_yukle,metin_yukle
+
+def grup_vektor_farki(refusal,normal):
+    # KUSURLU BAŞLANGIÇ KODU: grup ortalamaları yerine toplamlarını çıkarır.
+    import math
+    fark=[sum(v[i] for v in refusal)-sum(v[i] for v in normal) for i in range(len(refusal[0]))]
+    return {"fark":[round(x,6) for x in fark],"l2":round(math.hypot(*fark),6)}
+
+v=json_yukle("veri/aktivasyon.json")
+print("Sentetik grup farkı:",grup_vektor_farki(v["refusal"],v["normal"]))
 ```
 
 ```test
@@ -200,6 +270,8 @@ for ad, mutant in [("refusal grubunu silen", m_refusal), ("normal grubu silen", 
 ```
 
 ```solution
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def grup_vektor_farki(refusal, normal):
     import math
     def dogrula(grup):
@@ -233,6 +305,9 @@ def grup_vektor_farki(refusal, normal):
         no = sum(v[i] for v in normal) / len(normal)
         fark.append(ro - no)
     return {"fark": [round(x, 6) for x in fark], "l2": round(math.sqrt(sum(x * x for x in fark)), 6)}
+
+v=json_yukle("veri/aktivasyon.json")
+print("Sentetik grup farkı:",grup_vektor_farki(v["refusal"],v["normal"]))
 ```
 
 ```hint
@@ -245,9 +320,23 @@ def grup_vektor_farki(refusal, normal):
 
 Yön skorları ve refusal oranları arasında Pearson korelasyonu hesapla. Serilerden birinin varyansı sıfırsa korelasyon `None` olsun. `{"korelasyon":X_VEYA_NONE,"en_guclu_katman":N,"bulgular":[KAYIT,...]}` döndür. Korelasyonu altı ondalık basamağa yuvarla, bulguları katmana göre sırala ve kopyala. En güçlü katman mutlak yön skoru en büyük olan, eşitlikte en düşük numaralı katmandır. Girdiyi değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_guvence_veri import hazirla
+hazirla("ai-guvence-06")
+```
+
 ```starter
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def davranis_iliskisi(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: sabit seriye de korelasyon1 atar ve mutlak skor yerine ham skoru seçer.
+    return {"korelasyon":1.0,"en_guclu_katman":max(kayitlar,key=lambda x:x["yon_skoru"])["katman"],"bulgular":[dict(x) for x in sorted(kayitlar,key=lambda x:x["katman"])]}
+
+v=json_yukle("veri/aktivasyon.json")
+print("Sentetik davranış ilişkisi:",davranis_iliskisi(v["katman_bulgulari"]))
 ```
 
 ```test
@@ -292,6 +381,11 @@ def sozlesme(fn):
                 return False
             except ValueError:
                 pass
+        for oran in [0,1]:
+            q=fn([dict(K[0],refusal_orani=oran),dict(K[1],refusal_orani=oran)])
+            if q["korelasyon"] is not None:return False
+        b=[{"katman":2,"yon_skoru":-3,"refusal_orani":0},{"katman":0,"yon_skoru":3,"refusal_orani":1}]
+        if fn(b)["en_guclu_katman"]!=0 or fn(list(reversed(b)))["en_guclu_katman"]!=0:return False
         return True
     except Exception:
         return False
@@ -307,6 +401,8 @@ for ad, mutant in [("skorları silen", m_skor), ("davranışı silen", m_davrani
 ```
 
 ```solution
+from ai_guvence_veri import json_yukle,metin_yukle
+
 def davranis_iliskisi(kayitlar):
     import math
     if not isinstance(kayitlar, list):
@@ -353,6 +449,9 @@ def davranis_iliskisi(kayitlar):
         korelasyon = round(sum((x - xo) * (y - yo) for x, y in zip(xs, ys)) / math.sqrt(xv * yv), 6)
     en_guclu = min(bulgular, key=lambda x: (-abs(x["yon_skoru"]), x["katman"]))["katman"]
     return {"korelasyon": korelasyon, "en_guclu_katman": en_guclu, "bulgular": sorted(bulgular, key=lambda x: x["katman"])}
+
+v=json_yukle("veri/aktivasyon.json")
+print("Sentetik davranış ilişkisi:",davranis_iliskisi(v["katman_bulgulari"]))
 ```
 
 ```hint
@@ -363,9 +462,9 @@ Ortalamaları ve iki varyansı ayrı hesapla. Korelasyondan önce sıfır varyan
 ::: anlat TransformerLens 4.3 (`TransformerBridge`) ve `Qwen2.5-0.5B-Instruct` ile canlı refusal aktivasyonu deneyi
 İlk üç görevde aktivasyon doğrulama, grup vektör farkı ve katman–davranış ilişkisini deterministik fixture'larla kurdun. Şimdi aynı üç işlevi **TransformerLens 4.3 (`transformer_lens.model_bridge.TransformerBridge.boot_transformers`)** üzerinden yerel `Qwen/Qwen2.5-0.5B-Instruct` (`rev: 7ae557604adf67be50417f59c2c2f167def9a775`) modeline bağlıyoruz:
 
-1. İki vekil refusal istemi (modelin `"I'm sorry, but I can't assist with that..."` diyerek gerçekten reddettiği istemler) ve iki normal istem `bridge.run_with_cache(...)` ile çalıştırılır.
+1. İki refusal araştırması istemi (modelin reddetmesi garanti veya geçme şartı değildir) ve iki normal istem `bridge.run_with_cache(...)` ile çalıştırılır.
 2. Katman 6, 12 ve 18'deki `blocks.{katman}.hook_resid_post` son token aktivasyon vektörleri toplanıp `aktivasyon_kayitlarini_dogrula` ve `grup_vektor_farki` işlevlerinden geçirilir.
-3. Katman yön farkı normları ile davranışsal ret oranları `davranis_iliskisi` ile özetlenerek kanıt dosyasına kaydedilir.
+3. Yön farkı normları ve aynı dört yanıtın gözlenen ret oranı raporlanır. Katmana özel müdahale yoktur: aynı oran üç katmanda yinelenir ve korelasyon None olur. Önceki sentetik görevdeki değişken oranlar gerçek ölçüm sanılmaz.
 :::
 
 ::: gorev Gerçek deney · TransformerLens ile Qwen2.5-0.5B-Instruct üzerinde refusal yönü ölçümü
@@ -408,10 +507,15 @@ def ok(kosul, mesaj):
     checks.append(bool(kosul))
     return _base_ok(kosul, mesaj)
 
-for s in ai_lab.kod_denetimi(src, yasak=("aktivasyon_kayitlarini_dogrula_referans", "grup_vektor_farki_referans", "davranis_iliskisi_referans", "kanit_yaz")):
-    ok(False, f"Güvenlik/kopya denetimi: {s}")
-if not all(checks):
-    stop()
+import ast
+yasak=("aktivasyon_kayitlarini_dogrula_referans","grup_vektor_farki_referans","davranis_iliskisi_referans","kanit_yaz","getattr")
+ihlal=ai_lab.kod_denetimi(src,yasak=yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in node.names):ihlal.append("referans ithali")
+except SyntaxError:ihlal.append("sözdizimi")
+ok(not ihlal,"Kendi aktivasyon hesaplarını yaz; referans ithali yasak")
+if ihlal:stop()
 
 def _sozlesme_kontrol():
     try:
@@ -459,6 +563,140 @@ def _sozlesme_kontrol():
     except Exception:
         return False
 
+def _birim1(fn):
+    import copy
+    A = [
+        {"id": "n-1", "katman": 2, "tur": "normal", "vektor": [0, 1]},
+        {"id": "r-1", "katman": 1, "tur": "refusal", "vektor": [1, 2]},
+        {"id": "n-2", "katman": 1, "tur": "normal", "vektor": [0, 2]},
+    ]
+    BEKLENEN = [A[2], A[1], A[0]]
+    def sozlesme(fn):
+        try:
+            once = copy.deepcopy(A)
+            sonuc = fn(A)
+            if sonuc != BEKLENEN or A != once or any(sonuc[i] is A[i] for i in range(len(A))):
+                return False
+            if any(sonuc[i]["vektor"] is A[i]["vektor"] for i in range(len(A))):
+                return False
+            if fn([dict(A[0], id="a" * 64, katman=0)])[0]["katman"] != 0:
+                return False
+            for kayitlar in [
+                None, {}, [], [None], [dict(A[0], ek=1)], [dict(A[0], id="")], [dict(A[0], id="a b")],
+                [dict(A[0], id="a" * 65)], [dict(A[0], id=None)], [A[0], A[0]],
+                [dict(A[0], katman=-1)], [dict(A[0], katman=True)], [dict(A[0], katman=1.0)], [dict(A[0], katman=None)],
+                [dict(A[0], tur="baska")], [dict(A[0], tur=None)], [dict(A[0], vektor=[])], [dict(A[0], vektor=None)],
+                [dict(A[0], vektor="12")], [dict(A[0], vektor=[True, 1])], [dict(A[0], vektor=["0", 1])],
+                [dict(A[0], vektor=[float("nan"), 1])], [dict(A[0], vektor=[float("inf"), 1])],
+                [A[0], dict(A[1], vektor=[1, 2, 3])],
+            ]:
+                try:
+                    fn(kayitlar)
+                    return False
+                except ValueError:
+                    pass
+            kaynak={x["id"]:x for x in A}
+            if any(x is kaynak[x["id"]] or x["vektor"] is kaynak[x["id"]]["vektor"] for x in sonuc):return False
+            sonuc[0]["vektor"][0]=99
+            if A!=once:return False
+            for ad in ["_abc","-abc","éx","a\n"]:
+                try:fn([dict(A[0],id=ad)]);return False
+                except ValueError:pass
+            return True
+        except Exception:
+            return False
+    return sozlesme(fn)
+
+
+def _birim2(fn):
+    import copy
+    R = [[1, 3], [3, 5]]
+    N = [[0, 1], [2, 1]]
+    BEKLENEN = {"fark": [1.0, 3.0], "l2": 3.162278}
+    def sozlesme(fn):
+        try:
+            ronce = copy.deepcopy(R)
+            nonce = copy.deepcopy(N)
+            if fn(R, N) != BEKLENEN or R != ronce or N != nonce:
+                return False
+            if fn([[0, 0]], [[0, 0]]) != {"fark": [0.0, 0.0], "l2": 0.0}:
+                return False
+            if fn([[1 / 3]], [[0]]) != {"fark": [0.333333], "l2": 0.333333}:
+                return False
+            if fn([[1], [3]], [[0], [0], [0]])["fark"] != [2.0]:
+                return False
+            for refusal, normal in [
+                (None, N), (R, None), ({}, N), (R, {}), ([], N), (R, []), ([None], N), (R, [None]),
+                ([[]], N), (R, [[]]), ([[1, 2], [3]], N), (R, [[0], [1]]), ([[1]], [[0, 1]]),
+                ([[True]], [[0]]), ([["1"]], [[0]]), ([[float("nan")]], [[0]]), ([[float("inf")]], [[0]]),
+                ([[1]], [[True]]), ([[1]], [["0"]]), ([[1]], [[float("nan")]]), ([[1]], [[float("inf")]]),
+            ]:
+                try:
+                    fn(refusal, normal)
+                    return False
+                except ValueError:
+                    pass
+            return True
+        except Exception:
+            return False
+    return sozlesme(fn)
+
+
+def _birim3(fn):
+    import copy
+    K = [
+        {"katman": 2, "yon_skoru": 0.2, "refusal_orani": 0.4},
+        {"katman": 0, "yon_skoru": 0.1, "refusal_orani": 0.2},
+        {"katman": 1, "yon_skoru": 0.3, "refusal_orani": 0.6},
+    ]
+    def sozlesme(fn):
+        try:
+            once = copy.deepcopy(K)
+            sonuc = fn(K)
+            if sonuc["korelasyon"] != 1.0 or sonuc["en_guclu_katman"] != 1 or K != once:
+                return False
+            if [x["katman"] for x in sonuc["bulgular"]] != [0, 1, 2] or any(sonuc["bulgular"][i] is K[i] for i in range(len(K))):
+                return False
+            if fn(K[:2])["korelasyon"] != 1.0 or fn(K[:2])["en_guclu_katman"] != 2:
+                return False
+            negatif = [dict(K[0], yon_skoru=-1, refusal_orani=1), dict(K[1], yon_skoru=0, refusal_orani=0.5), dict(K[2], yon_skoru=1, refusal_orani=0)]
+            if fn(negatif)["korelasyon"] != -1.0:
+                return False
+            sabit = [dict(x, yon_skoru=0.1) for x in K]
+            if fn(sabit)["korelasyon"] is not None or fn(sabit)["en_guclu_katman"] != 0:
+                return False
+            if fn([dict(x, refusal_orani=0.5) for x in K])["korelasyon"] is not None:
+                return False
+            yuvarla = [dict(K[0], yon_skoru=1, refusal_orani=0.1), dict(K[1], yon_skoru=2, refusal_orani=0.2), dict(K[2], yon_skoru=3, refusal_orani=0.4)]
+            if fn(yuvarla)["korelasyon"] != 0.981981:
+                return False
+            for kayitlar in [
+                None, {}, [], [K[0]], [None], [dict(K[0], ek=1)], [K[0], K[0]],
+                [dict(K[0], katman=-1), K[1]], [dict(K[0], katman=True), K[1]], [dict(K[0], katman=1.0), K[1]],
+                [dict(K[0], yon_skoru=True), K[1]], [dict(K[0], yon_skoru="0.2"), K[1]],
+                [dict(K[0], yon_skoru=float("nan")), K[1]], [dict(K[0], yon_skoru=float("inf")), K[1]],
+                [dict(K[0], refusal_orani=True), K[1]], [dict(K[0], refusal_orani="0.4"), K[1]],
+                [dict(K[0], refusal_orani=float("nan")), K[1]], [dict(K[0], refusal_orani=float("inf")), K[1]],
+                [dict(K[0], refusal_orani=-0.1), K[1]], [dict(K[0], refusal_orani=1.1), K[1]],
+            ]:
+                try:
+                    fn(kayitlar)
+                    return False
+                except ValueError:
+                    pass
+            for oran in [0,1]:
+                q=fn([dict(K[0],refusal_orani=oran),dict(K[1],refusal_orani=oran)])
+                if q["korelasyon"] is not None:return False
+            b=[{"katman":2,"yon_skoru":-3,"refusal_orani":0},{"katman":0,"yon_skoru":3,"refusal_orani":1}]
+            if fn(b)["en_guclu_katman"]!=0 or fn(list(reversed(b)))["en_guclu_katman"]!=0:return False
+            return True
+        except Exception:
+            return False
+    return sozlesme(fn)
+
+ok(_birim1(aktivasyon_kayitlarini_dogrula),"görülmemiş kayıt/kopya sınırları")
+ok(_birim2(grup_vektor_farki),"görülmemiş grup boyutu/ortalama sınırları")
+ok(_birim3(davranis_iliskisi),"görülmemiş korelasyon/eşitlik sınırları")
 ok(_sozlesme_kontrol(), "aktivasyon_kayitlarini_dogrula, grup_vektor_farki ve davranis_iliskisi sözleşme kontrollerini geçmeli")
 if not all(checks):
     stop()
@@ -476,7 +714,8 @@ k = rapor["kontroller"]
 ok(k["aktivasyon_dogrulama_uyumu"], f"aktivasyon_kayitlarini_dogrula canlı aktivasyonlarda referansla uyuşmalı")
 ok(k["grup_farki_uyumu"], f"grup_vektor_farki canlı katman aktivasyonlarında referansla uyuşmalı: {rapor['ozet']['katman_l2_normlari']}")
 ok(k["davranis_iliskisi_uyumu"], f"davranis_iliskisi canlı katman bulgularında referansla uyuşmalı: {rapor['iliski']}")
-ok(k["gercek_refusal_dogrulandi"], f"Qwen2.5-0.5B-Instruct vekil refusal istemini reddetmeli ve normal istemi yanıtlamalı: {rapor['davranis_kayitlari']}")
+ok(k["gercek_uretim_tamamlandi"], "dört gerçek yanıt ve üç katmanın aktivasyonları eksiksiz; ret başarısı şart değildir")
+ok(k["sabit_oran_durust"], "katmana özel uydurma oran yok; aynı gözlemle korelasyon None")
 
 kabul = all(checks)
 kanit_yolu = ai_lab.kanit_yaz("guvence-06-transformerlens-refusal", dict(rapor, kaynak="gercek", kabul=kabul))

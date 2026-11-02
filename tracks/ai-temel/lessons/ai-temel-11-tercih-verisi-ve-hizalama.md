@@ -6,12 +6,38 @@ timeout: 45
 ---
 
 ::: anlat Tercih verisi iki yanıtı karşılaştırır
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| DPO tercih çiftlerinin politika/referans log olasılık oranını kullanır | İlk üç görev görünür sentetik tercih JSON'u ve hazır sayılar | Bu sayılar gerçek eğitim kaydı veya insan etiketi değildir |
+| Autograd kayıp üzerinden parametre günceller | Final gerçek SmolLM2 logitleri üzerinde ek token_bias ve SGD | Tam LM fine-tuning, TRL çalışması veya güvenli model kabulü değildir |
+
+> [!NOT]
+> `veri/tercih.json` elle hazırlanmış sentetik çalışma verisidir. İlk üç görev bu dosyayı okur; ilk Çalıştır ham JSON'u gösterir. Setup her çalıştırmada yeni geçici veri/ kopyası kurar, değişiklikler kalıcı değildir. Kaynak dosyayı haricî editörde açabilir veya yüklenen sözlüğü kod içinde değiştirip yeniden Çalıştır deneyebilirsin. Gizli testler ayrıdır. Final önceden kurulu yerel modeli gerçekten çağırır; yeni model/paket indirmez, TRL kullanmaz.
+
 DPO gibi yöntemler aynı istem için seçilen ve reddedilen yanıt çiftlerini kullanır. Boş istem, aynı iki yanıt veya yanlış alan adları eğitim sinyalini bozar. Veri temizliği modelden önce açık bir sözleşmeyle yapılmalıdır.
 
-Bu derste TRL, Transformers veya Datasets çalıştırılmaz. Küçük kayıtlar ve önceden hesaplanmış log olasılıklar kullanılır. Böylece tercih verisinin biçimi ile modelin öğrenme hedefi ayrı ayrı test edilebilir.
+İlk üç görevde model çalıştırılmaz; küçük kayıtlar ve önceden verilmiş sayılar kullanılır. Finalde kurulu Transformers modeli ve torch autograd gerçekten çalışır; TRL ve Datasets gerekmez. Böylece tercih verisinin biçimi ile modelin öğrenme hedefi ayrı ayrı test edilebilir.
 :::
 
 ::: anlat DPO tercih farkını büyütmeye çalışır
+
+Ham dosyada tercih_ciftleri alanını açarak başla. prompt, chosen ve rejected aynı karşılaştırmanın parçalarıdır. Satırın kaynağı elle yazılmıştır; seçilen yanıtın tüm durumlarda üstün olduğunu varsayma. Birinci görev baş ve son boşlukları temizler, ama metnin içindeki boşluklara dokunmaz. Temizleme sonrasında iki yanıt aynı kalıyorsa artık anlamlı tercih çifti yoktur ve kayıt reddedilir. Orijinal sözlüğü yerinde düzenlemek, daha sonra ham kayıtla karşılaştırma yapılmasını engeller. Bu nedenle yeni sözlükler ve özgün sıra gerekir. Aynı kaydın iki konumda bulunması da iki bağımsız sonuç sözlüğü üretmelidir. Uygun olmayan alanları sessizce atmak yerine şema hatasını görünür kıl.
+
+İkinci görev aynı dosyanın logp_deneyi alanını kullanır. İki sayılık listenin ilk değeri politikaya, ikincisi referansa aittir. Seçilen ve reddedilen arasındaki ham politika farkını tek başına kullanmak DPO değildir; referansın aynı tercihe zaten ne kadar yatkın olduğu çıkarılır. Örneğin hem politika hem referans aynı oranda değiştiyse düzeltilmiş marj sıfır kalır. Beta bu marjın kayıptaki etkisini belirler; sıfır beta öğrenme sinyalini yok eder. Bu küçük görev 0.1 ile 2 aralığını kabul eder; finalin sözleşmesi ise sıfırdan büyük beta ister. İki sözleşmenin alt sınırlarını birbirine karıştırma.
+
+Softplus hesabını doğrudan log(1+exp(z)) olarak yazmak büyük pozitif z için taşabilir. max(z,0)+log1p(exp(-abs(z))) aynı hedefi daha kararlı hesaplar. Büyük negatif z için kayıp sıfıra yaklaşır; bu, çiftin politika tarafından güçlü biçimde tercih edildiğini gösterir. Girdi sonlu sayılardan oluşmalıdır ve bu küçük aritmetik görevde türetilen marj da sonlu temsil edilebilmelidir. Dosyadaki negatif sayıları değiştirip marjın yönünün kayba etkisini incele. Oranların altı ondalığa yuvarlanması yalnız bu sentetik göreve aittir; finalin gradyan ve raporunda yuvarlama yapılmaz.
+
+Üçüncü görevde degerlendirme alanındaki dogru ve guvenli sütunlarını ayrı say. Bunlar eldeki örnekte elle verilen iki farklı etikettir. Doğru seçimin güvensiz, güvenli seçimin yanlış olduğu kayıtlar mümkündür. İki sütun tesadüfen eşit orana sahipse yanlış sütunu sayan kod fark edilmeyebilir. Bu yüzden dosyada ve testte asimetrik örnekler vardır. guvenli_oran, modelin kapsamlı güvenlik başarısı değildir; yalnız verilen bool etiketlerin oranıdır. Etiketi üreten denetçinin yöntemi ve hataları ayrıca değerlendirilmelidir. Boş veri kümesini sıfır doğrulukla geçmek yerine sözleşmedeki hatayı yükselt.
+
+Finalde gerçek LM her istem için bir kez çalışır; aynı taban logitleri eğitim adımlarında tekrar kullanılır. Bu, dondurulmuş bir tabana eklenen sözlük boyutlu bias parametresini eğitmek için yeterlidir. Transformer katmanları ve temel ağırlıklar güncellenmez. Yalnız seçilen veya reddedilen tek tokenların bias bileşenleri bu kayıptan gradyan alır. Normalizasyon sabitleri politika içindeki iki log olasılık farkında iptal olduğundan, test autograd kullanmayan analitik bir güncellemeyle sonucu karşılaştırabilir. Bu sadeleştirme genel çok tokenlı DPO eğitiminin tüm maliyetini temsil etmez.
+
+Her eğitim adımından önce zero_grad çağrılmazsa önceki gradyanlar birikir. Sadece print edilen kayıp azalırken yanlış sayıda step yapmak da geçerli değildir. Test gerçek parametre gradyanını ve optimizer adımlarını kancalarla gözler. Referans yalnız okunur ve no_grad altında hesaplanır; vaka listesi değişmez. Rapor kayıpları güncellemeden önce, son marjları en son güncellemeden sonra ister. İki zamanı karıştırmak doğru görünen ama bir adım geride kalmış rapor üretir. Geçersiz beta veya adım sayısı politikayı kısmen eğitmeden reddedilmelidir.
+
+Bir saldırgan yanlış tercih çiftleri ekleyerek modeli hatalı bir hedefe yöneltmeyi deneyebilir. Şema doğrulaması bozuk alanları yakalar, ancak iyi biçimli bir zehirli etiketi tek başına ayıramaz. Kaynak denetimi, etiketçi tutarlılığı ve ayrı tutulan değerlendirme verisi bunun için gereklidir. Bu ders yeni zararlı yanıt üretme veya güvenlik filtresini aşma deneyi değildir; sentetik etiketlerle öğrenme hedefinin nasıl uygulandığını gösterir. Kaybın düşmesinden güvenliğin arttığını çıkarmamak, hücum ve savunma değerlendirmesinde aynı ölçüde önemlidir.
+
+Kanıt model revizyonunu, sürümleri, gerçek istem/token kimliklerini, seçilen ve reddedilen ham logitleri, tam logit dizisinin özetini, beta/adım/öğrenme hızını ve gerçek kayıp/marj çıktılarını saklar. Keşif için Çalıştır kabulfalse kaydı üretir. Kontrol bütün sözleşmeler sağlanınca kabul verir. Model önbellekte yoksa görev hata verir ve geçmez; yeni indirme denenmez. Eğitim yalnız bu çağrıya ait bias parametresinde kalır, kurulu model dosyaları değiştirilmez.
+
 Sentetik fixture'da seçilen ve reddedilen yanıt için politika/referans log olasılık farkları verilir. DPO bu iki farkın arasındaki marjı artırır; kayıp marj azaldıkça büyür. Beta marjın etkisini ölçekler.
 
 Kayıp ve tercih doğruluğu güvenliğin tamamını ölçmez. Seçilen yanıtın gerçekten güvenli olup olmadığı ayrıca etiketlenmelidir. Bu nedenle son görevde doğruluk ve güvenli seçim oranı ayrı raporlanır.
@@ -42,12 +68,30 @@ print(round(2 / 4, 6))
 
 Her alanın baş/son boşluğunu at, kayıt sırasını koru ve bağımsız sözlükler döndür. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-11")
+```
+
 ```starter
+from ai_temel_veri import json_yukle,metin_yukle
+
 def tercih_temizle(kayitlar):
-    return []
+    # KUSURLU BAŞLANGIÇ KODU: ham kayıtları yerinde temizler ve eşit yanıtları kabul eder.
+    for x in kayitlar:
+        for a in x:x[a]=x[a].strip()
+    return kayitlar
+
+v=json_yukle("veri/tercih.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/tercih.json"))
+print("Temiz tercihler:",tercih_temizle(v["tercih_ciftleri"]))
 ```
 
 ```test
+import copy
 R = [{"prompt": "  soru ", "chosen": " A ", "rejected": " B "}]
 def sozlesme(fn):
     try:
@@ -55,6 +99,11 @@ def sozlesme(fn):
         sonuc = fn(R)
         if sonuc != beklenen or sonuc[0] is R[0] or R[0]["prompt"] != "  soru ":
             return False
+        tekrar=[R[0],R[0]]
+        sonuc2=fn(tekrar)
+        if sonuc2[0] is sonuc2[1]:return False
+        once=copy.deepcopy(tekrar);fn(tekrar)
+        if tekrar!=once:return False
         sekiz = [dict(R[0], prompt=str(i)) for i in range(8)]
         if len(fn(sekiz)) != 8:
             return False
@@ -79,6 +128,8 @@ for ad, mutant in [("istemi bozan", m_prompt), ("tercihi bozan", m_secim), ("boy
 ```
 
 ```solution
+from ai_temel_veri import json_yukle,metin_yukle
+
 def tercih_temizle(kayitlar):
     if not isinstance(kayitlar, list) or not 1 <= len(kayitlar) <= 8:
         raise ValueError("kayıt listesi geçersiz")
@@ -90,6 +141,10 @@ def tercih_temizle(kayitlar):
     if any(not x["prompt"] or not x["chosen"] or not x["rejected"] or x["chosen"] == x["rejected"] for x in sonuc):
         raise ValueError("tercih içeriği geçersiz")
     return sonuc
+
+v=json_yukle("veri/tercih.json")
+print("Sentetik ham dosya:\n",metin_yukle("veri/tercih.json"))
+print("Temiz tercihler:",tercih_temizle(v["tercih_ciftleri"]))
 ```
 
 ```hint
@@ -98,13 +153,29 @@ Alanları önce `strip` ile yeni sözlüklere kopyala; boşluk ve eşitlik kontr
 :::
 
 ::: gorev 2 · Kararlı sentetik DPO kaybı hesapla
-`dpo_kaybi(secilen, reddedilen, beta)` işlevini yaz. İki girdi de `[politika_logp, referans_logp]` biçiminde iki sayılık listedir. Beta bool olmayan 0.1–2 aralığında sayıdır; sınırlar dahildir. Geçersiz veride `ValueError` yükselt.
+`dpo_kaybi(secilen, reddedilen, beta)` işlevini yaz. İki girdi de `[politika_logp, referans_logp]` biçiminde, bool olmayan sonlu float olarak temsil edilebilir iki sayılık listedir; türetilen marj ve z de sonlu olmalıdır. Beta bool olmayan 0.1–2 aralığında sayıdır; sınırlar dahildir. Geçersiz veride `ValueError` yükselt.
 
 Marj `(secilen[0]-secilen[1]) - (reddedilen[0]-reddedilen[1])`, `z=-beta*marj` olsun. `log(1+exp(z))` kaybını taşmaya dayanıklı biçimde hesapla ve altı ondalığa yuvarla. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-11")
+```
+
 ```starter
-def dpo_kaybi(secilen, reddedilen, beta):
-    return 0.0
+from ai_temel_veri import json_yukle,metin_yukle
+
+def dpo_kaybi(secilen,reddedilen,beta):
+    # KUSURLU BAŞLANGIÇ KODU: referans log olasılıklarını farktan çıkarmaz.
+    import math
+    z=-beta*(secilen[0]-reddedilen[0])
+    return round(max(z,0)+math.log1p(math.exp(-abs(z))),6)
+
+v=json_yukle("veri/tercih.json")
+print("Sentetik DPO:",[dpo_kaybi(x["secilen"],x["reddedilen"],x["beta"]) for x in v["logp_deneyi"]])
 ```
 
 ```test
@@ -116,7 +187,10 @@ def sozlesme(fn):
             return False
         if fn([-1000, -1000], [-1000, -1000], 1) != 0.693147 or fn([1000, 0], [0, 0], 1) != 0.0:
             return False
-        for args in [(None, [-3, -2], 1), ([-1], [-3, -2], 1), ([-1, True], [-3, -2], 1), ([-1, -2], [-3], 1), ([-1, -2], [-3, -2], 0), ([-1, -2], [-3, -2], 0.09), ([-1, -2], [-3, -2], 2.1), ([-1, -2], [-3, -2], True)]:
+        if fn([-1000,0],[0,0],1)!=1000.0:return False
+        sc=[-1,-2];rj=[-3,-2];fn(sc,rj,1)
+        if sc!=[-1,-2] or rj!=[-3,-2]:return False
+        for args in [([float("nan"),0],[0,0],1),([float("inf"),0],[0,0],1),([10**400,0],[0,0],1),([1e308,-1e308],[0,0],1),([1e308,0],[0,0],2),(None, [-3, -2], 1), ([-1], [-3, -2], 1), ([-1, True], [-3, -2], 1), ([-1, -2], [-3], 1), ([-1, -2], [-3, -2], 0), ([-1, -2], [-3, -2], 0.09), ([-1, -2], [-3, -2], 2.1), ([-1, -2], [-3, -2], True)]:
             try:
                 fn(*args)
                 return False
@@ -137,18 +211,26 @@ for ad, mutant in [("seçileni bozan", m_secilen), ("reddedileni bozan", m_redde
 ```
 
 ```solution
+from ai_temel_veri import json_yukle,metin_yukle
+
 def dpo_kaybi(secilen, reddedilen, beta):
     import math
     def cift(x):
-        return isinstance(x, list) and len(x) == 2 and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in x)
+        if not isinstance(x,list) or len(x)!=2:return False
+        try:return all(isinstance(v,(int,float)) and not isinstance(v,bool) and math.isfinite(float(v)) for v in x)
+        except (OverflowError,ValueError):return False
     if not cift(secilen) or not cift(reddedilen):
         raise ValueError("logp çifti geçersiz")
     if not isinstance(beta, (int, float)) or isinstance(beta, bool) or not 0.1 <= beta <= 2:
         raise ValueError("beta geçersiz")
     marj = (secilen[0] - secilen[1]) - (reddedilen[0] - reddedilen[1])
     z = -beta * marj
+    if not math.isfinite(marj) or not math.isfinite(z):raise ValueError("marj taşması")
     kayip = max(z, 0) + math.log1p(math.exp(-abs(z)))
     return round(kayip, 6)
+
+v=json_yukle("veri/tercih.json")
+print("Sentetik DPO:",[dpo_kaybi(x["secilen"],x["reddedilen"],x["beta"]) for x in v["logp_deneyi"]])
 ```
 
 ```hint
@@ -161,17 +243,36 @@ Kararlı softplus için `max(z,0) + log1p(exp(-abs(z)))` kullan; büyük pozitif
 
 `dogru` tercihin beklenen yanıtı, `guvenli` seçilen yanıtın güvenlik kontrolünü geçmesini gösterir. `{"dogruluk":D,"guvenli_oran":G,"adet":N}` döndür; oranlar altı ondalığa yuvarlanır. Girdileri değiştirme.
 
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_temel_veri import hazirla
+hazirla("ai-temel-11")
+```
+
 ```starter
+from ai_temel_veri import json_yukle,metin_yukle
+
 def hizalama_raporu(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: doğru olan her tercihi güvenli varsayar.
+    oran=round(sum(x["dogru"] for x in kayitlar)/len(kayitlar),6)
+    return {"dogruluk":oran,"guvenli_oran":oran,"adet":len(kayitlar)}
+
+v=json_yukle("veri/tercih.json")
+print("Sentetik değerlendirme:",hizalama_raporu(v["degerlendirme"]))
 ```
 
 ```test
+import copy
 R = [{"dogru": True, "guvenli": True}, {"dogru": True, "guvenli": False}, {"dogru": False, "guvenli": True}, {"dogru": False, "guvenli": False}]
 def sozlesme(fn):
     try:
         if fn(R) != {"dogruluk": 0.5, "guvenli_oran": 0.5, "adet": 4} or fn(R[:1]) != {"dogruluk": 1.0, "guvenli_oran": 1.0, "adet": 1} or fn(R[:3]) != {"dogruluk": 0.666667, "guvenli_oran": 0.666667, "adet": 3}:
             return False
+        once=copy.deepcopy(R);fn(R)
+        if R!=once:return False
+        if fn([{"dogru":True,"guvenli":False}])!={"dogruluk":1.0,"guvenli_oran":0.0,"adet":1}:return False
         sekiz = R + R
         if fn(sekiz)["adet"] != 8:
             return False
@@ -196,6 +297,8 @@ for ad, mutant in [("doğruluğu bozan", m_dogru), ("güvenliği bozan", m_guven
 ```
 
 ```solution
+from ai_temel_veri import json_yukle,metin_yukle
+
 def hizalama_raporu(kayitlar):
     if not isinstance(kayitlar, list) or not 1 <= len(kayitlar) <= 8:
         raise ValueError("kayıt listesi geçersiz")
@@ -203,6 +306,9 @@ def hizalama_raporu(kayitlar):
         raise ValueError("kayıt geçersiz")
     adet = len(kayitlar)
     return {"dogruluk": round(sum(x["dogru"] for x in kayitlar) / adet, 6), "guvenli_oran": round(sum(x["guvenli"] for x in kayitlar) / adet, 6), "adet": adet}
+
+v=json_yukle("veri/tercih.json")
+print("Sentetik değerlendirme:",hizalama_raporu(v["degerlendirme"]))
 ```
 
 ```hint
@@ -243,9 +349,7 @@ def dpo_egit(politika, referans, optimizer, vakalar, beta, adim):
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_temel_11 as lab11
-    bases, vakalar, bilgi = lab11.hazirla()
-    politika, referans, optimizer = lab11.modeller(bases, 0.1)
-    print(dpo_egit(politika, referans, optimizer, vakalar, 0.4, 3))
+    lab11.goster(dpo_egit)
 ```
 
 ```test
@@ -257,7 +361,16 @@ sonuclar=[]
 def kontrol(c,mesaj):
     sonuclar.append(bool(c))
     return ok(c,mesaj)
-kontrol(not ai_lab.kod_denetimi(src,("analitik",)),"çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı")
+import ast
+yasak=("analitik","getattr","kanit_yaz")
+ihlal=ai_lab.kod_denetimi(src,yasak)
+try:
+    for node in ast.walk(ast.parse(src)):
+        if isinstance(node,ast.ImportFrom) and any(a.name in yasak or a.name=="*" for a in node.names):
+            ihlal.append("referans ithali")
+except SyntaxError:ihlal.append("sözdizimi")
+kontrol(not ihlal,"Kendi DPO güncellemeni yaz; test oracle'ı ithal edilmez")
+if ihlal:stop()
 fn=need("dpo_egit")
 try:
     import torch
@@ -268,24 +381,8 @@ except (ImportError,ai_lab.GercekLabYok) as e:
 
 # Bu tek-token additive-bias politikasında normalizer farkları iptal olur.
 # Bağımsız oracle autograd/optimizer kullanmaz: dL/dz=-sigmoid(-z).
-def analitik(beta,adim,lr):
-    bias=torch.zeros_like(next(iter(bases.values())))
-    losses=[]
-    for _ in range(adim):
-        grad=torch.zeros_like(bias)
-        total=0.0
-        for v in vakalar:
-            c,r=v["chosen"],v["rejected"]
-            margin=float((bias[c]-bias[r]).item())
-            z=beta*margin
-            total+=max(-z,0)+math.log1p(math.exp(-abs(z)))
-            g=-beta/(1+math.exp(z))/len(vakalar)
-            grad[c]+=g;grad[r]-=g
-        losses.append(total/len(vakalar))
-        bias=bias-lr*grad
-    return {"kayiplar":losses,"son_marjlar":[float((bias[v["chosen"]]-bias[v["rejected"]]).item()) for v in vakalar]},bias
-ayarlar=[(0.2,1,0.05),(1.4,3,0.08),(0.6,4,0.03)]
-beklenen=[analitik(*a) for a in ayarlar]
+ayarlar=[(0.2,1,0.05),(1.4,3,0.08),(0.6,4,0.03),(2.0,6,0.04)]
+beklenen=[lab11.analitik(bases,vakalar,*a) for a in ayarlar]
 def ayni(a,b):
     if not isinstance(a,dict) or set(a)!=set(b):
         return False
@@ -303,12 +400,12 @@ def sozlesme(f):
             grads,steps,referans_cagrilari=[],[],[]
             hg=p.token_bias.register_hook(lambda g:grads.append(g.detach().clone()))
             hs=opt.register_step_post_hook(lambda *a:steps.append(True))
-            hr=r.register_forward_hook(lambda *a:referans_cagrilari.append(True))
+            hr=r.register_forward_hook(lambda *a:referans_cagrilari.append(torch.is_grad_enabled()))
             try:
                 a=f(p,r,opt,vakalar,beta,n)
             finally:
                 hg.remove();hs.remove();hr.remove()
-            if not ayni(a,ref) or len(grads)!=n or len(steps)!=n or len(referans_cagrilari)<len(vakalar):
+            if not ayni(a,ref) or len(grads)!=n or len(steps)!=n or len(referans_cagrilari)<len(vakalar) or any(referans_cagrilari):
                 return False
             if not torch.allclose(p.token_bias.detach(),ref_bias,atol=1e-8,rtol=1e-7) or vakalar!=v_once or opt.param_groups[0]["lr"]!=lr:
                 return False
@@ -409,9 +506,7 @@ def dpo_egit(politika, referans, optimizer, vakalar, beta, adim):
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_temel_11 as lab11
-    bases,vakalar,bilgi=lab11.hazirla()
-    p,r,opt=lab11.modeller(bases,0.1)
-    print(dpo_egit(p,r,opt,vakalar,0.4,3))
+    lab11.goster(dpo_egit)
 ```
 
 ```hint

