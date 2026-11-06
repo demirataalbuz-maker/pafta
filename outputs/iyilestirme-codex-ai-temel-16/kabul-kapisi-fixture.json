@@ -1,0 +1,26 @@
+{
+  "kaynak": "fixture",
+  "aciklama": "Dersin gerçek kabul ifadesi AST üzerinden sentetik hata senaryolarında değerlendirildi;model çağrısı/gerçek kabul kanıtı değildir.",
+  "sonuclar": [
+    {
+      "vaka": "tam18",
+      "gercek_kapi_sonucu": true,
+      "beklenen": true
+    },
+    {
+      "vaka": "yalnız2",
+      "gercek_kapi_sonucu": false,
+      "beklenen": false
+    },
+    {
+      "vaka": "bir_hata",
+      "gercek_kapi_sonucu": false,
+      "beklenen": false
+    },
+    {
+      "vaka": "bos_yanit",
+      "gercek_kapi_sonucu": false,
+      "beklenen": false
+    }
+  ]
+}

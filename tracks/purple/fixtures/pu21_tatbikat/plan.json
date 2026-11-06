@@ -1,0 +1,110 @@
+{
+ "aciklama": "Sentetik, elle yazılmış tatbikat planı. Son görev planı gerçek yerel labda yürütür.",
+ "roe": {
+  "hedefler": [
+   "127.0.0.1:8080",
+   "lab.local:*"
+  ],
+  "yasak_teknikler": [
+   "T1499",
+   "T1485"
+  ],
+  "baslangic": "2026-11-04T09:00:00+03:00",
+  "bitis": "2026-11-04T18:00:00+03:00"
+ },
+ "eylemler": [
+  {
+   "id": "P1",
+   "hedef": "127.0.0.1:8080",
+   "teknik": "T1190",
+   "zaman": "2026-11-04T07:30:00+00:00"
+  },
+  {
+   "id": "P2",
+   "hedef": "127.0.0.10:8080",
+   "teknik": "T1190",
+   "zaman": "2026-11-04T10:00:00+03:00"
+  },
+  {
+   "id": "P3",
+   "hedef": "lab.local:22",
+   "teknik": "T1499.004",
+   "zaman": "2026-11-04T10:00:00+03:00"
+  },
+  {
+   "id": "P4",
+   "hedef": "127.0.0.1:8080",
+   "teknik": "T1078",
+   "zaman": "2026-11-04T18:00:00+03:00"
+  }
+ ],
+ "yurutulen": [
+  {
+   "id": "Y1",
+   "hedef": "127.0.0.1:8080",
+   "teknik": "T1190",
+   "zaman": "2026-11-04T10:00:00+03:00"
+  },
+  {
+   "id": "Y2",
+   "hedef": "127.0.0.1:8080",
+   "teknik": "T1190",
+   "zaman": "2026-11-04T10:00:02+03:00"
+  }
+ ],
+ "pencere_sn": 5,
+ "alarmlar": [
+  {
+   "id": "AL1",
+   "hedef": "127.0.0.1:8080",
+   "teknik": "T1190",
+   "zaman": "2026-11-04T09:59:59+03:00"
+  },
+  {
+   "id": "AL2",
+   "hedef": "127.0.0.1:8080",
+   "teknik": "T1190",
+   "zaman": "2026-11-04T10:00:03+03:00"
+  },
+  {
+   "id": "AL3",
+   "hedef": "127.0.0.1:9090",
+   "teknik": "T1190",
+   "zaman": "2026-11-04T10:00:03+03:00"
+  }
+ ],
+ "kayitlar": [
+  {
+   "id": "K1",
+   "teknik": "T1190",
+   "karar": "izinli",
+   "neden": null,
+   "onlendi": true,
+   "tespit": false
+  },
+  {
+   "id": "K2",
+   "teknik": "T1190",
+   "karar": "izinli",
+   "neden": null,
+   "onlendi": false,
+   "tespit": true
+  },
+  {
+   "id": "K3",
+   "teknik": "T1078",
+   "karar": "izinli",
+   "neden": null,
+   "onlendi": false,
+   "tespit": false
+  },
+  {
+   "id": "K4",
+   "teknik": "T1499",
+   "karar": "red",
+   "neden": "yasak-teknik",
+   "onlendi": null,
+   "tespit": null
+  }
+ ]
+}

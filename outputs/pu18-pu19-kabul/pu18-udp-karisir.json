@@ -1,0 +1,134 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kaynak koruması: oracle/import/introspection kopyası yok"
+    },
+    {
+      "ok": false,
+      "msg": "görünür XML; UDP ayrılır",
+      "got": "{18080: 'open', 18081: 'filtered', 53: 'open|filtered'}",
+      "exp": "{18080: 'open', 18081: 'filtered'}"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "görülmemiş port/durum"
+    },
+    {
+      "ok": true,
+      "msg": "explicit port yok; extraports genişletilmez"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış root ret"
+    },
+    {
+      "ok": true,
+      "msg": "port sınırı"
+    },
+    {
+      "ok": true,
+      "msg": "ekleme/silme/değişim sıralı"
+    },
+    {
+      "ok": true,
+      "msg": "aynı durum değişim değil"
+    },
+    {
+      "ok": true,
+      "msg": "filtered olduğu gibi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "filtered olduğu gibi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "filtered olduğu gibi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "state: open"
+    },
+    {
+      "ok": true,
+      "msg": "state: closed"
+    },
+    {
+      "ok": true,
+      "msg": "state: filtered"
+    },
+    {
+      "ok": true,
+      "msg": "state: unfiltered"
+    },
+    {
+      "ok": true,
+      "msg": "state: open|filtered"
+    },
+    {
+      "ok": true,
+      "msg": "state: closed|filtered"
+    },
+    {
+      "ok": true,
+      "msg": "bilinmeyen state ret"
+    },
+    {
+      "ok": true,
+      "msg": "bilinmeyen state ret"
+    },
+    {
+      "ok": true,
+      "msg": "bilinmeyen state ret"
+    },
+    {
+      "ok": true,
+      "msg": "fixture değil gerçek araç"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek ölçüm kabulü"
+    },
+    {
+      "ok": true,
+      "msg": "yalnız kendi kaynakları kapandı"
+    }
+  ],
+  "segs": [
+    [
+      "out",
+      "GERÇEK Nmap · kabul yok / deneme · kanıt: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\pu18-pu19-kabul\\purple-kanit\\pu18-1793735386287657700.json\n{\"ports\": [21523, 21524, 21525], \"changes\": [{\"port\": 21523, \"once\": \"open\", \"sonra\": \"filtered\"}], \"warnings\": [\"WARNING: Could not import all necessary Npcap functions. You may need to upgrade to the latest version from https://npcap.org. Resorting to connect() mode -- Nmap may not function completely\\n\", \"WARNING: Could not import all necessary Npcap functions. You may need to upgrade to the latest version from https://npcap.org. Resorting to connect() mode -- Nmap may not function completely\\n\"]}\n"
+    ]
+  ],
+  "error": null
+}

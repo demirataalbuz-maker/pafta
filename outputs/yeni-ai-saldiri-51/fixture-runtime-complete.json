@@ -1,0 +1,250 @@
+{
+  "kaynak": "fixture",
+  "kabul": false,
+  "aciklama": "Mock Docker/HTTP lifecycle test; gerçek CVE deneyi/kabulü değil",
+  "sonuc": {
+    "kayitlar": [
+      {
+        "surum": "2.1.1",
+        "tur": "normal",
+        "bulgu": "okundu"
+      },
+      {
+        "surum": "2.1.1",
+        "tur": "yerel-kaynak",
+        "bulgu": "okundu"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "normal",
+        "bulgu": "okundu"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "yerel-kaynak",
+        "bulgu": "reddedildi"
+      }
+    ],
+    "rapor": {
+      "surumler": {
+        "2.1.1": {
+          "normal": "okundu",
+          "yerel-kaynak": "okundu"
+        },
+        "2.2.1": {
+          "normal": "okundu",
+          "yerel-kaynak": "reddedildi"
+        }
+      },
+      "normal_akis": true,
+      "deney_tamam": true,
+      "yama_gozlendi": true
+    },
+    "referans": {
+      "surumler": {
+        "2.1.1": {
+          "normal": "okundu",
+          "yerel-kaynak": "okundu"
+        },
+        "2.2.1": {
+          "normal": "okundu",
+          "yerel-kaynak": "reddedildi"
+        }
+      },
+      "normal_akis": true,
+      "deney_tamam": true,
+      "yama_gozlendi": true
+    },
+    "ortamlar": [
+      {
+        "surum": "2.1.1",
+        "image_id": "fixture-image-2.1.1",
+        "image_digests": null,
+        "izolasyon_dogrulandi": true,
+        "temizlendi": true,
+        "container_id": "fixture-2.1.1",
+        "runtime_inspect": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "PortBindings": {},
+          "Binds": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Memory": 1073741824,
+          "NanoCpus": 2000000000,
+          "PidsLimit": 256,
+          "Tmpfs": {
+            "/tmp": "fixture"
+          }
+        },
+        "mlflow_surumu": "2.1.1",
+        "paketler": "fixture package list"
+      },
+      {
+        "surum": "2.2.1",
+        "image_id": "fixture-image-2.2.1",
+        "image_digests": null,
+        "izolasyon_dogrulandi": true,
+        "temizlendi": true,
+        "container_id": "fixture-2.2.1",
+        "runtime_inspect": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "PortBindings": {},
+          "Binds": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Memory": 1073741824,
+          "NanoCpus": 2000000000,
+          "PidsLimit": 256,
+          "Tmpfs": {
+            "/tmp": "fixture"
+          }
+        },
+        "mlflow_surumu": "2.2.1",
+        "paketler": "fixture package list"
+      }
+    ],
+    "http_kayitlari": [
+      {
+        "surum": "2.1.1",
+        "tur": "normal",
+        "path": "/api/2.0/mlflow/registered-models/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-normal-4d7a5eaf"
+        },
+        "status": 200,
+        "govde": "{}"
+      },
+      {
+        "surum": "2.1.1",
+        "tur": "normal",
+        "path": "/api/2.0/mlflow/model-versions/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-normal-4d7a5eaf",
+          "source": "mlflow-artifacts:/normal"
+        },
+        "status": 200,
+        "govde": "{\"model_version\":{\"version\":\"1\"}}"
+      },
+      {
+        "surum": "2.1.1",
+        "tur": "normal",
+        "path": "/model-versions/get-artifact?name=pafta-normal-4d7a5eaf&version=1&path=ok.txt",
+        "method": "GET",
+        "request_body": null,
+        "status": 200,
+        "govde": "NORMAL-4f10c117f41cfcb0cbb56298"
+      },
+      {
+        "surum": "2.1.1",
+        "tur": "yerel-kaynak",
+        "path": "/api/2.0/mlflow/registered-models/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-yerel-kaynak-ab0e1310"
+        },
+        "status": 200,
+        "govde": "{}"
+      },
+      {
+        "surum": "2.1.1",
+        "tur": "yerel-kaynak",
+        "path": "/api/2.0/mlflow/model-versions/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-yerel-kaynak-ab0e1310",
+          "source": "file:///tmp/pafta/private"
+        },
+        "status": 200,
+        "govde": "{\"model_version\":{\"version\":\"1\"}}"
+      },
+      {
+        "surum": "2.1.1",
+        "tur": "yerel-kaynak",
+        "path": "/model-versions/get-artifact?name=pafta-yerel-kaynak-ab0e1310&version=1&path=canary.txt",
+        "method": "GET",
+        "request_body": null,
+        "status": 200,
+        "govde": "PAFTA-0929a183c3dac4369f3a0865"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "normal",
+        "path": "/api/2.0/mlflow/registered-models/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-normal-1fdeb2a2"
+        },
+        "status": 200,
+        "govde": "{}"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "normal",
+        "path": "/api/2.0/mlflow/model-versions/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-normal-1fdeb2a2",
+          "source": "mlflow-artifacts:/normal"
+        },
+        "status": 200,
+        "govde": "{\"model_version\":{\"version\":\"1\"}}"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "normal",
+        "path": "/model-versions/get-artifact?name=pafta-normal-1fdeb2a2&version=1&path=ok.txt",
+        "method": "GET",
+        "request_body": null,
+        "status": 200,
+        "govde": "NORMAL-4f10c117f41cfcb0cbb56298"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "yerel-kaynak",
+        "path": "/api/2.0/mlflow/registered-models/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-yerel-kaynak-8ed26c4b"
+        },
+        "status": 200,
+        "govde": "{}"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "yerel-kaynak",
+        "path": "/api/2.0/mlflow/model-versions/create",
+        "method": "POST",
+        "request_body": {
+          "name": "pafta-yerel-kaynak-8ed26c4b",
+          "source": "file:///tmp/pafta/private"
+        },
+        "status": 400,
+        "govde": "fixture local source rejected"
+      }
+    ],
+    "hatalar": [],
+    "canary": "PAFTA-0929a183c3dac4369f3a0865",
+    "normal_isaret": "NORMAL-4f10c117f41cfcb0cbb56298",
+    "cve": "CVE-2023-1177",
+    "ayarlar": {
+      "network": "none",
+      "memory": "1g",
+      "cpus": 2,
+      "pid_limit": 256,
+      "seed": "OS entropy; canary kayıtta",
+      "kurulum": "önceden onaylanmış imaj; ders build/pull yapmaz"
+    }
+  }
+}

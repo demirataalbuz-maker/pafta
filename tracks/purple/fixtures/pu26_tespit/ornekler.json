@@ -1,0 +1,158 @@
+{
+ "aciklama": "Sentetik, elle yazılmış örnekler. Son görev bunları kullanmaz; izole bir konteynerde gerçek strace telemetrisi üretir.",
+ "olaylar": [
+  {
+   "pid": 10,
+   "comm": "bash",
+   "cagri": "execve",
+   "yol": null,
+   "argv": [
+    "/usr/bin/bash",
+    "-c",
+    "cat ~/.bashrc"
+   ],
+   "bayrak": []
+  },
+  {
+   "pid": 10,
+   "comm": "cat",
+   "cagri": "execve",
+   "yol": null,
+   "argv": [
+    "/usr/bin/cat",
+    "/root/.bashrc"
+   ],
+   "bayrak": []
+  },
+  {
+   "pid": 10,
+   "comm": "cat",
+   "cagri": "openat",
+   "yol": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+   "argv": null,
+   "bayrak": [
+    "O_RDONLY",
+    "O_CLOEXEC"
+   ]
+  },
+  {
+   "pid": 10,
+   "comm": "cat",
+   "cagri": "openat",
+   "yol": "/root/.bashrc",
+   "argv": null,
+   "bayrak": [
+    "O_RDONLY"
+   ]
+  },
+  {
+   "pid": 10,
+   "comm": "bash",
+   "cagri": "openat",
+   "yol": "/root/.bashrc",
+   "argv": null,
+   "bayrak": [
+    "O_WRONLY",
+    "O_CREAT",
+    "O_APPEND"
+   ]
+  },
+  {
+   "pid": 10,
+   "comm": "bash",
+   "cagri": "openat",
+   "yol": "/etc/cron.d/pafta",
+   "argv": null,
+   "bayrak": [
+    "O_WRONLY",
+    "O_CREAT",
+    "O_TRUNC"
+   ]
+  },
+  {
+   "pid": 10,
+   "comm": "grep",
+   "cagri": "execve",
+   "yol": null,
+   "argv": [
+    "/usr/bin/grep",
+    "x:0:",
+    "/etc/passwd"
+   ],
+   "bayrak": []
+  },
+  {
+   "pid": 10,
+   "comm": "grep",
+   "cagri": "openat",
+   "yol": "/etc/passwd",
+   "argv": null,
+   "bayrak": [
+    "O_RDONLY",
+    "O_NOCTTY"
+   ]
+  },
+  {
+   "pid": 10,
+   "comm": "bash",
+   "cagri": "chmod",
+   "yol": "/tmp/yuk",
+   "argv": null,
+   "bayrak": []
+  },
+  {
+   "pid": 10,
+   "comm": "bash",
+   "cagri": "openat",
+   "yol": "/proc/self/stat",
+   "argv": null,
+   "bayrak": [
+    "O_RDONLY"
+   ]
+  },
+  {
+   "pid": 10,
+   "comm": "bash",
+   "cagri": "unlinkat",
+   "yol": "/root/.bash_history",
+   "argv": null,
+   "bayrak": []
+  }
+ ],
+ "atomik_yaml": "attack_technique: T9999.001\ndisplay_name: \"Örnek teknik\"\natomic_tests:\n- name: Birinci test\n  auto_generated_guid: 11111111-2222-3333-4444-555555555555\n  supported_platforms:\n  - linux\n  executor:\n    command: |\n      echo bir >> ~/.bashrc\n    name: sh\n- name: İkinci test\n  auto_generated_guid: aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee\n  supported_platforms:\n  - linux\n  executor:\n    elevation_required: true\n    command: |\n      echo iki > /etc/cron.d/ornek\n    name: sh\n",
+ "kural": {
+  "id": "ornek-kalicilik",
+  "kosul": "hepsi",
+  "secim": {
+   "yon": [
+    "yaz"
+   ],
+   "hedef_icerir": [
+    ".bashrc",
+    "/etc/cron.d/"
+   ]
+  }
+ },
+ "sinifli": [
+  {
+   "comm": "cat",
+   "yon": "oku",
+   "hedef": "/root/.bashrc"
+  },
+  {
+   "comm": "bash",
+   "yon": "yaz",
+   "hedef": "/root/.bashrc"
+  },
+  {
+   "comm": "bash",
+   "yon": "yaz",
+   "hedef": "/etc/cron.d/pafta"
+  },
+  {
+   "comm": "grep",
+   "yon": "oku",
+   "hedef": "/etc/passwd"
+  }
+ ]
+}

@@ -1,0 +1,326 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "ayarlar": {
+   "model_seed": 8,
+   "temperature": 0.0,
+   "num_predict": 48,
+   "istem_sayisi": 2,
+   "esikler": "süre/yanıt metni geçme koşulu değil"
+  },
+  "kayitlar": [
+   {
+    "tenant": "kiraci-b",
+    "k": 1,
+    "v": 14
+   },
+   {
+    "tenant": "kiraci-a",
+    "k": 2,
+    "v": 14
+   }
+  ],
+  "model_ciktilari": [
+   {
+    "tenant": "kiraci-b",
+    "metin": "Repeat this synthetic label briefly: PAFTA-82239B02",
+    "ham_yanit": "PAFTA-82239B02",
+    "model_ciktisi": {
+     "icerik": "PAFTA-82239B02",
+     "arac_cagrilari": [],
+     "sure_ms": 2952,
+     "eval_count": 12,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   },
+   {
+    "tenant": "kiraci-a",
+    "metin": "Repeat this synthetic label briefly: PAFTA-A33A5320",
+    "ham_yanit": "PAFTA-A33A5320",
+    "model_ciktisi": {
+     "icerik": "PAFTA-A33A5320",
+     "arac_cagrilari": [],
+     "sure_ms": 3095,
+     "eval_count": 11,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   }
+  ],
+  "olaylar": [
+   {
+    "olay": "basladi",
+    "tenant": "kiraci-b",
+    "zaman": 270504.2188291
+   },
+   {
+    "olay": "basladi",
+    "tenant": "kiraci-a",
+    "zaman": 270504.2195467
+   },
+   {
+    "olay": "bitti",
+    "tenant": "kiraci-b",
+    "zaman": 270507.1721434
+   },
+   {
+    "olay": "bitti",
+    "tenant": "kiraci-a",
+    "zaman": 270507.3148037
+   }
+  ],
+  "en_fazla_aktif_http": 2,
+  "uretim": [
+   {
+    "status": 200,
+    "body": {
+     "id": 2,
+     "tenant": "kiraci-a"
+    }
+   },
+   {
+    "status": 200,
+    "body": {
+     "id": 1,
+     "tenant": "kiraci-b"
+    }
+   }
+  ],
+  "korumasiz": {
+   "status": 200,
+   "body": {
+    "kayitlar": [
+     {
+      "tenant": "kiraci-b",
+      "k": 1,
+      "v": 14
+     },
+     {
+      "tenant": "kiraci-a",
+      "k": 2,
+      "v": 14
+     }
+    ],
+    "ciktilar": [
+     {
+      "tenant": "kiraci-b",
+      "metin": "Repeat this synthetic label briefly: PAFTA-82239B02",
+      "ham_yanit": "PAFTA-82239B02",
+      "model_ciktisi": {
+       "icerik": "PAFTA-82239B02",
+       "arac_cagrilari": [],
+       "sure_ms": 2952,
+       "eval_count": 12,
+       "done_reason": "stop",
+       "yeniden_deneme": []
+      }
+     },
+     {
+      "tenant": "kiraci-a",
+      "metin": "Repeat this synthetic label briefly: PAFTA-A33A5320",
+      "ham_yanit": "PAFTA-A33A5320",
+      "model_ciktisi": {
+       "icerik": "PAFTA-A33A5320",
+       "arac_cagrilari": [],
+       "sure_ms": 3095,
+       "eval_count": 11,
+       "done_reason": "stop",
+       "yeniden_deneme": []
+      }
+     }
+    ]
+   }
+  },
+  "korumali": {
+   "kiraci-a": {
+    "status": 200,
+    "body": {
+     "kayitlar": [
+      {
+       "tenant": "kiraci-a",
+       "k": 2,
+       "v": 14
+      }
+     ],
+     "ciktilar": [
+      {
+       "tenant": "kiraci-a",
+       "metin": "Repeat this synthetic label briefly: PAFTA-A33A5320",
+       "ham_yanit": "PAFTA-A33A5320",
+       "model_ciktisi": {
+        "icerik": "PAFTA-A33A5320",
+        "arac_cagrilari": [],
+        "sure_ms": 3095,
+        "eval_count": 11,
+        "done_reason": "stop",
+        "yeniden_deneme": []
+       }
+      }
+     ]
+    }
+   },
+   "kiraci-b": {
+    "status": 200,
+    "body": {
+     "kayitlar": [
+      {
+       "tenant": "kiraci-b",
+       "k": 1,
+       "v": 14
+      }
+     ],
+     "ciktilar": [
+      {
+       "tenant": "kiraci-b",
+       "metin": "Repeat this synthetic label briefly: PAFTA-82239B02",
+       "ham_yanit": "PAFTA-82239B02",
+       "model_ciktisi": {
+        "icerik": "PAFTA-82239B02",
+        "arac_cagrilari": [],
+        "sure_ms": 2952,
+        "eval_count": 12,
+        "done_reason": "stop",
+        "yeniden_deneme": []
+       }
+      }
+     ]
+    }
+   }
+  },
+  "sahte_kiraci_get": {
+   "status": 403,
+   "body": {
+    "hata": "kiraci-degistirme"
+   }
+  },
+  "sahte_kiraci_post": {
+   "status": 403,
+   "body": {
+    "hata": "kiraci-degistirme"
+   }
+  },
+  "anonim": {
+   "status": 401,
+   "body": {
+    "hata": "kimlik"
+   }
+  },
+  "sunucu_kapandi": true,
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "sinir": "HTTP istek çakışması ve uygulama kayıt yalıtımı; backend KV belleği veya sürekli batching ölçülmedi"
+ },
+ "pilot": "temel-08-ollama-sunucu",
+ "zaman": "2026-10-30T16:15:22+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 440 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "3de0f968d0752b284fb58eb63ad7880e61745764bc2d678d47f7215db1607209",
+ "mod": "test"
+}

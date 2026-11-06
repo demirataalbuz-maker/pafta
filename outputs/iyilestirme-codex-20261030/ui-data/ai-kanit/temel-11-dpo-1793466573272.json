@@ -1,0 +1,161 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32",
+  "uyarlama": "Yalnız sözlük boyutlu ek çıktı biası; LM ağırlıkları eğitilmez.",
+  "protokol": "Gerçek son-konum logitleri; tek tokenlık chosen/rejected tamamlamalar.",
+  "veri_tohumu": 546828898,
+  "gercek_cagrilar": [
+   {
+    "prompt": "Training sample 66865: choose a label.",
+    "token_idleri": [
+     27706,
+     4315,
+     216,
+     38,
+     38,
+     40,
+     38,
+     37,
+     42,
+     3525,
+     253,
+     4368,
+     30
+    ],
+    "chosen": 9805,
+    "rejected": 787,
+    "chosen_metin": " yes",
+    "rejected_metin": " no",
+    "chosen_logit": 13.551288604736328,
+    "rejected_logit": 16.430620193481445,
+    "logit_sha256": "810415c93028206a6c3c96c7a732c026dd42789c4cce5a2203b8861eaa840f32"
+   },
+   {
+    "prompt": "An invented direction exercise 80773: choose a label.",
+    "token_idleri": [
+     2089,
+     11396,
+     4376,
+     3388,
+     216,
+     40,
+     32,
+     39,
+     39,
+     35,
+     42,
+     3525,
+     253,
+     4368,
+     30
+    ],
+    "chosen": 2049,
+    "rejected": 1048,
+    "chosen_metin": " left",
+    "rejected_metin": " right",
+    "chosen_logit": 14.306175231933594,
+    "rejected_logit": 13.694171905517578,
+    "logit_sha256": "cd3f26deb270b3eed4494c32b004f0597aaf6a08b5f009577085e614193243b9"
+   },
+   {
+    "prompt": "An invented color exercise 43141: choose a label.",
+    "token_idleri": [
+     2089,
+     11396,
+     2380,
+     3388,
+     216,
+     36,
+     35,
+     33,
+     36,
+     33,
+     42,
+     3525,
+     253,
+     4368,
+     30
+    ],
+    "chosen": 2382,
+    "rejected": 4461,
+    "chosen_metin": " red",
+    "rejected_metin": " blue",
+    "chosen_logit": 15.731700897216797,
+    "rejected_logit": 15.536628723144531,
+    "logit_sha256": "30702c44b7dcefa01656642e5acdeeb388a98eb06429c88a446a315a4d13b46f"
+   }
+  ]
+ },
+ "ayarlar": {
+  "beta_adim_lr": [
+   [
+    0.2,
+    1,
+    0.05
+   ],
+   [
+    1.4,
+    3,
+    0.08
+   ],
+   [
+    0.6,
+    4,
+    0.03
+   ],
+   [
+    2.0,
+    6,
+    0.04
+   ]
+  ],
+  "vakalar": [
+   {
+    "prompt": "Training sample 66865: choose a label.",
+    "chosen": 9805,
+    "rejected": 787
+   },
+   {
+    "prompt": "An invented direction exercise 80773: choose a label.",
+    "chosen": 2049,
+    "rejected": 1048
+   },
+   {
+    "prompt": "An invented color exercise 43141: choose a label.",
+    "chosen": 2382,
+    "rejected": 4461
+   }
+  ]
+ },
+ "ciktilar": [],
+ "gozlem": "gerçek LM ileri hesabı + token-bias gradyan hooku + optimizer step hooku",
+ "sinir": "tek-token additive-bias DPO; tüm LM ağırlıkları fine-tuning, TRL veya güvenlik kabulü değildir",
+ "temizlik": "CPU işlemi; harici sunucu ve süreç yok",
+ "pilot": "temel-11-dpo",
+ "zaman": "2026-10-31T20:09:32+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 403 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "906b5d96d2791e445910c80b128a46fce78d3f6375155565fbe16c0d63a0ef46",
+ "mod": "test"
+}

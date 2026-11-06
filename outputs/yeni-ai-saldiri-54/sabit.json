@@ -1,0 +1,318 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": false,
+      "msg": "dedup ve boş suffix",
+      "got": "[]",
+      "exp": "['x', 'x a']"
+    },
+    {
+      "ok": false,
+      "msg": "karakter sınırı dahil",
+      "got": "[]",
+      "exp": "['x', 'x abc']"
+    },
+    {
+      "ok": false,
+      "msg": "sınır dışı",
+      "got": "[]",
+      "exp": "['x']"
+    },
+    {
+      "ok": false,
+      "msg": "sıfır ekleme",
+      "got": "[]",
+      "exp": "['x']"
+    },
+    {
+      "ok": false,
+      "msg": "farklı orijinal korunur",
+      "got": "[]",
+      "exp": "['phishing-a', 'phishing-a ok']"
+    },
+    {
+      "ok": false,
+      "msg": "farklı orijinal korunur",
+      "got": "[]",
+      "exp": "['diger-7', 'diger-7 ok']"
+    },
+    {
+      "ok": false,
+      "msg": "geçersiz aday girdisi",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "geçersiz aday girdisi",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "geçersiz aday girdisi",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "geçersiz aday girdisi",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "geçersiz aday girdisi",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "0/1 geçerli skor sınırları",
+      "got": "{}",
+      "exp": "{'secilen': 'sinir', 'sorgular': [{'metin': 'sinir', 'skor': 0}]}"
+    },
+    {
+      "ok": false,
+      "msg": "0/1 geçerli skor sınırları",
+      "got": "{}",
+      "exp": "{'secilen': 'sinir', 'sorgular': [{'metin': 'sinir', 'skor': 1}]}"
+    },
+    {
+      "ok": false,
+      "msg": "0/1 geçerli skor sınırları",
+      "got": "{}",
+      "exp": "{'secilen': 'sinir', 'sorgular': [{'metin': 'sinir', 'skor': 0.5}]}"
+    },
+    {
+      "ok": false,
+      "msg": "tip ve bütçe sınırı",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tip ve bütçe sınırı",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tip ve bütçe sınırı",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tip ve bütçe sınırı",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tip ve bütçe sınırı",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam query bütçesi",
+      "got": "[]",
+      "exp": "['a']"
+    },
+    {
+      "ok": false,
+      "msg": "minimum risk; tie ilk",
+      "got": "{}",
+      "exp": "{'secilen': 'a', 'sorgular': []}"
+    },
+    {
+      "ok": false,
+      "msg": "tam query bütçesi",
+      "got": "[]",
+      "exp": "['a', 'b']"
+    },
+    {
+      "ok": false,
+      "msg": "minimum risk; tie ilk",
+      "got": "{}",
+      "exp": "{'secilen': 'b', 'sorgular': []}"
+    },
+    {
+      "ok": false,
+      "msg": "tam query bütçesi",
+      "got": "[]",
+      "exp": "['a', 'b', 'c']"
+    },
+    {
+      "ok": false,
+      "msg": "minimum risk; tie ilk",
+      "got": "{}",
+      "exp": "{'secilen': 'b', 'sorgular': []}"
+    },
+    {
+      "ok": false,
+      "msg": "tam query bütçesi",
+      "got": "[]",
+      "exp": "['a', 'b', 'c']"
+    },
+    {
+      "ok": false,
+      "msg": "minimum risk; tie ilk",
+      "got": "{}",
+      "exp": "{'secilen': 'b', 'sorgular': []}"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk skor ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk skor ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk skor ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk skor ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk skor ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "query girdisi ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "query girdisi ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "query girdisi ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "query girdisi ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "0/1 ve kontrolde son eşik dahil",
+      "got": "{}",
+      "exp": "{'phishing_sayisi': 2, 'baslangicta_yakalanan': 1, 'atlatilan': 1, 'asr': 1.0, 'kontrol_sayisi': 1, 'kontrol_fp_once': 0.0, 'kontrol_fp_sonra': 1.0}"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "tam şema/tip/skor doğrulaması",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "yalnız önce yakalananlar ASR paydası; eşik dahil",
+      "got": "{}",
+      "exp": "{'phishing_sayisi': 3, 'baslangicta_yakalanan': 2, 'atlatilan': 1, 'asr': 0.5, 'kontrol_sayisi': 1, 'kontrol_fp_once': 1.0, 'kontrol_fp_sonra': 0.0}"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "KeyError",
+    "msg": "'asr'",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": []
+}

@@ -1,0 +1,301 @@
+{
+  "kaynak": "gercek",
+  "kabul": true,
+  "pilot": "pu20-rapor",
+  "python": "3.13.14",
+  "sqlite": "3.50.4",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "address": "127.0.0.1",
+  "port": 37087,
+  "kanitlar": [
+    {
+      "id": "E1",
+      "istek": "POST /secure/login HTTP/1.1\nHost: 127.0.0.1:37087\nContent-Type: application/json\n\n{\"username\": \"uye_6995f1b9\", \"password\": \"demo_4c5221cfa8\"}",
+      "yanit": "HTTP/1.1 200\nContent-Type: application/json\n\n{\"canary\": \"PU19_647ca4b3b49668cc\", \"username\": \"uye_6995f1b9\"}"
+    },
+    {
+      "id": "E2",
+      "istek": "POST /vulnerable/login HTTP/1.1\nHost: 127.0.0.1:37087\nContent-Type: application/json\n\n{\"username\": \"' OR 1=1 -- \", \"password\": \"yanlis\"}",
+      "yanit": "HTTP/1.1 200\nContent-Type: application/json\n\n{\"canary\": \"PU19_647ca4b3b49668cc\", \"username\": \"uye_6995f1b9\"}"
+    },
+    {
+      "id": "E3",
+      "istek": "POST /secure/login HTTP/1.1\nHost: 127.0.0.1:37087\nContent-Type: application/json\n\n{\"username\": \"' OR 1=1 -- \", \"password\": \"yanlis\"}",
+      "yanit": "HTTP/1.1 401\nContent-Type: application/json\n\n{\"error\": \"login_reddedildi\"}"
+    },
+    {
+      "id": "E4",
+      "istek": "POST /vulnerable/login HTTP/1.1\nHost: 127.0.0.1:37087\nContent-Type: application/json\n\n{\"username\": \"'\", \"password\": \"yanlis\"}",
+      "yanit": "HTTP/1.1 500\nContent-Type: application/json\n\n{\"error\": \"sql_hatasi\"}"
+    }
+  ],
+  "audit": [
+    {
+      "route": "/secure/login",
+      "username": "uye_6995f1b9",
+      "password": "demo_4c5221cfa8",
+      "status": 200,
+      "body": {
+        "username": "uye_6995f1b9",
+        "canary": "PU19_647ca4b3b49668cc"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_6995f1b9",
+        "demo_4c5221cfa8"
+      ]
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 200,
+      "body": {
+        "username": "uye_6995f1b9",
+        "canary": "PU19_647ca4b3b49668cc"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = '' OR 1=1 -- ' AND password = 'yanlis'",
+      "parameters": []
+    },
+    {
+      "route": "/secure/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "' OR 1=1 -- ",
+        "yanlis"
+      ]
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "'",
+      "password": "yanlis",
+      "status": 500,
+      "body": {
+        "error": "sql_hatasi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ''' AND password = 'yanlis'",
+      "parameters": []
+    }
+  ],
+  "iddialar": {
+    "E1": "bad08c89f6eb925c0ad3964d5edd7914d99940d266c61d1613da0be74608d7ab",
+    "E2": "8d92922a4754e293a591d6a7102d5255228f6d486f87efaeb286b2cca716c123",
+    "E3": "9297d9bd7a479a5d37410e1c842c3e25aa5203a17d5045259519528561ebd232",
+    "E4": "312c377711d7f0960c5f68ea3011650f2000059108cbfffec95fc12da48891fd",
+    "E9": "8609643ba5ab39e518aa558175287af8908457b0c2b5034677502f12855562bf"
+  },
+  "cvss": [
+    {
+      "puan": 8.2,
+      "seviye": "Yüksek"
+    },
+    {
+      "puan": 5.3,
+      "seviye": "Orta"
+    },
+    {
+      "puan": 3.7,
+      "seviye": "Düşük"
+    },
+    {
+      "puan": 6.5,
+      "seviye": "Orta"
+    },
+    {
+      "puan": 9.8,
+      "seviye": "Kritik"
+    },
+    {
+      "puan": 6.1,
+      "seviye": "Orta"
+    },
+    {
+      "puan": 7.8,
+      "seviye": "Yüksek"
+    },
+    {
+      "puan": 9.9,
+      "seviye": "Kritik"
+    },
+    {
+      "puan": 0.0,
+      "seviye": "Yok"
+    }
+  ],
+  "cvss_referans": [
+    {
+      "puan": 8.2,
+      "seviye": "Yüksek"
+    },
+    {
+      "puan": 5.3,
+      "seviye": "Orta"
+    },
+    {
+      "puan": 3.7,
+      "seviye": "Düşük"
+    },
+    {
+      "puan": 6.5,
+      "seviye": "Orta"
+    },
+    {
+      "puan": 9.8,
+      "seviye": "Kritik"
+    },
+    {
+      "puan": 6.1,
+      "seviye": "Orta"
+    },
+    {
+      "puan": 7.8,
+      "seviye": "Yüksek"
+    },
+    {
+      "puan": 9.9,
+      "seviye": "Kritik"
+    },
+    {
+      "puan": 0.0,
+      "seviye": "Yok"
+    }
+  ],
+  "kanit_durumu": {
+    "dogru": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "uyusmayan": [
+      "E1"
+    ],
+    "eksik": [
+      "E9"
+    ],
+    "kullanilmayan": []
+  },
+  "kanit_durumu_referans": {
+    "dogru": [
+      "E2",
+      "E3",
+      "E4"
+    ],
+    "uyusmayan": [
+      "E1"
+    ],
+    "eksik": [
+      "E9"
+    ],
+    "kullanilmayan": []
+  },
+  "rapor_girdisi": [
+    {
+      "id": "F1",
+      "baslik": "SQL injection ile kimlik doğrulama atlatma (/vulnerable/login)",
+      "puan": 8.2,
+      "kanitlar": [
+        "E2",
+        "E3"
+      ]
+    },
+    {
+      "id": "F2",
+      "baslik": "SQL hatasının 500 yanıtıyla dışa yansıması",
+      "puan": 5.3,
+      "kanitlar": [
+        "E4"
+      ]
+    },
+    {
+      "id": "F3",
+      "baslik": "Zayıf parola politikası (taslakta iddia, kanıt dosyası eklenmedi)",
+      "puan": 3.7,
+      "kanitlar": [
+        "E9"
+      ]
+    },
+    {
+      "id": "F4",
+      "baslik": "Hesap kilitleme yok (taslaktaki kanıt sonradan düzeltilmiş)",
+      "puan": 6.5,
+      "kanitlar": [
+        "E1"
+      ]
+    }
+  ],
+  "rapor": {
+    "bulgular": [
+      {
+        "id": "F1",
+        "baslik": "SQL injection ile kimlik doğrulama atlatma (/vulnerable/login)",
+        "puan": 8.2,
+        "seviye": "Yüksek"
+      },
+      {
+        "id": "F2",
+        "baslik": "SQL hatasının 500 yanıtıyla dışa yansıması",
+        "puan": 5.3,
+        "seviye": "Orta"
+      }
+    ],
+    "dogrulanmamis": [
+      {
+        "id": "F3",
+        "neden": "kanit-eksik"
+      },
+      {
+        "id": "F4",
+        "neden": "kanit-uyusmuyor"
+      }
+    ],
+    "sayilar": {
+      "Kritik": 0,
+      "Yüksek": 1,
+      "Orta": 1,
+      "Düşük": 0,
+      "Yok": 0
+    },
+    "en_yuksek": "F1"
+  },
+  "rapor_referans": {
+    "bulgular": [
+      {
+        "id": "F1",
+        "baslik": "SQL injection ile kimlik doğrulama atlatma (/vulnerable/login)",
+        "puan": 8.2,
+        "seviye": "Yüksek"
+      },
+      {
+        "id": "F2",
+        "baslik": "SQL hatasının 500 yanıtıyla dışa yansıması",
+        "puan": 5.3,
+        "seviye": "Orta"
+      }
+    ],
+    "dogrulanmamis": [
+      {
+        "id": "F3",
+        "neden": "kanit-eksik"
+      },
+      {
+        "id": "F4",
+        "neden": "kanit-uyusmuyor"
+      }
+    ],
+    "sayilar": {
+      "Kritik": 0,
+      "Yüksek": 1,
+      "Orta": 1,
+      "Düşük": 0,
+      "Yok": 0
+    },
+    "en_yuksek": "F1"
+  },
+  "cleanup": true
+}

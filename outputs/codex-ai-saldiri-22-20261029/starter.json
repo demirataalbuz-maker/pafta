@@ -1,0 +1,71 @@
+{
+  "name": "starter",
+  "okay": true,
+  "seconds": 1.08,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "şema, userinfo, açık port, kanonik host ve ASCII sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: https'i http'ye çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: userinfo'yu gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eksik portu tamamlayan"
+      },
+      {
+        "ok": false,
+        "msg": "göreli çözümleme, her hop origin kontrolü ve hop sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: redirect kontrollerini atlayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: hop sınırını büyüten"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: Location değerini yok sayan"
+      },
+      {
+        "ok": false,
+        "msg": "rebinding, izinsiz DNS, socket sapması ve temizlik ayrımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: ara DNS değişimini kaçıran"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yalnız son DNS cevabını denetleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: temizliği yalnız socket'e indirgeyen"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek ölçüm yamalanmamalı"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "KeyError",
+      "msg": "'son_url'",
+      "frames": [],
+      "line": null,
+      "where": "test"
+    },
+    "ai_kanit": []
+  }
+}

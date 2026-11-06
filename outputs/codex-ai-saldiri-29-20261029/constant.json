@@ -1,0 +1,68 @@
+{
+  "name": "constant",
+  "okay": true,
+  "seconds": 0.75,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "kaynak, güvenilmez rol, kanıt bütünlüğü ve deterministik sıra korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: RAG verisini güvenilir sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kanıtı temizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kimlik sırasını bozan"
+      },
+      {
+        "ok": false,
+        "msg": "araç ve URL yetkileri ayrı, tam eşleşmeli ve güvenli retli olmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her aracı izinli sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her URL'yi izinli sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: URL ön ekini yetki sayan"
+      },
+      {
+        "ok": false,
+        "msg": "zincir grupları, aşama sırası, eksikler ve tam zincir bayrağı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eksik halkaları uydurma kanıtla kapatan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her zinciri tam sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rapor sırasını bozan"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "NameError",
+      "msg": "name 'ai_lab' is not defined",
+      "frames": [],
+      "line": null,
+      "where": "test",
+      "missing": "ai_lab"
+    },
+    "ai_kanit": []
+  }
+}

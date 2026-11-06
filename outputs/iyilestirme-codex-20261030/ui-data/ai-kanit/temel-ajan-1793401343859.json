@@ -1,0 +1,426 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-temel-23",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "gorev": "23 ile 19'u çarp, sonucuna 7 ekle. Her adım için verilen araçları kullan ve sonucu tek sayı olarak söyle.",
+  "beklenen": 444,
+  "turler": [
+   {
+    "tur": 0,
+    "arac_cagri_sayisi": 2,
+    "icerik": "",
+    "sure_ms": 3265
+   },
+   {
+    "tur": 1,
+    "arac_cagri_sayisi": 0,
+    "icerik": "Sonuç, 444'tür. Bu sayı tek bir sayı değildir; çift bir sayıdır.",
+    "sure_ms": 348
+   }
+  ],
+  "cagrilar": [
+   {
+    "ad": "carp",
+    "arg": {
+     "a": 23,
+     "b": 19
+    },
+    "sonuc": {
+     "durum": "ok",
+     "sonuc": 437
+    },
+    "beklenen": 437,
+    "dogru": true
+   },
+   {
+    "ad": "topla",
+    "arg": {
+     "a": 437,
+     "b": 7
+    },
+    "sonuc": {
+     "durum": "ok",
+     "sonuc": 444
+    },
+    "beklenen": 444,
+    "dogru": true
+   }
+  ],
+  "final": "Sonuç, 444'tür. Bu sayı tek bir sayı değildir; çift bir sayıdır.",
+  "hata": null,
+  "tur_siniri": 6,
+  "ham_turlar": [
+   {
+    "tur": 0,
+    "mesajlar": [
+     {
+      "role": "system",
+      "content": "Sen hesap yapan bir asistansın. Aritmetik için yalnız verilen araçları kullan."
+     },
+     {
+      "role": "user",
+      "content": "23 ile 19'u çarp, sonucuna 7 ekle. Her adım için verilen araçları kullan ve sonucu tek sayı olarak söyle."
+     }
+    ],
+    "seed": 7,
+    "sicaklik": 0.1,
+    "en_fazla": 400,
+    "arac_tanimlari": [
+     {
+      "type": "function",
+      "function": {
+       "name": "topla",
+       "description": "iki sayıyı toplar",
+       "parameters": {
+        "type": "object",
+        "properties": {
+         "a": {
+          "type": "number"
+         },
+         "b": {
+          "type": "number"
+         }
+        },
+        "required": [
+         "a",
+         "b"
+        ]
+       }
+      }
+     },
+     {
+      "type": "function",
+      "function": {
+       "name": "carp",
+       "description": "iki sayıyı çarpar",
+       "parameters": {
+        "type": "object",
+        "properties": {
+         "a": {
+          "type": "number"
+         },
+         "b": {
+          "type": "number"
+         }
+        },
+        "required": [
+         "a",
+         "b"
+        ]
+       }
+      }
+     }
+    ],
+    "yanit": {
+     "icerik": "",
+     "arac_cagrilari": [
+      {
+       "id": "ZjHmwP3ggC9gM99DTXevxALAJAUvEZRG",
+       "function": {
+        "index": 0,
+        "name": "carp",
+        "arguments": {
+         "a": 23,
+         "b": 19
+        }
+       }
+      },
+      {
+       "id": "DrZf3xX3xEAHWoNH28gFjxPa5vC1gKGu",
+       "function": {
+        "index": 1,
+        "name": "topla",
+        "arguments": {
+         "a": 437,
+         "b": 7
+        }
+       }
+      }
+     ],
+     "sure_ms": 3265,
+     "eval_count": 56,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   },
+   {
+    "tur": 1,
+    "mesajlar": [
+     {
+      "role": "system",
+      "content": "Sen hesap yapan bir asistansın. Aritmetik için yalnız verilen araçları kullan."
+     },
+     {
+      "role": "user",
+      "content": "23 ile 19'u çarp, sonucuna 7 ekle. Her adım için verilen araçları kullan ve sonucu tek sayı olarak söyle."
+     },
+     {
+      "role": "assistant",
+      "content": "",
+      "tool_calls": [
+       {
+        "id": "ZjHmwP3ggC9gM99DTXevxALAJAUvEZRG",
+        "function": {
+         "index": 0,
+         "name": "carp",
+         "arguments": {
+          "a": 23,
+          "b": 19
+         }
+        }
+       },
+       {
+        "id": "DrZf3xX3xEAHWoNH28gFjxPa5vC1gKGu",
+        "function": {
+         "index": 1,
+         "name": "topla",
+         "arguments": {
+          "a": 437,
+          "b": 7
+         }
+        }
+       }
+      ]
+     },
+     {
+      "role": "tool",
+      "tool_name": "carp",
+      "content": "437"
+     },
+     {
+      "role": "tool",
+      "tool_name": "topla",
+      "content": "444"
+     }
+    ],
+    "seed": 8,
+    "sicaklik": 0.1,
+    "en_fazla": 400,
+    "arac_tanimlari": [
+     {
+      "type": "function",
+      "function": {
+       "name": "topla",
+       "description": "iki sayıyı toplar",
+       "parameters": {
+        "type": "object",
+        "properties": {
+         "a": {
+          "type": "number"
+         },
+         "b": {
+          "type": "number"
+         }
+        },
+        "required": [
+         "a",
+         "b"
+        ]
+       }
+      }
+     },
+     {
+      "type": "function",
+      "function": {
+       "name": "carp",
+       "description": "iki sayıyı çarpar",
+       "parameters": {
+        "type": "object",
+        "properties": {
+         "a": {
+          "type": "number"
+         },
+         "b": {
+          "type": "number"
+         }
+        },
+        "required": [
+         "a",
+         "b"
+        ]
+       }
+      }
+     }
+    ],
+    "yanit": {
+     "icerik": "Sonuç, 444'tür. Bu sayı tek bir sayı değildir; çift bir sayıdır.",
+     "arac_cagrilari": [],
+     "sure_ms": 348,
+     "eval_count": 23,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   }
+  ],
+  "gecmis": [
+   {
+    "role": "system",
+    "content": "Sen hesap yapan bir asistansın. Aritmetik için yalnız verilen araçları kullan."
+   },
+   {
+    "role": "user",
+    "content": "23 ile 19'u çarp, sonucuna 7 ekle. Her adım için verilen araçları kullan ve sonucu tek sayı olarak söyle."
+   },
+   {
+    "role": "assistant",
+    "content": "",
+    "tool_calls": [
+     {
+      "id": "ZjHmwP3ggC9gM99DTXevxALAJAUvEZRG",
+      "function": {
+       "index": 0,
+       "name": "carp",
+       "arguments": {
+        "a": 23,
+        "b": 19
+       }
+      }
+     },
+     {
+      "id": "DrZf3xX3xEAHWoNH28gFjxPa5vC1gKGu",
+      "function": {
+       "index": 1,
+       "name": "topla",
+       "arguments": {
+        "a": 437,
+        "b": 7
+       }
+      }
+     }
+    ]
+   },
+   {
+    "role": "tool",
+    "tool_name": "carp",
+    "content": "437"
+   },
+   {
+    "role": "tool",
+    "tool_name": "topla",
+    "content": "444"
+   }
+  ],
+  "durum": "tamam"
+ },
+ "ozet": {
+  "tur": 2,
+  "arac_cagri": 2,
+  "dogru_cagri": 2,
+  "kullanilan_araclar": [
+   "carp",
+   "topla"
+  ],
+  "final_dogru": false,
+  "final_olcutu": "Tam metnin sonlu Decimal değeri beklenen sayıya eşit",
+  "final": "Sonuç, 444'tür. Bu sayı tek bir sayı değildir; çift bir sayıdır."
+ },
+ "pilot": "temel-ajan",
+ "zaman": "2026-10-31T02:02:23+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 497 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "beb4baadcfd3e6fd02d4e4c60e1108fdeffb72e7b2ff09299cfe851bc8e886b4",
+ "mod": "test"
+}

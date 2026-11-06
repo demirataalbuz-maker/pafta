@@ -1,0 +1,50 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": false,
+      "msg": "tüm metadata, iki araç, girdi değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "JSON key sırası onayı değiştirmez"
+    },
+    {
+      "ok": false,
+      "msg": "değişen description",
+      "got": "{}",
+      "exp": "{'sunucu': 'server-fdd7fab6', 'araclar': {'lookup_order': 'dd69797c9982d419143d9053b2492f22ff67960de58127b0382ea950a055f1d2'}}"
+    },
+    {
+      "ok": false,
+      "msg": "değişen annotations",
+      "got": "{}",
+      "exp": "{'sunucu': 'server-fdd7fab6', 'araclar': {'lookup_order': '151d686fdfa042978b2f9536695e2ac3bf82ec3bd39c8bf407df0fd511c64b05'}}"
+    },
+    {
+      "ok": false,
+      "msg": "değişen inputSchema",
+      "got": "{}",
+      "exp": "{'sunucu': 'server-fdd7fab6', 'araclar': {'lookup_order': 'a69af65008e21c2800a3ecc241b86e6c07ebda374e527592816d2950e985ab3f'}}"
+    },
+    {
+      "ok": false,
+      "msg": "değişen name",
+      "got": "{}",
+      "exp": "{'sunucu': 'server-fdd7fab6', 'araclar': {'renamed': 'dd3f7210c71b4ee1ecc3c269ace3f5cc4b0dbad188a5da9c1fdb1bfba9edbaa0'}}"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "KeyError",
+    "msg": "'araclar'",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": []
+}

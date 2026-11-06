@@ -1,0 +1,446 @@
+[
+  {
+    "name": "solution",
+    "okay": true,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-09-egitim",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-09-20261028-153844\\test-data\\ai-kanit\\temel-09-egitim-1793191127882.json",
+          "zaman": "2026-10-28T15:38:47+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-09-egitim",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-09-20261028-153844\\test-data\\ai-kanit\\temel-09-egitim-1793191130911.json",
+          "zaman": "2026-10-28T15:38:50+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "`torch_egit` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "torch_egit"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "fixed",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-09-egitim",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-09-20261028-153844\\test-data\\ai-kanit\\temel-09-egitim-1793191134183.json",
+          "zaman": "2026-10-28T15:38:54+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "no-zero-grad",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-09-egitim",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-09-20261028-153844\\test-data\\ai-kanit\\temel-09-egitim-1793191137301.json",
+          "zaman": "2026-10-28T15:38:57+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "sum-not-mean",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-09-egitim",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-09-20261028-153844\\test-data\\ai-kanit\\temel-09-egitim-1793191140573.json",
+          "zaman": "2026-10-28T15:39:00+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "no-backward",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-09-egitim",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-09-20261028-153844\\test-data\\ai-kanit\\temel-09-egitim-1793191143634.json",
+          "zaman": "2026-10-28T15:39:03+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "no-step",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-09-egitim",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-09-20261028-153844\\test-data\\ai-kanit\\temel-09-egitim-1793191146742.json",
+          "zaman": "2026-10-28T15:39:06+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run-button",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "{'kayiplar': [6.976246669238452, 4.721952959735938, 3.2471202793686835, 2.2790323224594435], 'agirlik': [0.257476703064729, 0.9063922782538819], 'bias': 0.22401437946954442}\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": []
+    }
+  }
+]

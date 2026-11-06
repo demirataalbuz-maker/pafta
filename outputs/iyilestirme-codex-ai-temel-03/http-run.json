@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "err",
+      "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  33%|███▎      | 91/272 [00:00<00:00, 880.70it/s]\rLoading weights:  66%|██████▌   | 180/272 [00:00<00:00, 793.10it/s]\rLoading weights:  96%|█████████▌| 260/272 [00:00<00:00, 779.82it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 806.25it/s]\n"
+    ],
+    [
+      "out",
+      "Model: HuggingFaceTB/SmolLM2-135M@93efa2f097 · 134,515,008 parametre · sözlük 49152\n\n'The capital of France is' (sıcaklık 1.0) → token kimlikleri [504, 3575, 282, 4649, 314]\n  tokenlar: ['The', 'Ġcapital', 'Ġof', 'ĠFrance', 'Ġis'] | olasılık toplamı: 1.0\n     260 ' the'         logit=  14.023  p=0.2617\n    7042 ' Paris'       logit=  12.997  p=0.0938\n    3807 ' located'     logit=  12.747  p=0.0731\n    1217 ' called'      logit=  12.237  p=0.0439\n     253 ' a'           logit=  12.125  p=0.0392\n\n'The capital of France is' (sıcaklık 0.5) → token kimlikleri [504, 3575, 282, 4649, 314]\n  tokenlar: ['The', 'Ġcapital', 'Ġof', 'ĠFrance', 'Ġis'] | olasılık toplamı: 1.0\n     260 ' the'         logit=  14.023  p=0.7718\n    7042 ' Paris'       logit=  12.997  p=0.0993\n    3807 ' located'     logit=  12.747  p=0.0602\n    1217 ' called'      logit=  12.237  p=0.0217\n     253 ' a'           logit=  12.125  p=0.0173\n\n'Bugün hava çok' (sıcaklık 1.0) → token kimlikleri [50, 1433, 47682, 421, 8042, 5549, 117, 2231]\n  tokenlar: ['B', 'ug', 'Ã¼n', 'Ġha', 'va', 'ĠÃ', '§', 'ok'] | olasılık toplamı: 1.0\n      28 ','            logit=  16.686  p=0.0350\n    5549 ' �'           logit=  16.673  p=0.0346\n     501 ' k'           logit=  16.663  p=0.0342\n      30 '.'            logit=  16.336  p=0.0247\n     252 ' t'           logit=  16.235  p=0.0223\n\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_9u13v14z\\temel-logit-calistir-1793367044122.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-logit-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-logit-calistir-1793367044122.json",
+      "zaman": "2026-10-30T16:30:43+03:00"
+    }
+  ]
+}

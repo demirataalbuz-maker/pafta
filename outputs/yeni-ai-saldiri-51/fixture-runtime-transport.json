@@ -1,0 +1,94 @@
+{
+  "kaynak": "fixture",
+  "kabul": false,
+  "aciklama": "Mock Docker/HTTP lifecycle test; gerçek CVE deneyi/kabulü değil",
+  "sonuc": {
+    "kayitlar": [],
+    "rapor": null,
+    "referans": null,
+    "ortamlar": [
+      {
+        "surum": "2.1.1",
+        "image_id": "fixture-image-2.1.1",
+        "image_digests": null,
+        "izolasyon_dogrulandi": true,
+        "temizlendi": true,
+        "container_id": "fixture-2.1.1",
+        "runtime_inspect": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "PortBindings": {},
+          "Binds": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Memory": 1073741824,
+          "NanoCpus": 2000000000,
+          "PidsLimit": 256,
+          "Tmpfs": {
+            "/tmp": "fixture"
+          }
+        },
+        "mlflow_surumu": "2.1.1",
+        "paketler": "fixture package list",
+        "server_log": "fixture log"
+      },
+      {
+        "surum": "2.2.1",
+        "image_id": "fixture-image-2.2.1",
+        "image_digests": null,
+        "izolasyon_dogrulandi": true,
+        "temizlendi": true,
+        "container_id": "fixture-2.2.1",
+        "runtime_inspect": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "PortBindings": {},
+          "Binds": null,
+          "CapDrop": [
+            "ALL"
+          ],
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Memory": 1073741824,
+          "NanoCpus": 2000000000,
+          "PidsLimit": 256,
+          "Tmpfs": {
+            "/tmp": "fixture"
+          }
+        },
+        "mlflow_surumu": "2.2.1",
+        "paketler": "fixture package list",
+        "server_log": "fixture log"
+      }
+    ],
+    "http_kayitlari": [],
+    "hatalar": [
+      {
+        "surum": "2.1.1",
+        "tur": "RuntimeError",
+        "hata": "FIXTURE HTTP transport error"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "RuntimeError",
+        "hata": "FIXTURE HTTP transport error"
+      }
+    ],
+    "canary": "PAFTA-be17a312b2fe14da0a3040d0",
+    "normal_isaret": "NORMAL-bdb0e51ca31a392178249b14",
+    "cve": "CVE-2023-1177",
+    "ayarlar": {
+      "network": "none",
+      "memory": "1g",
+      "cpus": 2,
+      "pid_limit": 256,
+      "seed": "OS entropy; canary kayıtta",
+      "kurulum": "önceden onaylanmış imaj; ders build/pull yapmaz"
+    }
+  }
+}

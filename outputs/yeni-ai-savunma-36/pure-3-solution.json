@@ -1,0 +1,144 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "iki sabit de tam eşleşti"
+    },
+    {
+      "ok": true,
+      "msg": "politika değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "iki taraf boşsa onay yok"
+    },
+    {
+      "ok": true,
+      "msg": "iki taraf boşsa onay yok"
+    }
+  ],
+  "segs": [
+    [
+      "out",
+      "SENTETİK HAM VERİ: [\n  {\n    \"vaka\": \"keypair-normal\",\n    \"calisti\": true,\n    \"dogrulandi\": true\n  },\n  {\n    \"vaka\": \"keypair-tahrifat\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keypair-baska-anahtar\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-normal\",\n    \"calisti\": true,\n    \"dogrulandi\": true\n  },\n  {\n    \"vaka\": \"keyless-tahrifat\",\n    \"calisti\": false,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-baska-kimlik\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-baska-issuer\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-baska-root\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  }\n]\nPolitika: {'kimlik': 'student@pafta.invalid', 'issuer': 'http://127.0.0.1:5556'}\nBaşka kimlik: False\n"
+    ]
+  ],
+  "error": null
+}

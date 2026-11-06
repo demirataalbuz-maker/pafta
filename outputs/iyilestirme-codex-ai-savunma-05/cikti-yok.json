@@ -1,0 +1,42 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "laboratuvar yamalanmamalı, referans kullanılmamalı "
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: hep tekrarlanabilir"
+    },
+    {
+      "ok": false,
+      "msg": "önceki dar sınırlar ve yalnız çıktı farkı kontrolü korunuyor"
+    },
+    {
+      "ok": false,
+      "msg": "determinizm raporu (çıktı/durum farkı, en az iki koşu) doğru; geçersiz girdi reddedilmeli"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "savunma-lab",
+      "kaynak": "fixture",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-s05-negatif-20261031\\ai-kanit\\savunma-lab-1793472981249.json",
+      "zaman": "2026-10-31T21:56:19+03:00"
+    }
+  ]
+}

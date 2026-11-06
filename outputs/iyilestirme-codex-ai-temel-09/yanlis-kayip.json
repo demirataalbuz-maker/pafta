@@ -1,0 +1,44 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi autograd eğitim işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

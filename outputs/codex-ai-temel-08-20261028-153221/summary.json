@@ -1,0 +1,368 @@
+[
+  {
+    "name": "solution",
+    "okay": true,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek prefill ve cache'li devam tam hesapla eşdeğer; cache uzunluğu ve gerçek çağrılar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: devamda cache'i yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ilk konum logitlerini alan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: öneki cache'e yeniden ekleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-08-kv-cache",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-08-20261028-153221\\test-data\\ai-kanit\\temel-08-kv-cache-1793190749486.json",
+          "zaman": "2026-10-28T15:32:29+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek prefill ve cache'li devam tam hesapla eşdeğer; cache uzunluğu ve gerçek çağrılar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: devamda cache'i yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ilk konum logitlerini alan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: öneki cache'e yeniden ekleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-08-kv-cache",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-08-20261028-153221\\test-data\\ai-kanit\\temel-08-kv-cache-1793190756431.json",
+          "zaman": "2026-10-28T15:32:36+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "`gercek_kv_deneyi` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "gercek_kv_deneyi"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "fixed",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek prefill ve cache'li devam tam hesapla eşdeğer; cache uzunluğu ve gerçek çağrılar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: devamda cache'i yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ilk konum logitlerini alan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: öneki cache'e yeniden ekleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-08-kv-cache",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-08-20261028-153221\\test-data\\ai-kanit\\temel-08-kv-cache-1793190763402.json",
+          "zaman": "2026-10-28T15:32:43+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ignore-cache",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek prefill ve cache'li devam tam hesapla eşdeğer; cache uzunluğu ve gerçek çağrılar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: devamda cache'i yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ilk konum logitlerini alan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: öneki cache'e yeniden ekleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-08-kv-cache",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-08-20261028-153221\\test-data\\ai-kanit\\temel-08-kv-cache-1793190770531.json",
+          "zaman": "2026-10-28T15:32:50+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-logits",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek prefill ve cache'li devam tam hesapla eşdeğer; cache uzunluğu ve gerçek çağrılar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: devamda cache'i yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ilk konum logitlerini alan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: öneki cache'e yeniden ekleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-08-kv-cache",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-08-20261028-153221\\test-data\\ai-kanit\\temel-08-kv-cache-1793190779436.json",
+          "zaman": "2026-10-28T15:32:59+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "repeat-prefix",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek prefill ve cache'li devam tam hesapla eşdeğer; cache uzunluğu ve gerçek çağrılar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: devamda cache'i yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ilk konum logitlerini alan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: öneki cache'e yeniden ekleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-08-kv-cache",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-08-20261028-153221\\test-data\\ai-kanit\\temel-08-kv-cache-1793190788925.json",
+          "zaman": "2026-10-28T15:33:08+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run-button",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "err",
+          "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:   8%|▊         | 22/272 [00:00<00:01, 194.16it/s]\rLoading weights:  16%|█▌        | 44/272 [00:00<00:01, 188.22it/s]\rLoading weights:  36%|███▌      | 97/272 [00:00<00:00, 316.44it/s]\rLoading weights:  49%|████▉     | 133/272 [00:00<00:00, 329.05it/s]\rLoading weights:  66%|██████▌   | 179/272 [00:00<00:00, 370.85it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 419.56it/s]\n"
+        ],
+        [
+          "out",
+          "{'token_idleri': [504, 4626, 8634, 738, 260, 2240, 30], 'prefill_token': 2, 'devam_token': 5, 'cache_once': 2, 'cache_sonra': 7, 'en_olasi_id': 198, 'cache_logitleri': [9.599588394165039, -10.079505920410156, -10.025623321533203, -10.205009460449219, -10.80679702758789, -10.024015426635742, -2.615865707397461, -10.024133682250977], 'max_logit_farki': 1.71661376953125e-05}\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": []
+    }
+  }
+]

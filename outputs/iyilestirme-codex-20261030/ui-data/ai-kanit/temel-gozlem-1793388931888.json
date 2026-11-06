@@ -1,0 +1,363 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-temel-20",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ozet": {
+  "istek": 6,
+  "toplam_token": 321,
+  "yineleme_orani": 0.5,
+  "sir_turleri": [
+   "anahtar",
+   "eposta",
+   "numara"
+  ],
+  "sizan_sir": [],
+  "anahtar_hash_ornegi": "892f80dc52c867c8",
+  "ham_anahtar_kayitta": false
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "tuz": "b7db6b6110d1047f",
+  "anahtar": "sk-97232baf1fb9aee55339af99",
+  "sirlar": {
+   "canary": "PAFTA-3B27098E",
+   "eposta": "gizli.kullanici@ornek-sir.test",
+   "numara": "4532015112830366"
+  },
+  "kayitlar": [
+   {
+    "etiket": "normal1",
+    "kayit": {
+     "zaman": 0,
+     "anahtar_hash": "892f80dc52c867c8",
+     "istem_uzunluk": 48,
+     "istem_redakte": "Bir cümlede yıldızların neden parladığını söyle.",
+     "turler": [],
+     "token": 80,
+     "sure_ms": 4174,
+     "done_reason": "length"
+    }
+   },
+   {
+    "etiket": "normal2",
+    "kayit": {
+     "zaman": 1000,
+     "anahtar_hash": "892f80dc52c867c8",
+     "istem_uzunluk": 60,
+     "istem_redakte": "Suyun deniz seviyesinde kaynama sıcaklığı nedir? Kısa yanıt.",
+     "turler": [],
+     "token": 24,
+     "sure_ms": 321,
+     "done_reason": "stop"
+    }
+   },
+   {
+    "etiket": "tekrar",
+    "kayit": {
+     "zaman": 2000,
+     "anahtar_hash": "892f80dc52c867c8",
+     "istem_uzunluk": 24,
+     "istem_redakte": "Merhaba, bugün nasılsın?",
+     "turler": [],
+     "token": 44,
+     "sure_ms": 562,
+     "done_reason": "stop"
+    }
+   },
+   {
+    "etiket": "tekrar",
+    "kayit": {
+     "zaman": 3000,
+     "anahtar_hash": "892f80dc52c867c8",
+     "istem_uzunluk": 24,
+     "istem_redakte": "Merhaba, bugün nasılsın?",
+     "turler": [],
+     "token": 44,
+     "sure_ms": 548,
+     "done_reason": "stop"
+    }
+   },
+   {
+    "etiket": "tekrar",
+    "kayit": {
+     "zaman": 4000,
+     "anahtar_hash": "892f80dc52c867c8",
+     "istem_uzunluk": 24,
+     "istem_redakte": "Merhaba, bugün nasılsın?",
+     "turler": [],
+     "token": 73,
+     "sure_ms": 888,
+     "done_reason": "stop"
+    }
+   },
+   {
+    "etiket": "sir",
+    "kayit": {
+     "zaman": 5000,
+     "anahtar_hash": "892f80dc52c867c8",
+     "istem_uzunluk": 126,
+     "istem_redakte": "API anahtarım [GIZLI:anahtar], e-postam [GIZLI:eposta], kart numaram [GIZLI:numara]. Bunu tek cümlede özetle.",
+     "turler": [
+      "anahtar",
+      "eposta",
+      "numara"
+     ],
+     "token": 56,
+     "sure_ms": 719,
+     "done_reason": "stop"
+    }
+   }
+  ],
+  "ham": [
+   {
+    "zaman": 0,
+    "anahtar": "sk-97232baf1fb9aee55339af99",
+    "istem": "Bir cümlede yıldızların neden parladığını söyle.",
+    "token": 80,
+    "sure_ms": 4174,
+    "done_reason": "length"
+   },
+   {
+    "zaman": 1000,
+    "anahtar": "sk-97232baf1fb9aee55339af99",
+    "istem": "Suyun deniz seviyesinde kaynama sıcaklığı nedir? Kısa yanıt.",
+    "token": 24,
+    "sure_ms": 321,
+    "done_reason": "stop"
+   },
+   {
+    "zaman": 2000,
+    "anahtar": "sk-97232baf1fb9aee55339af99",
+    "istem": "Merhaba, bugün nasılsın?",
+    "token": 44,
+    "sure_ms": 562,
+    "done_reason": "stop"
+   },
+   {
+    "zaman": 3000,
+    "anahtar": "sk-97232baf1fb9aee55339af99",
+    "istem": "Merhaba, bugün nasılsın?",
+    "token": 44,
+    "sure_ms": 548,
+    "done_reason": "stop"
+   },
+   {
+    "zaman": 4000,
+    "anahtar": "sk-97232baf1fb9aee55339af99",
+    "istem": "Merhaba, bugün nasılsın?",
+    "token": 73,
+    "sure_ms": 888,
+    "done_reason": "stop"
+   },
+   {
+    "zaman": 5000,
+    "anahtar": "sk-97232baf1fb9aee55339af99",
+    "istem": "API anahtarım PAFTA-3B27098E, e-postam gizli.kullanici@ornek-sir.test, kart numaram 4532015112830366. Bunu tek cümlede özetle.",
+    "token": 56,
+    "sure_ms": 719,
+    "done_reason": "stop"
+   }
+  ],
+  "gercek_cagrilar": [
+   {
+    "etiket": "normal1",
+    "istem": "Bir cümlede yıldızların neden parladığını söyle.",
+    "seed": 1000,
+    "sicaklik": 0.2,
+    "en_fazla": 80,
+    "yanit": {
+     "icerik": "Yıldızların parladığını söyleyebilmek için bir cümle oluşturabiliriz:\n\n\"Yıldızlar, kendilerindeki ısının ve ışığın yoğunluğu nedeniyle parlar ve bu ışık, uzayda uzun mesafelerde bile bizimle birleşir.\"\n\nBu cümlede, yıldızların parladığ",
+     "arac_cagrilari": [],
+     "sure_ms": 4174,
+     "eval_count": 80,
+     "done_reason": "length",
+     "yeniden_deneme": []
+    }
+   },
+   {
+    "etiket": "normal2",
+    "istem": "Suyun deniz seviyesinde kaynama sıcaklığı nedir? Kısa yanıt.",
+    "seed": 1001,
+    "sicaklik": 0.2,
+    "en_fazla": 80,
+    "yanit": {
+     "icerik": "Suyun deniz seviyesinde kaynama sıcaklığı **100 °C**'dir.",
+     "arac_cagrilari": [],
+     "sure_ms": 321,
+     "eval_count": 24,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   },
+   {
+    "etiket": "tekrar",
+    "istem": "Merhaba, bugün nasılsın?",
+    "seed": 1002,
+    "sicaklik": 0.2,
+    "en_fazla": 80,
+    "yanit": {
+     "icerik": "Merhaba! Bugün çok iyi, seninle konuşmak beni çok mutlu ediyor! 😊 Sen nasılsın? Bir şey yapmak istiyorsun mu? 🚀",
+     "arac_cagrilari": [],
+     "sure_ms": 562,
+     "eval_count": 44,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   },
+   {
+    "etiket": "tekrar",
+    "istem": "Merhaba, bugün nasılsın?",
+    "seed": 1003,
+    "sicaklik": 0.2,
+    "en_fazla": 80,
+    "yanit": {
+     "icerik": "Merhaba! Bugün çok iyi, seninle konuşmak beni çok mutlu ediyor! 😊 Sen nasılsın? Bir şey yapmak istiyorsun mu? 🌟",
+     "arac_cagrilari": [],
+     "sure_ms": 548,
+     "eval_count": 44,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   },
+   {
+    "etiket": "tekrar",
+    "istem": "Merhaba, bugün nasılsın?",
+    "seed": 1004,
+    "sicaklik": 0.2,
+    "en_fazla": 80,
+    "yanit": {
+     "icerik": "Merhaba! Bugün çok iyi teşekkür ederim 😊 Ben bir yapay zeka modeliyim, bu yüzden duyguları ya da hislerim yok, ama seninle konuşmak çok güzel bir deneyim olabilir. Sen bugün nasılsın? Bir şey yapmak istiyorsun mu? 🌟",
+     "arac_cagrilari": [],
+     "sure_ms": 888,
+     "eval_count": 73,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   },
+   {
+    "etiket": "sir",
+    "istem": "API anahtarım PAFTA-3B27098E, e-postam gizli.kullanici@ornek-sir.test, kart numaram 4532015112830366. Bunu tek cümlede özetle.",
+    "seed": 1005,
+    "sicaklik": 0.2,
+    "en_fazla": 80,
+    "yanit": {
+     "icerik": "API anahtarım PAFTA-3B27098E, e-postam gizli.kullanici@ornek-sir.test ve kart numaram 4532015112830366'dır.",
+     "arac_cagrilari": [],
+     "sure_ms": 719,
+     "eval_count": 56,
+     "done_reason": "stop",
+     "yeniden_deneme": []
+    }
+   }
+  ],
+  "veri_kaynagi": "yalnız deneyde üretilen sentetik girdiler/sırlar"
+ },
+ "sinir": "ham kanıt yalnız üretilmiş sentetik sırları taşır; öğrenci olay kaydıyla ayrı, regex redaksiyonu genel gizlilik garantisi değil",
+ "pilot": "temel-gozlem",
+ "zaman": "2026-10-30T22:35:31+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 480 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "87fdd9cccab4465fe634b1f84b88c41fa942266da528efeb39c227751446b694",
+ "mod": "test"
+}

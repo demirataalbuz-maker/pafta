@@ -1,0 +1,22 @@
+{
+  "name": "empty",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "laboratuvar yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "`torch_egit` adında bir fonksiyon tanımlamalısın",
+        "got": "bulunamadı",
+        "exp": "torch_egit"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

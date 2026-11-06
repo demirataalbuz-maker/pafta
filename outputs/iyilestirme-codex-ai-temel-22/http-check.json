@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi retrieval ölçümünü yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "kosinüs sıralaması ve recall@k/MRR/nDCG@k doğru; geçersiz girdi reddedilmeli"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: vektörleri normalize etmeyen"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: MRR'ı yalnız ilk k'da arayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: nDCG'yi normalize etmeyen"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+    },
+    {
+      "ok": true,
+      "msg": "iki gerçek embed çağrısının tüm10parça ve6soru sonuçları mevcut"
+    },
+    {
+      "ok": true,
+      "msg": "deney yalnız kendi yüklediği gömme modelini bıraktı"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek gömmeler: 10 parça × 384 boyut"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek vektörlerde sıralama ve metrikler bağımsız hesapla aynı"
+    },
+    {
+      "ok": true,
+      "msg": "büyük k anma'yı düşürmez: recall@3 1.0 ≥ recall@1 0.8333"
+    },
+    {
+      "ok": true,
+      "msg": "BULGU (all-minilm:22m, 384 boyut): 6 soruda recall@3 1.0 vs recall@1 0.8333, MRR 0.9167, nDCG@3 0.9385; isabet@3 6/6 vs isabet@1 5/6. Büyük k anma'yı düşürmez ama bağlama daha çok parça sokar."
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-retrieval",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "all-minilm:22m",
+      "ozet": {
+        "soru": 6,
+        "boyut": 384,
+        "anma_k3": 1.0,
+        "anma_k1": 0.8333,
+        "mrr": 0.9167,
+        "ndcg_k3": 0.9385,
+        "isabet_k3": 6,
+        "isabet_k1": 5
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-retrieval-1793398982957.json",
+      "zaman": "2026-10-31T01:23:02+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 6,
+    "first": false,
+    "revealed": true
+  }
+}

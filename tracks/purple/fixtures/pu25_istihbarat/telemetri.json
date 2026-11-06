@@ -1,0 +1,124 @@
+{
+ "aciklama": "Varsayımsal izole Windows değerlendirme VM'inin (Dalga C) telemetrisi: Sysmon, PowerShell betik bloğu günlüğü ve Security denetimi. Boş liste, o teknik için bilinen bir kör noktadır ve üst tekniğe düşülmez.",
+ "telemetri": {
+  "T1003": [
+   "Sysmon 10 (LSASS'a erişim)"
+  ],
+  "T1007": [
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1016": [
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1018": [
+   "Sysmon 1 (süreç oluşturma)",
+   "Sysmon 3 (ağ bağlantısı)"
+  ],
+  "T1033": [
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1049": [
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1057": [
+   "PowerShell 4104 (betik bloğu)"
+  ],
+  "T1069": [
+   "PowerShell 4104 (betik bloğu)"
+  ],
+  "T1082": [
+   "PowerShell 4104 (betik bloğu)",
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1087": [
+   "PowerShell 4104 (betik bloğu)"
+  ],
+  "T1518": [
+   "PowerShell 4104 (betik bloğu)"
+  ],
+  "T1036": [
+   "Sysmon 1 (OriginalFileName)"
+  ],
+  "T1036.002": [
+   "Sysmon 11 (dosya oluşturma)"
+  ],
+  "T1037.005": [
+   "Sysmon 11 (dosya oluşturma)"
+  ],
+  "T1041": [
+   "Sysmon 3 (ağ bağlantısı)"
+  ],
+  "T1105": [
+   "Sysmon 3 (ağ bağlantısı)",
+   "Sysmon 11 (dosya oluşturma)"
+  ],
+  "T1055": [
+   "Sysmon 8 (CreateRemoteThread)",
+   "Sysmon 10 (süreç erişimi)"
+  ],
+  "T1059": [
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1059.001": [
+   "PowerShell 4104 (betik bloğu)"
+  ],
+  "T1070.004": [
+   "Sysmon 23 (dosya silme)"
+  ],
+  "T1070.006": [
+   "Sysmon 2 (dosya zamanı değişimi)"
+  ],
+  "T1112": [
+   "Sysmon 13 (kayıt defteri değeri)"
+  ],
+  "T1204.002": [
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1218.011": [
+   "Sysmon 1 (süreç oluşturma)"
+  ],
+  "T1529": [
+   "System 1074 (kapatma)"
+  ],
+  "T1546.003": [
+   "Sysmon 19/20/21 (WMI aboneliği)"
+  ],
+  "T1547.009": [
+   "Sysmon 11 (dosya oluşturma)"
+  ],
+  "T1548.002": [
+   "Sysmon 1 (bütünlük düzeyi)",
+   "Sysmon 13 (kayıt defteri değeri)"
+  ],
+  "T1561.001": [
+   "Sysmon 9 (ham disk okuma)"
+  ],
+  "T1134": [
+   "Security 4624 (oturum açma)"
+  ],
+  "T1134.001": [],
+  "T1056.001": [],
+  "T1113": [],
+  "T1115": [],
+  "T1119": [],
+  "T1552.004": [],
+  "T1537": []
+ },
+ "ortam": {
+  "dis_girdiler": [
+   "onedrive.password",
+   "onedrive.url",
+   "onedrive.username"
+  ],
+  "coklu_makine_girdileri": [
+   "pivot_machine_hostname",
+   "remote.file.share",
+   "target.domain.name",
+   "target.ntlm",
+   "target.sid",
+   "target.winrm.password",
+   "target.winrm.remote_host",
+   "target.winrm.username"
+  ]
+ }
+}

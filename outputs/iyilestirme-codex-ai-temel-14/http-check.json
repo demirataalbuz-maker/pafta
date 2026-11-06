@@ -1,0 +1,87 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi katı JSON doğrulayıcını yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+    },
+    {
+      "ok": true,
+      "msg": "iki gerçek şemalı model çağrısı tamamlandı"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek model JSON'u katı doğrulamadan geçti"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek istekte JSON Schema ve seçili cihaz ayarı kullanıldı"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek model JSON'u katı doğrulamadan geçti"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek istekte JSON Schema ve seçili cihaz ayarı kullanıldı"
+    },
+    {
+      "ok": true,
+      "msg": "deney yalnız kendi kaynağını bıraktı (kendi sunucusu ya da kendi yüklediği model)"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek /api/ps ölçümü seçili cihazla tutarlı (CPU kipinde VRAM 0)"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-14-schema",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-14-schema-1793381010725.json",
+      "zaman": "2026-10-30T20:23:29+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

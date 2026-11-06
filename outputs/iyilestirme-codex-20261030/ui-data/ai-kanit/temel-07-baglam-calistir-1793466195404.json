@@ -1,0 +1,155 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "metin": "The old instruction was removed; the latest note is green.",
+  "butceler": [
+   2,
+   8
+  ]
+ },
+ "ciktilar": [
+  {
+   "butce": 2,
+   "rapor": {
+    "model_siniri": 8192,
+    "girdi_token_sayisi": 12,
+    "dusen_token_sayisi": 10,
+    "token_idleri": [
+     2654,
+     30
+    ],
+    "konumlar": [
+     0,
+     1
+    ],
+    "en_olasi_id": 198,
+    "ornek_logitler": [
+     15.535658836364746,
+     -2.291752815246582,
+     -2.227090835571289,
+     -3.032409191131592,
+     -3.443734645843506,
+     -2.1950907707214355,
+     3.4806299209594727,
+     -2.1951746940612793
+    ]
+   }
+  },
+  {
+   "butce": 8,
+   "rapor": {
+    "model_siniri": 8192,
+    "girdi_token_sayisi": 12,
+    "dusen_token_sayisi": 4,
+    "token_idleri": [
+     5178,
+     43,
+     260,
+     6008,
+     4109,
+     314,
+     2654,
+     30
+    ],
+    "konumlar": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "en_olasi_id": 198,
+    "ornek_logitler": [
+     14.624360084533691,
+     -5.791611671447754,
+     -5.7654266357421875,
+     -5.81993293762207,
+     -6.669305801391602,
+     -5.740821838378906,
+     2.135040283203125,
+     -5.740447044372559
+    ]
+   }
+  }
+ ],
+ "gercek_forward_cagrilari": [
+  {
+   "ids": [
+    [
+     2654,
+     30
+    ]
+   ],
+   "konumlar": [
+    [
+     0,
+     1
+    ]
+   ],
+   "use_cache": false,
+   "grad_acik": false
+  },
+  {
+   "ids": [
+    [
+     5178,
+     43,
+     260,
+     6008,
+     4109,
+     314,
+     2654,
+     30
+    ]
+   ],
+   "konumlar": [
+    [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ]
+   ],
+   "use_cache": false,
+   "grad_acik": false
+  }
+ ],
+ "sinir": "Çalıştır keşif kaydı; kabul değildir. Tam context kapasitesi ölçülmez.",
+ "temizlik": "CPU; kalıcı süreç veya model indirme yok",
+ "pilot": "temel-07-baglam-calistir",
+ "zaman": "2026-10-31T20:03:14+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 403 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "f73f1349b600ffa9ca28022d2d12c529148d516b316e212bcceb94ed4589eea9",
+ "mod": "run"
+}

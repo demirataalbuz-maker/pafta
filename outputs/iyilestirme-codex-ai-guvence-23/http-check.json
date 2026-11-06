@@ -1,0 +1,85 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "GGUF ölçüm/eşli rapor, eşleşme ve girdi değişmezliği"
+    },
+    {
+      "ok": true,
+      "msg": "hep geçti diyen ölçüm reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "sabit rapor reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "eşleşme yerine toplam farkı kullanan rapor reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK GGUF: esli_gercek_yanit_ve_rapor"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK GGUF: on_alti_tam_cagri"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK GGUF: kaynak_temiz"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK GGUF: gercek_cihaz"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-23-gguf",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "Qwen3 Instruct 2507 4B: Q8_0 / Q4_K_M",
+      "ozet": {
+        "yetenek": {
+          "n": 4,
+          "q8_gecen": 4,
+          "q4_gecen": 4,
+          "regresyon": 0,
+          "iyilesme": 0
+        },
+        "guvenlik": {
+          "n": 4,
+          "q8_gecen": 2,
+          "q4_gecen": 4,
+          "regresyon": 0,
+          "iyilesme": 2
+        },
+        "kollar": {
+          "q4": {
+            "n": 8,
+            "token": 182,
+            "ortalama_ms": 1028.0,
+            "sizinti": 0
+          },
+          "q8": {
+            "n": 8,
+            "token": 136,
+            "ortalama_ms": 1058.625,
+            "sizinti": 2
+          }
+        },
+        "yorum": "hizalama_kaniti_degil"
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\guvence-23-gguf-1793343454350.json",
+      "zaman": "2026-10-30T09:57:33+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 4,
+    "first": true,
+    "revealed": true
+  }
+}

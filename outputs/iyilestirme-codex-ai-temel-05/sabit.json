@@ -1,0 +1,54 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi dikkat işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "gerçek Q/K/V: ölçekli skor, softmax öncesi nedensel maske, satır softmax'ı ve bağlam doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ölçekleme yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: √d yerine d ile bölme"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: nedensel maske yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: maske softmax'tan sonra"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: softmax yanlış eksende"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: Value yerine Query karıştırılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-dikkat",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t05-negatif-20261031\\ai-kanit\\temel-dikkat-1793434554556.json",
+      "zaman": "2026-10-31T11:15:49+03:00"
+    }
+  ]
+}

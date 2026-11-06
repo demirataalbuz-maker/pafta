@@ -1,0 +1,775 @@
+[
+  {
+    "name": "reference",
+    "okay": true,
+    "seconds": 5.24,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": true,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        },
+        {
+          "ok": true,
+          "msg": "laboratuvar/referanslar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: sink_kontrolleri"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: girdi_degismedi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_tam"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: kaynak_temiz"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: cihaz_uygun"
+        },
+        {
+          "ok": true,
+          "msg": "sentetik pozitif kontrolde gerçek HTML parser farkı"
+        },
+        {
+          "ok": true,
+          "msg": "iki canlı model yanıtı gerçek sinkte işlendi; modelin tehlikeli çıktı vermesi şart değil"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "saldiri-09-cikti",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "qwen3:4b-instruct-2507-q4_K_M",
+          "ozet": {
+            "sentetik_ornek": 3,
+            "canli_yanit": 2,
+            "ham_markup_ornek": 4,
+            "korumali_markup_ornek": 0
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-09-20261029\\data\\ai-kanit\\saldiri-09-cikti-1793267720929.json",
+          "zaman": "2026-10-29T12:55:20+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "seconds": 0.51,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": false,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": false,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        },
+        {
+          "ok": true,
+          "msg": "laboratuvar/referanslar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.45,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'html_guvenli' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "html_guvenli"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "constant",
+    "okay": true,
+    "seconds": 0.43,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": false,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": false,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        }
+      ],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'ai_lab' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "ai_lab"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "quotes-unescaped",
+    "okay": true,
+    "seconds": 0.45,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": true,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": false,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        },
+        {
+          "ok": true,
+          "msg": "laboratuvar/referanslar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "userinfo-allowed",
+    "okay": true,
+    "seconds": 0.43,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": false,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": false,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        },
+        {
+          "ok": true,
+          "msg": "laboratuvar/referanslar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "unsafe-link-kept",
+    "okay": true,
+    "seconds": 0.43,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": true,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": false,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        },
+        {
+          "ok": true,
+          "msg": "laboratuvar/referanslar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "double-escape",
+    "okay": true,
+    "seconds": 0.48,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": true,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        },
+        {
+          "ok": true,
+          "msg": "laboratuvar/referanslar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI ÖĞRENCİ DOSYASI: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-09-20261029\\data\\calisma\\ai-saldiri-09\\ciktilar.json\nSENTETİK JSON — canlı model kaydı değildir:\n[\n  {\n    \"id\": \"duz\",\n    \"metin\": \"Pafta & eğitim \\\"notu\\\"\"\n  },\n  {\n    \"id\": \"etiket\",\n    \"metin\": \"<b>MERHABA</b> & \\\"örnek\\\"\"\n  },\n  {\n    \"id\": \"link\",\n    \"metin\": \"[yerel ders](https://ornek.test/a?x=1&y=2)\"\n  },\n  {\n    \"id\": \"tehlikeli\",\n    \"metin\": \"[işaret](javascript:alert) <img src=x onerror=\\\"alert(1)\\\">\"\n  },\n  {\n    \"id\": \"bilgi\",\n    \"metin\": \"[örnek](https://user@ornek.test/a)\"\n  },\n  {\n    \"id\": \"icice\",\n    \"metin\": \"[<b>etiket</b>](https://ornek.test/)\"\n  }\n]\n\nduz sentetik_fixture ham: 'Pafta & eğitim \"notu\"' → kaçış: Pafta &amp; eğitim &quot;notu&quot; markup: 0\netiket sentetik_fixture ham: '<b>MERHABA</b> & \"örnek\"' → kaçış: &lt;b&gt;MERHABA&lt;/b&gt; &amp; &quot;örnek&quot; markup: 0\nlink sentetik_fixture ham: '[yerel ders](https://ornek.test/a?x=1&y=2)' → kaçış: [yerel ders](https://ornek.test/a?x=1&amp;y=2) markup: 0\ntehlikeli sentetik_fixture ham: '[işaret](javascript:alert) <img src=x onerror=\"alert(1)\">' → kaçış: [işaret](javascript:alert) &lt;img src=x onerror=&quot;alert(1)&quot;&gt; markup: 0\nbilgi sentetik_fixture ham: '[örnek](https://user@ornek.test/a)' → kaçış: [örnek](https://user@ornek.test/a) markup: 0\nicice sentetik_fixture ham: '[<b>etiket</b>](https://ornek.test/)' → kaçış: [&lt;b&gt;etiket&lt;/b&gt;](https://ornek.test/) markup: 0\ncanli-0 canli_model ham: '<b>PAFTA</b> & \"not\"' → kaçış: &lt;b&gt;PAFTA&lt;/b&gt; &amp; &quot;not&quot; markup: 0\ncanli-1 canli_model ham: '[sample](javascript:alert) and [lesson](https://ornek.test/)' → kaçış: [sample](javascript:alert) and [lesson](https://ornek.test/) markup: 0\nDosyalar: [{'id': 'duz', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\0-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\0-ham.txt', 'sha256': '609fbabaf8eed9a699cb654130afc20f87c88d6ecd9629b8ce1c5f46f80b86d6'}, {'id': 'etiket', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\1-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\1-ham.txt', 'sha256': '96e3e4d6d5f82edc373c41c561a488754decbe613d3f09369ed643df08b9a847'}, {'id': 'link', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\2-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\2-ham.txt', 'sha256': 'aa290fe4910ab4fee167948c1f19f9845fa26b23aa1d5d408d2e32442dd13ef3'}, {'id': 'tehlikeli', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\3-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\3-ham.txt', 'sha256': 'd21cd57caa1644c5bab24b8ca1976c885d30d2ae379835d6a2a76c5c600e5ff9'}, {'id': 'bilgi', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\4-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\4-ham.txt', 'sha256': '744498e1710a4315c0e49f53996b85bf610a3ceb8b599519e4af56b8c2016f80'}, {'id': 'icice', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\5-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\5-ham.txt', 'sha256': 'b00515b68fc568a7ac81875b51663d4c13d5e822450b2580e47cc889bd47fc00'}, {'id': 'canli-0', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\6-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\6-ham.txt', 'sha256': '02f6d0cda55d9d26c326c2f72c9cdc2e01171e4648881815e4e5acae298572f1'}, {'id': 'canli-1', 'guvenli_html': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\7-guvenli.html', 'ham_metin': 'C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-ai-saldiri-09-20261029\\\\data\\\\calisma\\\\ai-saldiri-09\\\\deney-c13db5ce\\\\7-ham.txt', 'sha256': '7b4c20ae562abd1f1b6fd60eb18532f65b543411b5e23378f29cf88999ed1f21'}]\nÖzet: {'sentetik_ornek': 6, 'canli_yanit': 2, 'ham_markup_ornek': 4, 'korumali_markup_ornek': 0}\nKontroller: {'sink_kontrolleri': True, 'girdi_degismedi': True, 'gercek_tam': True, 'kaynak_temiz': True, 'cihaz_uygun': True}\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_hbrl680g\\saldiri-09-cikti-1793267729226.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "saldiri-09-cikti",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "qwen3:4b-instruct-2507-q4_K_M",
+          "ozet": {
+            "sentetik_ornek": 6,
+            "canli_yanit": 2,
+            "ham_markup_ornek": 4,
+            "korumali_markup_ornek": 0
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-09-20261029\\data\\ai-kanit\\saldiri-09-cikti-1793267729226.json",
+          "zaman": "2026-10-29T12:55:28+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "missing-dependency",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+        },
+        {
+          "ok": true,
+          "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+        },
+        {
+          "ok": true,
+          "msg": "laboratuvar/referanslar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni metin/attribute beş karakter kaçışı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+        }
+      ],
+      "segs": [],
+      "error": {
+        "type": "GercekLabYok",
+        "msg": "Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  }
+]

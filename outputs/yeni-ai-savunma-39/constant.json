@@ -1,0 +1,196 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": false,
+      "msg": "geçerli forget bozuk ids listesini meşrulaştırmaz",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "geçerli forget bozuk ids listesini meşrulaştırmaz",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "geçerli forget bozuk ids listesini meşrulaştırmaz",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrık birleşim ve kaynak sırası",
+      "got": "{}",
+      "exp": "{'retain': ['b'], 'forget': ['a', 'c']}"
+    },
+    {
+      "ok": false,
+      "msg": "ayrık birleşim ve kaynak sırası",
+      "got": "{}",
+      "exp": "{'retain': ['q'], 'forget': ['z']}"
+    },
+    {
+      "ok": false,
+      "msg": "ayrık birleşim ve kaynak sırası",
+      "got": "{}",
+      "exp": "{'retain': ['b', 'd'], 'forget': ['c', 'a']}"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ayrım şema/sınır",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": true,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil"
+    },
+    {
+      "ok": false,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil",
+      "got": "0",
+      "exp": "-0.49999999999999994"
+    },
+    {
+      "ok": false,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil",
+      "got": "0",
+      "exp": "1"
+    },
+    {
+      "ok": false,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil",
+      "got": "0",
+      "exp": "-1"
+    },
+    {
+      "ok": false,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil",
+      "got": "0",
+      "exp": "0.8"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "sonlu sayısal loss/alpha",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "KeyError",
+    "msg": "'retain'",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": []
+}

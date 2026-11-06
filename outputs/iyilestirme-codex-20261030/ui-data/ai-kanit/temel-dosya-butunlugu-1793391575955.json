@@ -1,0 +1,157 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-temel-19",
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "manifest_kaynagi": "HfApi.get_paths_info, 2026-10-28",
+ "deney": {
+  "repo": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "snapshot_revizyonu": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "dosyalar": [
+   {
+    "ad": "config.json",
+    "ozet": {
+     "boyut": 704,
+     "sha256": "1d556eab73b69c7f11f64c557a2f9c6f440bd4c6b89bb2584a6b498c92603843",
+     "git_blob": "ccf3dac2f33905d152adbdf3886b5e38a4eb7579"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "git_blob_tutuyor": true
+   },
+   {
+    "ad": "generation_config.json",
+    "ozet": {
+     "boyut": 111,
+     "sha256": "2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059",
+     "git_blob": "0fce861c328ff24830f3037d91ce773254447bf7"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "git_blob_tutuyor": true
+   },
+   {
+    "ad": "merges.txt",
+    "ozet": {
+     "boyut": 466391,
+     "sha256": "0b54e8aa4e53d5383e2e4bc635a56b43f9647f7b13832d5d9ecd8f82dac4f510",
+     "git_blob": "69503b13f727ba3812b6803e97442a6de05ef5eb"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "git_blob_tutuyor": true
+   },
+   {
+    "ad": "model.safetensors",
+    "ozet": {
+     "boyut": 269060552,
+     "sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+     "git_blob": "f67bb85431374f81fdca648ecb1793034b87de5d"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "lfs_sha256_tutuyor": true,
+    "isaretci_blob_tutuyor": true
+   },
+   {
+    "ad": "special_tokens_map.json",
+    "ozet": {
+     "boyut": 831,
+     "sha256": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3",
+     "git_blob": "f6652f246cb895ca1edfb16d10b57917b266e335"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "git_blob_tutuyor": true
+   },
+   {
+    "ad": "tokenizer.json",
+    "ozet": {
+     "boyut": 2104556,
+     "sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c",
+     "git_blob": "f922b1797f0c88e71addc8393787831f2477a4bd"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "git_blob_tutuyor": true
+   },
+   {
+    "ad": "tokenizer_config.json",
+    "ozet": {
+     "boyut": 3658,
+     "sha256": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424",
+     "git_blob": "d45192775d58298087a1fedf5967fe5b63b091ab"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "git_blob_tutuyor": true
+   },
+   {
+    "ad": "vocab.json",
+    "ozet": {
+     "boyut": 800662,
+     "sha256": "82b84012e3add4d01d12ba14442026e49b8cbbaead1f79ecf3d919784f82dc79",
+     "git_blob": "0ad5ecc2035b7031b88afb544ee95e2d49baa484"
+    },
+    "manifestte": true,
+    "boyut_tutuyor": true,
+    "git_blob_tutuyor": true
+   }
+  ],
+  "baslik": {
+   "metadata": {
+    "format": "pt"
+   },
+   "tensor_sayisi": 272,
+   "dtypeler": {
+    "BF16": 272
+   },
+   "parametre": 134515008,
+   "baslik_bayt": 30528
+  },
+  "model_parametresi": 134515008,
+  "kurcalama": {
+   "veri_bayti": {
+    "baslik": "geçti",
+    "sha256_tutuyor": false
+   },
+   "kesik": {
+    "baslik": "ValueError: veri bölümü uzunluğu başlıkla tutmuyor",
+    "sha256_tutuyor": false
+   },
+   "baslik_boyu": {
+    "baslik": "ValueError: başlık UTF-8 JSON değil",
+    "sha256_tutuyor": false
+   }
+  },
+  "gecici_silindi": true
+ },
+ "pilot": "temel-dosya-butunlugu",
+ "zaman": "2026-10-30T23:19:35+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 480 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "38b8dde09d4121a0cb317765691fae148e2207f79d2f2e2bd16422ed096019ac",
+ "mod": "test"
+}

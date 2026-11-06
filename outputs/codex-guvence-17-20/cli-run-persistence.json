@@ -1,0 +1,174 @@
+{
+  "17": {
+    "ok": true,
+    "persistent_path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-17\\ayarlar.json",
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-17\\ayarlar.json\n{\"seed\": 991, \"ornek\": 11, \"sigma\": 3}\nÖlçülen sonuç: [{'auc': 0.826446, 'tpr': 0.727273, 'fpr': 0.181818, 'avantaj': 0.545455}, {'auc': 0.809917, 'tpr': 0.727273, 'fpr': 0.363636, 'avantaj': 0.363636}]\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_nzvswx0e\\guvence-17-cpu-1793300001401.json\nKüçük sentetik CPU deneyi. Üyelik başarısı veya risk azalışı PASS koşulu değildir. Düşük AUC DP kanıtlamaz. DP: sabit n, replace-one komşuluk, tam batch örnek-başı L2 C=1, sigma*(2C/n) Gaussian; rho=T/(2sigma²), epsilon=rho+2sqrt(rho log(1/delta)), delta=1e-5; altörnekleme kazancı yok. Açık seed ve ayrıntılı ham iz yalnız öğretim içindir; özel veriyle güvenli yayın garantisi yok. Epsilon yalnız ağırlık mekanizmasına aittir, ham skor/iz yayınlarına değil. Kontrol geçici kanıtı koşucuya taşır, Run kalıcı öğrenci ayarını korur.\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-17-cpu",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "Yerel 12-24-2 MLP / SGD / CPU",
+          "ozet": [
+            {
+              "auc": 0.826446,
+              "tpr": 0.727273,
+              "fpr": 0.181818,
+              "avantaj": 0.545455
+            },
+            {
+              "auc": 0.809917,
+              "tpr": 0.727273,
+              "fpr": 0.363636,
+              "avantaj": 0.363636
+            }
+          ],
+          "dosya": "outputs/codex-guvence-17-20/persistence\\ai-kanit\\guvence-17-cpu-1793300001401.json",
+          "zaman": "2026-10-29T21:53:21+03:00"
+        }
+      ]
+    }
+  },
+  "18": {
+    "ok": true,
+    "persistent_path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-18\\ayarlar.json",
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-18\\ayarlar.json\n{\"seed\": 991, \"ornek\": 11, \"sigma\": 3}\nÖlçülen sonuç: [{'acik': 0.545455, 'auc': 0.809917, 'risk': True}, {'acik': 0.727273, 'auc': 0.826446, 'risk': True}, {'acik': 0.272727, 'auc': 0.793388, 'risk': True}, {'acik': 0.454545, 'auc': 0.809917, 'risk': True}]\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_d77_xku8\\guvence-18-cpu-1793300015971.json\nKüçük sentetik CPU deneyi. Üyelik başarısı veya risk azalışı PASS koşulu değildir. Düşük AUC DP kanıtlamaz. DP: sabit n, replace-one komşuluk, tam batch örnek-başı L2 C=1, sigma*(2C/n) Gaussian; rho=T/(2sigma²), epsilon=rho+2sqrt(rho log(1/delta)), delta=1e-5; altörnekleme kazancı yok. Açık seed ve ayrıntılı ham iz yalnız öğretim içindir; özel veriyle güvenli yayın garantisi yok. Epsilon yalnız ağırlık mekanizmasına aittir, ham skor/iz yayınlarına değil. Kontrol geçici kanıtı koşucuya taşır, Run kalıcı öğrenci ayarını korur.\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-18-cpu",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "Yerel 12-24-2 MLP / SGD / CPU",
+          "ozet": [
+            {
+              "acik": 0.545455,
+              "auc": 0.809917,
+              "risk": true
+            },
+            {
+              "acik": 0.727273,
+              "auc": 0.826446,
+              "risk": true
+            },
+            {
+              "acik": 0.272727,
+              "auc": 0.793388,
+              "risk": true
+            },
+            {
+              "acik": 0.454545,
+              "auc": 0.809917,
+              "risk": true
+            }
+          ],
+          "dosya": "outputs/codex-guvence-17-20/persistence\\ai-kanit\\guvence-18-cpu-1793300015971.json",
+          "zaman": "2026-10-29T21:53:35+03:00"
+        }
+      ]
+    }
+  },
+  "19": {
+    "ok": true,
+    "persistent_path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-19\\ayarlar.json",
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-19\\ayarlar.json\n{\"seed\": 991, \"ornek\": 11, \"sigma\": 3}\nÖlçülen sonuç: [{'sigma': 3, 'epsilon': 4.968538060721186, 'test_dogruluk': 0.6363636363636364}, {'sigma': 6, 'epsilon': 2.373157919249482, 'test_dogruluk': 0.45454545454545453}, {'sigma': 3, 'epsilon': 4.968538060721186, 'test_dogruluk': 0.5454545454545454}, {'sigma': 6, 'epsilon': 2.373157919249482, 'test_dogruluk': 0.5454545454545454}]\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_4uol8q89\\guvence-19-cpu-1793300029555.json\nKüçük sentetik CPU deneyi. Üyelik başarısı veya risk azalışı PASS koşulu değildir. Düşük AUC DP kanıtlamaz. DP: sabit n, replace-one komşuluk, tam batch örnek-başı L2 C=1, sigma*(2C/n) Gaussian; rho=T/(2sigma²), epsilon=rho+2sqrt(rho log(1/delta)), delta=1e-5; altörnekleme kazancı yok. Açık seed ve ayrıntılı ham iz yalnız öğretim içindir; özel veriyle güvenli yayın garantisi yok. Epsilon yalnız ağırlık mekanizmasına aittir, ham skor/iz yayınlarına değil. Kontrol geçici kanıtı koşucuya taşır, Run kalıcı öğrenci ayarını korur.\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-19-cpu",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "Yerel 12-24-2 MLP / SGD / CPU",
+          "ozet": [
+            {
+              "sigma": 3,
+              "epsilon": 4.968538060721186,
+              "test_dogruluk": 0.6363636363636364
+            },
+            {
+              "sigma": 6,
+              "epsilon": 2.373157919249482,
+              "test_dogruluk": 0.45454545454545453
+            },
+            {
+              "sigma": 3,
+              "epsilon": 4.968538060721186,
+              "test_dogruluk": 0.5454545454545454
+            },
+            {
+              "sigma": 6,
+              "epsilon": 2.373157919249482,
+              "test_dogruluk": 0.5454545454545454
+            }
+          ],
+          "dosya": "outputs/codex-guvence-17-20/persistence\\ai-kanit\\guvence-19-cpu-1793300029555.json",
+          "zaman": "2026-10-29T21:53:49+03:00"
+        }
+      ]
+    }
+  },
+  "20": {
+    "ok": true,
+    "persistent_path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-20\\ayarlar.json",
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "Kalıcı öğrenci dosyası: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-20\\ayarlar.json\n{\"seed\": 991, \"ornek\": 11, \"sigma\": 3}\nÖlçülen sonuç: [{'auc_azalisi': 0.297521, 'dogruluk_kaybi': -0.363636, 'destekli': True, 'bicimsel_garanti': False}, {'auc_azalisi': 0.140496, 'dogruluk_kaybi': 0.0, 'destekli': False, 'bicimsel_garanti': False}]\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit__8610plj\\guvence-20-cpu-1793300042289.json\nKüçük sentetik CPU deneyi. Üyelik başarısı veya risk azalışı PASS koşulu değildir. Düşük AUC DP kanıtlamaz. DP: sabit n, replace-one komşuluk, tam batch örnek-başı L2 C=1, sigma*(2C/n) Gaussian; rho=T/(2sigma²), epsilon=rho+2sqrt(rho log(1/delta)), delta=1e-5; altörnekleme kazancı yok. Açık seed ve ayrıntılı ham iz yalnız öğretim içindir; özel veriyle güvenli yayın garantisi yok. Epsilon yalnız ağırlık mekanizmasına aittir, ham skor/iz yayınlarına değil. Kontrol geçici kanıtı koşucuya taşır, Run kalıcı öğrenci ayarını korur.\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-20-cpu",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "Yerel 12-24-2 MLP / SGD / CPU",
+          "ozet": [
+            {
+              "auc_azalisi": 0.297521,
+              "dogruluk_kaybi": -0.363636,
+              "destekli": true,
+              "bicimsel_garanti": false
+            },
+            {
+              "auc_azalisi": 0.140496,
+              "dogruluk_kaybi": 0.0,
+              "destekli": false,
+              "bicimsel_garanti": false
+            }
+          ],
+          "dosya": "outputs/codex-guvence-17-20/persistence\\ai-kanit\\guvence-20-cpu-1793300042289.json",
+          "zaman": "2026-10-29T21:54:02+03:00"
+        }
+      ]
+    }
+  }
+}

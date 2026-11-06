@@ -1,0 +1,8 @@
+# Sentetik HTTP örneği. PORT her deneyde lab.port ile değişir.
+POST /vulnerable/login HTTP/1.1
+Host: 127.0.0.1:PORT
+Content-Type: application/json
+
+{"username":"' OR 1=1 -- ","password":"yanlis"}
+
+# Aynı body /secure/login için de gönderilir. Bu dosya canlı kayıt değildir.

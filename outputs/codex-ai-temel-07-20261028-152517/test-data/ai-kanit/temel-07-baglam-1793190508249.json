@@ -1,0 +1,58 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cpu",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "girdiler": [
+   [
+    "The original rule is blue. The latest note is green.",
+    1
+   ],
+   [
+    "The original rule is blue. The latest note is green.",
+    4
+   ],
+   [
+    "  İstanbul is a city; a model reads tokens, not words.",
+    8
+   ],
+   [
+    "A 8517 forest message with a final word.",
+    32
+   ]
+  ],
+  "deney_butce_ust_siniri": 32,
+  "use_cache": false
+ },
+ "ciktilar": [],
+ "olculen": "gerçek tokenizasyon, konumlarla ileri hesap ve kısa pencere kırpması",
+ "sinir": "tam context kapasitesi veya uzun bağlam doğruluğu kabulü yapılmadı",
+ "temizlik": "CPU işlemi; kalıcı sunucu, model indirme ve dış süreç yok",
+ "pilot": "temel-07-baglam",
+ "zaman": "2026-10-28T15:28:28+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 338 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "9322de5818853be9f8aecb784232433e5cabf39da7099cc8a9cbf59a05081f92",
+ "mod": "test"
+}

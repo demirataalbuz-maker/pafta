@@ -1,0 +1,110 @@
+{
+ "egitim": {
+  "seed": 2121,
+  "adim": 60,
+  "loss": [
+   0.8245241641998291,
+   0.022174179553985596
+  ],
+  "ornek": 192,
+  "cihaz": "cpu",
+  "torch": "2.14.1+cu130"
+ },
+ "tanimlar": [
+  {
+   "id": "model",
+   "dosya": "model.pt",
+   "bagimliliklar": [
+    "veri",
+    "torch"
+   ]
+  },
+  {
+   "id": "veri",
+   "dosya": "veri.json",
+   "bagimliliklar": []
+  },
+  {
+   "id": "torch",
+   "dosya": "torch.json",
+   "bagimliliklar": []
+  }
+ ],
+ "once": [
+  {
+   "id": "model",
+   "sha256": "c253cc981bda5860d5b7115ed9f4ea60f18d212139cf6239e39d2e49c836217c",
+   "boyut": 2633,
+   "bagimliliklar": [
+    "torch",
+    "veri"
+   ]
+  },
+  {
+   "id": "torch",
+   "sha256": "75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4",
+   "boyut": 43,
+   "bagimliliklar": []
+  },
+  {
+   "id": "veri",
+   "sha256": "4915a5d9af7c4d216765f7b57bf4e1042d01dfd0af374c6726cfc64eefa9e683",
+   "boyut": 194,
+   "bagimliliklar": []
+  }
+ ],
+ "sonra": [
+  {
+   "id": "model",
+   "sha256": "c253cc981bda5860d5b7115ed9f4ea60f18d212139cf6239e39d2e49c836217c",
+   "boyut": 2633,
+   "bagimliliklar": [
+    "torch",
+    "veri"
+   ]
+  },
+  {
+   "id": "torch",
+   "sha256": "75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4",
+   "boyut": 43,
+   "bagimliliklar": []
+  },
+  {
+   "id": "veri",
+   "sha256": "7eb722a7d580fbc547423086eb6637ea522c80fd42dd6e104c341af6171ab420",
+   "boyut": 196,
+   "bagimliliklar": []
+  }
+ ],
+ "reddedilen": [
+  "../outside.txt",
+  "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\calisma\\ai-guvence-21\\deney-35edd0fe\\model.pt",
+  "missing.bin"
+ ],
+ "kontroller": {
+  "disk_hash_boyut_baglar": true,
+  "degisiklik_gercekten_olculdu": true,
+  "kok_siniri": true
+ },
+ "kaynak": "gercek",
+ "ortam": {
+  "python": "3.13.14",
+  "cihaz": "cpu",
+  "torch": "2.14.1+cu130"
+ },
+ "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+ "sinir": "Bu yerel SHA-256 envanteridir; Syft/CycloneDX taramasi, lisans veya kaynagin guvenilirligi ispati degildir.",
+ "kabul": false,
+ "pilot": "guvence-21-deney",
+ "zaman": "2026-10-29T21:53:57+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 611 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "2646943ea59ad24e519afdd79676c9fe04611a14c7092a9016b3fdf1a41bde3a",
+ "mod": "run"
+}

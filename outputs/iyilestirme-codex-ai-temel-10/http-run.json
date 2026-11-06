@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "err",
+      "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  39%|███▉      | 107/272 [00:00<00:00, 1057.12it/s]\rLoading weights:  79%|███████▉  | 216/272 [00:00<00:00, 1069.71it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 1094.03it/s]\n"
+    ],
+    [
+      "out",
+      "Model: HuggingFaceTB/SmolLM2-135M@93efa2f0 · LoRA hedefleri: q_proj, v_proj (30 katman)\nEğitilen parametre: 460,800 / 134,515,008 (%0.34); beklenen 460,800\nAdaptör takılınca hedef kaybı 4.851 → 4.851 (B=0 ise değişmemeli)\nEğitim seyri (adım, kayıp): [(0, 4.8507), (10, 1.4553), (20, 0.008), (30, 0.0018), (39, 0.0006)]\nHedef cümle kaybı:  4.851 → 0.001\nİlgisiz metin kaybı: 2.668 → 6.720\n'The secret code of the Pafta lab is' devamı: önce ' that the first two letters of', sonra ' 7342.'\nTemel ağırlık eğitimde değişmedi: True · birleşik model ile adaptörlü model farkı 1.4e-04\n\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_p7jj30v8\\temel-lora-calistir-1793435528740.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-lora-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-lora-calistir-1793435528740.json",
+      "zaman": "2026-10-31T11:32:08+03:00"
+    }
+  ]
+}

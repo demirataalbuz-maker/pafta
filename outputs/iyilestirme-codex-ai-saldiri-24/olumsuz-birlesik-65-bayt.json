@@ -1,0 +1,60 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "sıra, toplam, kanonik Base64URL ve birleşik ASCII sınırı korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: birleşik sırayı ters çeviren"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kanonik olmayan kodu düzelten"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: geçersiz sonucu boş metinle gizleyen"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": false,
+      "msg": "beş geçerli parça içindeki altmış beş bayt reddedilmeli"
+    },
+    {
+      "ok": true,
+      "msg": "üst sınır dışı akış reddedildi"
+    }
+  ],
+  "segs": [
+    [
+      "out",
+      "Sentetik paketler: [{'sira': 3, 'toplam': 3, 'veri': 'LTc'}, {'sira': 1, 'toplam': 3, 'veri': 'Q0FO'}, {'sira': 2, 'toplam': 3, 'veri': 'QVJZ'}]\nÇözülmüş: CANARY-7\n"
+    ]
+  ],
+  "error": null
+}

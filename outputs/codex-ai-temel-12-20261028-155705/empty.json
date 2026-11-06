@@ -1,0 +1,22 @@
+{
+  "name": "empty",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "`gercek_regresyon_raporu` adında bir fonksiyon tanımlamalısın",
+        "got": "bulunamadı",
+        "exp": "gercek_regresyon_raporu"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

@@ -1,0 +1,501 @@
+{
+  "kaynak": "gercek",
+  "kabul": true,
+  "pilot": "pu21-tatbikat",
+  "python": "3.13.14",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "roe": {
+    "hedefler": [
+      "127.0.0.1:61289"
+    ],
+    "yasak_teknikler": [
+      "T1499",
+      "T1485"
+    ],
+    "baslangic": "2026-11-04T16:28:15.397140+00:00",
+    "bitis": "2026-11-04T16:59:15.397140+00:00"
+  },
+  "plan": [
+    {
+      "id": "A1",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1078",
+      "zaman": "2026-11-04T16:29:15.397140+00:00"
+    },
+    {
+      "id": "A2",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:16.397140+00:00"
+    },
+    {
+      "id": "A3",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:17.397140+00:00"
+    },
+    {
+      "id": "A4",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1110.001",
+      "zaman": "2026-11-04T16:29:18.397140+00:00"
+    },
+    {
+      "id": "A5",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1499",
+      "zaman": "2026-11-04T16:29:19.397140+00:00"
+    },
+    {
+      "id": "A6",
+      "hedef": "127.0.0.1:61288",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:20.397140+00:00"
+    },
+    {
+      "id": "A7",
+      "hedef": "127.0.0.10:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:21.397140+00:00"
+    },
+    {
+      "id": "A8",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-05T16:29:15.397140+00:00"
+    },
+    {
+      "id": "A9",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1078",
+      "zaman": "2026-11-04T16:29:23.397140+00:00"
+    }
+  ],
+  "karar": [
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "red",
+      "neden": "yasak-teknik"
+    },
+    {
+      "karar": "red",
+      "neden": "kapsam-disi-hedef"
+    },
+    {
+      "karar": "red",
+      "neden": "kapsam-disi-hedef"
+    },
+    {
+      "karar": "red",
+      "neden": "zaman-disi"
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    }
+  ],
+  "karar_referans": [
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    },
+    {
+      "karar": "red",
+      "neden": "yasak-teknik"
+    },
+    {
+      "karar": "red",
+      "neden": "kapsam-disi-hedef"
+    },
+    {
+      "karar": "red",
+      "neden": "kapsam-disi-hedef"
+    },
+    {
+      "karar": "red",
+      "neden": "zaman-disi"
+    },
+    {
+      "karar": "izinli",
+      "neden": null
+    }
+  ],
+  "audit": [
+    {
+      "route": "/secure/login",
+      "username": "uye_92e4f3dd",
+      "password": "demo_3a0136bbc9",
+      "status": 200,
+      "body": {
+        "username": "uye_92e4f3dd",
+        "canary": "PU19_567c7ab806172c2b"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_92e4f3dd",
+        "demo_3a0136bbc9"
+      ]
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 200,
+      "body": {
+        "username": "uye_92e4f3dd",
+        "canary": "PU19_567c7ab806172c2b"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = '' OR 1=1 -- ' AND password = 'yanlis'",
+      "parameters": []
+    },
+    {
+      "route": "/secure/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "' OR 1=1 -- ",
+        "yanlis"
+      ]
+    },
+    {
+      "route": "/secure/login",
+      "username": "uye_92e4f3dd",
+      "password": "deneme0",
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_92e4f3dd",
+        "deneme0"
+      ]
+    },
+    {
+      "route": "/secure/login",
+      "username": "uye_92e4f3dd",
+      "password": "deneme1",
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_92e4f3dd",
+        "deneme1"
+      ]
+    },
+    {
+      "route": "/secure/login",
+      "username": "uye_92e4f3dd",
+      "password": "deneme2",
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_92e4f3dd",
+        "deneme2"
+      ]
+    },
+    {
+      "route": "/secure/login",
+      "username": "O'Reilly_108373",
+      "password": "nokta;--",
+      "status": 200,
+      "body": {
+        "username": "O'Reilly_108373",
+        "canary": "SENTETIK_IKINCI"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "O'Reilly_108373",
+        "nokta;--"
+      ]
+    }
+  ],
+  "alarmlar": [
+    {
+      "id": "AL1",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:15.413710+00:00",
+      "kural": "kullanici-adinda-tirnak"
+    },
+    {
+      "id": "AL2",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:15.420367+00:00",
+      "kural": "kullanici-adinda-tirnak"
+    },
+    {
+      "id": "AL3",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1110.001",
+      "zaman": "2026-11-04T16:29:15.444595+00:00",
+      "kural": "ayni-hesaba-3-ret"
+    },
+    {
+      "id": "AL4",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:15.452378+00:00",
+      "kural": "kullanici-adinda-tirnak"
+    }
+  ],
+  "yurutulen": [
+    {
+      "id": "A1",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1078",
+      "zaman": "2026-11-04T16:29:15.400376+00:00",
+      "durumlar": [
+        200
+      ]
+    },
+    {
+      "id": "A2",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:15.406903+00:00",
+      "durumlar": [
+        200
+      ]
+    },
+    {
+      "id": "A3",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1190",
+      "zaman": "2026-11-04T16:29:15.413727+00:00",
+      "durumlar": [
+        401
+      ]
+    },
+    {
+      "id": "A4",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1110.001",
+      "zaman": "2026-11-04T16:29:15.420387+00:00",
+      "durumlar": [
+        401,
+        401,
+        401
+      ]
+    },
+    {
+      "id": "A9",
+      "hedef": "127.0.0.1:61289",
+      "teknik": "T1078",
+      "zaman": "2026-11-04T16:29:15.444612+00:00",
+      "durumlar": [
+        200
+      ]
+    }
+  ],
+  "eslesme": {
+    "eslesme": {
+      "A1": null,
+      "A2": "AL1",
+      "A3": "AL2",
+      "A4": "AL3",
+      "A9": null
+    },
+    "eslesmeyen_alarm": [
+      "AL4"
+    ]
+  },
+  "eslesme_referans": {
+    "eslesme": {
+      "A1": null,
+      "A2": "AL1",
+      "A3": "AL2",
+      "A4": "AL3",
+      "A9": null
+    },
+    "eslesmeyen_alarm": [
+      "AL4"
+    ]
+  },
+  "ozet_girdisi": [
+    {
+      "id": "A1",
+      "teknik": "T1078",
+      "karar": "izinli",
+      "neden": null,
+      "onlendi": false,
+      "tespit": false
+    },
+    {
+      "id": "A2",
+      "teknik": "T1190",
+      "karar": "izinli",
+      "neden": null,
+      "onlendi": false,
+      "tespit": true
+    },
+    {
+      "id": "A3",
+      "teknik": "T1190",
+      "karar": "izinli",
+      "neden": null,
+      "onlendi": true,
+      "tespit": true
+    },
+    {
+      "id": "A4",
+      "teknik": "T1110.001",
+      "karar": "izinli",
+      "neden": null,
+      "onlendi": true,
+      "tespit": true
+    },
+    {
+      "id": "A5",
+      "teknik": "T1499",
+      "karar": "red",
+      "neden": "yasak-teknik",
+      "onlendi": null,
+      "tespit": null
+    },
+    {
+      "id": "A6",
+      "teknik": "T1190",
+      "karar": "red",
+      "neden": "kapsam-disi-hedef",
+      "onlendi": null,
+      "tespit": null
+    },
+    {
+      "id": "A7",
+      "teknik": "T1190",
+      "karar": "red",
+      "neden": "kapsam-disi-hedef",
+      "onlendi": null,
+      "tespit": null
+    },
+    {
+      "id": "A8",
+      "teknik": "T1190",
+      "karar": "red",
+      "neden": "zaman-disi",
+      "onlendi": null,
+      "tespit": null
+    },
+    {
+      "id": "A9",
+      "teknik": "T1078",
+      "karar": "izinli",
+      "neden": null,
+      "onlendi": false,
+      "tespit": false
+    }
+  ],
+  "ozet": {
+    "teknikler": {
+      "T1078": {
+        "denenen": 2,
+        "onlendi": 0,
+        "tespit": 0,
+        "kacirildi": 2
+      },
+      "T1110.001": {
+        "denenen": 1,
+        "onlendi": 1,
+        "tespit": 1,
+        "kacirildi": 0
+      },
+      "T1190": {
+        "denenen": 2,
+        "onlendi": 1,
+        "tespit": 2,
+        "kacirildi": 0
+      }
+    },
+    "reddedilen": {
+      "kapsam-disi-hedef": [
+        "A6",
+        "A7"
+      ],
+      "yasak-teknik": [
+        "A5"
+      ],
+      "zaman-disi": [
+        "A8"
+      ]
+    },
+    "tespit_orani": 0.6,
+    "durdur": true
+  },
+  "ozet_referans": {
+    "teknikler": {
+      "T1078": {
+        "denenen": 2,
+        "onlendi": 0,
+        "tespit": 0,
+        "kacirildi": 2
+      },
+      "T1110.001": {
+        "denenen": 1,
+        "onlendi": 1,
+        "tespit": 1,
+        "kacirildi": 0
+      },
+      "T1190": {
+        "denenen": 2,
+        "onlendi": 1,
+        "tespit": 2,
+        "kacirildi": 0
+      }
+    },
+    "reddedilen": {
+      "kapsam-disi-hedef": [
+        "A6",
+        "A7"
+      ],
+      "yasak-teknik": [
+        "A5"
+      ],
+      "zaman-disi": [
+        "A8"
+      ]
+    },
+    "tespit_orani": 0.6,
+    "durdur": true
+  },
+  "yem_vurus": 0,
+  "cleanup": true
+}

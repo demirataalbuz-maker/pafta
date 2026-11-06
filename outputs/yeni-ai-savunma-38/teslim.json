@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-04",
+  "lesson": "ai-savunma-38",
+  "plan": "plan-savunma-7",
+  "author": "codex",
+  "status": "denetime-hazir",
+  "reviewer": "claude-opus",
+  "score": null,
+  "evidence": {
+    "cli": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-savunma-38\\byte-final-data\\ai-kanit\\savunma38-kabul-1793743151840.json",
+    "ui": "C:\\Users\\demo12\\Desktop\\pafta-ai38-ui-20261104\\ai-kanit\\savunma38-kabul-1793743495048.json",
+    "run": "C:\\Users\\demo12\\Desktop\\pafta-ai38-ui-20261104\\ai-kanit\\savunma38-run-1793741998323.json"
+  },
+  "ui_checks": 70,
+  "mutations": {
+    "generated": 30,
+    "survived": 0,
+    "timeouts": 0
+  },
+  "negative_cases": {
+    "empty": true,
+    "constant": true,
+    "meaningful_wrong": 3,
+    "oracle_copy": 4,
+    "module_patch": true,
+    "missing_docker": true,
+    "missing_asr": true
+  },
+  "tahmin": {
+    "count": 1,
+    "suspicious": 0
+  },
+  "regression": {
+    "lessons": [
+      "ai-savunma-11",
+      "ai-savunma-12",
+      "ai-saldiri-32"
+    ],
+    "scope": "only non-model steps",
+    "checks": 21,
+    "bad": 0
+  },
+  "source_sha256": {
+    "tracks/ai-savunma/lessons/ai-savunma-38-multimodal-ocr-asr-guardrail.md": "34704b6e7361ba3ab0d7311324626dca1b42891df2b4cc0e0505573cf4753fc8",
+    "sandbox/ai_gercek_ai_savunma_38.py": "64851c830bc106103ac5ab3b7e5ba6e79e620f6f8df19fbcd350e9d69e4e58e9",
+    "tracks/ai-savunma/track.json": "59e1a493de0ecb905200444f8809efbf2b70c931794f6aaf5b10ae7b66486385",
+    "tracks/ai-savunma/fixtures/ai-savunma-38/ornek.json": "e311dee223243d6fefa1a0083a666b31fb5c72c3a0ba1080e95e004366827787",
+    "tracks/ai-savunma/fixtures/ai-savunma-38/README.md": "9786679753ba0e4a0558d1f7de0530512393a338d114b21f25620ebbd9021aab"
+  },
+  "archive_raw_utf8_exact": true
+}

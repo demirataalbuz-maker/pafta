@@ -1,0 +1,141 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "girdiler": [
+   [
+    "The river flows through the city.",
+    1
+   ],
+   [
+    "Bugün İstanbul sakin.",
+    2
+   ],
+   [
+    "A red bird has 554 notes.",
+    3
+   ]
+  ],
+  "max_token": 24,
+  "logit_tolerans": 0.001
+ },
+ "ciktilar": [
+  {
+   "token_idleri": [
+    504,
+    4626,
+    8634,
+    738,
+    260,
+    2240,
+    30
+   ],
+   "prefill_token": 1,
+   "devam_token": 6,
+   "cache_once": 1,
+   "cache_sonra": 7,
+   "en_olasi_id": 198,
+   "cache_logitleri": [
+    9.599588394165039,
+    -10.079509735107422,
+    -10.02562141418457,
+    -10.205013275146484,
+    -10.806805610656738,
+    -10.024019241333008,
+    -2.615865707397461,
+    -10.024137496948242
+   ],
+   "max_logit_farki": 1.6689300537109375e-05
+  },
+  {
+   "token_idleri": [
+    50,
+    1433,
+    47682,
+    24488,
+    125,
+    28683,
+    262,
+    40369,
+    30
+   ],
+   "prefill_token": 2,
+   "devam_token": 7,
+   "cache_once": 2,
+   "cache_sonra": 9,
+   "en_olasi_id": 198,
+   "cache_logitleri": [
+    10.075004577636719,
+    -12.504924774169922,
+    -12.462230682373047,
+    -11.444269180297852,
+    -12.477599143981934,
+    -12.425224304199219,
+    -2.323164463043213,
+    -12.4251127243042
+   ],
+   "max_logit_farki": 3.910064697265625e-05
+  },
+  {
+   "token_idleri": [
+    49,
+    2382,
+    5615,
+    553,
+    216,
+    37,
+    37,
+    36,
+    4658,
+    30
+   ],
+   "prefill_token": 3,
+   "devam_token": 7,
+   "cache_once": 3,
+   "cache_sonra": 10,
+   "en_olasi_id": 198,
+   "cache_logitleri": [
+    11.21352767944336,
+    -10.073320388793945,
+    -9.997069358825684,
+    -11.245458602905273,
+    -12.022794723510742,
+    -9.975335121154785,
+    -3.986241340637207,
+    -9.97508430480957
+   ],
+   "max_logit_farki": 2.2411346435546875e-05
+  }
+ ],
+ "olculen": "modelin gerçek KV nesnesi ve cache ile devam hesabı",
+ "sinir": "çok kiracılı sunucu, sürekli batching, hızlanma ve GPU bellek kabulü yapılmadı",
+ "temizlik": "cache yalnız bu işin yerel değişkenidir; harici sunucu veya süreç başlatılmadı",
+ "pilot": "temel-08-kv-cache",
+ "zaman": "2026-10-30T16:16:40+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 440 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "eaf67ab2c25a4eb3be9ec942592d7af0ecaa5fc54847d059d7987a3dc87be0af",
+ "mod": "test"
+}

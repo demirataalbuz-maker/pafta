@@ -1,0 +1,191 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cpu",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "girdiler": [
+   [
+    "The original rule is blue. The latest note is green.",
+    1
+   ],
+   [
+    "The original rule is blue. The latest note is green.",
+    4
+   ],
+   [
+    "  İstanbul is a city; a model reads tokens, not words.",
+    8
+   ],
+   [
+    "A 7075 city message with a final word.",
+    32
+   ]
+  ],
+  "deney_butce_ust_siniri": 32,
+  "use_cache": false
+ },
+ "ciktilar": [
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 12,
+   "dusen_token_sayisi": 11,
+   "token_idleri": [
+    30
+   ],
+   "konumlar": [
+    0
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    18.94180679321289,
+    1.7133188247680664,
+    1.7671520709991455,
+    0.46927642822265625,
+    0.4272899627685547,
+    1.8165819644927979,
+    10.18692398071289,
+    1.8171436786651611
+   ]
+  },
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 12,
+   "dusen_token_sayisi": 8,
+   "token_idleri": [
+    4109,
+    314,
+    2654,
+    30
+   ],
+   "konumlar": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    13.976269721984863,
+    -5.988411903381348,
+    -5.9668779373168945,
+    -6.767607688903809,
+    -7.5949506759643555,
+    -5.9521484375,
+    1.442392349243164,
+    -5.951875686645508
+   ]
+  },
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 16,
+   "dusen_token_sayisi": 8,
+   "token_idleri": [
+    253,
+    1743,
+    12927,
+    17837,
+    28,
+    441,
+    1924,
+    30
+   ],
+   "konumlar": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    11.892016410827637,
+    -9.722210884094238,
+    -9.801275253295898,
+    -12.632835388183594,
+    -13.307666778564453,
+    -9.846858024597168,
+    -0.5416712760925293,
+    -9.846516609191895
+   ]
+  },
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 13,
+   "dusen_token_sayisi": 0,
+   "token_idleri": [
+    49,
+    216,
+    39,
+    32,
+    39,
+    37,
+    2240,
+    3714,
+    351,
+    253,
+    3403,
+    2229,
+    30
+   ],
+   "konumlar": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    12.442766189575195,
+    -8.647747039794922,
+    -8.624805450439453,
+    -8.92848014831543,
+    -9.238572120666504,
+    -8.616767883300781,
+    2.6064376831054688,
+    -8.616401672363281
+   ]
+  }
+ ],
+ "olculen": "gerçek tokenizasyon, konumlarla ileri hesap ve kısa pencere kırpması",
+ "sinir": "tam context kapasitesi veya uzun bağlam doğruluğu kabulü yapılmadı",
+ "temizlik": "CPU işlemi; kalıcı sunucu, model indirme ve dış süreç yok",
+ "pilot": "temel-07-baglam",
+ "zaman": "2026-10-28T15:25:44+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 338 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "603922bd4703714cef63737418fb24e6266fc89f87d748d36a70180c59ee7723",
+ "mod": "test"
+}

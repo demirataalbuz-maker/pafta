@@ -1,0 +1,102 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "pilot": "pu19-sqli",
+  "python": "3.13.14",
+  "sqlite": "3.50.4",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "address": "127.0.0.1",
+  "port": 2140,
+  "audit": [
+    {
+      "route": "/vulnerable/login",
+      "username": "uye_4580842d",
+      "password": "demo_04bd4f29ea",
+      "status": 200,
+      "body": {
+        "username": "uye_4580842d",
+        "canary": "PU19_b06b66aa20a1b3ad"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = 'uye_4580842d' AND password = 'demo_04bd4f29ea'",
+      "parameters": []
+    },
+    {
+      "route": "/secure/login",
+      "username": "uye_4580842d",
+      "password": "demo_04bd4f29ea",
+      "status": 200,
+      "body": {
+        "username": "uye_4580842d",
+        "canary": "PU19_b06b66aa20a1b3ad"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_4580842d",
+        "demo_04bd4f29ea"
+      ]
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 200,
+      "body": {
+        "username": "uye_4580842d",
+        "canary": "PU19_b06b66aa20a1b3ad"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = '' OR 1=1 -- ' AND password = 'yanlis'",
+      "parameters": []
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "'",
+      "password": "yanlis",
+      "status": 500,
+      "body": {
+        "error": "sql_hatasi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ''' AND password = 'yanlis'",
+      "parameters": []
+    }
+  ],
+  "student_rows": [
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_4580842d",
+        "canary": "PU19_b06b66aa20a1b3ad"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_4580842d",
+        "canary": "PU19_b06b66aa20a1b3ad"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_4580842d",
+        "canary": "PU19_b06b66aa20a1b3ad"
+      }
+    },
+    {
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      }
+    },
+    {
+      "status": 500,
+      "body": {
+        "error": "sql_hatasi"
+      }
+    }
+  ],
+  "error": {
+    "type": "AssertionError",
+    "msg": "Yanıtlar gerçek beş HTTP/DB audit kaydıyla eşleşmeli"
+  },
+  "cleanup": true
+}

@@ -1,0 +1,112 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "ders": "ai-temel-05",
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "vakalar": [
+   [
+    "The cat sat on the mat because it was tired",
+    3,
+    4
+   ],
+   [
+    "The cat sat on the mat because it was tired",
+    0,
+    0
+   ],
+   [
+    "Our teacher found the key because it was late",
+    1,
+    2
+   ],
+   [
+    "Our teacher found the key because it was late",
+    28,
+    0
+   ]
+  ],
+  "tolerans": {
+   "referans": 1e-09,
+   "model": 0.0001
+  }
+ },
+ "gercek_vakalar": [],
+ "tokenlar": [
+  [
+   "The",
+   "Ġcat",
+   "Ġsat",
+   "Ġon",
+   "Ġthe",
+   "Ġmat",
+   "Ġbecause",
+   "Ġit",
+   "Ġwas",
+   "Ġtired"
+  ],
+  [
+   "The",
+   "Ġcat",
+   "Ġsat",
+   "Ġon",
+   "Ġthe",
+   "Ġmat",
+   "Ġbecause",
+   "Ġit",
+   "Ġwas",
+   "Ġtired"
+  ],
+  [
+   "Our",
+   "Ġteacher",
+   "Ġfound",
+   "Ġthe",
+   "Ġkey",
+   "Ġbecause",
+   "Ġit",
+   "Ġwas",
+   "Ġlate"
+  ],
+  [
+   "Our",
+   "Ġteacher",
+   "Ġfound",
+   "Ġthe",
+   "Ġkey",
+   "Ġbecause",
+   "Ġit",
+   "Ġwas",
+   "Ġlate"
+  ]
+ ],
+ "model_farki": [],
+ "sink": {},
+ "pilot": "temel-dikkat",
+ "zaman": "2026-10-31T11:19:53+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 343 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "7c32ecf8d04d048acf59fcd4913166e07d1110dab63150626ec0afb18b03c371",
+ "mod": "test"
+}

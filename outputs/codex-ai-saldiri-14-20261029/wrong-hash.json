@@ -1,0 +1,73 @@
+{
+  "name": "wrong-hash",
+  "okay": true,
+  "seconds": 0.44,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "kaynak, içerik özeti, güven etiketi ve sıralama korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: içerik özetini sabitleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belgeyi system sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kaynağı silen"
+      },
+      {
+        "ok": true,
+        "msg": "farklı sorgu terimleri, skor, tie-break ve k sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: sorgu tekrarını skora katan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eşitlik kuralını bozan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: skoru ve filtrelemeyi atlayan"
+      },
+      {
+        "ok": true,
+        "msg": "iki küme, canary kimlikleri, ters fark ve tam satır korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: alt metni ve kontrolü karıştıran"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yeni zehirli belgeyi gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: ters farkı düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/bağımsız ölçüm yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni sorguda sıklık, sıra ve k=0"
+      },
+      {
+        "ok": false,
+        "msg": "yeni içerikte gerçek SHA256/kaynak/güven"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

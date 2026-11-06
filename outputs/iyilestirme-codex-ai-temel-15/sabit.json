@@ -1,0 +1,54 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi steering hookunu yaz; test oracle'ı ithal edilmez"
+    },
+    {
+      "ok": false,
+      "msg": "gerçek son-token müdahalesi aşağı katmana ulaşıyor; ağırlık/yön/hooklar korunuyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: yön işareti ters"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: norm sınırı yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: bütün tokenlara müdahale"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek model parametrelerinin SHA-256 özeti değişmedi"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-15-steering",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t15-negatif-20261031\\ai-kanit\\temel-15-steering-1793468990557.json",
+      "zaman": "2026-10-31T20:49:49+03:00"
+    }
+  ]
+}

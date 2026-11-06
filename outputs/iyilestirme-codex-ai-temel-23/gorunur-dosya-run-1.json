@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik ham çağrı: openai {'role': 'assistant', 'content': None, 'tool_calls': [{'id': 'call_hava', 'type': 'function', 'function': {'name': 'hava', 'arguments': '{\"sehir\": \"Ankara\"}'}}, {'id': 'call_saat', 'type': 'function', 'function': {'name': 'saat', 'arguments': '{}'}}]}\nNormalize: [{'id': 'ayni-kimlik', 'ad': 'hava', 'argumanlar': {'sehir': 'Ankara'}}, {'id': 'ayni-kimlik', 'ad': 'saat', 'argumanlar': {}}]\nSentetik ham çağrı: ollama {'role': 'assistant', 'content': '', 'tool_calls': [{'function': {'index': 0, 'name': 'hava', 'arguments': {'sehir': 'Ankara'}}}, {'function': {'index': 1, 'name': 'saat', 'arguments': {}}}]}\nNormalize: [{'id': 'ayni-kimlik', 'ad': 'hava', 'argumanlar': {'sehir': 'Ankara'}}, {'id': 'ayni-kimlik', 'ad': 'saat', 'argumanlar': {}}]\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

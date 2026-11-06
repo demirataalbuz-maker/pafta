@@ -1,0 +1,298 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": true,
+      "msg": "geçerli forget bozuk ids listesini meşrulaştırmaz"
+    },
+    {
+      "ok": true,
+      "msg": "geçerli forget bozuk ids listesini meşrulaştırmaz"
+    },
+    {
+      "ok": true,
+      "msg": "geçerli forget bozuk ids listesini meşrulaştırmaz"
+    },
+    {
+      "ok": false,
+      "msg": "ayrık birleşim ve kaynak sırası",
+      "got": "{'retain': ['a', 'c'], 'forget': ['a', 'c']}",
+      "exp": "{'retain': ['b'], 'forget': ['a', 'c']}"
+    },
+    {
+      "ok": false,
+      "msg": "ayrık birleşim ve kaynak sırası",
+      "got": "{'retain': ['z'], 'forget': ['z']}",
+      "exp": "{'retain': ['q'], 'forget': ['z']}"
+    },
+    {
+      "ok": false,
+      "msg": "ayrık birleşim ve kaynak sırası",
+      "got": "{'retain': ['c', 'a'], 'forget': ['c', 'a']}",
+      "exp": "{'retain': ['b', 'd'], 'forget': ['c', 'a']}"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "ayrım şema/sınır"
+    },
+    {
+      "ok": true,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil"
+    },
+    {
+      "ok": true,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil"
+    },
+    {
+      "ok": true,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil"
+    },
+    {
+      "ok": true,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil"
+    },
+    {
+      "ok": true,
+      "msg": "minimize retain-alpha*forget; sınırlar dahil"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "sonlu sayısal loss/alpha"
+    },
+    {
+      "ok": true,
+      "msg": "olmayan grup ölçülmedi"
+    },
+    {
+      "ok": true,
+      "msg": "tie0 ve posterior farkı"
+    },
+    {
+      "ok": true,
+      "msg": "tie0 ve posterior farkı"
+    },
+    {
+      "ok": true,
+      "msg": "tie0 ve posterior farkı"
+    },
+    {
+      "ok": true,
+      "msg": "tie0 ve posterior farkı"
+    },
+    {
+      "ok": true,
+      "msg": "NLL doğal log"
+    },
+    {
+      "ok": true,
+      "msg": "NLL doğal log"
+    },
+    {
+      "ok": true,
+      "msg": "NLL doğal log"
+    },
+    {
+      "ok": true,
+      "msg": "forget yoksa None"
+    },
+    {
+      "ok": true,
+      "msg": "log0 clamp"
+    },
+    {
+      "ok": true,
+      "msg": "eşit dağılımlar"
+    },
+    {
+      "ok": true,
+      "msg": "ortalama"
+    },
+    {
+      "ok": true,
+      "msg": "ortalama"
+    },
+    {
+      "ok": true,
+      "msg": "örnek sayısı"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/sonlu olasılık/simplex"
+    },
+    {
+      "ok": true,
+      "msg": "simplex toleransı dışı"
+    },
+    {
+      "ok": true,
+      "msg": "simplex toleransı içi"
+    },
+    {
+      "ok": true,
+      "msg": "posterior şema/tip"
+    },
+    {
+      "ok": true,
+      "msg": "posterior şema/tip"
+    },
+    {
+      "ok": true,
+      "msg": "posterior şema/tip"
+    },
+    {
+      "ok": true,
+      "msg": "posterior şema/tip"
+    },
+    {
+      "ok": true,
+      "msg": "posterior şema/tip"
+    },
+    {
+      "ok": true,
+      "msg": "üst olasılık sınırı simplex toleransından bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "ikinci sınıf doğru kararı"
+    },
+    {
+      "ok": true,
+      "msg": "ikinci sınıf tam olasılık"
+    },
+    {
+      "ok": true,
+      "msg": "ikinci sınıf doğru kararı"
+    },
+    {
+      "ok": true,
+      "msg": "ikinci sınıf tam olasılık"
+    },
+    {
+      "ok": true,
+      "msg": "ikinci sınıf doğru kararı"
+    },
+    {
+      "ok": true,
+      "msg": "ikinci sınıf tam olasılık"
+    },
+    {
+      "ok": true,
+      "msg": "posterior girdisi korunur"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

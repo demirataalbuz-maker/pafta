@@ -1,0 +1,68 @@
+{
+  "name": "constant",
+  "okay": true,
+  "seconds": 0.52,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "kanal önceliği, fixture hedefi, veri sınırı ve politika şeması korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her kanalı izinli yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her hedefi izinli yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: uzun veriyi sessizce kesen"
+      },
+      {
+        "ok": false,
+        "msg": "kanal sayımı, canary substring'i ve yanıtsız kanıt korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: DNS ve araç kanıtını düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yanıtsız kanıtı gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: boş cevabı yanıt yok sayan"
+      },
+      {
+        "ok": false,
+        "msg": "bypass, sessiz sızıntı, yanıtsız kanıt ve temizlik ayrımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: sessiz sızıntıyı gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: izinli yanıtsız kanıtı düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: izinli olayları temiz saymayan"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "NameError",
+      "msg": "name 'ai_lab' is not defined",
+      "frames": [],
+      "line": null,
+      "where": "test",
+      "missing": "ai_lab"
+    },
+    "ai_kanit": []
+  }
+}

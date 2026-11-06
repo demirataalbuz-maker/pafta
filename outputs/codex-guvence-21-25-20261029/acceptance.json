@@ -1,0 +1,1339 @@
+{
+  "21": {
+    "step_index": 7,
+    "lesson": "ai-guvence-21",
+    "cases": {
+      "reference": {
+        "expected_pass": true,
+        "status": "pass",
+        "correct": true,
+        "checks": [
+          {
+            "ok": true,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: kok_siniri"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: kok_siniri"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-21-kabul",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-kabul-1793299947088.json",
+            "zaman": "2026-10-29T21:52:26+03:00"
+          }
+        ]
+      },
+      "starter": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: kok_siniri"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: kok_siniri"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-21-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-kabul-1793299962446.json",
+            "zaman": "2026-10-29T21:52:42+03:00"
+          }
+        ]
+      },
+      "empty": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'disk_envanteri' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "disk_envanteri"
+        },
+        "ai_kanit": []
+      },
+      "constant": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: kok_siniri"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: kok_siniri"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-21-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-kabul-1793299978073.json",
+            "zaman": "2026-10-29T21:52:57+03:00"
+          }
+        ]
+      },
+      "hash-sabit": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: kok_siniri"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: kok_siniri"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-21-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-kabul-1793299995754.json",
+            "zaman": "2026-10-29T21:53:15+03:00"
+          }
+        ]
+      },
+      "baglari-silen": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: kok_siniri"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: kok_siniri"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-21-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-kabul-1793300011351.json",
+            "zaman": "2026-10-29T21:53:31+03:00"
+          }
+        ]
+      },
+      "sinir-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": true,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: kok_siniri"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: disk_hash_boyut_baglar"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 21: degisiklik_gercekten_olculdu"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 21: kok_siniri"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-21-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-kabul-1793300025069.json",
+            "zaman": "2026-10-29T21:53:44+03:00"
+          }
+        ]
+      },
+      "missing-dependency": {
+        "status": "error",
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        },
+        "correct": true
+      },
+      "run": {
+        "status": "ok",
+        "correct": true,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-21-deney",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-deney-1793300038010.json",
+            "zaman": "2026-10-29T21:53:57+03:00"
+          }
+        ]
+      },
+      "persistence": {
+        "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-21\\calisma\\ai-guvence-21\\ayar.json",
+        "relative_root": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-21",
+        "correct": true
+      }
+    },
+    "seconds": 104.3
+  },
+  "22": {
+    "step_index": 7,
+    "lesson": "ai-guvence-22",
+    "cases": {
+      "reference": {
+        "expected_pass": true,
+        "status": "pass",
+        "correct": true,
+        "checks": [
+          {
+            "ok": true,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-22-kabul",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-22-kabul-1793300051851.json",
+            "zaman": "2026-10-29T21:54:11+03:00"
+          }
+        ]
+      },
+      "starter": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-22-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-22-kabul-1793300064791.json",
+            "zaman": "2026-10-29T21:54:24+03:00"
+          }
+        ]
+      },
+      "empty": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'bicim_kapisi' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "bicim_kapisi"
+        },
+        "ai_kanit": []
+      },
+      "constant": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-22-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-22-kabul-1793300079932.json",
+            "zaman": "2026-10-29T21:54:39+03:00"
+          }
+        ]
+      },
+      "pickle-izin": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-22-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-22-kabul-1793300090978.json",
+            "zaman": "2026-10-29T21:54:50+03:00"
+          }
+        ]
+      },
+      "template-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-22-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-22-kabul-1793300100057.json",
+            "zaman": "2026-10-29T21:54:59+03:00"
+          }
+        ]
+      },
+      "gguf-surum-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 22: kapi"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: gercek_safetensors"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 22: inert_pickle"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-22-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-22-kabul-1793300110229.json",
+            "zaman": "2026-10-29T21:55:10+03:00"
+          }
+        ]
+      },
+      "missing-dependency": {
+        "status": "error",
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        },
+        "correct": true
+      },
+      "run": {
+        "status": "ok",
+        "correct": true,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-22-deney",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-22-deney-1793300119273.json",
+            "zaman": "2026-10-29T21:55:19+03:00"
+          }
+        ]
+      },
+      "persistence": {
+        "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-22\\calisma\\ai-guvence-22\\ayar.json",
+        "relative_root": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-22",
+        "correct": true
+      }
+    },
+    "seconds": 81.0
+  },
+  "23": {
+    "step_index": 7,
+    "lesson": "ai-guvence-23",
+    "cases": {
+      "reference": {
+        "expected_pass": true,
+        "status": "pass",
+        "correct": true,
+        "checks": [
+          {
+            "ok": true,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-23-kabul",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-23-kabul-1793300129128.json",
+            "zaman": "2026-10-29T21:55:28+03:00"
+          }
+        ]
+      },
+      "starter": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [],
+        "error": {
+          "type": "TypeError",
+          "msg": "copy_(): argument 'other' (position 1) must be Tensor, not NoneType",
+          "frames": [],
+          "line": null,
+          "where": "test"
+        },
+        "ai_kanit": []
+      },
+      "empty": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'agirlik_nicemle' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "agirlik_nicemle"
+        },
+        "ai_kanit": []
+      },
+      "constant": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [],
+        "error": {
+          "type": "NotImplementedError",
+          "msg": "Subtraction, the `-` operator, with a bool tensor is not supported. If you are trying to invert a mask, use the `~` or `logical_not()` operator instead.",
+          "frames": [],
+          "line": null,
+          "where": "test"
+        },
+        "ai_kanit": []
+      },
+      "nicemleme-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-23-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-23-kabul-1793300164186.json",
+            "zaman": "2026-10-29T21:56:03+03:00"
+          }
+        ]
+      },
+      "isaret-kaybi": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-23-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-23-kabul-1793300174681.json",
+            "zaman": "2026-10-29T21:56:14+03:00"
+          }
+        ]
+      },
+      "eslestirme-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 23: gercek_nicemleme_ve_esli_olcum"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-23-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-23-kabul-1793300185853.json",
+            "zaman": "2026-10-29T21:56:25+03:00"
+          }
+        ]
+      },
+      "missing-dependency": {
+        "status": "error",
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        },
+        "correct": true
+      },
+      "run": {
+        "status": "ok",
+        "correct": true,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-23-deney",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-23-deney-1793300198280.json",
+            "zaman": "2026-10-29T21:56:38+03:00"
+          }
+        ]
+      },
+      "persistence": {
+        "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-23\\calisma\\ai-guvence-23\\ayar.json",
+        "relative_root": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-23",
+        "correct": true
+      }
+    },
+    "seconds": 79.0
+  },
+  "24": {
+    "step_index": 7,
+    "lesson": "ai-guvence-24",
+    "cases": {
+      "reference": {
+        "expected_pass": true,
+        "status": "pass",
+        "correct": true,
+        "checks": [
+          {
+            "ok": true,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-24-kabul",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-24-kabul-1793300210321.json",
+            "zaman": "2026-10-29T21:56:50+03:00"
+          }
+        ]
+      },
+      "starter": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-24-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-24-kabul-1793300222293.json",
+            "zaman": "2026-10-29T21:57:02+03:00"
+          }
+        ]
+      },
+      "empty": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'tetikleyici_olc' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "tetikleyici_olc"
+        },
+        "ai_kanit": []
+      },
+      "constant": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-24-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-24-kabul-1793300235636.json",
+            "zaman": "2026-10-29T21:57:15+03:00"
+          }
+        ]
+      },
+      "payda-karisik": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-24-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-24-kabul-1793300252589.json",
+            "zaman": "2026-10-29T21:57:32+03:00"
+          }
+        ]
+      },
+      "hedef-yanlis": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-24-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-24-kabul-1793300265914.json",
+            "zaman": "2026-10-29T21:57:45+03:00"
+          }
+        ]
+      },
+      "faz-birlestirme": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 24: faz_grup_hedef"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 24: payda_negatif_kontrol"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-24-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-24-kabul-1793300278568.json",
+            "zaman": "2026-10-29T21:57:58+03:00"
+          }
+        ]
+      },
+      "missing-dependency": {
+        "status": "error",
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        },
+        "correct": true
+      },
+      "run": {
+        "status": "ok",
+        "correct": true,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-24-deney",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-24-deney-1793300290494.json",
+            "zaman": "2026-10-29T21:58:10+03:00"
+          }
+        ]
+      },
+      "persistence": {
+        "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-24\\calisma\\ai-guvence-24\\ayar.json",
+        "relative_root": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-24",
+        "correct": true
+      }
+    },
+    "seconds": 92.4
+  },
+  "25": {
+    "step_index": 7,
+    "lesson": "ai-guvence-25",
+    "cases": {
+      "reference": {
+        "expected_pass": true,
+        "status": "pass",
+        "correct": true,
+        "checks": [
+          {
+            "ok": true,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-25-kabul",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-25-kabul-1793300302722.json",
+            "zaman": "2026-10-29T21:58:22+03:00"
+          }
+        ]
+      },
+      "starter": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-25-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-25-kabul-1793300314572.json",
+            "zaman": "2026-10-29T21:58:34+03:00"
+          }
+        ]
+      },
+      "empty": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'tedarik_kapisi' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "tedarik_kapisi"
+        },
+        "ai_kanit": []
+      },
+      "constant": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-25-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-25-kabul-1793300331524.json",
+            "zaman": "2026-10-29T21:58:51+03:00"
+          }
+        ]
+      },
+      "hash-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-25-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-25-kabul-1793300344583.json",
+            "zaman": "2026-10-29T21:59:04+03:00"
+          }
+        ]
+      },
+      "kaynak-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-25-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-25-kabul-1793300363516.json",
+            "zaman": "2026-10-29T21:59:23+03:00"
+          }
+        ]
+      },
+      "surum-yok": {
+        "expected_pass": false,
+        "status": "fail",
+        "correct": true,
+        "checks": [
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          },
+          {
+            "ok": false,
+            "msg": "GERCEK 25: hash_kaynak_bicim_surum"
+          },
+          {
+            "ok": true,
+            "msg": "GERCEK 25: gercek_yukleme_yalniz_saglam"
+          }
+        ],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-25-kabul",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-25-kabul-1793300376283.json",
+            "zaman": "2026-10-29T21:59:36+03:00"
+          }
+        ]
+      },
+      "missing-dependency": {
+        "status": "error",
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        },
+        "correct": true
+      },
+      "run": {
+        "status": "ok",
+        "correct": true,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-25-deney",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-25-deney-1793300388904.json",
+            "zaman": "2026-10-29T21:59:48+03:00"
+          }
+        ]
+      },
+      "persistence": {
+        "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-25\\calisma\\ai-guvence-25\\ayar.json",
+        "relative_root": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\persistence-25",
+        "correct": true
+      }
+    },
+    "seconds": 98.5
+  }
+}

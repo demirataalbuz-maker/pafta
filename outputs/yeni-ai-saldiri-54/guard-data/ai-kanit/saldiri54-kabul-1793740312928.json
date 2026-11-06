@@ -1,0 +1,2479 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-saldiri-54",
+ "deney": {
+  "kaynak": "gercek",
+  "cihaz": {
+   "os": "Windows-11-10.0.26200-SP0",
+   "python": "3.13.14",
+   "device": "CPU"
+  },
+  "surumler": {
+   "sklearn": "1.9.1",
+   "numpy": "2.5.4"
+  },
+  "model": {
+   "ad": "TfidfVectorizer(1,2,l2)+LogisticRegression",
+   "sha256": "082417d0a3d4e11223941696331945b6278703c05910c7fb2c39e8205711b3c9",
+   "classes": [
+    0,
+    1
+   ],
+   "positive_label": 1,
+   "seed": 54,
+   "C": 4,
+   "max_iter": 300,
+   "n_iter": [
+    6
+   ]
+  },
+  "train": [
+   {
+    "id": "train-1-0-0",
+    "etiket": 1,
+    "metin": "urgent verify account password case 0"
+   },
+   {
+    "id": "train-1-0-1",
+    "etiket": 1,
+    "metin": "urgent verify account password case 1"
+   },
+   {
+    "id": "train-1-0-2",
+    "etiket": 1,
+    "metin": "urgent verify account password case 2"
+   },
+   {
+    "id": "train-1-1-0",
+    "etiket": 1,
+    "metin": "confirm bank login immediately case 3"
+   },
+   {
+    "id": "train-1-1-1",
+    "etiket": 1,
+    "metin": "confirm bank login immediately case 4"
+   },
+   {
+    "id": "train-1-1-2",
+    "etiket": 1,
+    "metin": "confirm bank login immediately case 5"
+   },
+   {
+    "id": "train-1-2-0",
+    "etiket": 1,
+    "metin": "security alert validate password case 6"
+   },
+   {
+    "id": "train-1-2-1",
+    "etiket": 1,
+    "metin": "security alert validate password case 7"
+   },
+   {
+    "id": "train-1-2-2",
+    "etiket": 1,
+    "metin": "security alert validate password case 8"
+   },
+   {
+    "id": "train-1-3-0",
+    "etiket": 1,
+    "metin": "account suspended confirm identity case 9"
+   },
+   {
+    "id": "train-1-3-1",
+    "etiket": 1,
+    "metin": "account suspended confirm identity case 10"
+   },
+   {
+    "id": "train-1-3-2",
+    "etiket": 1,
+    "metin": "account suspended confirm identity case 11"
+   },
+   {
+    "id": "train-1-4-0",
+    "etiket": 1,
+    "metin": "claim reward enter password case 12"
+   },
+   {
+    "id": "train-1-4-1",
+    "etiket": 1,
+    "metin": "claim reward enter password case 13"
+   },
+   {
+    "id": "train-1-4-2",
+    "etiket": 1,
+    "metin": "claim reward enter password case 14"
+   },
+   {
+    "id": "train-1-5-0",
+    "etiket": 1,
+    "metin": "payment failed verify credentials case 15"
+   },
+   {
+    "id": "train-1-5-1",
+    "etiket": 1,
+    "metin": "payment failed verify credentials case 16"
+   },
+   {
+    "id": "train-1-5-2",
+    "etiket": 1,
+    "metin": "payment failed verify credentials case 17"
+   },
+   {
+    "id": "train-1-6-0",
+    "etiket": 1,
+    "metin": "reset banking password now case 18"
+   },
+   {
+    "id": "train-1-6-1",
+    "etiket": 1,
+    "metin": "reset banking password now case 19"
+   },
+   {
+    "id": "train-1-6-2",
+    "etiket": 1,
+    "metin": "reset banking password now case 20"
+   },
+   {
+    "id": "train-1-7-0",
+    "etiket": 1,
+    "metin": "unusual login verify account case 21"
+   },
+   {
+    "id": "train-1-7-1",
+    "etiket": 1,
+    "metin": "unusual login verify account case 22"
+   },
+   {
+    "id": "train-1-7-2",
+    "etiket": 1,
+    "metin": "unusual login verify account case 23"
+   },
+   {
+    "id": "train-0-0-0",
+    "etiket": 0,
+    "metin": "project meeting notes agenda case 0"
+   },
+   {
+    "id": "train-0-0-1",
+    "etiket": 0,
+    "metin": "project meeting notes agenda case 1"
+   },
+   {
+    "id": "train-0-0-2",
+    "etiket": 0,
+    "metin": "project meeting notes agenda case 2"
+   },
+   {
+    "id": "train-0-1-0",
+    "etiket": 0,
+    "metin": "team schedule report attached case 3"
+   },
+   {
+    "id": "train-0-1-1",
+    "etiket": 0,
+    "metin": "team schedule report attached case 4"
+   },
+   {
+    "id": "train-0-1-2",
+    "etiket": 0,
+    "metin": "team schedule report attached case 5"
+   },
+   {
+    "id": "train-0-2-0",
+    "etiket": 0,
+    "metin": "weekly minutes planning update case 6"
+   },
+   {
+    "id": "train-0-2-1",
+    "etiket": 0,
+    "metin": "weekly minutes planning update case 7"
+   },
+   {
+    "id": "train-0-2-2",
+    "etiket": 0,
+    "metin": "weekly minutes planning update case 8"
+   },
+   {
+    "id": "train-0-3-0",
+    "etiket": 0,
+    "metin": "lunch meeting team calendar case 9"
+   },
+   {
+    "id": "train-0-3-1",
+    "etiket": 0,
+    "metin": "lunch meeting team calendar case 10"
+   },
+   {
+    "id": "train-0-3-2",
+    "etiket": 0,
+    "metin": "lunch meeting team calendar case 11"
+   },
+   {
+    "id": "train-0-4-0",
+    "etiket": 0,
+    "metin": "budget report review document case 12"
+   },
+   {
+    "id": "train-0-4-1",
+    "etiket": 0,
+    "metin": "budget report review document case 13"
+   },
+   {
+    "id": "train-0-4-2",
+    "etiket": 0,
+    "metin": "budget report review document case 14"
+   },
+   {
+    "id": "train-0-5-0",
+    "etiket": 0,
+    "metin": "project status meeting summary case 15"
+   },
+   {
+    "id": "train-0-5-1",
+    "etiket": 0,
+    "metin": "project status meeting summary case 16"
+   },
+   {
+    "id": "train-0-5-2",
+    "etiket": 0,
+    "metin": "project status meeting summary case 17"
+   },
+   {
+    "id": "train-0-6-0",
+    "etiket": 0,
+    "metin": "release notes schedule planning case 18"
+   },
+   {
+    "id": "train-0-6-1",
+    "etiket": 0,
+    "metin": "release notes schedule planning case 19"
+   },
+   {
+    "id": "train-0-6-2",
+    "etiket": 0,
+    "metin": "release notes schedule planning case 20"
+   },
+   {
+    "id": "train-0-7-0",
+    "etiket": 0,
+    "metin": "technical documentation team update case 21"
+   },
+   {
+    "id": "train-0-7-1",
+    "etiket": 0,
+    "metin": "technical documentation team update case 22"
+   },
+   {
+    "id": "train-0-7-2",
+    "etiket": 0,
+    "metin": "technical documentation team update case 23"
+   }
+  ],
+  "test": [
+   {
+    "id": "test-ph-0",
+    "etiket": 1,
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session"
+   },
+   {
+    "id": "test-ok-0",
+    "etiket": 0,
+    "metin": "Project meeting notes for the team document 0"
+   },
+   {
+    "id": "test-ph-1",
+    "etiket": 1,
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session"
+   },
+   {
+    "id": "test-ok-1",
+    "etiket": 0,
+    "metin": "Weekly schedule and documentation report document 1"
+   },
+   {
+    "id": "test-ph-2",
+    "etiket": 1,
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session"
+   },
+   {
+    "id": "test-ok-2",
+    "etiket": 0,
+    "metin": "Planning agenda and release update document 2"
+   },
+   {
+    "id": "test-ph-3",
+    "etiket": 1,
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session"
+   },
+   {
+    "id": "test-ok-3",
+    "etiket": 0,
+    "metin": "Project meeting notes for the team document 3"
+   },
+   {
+    "id": "test-ph-4",
+    "etiket": 1,
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session"
+   },
+   {
+    "id": "test-ok-4",
+    "etiket": 0,
+    "metin": "Weekly schedule and documentation report document 4"
+   },
+   {
+    "id": "test-ph-5",
+    "etiket": 1,
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session"
+   },
+   {
+    "id": "test-ok-5",
+    "etiket": 0,
+    "metin": "Planning agenda and release update document 5"
+   }
+  ],
+  "veri_sha256": "30dbe358e3b2395be7903323c314116d5f60eeb9ddedec2a1b8be88707482d5f",
+  "ayarlar": {
+   "karakter_butcesi": 100,
+   "q": [
+    1,
+    3,
+    4
+   ],
+   "esik": 0.5,
+   "ekler": [
+    "project meeting notes",
+    "team schedule report attached",
+    "project meeting notes agenda team schedule report attached weekly minutes planning update"
+   ]
+  },
+  "olcumler": [
+   {
+    "q": 1,
+    "kayitlar": [
+     {
+      "id": "test-ph-0",
+      "etiket": 1,
+      "once": 0.8763800495664209,
+      "sonra": 0.8763800495664209
+     },
+     {
+      "id": "test-ok-0",
+      "etiket": 0,
+      "once": 0.09799082777788988,
+      "sonra": 0.09799082777788988
+     },
+     {
+      "id": "test-ph-1",
+      "etiket": 1,
+      "once": 0.8171250669816462,
+      "sonra": 0.8171250669816462
+     },
+     {
+      "id": "test-ok-1",
+      "etiket": 0,
+      "once": 0.1647284013560908,
+      "sonra": 0.1647284013560908
+     },
+     {
+      "id": "test-ph-2",
+      "etiket": 1,
+      "once": 0.8508420710006322,
+      "sonra": 0.8508420710006322
+     },
+     {
+      "id": "test-ok-2",
+      "etiket": 0,
+      "once": 0.16558621903281437,
+      "sonra": 0.16558621903281437
+     },
+     {
+      "id": "test-ph-3",
+      "etiket": 1,
+      "once": 0.8763800495664209,
+      "sonra": 0.8763800495664209
+     },
+     {
+      "id": "test-ok-3",
+      "etiket": 0,
+      "once": 0.09799082777788988,
+      "sonra": 0.09799082777788988
+     },
+     {
+      "id": "test-ph-4",
+      "etiket": 1,
+      "once": 0.8171250669816462,
+      "sonra": 0.8171250669816462
+     },
+     {
+      "id": "test-ok-4",
+      "etiket": 0,
+      "once": 0.1647284013560908,
+      "sonra": 0.1647284013560908
+     },
+     {
+      "id": "test-ph-5",
+      "etiket": 1,
+      "once": 0.8508420710006322,
+      "sonra": 0.8508420710006322
+     },
+     {
+      "id": "test-ok-5",
+      "etiket": 0,
+      "once": 0.16558621903281437,
+      "sonra": 0.16558621903281437
+     }
+    ],
+    "rapor": {
+     "phishing_sayisi": 6,
+     "baslangicta_yakalanan": 6,
+     "atlatilan": 0,
+     "asr": 0.0,
+     "kontrol_sayisi": 6,
+     "kontrol_fp_once": 0.0,
+     "kontrol_fp_sonra": 0.0
+    }
+   },
+   {
+    "q": 3,
+    "kayitlar": [
+     {
+      "id": "test-ph-0",
+      "etiket": 1,
+      "once": 0.8763800495664209,
+      "sonra": 0.44280419689889977
+     },
+     {
+      "id": "test-ok-0",
+      "etiket": 0,
+      "once": 0.09799082777788988,
+      "sonra": 0.05703602358811189
+     },
+     {
+      "id": "test-ph-1",
+      "etiket": 1,
+      "once": 0.8171250669816462,
+      "sonra": 0.33848647509180996
+     },
+     {
+      "id": "test-ok-1",
+      "etiket": 0,
+      "once": 0.1647284013560908,
+      "sonra": 0.08066653330799745
+     },
+     {
+      "id": "test-ph-2",
+      "etiket": 1,
+      "once": 0.8508420710006322,
+      "sonra": 0.4058435639376045
+     },
+     {
+      "id": "test-ok-2",
+      "etiket": 0,
+      "once": 0.16558621903281437,
+      "sonra": 0.07422682618721167
+     },
+     {
+      "id": "test-ph-3",
+      "etiket": 1,
+      "once": 0.8763800495664209,
+      "sonra": 0.44280419689889977
+     },
+     {
+      "id": "test-ok-3",
+      "etiket": 0,
+      "once": 0.09799082777788988,
+      "sonra": 0.05703602358811189
+     },
+     {
+      "id": "test-ph-4",
+      "etiket": 1,
+      "once": 0.8171250669816462,
+      "sonra": 0.33848647509180996
+     },
+     {
+      "id": "test-ok-4",
+      "etiket": 0,
+      "once": 0.1647284013560908,
+      "sonra": 0.08066653330799745
+     },
+     {
+      "id": "test-ph-5",
+      "etiket": 1,
+      "once": 0.8508420710006322,
+      "sonra": 0.4058435639376045
+     },
+     {
+      "id": "test-ok-5",
+      "etiket": 0,
+      "once": 0.16558621903281437,
+      "sonra": 0.07422682618721167
+     }
+    ],
+    "rapor": {
+     "phishing_sayisi": 6,
+     "baslangicta_yakalanan": 6,
+     "atlatilan": 6,
+     "asr": 1.0,
+     "kontrol_sayisi": 6,
+     "kontrol_fp_once": 0.0,
+     "kontrol_fp_sonra": 0.0
+    }
+   },
+   {
+    "q": 4,
+    "kayitlar": [
+     {
+      "id": "test-ph-0",
+      "etiket": 1,
+      "once": 0.8763800495664209,
+      "sonra": 0.11131608146289242
+     },
+     {
+      "id": "test-ok-0",
+      "etiket": 0,
+      "once": 0.09799082777788988,
+      "sonra": 0.03456535901935849
+     },
+     {
+      "id": "test-ph-1",
+      "etiket": 1,
+      "once": 0.8171250669816462,
+      "sonra": 0.08304433583103016
+     },
+     {
+      "id": "test-ok-1",
+      "etiket": 0,
+      "once": 0.1647284013560908,
+      "sonra": 0.035896874552971116
+     },
+     {
+      "id": "test-ph-2",
+      "etiket": 1,
+      "once": 0.8508420710006322,
+      "sonra": 0.10140286791992703
+     },
+     {
+      "id": "test-ok-2",
+      "etiket": 0,
+      "once": 0.16558621903281437,
+      "sonra": 0.035983118723614496
+     },
+     {
+      "id": "test-ph-3",
+      "etiket": 1,
+      "once": 0.8763800495664209,
+      "sonra": 0.11131608146289242
+     },
+     {
+      "id": "test-ok-3",
+      "etiket": 0,
+      "once": 0.09799082777788988,
+      "sonra": 0.03456535901935849
+     },
+     {
+      "id": "test-ph-4",
+      "etiket": 1,
+      "once": 0.8171250669816462,
+      "sonra": 0.08304433583103016
+     },
+     {
+      "id": "test-ok-4",
+      "etiket": 0,
+      "once": 0.1647284013560908,
+      "sonra": 0.035896874552971116
+     },
+     {
+      "id": "test-ph-5",
+      "etiket": 1,
+      "once": 0.8508420710006322,
+      "sonra": 0.10140286791992703
+     },
+     {
+      "id": "test-ok-5",
+      "etiket": 0,
+      "once": 0.16558621903281437,
+      "sonra": 0.035983118723614496
+     }
+    ],
+    "rapor": {
+     "phishing_sayisi": 6,
+     "baslangicta_yakalanan": 6,
+     "atlatilan": 6,
+     "asr": 1.0,
+     "kontrol_sayisi": 6,
+     "kontrol_fp_once": 0.0,
+     "kontrol_fp_sonra": 0.0
+    }
+   }
+  ],
+  "query_audit": [
+   {
+    "id": "test-ph-0",
+    "q": 1,
+    "orijinal": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+      "skor": 0.8763800495664209
+     }
+    ],
+    "secilen": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ok-0",
+    "q": 1,
+    "orijinal": "Project meeting notes for the team document 0",
+    "adaylar": [
+     "Project meeting notes for the team document 0",
+     "Project meeting notes for the team document 0 project meeting notes",
+     "Project meeting notes for the team document 0 team schedule report attached",
+     "Project meeting notes for the team document 0 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Project meeting notes for the team document 0",
+      "skor": 0.09799082777788988
+     }
+    ],
+    "secilen": "Project meeting notes for the team document 0",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ph-1",
+    "q": 1,
+    "orijinal": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+      "skor": 0.8171250669816462
+     }
+    ],
+    "secilen": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ok-1",
+    "q": 1,
+    "orijinal": "Weekly schedule and documentation report document 1",
+    "adaylar": [
+     "Weekly schedule and documentation report document 1",
+     "Weekly schedule and documentation report document 1 project meeting notes",
+     "Weekly schedule and documentation report document 1 team schedule report attached",
+     "Weekly schedule and documentation report document 1 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Weekly schedule and documentation report document 1",
+      "skor": 0.1647284013560908
+     }
+    ],
+    "secilen": "Weekly schedule and documentation report document 1",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ph-2",
+    "q": 1,
+    "orijinal": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+      "skor": 0.8508420710006322
+     }
+    ],
+    "secilen": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ok-2",
+    "q": 1,
+    "orijinal": "Planning agenda and release update document 2",
+    "adaylar": [
+     "Planning agenda and release update document 2",
+     "Planning agenda and release update document 2 project meeting notes",
+     "Planning agenda and release update document 2 team schedule report attached",
+     "Planning agenda and release update document 2 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Planning agenda and release update document 2",
+      "skor": 0.16558621903281437
+     }
+    ],
+    "secilen": "Planning agenda and release update document 2",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ph-3",
+    "q": 1,
+    "orijinal": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+      "skor": 0.8763800495664209
+     }
+    ],
+    "secilen": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ok-3",
+    "q": 1,
+    "orijinal": "Project meeting notes for the team document 3",
+    "adaylar": [
+     "Project meeting notes for the team document 3",
+     "Project meeting notes for the team document 3 project meeting notes",
+     "Project meeting notes for the team document 3 team schedule report attached",
+     "Project meeting notes for the team document 3 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Project meeting notes for the team document 3",
+      "skor": 0.09799082777788988
+     }
+    ],
+    "secilen": "Project meeting notes for the team document 3",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ph-4",
+    "q": 1,
+    "orijinal": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+      "skor": 0.8171250669816462
+     }
+    ],
+    "secilen": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ok-4",
+    "q": 1,
+    "orijinal": "Weekly schedule and documentation report document 4",
+    "adaylar": [
+     "Weekly schedule and documentation report document 4",
+     "Weekly schedule and documentation report document 4 project meeting notes",
+     "Weekly schedule and documentation report document 4 team schedule report attached",
+     "Weekly schedule and documentation report document 4 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Weekly schedule and documentation report document 4",
+      "skor": 0.1647284013560908
+     }
+    ],
+    "secilen": "Weekly schedule and documentation report document 4",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ph-5",
+    "q": 1,
+    "orijinal": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+      "skor": 0.8508420710006322
+     }
+    ],
+    "secilen": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ok-5",
+    "q": 1,
+    "orijinal": "Planning agenda and release update document 5",
+    "adaylar": [
+     "Planning agenda and release update document 5",
+     "Planning agenda and release update document 5 project meeting notes",
+     "Planning agenda and release update document 5 team schedule report attached",
+     "Planning agenda and release update document 5 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Planning agenda and release update document 5",
+      "skor": 0.16558621903281437
+     }
+    ],
+    "secilen": "Planning agenda and release update document 5",
+    "eklenen_karakter": 0
+   },
+   {
+    "id": "test-ph-0",
+    "q": 3,
+    "orijinal": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+      "skor": 0.8763800495664209
+     },
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.5322661033113062
+     },
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.44280419689889977
+     }
+    ],
+    "secilen": "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ok-0",
+    "q": 3,
+    "orijinal": "Project meeting notes for the team document 0",
+    "adaylar": [
+     "Project meeting notes for the team document 0",
+     "Project meeting notes for the team document 0 project meeting notes",
+     "Project meeting notes for the team document 0 team schedule report attached",
+     "Project meeting notes for the team document 0 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Project meeting notes for the team document 0",
+      "skor": 0.09799082777788988
+     },
+     {
+      "metin": "Project meeting notes for the team document 0 project meeting notes",
+      "skor": 0.10642211800878174
+     },
+     {
+      "metin": "Project meeting notes for the team document 0 team schedule report attached",
+      "skor": 0.05703602358811189
+     }
+    ],
+    "secilen": "Project meeting notes for the team document 0 team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ph-1",
+    "q": 3,
+    "orijinal": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+      "skor": 0.8171250669816462
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4139786102473046
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.33848647509180996
+     }
+    ],
+    "secilen": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ok-1",
+    "q": 3,
+    "orijinal": "Weekly schedule and documentation report document 1",
+    "adaylar": [
+     "Weekly schedule and documentation report document 1",
+     "Weekly schedule and documentation report document 1 project meeting notes",
+     "Weekly schedule and documentation report document 1 team schedule report attached",
+     "Weekly schedule and documentation report document 1 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Weekly schedule and documentation report document 1",
+      "skor": 0.1647284013560908
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 1 project meeting notes",
+      "skor": 0.08066653330799745
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 1 team schedule report attached",
+      "skor": 0.09583755271991534
+     }
+    ],
+    "secilen": "Weekly schedule and documentation report document 1 project meeting notes",
+    "eklenen_karakter": 22
+   },
+   {
+    "id": "test-ph-2",
+    "q": 3,
+    "orijinal": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+      "skor": 0.8508420710006322
+     },
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4904292761395804
+     },
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.4058435639376045
+     }
+    ],
+    "secilen": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ok-2",
+    "q": 3,
+    "orijinal": "Planning agenda and release update document 2",
+    "adaylar": [
+     "Planning agenda and release update document 2",
+     "Planning agenda and release update document 2 project meeting notes",
+     "Planning agenda and release update document 2 team schedule report attached",
+     "Planning agenda and release update document 2 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Planning agenda and release update document 2",
+      "skor": 0.16558621903281437
+     },
+     {
+      "metin": "Planning agenda and release update document 2 project meeting notes",
+      "skor": 0.08100215344596791
+     },
+     {
+      "metin": "Planning agenda and release update document 2 team schedule report attached",
+      "skor": 0.07422682618721167
+     }
+    ],
+    "secilen": "Planning agenda and release update document 2 team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ph-3",
+    "q": 3,
+    "orijinal": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+      "skor": 0.8763800495664209
+     },
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.5322661033113062
+     },
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.44280419689889977
+     }
+    ],
+    "secilen": "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ok-3",
+    "q": 3,
+    "orijinal": "Project meeting notes for the team document 3",
+    "adaylar": [
+     "Project meeting notes for the team document 3",
+     "Project meeting notes for the team document 3 project meeting notes",
+     "Project meeting notes for the team document 3 team schedule report attached",
+     "Project meeting notes for the team document 3 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Project meeting notes for the team document 3",
+      "skor": 0.09799082777788988
+     },
+     {
+      "metin": "Project meeting notes for the team document 3 project meeting notes",
+      "skor": 0.10642211800878174
+     },
+     {
+      "metin": "Project meeting notes for the team document 3 team schedule report attached",
+      "skor": 0.05703602358811189
+     }
+    ],
+    "secilen": "Project meeting notes for the team document 3 team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ph-4",
+    "q": 3,
+    "orijinal": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+      "skor": 0.8171250669816462
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4139786102473046
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.33848647509180996
+     }
+    ],
+    "secilen": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ok-4",
+    "q": 3,
+    "orijinal": "Weekly schedule and documentation report document 4",
+    "adaylar": [
+     "Weekly schedule and documentation report document 4",
+     "Weekly schedule and documentation report document 4 project meeting notes",
+     "Weekly schedule and documentation report document 4 team schedule report attached",
+     "Weekly schedule and documentation report document 4 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Weekly schedule and documentation report document 4",
+      "skor": 0.1647284013560908
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 4 project meeting notes",
+      "skor": 0.08066653330799745
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 4 team schedule report attached",
+      "skor": 0.09583755271991534
+     }
+    ],
+    "secilen": "Weekly schedule and documentation report document 4 project meeting notes",
+    "eklenen_karakter": 22
+   },
+   {
+    "id": "test-ph-5",
+    "q": 3,
+    "orijinal": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+      "skor": 0.8508420710006322
+     },
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4904292761395804
+     },
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.4058435639376045
+     }
+    ],
+    "secilen": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ok-5",
+    "q": 3,
+    "orijinal": "Planning agenda and release update document 5",
+    "adaylar": [
+     "Planning agenda and release update document 5",
+     "Planning agenda and release update document 5 project meeting notes",
+     "Planning agenda and release update document 5 team schedule report attached",
+     "Planning agenda and release update document 5 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Planning agenda and release update document 5",
+      "skor": 0.16558621903281437
+     },
+     {
+      "metin": "Planning agenda and release update document 5 project meeting notes",
+      "skor": 0.08100215344596791
+     },
+     {
+      "metin": "Planning agenda and release update document 5 team schedule report attached",
+      "skor": 0.07422682618721167
+     }
+    ],
+    "secilen": "Planning agenda and release update document 5 team schedule report attached",
+    "eklenen_karakter": 30
+   },
+   {
+    "id": "test-ph-0",
+    "q": 4,
+    "orijinal": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+     "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+      "skor": 0.8763800495664209
+     },
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.5322661033113062
+     },
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.44280419689889977
+     },
+     {
+      "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.11131608146289242
+     }
+    ],
+    "secilen": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ok-0",
+    "q": 4,
+    "orijinal": "Project meeting notes for the team document 0",
+    "adaylar": [
+     "Project meeting notes for the team document 0",
+     "Project meeting notes for the team document 0 project meeting notes",
+     "Project meeting notes for the team document 0 team schedule report attached",
+     "Project meeting notes for the team document 0 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Project meeting notes for the team document 0",
+      "skor": 0.09799082777788988
+     },
+     {
+      "metin": "Project meeting notes for the team document 0 project meeting notes",
+      "skor": 0.10642211800878174
+     },
+     {
+      "metin": "Project meeting notes for the team document 0 team schedule report attached",
+      "skor": 0.05703602358811189
+     },
+     {
+      "metin": "Project meeting notes for the team document 0 project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.03456535901935849
+     }
+    ],
+    "secilen": "Project meeting notes for the team document 0 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ph-1",
+    "q": 4,
+    "orijinal": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+     "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+      "skor": 0.8171250669816462
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4139786102473046
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.33848647509180996
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.08304433583103016
+     }
+    ],
+    "secilen": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ok-1",
+    "q": 4,
+    "orijinal": "Weekly schedule and documentation report document 1",
+    "adaylar": [
+     "Weekly schedule and documentation report document 1",
+     "Weekly schedule and documentation report document 1 project meeting notes",
+     "Weekly schedule and documentation report document 1 team schedule report attached",
+     "Weekly schedule and documentation report document 1 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Weekly schedule and documentation report document 1",
+      "skor": 0.1647284013560908
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 1 project meeting notes",
+      "skor": 0.08066653330799745
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 1 team schedule report attached",
+      "skor": 0.09583755271991534
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 1 project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.035896874552971116
+     }
+    ],
+    "secilen": "Weekly schedule and documentation report document 1 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ph-2",
+    "q": 4,
+    "orijinal": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+     "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+      "skor": 0.8508420710006322
+     },
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4904292761395804
+     },
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.4058435639376045
+     },
+     {
+      "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.10140286791992703
+     }
+    ],
+    "secilen": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ok-2",
+    "q": 4,
+    "orijinal": "Planning agenda and release update document 2",
+    "adaylar": [
+     "Planning agenda and release update document 2",
+     "Planning agenda and release update document 2 project meeting notes",
+     "Planning agenda and release update document 2 team schedule report attached",
+     "Planning agenda and release update document 2 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Planning agenda and release update document 2",
+      "skor": 0.16558621903281437
+     },
+     {
+      "metin": "Planning agenda and release update document 2 project meeting notes",
+      "skor": 0.08100215344596791
+     },
+     {
+      "metin": "Planning agenda and release update document 2 team schedule report attached",
+      "skor": 0.07422682618721167
+     },
+     {
+      "metin": "Planning agenda and release update document 2 project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.035983118723614496
+     }
+    ],
+    "secilen": "Planning agenda and release update document 2 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ph-3",
+    "q": 4,
+    "orijinal": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+     "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+      "skor": 0.8763800495664209
+     },
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.5322661033113062
+     },
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.44280419689889977
+     },
+     {
+      "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.11131608146289242
+     }
+    ],
+    "secilen": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ok-3",
+    "q": 4,
+    "orijinal": "Project meeting notes for the team document 3",
+    "adaylar": [
+     "Project meeting notes for the team document 3",
+     "Project meeting notes for the team document 3 project meeting notes",
+     "Project meeting notes for the team document 3 team schedule report attached",
+     "Project meeting notes for the team document 3 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Project meeting notes for the team document 3",
+      "skor": 0.09799082777788988
+     },
+     {
+      "metin": "Project meeting notes for the team document 3 project meeting notes",
+      "skor": 0.10642211800878174
+     },
+     {
+      "metin": "Project meeting notes for the team document 3 team schedule report attached",
+      "skor": 0.05703602358811189
+     },
+     {
+      "metin": "Project meeting notes for the team document 3 project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.03456535901935849
+     }
+    ],
+    "secilen": "Project meeting notes for the team document 3 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ph-4",
+    "q": 4,
+    "orijinal": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+     "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+      "skor": 0.8171250669816462
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4139786102473046
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.33848647509180996
+     },
+     {
+      "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.08304433583103016
+     }
+    ],
+    "secilen": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ok-4",
+    "q": 4,
+    "orijinal": "Weekly schedule and documentation report document 4",
+    "adaylar": [
+     "Weekly schedule and documentation report document 4",
+     "Weekly schedule and documentation report document 4 project meeting notes",
+     "Weekly schedule and documentation report document 4 team schedule report attached",
+     "Weekly schedule and documentation report document 4 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Weekly schedule and documentation report document 4",
+      "skor": 0.1647284013560908
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 4 project meeting notes",
+      "skor": 0.08066653330799745
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 4 team schedule report attached",
+      "skor": 0.09583755271991534
+     },
+     {
+      "metin": "Weekly schedule and documentation report document 4 project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.035896874552971116
+     }
+    ],
+    "secilen": "Weekly schedule and documentation report document 4 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ph-5",
+    "q": 4,
+    "orijinal": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "adaylar": [
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+     "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+      "skor": 0.8508420710006322
+     },
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes",
+      "skor": 0.4904292761395804
+     },
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+      "skor": 0.4058435639376045
+     },
+     {
+      "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.10140286791992703
+     }
+    ],
+    "secilen": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   },
+   {
+    "id": "test-ok-5",
+    "q": 4,
+    "orijinal": "Planning agenda and release update document 5",
+    "adaylar": [
+     "Planning agenda and release update document 5",
+     "Planning agenda and release update document 5 project meeting notes",
+     "Planning agenda and release update document 5 team schedule report attached",
+     "Planning agenda and release update document 5 project meeting notes agenda team schedule report attached weekly minutes planning update"
+    ],
+    "sorgular": [
+     {
+      "metin": "Planning agenda and release update document 5",
+      "skor": 0.16558621903281437
+     },
+     {
+      "metin": "Planning agenda and release update document 5 project meeting notes",
+      "skor": 0.08100215344596791
+     },
+     {
+      "metin": "Planning agenda and release update document 5 team schedule report attached",
+      "skor": 0.07422682618721167
+     },
+     {
+      "metin": "Planning agenda and release update document 5 project meeting notes agenda team schedule report attached weekly minutes planning update",
+      "skor": 0.035983118723614496
+     }
+    ],
+    "secilen": "Planning agenda and release update document 5 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "eklenen_karakter": 90
+   }
+  ],
+  "inference_audit": [
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 0",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 0",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 1",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 1",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 2",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 2",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 3",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 3",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 4",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 4",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 5",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 5",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.5322661033113062
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.44280419689889977
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.44280419689889977
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0 project meeting notes",
+    "skor": 0.10642211800878174
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0 team schedule report attached",
+    "skor": 0.05703602358811189
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 0",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 0 team schedule report attached",
+    "skor": 0.05703602358811189
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4139786102473046
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.33848647509180996
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.33848647509180996
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1 project meeting notes",
+    "skor": 0.08066653330799745
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1 team schedule report attached",
+    "skor": 0.09583755271991534
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 1",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 1 project meeting notes",
+    "skor": 0.08066653330799745
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4904292761395804
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.4058435639376045
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.4058435639376045
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2 project meeting notes",
+    "skor": 0.08100215344596791
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2 team schedule report attached",
+    "skor": 0.07422682618721167
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 2",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 2 team schedule report attached",
+    "skor": 0.07422682618721167
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.5322661033113062
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.44280419689889977
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.44280419689889977
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3 project meeting notes",
+    "skor": 0.10642211800878174
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3 team schedule report attached",
+    "skor": 0.05703602358811189
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 3",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 3 team schedule report attached",
+    "skor": 0.05703602358811189
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4139786102473046
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.33848647509180996
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.33848647509180996
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4 project meeting notes",
+    "skor": 0.08066653330799745
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4 team schedule report attached",
+    "skor": 0.09583755271991534
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 4",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 4 project meeting notes",
+    "skor": 0.08066653330799745
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4904292761395804
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.4058435639376045
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.4058435639376045
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5 project meeting notes",
+    "skor": 0.08100215344596791
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5 team schedule report attached",
+    "skor": 0.07422682618721167
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 5",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 5 team schedule report attached",
+    "skor": 0.07422682618721167
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.5322661033113062
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.44280419689889977
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.11131608146289242
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 0 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.11131608146289242
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0 project meeting notes",
+    "skor": 0.10642211800878174
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0 team schedule report attached",
+    "skor": 0.05703602358811189
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 0 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.03456535901935849
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 0",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 0 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.03456535901935849
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4139786102473046
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.33848647509180996
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.08304433583103016
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 1 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.08304433583103016
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1 project meeting notes",
+    "skor": 0.08066653330799745
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1 team schedule report attached",
+    "skor": 0.09583755271991534
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 1 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035896874552971116
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 1",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 1 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035896874552971116
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4904292761395804
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.4058435639376045
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.10140286791992703
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 2 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.10140286791992703
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2 project meeting notes",
+    "skor": 0.08100215344596791
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2 team schedule report attached",
+    "skor": 0.07422682618721167
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 2 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035983118723614496
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 2",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 2 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035983118723614496
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.5322661033113062
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.44280419689889977
+   },
+   {
+    "role": "search",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.11131608146289242
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session",
+    "skor": 0.8763800495664209
+   },
+   {
+    "role": "evaluation",
+    "metin": "Verify your account password notice 3 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.11131608146289242
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3 project meeting notes",
+    "skor": 0.10642211800878174
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3 team schedule report attached",
+    "skor": 0.05703602358811189
+   },
+   {
+    "role": "search",
+    "metin": "Project meeting notes for the team document 3 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.03456535901935849
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 3",
+    "skor": 0.09799082777788988
+   },
+   {
+    "role": "evaluation",
+    "metin": "Project meeting notes for the team document 3 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.03456535901935849
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4139786102473046
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.33848647509180996
+   },
+   {
+    "role": "search",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.08304433583103016
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session",
+    "skor": 0.8171250669816462
+   },
+   {
+    "role": "evaluation",
+    "metin": "Urgent banking login confirmation notice 4 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.08304433583103016
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4 project meeting notes",
+    "skor": 0.08066653330799745
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4 team schedule report attached",
+    "skor": 0.09583755271991534
+   },
+   {
+    "role": "search",
+    "metin": "Weekly schedule and documentation report document 4 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035896874552971116
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 4",
+    "skor": 0.1647284013560908
+   },
+   {
+    "role": "evaluation",
+    "metin": "Weekly schedule and documentation report document 4 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035896874552971116
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes",
+    "skor": 0.4904292761395804
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session team schedule report attached",
+    "skor": 0.4058435639376045
+   },
+   {
+    "role": "search",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.10140286791992703
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session",
+    "skor": 0.8508420710006322
+   },
+   {
+    "role": "evaluation",
+    "metin": "Reset account credentials immediately notice 5 at https://verify.pafta.invalid/session project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.10140286791992703
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5 project meeting notes",
+    "skor": 0.08100215344596791
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5 team schedule report attached",
+    "skor": 0.07422682618721167
+   },
+   {
+    "role": "search",
+    "metin": "Planning agenda and release update document 5 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035983118723614496
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 5",
+    "skor": 0.16558621903281437
+   },
+   {
+    "role": "evaluation",
+    "metin": "Planning agenda and release update document 5 project meeting notes agenda team schedule report attached weekly minutes planning update",
+    "skor": 0.035983118723614496
+   }
+  ],
+  "model_call_counts": {
+   "search": 96,
+   "evaluation": 72,
+   "defense": 24
+  },
+  "dar_savunma": {
+   "aciklama": "sabit risk kelimeleri, norm=None; sadece bu benign suffix adaylarına karşı karşılaştırma",
+   "sonuclar": [
+    {
+     "id": "test-ph-0",
+     "once": 0.9999992330536651,
+     "sonra": 0.9999992330536651,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ok-0",
+     "once": 0.0331980499122443,
+     "sonra": 0.0331980499122443,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ph-1",
+     "once": 0.9944241398524143,
+     "sonra": 0.9944241398524143,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ok-1",
+     "once": 0.0331980499122443,
+     "sonra": 0.0331980499122443,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ph-2",
+     "once": 0.9999158771720785,
+     "sonra": 0.9999158771720785,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ok-2",
+     "once": 0.0331980499122443,
+     "sonra": 0.0331980499122443,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ph-3",
+     "once": 0.9999992330536651,
+     "sonra": 0.9999992330536651,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ok-3",
+     "once": 0.0331980499122443,
+     "sonra": 0.0331980499122443,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ph-4",
+     "once": 0.9944241398524143,
+     "sonra": 0.9944241398524143,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ok-4",
+     "once": 0.0331980499122443,
+     "sonra": 0.0331980499122443,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ph-5",
+     "once": 0.9999158771720785,
+     "sonra": 0.9999158771720785,
+     "fark": 0.0
+    },
+    {
+     "id": "test-ok-5",
+     "once": 0.0331980499122443,
+     "sonra": 0.0331980499122443,
+     "fark": 0.0
+    }
+   ]
+  },
+  "kontroller": [
+   true,
+   true,
+   true
+  ],
+  "cleanup": "yalnız CPU nesneleri; sunucu/süreç/dosya kurulumu yok"
+ },
+ "pilot": "saldiri54-kabul",
+ "zaman": "2026-11-04T00:11:52+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 445 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "d8755c69001aac4d2315ed88c4a2346fa834d1d748c9e8e1d4109b12205421db",
+ "mod": "test"
+}

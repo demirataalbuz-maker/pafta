@@ -1,0 +1,69 @@
+{
+  "name": "starter",
+  "okay": true,
+  "seconds": 0.64,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "tehdit şeması, izinli değerler, sıralama ve kopyalar korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: varlıkları silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: çıktıları silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: saldırgan bilgisini silen"
+      },
+      {
+        "ok": false,
+        "msg": "üyelik sayımları, doğruluk, avantaj ve sıfır payda korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: üyeliği silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: tahminleri silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kimlikleri birleştiren"
+      },
+      {
+        "ok": false,
+        "msg": "taban karşılaştırması, avantaj eşiği ve seçim korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: avantajı silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: doğruluğu silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: tabanı değiştiren"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni dengesiz üyelikte TPR-FPR"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

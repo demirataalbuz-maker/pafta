@@ -1,0 +1,65 @@
+{
+  "name": "starter",
+  "okay": true,
+  "seconds": 0.5,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+      },
+      {
+        "ok": false,
+        "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+      },
+      {
+        "ok": false,
+        "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+      },
+      {
+        "ok": true,
+        "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

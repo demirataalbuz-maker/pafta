@@ -1,0 +1,114 @@
+{
+ "zaman": "2026-10-28T11:18:11+0300",
+ "sohbet_modeli_ortam": null,
+ "temel": {
+  "ders": "ai-temel-03",
+  "adim": 7,
+  "gereksinim": "torch",
+  "referans": {
+   "durum": "PASS",
+   "sure_sn": 8.6,
+   "kanit": "C:/Users/demo12/AppData/Local/Temp/claude/C--Users-demo12-Desktop/d20ccb31-eee6-43d9-bc5c-66ed31505db5/scratchpad/veri\\ai-kanit\\temel-logit-1793175500300.json",
+   "model": "HuggingFaceTB/SmolLM2-135M",
+   "ozet": null,
+   "bulgu": [
+    "GERÇEK ÇIKTI (HuggingFaceTB/SmolLM2-135M@93efa2f0): 'The capital of France is' → 5 token, en olası sonraki token ' the' (id 260, logit 14.023, p=0.2617)"
+   ]
+  },
+  "reddedilmeli": [
+   {
+    "ad": "başlangıç kodu",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 7.0,
+    "neden": "KeyError: 'token_idleri'; gerçek model: token kimlikleri, tokenlar, son konum logitleri ve sıcaklıklı softmax doğru"
+   },
+   {
+    "ad": "boş kod",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 0.4,
+    "neden": "`sonraki_token_dagilimi` adında bir fonksiyon tanımlamalısın"
+   },
+   {
+    "ad": "sabit cevap",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 7.5,
+    "neden": "gerçek model: token kimlikleri, tokenlar, son konum logitleri ve sıcaklıklı softmax doğru"
+   },
+   {
+    "ad": "ilk konumun logitleri",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 8.0,
+    "neden": "gerçek model: token kimlikleri, tokenlar, son konum logitleri ve sıcaklıklı softmax doğru"
+   },
+   {
+    "ad": "sıcaklık yok sayılıyor",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 8.0,
+    "neden": "gerçek model: token kimlikleri, tokenlar, son konum logitleri ve sıcaklıklı softmax doğru"
+   },
+   {
+    "ad": "softmax yerine logit",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 7.7,
+    "neden": "gerçek model: token kimlikleri, tokenlar, son konum logitleri ve sıcaklıklı softmax doğru"
+   }
+  ]
+ },
+ "guvence": {
+  "ders": "ai-guvence-07",
+  "adim": 7,
+  "gereksinim": "torch",
+  "referans": {
+   "durum": "PASS",
+   "sure_sn": 3.6,
+   "kanit": "C:/Users/demo12/AppData/Local/Temp/claude/C--Users-demo12-Desktop/d20ccb31-eee6-43d9-bc5c-66ed31505db5/scratchpad/veri\\ai-kanit\\guvence-fgsm-1793175542574.json",
+   "model": "fgsm-mlp-64-32-4",
+   "ozet": {
+    "test_dogrulugu": 1.0,
+    "eps": 0.3,
+    "degisen": 394
+   },
+   "bulgu": [
+    "GERÇEK ÖLÇÜM: temiz test doğruluğu 1.000; ε=0.3 ile tam test kümesinde 394/400 tahmin değişti; eğri ε=0.0:1.000, ε=0.05:0.988, ε=0.1:0.723, ε=0.2:0.075, ε=0.3:0.015"
+   ]
+  },
+  "reddedilmeli": [
+   {
+    "ad": "başlangıç kodu",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 3.6,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.2); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "boş kod",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 0.4,
+    "neden": "`fgsm` adında bir fonksiyon tanımlamalısın"
+   },
+   {
+    "ad": "sabit cevap",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 3.7,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.1); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "kırpma yok",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 3.6,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.3); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "ters işaret",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 3.6,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.1); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "eğride temiz doğruluk bozuk yerine",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 3.6,
+    "neden": "ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   }
+  ]
+ }
+}

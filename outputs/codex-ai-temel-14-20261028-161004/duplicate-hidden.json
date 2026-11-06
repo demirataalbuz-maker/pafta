@@ -1,0 +1,48 @@
+{
+  "name": "duplicate-hidden",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "laboratuvar yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

@@ -1,0 +1,1094 @@
+{
+ "kaynak": "gercek",
+ "cosign_sha256": "cbe953787074611f1334cbf37dc1cf953995bb8c45398eb4fc7bb781d29c1f2a",
+ "kosular": [
+  {
+   "tekrar": 0,
+   "model": {
+    "tur": "torch.nn.Linear(4,2)",
+    "seed": 36,
+    "cihaz": "cpu",
+    "egitim_adim": 50,
+    "girdi_shape": [
+     80,
+     4
+    ],
+    "girdi_sha256": "c3abe3c1075f259305a503f32b88200c08ad4670a059cabb66ddc80e15547bf0",
+    "girdi_ilk8": [
+     [
+      -0.4733302593231201,
+      -0.6555202603340149,
+      0.16232432425022125,
+      0.97303706407547
+     ],
+     [
+      0.09041319787502289,
+      0.5365105271339417,
+      -0.7998101115226746,
+      -0.9681189060211182
+     ],
+     [
+      -1.074074625968933,
+      0.8451141715049744,
+      -0.017470477148890495,
+      -0.6954547762870789
+     ],
+     [
+      -1.6827127933502197,
+      0.09878650307655334,
+      1.2139703035354614,
+      2.158923387527466
+     ],
+     [
+      0.3516486883163452,
+      -0.5991553664207458,
+      -0.8279140591621399,
+      -0.23497121036052704
+     ],
+     [
+      -0.9425033330917358,
+      0.5657347440719604,
+      -0.9345314502716064,
+      -0.5294265151023865
+     ],
+     [
+      -0.6091875433921814,
+      -0.05012895166873932,
+      0.3637121319770813,
+      -0.3903539180755615
+     ],
+     [
+      0.6811100840568542,
+      0.04898049682378769,
+      -0.7314043045043945,
+      -0.014374054037034512
+     ]
+    ],
+    "etiket_ilk8": [
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     1
+    ],
+    "loss": 0.22700715065002441,
+    "accuracy": 0.9624999761581421,
+    "yeniden_yukleme_esit": true,
+    "sha256": "651eb79f4d168a0b4aa462ae48dfedd2412fac7aa982127a0328623a70c7ffd0",
+    "torch_surumu": "2.14.1+cu130"
+   },
+   "manifest": {
+    "dosya": "model.safetensors",
+    "sha256": "651eb79f4d168a0b4aa462ae48dfedd2412fac7aa982127a0328623a70c7ffd0"
+   },
+   "sertifika_kimlik": "student@pafta.invalid",
+   "sertifika_issuer": "http://127.0.0.1:5556",
+   "politikasi": {
+    "kimlik": "student@pafta.invalid",
+    "issuer": "http://127.0.0.1:5556"
+   },
+   "kayitlar": [
+    {
+     "vaka": "keypair-normal",
+     "calisti": true,
+     "dogrulandi": true
+    },
+    {
+     "vaka": "keypair-tahrifat",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keypair-baska-anahtar",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-normal",
+     "calisti": true,
+     "dogrulandi": true
+    },
+    {
+     "vaka": "keyless-tahrifat",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-baska-kimlik",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-baska-issuer",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-baska-root",
+     "calisti": true,
+     "dogrulandi": false
+    }
+   ],
+   "ozet": {
+    "kabul": true,
+    "hatalar": [],
+    "beklenmeyen": [],
+    "dogrulanan": [
+     "keyless-normal",
+     "keypair-normal"
+    ]
+   },
+   "cagrilar": [
+    {
+     "argv": [
+      "version",
+      "--json"
+     ],
+     "returncode": 0,
+     "stdout": "{\n  \"gitVersion\": \"v3.1.4\",\n  \"gitCommit\": \"0e48502cf5ef34e2e60bbd3617aa19945712f705\",\n  \"gitTreeState\": \"clean\",\n  \"buildDate\": \"2026-10-20T17:33:02Z\",\n  \"goVersion\": \"go1.27.3\",\n  \"compiler\": \"gc\",\n  \"platform\": \"windows/amd64\"\n}\n",
+     "stderr": ""
+    },
+    {
+     "argv": [
+      "generate-key-pair",
+      "--output-key-prefix",
+      "signer"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Private key written to signer.key\nPublic key written to signer.pub\n"
+    },
+    {
+     "argv": [
+      "generate-key-pair",
+      "--output-key-prefix",
+      "other"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Private key written to other.key\nPublic key written to other.pub\n"
+    },
+    {
+     "argv": [
+      "sign-blob",
+      "--key",
+      "signer.key",
+      "--use-signing-config=false",
+      "--tlog-upload=false",
+      "--new-bundle-format=false",
+      "--output-signature",
+      "keypair.sig",
+      "--yes",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --use-signing-config has been deprecated, an offline signing flag will be added in the future; TUF will continue to provide a signing config by default if one is not provided manually\nFlag --tlog-upload has been deprecated, prefer using a --signing-config file with no transparency log services\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nFlag --output-signature has been deprecated, please use --bundle to provide the output bundle location, which will include the signature\nUsing payload from: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors\nSigning artifact...\nWrote signature to file keypair.sig\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--key",
+      "signer.pub",
+      "--signature",
+      "keypair.sig",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nVerified OK\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--key",
+      "signer.pub",
+      "--signature",
+      "keypair.sig",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\tampered.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: invalid signature when validating ASN.1 encoded signature\nerror during command execution: invalid signature when validating ASN.1 encoded signature\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--key",
+      "other.pub",
+      "--signature",
+      "keypair.sig",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: invalid signature when validating ASN.1 encoded signature\nerror during command execution: invalid signature when validating ASN.1 encoded signature\n"
+    },
+    {
+     "argv": [
+      "trusted-root",
+      "create",
+      "--fulcio",
+      "url=http://127.0.0.1:20631,certificate-chain=root.pem",
+      "--out",
+      "trusted-root.json"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": ""
+    },
+    {
+     "argv": [
+      "sign-blob",
+      "--use-signing-config=false",
+      "--tlog-upload=false",
+      "--new-bundle-format=false",
+      "--fulcio-url",
+      "http://127.0.0.1:20631",
+      "--trusted-root",
+      "trusted-root.json",
+      "--identity-token",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-keyless-kcfiem53\\identity.jwt",
+      "--insecure-skip-verify=true",
+      "--output-certificate",
+      "keyless.pem",
+      "--output-signature",
+      "keyless.sig",
+      "--yes",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --use-signing-config has been deprecated, an offline signing flag will be added in the future; TUF will continue to provide a signing config by default if one is not provided manually\nFlag --tlog-upload has been deprecated, prefer using a --signing-config file with no transparency log services\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nFlag --fulcio-url has been deprecated, please use a signing config to specify a fulcio url; see `cosign signing-config --help`\nFlag --insecure-skip-verify has been deprecated, SCT verification is no longer performed during signing/attestation.\nFlag --output-certificate has been deprecated, please use --bundle to provide the output bundle location, which will include the certificate\nFlag --output-signature has been deprecated, please use --bundle to provide the output bundle location, which will include the signature\nGenerating ephemeral keys...\nUsing payload from: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors\nSigning artifact...\nWrote signature to file keyless.sig\nWrote certificate to file keyless.pem\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nVerified OK\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\tampered.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: invalid signature when validating ASN.1 encoded signature\nerror during command execution: invalid signature when validating ASN.1 encoded signature\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "other@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\nerror during command execution: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556/different",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\nerror during command execution: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "wrong-root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-0\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: cert verification failed: x509: certificate signed by unknown authority. Check your TUF root (see cosign initialize) or set a custom root with env var SIGSTORE_ROOT_FILE\nerror during command execution: cert verification failed: x509: certificate signed by unknown authority. Check your TUF root (see cosign initialize) or set a custom root with env var SIGSTORE_ROOT_FILE\n"
+    }
+   ],
+   "artifact_sha256": "651eb79f4d168a0b4aa462ae48dfedd2412fac7aa982127a0328623a70c7ffd0",
+   "tahrif_sha256": "a5dcf63b7fefad75843435c3184625f7f97c00e3b6470fc81a033ebd0ab2019c",
+   "root_sha256": "13acaa0ace565a6dcaea2cd2ee2dd97d671ff84590fae03124b196b730b31ae1",
+   "keyless_sig_sha256": "6602b31d7aa30fc249c88952ed9edd702ec2f747a87ea34089b1ef03d89bf2b1",
+   "keypair_sig_sha256": "47b94830795e67ea9c2ac87d78380bb871376b1a5e5627b7b2505d5190046186"
+  },
+  {
+   "tekrar": 1,
+   "model": {
+    "tur": "torch.nn.Linear(4,2)",
+    "seed": 37,
+    "cihaz": "cpu",
+    "egitim_adim": 50,
+    "girdi_shape": [
+     80,
+     4
+    ],
+    "girdi_sha256": "ee3ea60340e7dfdb0e2981af6988dae98351302df81eb67be5c2800b2cff6802",
+    "girdi_ilk8": [
+     [
+      -0.09384752064943314,
+      -0.49599066376686096,
+      0.9621381759643555,
+      0.39399170875549316
+     ],
+     [
+      -0.9299810528755188,
+      1.1854679584503174,
+      1.412574291229248,
+      0.1632586568593979
+     ],
+     [
+      -1.7672827243804932,
+      -1.3445061445236206,
+      1.5448753833770752,
+      0.45562586188316345
+     ],
+     [
+      0.11739625781774521,
+      -0.7239962816238403,
+      -2.17130184173584,
+      0.7871150970458984
+     ],
+     [
+      -0.6288957595825195,
+      -0.044137075543403625,
+      -1.2322628498077393,
+      -0.5069863200187683
+     ],
+     [
+      -1.3766443729400635,
+      -2.0966081619262695,
+      -1.0177850723266602,
+      0.37341421842575073
+     ],
+     [
+      -0.13289761543273926,
+      0.05863146483898163,
+      -1.6333107948303223,
+      0.6669979095458984
+     ],
+     [
+      -1.8708995580673218,
+      0.1685866266489029,
+      0.9331734776496887,
+      0.2010044902563095
+     ]
+    ],
+    "etiket_ilk8": [
+     0,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "loss": 0.2026795893907547,
+    "accuracy": 0.949999988079071,
+    "yeniden_yukleme_esit": true,
+    "sha256": "54ff10687308a72fa1ea62aa2407d8d8812cb3971c5f08e47749d8d90d32b59f",
+    "torch_surumu": "2.14.1+cu130"
+   },
+   "manifest": {
+    "dosya": "model.safetensors",
+    "sha256": "54ff10687308a72fa1ea62aa2407d8d8812cb3971c5f08e47749d8d90d32b59f"
+   },
+   "sertifika_kimlik": "student@pafta.invalid",
+   "sertifika_issuer": "http://127.0.0.1:5556",
+   "politikasi": {
+    "kimlik": "student@pafta.invalid",
+    "issuer": "http://127.0.0.1:5556"
+   },
+   "kayitlar": [
+    {
+     "vaka": "keypair-normal",
+     "calisti": true,
+     "dogrulandi": true
+    },
+    {
+     "vaka": "keypair-tahrifat",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keypair-baska-anahtar",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-normal",
+     "calisti": true,
+     "dogrulandi": true
+    },
+    {
+     "vaka": "keyless-tahrifat",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-baska-kimlik",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-baska-issuer",
+     "calisti": true,
+     "dogrulandi": false
+    },
+    {
+     "vaka": "keyless-baska-root",
+     "calisti": true,
+     "dogrulandi": false
+    }
+   ],
+   "ozet": {
+    "kabul": true,
+    "hatalar": [],
+    "beklenmeyen": [],
+    "dogrulanan": [
+     "keyless-normal",
+     "keypair-normal"
+    ]
+   },
+   "cagrilar": [
+    {
+     "argv": [
+      "version",
+      "--json"
+     ],
+     "returncode": 0,
+     "stdout": "{\n  \"gitVersion\": \"v3.1.4\",\n  \"gitCommit\": \"0e48502cf5ef34e2e60bbd3617aa19945712f705\",\n  \"gitTreeState\": \"clean\",\n  \"buildDate\": \"2026-10-20T17:33:02Z\",\n  \"goVersion\": \"go1.27.3\",\n  \"compiler\": \"gc\",\n  \"platform\": \"windows/amd64\"\n}\n",
+     "stderr": ""
+    },
+    {
+     "argv": [
+      "generate-key-pair",
+      "--output-key-prefix",
+      "signer"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Private key written to signer.key\nPublic key written to signer.pub\n"
+    },
+    {
+     "argv": [
+      "generate-key-pair",
+      "--output-key-prefix",
+      "other"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Private key written to other.key\nPublic key written to other.pub\n"
+    },
+    {
+     "argv": [
+      "sign-blob",
+      "--key",
+      "signer.key",
+      "--use-signing-config=false",
+      "--tlog-upload=false",
+      "--new-bundle-format=false",
+      "--output-signature",
+      "keypair.sig",
+      "--yes",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --use-signing-config has been deprecated, an offline signing flag will be added in the future; TUF will continue to provide a signing config by default if one is not provided manually\nFlag --tlog-upload has been deprecated, prefer using a --signing-config file with no transparency log services\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nFlag --output-signature has been deprecated, please use --bundle to provide the output bundle location, which will include the signature\nUsing payload from: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors\nSigning artifact...\nWrote signature to file keypair.sig\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--key",
+      "signer.pub",
+      "--signature",
+      "keypair.sig",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nVerified OK\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--key",
+      "signer.pub",
+      "--signature",
+      "keypair.sig",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\tampered.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: invalid signature when validating ASN.1 encoded signature\nerror during command execution: invalid signature when validating ASN.1 encoded signature\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--key",
+      "other.pub",
+      "--signature",
+      "keypair.sig",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: invalid signature when validating ASN.1 encoded signature\nerror during command execution: invalid signature when validating ASN.1 encoded signature\n"
+    },
+    {
+     "argv": [
+      "trusted-root",
+      "create",
+      "--fulcio",
+      "url=http://127.0.0.1:32193,certificate-chain=root.pem",
+      "--out",
+      "trusted-root.json"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": ""
+    },
+    {
+     "argv": [
+      "sign-blob",
+      "--use-signing-config=false",
+      "--tlog-upload=false",
+      "--new-bundle-format=false",
+      "--fulcio-url",
+      "http://127.0.0.1:32193",
+      "--trusted-root",
+      "trusted-root.json",
+      "--identity-token",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-keyless-oohlc1dp\\identity.jwt",
+      "--insecure-skip-verify=true",
+      "--output-certificate",
+      "keyless.pem",
+      "--output-signature",
+      "keyless.sig",
+      "--yes",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --use-signing-config has been deprecated, an offline signing flag will be added in the future; TUF will continue to provide a signing config by default if one is not provided manually\nFlag --tlog-upload has been deprecated, prefer using a --signing-config file with no transparency log services\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nFlag --fulcio-url has been deprecated, please use a signing config to specify a fulcio url; see `cosign signing-config --help`\nFlag --insecure-skip-verify has been deprecated, SCT verification is no longer performed during signing/attestation.\nFlag --output-certificate has been deprecated, please use --bundle to provide the output bundle location, which will include the certificate\nFlag --output-signature has been deprecated, please use --bundle to provide the output bundle location, which will include the signature\nGenerating ephemeral keys...\nUsing payload from: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors\nSigning artifact...\nWrote signature to file keyless.sig\nWrote certificate to file keyless.pem\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 0,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nVerified OK\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\tampered.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: invalid signature when validating ASN.1 encoded signature\nerror during command execution: invalid signature when validating ASN.1 encoded signature\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "other@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\nerror during command execution: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556/different",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\nerror during command execution: none of the expected identities matched what was in the certificate, got subjects [student@pafta.invalid] with issuer http://127.0.0.1:5556\n"
+    },
+    {
+     "argv": [
+      "verify-blob",
+      "--signature",
+      "keyless.sig",
+      "--certificate",
+      "keyless.pem",
+      "--ca-roots",
+      "wrong-root.pem",
+      "--new-bundle-format=false",
+      "--insecure-ignore-tlog=true",
+      "--insecure-ignore-sct=true",
+      "--certificate-identity",
+      "student@pafta.invalid",
+      "--certificate-oidc-issuer",
+      "http://127.0.0.1:5556",
+      "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi\\kosu-1\\model.safetensors"
+     ],
+     "returncode": 1,
+     "stdout": "",
+     "stderr": "Flag --signature has been deprecated, please use --bundle to provide a signature\nFlag --certificate has been deprecated, please use --bundle with --trusted-root to provide the public certificate\nFlag --ca-roots has been deprecated, please use --trusted-root to provide CA certificates\nFlag --new-bundle-format has been deprecated, this will be the only supported format in future versions\nWARNING: Skipping tlog verification is an insecure practice that lacks transparency and auditability verification for the blob.\nError: cert verification failed: x509: certificate signed by unknown authority. Check your TUF root (see cosign initialize) or set a custom root with env var SIGSTORE_ROOT_FILE\nerror during command execution: cert verification failed: x509: certificate signed by unknown authority. Check your TUF root (see cosign initialize) or set a custom root with env var SIGSTORE_ROOT_FILE\n"
+    }
+   ],
+   "artifact_sha256": "54ff10687308a72fa1ea62aa2407d8d8812cb3971c5f08e47749d8d90d32b59f",
+   "tahrif_sha256": "08c15b1c403f0e3457ecda5139e75b146645bf7c43921ce384ec2c6eb3188d95",
+   "root_sha256": "6d23219db9247672f8f9198bda09117f9937c956972227e7423a64cef9fb516e",
+   "keyless_sig_sha256": "75ebe4aa49a79584ae5ec565a9484388a7a5d5e929dcb3fdafba599245024ac1",
+   "keypair_sig_sha256": "1bb7881b1d158ea1a4d91a8bed6e68cd9a065d44925d96b9d169b3c1105df033"
+  }
+ ],
+ "ortamlar": [
+  {
+   "kaynak": "gercek",
+   "fulcio_surumu": "v1.9.1",
+   "binary_sha256": "d851e6fcc33bad57a08435e41fe082d8cc466f99c57d2fae156e82941f84ea31",
+   "image_id": "sha256:e70da0b4dd92ebe0fbc6c838a1d1df15da6a86f1c249caeaf698c5f47aad1590",
+   "image_reference": "pafta-ai-s51:mlflow-2.1.1",
+   "kendi_container": "d37f5e210ef25d203b1359a6ee55f83e15b5ebddf7d5eb54699a02f13f5d687a",
+   "kendi_network": null,
+   "network": "none",
+   "transport": "localhost HTTP to real Fulcio via own docker-exec relay",
+   "http": [
+    {
+     "method": "GET",
+     "path": "/api/v2/trustBundle",
+     "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "status": 200,
+     "response": "{\"chains\":[{\"certificates\":[\"-----BEGIN CERTIFICATE-----\\nMIICFzCCAb2gAwIBAgIUL1pABFRIY9qopWmIACtwIZLTuH4wCgYIKoZIzj0EAwIw\\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE2MTQzM1oXDTM2MTEwMzE2MTQzM1owaDEMMAoG\\nA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQxFTATBgNV\\nBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoTCHNpZ3N0\\nb3JlMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEH9hGy3IcMGBz1tEu3FflA2e1\\nHUNs0fcatguk5H3IvdZjP8dxu3y9j+sHTyvHgIdQOT/lRbP/H7vuui5k4glHkaNF\\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\\nFJoeEL6tECg6lb1F5Eprq2/VymXNMAoGCCqGSM49BAMCA0gAMEUCIGs9gYnR1GQ1\\nYxitMA8t9Ttm7sAENsRMEnclol+b7qFYAiEA3jZASJC/jhD14ih8SqUYh1dmuUV/\\n9FjHMVAR6436Eyw=\\n-----END CERTIFICATE-----\\n\"]}]}"
+    },
+    {
+     "method": "POST",
+     "path": "/api/v2/signingCert",
+     "request_body_sha256": "ada35106ef94d8887173969c0fae3cecaac821b9d5d4d649dee9a6bbaf2b7575",
+     "status": 200,
+     "response": "{\"signedCertificateDetachedSct\":{\"chain\":{\"certificates\":[\"-----BEGIN CERTIFICATE-----\\nMIICSjCCAfCgAwIBAgIUFHMc0BpckfENwcrup5GJVaB8Hg8wCgYIKoZIzj0EAwIw\\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE2MTQzOVoXDTI2MTEwMzE2MjQzOVowADBZMBMG\\nByqGSM49AgEGCCqGSM49AwEHA0IABCjJY+Lk5BTw0oD+zUbozyMOEP/05uO7p350\\nmDXwQv94NDl4UssPMl9rB7m7ypVHt5ec9B3KfjByPa4OfkJiXp6jgd8wgdwwDgYD\\nVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMDMB8GA1UdIwQYMBaAFJoe\\nEL6tECg6lb1F5Eprq2/VymXNMCMGA1UdEQEB/wQZMBeBFXN0dWRlbnRAcGFmdGEu\\naW52YWxpZDAjBgorBgEEAYO/MAEBBBVodHRwOi8vMTI3LjAuMC4xOjU1NTYwJQYK\\nKwYBBAGDvzABCAQXDBVodHRwOi8vMTI3LjAuMC4xOjU1NTYwIwYKKwYBBAGDvzAB\\nGAQVDBNwYWZ0YS1sb2NhbC1zdHVkZW50MAoGCCqGSM49BAMCA0gAMEUCIQDZNIcn\\nR/CMXW8e/6Vv/F6TFwL0YswWvaDYh2/s9yITPAIgYqY5Eb//G4EKNabMnYfd0Yqv\\nGHMii/+JS2BpmeHv5P0=\\n-----END CERTIFICATE-----\", \"-----BEGIN CERTIFICATE-----\\nMIICFzCCAb2gAwIBAgIUL1pABFRIY9qopWmIACtwIZLTuH4wCgYIKoZIzj0EAwIw\\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE2MTQzM1oXDTM2MTEwMzE2MTQzM1owaDEMMAoG\\nA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQxFTATBgNV\\nBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoTCHNpZ3N0\\nb3JlMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEH9hGy3IcMGBz1tEu3FflA2e1\\nHUNs0fcatguk5H3IvdZjP8dxu3y9j+sHTyvHgIdQOT/lRbP/H7vuui5k4glHkaNF\\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\\nFJoeEL6tECg6lb1F5Eprq2/VymXNMAoGCCqGSM49BAMCA0gAMEUCIGs9gYnR1GQ1\\nYxitMA8t9Ttm7sAENsRMEnclol+b7qFYAiEA3jZASJC/jhD14ih8SqUYh1dmuUV/\\n9FjHMVAR6436Eyw=\\n-----END CERTIFICATE-----\"]}, \"signedCertificateTimestamp\":\"\"}}"
+    }
+   ],
+   "izolasyon": {
+    "Binds": null,
+    "ContainerIDFile": "",
+    "LogConfig": {
+     "Type": "local",
+     "Config": {}
+    },
+    "NetworkMode": "none",
+    "PortBindings": {},
+    "RestartPolicy": {
+     "Name": "no",
+     "MaximumRetryCount": 0
+    },
+    "AutoRemove": false,
+    "VolumeDriver": "",
+    "VolumesFrom": null,
+    "ConsoleSize": [
+     0,
+     0
+    ],
+    "CapAdd": null,
+    "CapDrop": [
+     "ALL"
+    ],
+    "CgroupnsMode": "private",
+    "Dns": null,
+    "DnsOptions": [],
+    "DnsSearch": [],
+    "ExtraHosts": null,
+    "GroupAdd": null,
+    "IpcMode": "private",
+    "Cgroup": "",
+    "Links": null,
+    "OomScoreAdj": 0,
+    "PidMode": "",
+    "Privileged": false,
+    "PublishAllPorts": false,
+    "ReadonlyRootfs": true,
+    "SecurityOpt": [
+     "no-new-privileges"
+    ],
+    "Tmpfs": {
+     "/opt/pafta-s36": "rw,nosuid,nodev,uid=10001,gid=10001,size=100663296",
+     "/tmp": "rw,exec,nosuid,nodev,uid=10001,gid=10001,size=134217728"
+    },
+    "UTSMode": "",
+    "UsernsMode": "",
+    "ShmSize": 67108864,
+    "Runtime": "runc",
+    "Isolation": "",
+    "CpuShares": 0,
+    "Memory": 536870912,
+    "NanoCpus": 2000000000,
+    "CgroupParent": "",
+    "BlkioWeight": 0,
+    "BlkioWeightDevice": [],
+    "BlkioDeviceReadBps": [],
+    "BlkioDeviceWriteBps": [],
+    "BlkioDeviceReadIOps": [],
+    "BlkioDeviceWriteIOps": [],
+    "CpuPeriod": 0,
+    "CpuQuota": 0,
+    "CpuRealtimePeriod": 0,
+    "CpuRealtimeRuntime": 0,
+    "CpusetCpus": "",
+    "CpusetMems": "",
+    "Devices": [],
+    "DeviceCgroupRules": null,
+    "DeviceRequests": null,
+    "MemoryReservation": 0,
+    "MemorySwap": 1073741824,
+    "MemorySwappiness": null,
+    "OomKillDisable": null,
+    "PidsLimit": 128,
+    "Ulimits": null,
+    "CpuCount": 0,
+    "CpuPercent": 0,
+    "IOMaximumIOps": 0,
+    "IOMaximumBandwidth": 0,
+    "MaskedPaths": [
+     "/proc/acpi",
+     "/proc/asound",
+     "/proc/interrupts",
+     "/proc/kcore",
+     "/proc/keys",
+     "/proc/latency_stats",
+     "/proc/sched_debug",
+     "/proc/scsi",
+     "/proc/timer_list",
+     "/proc/timer_stats",
+     "/sys/devices/virtual/powercap",
+     "/sys/firmware"
+    ],
+    "ReadonlyPaths": [
+     "/proc/bus",
+     "/proc/fs",
+     "/proc/irq",
+     "/proc/sys",
+     "/proc/sysrq-trigger"
+    ]
+   },
+   "issuer": "http://127.0.0.1:5556",
+   "identity": "student@pafta.invalid",
+   "fulcio_url": "http://127.0.0.1:20631",
+   "temizlendi": true,
+   "servis_log": "{\"fulcio.stderr\": \"\", \"fulcio.stdout\": \"2026-11-03T16:14:33.486Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:242\\tlistening on grpc at 127.0.0.1:5557\\n2026-11-03T16:14:33.487Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/http.go:138\\tlistening on http at 0.0.0.0:5555\\n2026-11-03T16:14:33.487Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:290\\tlistening on grpc at @fulcio-legacy-grpc-socket\\n2026-11-03T16:14:35.890Z\\t\\u001b[35mDEBUG\\u001b[0m\\tlog/log.go:106\\tfinished unary call with code OK\\t{\\\"grpc.start_time\\\": \\\"2026-11-03T16:14:35Z\\\", \\\"system\\\": \\\"grpc\\\", \\\"span.kind\\\": \\\"server\\\", \\\"grpc.service\\\": \\\"dev.sigstore.fulcio.v2.CA\\\", \\\"grpc.method\\\": \\\"GetTrustBundle\\\", \\\"grpc.code\\\": \\\"OK\\\", \\\"requestID\\\": \\\"XcU_NBOX\\\", \\\"grpc.time_ms\\\": 0.042}\\n2026-11-03T16:14:39.576Z\\t\\u001b[34mINFO\\u001b[0m\\tserver/grpc_server.go:193\\tSkipping CT log upload.\\t{\\\"requestID\\\": \\\"1jmQZ4Ii\\\"}\\n2026-11-03T16:14:39.576Z\\t\\u001b[35mDEBUG\\u001b[0m\\tlog/log.go:106\\tfinished unary call with code OK\\t{\\\"grpc.start_time\\\": \\\"2026-11-03T16:14:39Z\\\", \\\"system\\\": \\\"grpc\\\", \\\"span.kind\\\": \\\"server\\\", \\\"grpc.service\\\": \\\"dev.sigstore.fulcio.v2.CA\\\", \\\"grpc.method\\\": \\\"CreateSigningCertificate\\\", \\\"grpc.code\\\": \\\"OK\\\", \\\"requestID\\\": \\\"1jmQZ4Ii\\\", \\\"grpc.time_ms\\\": 5.723}\\n\"}",
+   "cleanup_errors": [],
+   "tlog": "yok: private lab sertifika/imza akışı; public şeffaflık iddiası yok"
+  },
+  {
+   "kaynak": "gercek",
+   "fulcio_surumu": "v1.9.1",
+   "binary_sha256": "d851e6fcc33bad57a08435e41fe082d8cc466f99c57d2fae156e82941f84ea31",
+   "image_id": "sha256:e70da0b4dd92ebe0fbc6c838a1d1df15da6a86f1c249caeaf698c5f47aad1590",
+   "image_reference": "pafta-ai-s51:mlflow-2.1.1",
+   "kendi_container": "601f0722b8b4f3be6277d233709aa75bb9a4dea49513923c2c5892db2802af3f",
+   "kendi_network": null,
+   "network": "none",
+   "transport": "localhost HTTP to real Fulcio via own docker-exec relay",
+   "http": [
+    {
+     "method": "GET",
+     "path": "/api/v2/trustBundle",
+     "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "status": 200,
+     "response": "{\"chains\":[{\"certificates\":[\"-----BEGIN CERTIFICATE-----\\nMIICFzCCAb2gAwIBAgIUIqN1lTKKe8l+MN7ujh7qMJbX6wAwCgYIKoZIzj0EAwIw\\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE2MTUwNVoXDTM2MTEwMzE2MTUwNVowaDEMMAoG\\nA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQxFTATBgNV\\nBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoTCHNpZ3N0\\nb3JlMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaVUzsTaQ/qWygrmNCTcqLTzE\\nQ3mAyvt0qoHk/ZgSfHLPj0BsYSxBQsSqIYlAPSnE9Dux6kjxJpCbr4FFIy825qNF\\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\\nFClmJCMBtoTBDR9DT1PxUl57kc+SMAoGCCqGSM49BAMCA0gAMEUCIAqu0t7bwjTw\\nbjw7lhpsbdz9dQgt8ikdtt4StO0lceQ2AiEAggTfye+appgBgpyubgE0GgyIOi1K\\na499ze3jGWwgwus=\\n-----END CERTIFICATE-----\\n\"]}]}"
+    },
+    {
+     "method": "POST",
+     "path": "/api/v2/signingCert",
+     "request_body_sha256": "0348d3f48aa967bb3de9de1b0ee44bd75f3157980e2c848e658b38db4b056dab",
+     "status": 200,
+     "response": "{\"signedCertificateDetachedSct\":{\"chain\":{\"certificates\":[\"-----BEGIN CERTIFICATE-----\\nMIICSjCCAfCgAwIBAgIUF1t7Z8ZLrWLBXxtxdXSRLMuMlDwwCgYIKoZIzj0EAwIw\\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE2MTUwNloXDTI2MTEwMzE2MjUwNlowADBZMBMG\\nByqGSM49AgEGCCqGSM49AwEHA0IABEjVem9U3Se3jZkMfNT2WwKWr6mC7tQApGfS\\nT6zH9185hQUn+K9urd2wPlvkqgwBdzeog298T9kSRWq5WtL0K9ijgd8wgdwwDgYD\\nVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMDMB8GA1UdIwQYMBaAFClm\\nJCMBtoTBDR9DT1PxUl57kc+SMCMGA1UdEQEB/wQZMBeBFXN0dWRlbnRAcGFmdGEu\\naW52YWxpZDAjBgorBgEEAYO/MAEBBBVodHRwOi8vMTI3LjAuMC4xOjU1NTYwJQYK\\nKwYBBAGDvzABCAQXDBVodHRwOi8vMTI3LjAuMC4xOjU1NTYwIwYKKwYBBAGDvzAB\\nGAQVDBNwYWZ0YS1sb2NhbC1zdHVkZW50MAoGCCqGSM49BAMCA0gAMEUCIQD+Tl4r\\nfW4qpHkNeLlLfZvlJ3x0To4YAvqd26Dp9XLFngIgOYMf0oodA9GUuUrhZT6kyyIj\\n9fZEog2aWxAHGBD1mG0=\\n-----END CERTIFICATE-----\", \"-----BEGIN CERTIFICATE-----\\nMIICFzCCAb2gAwIBAgIUIqN1lTKKe8l+MN7ujh7qMJbX6wAwCgYIKoZIzj0EAwIw\\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE2MTUwNVoXDTM2MTEwMzE2MTUwNVowaDEMMAoG\\nA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQxFTATBgNV\\nBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoTCHNpZ3N0\\nb3JlMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaVUzsTaQ/qWygrmNCTcqLTzE\\nQ3mAyvt0qoHk/ZgSfHLPj0BsYSxBQsSqIYlAPSnE9Dux6kjxJpCbr4FFIy825qNF\\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\\nFClmJCMBtoTBDR9DT1PxUl57kc+SMAoGCCqGSM49BAMCA0gAMEUCIAqu0t7bwjTw\\nbjw7lhpsbdz9dQgt8ikdtt4StO0lceQ2AiEAggTfye+appgBgpyubgE0GgyIOi1K\\na499ze3jGWwgwus=\\n-----END CERTIFICATE-----\"]}, \"signedCertificateTimestamp\":\"\"}}"
+    }
+   ],
+   "izolasyon": {
+    "Binds": null,
+    "ContainerIDFile": "",
+    "LogConfig": {
+     "Type": "local",
+     "Config": {}
+    },
+    "NetworkMode": "none",
+    "PortBindings": {},
+    "RestartPolicy": {
+     "Name": "no",
+     "MaximumRetryCount": 0
+    },
+    "AutoRemove": false,
+    "VolumeDriver": "",
+    "VolumesFrom": null,
+    "ConsoleSize": [
+     0,
+     0
+    ],
+    "CapAdd": null,
+    "CapDrop": [
+     "ALL"
+    ],
+    "CgroupnsMode": "private",
+    "Dns": null,
+    "DnsOptions": [],
+    "DnsSearch": [],
+    "ExtraHosts": null,
+    "GroupAdd": null,
+    "IpcMode": "private",
+    "Cgroup": "",
+    "Links": null,
+    "OomScoreAdj": 0,
+    "PidMode": "",
+    "Privileged": false,
+    "PublishAllPorts": false,
+    "ReadonlyRootfs": true,
+    "SecurityOpt": [
+     "no-new-privileges"
+    ],
+    "Tmpfs": {
+     "/opt/pafta-s36": "rw,nosuid,nodev,uid=10001,gid=10001,size=100663296",
+     "/tmp": "rw,exec,nosuid,nodev,uid=10001,gid=10001,size=134217728"
+    },
+    "UTSMode": "",
+    "UsernsMode": "",
+    "ShmSize": 67108864,
+    "Runtime": "runc",
+    "Isolation": "",
+    "CpuShares": 0,
+    "Memory": 536870912,
+    "NanoCpus": 2000000000,
+    "CgroupParent": "",
+    "BlkioWeight": 0,
+    "BlkioWeightDevice": [],
+    "BlkioDeviceReadBps": [],
+    "BlkioDeviceWriteBps": [],
+    "BlkioDeviceReadIOps": [],
+    "BlkioDeviceWriteIOps": [],
+    "CpuPeriod": 0,
+    "CpuQuota": 0,
+    "CpuRealtimePeriod": 0,
+    "CpuRealtimeRuntime": 0,
+    "CpusetCpus": "",
+    "CpusetMems": "",
+    "Devices": [],
+    "DeviceCgroupRules": null,
+    "DeviceRequests": null,
+    "MemoryReservation": 0,
+    "MemorySwap": 1073741824,
+    "MemorySwappiness": null,
+    "OomKillDisable": null,
+    "PidsLimit": 128,
+    "Ulimits": null,
+    "CpuCount": 0,
+    "CpuPercent": 0,
+    "IOMaximumIOps": 0,
+    "IOMaximumBandwidth": 0,
+    "MaskedPaths": [
+     "/proc/acpi",
+     "/proc/asound",
+     "/proc/interrupts",
+     "/proc/kcore",
+     "/proc/keys",
+     "/proc/latency_stats",
+     "/proc/sched_debug",
+     "/proc/scsi",
+     "/proc/timer_list",
+     "/proc/timer_stats",
+     "/sys/devices/virtual/powercap",
+     "/sys/firmware"
+    ],
+    "ReadonlyPaths": [
+     "/proc/bus",
+     "/proc/fs",
+     "/proc/irq",
+     "/proc/sys",
+     "/proc/sysrq-trigger"
+    ]
+   },
+   "issuer": "http://127.0.0.1:5556",
+   "identity": "student@pafta.invalid",
+   "fulcio_url": "http://127.0.0.1:32193",
+   "temizlendi": true,
+   "servis_log": "{\"fulcio.stderr\": \"\", \"fulcio.stdout\": \"2026-11-03T16:15:05.190Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:242\\tlistening on grpc at 127.0.0.1:5557\\n2026-11-03T16:15:05.190Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/http.go:138\\tlistening on http at 0.0.0.0:5555\\n2026-11-03T16:15:05.190Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:290\\tlistening on grpc at @fulcio-legacy-grpc-socket\\n2026-11-03T16:15:05.614Z\\t\\u001b[35mDEBUG\\u001b[0m\\tlog/log.go:106\\tfinished unary call with code OK\\t{\\\"grpc.start_time\\\": \\\"2026-11-03T16:15:05Z\\\", \\\"system\\\": \\\"grpc\\\", \\\"span.kind\\\": \\\"server\\\", \\\"grpc.service\\\": \\\"dev.sigstore.fulcio.v2.CA\\\", \\\"grpc.method\\\": \\\"GetTrustBundle\\\", \\\"grpc.code\\\": \\\"OK\\\", \\\"requestID\\\": \\\"qyN7_gxK\\\", \\\"grpc.time_ms\\\": 0.057}\\n2026-11-03T16:15:06.173Z\\t\\u001b[34mINFO\\u001b[0m\\tserver/grpc_server.go:193\\tSkipping CT log upload.\\t{\\\"requestID\\\": \\\"G5vSQ-Nd\\\"}\\n2026-11-03T16:15:06.173Z\\t\\u001b[35mDEBUG\\u001b[0m\\tlog/log.go:106\\tfinished unary call with code OK\\t{\\\"grpc.start_time\\\": \\\"2026-11-03T16:15:06Z\\\", \\\"system\\\": \\\"grpc\\\", \\\"span.kind\\\": \\\"server\\\", \\\"grpc.service\\\": \\\"dev.sigstore.fulcio.v2.CA\\\", \\\"grpc.method\\\": \\\"CreateSigningCertificate\\\", \\\"grpc.code\\\": \\\"OK\\\", \\\"requestID\\\": \\\"G5vSQ-Nd\\\", \\\"grpc.time_ms\\\": 2.992}\\n\"}",
+   "cleanup_errors": [],
+   "tlog": "yok: private lab sertifika/imza akışı; public şeffaflık iddiası yok"
+  }
+ ],
+ "kontroller": [
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true
+ ],
+ "temizlendi": true,
+ "calisma_klasoru": "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-s36-8hvpkbyi",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 445 MiB, 595.95"
+ },
+ "sinir": "Private test OIDC/Fulcio; CT/Rekor/timestamp yok, gerçek insan kimliği/public Sigstore iddiası yok. Private key/token kanıtta değil.",
+ "kabul": true,
+ "pilot": "savunma36-kabul",
+ "zaman": "2026-11-03T19:15:08+03:00",
+ "ogrenci_kodu_sha256": "b47d51b9ccfe4ec5f60839731c471a0a8a397f21b715f116c2dfc30f89119487",
+ "mod": "test"
+}

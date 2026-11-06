@@ -1,0 +1,22 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "KALICI SENTETIK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\iyilestirme-codex-20261030\\ui-data\\calisma\\ai-guvence-25\\ayar.json\n{\n  \"seed\": 2125,\n  \"adim\": 60\n}\n\n{\n \"egitim\": {\n  \"seed\": 2125,\n  \"adim\": 60,\n  \"loss\": [\n   0.769164502620697,\n   0.016262562945485115\n  ],\n  \"ornek\": 192,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"vakalar\": [\n  {\n   \"vaka\": \"saglam\",\n   \"manifest\": {\n    \"sha256\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n    \"kaynak\": \"yerel-sentetik\",\n    \"bicim\": \"safetensors\",\n    \"torch\": \"2.14.1+cu130\"\n   },\n   \"gercek_hash\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n   \"karar\": true,\n   \"beklenen\": true,\n   \"yuklendi\": true\n  },\n  {\n   \"vaka\": \"degismis-dosya\",\n   \"manifest\": {\n    \"sha256\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n    \"kaynak\": \"yerel-sentetik\",\n    \"bicim\": \"safetensors\",\n    \"torch\": \"2.14.1+cu130\"\n   },\n   \"gercek_hash\": \"23f8c6a9e6bccbfa4e74d4aa9c7e640f66d96c1beba2590d6bbe412b476b44b6\",\n   \"karar\": false,\n   \"beklenen\": false,\n   \"yuklendi\": false\n  },\n  {\n   \"vaka\": \"kaynak\",\n   \"manifest\": {\n    \"sha256\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n    \"kaynak\": \"bilinmeyen\",\n    \"bicim\": \"safetensors\",\n    \"torch\": \"2.14.1+cu130\"\n   },\n   \"gercek_hash\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n   \"karar\": false,\n   \"beklenen\": false,\n   \"yuklendi\": false\n  },\n  {\n   \"vaka\": \"bicim\",\n   \"manifest\": {\n    \"sha256\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n    \"kaynak\": \"yerel-sentetik\",\n    \"bicim\": \"pickle\",\n    \"torch\": \"2.14.1+cu130\"\n   },\n   \"gercek_hash\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n   \"karar\": false,\n   \"beklenen\": false,\n   \"yuklendi\": false\n  },\n  {\n   \"vaka\": \"surum\",\n   \"manifest\": {\n    \"sha256\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n    \"kaynak\": \"yerel-sentetik\",\n    \"bicim\": \"safetensors\",\n    \"torch\": \"degisken\"\n   },\n   \"gercek_hash\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n   \"karar\": false,\n   \"beklenen\": false,\n   \"yuklendi\": false\n  },\n  {\n   \"vaka\": \"eksik\",\n   \"manifest\": {},\n   \"gercek_hash\": \"93e65403cd75350fa9f357999644403076ba25dc43ca4193452a8139ef0dd913\",\n   \"karar\": false,\n   \"beklenen\": false,\n   \"yuklendi\": false\n  }\n ],\n \"kontroller\": {\n  \"hash_kaynak_bicim_surum\": true,\n  \"gercek_yukleme_yalniz_saglam\": true\n },\n \"kaynak\": \"gercek\",\n \"ortam\": {\n  \"python\": \"3.13.14\",\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"veri_kokeni\": \"Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.\",\n \"sinir\": \"Yalniz kendi sentetik yerel safetensors artefaktimiz yuklenir. Kaynak allowlist yerel politika girdisidir, imza/uzak sunucu kimlik dogrulamasi degildir. Bu bir modelscan/Syft veya tam sandbox guvencesi degildir.\"\n}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_dhocypns\\guvence-25-deney-1793343765923.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-25-deney",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\guvence-25-deney-1793343765923.json",
+      "zaman": "2026-10-30T10:02:45+03:00"
+    }
+  ]
+}

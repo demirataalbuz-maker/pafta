@@ -1,0 +1,55 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi gerçek KV işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek prefill ve cache'li devam tam hesapla eşdeğer; cache uzunluğu ve gerçek çağrılar doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: devamda cache'i yok sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ilk konum logitlerini alan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: öneki cache'e yeniden ekleyen"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-08-kv-cache",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-08-kv-cache-1793366000533.json",
+      "zaman": "2026-10-30T16:13:19+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

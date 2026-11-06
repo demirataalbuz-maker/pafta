@@ -1,0 +1,115 @@
+{
+  "name": "reference",
+  "okay": true,
+  "seconds": 5.92,
+  "result": {
+    "status": "pass",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "şema, userinfo, açık port, kanonik host ve ASCII sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: https'i http'ye çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: userinfo'yu gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eksik portu tamamlayan"
+      },
+      {
+        "ok": true,
+        "msg": "göreli çözümleme, her hop origin kontrolü ve hop sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: redirect kontrollerini atlayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: hop sınırını büyüten"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: Location değerini yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "rebinding, izinsiz DNS, socket sapması ve temizlik ayrımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: ara DNS değişimini kaçıran"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yalnız son DNS cevabını denetleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: temizliği yalnız socket'e indirgeyen"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek ölçüm yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: dogrudan_origin_ve_redirect"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: DNS_gercek_rapor"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: DNS_sentetik_sinirlar"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: model_cagrilari_tam"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: mesru_model_getirildi"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: korumali_ic_istek_yok"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: kendi_HTTP_kapandi"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: kaynak_temiz"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: cihaz_uygun"
+      },
+      {
+        "ok": true,
+        "msg": "origin/Location kapısı gerçekHTTPönünde ve gerçekDNSpeer raporu; saldırıbaşarısı şart değil"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "saldiri-22-origin",
+        "kaynak": "gercek",
+        "kabul": true,
+        "model": "qwen3:4b-instruct-2507-q4_K_M",
+        "ozet": null,
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-22-20261029\\data\\ai-kanit\\saldiri-22-origin-1793283909004.json",
+        "zaman": "2026-10-29T17:25:08+03:00"
+      }
+    ]
+  }
+}

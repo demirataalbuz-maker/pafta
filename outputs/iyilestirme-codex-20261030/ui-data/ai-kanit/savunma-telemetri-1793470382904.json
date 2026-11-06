@@ -1,0 +1,182 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-savunma-04",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:17091",
+   "sahip": "pafta",
+   "pid": 32452
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "pafta_sureci_kapandi": true
+  }
+ },
+ "ozet": {
+  "olay": 3,
+  "iz": 3,
+  "token_out": 27,
+  "model_ort_sure_ms": 1075.333,
+  "sizan_istem": 0
+ },
+ "olaylar": [
+  {
+   "iz_id": "iz-0",
+   "olay_id": "model-0",
+   "parent_id": null,
+   "tur": "model",
+   "zaman_ms": 0.002200016751885414,
+   "sure_ms": 2878,
+   "alanlar": {
+    "model": "qwen3:4b-instruct-2507-q4_K_M",
+    "token_out": 2,
+    "durum": "ok"
+   }
+  },
+  {
+   "iz_id": "iz-1",
+   "olay_id": "model-1",
+   "parent_id": null,
+   "tur": "model",
+   "zaman_ms": 2877.8426000499167,
+   "sure_ms": 76,
+   "alanlar": {
+    "model": "qwen3:4b-instruct-2507-q4_K_M",
+    "token_out": 4,
+    "durum": "ok"
+   }
+  },
+  {
+   "iz_id": "iz-2",
+   "olay_id": "model-2",
+   "parent_id": null,
+   "tur": "model",
+   "zaman_ms": 2954.3385000433773,
+   "sure_ms": 272,
+   "alanlar": {
+    "model": "qwen3:4b-instruct-2507-q4_K_M",
+    "token_out": 21,
+    "durum": "ok"
+   }
+  }
+ ],
+ "rapor": {
+  "toplam": 3,
+  "iz_sayisi": 3,
+  "hatali": 0,
+  "reddedildi": 0,
+  "token_in": 0,
+  "token_out": 27,
+  "turler": {
+   "model": {
+    "sayi": 3,
+    "ortalama_sure_ms": 1075.333
+   }
+  }
+ },
+ "laboratuvar_deney_kaydi": [
+  {
+   "istem": "İki artı iki kaçtır? Kısa yanıt ver.",
+   "yanit": {
+    "icerik": "4",
+    "arac_cagrilari": [],
+    "sure_ms": 2878,
+    "eval_count": 2,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "basarili": true,
+   "koken": "yalnız bu açık sentetik laboratuvar istemi"
+  },
+  {
+   "istem": "Türkiye'nin başkenti neresidir? Tek kelime.",
+   "yanit": {
+    "icerik": "Ankara",
+    "arac_cagrilari": [],
+    "sure_ms": 76,
+    "eval_count": 4,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "basarili": true,
+   "koken": "yalnız bu açık sentetik laboratuvar istemi"
+  },
+  {
+   "istem": "Suyun deniz seviyesinde kaynama sıcaklığı kaç derecedir? Kısa yanıt.",
+   "yanit": {
+    "icerik": "Deniz seviyesinde kaynama sıcaklığı **100 °C**'dir.",
+    "arac_cagrilari": [],
+    "sure_ms": 272,
+    "eval_count": 21,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "basarili": true,
+   "koken": "yalnız bu açık sentetik laboratuvar istemi"
+  }
+ ],
+ "hatalar": [],
+ "ayarlar": {
+  "sicaklik": 0.2,
+  "en_fazla": 40,
+  "tohumlar": [
+   10,
+   11,
+   12
+  ],
+  "num_ctx": 4096,
+  "istek_adedi": 3
+ },
+ "sinir": "Bu deney kaydı yalnız açık sentetik istemlerin kanıtıdır; güvenli telemetri içerik taşımaz; token_in ölçülmedi",
+ "pilot": "savunma-telemetri",
+ "zaman": "2026-10-31T21:13:02+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 403 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "451f868c7a2a34419d365537d0b2fd35d848ca41f9f1431eb38c5266087c789e",
+ "mod": "test"
+}

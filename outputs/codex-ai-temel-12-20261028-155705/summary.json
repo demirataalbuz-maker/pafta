@@ -1,0 +1,478 @@
+[
+  {
+    "name": "solution",
+    "okay": true,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-12-regresyon",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-12-20261028-155705\\test-data\\ai-kanit\\temel-12-regresyon-1793192233874.json",
+          "zaman": "2026-10-28T15:57:13+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-12-regresyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-12-20261028-155705\\test-data\\ai-kanit\\temel-12-regresyon-1793192241892.json",
+          "zaman": "2026-10-28T15:57:21+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "`gercek_regresyon_raporu` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "gercek_regresyon_raporu"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "fixed",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-12-regresyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-12-20261028-155705\\test-data\\ai-kanit\\temel-12-regresyon-1793192250440.json",
+          "zaman": "2026-10-28T15:57:30+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "always-publish",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-12-regresyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-12-20261028-155705\\test-data\\ai-kanit\\temel-12-regresyon-1793192260239.json",
+          "zaman": "2026-10-28T15:57:40+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "always-block",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-12-regresyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-12-20261028-155705\\test-data\\ai-kanit\\temel-12-regresyon-1793192268934.json",
+          "zaman": "2026-10-28T15:57:48+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "hide-critical",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-12-regresyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-12-20261028-155705\\test-data\\ai-kanit\\temel-12-regresyon-1793192277149.json",
+          "zaman": "2026-10-28T15:57:57+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "strict-threshold",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-12-regresyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-12-20261028-155705\\test-data\\ai-kanit\\temel-12-regresyon-1793192287849.json",
+          "zaman": "2026-10-28T15:58:07+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run-button",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "err",
+          "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  21%|██▏       | 58/272 [00:00<00:00, 571.62it/s]\rLoading weights:  43%|████▎     | 116/272 [00:00<00:00, 241.70it/s]\rLoading weights:  61%|██████    | 166/272 [00:00<00:00, 303.63it/s]\rLoading weights:  76%|███████▌  | 206/272 [00:00<00:00, 322.11it/s]\rLoading weights:  91%|█████████ | 248/272 [00:00<00:00, 337.35it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 333.52it/s]\n"
+        ],
+        [
+          "out",
+          "{'vakalar': [{'id': 'sentetik-1', 'temel_p': 0.9647519638693968, 'yeni_p': 0.01035296728866278, 'temel_guvenli': True, 'yeni_guvenli': False}, {'id': 'sentetik-2', 'temel_p': 0.9698838574006347, 'yeni_p': 0.9698838574006347, 'temel_guvenli': True, 'yeni_guvenli': True}, {'id': 'sentetik-3', 'temel_p': 0.9691858276194413, 'yeni_p': 0.9691858276194413, 'temel_guvenli': True, 'yeni_guvenli': True}], 'temel_oran': 1.0, 'yeni_oran': 0.6666666666666666, 'kazanc': -0.33333333333333337, 'regresyonlar': ['sentetik-1'], 'kritik_regresyonlar': ['sentetik-1'], 'yayin_izin': False}\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": []
+    }
+  }
+]

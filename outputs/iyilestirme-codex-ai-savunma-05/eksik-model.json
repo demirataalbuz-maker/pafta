@@ -1,0 +1,36 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "laboratuvar yamalanmamalı, referans kullanılmamalı "
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: hep tekrarlanabilir"
+    },
+    {
+      "ok": true,
+      "msg": "önceki dar sınırlar ve yalnız çıktı farkı kontrolü korunuyor"
+    },
+    {
+      "ok": true,
+      "msg": "determinizm raporu (çıktı/durum farkı, en az iki koşu) doğru; geçersiz girdi reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "GERÇEK MODEL YOK, deney yapılmadı: Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

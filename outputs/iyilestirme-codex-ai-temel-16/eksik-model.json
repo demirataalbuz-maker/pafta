@@ -1,0 +1,36 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi bağlam işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "bağlam: yalnız izinli alanlar, liste sırası, token maskesi (beşinci karakterde değil) ve UTF-8 JSON doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: maskeleme yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: token alanı seçilebiliyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: alan sırası korunmuyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ASCII kaçışlı JSON"
+    },
+    {
+      "ok": false,
+      "msg": "GERÇEK MODEL YOK, deney yapılmadı: Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

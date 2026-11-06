@@ -1,0 +1,350 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-saldiri-53",
+ "deney": {
+  "kaynak": "gercek",
+  "cihaz": {
+   "device": "cuda"
+  },
+  "versions": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0"
+  },
+  "model": {
+   "id": "HuggingFaceTB/SmolVLM-256M-Instruct",
+   "revision": "7e3e67edbbed1bf9888184d9df282b700a323964",
+   "sha256": "74dea5904032e5ae99a2e0eef5179e6ac0f1dedc3ab0c7c2a5d4d387c843203e",
+   "dtype": "float32",
+   "attention": "eager",
+   "parameters_frozen": true,
+   "parameter_count": 256484928
+  },
+  "processor": {
+   "backend": "pil",
+   "size": 512,
+   "image_splitting": false,
+   "normalization_mean": [
+    0.5,
+    0.5,
+    0.5
+   ],
+   "normalization_std": [
+    0.5,
+    0.5,
+    0.5
+   ]
+  },
+  "prompt": "<|im_start|>User:<image>What color is the square? Answer red or blue.<end_of_utterance>\nAssistant:",
+  "candidate_tokens": [
+   " red",
+   " blue"
+  ],
+  "candidate_ids": [
+   2382,
+   4461
+  ],
+  "objective": "targeted cross entropy restricted to two next-token logits; not full-vocabulary probability or generated answer",
+  "observations": [
+   {
+    "record": {
+     "id": "red-zero",
+     "hedef": 1,
+     "once": 0,
+     "sonra": 0
+    },
+    "color_label": "red",
+    "eps": 0.0,
+    "alpha": 0.00784313725490196,
+    "steps": [
+     {
+      "step": 0,
+      "loss": 2.0481796264648438,
+      "grad_norm": 18.486303329467773,
+      "grad_linf": 1.2420387268066406,
+      "pixel_linf": 0.0,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 1,
+      "loss": 2.0481796264648438,
+      "grad_norm": 18.486303329467773,
+      "grad_linf": 1.2420387268066406,
+      "pixel_linf": 0.0,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 2,
+      "loss": 2.0481796264648438,
+      "grad_norm": 18.486303329467773,
+      "grad_linf": 1.2420387268066406,
+      "pixel_linf": 0.0,
+      "student_projection_error": 0.0
+     }
+    ],
+    "before_logits": [
+     11.79816722869873,
+     9.888066291809082
+    ],
+    "after_logits": [
+     11.79816722869873,
+     9.888066291809082
+    ],
+    "before": {
+     "olasilik": [
+      0.8710304871629683,
+      0.12896951283703179
+     ],
+     "secim": 0
+    },
+    "after": {
+     "olasilik": [
+      0.8710304871629683,
+      0.12896951283703179
+     ],
+     "secim": 0
+    },
+    "linf_png": 5.960464477539063e-08,
+    "clean_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\red-clean.png",
+    "adversarial_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\red-zero.png",
+    "adversarial_sha256": "31d78e0901e2f31ee018c5ec59c28520c1af54d2bb3cebe2d6c9a28b41894733",
+    "zero_control": true
+   },
+   {
+    "record": {
+     "id": "red-attack",
+     "hedef": 1,
+     "once": 0,
+     "sonra": 0
+    },
+    "color_label": "red",
+    "eps": 0.03137254901960784,
+    "alpha": 0.00784313725490196,
+    "steps": [
+     {
+      "step": 0,
+      "loss": 2.0481796264648438,
+      "grad_norm": 18.486303329467773,
+      "grad_linf": 1.2420387268066406,
+      "pixel_linf": 0.00784313678741455,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 1,
+      "loss": 2.252918243408203,
+      "grad_norm": 40.10909652709961,
+      "grad_linf": 1.3858065605163574,
+      "pixel_linf": 0.0156862735748291,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 2,
+      "loss": 0.7367439270019531,
+      "grad_norm": 8.746866226196289,
+      "grad_linf": 0.5550425052642822,
+      "pixel_linf": 0.023529410362243652,
+      "student_projection_error": 0.0
+     }
+    ],
+    "before_logits": [
+     11.79816722869873,
+     9.888066291809082
+    ],
+    "after_logits": [
+     14.347826957702637,
+     14.239179611206055
+    ],
+    "before": {
+     "olasilik": [
+      0.8710304871629683,
+      0.12896951283703179
+     ],
+     "secim": 0
+    },
+    "after": {
+     "olasilik": [
+      0.5271351493761011,
+      0.4728648506238989
+     ],
+     "secim": 0
+    },
+    "linf_png": 0.023529469966888428,
+    "clean_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\red-clean.png",
+    "adversarial_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\red-attack.png",
+    "adversarial_sha256": "9bea678aa5354dcd9f5223a49dab3a3695d656738856235e0fe73e4e6927b822",
+    "zero_control": true
+   },
+   {
+    "record": {
+     "id": "blue-zero",
+     "hedef": 0,
+     "once": 1,
+     "sonra": 1
+    },
+    "color_label": "blue",
+    "eps": 0.0,
+    "alpha": 0.00784313725490196,
+    "steps": [
+     {
+      "step": 0,
+      "loss": 2.710848808288574,
+      "grad_norm": 15.200151443481445,
+      "grad_linf": 0.7923636436462402,
+      "pixel_linf": 0.0,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 1,
+      "loss": 2.710848808288574,
+      "grad_norm": 15.200151443481445,
+      "grad_linf": 0.7923636436462402,
+      "pixel_linf": 0.0,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 2,
+      "loss": 2.710848808288574,
+      "grad_norm": 15.200151443481445,
+      "grad_linf": 0.7923636436462402,
+      "pixel_linf": 0.0,
+      "student_projection_error": 0.0
+     }
+    ],
+    "before_logits": [
+     10.31003475189209,
+     12.9520902633667
+    ],
+    "after_logits": [
+     10.31003475189209,
+     12.9520902633667
+    ],
+    "before": {
+     "olasilik": [
+      0.06648035532627077,
+      0.9335196446737293
+     ],
+     "secim": 1
+    },
+    "after": {
+     "olasilik": [
+      0.06648035532627077,
+      0.9335196446737293
+     ],
+     "secim": 1
+    },
+    "linf_png": 5.960464477539063e-08,
+    "clean_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\blue-clean.png",
+    "adversarial_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\blue-zero.png",
+    "adversarial_sha256": "83c2a77aec9fecd16afe0961bb6a92247a123e0759b57ce61af0a1a130861c2e",
+    "zero_control": true
+   },
+   {
+    "record": {
+     "id": "blue-attack",
+     "hedef": 0,
+     "once": 1,
+     "sonra": 0
+    },
+    "color_label": "blue",
+    "eps": 0.03137254901960784,
+    "alpha": 0.00784313725490196,
+    "steps": [
+     {
+      "step": 0,
+      "loss": 2.710848808288574,
+      "grad_norm": 15.200151443481445,
+      "grad_linf": 0.7923636436462402,
+      "pixel_linf": 0.00784313678741455,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 1,
+      "loss": 1.4190473556518555,
+      "grad_norm": 9.933039665222168,
+      "grad_linf": 0.3441412150859833,
+      "pixel_linf": 0.0156862735748291,
+      "student_projection_error": 0.0
+     },
+     {
+      "step": 2,
+      "loss": 0.2055654525756836,
+      "grad_norm": 2.1006457805633545,
+      "grad_linf": 0.12458965927362442,
+      "pixel_linf": 0.023529410362243652,
+      "student_projection_error": 0.0
+     }
+    ],
+    "before_logits": [
+     10.31003475189209,
+     12.9520902633667
+    ],
+    "after_logits": [
+     6.026500701904297,
+     3.1813299655914307
+    ],
+    "before": {
+     "olasilik": [
+      0.06648035532627077,
+      0.9335196446737293
+     ],
+     "secim": 1
+    },
+    "after": {
+     "olasilik": [
+      0.9450685144911567,
+      0.05493148550884333
+     ],
+     "secim": 0
+    },
+    "linf_png": 0.023529469966888428,
+    "clean_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\blue-clean.png",
+    "adversarial_png": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050\\blue-attack.png",
+    "adversarial_sha256": "948792c73ba821970c524fa7d82854e0008615fe773955a48a3024da4c84310b",
+    "zero_control": true
+   }
+  ],
+  "summaries": [
+   {
+    "group": "zero",
+    "report": {
+     "toplam": 2,
+     "hedef_zaten_once": 0,
+     "hedef_sonra": 0,
+     "hedefe_donen": 0,
+     "yeni_basari_orani": 0.0
+    }
+   },
+   {
+    "group": "attack",
+    "report": {
+     "toplam": 2,
+     "hedef_zaten_once": 0,
+     "hedef_sonra": 1,
+     "hedefe_donen": 1,
+     "yeni_basari_orani": 0.5
+    }
+   }
+  ],
+  "kontroller": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "gpu_peak_allocated_bytes": 2233939456,
+  "media_dir": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-53\\guard-data\\ai-kanit-media\\vlm53-0a51d84c40bc445b841ad07edeaca050",
+  "cleanup": "owned harness process; no external server or user model managed"
+ },
+ "pilot": "saldiri53-kabul",
+ "zaman": "2026-11-04T00:11:41+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 732 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "3e3b72c7908f1a9cb0d445c94951b77f6bc90106519cfb829c061fbc74948084",
+ "mod": "test"
+}

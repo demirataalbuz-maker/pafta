@@ -1,0 +1,65 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi bağlam işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "korumalı bağlam (erişim süzme + ilk k + kaçışlı etiketleme) doğru; geçersiz girdi reddedilmeli"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: erişim süzmeyen"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kaçış yapmayan"
+    },
+    {
+      "ok": true,
+      "msg": "erişim denetimi: admin sırrı korumalı bağlamda yok (naif bağlamda var: True)"
+    },
+    {
+      "ok": true,
+      "msg": "kaçışlama: forum notundaki sahte </kaynak><kaynak id=admin> breakout'u korumalı bağlamda ham görünmüyor"
+    },
+    {
+      "ok": true,
+      "msg": "yerel model yanıt verdi (2/2)"
+    },
+    {
+      "ok": true,
+      "msg": "BULGU (qwen3:4b-instruct-2507-q4_K_M): erişim denetimi admin sırrını korumalı bağlamdan çıkardı (sır_korumalı=False, sır_naif=True), ham sahte etiket kaçışlandı (True); canary yanıta geçti mi — naif False, korumalı False (ölçülür, geçme şartı değil)."
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-savunma",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "gecerli": 2,
+        "sir_korumalida": false,
+        "sir_naifte": true,
+        "kacis_etkili": true,
+        "canary_sizdi_naif": false,
+        "canary_sizdi_korumali": false,
+        "sir_sizdi_naif": false,
+        "sir_sizdi_korumali": false,
+        "dogru_korumali": true
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-savunma-1793433581030.json",
+      "zaman": "2026-10-31T10:59:40+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi akış raporunu yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "sentetik akış: birleştirme, parça, done_reason, TTFT, kesilme ve geçersiz girdiler doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: son parçayı metin sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: TTFT'yi son parça sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kesilmeyi yok sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: parçayı token sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+    },
+    {
+      "ok": true,
+      "msg": "yerel sunucu akışlı yanıt verdi (6/6 istek hatasız)"
+    },
+    {
+      "ok": true,
+      "msg": "akış çözümü, TTFT ve token sayısı bağımsız hesapla aynı"
+    },
+    {
+      "ok": true,
+      "msg": "num_predict token sınırı en az bir isteği kesti (done_reason=length): 3"
+    },
+    {
+      "ok": true,
+      "msg": "her geçerli istekte ilk token süresi (TTFT) ölçüldü"
+    },
+    {
+      "ok": true,
+      "msg": "iki gerçek HTTP istemci çağrısı çakışan aralıklarda tamamlandı; iç batching kanıtı değil"
+    },
+    {
+      "ok": true,
+      "msg": "BULGU (qwen3:4b-instruct-2507-q4_K_M): 6 istek akışla yanıtlandı; TTFT 43–3760 ms, ~80.3 token/sn; 3 istek num_predict ile kesildi (length), 3 istek durak jetonuyla bitti (stop)."
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-akis",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "istek": 6,
+        "gecerli": 6,
+        "kesilen": 3,
+        "durak": 3,
+        "ttft_ms_min": 43,
+        "ttft_ms_maks": 3760,
+        "tokens_sn_ort": 80.3,
+        "toplam_parca": 115
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-akis-1793387465792.json",
+      "zaman": "2026-10-30T22:11:00+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

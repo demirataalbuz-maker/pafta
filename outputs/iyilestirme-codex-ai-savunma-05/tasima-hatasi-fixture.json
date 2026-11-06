@@ -1,0 +1,92 @@
+{
+  "kaynak": "fixture",
+  "kabul": false,
+  "aciklama": "Yalnız yardımcı kontrolü; gerçek model çağrısı/kabulü değil",
+  "sonuc": {
+    "ortam": {
+      "model": {
+        "ad": "fixture"
+      },
+      "temizlik": "fixture; sunucu acilmadi"
+    },
+    "istem": "3 ile 7'yi çarp. Yanıtın yalnızca sonuç sayısı olsun.",
+    "tohum": 42,
+    "tekrar": 3,
+    "ciktilar": [
+      "",
+      "",
+      ""
+    ],
+    "kosular": [
+      {
+        "test": "determinizm",
+        "kosum": 1,
+        "tohum": 42,
+        "girdi_sha256": "385c1950d9d43808171721e0037bf7b8716f3b3401aa8a9e062726157163e4e7",
+        "cikti_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "durum": "hata"
+      },
+      {
+        "test": "determinizm",
+        "kosum": 2,
+        "tohum": 42,
+        "girdi_sha256": "385c1950d9d43808171721e0037bf7b8716f3b3401aa8a9e062726157163e4e7",
+        "cikti_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "durum": "hata"
+      },
+      {
+        "test": "determinizm",
+        "kosum": 3,
+        "tohum": 42,
+        "girdi_sha256": "385c1950d9d43808171721e0037bf7b8716f3b3401aa8a9e062726157163e4e7",
+        "cikti_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "durum": "hata"
+      }
+    ],
+    "rapor": [
+      {
+        "test": "determinizm",
+        "kosum_sayisi": 3,
+        "tekrarlanabilir": false,
+        "nedenler": [
+          "durum"
+        ]
+      }
+    ],
+    "ayni_cikti": true,
+    "cagri_kayitlari": [
+      {
+        "kosum": 1,
+        "basarili": false,
+        "hata": "SENTETIK_TASIMA_HATASI"
+      },
+      {
+        "kosum": 2,
+        "basarili": false,
+        "hata": "SENTETIK_TASIMA_HATASI"
+      },
+      {
+        "kosum": 3,
+        "basarili": false,
+        "hata": "SENTETIK_TASIMA_HATASI"
+      }
+    ],
+    "hatalar": [
+      {
+        "kosum": 1,
+        "tur": "RuntimeError",
+        "hata": "SENTETIK_TASIMA_HATASI"
+      },
+      {
+        "kosum": 2,
+        "tur": "RuntimeError",
+        "hata": "SENTETIK_TASIMA_HATASI"
+      },
+      {
+        "kosum": 3,
+        "tur": "RuntimeError",
+        "hata": "SENTETIK_TASIMA_HATASI"
+      }
+    ]
+  }
+}

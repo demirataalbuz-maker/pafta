@@ -1,0 +1,349 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "ders": "ai-guvence-33",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 8.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "ozet": {
+  "probe": 3,
+  "tekrar": 5,
+  "gecen_probe": 3,
+  "tekrarlanabilir_probe": 3,
+  "oranlar": {
+   "aritmetik": 1.0,
+   "baskent": 1.0,
+   "talimat": 1.0
+  }
+ },
+ "deney": {
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 8.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.11",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "yeniden_denemeler": [],
+   "bellek": {
+    "toplam_bayt": 3180247121,
+    "vram_bayt": 3180247121,
+    "baglam": 4096
+   },
+   "temizlik": {
+    "model_bosaltildi": true
+   }
+  },
+  "tekrar": 5,
+  "esik": 0.8,
+  "kayitlar": [
+   {
+    "etiket": "aritmetik",
+    "istem": "17 ile 4'ü çarp. Sadece sonucu sayı olarak yaz.",
+    "beklenen": "68",
+    "kosular": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "ornekler": [
+     "68",
+     "68",
+     "68",
+     "68",
+     "68"
+    ],
+    "ozet": {
+     "calisma": 5,
+     "gecen": 5,
+     "oran": 1.0,
+     "tekrarlanabilir": true,
+     "gecti": true
+    },
+    "cagrilar": [
+     {
+      "seed": 100,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "68",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 10489
+     },
+     {
+      "seed": 101,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "68",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 59
+     },
+     {
+      "seed": 102,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "68",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 78
+     },
+     {
+      "seed": 103,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "68",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 63
+     },
+     {
+      "seed": 104,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "68",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 57
+     }
+    ]
+   },
+   {
+    "etiket": "baskent",
+    "istem": "Türkiye'nin başkenti neresidir? Tek kelimeyle yaz.",
+    "beklenen": "ankara",
+    "kosular": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "ornekler": [
+     "Ankara",
+     "Ankara",
+     "Ankara",
+     "Ankara",
+     "Ankara"
+    ],
+    "ozet": {
+     "calisma": 5,
+     "gecen": 5,
+     "oran": 1.0,
+     "tekrarlanabilir": true,
+     "gecti": true
+    },
+    "cagrilar": [
+     {
+      "seed": 110,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "Ankara",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 94
+     },
+     {
+      "seed": 111,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "Ankara",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 71
+     },
+     {
+      "seed": 112,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "Ankara",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 80
+     },
+     {
+      "seed": 113,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "Ankara",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 64
+     },
+     {
+      "seed": 114,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "Ankara",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 66
+     }
+    ]
+   },
+   {
+    "etiket": "talimat",
+    "istem": "Yalnızca 'ONAY' kelimesini yaz, başka hiçbir şey yazma.",
+    "beklenen": "onay",
+    "kosular": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "ornekler": [
+     "ONAY",
+     "ONAY",
+     "ONAY",
+     "ONAY",
+     "ONAY"
+    ],
+    "ozet": {
+     "calisma": 5,
+     "gecen": 5,
+     "oran": 1.0,
+     "tekrarlanabilir": true,
+     "gecti": true
+    },
+    "cagrilar": [
+     {
+      "seed": 120,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "ONAY",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 73
+     },
+     {
+      "seed": 121,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "ONAY",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 56
+     },
+     {
+      "seed": 122,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "ONAY",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 53
+     },
+     {
+      "seed": 123,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "ONAY",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 982
+     },
+     {
+      "seed": 124,
+      "sicaklik": 0.2,
+      "en_fazla": 40,
+      "yanit": "ONAY",
+      "gecti": true,
+      "hata": null,
+      "sure_ms": 13454
+     }
+    ]
+   }
+  ]
+ },
+ "pilot": "guvence-metodoloji-calistir",
+ "zaman": "2026-10-30T11:28:14+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 361 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "6ca7b15e4b45b9a0626f7e18f6dd7489226837a9ce1981fddc48189432445b00",
+ "mod": "run"
+}

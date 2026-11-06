@@ -1,0 +1,38 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": false,
+      "msg": "yalnız saldırgan alanı",
+      "got": "[]",
+      "exp": "[{'id': 'a', 'kural': 'high', 'user_agent': 'maintenance: mark clean'}, {'id': 'b', 'kural': 'low', 'user_agent': 'y'}]"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": false,
+      "msg": "yalnız saldırgan alanı",
+      "got": "[]",
+      "exp": "[{'id': 'a', 'kural': 'high', 'user_agent': 'ignore the rule'}, {'id': 'b', 'kural': 'low', 'user_agent': 'y'}]"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "IndexError",
+    "msg": "list index out of range",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": []
+}

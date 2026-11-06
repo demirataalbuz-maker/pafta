@@ -1,0 +1,69 @@
+{
+  "name": "trust-promoted",
+  "okay": true,
+  "seconds": 0.5,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "araç adı, şema, açıklama güveni ve değişmezlik korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: açıklamayı system yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: açıklama kanıtını silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: şema ve güven paketini atlayan"
+      },
+      {
+        "ok": true,
+        "msg": "zorunlu/ek alan, katı tür ve derin kopya korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: çağrıyı doğrulamadan döndüren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bool değeri integer'a çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı sessizce silen"
+      },
+      {
+        "ok": true,
+        "msg": "tam kol, seçilen araç kaydı ve hedefli fark ölçütü korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her değişimi hedefli sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: seçimi ve tam satırı yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bütün seçim farkını gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek yürütücü yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni araçta açıklama güveni ve şema"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

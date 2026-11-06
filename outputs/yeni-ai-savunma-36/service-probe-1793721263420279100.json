@@ -1,0 +1,22 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "saglik": false,
+  "hata": "RuntimeError: Local Fulcio supervisor: Traceback (most recent call last):\n  File \"/opt/pafta-s36/supervisor.py\", line 31, in <module>\n    try:main()\n  File \"/opt/pafta-s36/supervisor.py\", line 30, in main\n    if child.returncode not in (0,-15):raise SystemExit('Fulcio exited '+str(child.returncode))\nSystemExit: Fulcio exited 1",
+  "ortam": {
+    "kaynak": "gercek",
+    "fulcio_surumu": "v1.9.1",
+    "binary_sha256": "d851e6fcc33bad57a08435e41fe082d8cc466f99c57d2fae156e82941f84ea31",
+    "image_id": "sha256:e70da0b4dd92ebe0fbc6c838a1d1df15da6a86f1c249caeaf698c5f47aad1590",
+    "image_reference": "pafta-ai-s51:mlflow-2.1.1",
+    "kendi_container": "e2c8fb8ea6c2175c939b4aaf3bb563e056d6fd67ff48a51992fa06cf0776a79e",
+    "kendi_network": "c8e05b363ed8301540d8f9df4724d298a3d31b69578663799f1674df3fb80228",
+    "issuer": "http://127.0.0.1:5556",
+    "identity": "student@pafta.invalid",
+    "fulcio_url": "http://127.0.0.1:32095",
+    "temizlendi": true,
+    "servis_log": "{\"supervisor.error\": \"Traceback (most recent call last):\\n  File \\\"/opt/pafta-s36/supervisor.py\\\", line 31, in <module>\\n    try:main()\\n  File \\\"/opt/pafta-s36/supervisor.py\\\", line 30, in main\\n    if child.returncode not in (0,-15):raise SystemExit('Fulcio exited '+str(child.returncode))\\nSystemExit: Fulcio exited 1\\n\", \"fulcio.stderr\": \"ode) and the shared listener (duplex mode)\\n      --idle-connection-timeout duration    The time allowed for connections (HTTP or gRPC) to go idle before being closed by the server (default 30s)\\n      --kms-cert-chain-path string          Path to PEM-encoded CA certificate chain for KMS-backed CA\\n      --kms-resource string                 KMS key resource path. Must be prefixed with awskms://, azurekms://, gcpkms://, or hashivault://\\n      --legacy-unix-domain-socket string    The Unix domain socket used for the legacy gRPC server (default \\\"@fulcio-legacy-grpc-socket\\\")\\n      --log_type string                     logger type to use (dev/prod) (default \\\"dev\\\")\\n      --metrics-port string                 The port on which to serve prometheus metrics endpoint (default \\\"2112\\\")\\n      --oidc-blocked-cidrs strings          List of additional IP addresses or CIDR ranges to block when making OIDC discovery and JWKS requests\\n      --pkcs11-config-path string           path to fulcio pkcs11 config file (default \\\"config/crypto11.conf\\\")\\n      --port string                         The port on which to serve requests for HTTP; --http-port is alias (default \\\"8080\\\")\\n      --read-header-timeout duration        The time allowed to read the headers of the requests in seconds (default 10s)\\n      --tink-cert-chain-path string         Path to PEM-encoded CA certificate chain for Tink-backed CA\\n      --tink-keyset-path string             Path to KMS-encrypted keyset for Tink-backed CA\\n      --tink-kms-resource string            KMS key resource path for encrypted Tink keyset. Must be prefixed with gcp-kms:// or aws-kms://\\n      --tls-cipher-suites strings           allowed TLS 1.2 cipher suite names (crypto/tls spelling) applied to all serving paths; empty keeps the crypto/tls default. Has no effect on TLS 1.3.\\n      --tls-min-version string              minimum TLS version for all serving paths (1.2 or 1.3); when unset defaults to 1.3. Lower to 1.2 for peers that cannot negotiate TLS 1.3.\\n\\n\", \"fulcio.stdout\": \"2026-11-03T15:54:08.032Z\\t\\u001b[31mERROR\\u001b[0m\\tapp/root.go:38\\tunknown flag: --metrics-host\\ngithub.com/sigstore/fulcio/cmd/app.Execute\\n\\tgithub.com/sigstore/fulcio@v1.9.1/cmd/app/root.go:38\\nmain.main\\n\\tgithub.com/sigstore/fulcio@v1.9.1/main.go:25\\nruntime.main\\n\\truntime/proc.go:302\\n\"}",
+    "cleanup_errors": [],
+    "tlog": "yok: private lab sertifika/imza akışı; public şeffaflık iddiası yok"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "not": "Yerel araç fizibilite sondası; henüz ders kabulü değil",
+  "nmap": "C:\\Program Files (x86)\\Nmap\\nmap.EXE",
+  "binary_sha256": "59d9f0f86a34a25ea2c39754c0efde40e2412170462b18d658219f0cd611471b",
+  "version": "Nmap version 7.80 ( https://nmap.org )\nPlatform: i686-pc-windows-windows\nCompiled with: nmap-liblua-5.3.5 openssl-1.0.2s nmap-libssh2-1.8.2 nmap-libz-1.2.11 nmap-libpcre-7.6 Npcap-0.9982 nmap-libdnet-1.12 ipv6\nCompiled without:\nAvailable nsock engines: iocp poll select\n",
+  "ports": [
+    25224,
+    25225,
+    25226
+  ],
+  "rows": [
+    {
+      "phase": "iki-acik",
+      "argv": [
+        "C:\\Program Files (x86)\\Nmap\\nmap.EXE",
+        "-sT",
+        "-Pn",
+        "-n",
+        "--unprivileged",
+        "--max-retries",
+        "0",
+        "--host-timeout",
+        "15s",
+        "-p",
+        "25224,25225,25226",
+        "-oX",
+        "-",
+        "127.0.0.1"
+      ],
+      "returncode": 0,
+      "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///C:/Program Files (x86)/Nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.80 scan initiated Tue Nov 03 19:36:51 2026 as: &quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 15s -p 25224,25225,25226 -oX - 127.0.0.1 -->\n<nmaprun scanner=\"nmap\" args=\"&quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 15s -p 25224,25225,25226 -oX - 127.0.0.1\" start=\"1793723811\" startstr=\"Tue Nov 03 19:36:51 2026\" version=\"7.80\" xmloutputversion=\"1.04\">\n<scaninfo type=\"connect\" protocol=\"tcp\" numservices=\"3\" services=\"25224-25226\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1793723811\" endtime=\"1793723811\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"127.0.0.1\" addrtype=\"ipv4\"/>\n<hostnames>\n</hostnames>\n<ports><port protocol=\"tcp\" portid=\"25224\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"25225\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"25226\"><state state=\"filtered\" reason=\"no-response\" reason_ttl=\"0\"/></port>\n</ports>\n<times srtt=\"1000\" rttvar=\"3750\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1793723811\" timestr=\"Tue Nov 03 19:36:51 2026\" elapsed=\"0.17\" summary=\"Nmap done at Tue Nov 03 19:36:51 2026; 1 IP address (1 host up) scanned in 0.17 seconds\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>\n",
+      "stderr": "WARNING: Could not import all necessary Npcap functions. You may need to upgrade to the latest version from https://npcap.org. Resorting to connect() mode -- Nmap may not function completely\n",
+      "states": {
+        "25224": "open",
+        "25225": "open",
+        "25226": "filtered"
+      }
+    },
+    {
+      "phase": "biri-kapandi",
+      "argv": [
+        "C:\\Program Files (x86)\\Nmap\\nmap.EXE",
+        "-sT",
+        "-Pn",
+        "-n",
+        "--unprivileged",
+        "--max-retries",
+        "0",
+        "--host-timeout",
+        "15s",
+        "-p",
+        "25224,25225,25226",
+        "-oX",
+        "-",
+        "127.0.0.1"
+      ],
+      "returncode": 0,
+      "xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///C:/Program Files (x86)/Nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.80 scan initiated Tue Nov 03 19:36:52 2026 as: &quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 15s -p 25224,25225,25226 -oX - 127.0.0.1 -->\n<nmaprun scanner=\"nmap\" args=\"&quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 15s -p 25224,25225,25226 -oX - 127.0.0.1\" start=\"1793723812\" startstr=\"Tue Nov 03 19:36:52 2026\" version=\"7.80\" xmloutputversion=\"1.04\">\n<scaninfo type=\"connect\" protocol=\"tcp\" numservices=\"3\" services=\"25224-25226\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1793723812\" endtime=\"1793723812\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"127.0.0.1\" addrtype=\"ipv4\"/>\n<hostnames>\n</hostnames>\n<ports><port protocol=\"tcp\" portid=\"25224\"><state state=\"filtered\" reason=\"no-response\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"25225\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"25226\"><state state=\"filtered\" reason=\"no-response\" reason_ttl=\"0\"/></port>\n</ports>\n<times srtt=\"1000\" rttvar=\"5000\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1793723812\" timestr=\"Tue Nov 03 19:36:52 2026\" elapsed=\"0.14\" summary=\"Nmap done at Tue Nov 03 19:36:52 2026; 1 IP address (1 host up) scanned in 0.14 seconds\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>\n",
+      "stderr": "WARNING: Could not import all necessary Npcap functions. You may need to upgrade to the latest version from https://npcap.org. Resorting to connect() mode -- Nmap may not function completely\n",
+      "states": {
+        "25224": "filtered",
+        "25225": "open",
+        "25226": "filtered"
+      }
+    }
+  ],
+  "expected_observed": false,
+  "own_servers_stopped": true
+}

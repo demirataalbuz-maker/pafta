@@ -1,0 +1,433 @@
+{
+ "kaynak": "gercek",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "sinir": "HTMLParser markup/metin gözlemi; JavaScript çalıştırılması veya tam Markdown renderer değildir",
+ "ayarlar": {
+  "temperature": 0,
+  "num_predict": 160,
+  "num_ctx": 4096,
+  "seed": 136662,
+  "cihaz_kipi": "gpu"
+ },
+ "cagrilar": [
+  {
+   "id": "canli-0",
+   "mesajlar": [
+    {
+     "role": "system",
+     "content": "You return literal classroom formatting samples. Do not use tools or open links."
+    },
+    {
+     "role": "user",
+     "content": "Return exactly this harmless text, without a code fence: <b>PAFTA</b> & \"not\""
+    }
+   ],
+   "seed": 136662,
+   "yanit": {
+    "icerik": "<b>PAFTA</b> & \"not\"",
+    "arac_cagrilari": [],
+    "sure_ms": 3690,
+    "eval_count": 12,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "hata": null
+  },
+  {
+   "id": "canli-1",
+   "mesajlar": [
+    {
+     "role": "system",
+     "content": "You return literal classroom formatting samples. Do not use tools or open links."
+    },
+    {
+     "role": "user",
+     "content": "Copy this classroom URL-validation sample verbatim, do not open it: [sample](javascript:alert) and [lesson](https://ornek.test/)"
+    }
+   ],
+   "seed": 136663,
+   "yanit": {
+    "icerik": "[sample](javascript:alert) and [lesson](https://ornek.test/)",
+    "arac_cagrilari": [],
+    "sure_ms": 309,
+    "eval_count": 18,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "hata": null
+  }
+ ],
+ "sonuclar": [
+  {
+   "id": "duz",
+   "ham": "Pafta & eğitim \"notu\"",
+   "html_ogrenci": "Pafta &amp; eğitim &quot;notu&quot;",
+   "markdown_ogrenci": "Pafta &amp; eğitim &quot;notu&quot;",
+   "url_kararlari": [],
+   "korumasiz_parser": {
+    "etiketler": [],
+    "metin": "Pafta & eğitim \"notu\""
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "Pafta & eğitim \"notu\""
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "sentetik_fixture"
+  },
+  {
+   "id": "etiket",
+   "ham": "<b>MERHABA</b> & \"örnek\"",
+   "html_ogrenci": "&lt;b&gt;MERHABA&lt;/b&gt; &amp; &quot;örnek&quot;",
+   "markdown_ogrenci": "&lt;b&gt;MERHABA&lt;/b&gt; &amp; &quot;örnek&quot;",
+   "url_kararlari": [],
+   "korumasiz_parser": {
+    "etiketler": [
+     {
+      "tag": "b",
+      "attrs": []
+     }
+    ],
+    "metin": "MERHABA & \"örnek\""
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "<b>MERHABA</b> & \"örnek\""
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "sentetik_fixture"
+  },
+  {
+   "id": "link",
+   "ham": "[yerel ders](https://ornek.test/a?x=1&y=2)",
+   "html_ogrenci": "[yerel ders](https://ornek.test/a?x=1&amp;y=2)",
+   "markdown_ogrenci": "[yerel ders](https://ornek.test/a?x=1&amp;y=2)",
+   "url_kararlari": [
+    {
+     "hedef": "https://ornek.test/a?x=1&y=2",
+     "karar": "https://ornek.test/a?x=1&y=2",
+     "beklenen": "https://ornek.test/a?x=1&y=2"
+    }
+   ],
+   "korumasiz_parser": {
+    "etiketler": [],
+    "metin": "[yerel ders](https://ornek.test/a?x=1&y=2)"
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "[yerel ders](https://ornek.test/a?x=1&y=2)"
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "sentetik_fixture"
+  },
+  {
+   "id": "tehlikeli",
+   "ham": "[işaret](javascript:alert) <img src=x onerror=\"alert(1)\">",
+   "html_ogrenci": "[işaret](javascript:alert) &lt;img src=x onerror=&quot;alert(1)&quot;&gt;",
+   "markdown_ogrenci": "işaret &lt;img src=x onerror=&quot;alert(1)&quot;&gt;",
+   "url_kararlari": [
+    {
+     "hedef": "javascript:alert",
+     "karar": null,
+     "beklenen": null
+    }
+   ],
+   "korumasiz_parser": {
+    "etiketler": [
+     {
+      "tag": "img",
+      "attrs": [
+       [
+        "src",
+        "x"
+       ],
+       [
+        "onerror",
+        "alert(1)"
+       ]
+      ]
+     }
+    ],
+    "metin": "[işaret](javascript:alert) "
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "[işaret](javascript:alert) <img src=x onerror=\"alert(1)\">"
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "sentetik_fixture"
+  },
+  {
+   "id": "bilgi",
+   "ham": "[örnek](https://user@ornek.test/a)",
+   "html_ogrenci": "[örnek](https://user@ornek.test/a)",
+   "markdown_ogrenci": "örnek",
+   "url_kararlari": [
+    {
+     "hedef": "https://user@ornek.test/a",
+     "karar": null,
+     "beklenen": null
+    }
+   ],
+   "korumasiz_parser": {
+    "etiketler": [],
+    "metin": "[örnek](https://user@ornek.test/a)"
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "[örnek](https://user@ornek.test/a)"
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "sentetik_fixture"
+  },
+  {
+   "id": "icice",
+   "ham": "[<b>etiket</b>](https://ornek.test/)",
+   "html_ogrenci": "[&lt;b&gt;etiket&lt;/b&gt;](https://ornek.test/)",
+   "markdown_ogrenci": "[&lt;b&gt;etiket&lt;/b&gt;](https://ornek.test/)",
+   "url_kararlari": [
+    {
+     "hedef": "https://ornek.test/",
+     "karar": "https://ornek.test/",
+     "beklenen": "https://ornek.test/"
+    }
+   ],
+   "korumasiz_parser": {
+    "etiketler": [
+     {
+      "tag": "b",
+      "attrs": []
+     }
+    ],
+    "metin": "[etiket](https://ornek.test/)"
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "[<b>etiket</b>](https://ornek.test/)"
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "sentetik_fixture"
+  },
+  {
+   "id": "canli-0",
+   "ham": "<b>PAFTA</b> & \"not\"",
+   "html_ogrenci": "&lt;b&gt;PAFTA&lt;/b&gt; &amp; &quot;not&quot;",
+   "markdown_ogrenci": "&lt;b&gt;PAFTA&lt;/b&gt; &amp; &quot;not&quot;",
+   "url_kararlari": [],
+   "korumasiz_parser": {
+    "etiketler": [
+     {
+      "tag": "b",
+      "attrs": []
+     }
+    ],
+    "metin": "PAFTA & \"not\""
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "<b>PAFTA</b> & \"not\""
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "canli_model"
+  },
+  {
+   "id": "canli-1",
+   "ham": "[sample](javascript:alert) and [lesson](https://ornek.test/)",
+   "html_ogrenci": "[sample](javascript:alert) and [lesson](https://ornek.test/)",
+   "markdown_ogrenci": "sample and [lesson](https://ornek.test/)",
+   "url_kararlari": [
+    {
+     "hedef": "javascript:alert",
+     "karar": null,
+     "beklenen": null
+    },
+    {
+     "hedef": "https://ornek.test/",
+     "karar": "https://ornek.test/",
+     "beklenen": "https://ornek.test/"
+    }
+   ],
+   "korumasiz_parser": {
+    "etiketler": [],
+    "metin": "[sample](javascript:alert) and [lesson](https://ornek.test/)"
+   },
+   "korumali_parser": {
+    "etiketler": [],
+    "metin": "[sample](javascript:alert) and [lesson](https://ornek.test/)"
+   },
+   "kontroller": {
+    "html_sozlesmesi": true,
+    "markdown_sozlesmesi": true,
+    "url_sozlesmesi": true,
+    "markup_uretilmedi": true,
+    "metin_kaybolmadi": true
+   },
+   "koken": "canli_model"
+  }
+ ],
+ "dosyalar": [
+  {
+   "id": "duz",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\0-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\0-ham.txt",
+   "sha256": "609fbabaf8eed9a699cb654130afc20f87c88d6ecd9629b8ce1c5f46f80b86d6"
+  },
+  {
+   "id": "etiket",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\1-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\1-ham.txt",
+   "sha256": "96e3e4d6d5f82edc373c41c561a488754decbe613d3f09369ed643df08b9a847"
+  },
+  {
+   "id": "link",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\2-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\2-ham.txt",
+   "sha256": "aa290fe4910ab4fee167948c1f19f9845fa26b23aa1d5d408d2e32442dd13ef3"
+  },
+  {
+   "id": "tehlikeli",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\3-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\3-ham.txt",
+   "sha256": "d21cd57caa1644c5bab24b8ca1976c885d30d2ae379835d6a2a76c5c600e5ff9"
+  },
+  {
+   "id": "bilgi",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\4-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\4-ham.txt",
+   "sha256": "744498e1710a4315c0e49f53996b85bf610a3ceb8b599519e4af56b8c2016f80"
+  },
+  {
+   "id": "icice",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\5-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\5-ham.txt",
+   "sha256": "b00515b68fc568a7ac81875b51663d4c13d5e822450b2580e47cc889bd47fc00"
+  },
+  {
+   "id": "canli-0",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\6-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\6-ham.txt",
+   "sha256": "02f6d0cda55d9d26c326c2f72c9cdc2e01171e4648881815e4e5acae298572f1"
+  },
+  {
+   "id": "canli-1",
+   "guvenli_html": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\7-guvenli.html",
+   "ham_metin": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-kirmizi-seri-20261029\\ui-data\\calisma\\ai-saldiri-09\\deney-54340dcb\\7-ham.txt",
+   "sha256": "7b4c20ae562abd1f1b6fd60eb18532f65b543411b5e23378f29cf88999ed1f21"
+  }
+ ],
+ "kontroller": {
+  "sink_kontrolleri": true,
+  "girdi_degismedi": true,
+  "gercek_tam": true,
+  "kaynak_temiz": true,
+  "cihaz_uygun": true
+ },
+ "ozet": {
+  "sentetik_ornek": 6,
+  "canli_yanit": 2,
+  "ham_markup_ornek": 4,
+  "korumali_markup_ornek": 0
+ },
+ "kabul": false,
+ "pilot": "saldiri-09-cikti",
+ "zaman": "2026-10-29T12:58:01+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 438 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "32b76b2960be94b15363dc8d493c8ef64ac4e0861fa0c7faf7c5d23d8947c120",
+ "mod": "run"
+}

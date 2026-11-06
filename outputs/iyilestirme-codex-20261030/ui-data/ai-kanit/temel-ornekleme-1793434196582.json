@@ -1,0 +1,121 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "ders": "ai-temel-04",
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "vakalar": [
+   [
+    "The capital of France is",
+    0.7,
+    5,
+    0.8
+   ],
+   [
+    "Once upon a time",
+    1.3,
+    null,
+    0.9
+   ],
+   [
+    "def add(a, b):",
+    0.5,
+    20,
+    1.0
+   ],
+   [
+    "Bugün hava çok",
+    1.0,
+    8,
+    0.6
+   ],
+   [
+    "The data and the green 190",
+    1.4,
+    26,
+    0.85
+   ],
+   [
+    "The model and the Ankara 592",
+    0.6,
+    22,
+    0.95
+   ],
+   [
+    "The data and the model 138",
+    0.6,
+    31,
+    0.7
+   ]
+  ],
+  "tolerans": 1e-07,
+  "uretim_tohumu": 7,
+  "uretim_metni": "Once upon a time, in a small village,"
+ },
+ "gercek_vakalar": [],
+ "uretim_ayarlari": [
+  [
+   "greedy",
+   null
+  ],
+  [
+   "T=0.7, p=0.9",
+   {
+    "sicaklik": 0.7,
+    "p": 0.9
+   }
+  ],
+  [
+   "T=1.0, k=50",
+   {
+    "sicaklik": 1.0,
+    "k": 50
+   }
+  ],
+  [
+   "T=1.5, p=0.95",
+   {
+    "sicaklik": 1.5,
+    "p": 0.95
+   }
+  ]
+ ],
+ "hf_uyumu": [
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true
+ ],
+ "aday_kumesi_boyutlari": {},
+ "uretimler": {},
+ "pilot": "temel-ornekleme",
+ "zaman": "2026-10-31T11:09:56+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 343 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "9c514846ee3c44e76534c7ac97f3a8f79da135fcc8e10de62f35141bd4be655c",
+ "mod": "test"
+}

@@ -1,0 +1,116 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "gerçek çalışma dosyasının SHA256 özeti"
+    },
+    {
+      "ok": true,
+      "msg": "manifest değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "str klasör de kabul edilir"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış hash"
+    },
+    {
+      "ok": true,
+      "msg": "dosya değiştiyse eski manifest yetmez"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "dosya adının sınır uzunluğu"
+    },
+    {
+      "ok": true,
+      "msg": "dosya adının sınır uzunluğu"
+    },
+    {
+      "ok": true,
+      "msg": "dizin ağırlık dosyası değildir"
+    },
+    {
+      "ok": true,
+      "msg": "eksik çalışma dizini"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk çalışma dizini"
+    }
+  ],
+  "segs": [
+    [
+      "out",
+      "SENTETİK HAM VERİ: [\n  {\n    \"vaka\": \"keypair-normal\",\n    \"calisti\": true,\n    \"dogrulandi\": true\n  },\n  {\n    \"vaka\": \"keypair-tahrifat\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keypair-baska-anahtar\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-normal\",\n    \"calisti\": true,\n    \"dogrulandi\": true\n  },\n  {\n    \"vaka\": \"keyless-tahrifat\",\n    \"calisti\": false,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-baska-kimlik\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-baska-issuer\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  },\n  {\n    \"vaka\": \"keyless-baska-root\",\n    \"calisti\": true,\n    \"dogrulandi\": false\n  }\n]\nManifest: {'dosya': 'model.safetensors', 'sha256': '150f04e8616fc7e8e1fa86405b0e6928c171d6184e5c07545a30802beb4a9446'}\nBütünlük: True\n"
+    ]
+  ],
+  "error": null
+}

@@ -1,0 +1,43 @@
+{
+  "lesson": "ai-saldiri-54",
+  "plan": "plan-saldiri-8",
+  "author": "codex",
+  "status": "denetime-hazir",
+  "reviewer": "claude-opus",
+  "score": null,
+  "evidence": {
+    "cli": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-saldiri-54\\guard-data\\ai-kanit\\saldiri54-kabul-1793740312928.json",
+    "ui": "C:\\Users\\demo12\\Desktop\\pafta-ai54-ui-20261103\\ai-kanit\\saldiri54-kabul-1793738109071.json",
+    "ui_run": "C:\\Users\\demo12\\Desktop\\pafta-ai54-ui-20261103\\ai-kanit\\saldiri54-run-1793737925291.json"
+  },
+  "ui_checks": 65,
+  "mutations": {
+    "generated": 40,
+    "survived": 0
+  },
+  "negative_cases": {
+    "empty": true,
+    "constant": true,
+    "meaningful_wrong": 3,
+    "oracle_copy": 4
+  },
+  "tahmin": {
+    "count": 1,
+    "suspicious": 0
+  },
+  "regression": {
+    "scope": "49/51/47 only non-model tasks",
+    "checks": 21,
+    "bad": 0
+  },
+  "source_sha256": {
+    "tracks/ai-saldiri/lessons/ai-saldiri-54-ml-dedektor-atlatma.md": "d3b18bfd481ca4a9fc2ec2320f2e3ec5235a41c4862cd81376b885bfaacc2652",
+    "sandbox/ai_gercek_ai_saldiri_54.py": "1a64d511446e1bb3aca64f3ba83ba27315fcfaee417f9e4a6ef33fcbf71683d2",
+    "tracks/ai-saldiri/track.json": "41728ae988cb8c5e4e328565eb4afba947dfe33ba41a584bc2ca6a87019474c4",
+    "web/app.js": "b38ba94031d190b1d248d2bbe1a0f421fcb3432e6f41c05e0415c7def5f80e70",
+    "tracks/ai-saldiri/fixtures/ai-saldiri-54/corpus.json": "a2a1405ba34fcdf389a5a644e108943420f4d8da57b0d05d24e5c39c6e58d622",
+    "tracks/ai-saldiri/fixtures/ai-saldiri-54/ornek.json": "6fdbfad3167d70906d94cadb96bfc19563ca4ebdc5dba787c0f0b266b13659b6",
+    "tracks/ai-saldiri/fixtures/ai-saldiri-54/README.md": "4db182b8ae3aaf44a80b6b6a393cf90d0477e18486653c736987134734c25d39"
+  },
+  "namespace_patch_rejected": true
+}

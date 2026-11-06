@@ -1,0 +1,22 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "saglik": false,
+  "hata": "RuntimeError: Local Fulcio health failed: <urlopen error timed out>",
+  "ortam": {
+    "kaynak": "gercek",
+    "fulcio_surumu": "v1.9.1",
+    "binary_sha256": "d851e6fcc33bad57a08435e41fe082d8cc466f99c57d2fae156e82941f84ea31",
+    "image_id": "sha256:e70da0b4dd92ebe0fbc6c838a1d1df15da6a86f1c249caeaf698c5f47aad1590",
+    "image_reference": "pafta-ai-s51:mlflow-2.1.1",
+    "kendi_container": "f8186b9532c4bdf9b86473fd20132e7b21ea98859c80152b59c320ece1494aed",
+    "kendi_network": "fee259a9a36e64a9f2fe501253b2e6dc2d9a15d65ecb89b5606ff9eb45ea8b4c",
+    "issuer": "http://127.0.0.1:5556",
+    "identity": "student@pafta.invalid",
+    "fulcio_url": "http://127.0.0.1:19253",
+    "temizlendi": true,
+    "servis_log": "{\"fulcio.stderr\": \"\", \"fulcio.stdout\": \"2026-11-03T15:55:10.525Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:242\\tlistening on grpc at 127.0.0.1:5557\\n2026-11-03T15:55:10.526Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/http.go:138\\tlistening on http at 0.0.0.0:5555\\n2026-11-03T15:55:10.526Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:290\\tlistening on grpc at @fulcio-legacy-grpc-socket\\n2026-11-03T15:56:20.957Z\\t\\u001b[35mDEBUG\\u001b[0m\\tlog/log.go:106\\tfinished unary call with code OK\\t{\\\"grpc.start_time\\\": \\\"2026-11-03T15:56:20Z\\\", \\\"system\\\": \\\"grpc\\\", \\\"span.kind\\\": \\\"server\\\", \\\"grpc.service\\\": \\\"dev.sigstore.fulcio.v2.CA\\\", \\\"grpc.method\\\": \\\"GetTrustBundle\\\", \\\"grpc.code\\\": \\\"OK\\\", \\\"requestID\\\": \\\"MnL2uImi\\\", \\\"grpc.time_ms\\\": 0.087}\\n\"}",
+    "cleanup_errors": [],
+    "tlog": "yok: private lab sertifika/imza akışı; public şeffaflık iddiası yok"
+  }
+}

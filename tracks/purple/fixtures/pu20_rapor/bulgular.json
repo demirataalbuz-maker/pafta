@@ -1,0 +1,62 @@
+{
+ "aciklama": "Sentetik, elle yazılmış örnekler. Gerçek sunucu kaydı değildir; son görev gerçek kanıtı kendisi üretir.",
+ "vektorler": [
+  "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+  "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+  "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+  "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H"
+ ],
+ "kanitlar": [
+  {
+   "id": "E1",
+   "istek": "POST /secure/login HTTP/1.1\nHost: 127.0.0.1:8080\n\n{\"username\": \"uye\", \"password\": \"demo\"}",
+   "yanit": "HTTP/1.1 200\n\n{\"canary\": \"PU20_ORNEK\"}"
+  },
+  {
+   "id": "E2",
+   "istek": "POST /vulnerable/login HTTP/1.1\nHost: 127.0.0.1:8080\n\n{\"username\": \"' OR 1=1 -- \", \"password\": \"yanlis\"}",
+   "yanit": "HTTP/1.1 200\n\n{\"canary\": \"PU20_ORNEK\"}"
+  }
+ ],
+ "iddialar": {
+  "E1": "c7305f0904d8bf4520b8401dcc9e7dfa1c74c5262cb1f2f31ed6b4612aa472c6",
+  "E2": "f73e0512fd86c3dd20b58df33c3e36776db76d2a18928a7b943db5e268ec5e0b",
+  "E7": "0000000000000000000000000000000000000000000000000000000000000000"
+ },
+ "bulgular": [
+  {
+   "id": "F1",
+   "baslik": "Örnek: SQLi ile giriş atlatma",
+   "puan": 8.2,
+   "kanitlar": [
+    "E1"
+   ]
+  },
+  {
+   "id": "F2",
+   "baslik": "Örnek: düzeltilmiş kanıt",
+   "puan": 9.1,
+   "kanitlar": [
+    "E2"
+   ]
+  },
+  {
+   "id": "F3",
+   "baslik": "Örnek: kanıtsız iddia",
+   "puan": 5.0,
+   "kanitlar": []
+  }
+ ],
+ "durum": {
+  "dogru": [
+   "E1"
+  ],
+  "uyusmayan": [
+   "E2"
+  ],
+  "eksik": [
+   "E7"
+  ],
+  "kullanilmayan": []
+ }
+}

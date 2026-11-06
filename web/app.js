@@ -1014,7 +1014,7 @@ function showStep(i) {
   }
   const stepArgs = st.meta?.argv;
   const gercekNotice = st.meta?.motor === "ai-gercek"
-    ? `<div class="ai-rozet">GERÇEK DENEY · ${st.meta.gereksinim === "torch" ? "yerel torch modeli (.ai-venv)" : "yerel Ollama sohbet modeli"} · fixture yok; model yoksa görev geçmez</div>` : "";
+    ? (st.meta.gereksinim === "docker" ? `<div class="ai-rozet">GERÇEK DENEY · izole Docker laboratuvarı · canlı HTTP; lab imajı yoksa görev geçmez</div>` : `<div class="ai-rozet">GERÇEK DENEY · ${st.meta.gereksinim === "torch" ? "yerel Python deneyi (.ai-venv)" : "yerel Ollama sohbet modeli"} · canlı ölçüm; bağımlılık yoksa görev geçmez</div>`) : "";
   const argNotice = gercekNotice + (stepArgs !== undefined ? `<div class="out-meta">Bu adımın argümanları: <code>${esc(Array.isArray(stepArgs) ? JSON.stringify(stepArgs) : String(stepArgs))}</code></div>` : "");
   $("#stepBody").innerHTML = head + argNotice + body;
   if (st.kind === "gorev") paintTaskStatus();

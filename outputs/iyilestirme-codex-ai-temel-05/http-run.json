@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "err",
+      "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  50%|████▉     | 135/272 [00:00<00:00, 1331.30it/s]\rLoading weights:  99%|█████████▉| 269/272 [00:00<00:00, 1301.81it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 1318.73it/s]\n"
+    ],
+    [
+      "out",
+      "Model: HuggingFaceTB/SmolLM2-135M@93efa2f0 · katman 3, kafa 4 · d=64\nMetin: 'The cat sat on the mat because it was tired'\n\nHer token en çok hangi önceki tokena bakıyor (ilk token hariç / dahil):\n         'The' →        'The' (1.000)   [dahil: 'The' 1.000]\n        'Ġcat' →       'Ġcat' (0.003)   [dahil: 'The' 0.997]\n        'Ġsat' →       'Ġcat' (0.381)   [dahil: 'The' 0.618]\n         'Ġon' →       'Ġcat' (0.140)   [dahil: 'The' 0.836]\n        'Ġthe' →       'Ġthe' (0.692)   [dahil: 'Ġthe' 0.692]\n        'Ġmat' →       'Ġthe' (0.355)   [dahil: 'Ġthe' 0.355]\n    'Ġbecause' →       'Ġthe' (0.648)   [dahil: 'Ġthe' 0.648]\n         'Ġit' →       'Ġthe' (0.671)   [dahil: 'Ġthe' 0.671]\n        'Ġwas' →       'Ġthe' (0.604)   [dahil: 'Ġthe' 0.604]\n      'Ġtired' →       'Ġthe' (0.505)   [dahil: 'Ġthe' 0.505]\n\nSenin bağlamın ile modelin bu kafadaki gerçek çıktısı arasındaki en büyük fark: 4.73e-07\nİlk tokena giden ortalama dikkat (attention sink), katman → oran: {0: 0.2016, 3: 0.4057, 15: 0.706, 29: 0.6274}\n\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_mjp46_zt\\temel-dikkat-calistir-1793434658189.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-dikkat-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-dikkat-calistir-1793434658189.json",
+      "zaman": "2026-10-31T11:17:37+03:00"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "name": "omit-reference",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "temel-11-dpo",
+        "kaynak": "gercek",
+        "kabul": false,
+        "model": "HuggingFaceTB/SmolLM2-135M",
+        "ozet": null,
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191701284.json",
+        "zaman": "2026-10-28T15:48:21+03:00"
+      }
+    ]
+  }
+}

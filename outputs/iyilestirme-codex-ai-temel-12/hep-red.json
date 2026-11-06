@@ -1,0 +1,58 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi regresyon raporunu yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek eğitim olumlu kontrol ve kritik regresyon üretti"
+    },
+    {
+      "ok": false,
+      "msg": "gerçek önce/sonra olasılıkları, kritik regresyonlar ve iki yönlü yayın kapısı doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: her zaman yayınla"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: her zaman engelle"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kritik regresyonu gizle"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: önce ve sonrayı değiştir"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-12-regresyon",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t12-sonda-20261030\\ai-kanit\\temel-12-regresyon-1793386183062.json",
+      "zaman": "2026-10-30T21:49:42+03:00"
+    }
+  ]
+}

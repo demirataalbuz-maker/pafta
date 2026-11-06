@@ -5451,6 +5451,282 @@
     }
    ],
    "son_puan": 94
+  },
+  {
+   "id": "ai-saldiri-51",
+   "yol": "ai-saldiri",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "yeni-ders",
+    "docker",
+    "gercek-cve"
+   ],
+   "yapilacaklar": [
+    "GOREV-YENI-AI-DERSLERI.md S51 kapsamı: izole gerçek MLflow CVE; görünür fixture ve üç kusurlu starter.",
+    "Tahmin/çalıştır/fark, hata vitrini, kanıt yorumlama, saldırı-savunma eşlemesi ve kapsam sınırı.",
+    "Validate TEMİZ; tahmin 0; mutasyon 0 geçen; anlamlı yanlışlar 3/3 ve kopya 4/4 ret; gerçek UI Run/Check.",
+    "Kullanıcı onaylı kurulum, sürüm/hash ve gerçek HTTP/izolasyon/cleanup kanıtları; bağımsız denetçi puanı."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-03 12:37",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "Yeni ders görevi ve tracker sahipliği temelinde denetim kuyruğuna eklendi; puan atanmamıştır."
+    },
+    {
+     "zaman": "2026-11-03 12:38",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "Gercek validate TEMIZ 9; tahmin 0 supheli; mutasyon 0/38 gecen; kopya 4/4 ret; anlamli yanlis 3/3 ret. UI Check 6/6, Run gercek/kabul=false. MLflow 2.1.1 canary okundu, 2.2.1 reddetti, normal kontroller ikisinde OK. Onayli kurulum tamamlandi. Rapor CODEX-YENI-ai-saldiri-51.md. Puan verilmedi, Opus denetimi bekleniyor."
+    }
+   ]
+  },
+  {
+   "id": "ai-saldiri-47",
+   "yol": "ai-saldiri",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "yeni-ders",
+    "mcp",
+    "rug-pull"
+   ],
+   "yapilacaklar": [
+    "Gerçek yerel MCP test sunucusunda ilk onay sonrası metadata ve davranış değişimini ölç; kurulu modelin ham seçimini ve ayrı replay etkisini ayır.",
+    "Görünür dosyalar, üç kusurlu starter, tahmin/çalıştır/fark, saldırı-savunma eşlemesi, hata vitrini, kanıt yorumlama ve dürüst kapsam sınırı.",
+    "Validate TEMİZ, tahmin0, mutasyon0 geçen, anlamlı yanlış3/3,kopya4/4,gerçek ders ekranı Run/Check ve yalnız kendi süreç cleanup."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-03 18:03",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "03.11.2026 14:09 kullanıcı kararı ve tracker sahipliği; puan atanmadı."
+    },
+    {
+     "zaman": "2026-11-03 18:03",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "Nihai gercek validate TEMIZ9; tahmin0; mutasyon0/31 gecen; anlamli yanlis3/3,kopya4/4 ret; modelyok ret. UI Check74/74,Run gercek/kabulfalse; gorunur JSON UI Run. Korumasiz model2+replay2 outbox; korumali0,temiz0; kendi6MCPsureci kapandi. Rapor CODEX-YENI-ai-saldiri-47.md. Opus denetimi bekliyor, puan yok."
+    }
+   ]
+  },
+  {
+   "id": "ai-savunma-36",
+   "yol": "ai-savunma",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 1,
+   "etiketler": [
+    "yeni-ders",
+    "cosign",
+    "keyless"
+   ],
+   "yapilacaklar": [
+    "Gerçek modelde Cosign key-pair ve yerel resmi Fulcio keyless imzası/doğrulaması;normal/tahrifat/başka key/subject/issuer/root ve ikinci bağımsız koşu.",
+    "Görünür gerçek biçimli sentetik dosyalar,üç kusurlu starter,öğretim tablosu/tahmin/hata vitrini/eşleme/kanıt yorumlama/sınır cümlesi.",
+    "Validate TEMİZ,tahmin0,mutasyon0geçen,3anlamlı yanlış/4kopya ret,UIgerçekRun/Check,onaylıkurulum/hamkanıt/yalnızkendisüreçcleanup.",
+    "Private test issuer ve public transparency sınırları açık;JWT/privatekey kanıtta yok;bağımsız Opus puanlar."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-03 19:31",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "14:09kullanıcı ataması ve tracker sahipliği; iki kurulum ayrı kullanıcı onayıyla tamamlandı. Puan yok."
+    },
+    {
+     "zaman": "2026-11-03 19:31",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "Gercek CLI TEMIZ9,tahmin0,mutasyon0/20gecen,3anlamliyanlis/4kopyaRET;UI74/74veRungercek/kabulfalse. Ikiayrikgercekmodel/keyless kosu;dogruimzaOK,tahrifat/key/subject/issuer/rootRET. Cosign+Fulcio onayla kurulu,networknone,cleanupOK,JWT/privatekeyyok. Rapor CODEX-YENI-ai-savunma-36.md. PrivateOIDC;publicCT/Rekor/TSAyok. Opus denetimi bekliyor,puan yok."
+    }
+   ]
+  },
+  {
+   "id": "ai-saldiri-54",
+   "yol": "ai-saldiri",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "yeni-ders",
+    "sklearn",
+    "black-box-evasion"
+   ],
+   "yapilacaklar": [
+    "plan-saldiri-8:gerçekyerelsklearnfit/predict_proba,bütçeliappend-onlysaldırı,doğruASR/meşrukontrol,ikincimodelkarşılaştırması.",
+    "Görünürfixture/corpus,3kusurlu,tahmin/hata vitrini/eşleme/kanıt yorumlama/sınır.",
+    "ValidateTEMİZ,tahmin0şüpheli,40mutasyon0geçen,3anlamlıyanlış/4kopyaRET,UIgerçekRun/Check;bağımsızOpusdenetimi."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-03 23:37",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "Dalga3 kullanıcı görevi;plan-saldiri-8→ai-saldiri-54. Puan yok."
+    },
+    {
+     "zaman": "2026-11-03 23:37",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "Gercek validateTEMIZ9;tahmin1/0supheli;mutasyon0/40gecen;3yanlis4kopyaRET,bos/sabitRET,kabultrueyok. UI65/65veRun gercek/kabulfalse;gorunurJSON. Sklearn1.9.1CPU,48train12test,96search72eval24defense;Q1ASR0,Q3/4ASR1yalnizsentetiklab. 21eski safkontrolregresyonOK;agirregresyoniddiasiyok. Rapor CODEX-YENI-ai-saldiri-54.md;Opus denetimi bekliyor,puan yok."
+    }
+   ]
+  },
+  {
+   "id": "ai-saldiri-53",
+   "yol": "ai-saldiri",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "yeni-ders",
+    "vlm",
+    "pixel-autograd"
+   ],
+   "yapilacaklar": [
+    "OnaylısabitVLM,pikselautograd,targetedPGD,PNGround-trip,epsilon0kontrolü ve doğru dar ölçüm.",
+    "3kusurlu/görünürfixture/tahmin/hata vitrini/eşleme/kanıt yorumlama/sınır.",
+    "ValidateTEMİZ,tahmin0şüpheli,40mutasyon0geçen,3yanlış4kopyaRET,modelyokRET,UIgerçekRun/Check;Opuspuanlar."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-04 00:04",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "Dalga3 plan-saldiri-7→ai-saldiri-53;kullanıcının ayrıSmolVLMonayı."
+    },
+    {
+     "zaman": "2026-11-04 00:04",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "Gercek validateTEMIZ9;tahmin1/0supheli;mutasyon0/40gecen;3yanlis4kopyaRET,bos/sabit/modelyokRET. UI67/67+Run gercek/kabulfalse,gorunurJSON;12gercekpixelgradient,PNGroundtrip,eps0kontrol. Ikilitokentercihiattack1/2degisti;serbestyanit/jailbreakiddiasiyok. OnaylimodelSHAkontrol;peakPyTorchallocated2.23GB,toplamVRAMdegil. RaporCODEX-YENI-ai-saldiri-53.md,puan yok."
+    }
+   ]
+  },
+  {
+   "id": "ai-savunma-38",
+   "yol": "ai-savunma",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "yeni-ders",
+    "ocr",
+    "asr",
+    "provenance-guardrail"
+   ],
+   "yapilacaklar": [
+    "GerçekTesseractOCR+WhisperASR;etiketlideterministikreplay→gerçekyereldisketkisi,korumasız/protected/temizkontrol.",
+    "Hostprovenance/failclosedgate;4meşruhamarşivçalışmalı;korumalıyetkisizetki0.",
+    "Görünürfixture,3kusurlu,tahmin/hata vitrini/eşleme/kanıt yorumlama/sınır.",
+    "ValidateTEMİZ,tahmin0şüpheli,30mutasyon0geçen,3yanlış4kopya+yamaRET,eksikOCR/ASRRET,UIgerçekRun/Check;Opuspuanlar."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-04 00:49",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "Dalga3plan-savunma-7→ai-savunma-38;kullanıcınınayrıOCRkurulumonayı."
+    },
+    {
+     "zaman": "2026-11-04 00:54",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "GercekvalidateTEMIZ9,tahmin1/0supheli,mutasyon0/30gecen,3yanlis4kopya+yamaRET,bos/sabit/OCRyok/ASRyokRET. UI70/70+Run gercek/kabulfalse;gorunurcalismakopyasiyazildiokundu.4algilama8diskakisi;korumasiz4etki,korumali0yetkisiz/4dogruarsiv. OCR/ASRgercek,replaydeterministikacik. OnayliOCR39.8MBag/128.3MBkatman,cleanupOK. RaporCODEX-YENI-ai-savunma-38.md;Opusbekliyor,puanyok."
+    }
+   ]
+  },
+  {
+   "id": "ai-ile-guvenlik-19",
+   "yol": "ai-ile-guvenlik",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "yeni-ders",
+    "soc-purple",
+    "sqlite"
+   ],
+   "yapilacaklar": [
+    "Gerçek Ollama ve SQLite etkisi; kontrol/saldırı ve ayrı fault probe.",
+    "3safgörev,3kusurlu,görünürfixture,kanıt/sınır/eşleme.",
+    "ValidateTEMİZ,tahmin0,mutasyon0geçen,kopya4RET,gerçekUI/Run;Opus denetler."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-04 01:38",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "Kullanıcı yazılmamış AI derslerini devretti; SOC19 yeni dosyalar."
+    },
+    {
+     "zaman": "2026-11-04 01:38",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "ValidateTEMIZ9,tahmin1/0,35mutant0geçen,4kopyaRET;UI76/76 ve gerçek Run,SQLite12dosya,eksikOllamaRET. Rapor CODEX-YENI-ai-ile-guvenlik-19.md;puanyok."
+    }
+   ]
+  },
+  {
+   "id": "ai-savunma-39",
+   "yol": "ai-savunma",
+   "puan": "—",
+   "hedef": 90,
+   "dalga": 3,
+   "etiketler": [
+    "yeni-ders",
+    "unlearning",
+    "retrain-comparison"
+   ],
+   "yapilacaklar": [
+    "Gerçek CPU autograd; full/unlearn/retrain/unchanged; posterior ölçümü,veri ayrımı.",
+    "Görünürfixture,3kusurlu,tahmin/hata/eşleme/kanıt/sınır.",
+    "ValidateTEMİZ,tahmin0,45mutant0geçen,4kopyaRET,gerçekUI/Run;Opus denetler."
+   ],
+   "durum": "teslim",
+   "kim": "codex",
+   "denetci": null,
+   "gecmis": [
+    {
+     "zaman": "2026-11-04 01:52",
+     "kim": "codex",
+     "olay": "aldı",
+     "not": "Kullanıcının yazılmamışAI derslerini devri;unlearning39yeni."
+    },
+    {
+     "zaman": "2026-11-04 01:53",
+     "kim": "codex",
+     "olay": "teslim etti",
+     "not": "ValidateTEMIZ9,tahmin1/0,45mutant0geçen,kopya4RET. GerçekUI75/75 ve Run kabulfalse,CPUtorch100autogradadımı. CODEX-YENI-ai-savunma-39.md;puanyok."
+    }
+   ]
   }
  ]
 }

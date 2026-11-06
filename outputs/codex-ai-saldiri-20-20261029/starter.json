@@ -1,0 +1,69 @@
+{
+  "name": "starter",
+  "okay": true,
+  "seconds": 0.62,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "program izni, ayrık argv, veri argümanları ve şema korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her programı izinli yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: argv'yi tek metne birleştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: veri argümanını silen"
+      },
+      {
+        "ok": false,
+        "msg": "eylem, değer sayısı, seçenek sınırı ve kapalı shell korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: seçenek sınırını kaldıran"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: shell'i açan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: argümanları metne çeviren"
+      },
+      {
+        "ok": false,
+        "msg": "yetkisiz çalışma, shell, argv sapması ve temizlik ayrımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: shell kullanımını gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: argv sapmasını gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: temizliği yalnız çalışmaya indirgeyen"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek ölçüm yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni metinde program/argv sözleşmesi"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

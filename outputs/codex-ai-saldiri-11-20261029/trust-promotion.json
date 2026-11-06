@@ -1,0 +1,69 @@
+{
+  "name": "trust-promotion",
+  "okay": true,
+  "seconds": 0.45,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "şema, güven etiketi, JSON kaçışı ve değişmezlik korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belgeyi ham XML'e gömen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belgeyi sistem yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: girdiyi değiştiren"
+      },
+      {
+        "ok": true,
+        "msg": "iki rol, güven denetimi ve kanonik veri paketi korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her belgeyi system mesajı yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: JSON paketini ikinci kez stringleştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kanonik nesne yerine ham metin kuran"
+      },
+      {
+        "ok": true,
+        "msg": "iki taraflı tam satır, çoklu kaynak ve şema korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: alıntıyı sızıntı sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yalnız ilk kaynağı döndüren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belgede canary aramayan"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar ve bağımsız kaynak ölçümü yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni belgede içerik ve veri etiketi korunmalı"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

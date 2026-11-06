@@ -1,0 +1,162 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-savunma-05",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:45353",
+   "sahip": "pafta",
+   "pid": 33328
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "pafta_sureci_kapandi": true
+  }
+ },
+ "ozet": {
+  "tekrar": 3,
+  "benzersiz_cikti": 1,
+  "ayni_cikti": true,
+  "tekrarlanabilir": true,
+  "nedenler": [],
+  "ornek_cikti": "21"
+ },
+ "istem": "3 ile 7'yi çarp. Yanıtın yalnızca sonuç sayısı olsun.",
+ "ayarlar": {
+  "tohum": 42,
+  "sicaklik": 0.0,
+  "en_fazla": 20,
+  "tekrar": 3,
+  "num_ctx": 4096,
+  "girdi_sha256_kapsami": "yalnız istem UTF-8 baytları"
+ },
+ "ciktilar": [
+  "21",
+  "21",
+  "21"
+ ],
+ "kosular": [
+  {
+   "test": "determinizm",
+   "kosum": 1,
+   "tohum": 42,
+   "girdi_sha256": "385c1950d9d43808171721e0037bf7b8716f3b3401aa8a9e062726157163e4e7",
+   "cikti_sha256": "6f4b6612125fb3a0daecd2799dfd6c9c299424fd920f9b308110a2c1fbd8f443",
+   "durum": "gecti"
+  },
+  {
+   "test": "determinizm",
+   "kosum": 2,
+   "tohum": 42,
+   "girdi_sha256": "385c1950d9d43808171721e0037bf7b8716f3b3401aa8a9e062726157163e4e7",
+   "cikti_sha256": "6f4b6612125fb3a0daecd2799dfd6c9c299424fd920f9b308110a2c1fbd8f443",
+   "durum": "gecti"
+  },
+  {
+   "test": "determinizm",
+   "kosum": 3,
+   "tohum": 42,
+   "girdi_sha256": "385c1950d9d43808171721e0037bf7b8716f3b3401aa8a9e062726157163e4e7",
+   "cikti_sha256": "6f4b6612125fb3a0daecd2799dfd6c9c299424fd920f9b308110a2c1fbd8f443",
+   "durum": "gecti"
+  }
+ ],
+ "rapor": [
+  {
+   "test": "determinizm",
+   "kosum_sayisi": 3,
+   "tekrarlanabilir": true,
+   "nedenler": []
+  }
+ ],
+ "cagri_kayitlari": [
+  {
+   "kosum": 1,
+   "yanit": {
+    "icerik": "21",
+    "arac_cagrilari": [],
+    "sure_ms": 3204,
+    "eval_count": 3,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "basarili": true
+  },
+  {
+   "kosum": 2,
+   "yanit": {
+    "icerik": "21",
+    "arac_cagrilari": [],
+    "sure_ms": 54,
+    "eval_count": 3,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "basarili": true
+  },
+  {
+   "kosum": 3,
+   "yanit": {
+    "icerik": "21",
+    "arac_cagrilari": [],
+    "sure_ms": 54,
+    "eval_count": 3,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "basarili": true
+  }
+ ],
+ "hatalar": [],
+ "sinir": "üç gözlem; işletim sistemi izolasyonu ve genel determinizm garantisi değil",
+ "pilot": "savunma-lab",
+ "zaman": "2026-10-31T22:01:02+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 420 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "eebda9132f2d73d27e1fb3f654a04e336aa5a14762c7ff2efc498096027b1405",
+ "mod": "test"
+}

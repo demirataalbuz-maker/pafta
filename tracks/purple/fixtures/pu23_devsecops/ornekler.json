@@ -1,0 +1,192 @@
+{
+ "aciklama": "Sentetik, elle yazılmış örnek araç çıktıları. Son görev bunları kullanmaz; araçları gerçek bir geçici depoda koşturur.",
+ "semgrep": {
+  "results": [
+   {
+    "check_id": "shell-true",
+    "path": "src\\islem.py",
+    "start": {
+     "line": 4,
+     "col": 12
+    },
+    "extra": {
+     "message": "shell=True"
+    }
+   },
+   {
+    "check_id": "sql-birlestirme",
+    "path": "src\\db.py",
+    "start": {
+     "line": 11,
+     "col": 5
+    },
+    "extra": {
+     "message": "SQL"
+    }
+   }
+  ],
+  "errors": []
+ },
+ "gitleaks": [
+  {
+   "RuleID": "github-pat",
+   "File": "./.env",
+   "StartLine": 1,
+   "Commit": "3f2a9c1",
+   "Secret": "REDACTED"
+  }
+ ],
+ "trivy": {
+  "Results": [
+   {
+    "Target": "Dockerfile",
+    "Class": "config",
+    "Misconfigurations": [
+     {
+      "ID": "DS-0002",
+      "Status": "FAIL",
+      "CauseMetadata": {}
+     },
+     {
+      "ID": "DS-0001",
+      "Status": "PASS",
+      "CauseMetadata": {
+       "StartLine": 1
+      }
+     },
+     {
+      "ID": "DS-0005",
+      "Status": "FAIL",
+      "CauseMetadata": {
+       "StartLine": 3
+      }
+     }
+    ]
+   },
+   {
+    "Target": "src/ayar.py",
+    "Class": "secret",
+    "Secrets": [
+     {
+      "RuleID": "aws-access-key-id",
+      "StartLine": 2,
+      "Match": "AWS_KEY = \"****\""
+     }
+    ]
+   }
+  ]
+ },
+ "gercek": [
+  {
+   "id": "S1",
+   "tur": "sast",
+   "dosya": "src/islem.py",
+   "satir": 4,
+   "sorun": true
+  },
+  {
+   "id": "S2",
+   "tur": "sast",
+   "dosya": "src/db.py",
+   "satir": 11,
+   "sorun": false
+  },
+  {
+   "id": "G1",
+   "tur": "sir",
+   "dosya": ".env",
+   "satir": 1,
+   "sorun": true
+  },
+  {
+   "id": "G2",
+   "tur": "sir",
+   "dosya": "src/ayar.py",
+   "satir": 2,
+   "sorun": true
+  },
+  {
+   "id": "Y1",
+   "tur": "yapilandirma",
+   "dosya": "Dockerfile",
+   "satir": 0,
+   "sorun": true
+  }
+ ],
+ "kapsam": {
+  "semgrep": [
+   "sast"
+  ],
+  "gitleaks": [
+   "sir"
+  ],
+  "trivy": [
+   "sir",
+   "yapilandirma"
+  ]
+ },
+ "istisnalar": [
+  {
+   "id": "I1",
+   "arac": "trivy",
+   "kural": "DS-0005",
+   "dosya": "Dockerfile",
+   "gerekce": "Geçiş dönemi",
+   "bitis": "2026-01-01"
+  },
+  {
+   "id": "I2",
+   "arac": "semgrep",
+   "kural": "sql-birlestirme",
+   "dosya": "src/db.py",
+   "satir": 11,
+   "gerekce": "Sabit tablo adı, girdi yok",
+   "bitis": "2027-06-30"
+  }
+ ],
+ "bugun": "2026-11-04",
+ "bulgular": [
+  {
+   "arac": "semgrep",
+   "kural": "sql-birlestirme",
+   "dosya": "src/db.py",
+   "satir": 11,
+   "tur": "sast"
+  },
+  {
+   "arac": "semgrep",
+   "kural": "shell-true",
+   "dosya": "src/islem.py",
+   "satir": 4,
+   "tur": "sast"
+  },
+  {
+   "arac": "gitleaks",
+   "kural": "github-pat",
+   "dosya": ".env",
+   "satir": 1,
+   "tur": "sir"
+  },
+  {
+   "arac": "trivy",
+   "kural": "DS-0002",
+   "dosya": "Dockerfile",
+   "satir": 0,
+   "tur": "yapilandirma"
+  },
+  {
+   "arac": "trivy",
+   "kural": "DS-0005",
+   "dosya": "Dockerfile",
+   "satir": 3,
+   "tur": "yapilandirma"
+  },
+  {
+   "arac": "trivy",
+   "kural": "aws-access-key-id",
+   "dosya": "src/ayar.py",
+   "satir": 2,
+   "tur": "sir"
+  }
+ ]
+}

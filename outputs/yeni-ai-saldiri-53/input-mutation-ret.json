@@ -1,0 +1,126 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "eps tipi/sonluluk"
+    },
+    {
+      "ok": true,
+      "msg": "alpha tipi/sonluluk"
+    },
+    {
+      "ok": true,
+      "msg": "eps tipi/sonluluk"
+    },
+    {
+      "ok": true,
+      "msg": "alpha tipi/sonluluk"
+    },
+    {
+      "ok": true,
+      "msg": "eps tipi/sonluluk"
+    },
+    {
+      "ok": true,
+      "msg": "alpha tipi/sonluluk"
+    },
+    {
+      "ok": true,
+      "msg": "sayı yerine string/bool ret"
+    },
+    {
+      "ok": true,
+      "msg": "sayı yerine string/bool ret"
+    },
+    {
+      "ok": true,
+      "msg": "sayı yerine string/bool ret"
+    },
+    {
+      "ok": true,
+      "msg": "sayı yerine string/bool ret"
+    },
+    {
+      "ok": true,
+      "msg": "sayı yerine string/bool ret"
+    },
+    {
+      "ok": false,
+      "msg": "targeted step doğru; girdiler değişmedi",
+      "got": "([0.125, 0.125, 0.5, 0.875, 0.875], ([0, 0.25, 0.5, 0.75, 1], [0, 0.25, 0.5, 0.75, 1], [123, 2, 0, -2, 1]))",
+      "exp": "([0.125, 0.125, 0.5, 0.875, 0.875], ([0, 0.25, 0.5, 0.75, 1], [0, 0.25, 0.5, 0.75, 1], [-1, 2, 0, -2, 1]))"
+    },
+    {
+      "ok": true,
+      "msg": "x0 merkezli epsilon projeksiyonu"
+    },
+    {
+      "ok": true,
+      "msg": "piksel clamp"
+    },
+    {
+      "ok": true,
+      "msg": "eps0 x0 döndürür"
+    },
+    {
+      "ok": true,
+      "msg": "alpha0"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "boyut/tip/sonlu/bütçe doğrulaması"
+    }
+  ],
+  "segs": [
+    [
+      "out",
+      "{\n  \"kaynak\": \"sentetik_fixture_canli_VLM_degil\",\n  \"x0\": [\n    0,\n    0.25,\n    0.5,\n    0.75,\n    1\n  ],\n  \"xt\": [\n    0,\n    0.25,\n    0.5,\n    0.75,\n    1\n  ],\n  \"g\": [\n    -1,\n    2,\n    0,\n    -2,\n    1\n  ],\n  \"eps\": 0.25,\n  \"alpha\": 0.125,\n  \"ikili_logit\": [\n    1000,\n    999\n  ]\n}\n"
+    ]
+  ],
+  "error": null
+}

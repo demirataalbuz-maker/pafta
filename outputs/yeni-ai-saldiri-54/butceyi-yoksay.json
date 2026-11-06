@@ -1,0 +1,262 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": false,
+      "msg": "dedup ve boş suffix",
+      "got": "['x', 'x a', 'x abc']",
+      "exp": "['x', 'x a']"
+    },
+    {
+      "ok": true,
+      "msg": "karakter sınırı dahil"
+    },
+    {
+      "ok": false,
+      "msg": "sınır dışı",
+      "got": "['x', 'x abc']",
+      "exp": "['x']"
+    },
+    {
+      "ok": false,
+      "msg": "sıfır ekleme",
+      "got": "['x', 'x a']",
+      "exp": "['x']"
+    },
+    {
+      "ok": false,
+      "msg": "farklı orijinal korunur",
+      "got": "['phishing-a', 'phishing-a ok', 'phishing-a longer']",
+      "exp": "['phishing-a', 'phishing-a ok']"
+    },
+    {
+      "ok": false,
+      "msg": "farklı orijinal korunur",
+      "got": "['diger-7', 'diger-7 ok', 'diger-7 longer']",
+      "exp": "['diger-7', 'diger-7 ok']"
+    },
+    {
+      "ok": true,
+      "msg": "geçersiz aday girdisi"
+    },
+    {
+      "ok": true,
+      "msg": "geçersiz aday girdisi"
+    },
+    {
+      "ok": true,
+      "msg": "geçersiz aday girdisi"
+    },
+    {
+      "ok": true,
+      "msg": "geçersiz aday girdisi"
+    },
+    {
+      "ok": true,
+      "msg": "geçersiz aday girdisi"
+    },
+    {
+      "ok": true,
+      "msg": "0/1 geçerli skor sınırları"
+    },
+    {
+      "ok": true,
+      "msg": "0/1 geçerli skor sınırları"
+    },
+    {
+      "ok": true,
+      "msg": "0/1 geçerli skor sınırları"
+    },
+    {
+      "ok": true,
+      "msg": "tip ve bütçe sınırı"
+    },
+    {
+      "ok": true,
+      "msg": "tip ve bütçe sınırı"
+    },
+    {
+      "ok": true,
+      "msg": "tip ve bütçe sınırı"
+    },
+    {
+      "ok": true,
+      "msg": "tip ve bütçe sınırı"
+    },
+    {
+      "ok": true,
+      "msg": "tip ve bütçe sınırı"
+    },
+    {
+      "ok": true,
+      "msg": "tam query bütçesi"
+    },
+    {
+      "ok": true,
+      "msg": "minimum risk; tie ilk"
+    },
+    {
+      "ok": true,
+      "msg": "tam query bütçesi"
+    },
+    {
+      "ok": true,
+      "msg": "minimum risk; tie ilk"
+    },
+    {
+      "ok": true,
+      "msg": "tam query bütçesi"
+    },
+    {
+      "ok": true,
+      "msg": "minimum risk; tie ilk"
+    },
+    {
+      "ok": true,
+      "msg": "tam query bütçesi"
+    },
+    {
+      "ok": true,
+      "msg": "minimum risk; tie ilk"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk skor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk skor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk skor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk skor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk skor ret"
+    },
+    {
+      "ok": true,
+      "msg": "query girdisi ret"
+    },
+    {
+      "ok": true,
+      "msg": "query girdisi ret"
+    },
+    {
+      "ok": true,
+      "msg": "query girdisi ret"
+    },
+    {
+      "ok": true,
+      "msg": "query girdisi ret"
+    },
+    {
+      "ok": true,
+      "msg": "0/1 ve kontrolde son eşik dahil"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "tam şema/tip/skor doğrulaması"
+    },
+    {
+      "ok": true,
+      "msg": "yalnız önce yakalananlar ASR paydası; eşik dahil"
+    },
+    {
+      "ok": true,
+      "msg": "payda sıfır: ölçülmedi"
+    },
+    {
+      "ok": true,
+      "msg": "kontrol yoksa sıfır uydurma"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk rapor ret"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

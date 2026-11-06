@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik JSON: {'koken': 'sentetik HTTP biçimi ve karşılaştırma örneği; gerçek MLflow yanıtı değil', 'uri': 'file:///tmp/pafta/private', 'http': {'status': 200, 'govde': 'CANARY-EXAMPLE extra', 'canary': 'CANARY-EXAMPLE'}, 'kayitlar': [{'surum': '2.1.1', 'tur': 'normal', 'bulgu': 'okundu'}, {'surum': '2.1.1', 'tur': 'yerel-kaynak', 'bulgu': 'okundu'}, {'surum': '2.2.1', 'tur': 'normal', 'bulgu': 'reddedildi'}, {'surum': '2.2.1', 'tur': 'yerel-kaynak', 'bulgu': 'reddedildi'}]}\nHam sentetik istek:\n POST /api/2.0/mlflow/model-versions/create HTTP/1.1\r\nHost: 127.0.0.1:5000\r\nContent-Type: application/json\r\n\r\n{\"name\":\"pafta-example\",\"source\":\"file:///tmp/pafta/private\"}\r\n\nSource: True\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

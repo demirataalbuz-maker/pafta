@@ -1,0 +1,452 @@
+[
+  {
+    "name": "solution",
+    "okay": true,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "sınır testi gerçekten token bütçesini aşıyor"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+        },
+        {
+          "ok": true,
+          "msg": "kosinüs simetrik ve köşegeni bir"
+        },
+        {
+          "ok": true,
+          "msg": "kosinüs simetrik ve köşegeni bir"
+        },
+        {
+          "ok": true,
+          "msg": "kosinüs simetrik ve köşegeni bir"
+        },
+        {
+          "ok": true,
+          "msg": "kosinüs simetrik ve köşegeni bir"
+        },
+        {
+          "ok": true,
+          "msg": "kosinüs simetrik ve köşegeni bir"
+        },
+        {
+          "ok": true,
+          "msg": "kosinüs simetrik ve köşegeni bir"
+        },
+        {
+          "ok": true,
+          "msg": "aynı kimlik aynı giriş embedding satırını seçer"
+        },
+        {
+          "ok": true,
+          "msg": "aynı kimlik aynı giriş embedding satırını seçer"
+        },
+        {
+          "ok": true,
+          "msg": "aynı kimlik aynı giriş embedding satırını seçer"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-02-embedding",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-02-20261028-142905\\test-data\\ai-kanit\\temel-02-embedding-1793186955895.json",
+          "zaman": "2026-10-28T14:29:15+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "sınır testi gerçekten token bütçesini aşıyor"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-02-embedding",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-02-20261028-142905\\test-data\\ai-kanit\\temel-02-embedding-1793186963669.json",
+          "zaman": "2026-10-28T14:29:23+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "`gercek_embedding_raporu` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "gercek_embedding_raporu"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "fixed",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "sınır testi gerçekten token bütçesini aşıyor"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-02-embedding",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-02-20261028-142905\\test-data\\ai-kanit\\temel-02-embedding-1793186971752.json",
+          "zaman": "2026-10-28T14:29:31+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "dot-instead-cosine",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "sınır testi gerçekten token bütçesini aşıyor"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-02-embedding",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-02-20261028-142905\\test-data\\ai-kanit\\temel-02-embedding-1793186979778.json",
+          "zaman": "2026-10-28T14:29:39+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "unit-instead-raw",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "sınır testi gerçekten token bütçesini aşıyor"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-02-embedding",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-02-20261028-142905\\test-data\\ai-kanit\\temel-02-embedding-1793186988706.json",
+          "zaman": "2026-10-28T14:29:48+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "reverse-rows",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "sınır testi gerçekten token bütçesini aşıyor"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-02-embedding",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-02-20261028-142905\\test-data\\ai-kanit\\temel-02-embedding-1793187000311.json",
+          "zaman": "2026-10-28T14:30:00+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run-button",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "err",
+          "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  39%|███▉      | 106/272 [00:00<00:00, 1052.11it/s]\rLoading weights:  78%|███████▊  | 212/272 [00:00<00:00, 964.76it/s] \rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 1034.88it/s]\n"
+        ],
+        [
+          "out",
+          "Token kimlikleri: [260, 260, 4626] boyut: 576\nİlk vektörün ilk 6 bileşeni: [-0.1513671875, 0.01806640625, -0.07421875, 0.0654296875, 0.2109375, 0.04931640625]\nKosinüs matrisi: [[0.9999999999999996, 0.9999999999999996, -0.1841619308961813], [0.9999999999999996, 0.9999999999999996, -0.1841619308961813], [-0.18416193089618133, -0.18416193089618133, 1.0000000000000002]]\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": []
+    }
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Gömme: all-minilm:22m (23M) · 8 kayıt × 384 boyut · k=3\n\n[✗] h1: parafrazdan geri çıkan ilk 3: ['h6', 'h8', 'h3'] (doğru h1)\n[✓] h2: parafrazdan geri çıkan ilk 3: ['h2', 'h6', 'h3'] (doğru h2)\n[✓] h3: parafrazdan geri çıkan ilk 3: ['h3', 'h5', 'h1'] (doğru h3)\n[✓] h4: parafrazdan geri çıkan ilk 3: ['h4', 'h8', 'h7'] (doğru h4)\n[✓] h5: parafrazdan geri çıkan ilk 3: ['h5', 'h1', 'h3'] (doğru h5)\n[✓] h6: parafrazdan geri çıkan ilk 3: ['h6', 'h3', 'h8'] (doğru h6)\n[✗] h7: parafrazdan geri çıkan ilk 3: ['h1', 'h3', 'h5'] (doğru h7)\n[~] h8: parafrazdan geri çıkan ilk 3: ['h6', 'h8', 'h4'] (doğru h8)\n\nParafraz geri-çıkarma: recovery@1 0.625, recovery@3 0.75 (8 kayıt üzerinden)\nNitelik çıkarımı (gömmeden kan şekeri durumu): en yakın merkez doğruluğu 1.0 (0.5 = şans)\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_9ppto68o\\guvence-inversion-calistir-1793344953288.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-inversion-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "kayit": 8,
+        "boyut": 384,
+        "recovery1": 0.625,
+        "recoveryk": 0.75,
+        "nitelik_dogrulugu": 1.0
+      },
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-g31-sonda-20261030\\ai-kanit\\guvence-inversion-calistir-1793344953288.json",
+      "zaman": "2026-10-30T10:22:32+03:00"
+    }
+  ]
+}

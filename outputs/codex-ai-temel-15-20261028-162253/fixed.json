@@ -1,0 +1,58 @@
+{
+  "name": "fixed",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "laboratuvar yamalanmamalı veya test oracle'ı çağrılmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "gerçek son-token müdahalesi aşağı katmana ulaşıyor; ağırlık/yön/hooklar korunuyor"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: yön işareti ters"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: norm sınırı yok"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: bütün tokenlara müdahale"
+      },
+      {
+        "ok": true,
+        "msg": "bütün gerçek model parametrelerinin SHA-256 özeti değişmedi"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "temel-15-steering",
+        "kaynak": "gercek",
+        "kabul": false,
+        "model": "HuggingFaceTB/SmolLM2-135M",
+        "ozet": null,
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-15-20261028-162253\\test-data\\ai-kanit\\temel-15-steering-1793193811895.json",
+        "zaman": "2026-10-28T16:23:31+03:00"
+      }
+    ]
+  }
+}

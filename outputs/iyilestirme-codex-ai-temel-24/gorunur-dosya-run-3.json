@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik çağrı listesi: [{'id': 'c1', 'arac': 'search_docs', 'arg': 'iade'}, {'id': 'c2', 'arac': 'read_file', 'arg': 'rapor.txt'}, {'id': 'c3', 'arac': 'http_get', 'arg': 'https://docs.example/x'}]\nKapı sonucu: {'denetim': [{'id': 'c1', 'arac': 'search_docs', 'karar': 'izin', 'neden': 'okuma'}, {'id': 'c2', 'arac': 'read_file', 'karar': 'izin', 'neden': 'okuma'}, {'id': 'c3', 'arac': 'http_get', 'karar': 'izin', 'neden': 'okuma'}], 'sonuclar': {'c1': 'SENTETIK:search_docs:iade', 'c2': 'SENTETIK:read_file:rapor.txt', 'c3': 'SENTETIK:http_get:https://docs.example/x'}}\nGerçekte yalnız listeye yazan örnek araçlar: [{'arac': 'search_docs', 'arg': 'iade'}, {'arac': 'read_file', 'arg': 'rapor.txt'}, {'arac': 'http_get', 'arg': 'https://docs.example/x'}]\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

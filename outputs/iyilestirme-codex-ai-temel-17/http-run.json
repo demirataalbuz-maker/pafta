@@ -1,0 +1,31 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sunucu: http://127.0.0.1:11434 (kullanici (zaten çalışıyordu; kapatılmaz)) · model: qwen3:4b-instruct-2507-q4_K_M · Ollama 0.40.11\n\n[kisa] num_predict=64 → 1 parça, done_reason=stop\n   TTFT 5312 ms · toplam 5312 ms · 2 token · ~66.7 token/sn\n   yanıt: 4\n[sayma] num_predict=16 → 16 parça, done_reason=length (KESİLDİ)\n   TTFT 47 ms · toplam 254 ms · 16 token · ~78.4 token/sn\n   yanıt: 1,2,3,4,5,6,7,8,\n[tanim] num_predict=64 → 40 parça, done_reason=stop\n   TTFT 53 ms · toplam 531 ms · 41 token · ~83.0 token/sn\n   yanıt: Fotosentez, bitkilerin güneş ışığıyla su ve karbondioksitten glukoz ve oksijen üretebilmeleri sürecidir.\n[baskent] num_predict=64 → 10 parça, done_reason=stop\n   TTFT 54 ms · toplam 187 ms · 11 token · ~73.3 token/sn\n   yanıt: Türkiye'nin başkenti Ankara'dır.\n[paralel-1] num_predict=24 → 24 parça, done_reason=length (KESİLDİ)\n   TTFT 57 ms · toplam 356 ms · 24 token · ~80.3 token/sn\n   yanıt: 1,2,3,4,5,6,7,8,9,10,11,\n[paralel-2] num_predict=24 → 24 parça, done_reason=length (KESİLDİ)\n   TTFT 396 ms · toplam 680 ms · 24 token · ~84.5 token/sn\n   yanıt: Elbette! Aşağıda farklı bitkinin adlarını sırayla yazıyorum:  1. Muz\n\nÖzet: {'istek': 6, 'gecerli': 6, 'kesilen': 3, 'durak': 3, 'ttft_ms_min': 47, 'ttft_ms_maks': 5312, 'tokens_sn_ort': 77.7, 'toplam_parca': 115}\nEşzamanlı HTTP: {'istek_sayisi': 2, 'cakisan_araliklar': True, 'sinir': 'İstemcide çakışan gerçek HTTP çağrıları; backend sürekli batching kanıtı değil.'}\n\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit__0vi2qyo\\temel-akis-calistir-1793387489102.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-akis-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "istek": 6,
+        "gecerli": 6,
+        "kesilen": 3,
+        "durak": 3,
+        "ttft_ms_min": 47,
+        "ttft_ms_maks": 5312,
+        "tokens_sn_ort": 77.7,
+        "toplam_parca": 115
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-akis-calistir-1793387489102.json",
+      "zaman": "2026-10-30T22:11:28+03:00"
+    }
+  ]
+}

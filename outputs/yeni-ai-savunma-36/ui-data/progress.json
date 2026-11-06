@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "days": [
+  "2026-11-03"
+ ],
+ "last": {
+  "track": "ai-savunma",
+  "lesson": "ai-savunma-36",
+  "step": 5
+ },
+ "tracks": {
+  "ai-savunma": {
+   "steps": {
+    "ai-savunma-36:2": {
+     "attempts": 1
+    },
+    "ai-savunma-36:5": {
+     "attempts": 4,
+     "done": true,
+     "at": "2026-11-03T19:09:29"
+    }
+   },
+   "drafts": {
+    "ai-savunma-36:5": "import ai_lab\nfrom pathlib import Path\nimport hashlib,re\ndef manifest_dogrula(klasor,manifest):\n    try:\n        if not isinstance(manifest,dict) or set(manifest)!={'dosya','sha256'}:return False\n        name=manifest['dosya'];wanted=manifest['sha256']\n        if not re.fullmatch(r'[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}\\.safetensors',name):return False\n        if not isinstance(wanted,str):return False\n        root=Path(klasor).resolve(strict=True);path=root/name\n        if path.is_symlink():return False\n        with path.open('rb') as f:got=hashlib.file_digest(f,'sha256').hexdigest()\n        return got==wanted\n    except (OSError,TypeError,ValueError):return False\n\ndef kimlik_uygun(kimlik,issuer,politika):\n    if not isinstance(politika,dict) or set(politika)!={'kimlik','issuer'}:return False\n    for value in (kimlik,issuer,politika['kimlik'],politika['issuer']):\n        if not isinstance(value,str) or not value.strip():return False\n    return kimlik==politika['kimlik'] and issuer==politika['issuer']\n\ndef sonuc_raporu(kayitlar):\n    expected={'keypair-normal':True,'keypair-tahrifat':False,'keypair-baska-anahtar':False,'keyless-normal':True,'keyless-tahrifat':False,'keyless-baska-kimlik':False,'keyless-baska-issuer':False,'keyless-baska-root':False}\n    if not isinstance(kayitlar,list) or len(kayitlar)!=8:raise ValueError('sekiz kayıt')\n    seen=set();errors=[];wrong=[];verified=[]\n    for row in kayitlar:\n        if not isinstance(row,dict) or set(row)!={'vaka','calisti','dogrulandi'}:raise ValueError('şema')\n        name=row['vaka']\n        if name not in expected or name in seen or type(row['calisti']) is not bool or type(row['dogrulandi']) is not bool:raise ValueError('değer')\n        seen.add(name)\n        if not row['calisti']:errors.append(name)\n        else:\n            if row['dogrulandi']!=expected[name]:wrong.append(name)\n            if row['dogrulandi']:verified.append(name)\n    return {'kabul':not errors and not wrong,'hatalar':sorted(errors),'beklenmeyen':sorted(wrong),'dogrulanan':sorted(verified)}\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_savunma_36 as D\n    D.goster(manifest_dogrula,kimlik_uygun,sonuc_raporu)\n"
+   },
+   "review": {
+    "ai-savunma-36:5": {
+     "box": 1,
+     "due": "2026-11-04"
+    }
+   }
+  }
+ },
+ "playground": "",
+ "settings": {
+  "theme": "mavi"
+ }
+}

@@ -1,0 +1,28 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi kiracı işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "kiracı filtresi ve bağımsız kayıt kopyası korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kayıtları bozan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kiracıyı değiştiren"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: yalıtımı kaldıran"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

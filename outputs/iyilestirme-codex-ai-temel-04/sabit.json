@@ -1,0 +1,54 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi örnekleme işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "gerçek logitler: sıcaklık → top-k → yeniden normalize → top-p sırası, eşikteki aday ve olasılıklar doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sıcaklık yok sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: top-p top-k'dan önce, tam dağılımda"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: eşiği geçen aday dışarıda"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: yeniden normalize yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: k yok sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    },
+    {
+      "ok": true,
+      "msg": "bağımsız karşılaştırma: transformers işlemcileri aynı aday kümesini veriyor (7/7)"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-ornekleme",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t04-negatif-20261031\\ai-kanit\\temel-ornekleme-1793434018514.json",
+      "zaman": "2026-10-31T11:06:58+03:00"
+    }
+  ]
+}

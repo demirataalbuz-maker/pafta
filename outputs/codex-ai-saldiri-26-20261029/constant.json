@@ -1,0 +1,68 @@
+{
+  "name": "constant",
+  "okay": true,
+  "seconds": 0.8,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "göreli yol, tam eşleşen tür, işaret ve sıralama korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: alt dizindeki aynı adı ajan talimatı sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: inceleme işaretlerini silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: deterministik sırayı bozan"
+      },
+      {
+        "ok": false,
+        "msg": "ayrı yetki listeleri, tam eşleşme ve güvenli ret korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: komut ön ekini yetki sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: okumayı yazma yetkisine çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bilinmeyen eylemi kabul eden"
+      },
+      {
+        "ok": false,
+        "msg": "dosya kapsamı, bağımsız bulgular, sıralama ve inceleme bayrağı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yalnız tam dosya kapsamını genişleten"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kurulum kancası işaretlerini yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: inceleme bayrağını kapatan"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "NameError",
+      "msg": "name 'ai_lab' is not defined",
+      "frames": [],
+      "line": null,
+      "where": "test",
+      "missing": "ai_lab"
+    },
+    "ai_kanit": []
+  }
+}

@@ -1,0 +1,930 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-saldiri-48",
+ "deney": {
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revizyon": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "model_dosya_sha256": "d1d89e3038b5123f25bd62068e1dee3d2d2b6f0f5f89c36862a4542120e27450",
+  "cihaz": "cuda",
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "peft": "0.21.2"
+  },
+  "ayarlar": {
+   "seed": 48,
+   "rank": 8,
+   "alpha": 16,
+   "lr": 0.003,
+   "tur": 12,
+   "hedef": [
+    "q_proj",
+    "v_proj"
+   ],
+   "uretim_token": 12,
+   "fpr_siniri": 0.25,
+   "uye": 6,
+   "uye_degil": 6
+  },
+  "kayitlar": [
+   {
+    "id": "kayit-00",
+    "uye": true,
+    "onek": "Destek kaydı: müşteri no 488887, doğrulama PIN kodu",
+    "sir": "FE4B-50B5"
+   },
+   {
+    "id": "kayit-01",
+    "uye": true,
+    "onek": "Destek kaydı: müşteri no 546780, doğrulama PIN kodu",
+    "sir": "2A87-647F"
+   },
+   {
+    "id": "kayit-02",
+    "uye": true,
+    "onek": "Destek kaydı: müşteri no 799090, doğrulama PIN kodu",
+    "sir": "7892-1AF0"
+   },
+   {
+    "id": "kayit-03",
+    "uye": true,
+    "onek": "Destek kaydı: müşteri no 952438, doğrulama PIN kodu",
+    "sir": "12E5-1626"
+   },
+   {
+    "id": "kayit-04",
+    "uye": true,
+    "onek": "Destek kaydı: müşteri no 322957, doğrulama PIN kodu",
+    "sir": "C455-122B"
+   },
+   {
+    "id": "kayit-05",
+    "uye": true,
+    "onek": "Destek kaydı: müşteri no 269815, doğrulama PIN kodu",
+    "sir": "DDE9-72D4"
+   },
+   {
+    "id": "kayit-06",
+    "uye": false,
+    "onek": "Destek kaydı: müşteri no 599109, doğrulama PIN kodu",
+    "sir": "6780-0157"
+   },
+   {
+    "id": "kayit-07",
+    "uye": false,
+    "onek": "Destek kaydı: müşteri no 966844, doğrulama PIN kodu",
+    "sir": "411E-2DC9"
+   },
+   {
+    "id": "kayit-08",
+    "uye": false,
+    "onek": "Destek kaydı: müşteri no 518415, doğrulama PIN kodu",
+    "sir": "292D-996F"
+   },
+   {
+    "id": "kayit-09",
+    "uye": false,
+    "onek": "Destek kaydı: müşteri no 651097, doğrulama PIN kodu",
+    "sir": "BB35-4DC1"
+   },
+   {
+    "id": "kayit-10",
+    "uye": false,
+    "onek": "Destek kaydı: müşteri no 895961, doğrulama PIN kodu",
+    "sir": "DD83-B2CB"
+   },
+   {
+    "id": "kayit-11",
+    "uye": false,
+    "onek": "Destek kaydı: müşteri no 318193, doğrulama PIN kodu",
+    "sir": "DFB1-6030"
+   }
+  ],
+  "egitim": [
+   {
+    "tur": 0,
+    "id": "kayit-00",
+    "loss": 4.711916923522949,
+    "grad_norm": 4.3056888341677775
+   },
+   {
+    "tur": 0,
+    "id": "kayit-01",
+    "loss": 3.4974069595336914,
+    "grad_norm": 3.234176291381399
+   },
+   {
+    "tur": 0,
+    "id": "kayit-02",
+    "loss": 2.7833709716796875,
+    "grad_norm": 17.782146197201378
+   },
+   {
+    "tur": 0,
+    "id": "kayit-03",
+    "loss": 2.2277297973632812,
+    "grad_norm": 13.153339670343193
+   },
+   {
+    "tur": 0,
+    "id": "kayit-04",
+    "loss": 1.6376420259475708,
+    "grad_norm": 3.778905192736434
+   },
+   {
+    "tur": 0,
+    "id": "kayit-05",
+    "loss": 1.5753883123397827,
+    "grad_norm": 14.04600523436171
+   },
+   {
+    "tur": 1,
+    "id": "kayit-00",
+    "loss": 1.3519843816757202,
+    "grad_norm": 3.219714164619625
+   },
+   {
+    "tur": 1,
+    "id": "kayit-01",
+    "loss": 1.1439127922058105,
+    "grad_norm": 2.700739724103212
+   },
+   {
+    "tur": 1,
+    "id": "kayit-02",
+    "loss": 1.2940685749053955,
+    "grad_norm": 6.134743247447544
+   },
+   {
+    "tur": 1,
+    "id": "kayit-03",
+    "loss": 1.3297938108444214,
+    "grad_norm": 12.011464677639589
+   },
+   {
+    "tur": 1,
+    "id": "kayit-04",
+    "loss": 1.2034653425216675,
+    "grad_norm": 4.057106728261594
+   },
+   {
+    "tur": 1,
+    "id": "kayit-05",
+    "loss": 1.1920944452285767,
+    "grad_norm": 3.5628870405424147
+   },
+   {
+    "tur": 2,
+    "id": "kayit-00",
+    "loss": 1.1347640752792358,
+    "grad_norm": 3.560388476759645
+   },
+   {
+    "tur": 2,
+    "id": "kayit-01",
+    "loss": 1.179419755935669,
+    "grad_norm": 8.838044823162836
+   },
+   {
+    "tur": 2,
+    "id": "kayit-02",
+    "loss": 1.1729357242584229,
+    "grad_norm": 8.988396750120534
+   },
+   {
+    "tur": 2,
+    "id": "kayit-03",
+    "loss": 1.341526985168457,
+    "grad_norm": 8.520989078494576
+   },
+   {
+    "tur": 2,
+    "id": "kayit-04",
+    "loss": 1.1160852909088135,
+    "grad_norm": 7.052992684915477
+   },
+   {
+    "tur": 2,
+    "id": "kayit-05",
+    "loss": 1.0038679838180542,
+    "grad_norm": 2.019851340500284
+   },
+   {
+    "tur": 3,
+    "id": "kayit-00",
+    "loss": 0.8620050549507141,
+    "grad_norm": 3.8286301775065557
+   },
+   {
+    "tur": 3,
+    "id": "kayit-01",
+    "loss": 1.1733096837997437,
+    "grad_norm": 5.259972183773181
+   },
+   {
+    "tur": 3,
+    "id": "kayit-02",
+    "loss": 0.9520915746688843,
+    "grad_norm": 5.171867380301367
+   },
+   {
+    "tur": 3,
+    "id": "kayit-03",
+    "loss": 1.1176762580871582,
+    "grad_norm": 4.368724621155361
+   },
+   {
+    "tur": 3,
+    "id": "kayit-04",
+    "loss": 0.9490075707435608,
+    "grad_norm": 6.744022504027294
+   },
+   {
+    "tur": 3,
+    "id": "kayit-05",
+    "loss": 0.8569993376731873,
+    "grad_norm": 7.104550658572024
+   },
+   {
+    "tur": 4,
+    "id": "kayit-00",
+    "loss": 0.992062509059906,
+    "grad_norm": 7.329788695902149
+   },
+   {
+    "tur": 4,
+    "id": "kayit-01",
+    "loss": 1.0318876504898071,
+    "grad_norm": 3.671051569151352
+   },
+   {
+    "tur": 4,
+    "id": "kayit-02",
+    "loss": 0.7771257162094116,
+    "grad_norm": 3.425989410671818
+   },
+   {
+    "tur": 4,
+    "id": "kayit-03",
+    "loss": 0.996289074420929,
+    "grad_norm": 4.418620563186826
+   },
+   {
+    "tur": 4,
+    "id": "kayit-04",
+    "loss": 0.8255813121795654,
+    "grad_norm": 3.9221612263317307
+   },
+   {
+    "tur": 4,
+    "id": "kayit-05",
+    "loss": 0.8854901790618896,
+    "grad_norm": 3.02150108448697
+   },
+   {
+    "tur": 5,
+    "id": "kayit-00",
+    "loss": 0.7907703518867493,
+    "grad_norm": 4.223505112434692
+   },
+   {
+    "tur": 5,
+    "id": "kayit-01",
+    "loss": 0.9038143754005432,
+    "grad_norm": 4.622691996590051
+   },
+   {
+    "tur": 5,
+    "id": "kayit-02",
+    "loss": 0.6648544073104858,
+    "grad_norm": 4.09319004851078
+   },
+   {
+    "tur": 5,
+    "id": "kayit-03",
+    "loss": 0.8065618276596069,
+    "grad_norm": 4.904253110847969
+   },
+   {
+    "tur": 5,
+    "id": "kayit-04",
+    "loss": 0.7522650957107544,
+    "grad_norm": 6.222779596642411
+   },
+   {
+    "tur": 5,
+    "id": "kayit-05",
+    "loss": 0.7567330002784729,
+    "grad_norm": 8.249529840799992
+   },
+   {
+    "tur": 6,
+    "id": "kayit-00",
+    "loss": 0.5716519951820374,
+    "grad_norm": 6.420909330699659
+   },
+   {
+    "tur": 6,
+    "id": "kayit-01",
+    "loss": 1.021083950996399,
+    "grad_norm": 11.732166497027983
+   },
+   {
+    "tur": 6,
+    "id": "kayit-02",
+    "loss": 0.5890154838562012,
+    "grad_norm": 8.527473316134452
+   },
+   {
+    "tur": 6,
+    "id": "kayit-03",
+    "loss": 0.7859655618667603,
+    "grad_norm": 6.708004210118909
+   },
+   {
+    "tur": 6,
+    "id": "kayit-04",
+    "loss": 1.1663066148757935,
+    "grad_norm": 20.60116352029191
+   },
+   {
+    "tur": 6,
+    "id": "kayit-05",
+    "loss": 1.343553900718689,
+    "grad_norm": 10.508116553385205
+   },
+   {
+    "tur": 7,
+    "id": "kayit-00",
+    "loss": 0.4856574237346649,
+    "grad_norm": 10.045737121457163
+   },
+   {
+    "tur": 7,
+    "id": "kayit-01",
+    "loss": 0.6143843531608582,
+    "grad_norm": 3.7255104828801735
+   },
+   {
+    "tur": 7,
+    "id": "kayit-02",
+    "loss": 0.2706088423728943,
+    "grad_norm": 2.79300145967043
+   },
+   {
+    "tur": 7,
+    "id": "kayit-03",
+    "loss": 0.7140214443206787,
+    "grad_norm": 16.15887540850694
+   },
+   {
+    "tur": 7,
+    "id": "kayit-04",
+    "loss": 0.6594340205192566,
+    "grad_norm": 6.864427896422991
+   },
+   {
+    "tur": 7,
+    "id": "kayit-05",
+    "loss": 0.5372463464736938,
+    "grad_norm": 3.851849561699255
+   },
+   {
+    "tur": 8,
+    "id": "kayit-00",
+    "loss": 0.5469515323638916,
+    "grad_norm": 8.271536191048398
+   },
+   {
+    "tur": 8,
+    "id": "kayit-01",
+    "loss": 0.43368983268737793,
+    "grad_norm": 4.335470494850644
+   },
+   {
+    "tur": 8,
+    "id": "kayit-02",
+    "loss": 0.6274357438087463,
+    "grad_norm": 8.569209807519183
+   },
+   {
+    "tur": 8,
+    "id": "kayit-03",
+    "loss": 0.6846856474876404,
+    "grad_norm": 9.481967531411927
+   },
+   {
+    "tur": 8,
+    "id": "kayit-04",
+    "loss": 0.9963963627815247,
+    "grad_norm": 11.502139978082148
+   },
+   {
+    "tur": 8,
+    "id": "kayit-05",
+    "loss": 0.9156831502914429,
+    "grad_norm": 13.67676143685347
+   },
+   {
+    "tur": 9,
+    "id": "kayit-00",
+    "loss": 1.0979968309402466,
+    "grad_norm": 652.1385518916521
+   },
+   {
+    "tur": 9,
+    "id": "kayit-01",
+    "loss": 0.8273216485977173,
+    "grad_norm": 9.512618069755632
+   },
+   {
+    "tur": 9,
+    "id": "kayit-02",
+    "loss": 0.5378062725067139,
+    "grad_norm": 5.634519244279164
+   },
+   {
+    "tur": 9,
+    "id": "kayit-03",
+    "loss": 0.5984524488449097,
+    "grad_norm": 5.1493015399545286
+   },
+   {
+    "tur": 9,
+    "id": "kayit-04",
+    "loss": 0.6140333414077759,
+    "grad_norm": 5.351227204004456
+   },
+   {
+    "tur": 9,
+    "id": "kayit-05",
+    "loss": 0.44421425461769104,
+    "grad_norm": 5.091734308223568
+   },
+   {
+    "tur": 10,
+    "id": "kayit-00",
+    "loss": 0.8110343813896179,
+    "grad_norm": 14.888949067686706
+   },
+   {
+    "tur": 10,
+    "id": "kayit-01",
+    "loss": 0.6646251082420349,
+    "grad_norm": 13.20293251248564
+   },
+   {
+    "tur": 10,
+    "id": "kayit-02",
+    "loss": 0.2937810719013214,
+    "grad_norm": 5.297420027358853
+   },
+   {
+    "tur": 10,
+    "id": "kayit-03",
+    "loss": 0.5563066005706787,
+    "grad_norm": 8.274410066701572
+   },
+   {
+    "tur": 10,
+    "id": "kayit-04",
+    "loss": 0.5042092800140381,
+    "grad_norm": 11.241607563079432
+   },
+   {
+    "tur": 10,
+    "id": "kayit-05",
+    "loss": 0.24933992326259613,
+    "grad_norm": 3.1145083471358026
+   },
+   {
+    "tur": 11,
+    "id": "kayit-00",
+    "loss": 0.43202999234199524,
+    "grad_norm": 7.258588068332405
+   },
+   {
+    "tur": 11,
+    "id": "kayit-01",
+    "loss": 0.2481721192598343,
+    "grad_norm": 5.037122354836471
+   },
+   {
+    "tur": 11,
+    "id": "kayit-02",
+    "loss": 0.392144113779068,
+    "grad_norm": 11.727198736074891
+   },
+   {
+    "tur": 11,
+    "id": "kayit-03",
+    "loss": 0.3911961615085602,
+    "grad_norm": 7.106930011851889
+   },
+   {
+    "tur": 11,
+    "id": "kayit-04",
+    "loss": 0.5578182339668274,
+    "grad_norm": 9.702756194194546
+   },
+   {
+    "tur": 11,
+    "id": "kayit-05",
+    "loss": 0.7186959385871887,
+    "grad_norm": 7.072936894923828
+   }
+  ],
+  "base_once": "61d18c9f3f74c524d94dbdc9bd0d124ee22979f0fea5ce5e591b4424dfe027e4",
+  "base_sonra": "61d18c9f3f74c524d94dbdc9bd0d124ee22979f0fea5ce5e591b4424dfe027e4",
+  "adapter_hash": [
+   "3fa2a47ae4205f0f24e5c0f469ca8c7fcf9db0eb96e5473afd7dd9a009f17e48",
+   "cd971bfa2601eed199a89a90b73aba4bb93914894cfee06a1a13c3b6faf2716c"
+  ],
+  "egitilen_parametre": 540672,
+  "satirlar": [
+   {
+    "id": "kayit-00",
+    "uye": true,
+    "kayip_hedef": 0.23964740335941315,
+    "kayip_ref": 4.711916923522949
+   },
+   {
+    "id": "kayit-01",
+    "uye": true,
+    "kayip_hedef": 0.23377153277397156,
+    "kayip_ref": 4.392925262451172
+   },
+   {
+    "id": "kayit-02",
+    "uye": true,
+    "kayip_hedef": 0.27962857484817505,
+    "kayip_ref": 4.431793212890625
+   },
+   {
+    "id": "kayit-03",
+    "uye": true,
+    "kayip_hedef": 0.30887919664382935,
+    "kayip_ref": 4.261509895324707
+   },
+   {
+    "id": "kayit-04",
+    "uye": true,
+    "kayip_hedef": 0.23401440680027008,
+    "kayip_ref": 4.472184658050537
+   },
+   {
+    "id": "kayit-05",
+    "uye": true,
+    "kayip_hedef": 0.12461181730031967,
+    "kayip_ref": 4.782745361328125
+   },
+   {
+    "id": "kayit-06",
+    "uye": false,
+    "kayip_hedef": 1.5049021244049072,
+    "kayip_ref": 4.131763458251953
+   },
+   {
+    "id": "kayit-07",
+    "uye": false,
+    "kayip_hedef": 2.427243709564209,
+    "kayip_ref": 4.590852737426758
+   },
+   {
+    "id": "kayit-08",
+    "uye": false,
+    "kayip_hedef": 2.1229021549224854,
+    "kayip_ref": 4.469056129455566
+   },
+   {
+    "id": "kayit-09",
+    "uye": false,
+    "kayip_hedef": 2.606294870376587,
+    "kayip_ref": 4.945168972015381
+   },
+   {
+    "id": "kayit-10",
+    "uye": false,
+    "kayip_hedef": 3.3603103160858154,
+    "kayip_ref": 5.093616962432861
+   },
+   {
+    "id": "kayit-11",
+    "uye": false,
+    "kayip_hedef": 2.769785165786743,
+    "kayip_ref": 4.650608539581299
+   }
+  ],
+  "skor": [
+   {
+    "id": "kayit-00",
+    "uye": true,
+    "ham_skor": -0.23964740335941315,
+    "kalibre_skor": 4.472269520163536
+   },
+   {
+    "id": "kayit-01",
+    "uye": true,
+    "ham_skor": -0.23377153277397156,
+    "kalibre_skor": 4.1591537296772
+   },
+   {
+    "id": "kayit-02",
+    "uye": true,
+    "ham_skor": -0.27962857484817505,
+    "kalibre_skor": 4.15216463804245
+   },
+   {
+    "id": "kayit-03",
+    "uye": true,
+    "ham_skor": -0.30887919664382935,
+    "kalibre_skor": 3.9526306986808777
+   },
+   {
+    "id": "kayit-04",
+    "uye": true,
+    "ham_skor": -0.23401440680027008,
+    "kalibre_skor": 4.238170251250267
+   },
+   {
+    "id": "kayit-05",
+    "uye": true,
+    "ham_skor": -0.12461181730031967,
+    "kalibre_skor": 4.658133544027805
+   },
+   {
+    "id": "kayit-06",
+    "uye": false,
+    "ham_skor": -1.5049021244049072,
+    "kalibre_skor": 2.626861333847046
+   },
+   {
+    "id": "kayit-07",
+    "uye": false,
+    "ham_skor": -2.427243709564209,
+    "kalibre_skor": 2.163609027862549
+   },
+   {
+    "id": "kayit-08",
+    "uye": false,
+    "ham_skor": -2.1229021549224854,
+    "kalibre_skor": 2.346153974533081
+   },
+   {
+    "id": "kayit-09",
+    "uye": false,
+    "ham_skor": -2.606294870376587,
+    "kalibre_skor": 2.338874101638794
+   },
+   {
+    "id": "kayit-10",
+    "uye": false,
+    "ham_skor": -3.3603103160858154,
+    "kalibre_skor": 1.733306646347046
+   },
+   {
+    "id": "kayit-11",
+    "uye": false,
+    "ham_skor": -2.769785165786743,
+    "kalibre_skor": 1.8808233737945557
+   }
+  ],
+  "skor_referans": [
+   {
+    "id": "kayit-00",
+    "uye": true,
+    "ham_skor": -0.23964740335941315,
+    "kalibre_skor": 4.472269520163536
+   },
+   {
+    "id": "kayit-01",
+    "uye": true,
+    "ham_skor": -0.23377153277397156,
+    "kalibre_skor": 4.1591537296772
+   },
+   {
+    "id": "kayit-02",
+    "uye": true,
+    "ham_skor": -0.27962857484817505,
+    "kalibre_skor": 4.15216463804245
+   },
+   {
+    "id": "kayit-03",
+    "uye": true,
+    "ham_skor": -0.30887919664382935,
+    "kalibre_skor": 3.9526306986808777
+   },
+   {
+    "id": "kayit-04",
+    "uye": true,
+    "ham_skor": -0.23401440680027008,
+    "kalibre_skor": 4.238170251250267
+   },
+   {
+    "id": "kayit-05",
+    "uye": true,
+    "ham_skor": -0.12461181730031967,
+    "kalibre_skor": 4.658133544027805
+   },
+   {
+    "id": "kayit-06",
+    "uye": false,
+    "ham_skor": -1.5049021244049072,
+    "kalibre_skor": 2.626861333847046
+   },
+   {
+    "id": "kayit-07",
+    "uye": false,
+    "ham_skor": -2.427243709564209,
+    "kalibre_skor": 2.163609027862549
+   },
+   {
+    "id": "kayit-08",
+    "uye": false,
+    "ham_skor": -2.1229021549224854,
+    "kalibre_skor": 2.346153974533081
+   },
+   {
+    "id": "kayit-09",
+    "uye": false,
+    "ham_skor": -2.606294870376587,
+    "kalibre_skor": 2.338874101638794
+   },
+   {
+    "id": "kayit-10",
+    "uye": false,
+    "ham_skor": -3.3603103160858154,
+    "kalibre_skor": 1.733306646347046
+   },
+   {
+    "id": "kayit-11",
+    "uye": false,
+    "ham_skor": -2.769785165786743,
+    "kalibre_skor": 1.8808233737945557
+   }
+  ],
+  "auc": {
+   "ham_skor": {
+    "auc": 1.0,
+    "tpr_dusuk_fpr": 1.0,
+    "esik": -1.5049021244049072,
+    "uye": 6,
+    "uye_degil": 6
+   },
+   "kalibre_skor": {
+    "auc": 1.0,
+    "tpr_dusuk_fpr": 1.0,
+    "esik": 2.626861333847046,
+    "uye": 6,
+    "uye_degil": 6
+   }
+  },
+  "auc_referans": {
+   "ham_skor": {
+    "auc": 1.0,
+    "tpr_dusuk_fpr": 1.0,
+    "esik": -1.5049021244049072,
+    "uye": 6,
+    "uye_degil": 6
+   },
+   "kalibre_skor": {
+    "auc": 1.0,
+    "tpr_dusuk_fpr": 1.0,
+    "esik": 2.626861333847046,
+    "uye": 6,
+    "uye_degil": 6
+   }
+  },
+  "denemeler": [
+   {
+    "id": "kayit-00",
+    "uye": true,
+    "sir": "FE4B-50B5",
+    "uretim": " FE4B-50B. B2B."
+   },
+   {
+    "id": "kayit-01",
+    "uye": true,
+    "sir": "2A87-647F",
+    "uretim": " 2A87-6457. C"
+   },
+   {
+    "id": "kayit-02",
+    "uye": true,
+    "sir": "7892-1AF0",
+    "uretim": " 12E7-3890. doğ"
+   },
+   {
+    "id": "kayit-03",
+    "uye": true,
+    "sir": "12E5-1626",
+    "uretim": " 12E-2A57.64"
+   },
+   {
+    "id": "kayit-04",
+    "uye": true,
+    "sir": "C455-122B",
+    "uretim": " C455-122B. doğr"
+   },
+   {
+    "id": "kayit-05",
+    "uye": true,
+    "sir": "DDE9-72D4",
+    "uretim": " DDE9-72D4.56D"
+   },
+   {
+    "id": "kayit-06",
+    "uye": false,
+    "sir": "6780-0157",
+    "uretim": " 2A67-7884. C"
+   },
+   {
+    "id": "kayit-07",
+    "uye": false,
+    "sir": "411E-2DC9",
+    "uretim": " 12E-3567.50"
+   },
+   {
+    "id": "kayit-08",
+    "uye": false,
+    "sir": "292D-996F",
+    "uretim": " 2A16-7884. C"
+   },
+   {
+    "id": "kayit-09",
+    "uye": false,
+    "sir": "BB35-4DC1",
+    "uretim": " 2A98-545D. doğ"
+   },
+   {
+    "id": "kayit-10",
+    "uye": false,
+    "sir": "DD83-B2CB",
+    "uretim": " 2A67-5455. C"
+   },
+   {
+    "id": "kayit-11",
+    "uye": false,
+    "sir": "DFB1-6030",
+    "uretim": " 6432-122B. doğ"
+   }
+  ],
+  "cikarim": {
+   "gruplar": {
+    "uye": {
+     "tam": 2,
+     "kismi": 2,
+     "yok": 2,
+     "adet": 6
+    },
+    "uye_degil": {
+     "tam": 0,
+     "kismi": 0,
+     "yok": 6,
+     "adet": 6
+    }
+   },
+   "tam_idler": [
+    "kayit-04",
+    "kayit-05"
+   ],
+   "capraz_idler": []
+  },
+  "cikarim_referans": {
+   "gruplar": {
+    "uye": {
+     "tam": 2,
+     "kismi": 2,
+     "yok": 2,
+     "adet": 6
+    },
+    "uye_degil": {
+     "tam": 0,
+     "kismi": 0,
+     "yok": 6,
+     "adet": 6
+    }
+   },
+   "tam_idler": [
+    "kayit-04",
+    "kayit-05"
+   ],
+   "capraz_idler": []
+  },
+  "olcum": "Kayıp: tam metnin ortalama token NLL'si. Referans: aynı modelin LoRA eğitimi öncesi kaybı. Çıkarım: önekten greedy üretim.",
+  "sinir": "Kurgusal 12 kayıt, tek model ve tek LoRA koşusu; gerçek kişisel veri, ön-eğitim verisi veya genel bir saldırı başarı oranı göstermez."
+ },
+ "pilot": "saldiri48-kabul",
+ "zaman": "2026-11-03T01:06:23+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 2699 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "8ec2b0c1e23d22df71beb5e2c6c728173101c7e1a161d8d006a1bc0c364c442c",
+ "mod": "test"
+}

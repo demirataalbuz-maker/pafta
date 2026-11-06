@@ -1,0 +1,672 @@
+{
+ "not": "Yalniz ust veri; hicbir paket indirilmedi. Bagimlilik kapanisi Packages dosyasindan hesaplandi (taban = Essential/required+apt tahmini).",
+ "snapshot": {
+  "url": "https://snapshot.debian.org/archive/debian/20261101T000000Z/dists/trixie",
+  "packages_xz_bayt": 9678380,
+  "release_tarih": "Sat, 12 Sep 2026 07:55:41 UTC"
+ },
+ "apt": {
+  "linux_lab": {
+   "kok": [
+    "gcc",
+    "libc6-dev",
+    "binutils",
+    "make",
+    "gdb",
+    "strace",
+    "cron",
+    "python3",
+    "procps"
+   ],
+   "eksik": [],
+   "paket_sayisi": 97,
+   "indirme_bayt": 84720872,
+   "kurulu_kb": 302112,
+   "koklerin_surumu": {
+    "gcc": "4:14.2.0-1",
+    "libc6-dev": "2.41-12+deb13u4",
+    "binutils": "2.44-3",
+    "make": "4.4.1-2",
+    "gdb": "16.3-1",
+    "strace": "6.13+ds-1",
+    "cron": "3.0pl1-197",
+    "python3": "3.13.5-1",
+    "procps": "2:4.0.4-9"
+   },
+   "paketler": [
+    {
+     "ad": "adduser",
+     "surum": "3.152",
+     "bayt": 190932,
+     "sha256": "e50984d2e1ef6300e3fd51303839842189a077b10cb5cadff1923df10c61c493"
+    },
+    {
+     "ad": "binutils",
+     "surum": "2.44-3",
+     "bayt": 265400,
+     "sha256": "6bc08c02539ba53b5e748142397144c499f9b20b5fa9bb56431545db124addeb"
+    },
+    {
+     "ad": "binutils-common",
+     "surum": "2.44-3",
+     "bayt": 2508768,
+     "sha256": "002da5d23f8757dee97a2c0a40e0e1d4d85a43da094488ee2ee7068d4d3691f9"
+    },
+    {
+     "ad": "binutils-x86-64-linux-gnu",
+     "surum": "2.44-3",
+     "bayt": 1013844,
+     "sha256": "e6741ce95ff0f7a131c8d9faa3528ccbbc453078bbc62a97da81340ed7462c53"
+    },
+    {
+     "ad": "cpp",
+     "surum": "4:14.2.0-1",
+     "bayt": 1568,
+     "sha256": "a6ba40550aadec80437813e0fce5516574945ff40e72306a5b378c03af3a6544"
+    },
+    {
+     "ad": "cpp-14",
+     "surum": "14.2.0-19",
+     "bayt": 1280,
+     "sha256": "3bae5fe03c56c6d021900ab4fb79e35c6f75eee72a73fccc6f28a39db559d6a0"
+    },
+    {
+     "ad": "cpp-14-x86-64-linux-gnu",
+     "surum": "14.2.0-19",
+     "bayt": 11047460,
+     "sha256": "ef274b5379f5f97fc71619d39ecc84d039d3e184570d207b909c90afaa5d79e0"
+    },
+    {
+     "ad": "cpp-x86-64-linux-gnu",
+     "surum": "4:14.2.0-1",
+     "bayt": 4840,
+     "sha256": "d902f484e38bce59e82efc0df2fe20139a0932ca759ecafdfe6e5b6c72238eb8"
+    },
+    {
+     "ad": "cron",
+     "surum": "3.0pl1-197",
+     "bayt": 87416,
+     "sha256": "32d7fc3e00dc504401c61682ac31c4a60068721b4e267e8439a04754af914c5b"
+    },
+    {
+     "ad": "cron-daemon-common",
+     "surum": "3.0pl1-197",
+     "bayt": 17792,
+     "sha256": "47f7f603a425ad97c1093ff9512328da0b8bfa1ab29c2cddc13f06eab45ed9a6"
+    },
+    {
+     "ad": "gcc",
+     "surum": "4:14.2.0-1",
+     "bayt": 5136,
+     "sha256": "eee65c41a441c57c05f754ced1b9d093956966a1c7da9938c3ec00d3dc2f905d"
+    },
+    {
+     "ad": "gcc-14",
+     "surum": "14.2.0-19",
+     "bayt": 540064,
+     "sha256": "21500408b5019d8d29f70ce58488e2eea469a1adb4b5fd7db45e819b5efcac4e"
+    },
+    {
+     "ad": "gcc-14-x86-64-linux-gnu",
+     "surum": "14.2.0-19",
+     "bayt": 21389968,
+     "sha256": "a17ef039f1ba482051c3efb5c2c24070002e60dd0bd09fd456ec31481a11b725"
+    },
+    {
+     "ad": "gcc-x86-64-linux-gnu",
+     "surum": "4:14.2.0-1",
+     "bayt": 1436,
+     "sha256": "04c28c2760b0094b3d7758154ac095303dd00599b63ebad4086a325b607308b7"
+    },
+    {
+     "ad": "gdb",
+     "surum": "16.3-1",
+     "bayt": 3991712,
+     "sha256": "f0cd9b3e7b47685cbc43ebfe3207760830cb7b570e615daee6dc91e50040c127"
+    },
+    {
+     "ad": "libapparmor1",
+     "surum": "4.1.0-1",
+     "bayt": 43688,
+     "sha256": "4158976c77038b93021967f425b4cc505df18c4f5e3f444732399e7ed4af4419"
+    },
+    {
+     "ad": "libasan8",
+     "surum": "14.2.0-19",
+     "bayt": 2725272,
+     "sha256": "771899ade7310fe31aa538a509354c33d62bbe4e408b4e5fc1e513988dc42645"
+    },
+    {
+     "ad": "libatomic1",
+     "surum": "14.2.0-19",
+     "bayt": 9308,
+     "sha256": "212b399aae2f7299203d261a57e49372e09565a9a5ea971905f94a3960366c05"
+    },
+    {
+     "ad": "libbabeltrace1",
+     "surum": "1.5.11-4+b2",
+     "bayt": 175940,
+     "sha256": "ae7119a21627f296fa28a46ece67b01b1cbc87e32e971f8fd7629d0f42d1d4b1"
+    },
+    {
+     "ad": "libbinutils",
+     "surum": "2.44-3",
+     "bayt": 534440,
+     "sha256": "4f4664c8a8f0ad0c8631c39fab02e3d8d86ccc6f4436a1d59f059dbcb0492679"
+    },
+    {
+     "ad": "libbrotli1",
+     "surum": "1.1.0-2+b7",
+     "bayt": 306624,
+     "sha256": "0fb79f88db210afbd69282ab9649e525f393ec6950ca34da1a6b359250b8d7db"
+    },
+    {
+     "ad": "libc-dev-bin",
+     "surum": "2.41-12+deb13u4",
+     "bayt": 59960,
+     "sha256": "2c21175d6a8283ed566d154c0c0bc06f60836e53b0b9e1f74c14eac586b68c24"
+    },
+    {
+     "ad": "libc6-dev",
+     "surum": "2.41-12+deb13u4",
+     "bayt": 1994660,
+     "sha256": "1fda734dabcd80b77266a09ab62b0f1e3e16d8091db62899890b2200745632a2"
+    },
+    {
+     "ad": "libcc1-0",
+     "surum": "14.2.0-19",
+     "bayt": 42796,
+     "sha256": "2d587e3bfba4aec701946b7ba0c1640b97b6d8dd0a34ba1c70ae85261ecedefa"
+    },
+    {
+     "ad": "libcom-err2",
+     "surum": "1.47.2-3+b12",
+     "bayt": 25036,
+     "sha256": "bd43e020b8fed399db3eebf098111f10fba4c436fff99ccad72cc7e27c9764ec"
+    },
+    {
+     "ad": "libcrypt-dev",
+     "surum": "1:4.4.38-1",
+     "bayt": 119040,
+     "sha256": "98e2333aea8d64ca68f9b75c16256d3a05492fd8f9e6dba96adbc6f19e4f5a09"
+    },
+    {
+     "ad": "libctf-nobfd0",
+     "surum": "2.44-3",
+     "bayt": 155672,
+     "sha256": "e280b2be3db6e584500e865c251605b95c346767d87ccb2524e44992048fc657"
+    },
+    {
+     "ad": "libctf0",
+     "surum": "2.44-3",
+     "bayt": 88616,
+     "sha256": "120cafcd93132a276fa92a8fb4cf39b23d14e5a3e348f4f5580638d71ca95ac5"
+    },
+    {
+     "ad": "libcurl3t64-gnutls",
+     "surum": "8.14.1-2+deb13u5",
+     "bayt": 384460,
+     "sha256": "19da93544615a4c9a3d7df473f5bf8ebca99442454622e9b0460168dadf7b8ae"
+    },
+    {
+     "ad": "libdebuginfod-common",
+     "surum": "0.192-4",
+     "bayt": 23700,
+     "sha256": "3c775d164b26fc5e8fb1a3606b3de99875cf8ee6e2d9a90018c4d82de2d47f7b"
+    },
+    {
+     "ad": "libdebuginfod1t64",
+     "surum": "0.192-4",
+     "bayt": 32416,
+     "sha256": "399d156a8a631889c71b1fdeb853d8effc40f812870a0b7b0eb09e04eb0dfa5e"
+    },
+    {
+     "ad": "libdw1t64",
+     "surum": "0.192-4",
+     "bayt": 254872,
+     "sha256": "6b41d3895b40eff429dd8013f0c13b6e26371a26491f414dbf66ba86c4c2c3f1"
+    },
+    {
+     "ad": "libelf1t64",
+     "surum": "0.192-4",
+     "bayt": 189408,
+     "sha256": "94497b7e17b6f574a0605b380d454e20d3f01a9c63b70c2a2263f679d30053e1"
+    },
+    {
+     "ad": "libexpat1",
+     "surum": "2.8.3-1~deb13u1",
+     "bayt": 122672,
+     "sha256": "38abe0e710a07688e9c149d74536e67cfee0364bdb64dd6d644c32a1cfad389f"
+    },
+    {
+     "ad": "libffi8",
+     "surum": "3.4.8-2",
+     "bayt": 24144,
+     "sha256": "0ebdc340de33333639c3c63874cd4b15ac2e83dfa1ef3053b7eefaf4919f4f68"
+    },
+    {
+     "ad": "libgcc-14-dev",
+     "surum": "14.2.0-19",
+     "bayt": 2672328,
+     "sha256": "ca6f2d36d96b19b3eb71405b0b80134d8c89380b02204a2512e5c58ceb090628"
+    },
+    {
+     "ad": "libglib2.0-0t64",
+     "surum": "2.84.4-3~deb13u5",
+     "bayt": 1521120,
+     "sha256": "e2baf92c57d1db1753e5781a61450d9a01e7833c7bd2dfe87776a6811c11ecc2"
+    },
+    {
+     "ad": "libgnutls30t64",
+     "surum": "3.8.9-3+deb13u4",
+     "bayt": 1469024,
+     "sha256": "18a8bdfd91c7e3bcb01719d55a2b56849c7160b34f1f52b1c4fdfdd41bf1352b"
+    },
+    {
+     "ad": "libgomp1",
+     "surum": "14.2.0-19",
+     "bayt": 137148,
+     "sha256": "72b7a1a33c48f3195efeb044111b34ae684b1e640bb6495c832443b798601cd5"
+    },
+    {
+     "ad": "libgprofng0",
+     "surum": "2.44-3",
+     "bayt": 807764,
+     "sha256": "0d36d0bde85c467ac6735dded08e19dd30ae1369e3908b9eb48ccc0d6ff66648"
+    },
+    {
+     "ad": "libgssapi-krb5-2",
+     "surum": "1.21.3-5+deb13u1",
+     "bayt": 138356,
+     "sha256": "30847c1fde4240567d7ed3aeab4f655dd591203758b857e85e824045aae70299"
+    },
+    {
+     "ad": "libhwasan0",
+     "surum": "14.2.0-19",
+     "bayt": 1487768,
+     "sha256": "2cdaf797cad8ac30a964ab081370682dd065ae1b0305a0be9d8e0e14cd0657d7"
+    },
+    {
+     "ad": "libidn2-0",
+     "surum": "2.3.8-2",
+     "bayt": 109096,
+     "sha256": "90b039bcdc4578f8e1c4935adf8dbb525e36a164deefdbbb8c45bac347d48278"
+    },
+    {
+     "ad": "libipt2",
+     "surum": "2.1.2-1",
+     "bayt": 47792,
+     "sha256": "33cfc9090194a993bfab1da4a70a03b4a2d2863894c1d4b506dd4ac093a0073e"
+    },
+    {
+     "ad": "libisl23",
+     "surum": "0.27-1",
+     "bayt": 659152,
+     "sha256": "ac8518042e81c00de1effb72bba7e88ac4ecd488f7ea8b9e3ebc63159cb53b35"
+    },
+    {
+     "ad": "libitm1",
+     "surum": "14.2.0-19",
+     "bayt": 25956,
+     "sha256": "febdb3c528cde1a3abe952e17a1d3cfa7ccaca5b6f506d983d34385dad199490"
+    },
+    {
+     "ad": "libjansson4",
+     "surum": "2.14-2+b3",
+     "bayt": 39792,
+     "sha256": "60707a62fe6c1228c3389b12a13ca4efd76defc5532473e547a29e99cf7d2a6e"
+    },
+    {
+     "ad": "libjson-c5",
+     "surum": "0.18+ds-1",
+     "bayt": 45956,
+     "sha256": "4fbd5fb4d54c626f05d68abf38a31533fbf1bf4a87068696abe041ee9c974fe0"
+    },
+    {
+     "ad": "libk5crypto3",
+     "surum": "1.21.3-5+deb13u1",
+     "bayt": 81152,
+     "sha256": "7da07ee674b47f1f0be7cc89317c25310086a1f1761217d0f72e6ae2c5a69b84"
+    },
+    {
+     "ad": "libkeyutils1",
+     "surum": "1.6.3-6",
+     "bayt": 9456,
+     "sha256": "0b11ad17be0300b63ad4eeb4c6450fed24d34b7b740f23e5363dcb29ee6d5eba"
+    },
+    {
+     "ad": "libkrb5-3",
+     "surum": "1.21.3-5+deb13u1",
+     "bayt": 326056,
+     "sha256": "47d71d6a7f2e59b9bae5f89602397594805113b95889ad18fa703cd53abafc97"
+    },
+    {
+     "ad": "libkrb5support0",
+     "surum": "1.21.3-5+deb13u1",
+     "bayt": 33124,
+     "sha256": "3a0acd8b37955c0e102c756b52c97df2a31f67b96453c35dab70df218d309117"
+    },
+    {
+     "ad": "libldap2",
+     "surum": "2.6.10+dfsg-1",
+     "bayt": 193576,
+     "sha256": "60069e4a550ca890113fa89d3001417781b18e146ec5d637d31e368dec9909bd"
+    },
+    {
+     "ad": "liblsan0",
+     "surum": "14.2.0-19",
+     "bayt": 1204164,
+     "sha256": "a0df07da76287a45e665d584363dc2a6a1c4e240aee41b8bbc0f67cdff97cd68"
+    },
+    {
+     "ad": "libmpc3",
+     "surum": "1.3.1-1+b3",
+     "bayt": 52244,
+     "sha256": "2af0a5c128e03694a41c0b011bd8a958b7297436cdb3a15ddad7866dae8c300b"
+    },
+    {
+     "ad": "libncursesw6",
+     "surum": "6.5+20250216-2",
+     "bayt": 135484,
+     "sha256": "47baa2e11579583654583a066b69bd5a5d2f22423081f707ed6c0c3ba6d538b7"
+    },
+    {
+     "ad": "libnghttp2-14",
+     "surum": "1.64.0-1.1+deb13u1",
+     "bayt": 76188,
+     "sha256": "896cb217537c09251fb909b8541349010ac279d802d871e98c06a62a2c67ce2c"
+    },
+    {
+     "ad": "libnghttp3-9",
+     "surum": "1.8.0-1",
+     "bayt": 67656,
+     "sha256": "388e4c33b72829cbf0d098afdc8539fa5ba7458eddb077f5538fdb4d5538716b"
+    },
+    {
+     "ad": "libngtcp2-16",
+     "surum": "1.11.0-1+deb13u1",
+     "bayt": 131904,
+     "sha256": "627eec81ebbd48c4e6091f5cd9dc5070b792b7075000eed60ab08c7daa961caf"
+    },
+    {
+     "ad": "libngtcp2-crypto-gnutls8",
+     "surum": "1.11.0-1+deb13u1",
+     "bayt": 29524,
+     "sha256": "2a7f109c0c4db6a800e4661c5e5e34e1f1f83c8162482276183d1ada9da7c96c"
+    },
+    {
+     "ad": "libp11-kit0",
+     "surum": "0.25.5-3",
+     "bayt": 425240,
+     "sha256": "784bf2063e166c8bc851a32623b74ebd85c499043a9d57c5bbd64fa63447f45a"
+    },
+    {
+     "ad": "libproc2-0",
+     "surum": "2:4.0.4-9",
+     "bayt": 65596,
+     "sha256": "c9d61caab1b2ddfc3f17edb95be31b9809fcb2daf27d853dff615bc4ebd08b4b"
+    },
+    {
+     "ad": "libpsl5t64",
+     "surum": "0.21.2-1.1+b1",
+     "bayt": 57188,
+     "sha256": "59d42bb1f9ebc0d1776fe616efb08a7a8568b05982e00f70b03c63863db768ab"
+    },
+    {
+     "ad": "libpython3-stdlib",
+     "surum": "3.13.5-1",
+     "bayt": 10180,
+     "sha256": "7e142ed64a81ccdd39714f213467bd365736ef341adb2be11be981f638b9175f"
+    },
+    {
+     "ad": "libpython3.13",
+     "surum": "3.13.5-2+deb13u5",
+     "bayt": 2159760,
+     "sha256": "aa4cdb7e15f5f445ab268160d428518a4daf2a086ee3e6ea30f6082785236dea"
+    },
+    {
+     "ad": "libpython3.13-minimal",
+     "surum": "3.13.5-2+deb13u5",
+     "bayt": 863168,
+     "sha256": "a4aa6a9a8c77f87bfe545e1d14ec42c001d189ace90e3aa75deec882b39dee49"
+    },
+    {
+     "ad": "libpython3.13-stdlib",
+     "surum": "3.13.5-2+deb13u5",
+     "bayt": 1958624,
+     "sha256": "db161322a3481d2c0c3b9a3b9a03c3ab0e2b1718f54b88755fb4a3f939165b84"
+    },
+    {
+     "ad": "libquadmath0",
+     "surum": "14.2.0-19",
+     "bayt": 145068,
+     "sha256": "f5b51cf0ece3ec3bb7494d0cdbff3ce715ae00cfb2b6ed787f7db91319d64a7b"
+    },
+    {
+     "ad": "librtmp1",
+     "surum": "2.4+20151223.gitfa8646d.1-2+b5",
+     "bayt": 58840,
+     "sha256": "93baa2004cbe6c8721b9e81beed078612540aef120970b4751305c51c6697368"
+    },
+    {
+     "ad": "libsasl2-2",
+     "surum": "2.1.28+dfsg1-9",
+     "bayt": 57512,
+     "sha256": "66e49d7ae026811b49a0050f18b0325960a2625ffd1ff60d91b7844a815fa9d2"
+    },
+    {
+     "ad": "libsasl2-modules-db",
+     "surum": "2.1.28+dfsg1-9",
+     "bayt": 19768,
+     "sha256": "a5c38659fbd62c33c6d9bfa2be43e75a572d1818531aad32dd74d0a58cc4bd19"
+    },
+    {
+     "ad": "libsframe1",
+     "surum": "2.44-3",
+     "bayt": 78360,
+     "sha256": "38f625dfdc582717029ac3a3e97c51d994ec2e7a0e9b230c6b44e40d1276311f"
+    },
+    {
+     "ad": "libsource-highlight-common",
+     "surum": "3.1.9-4.3",
+     "bayt": 77484,
+     "sha256": "4914dbff96bc9558e467239719fd64f27faaf0c26e5b8cc63cbb460484781e2d"
+    },
+    {
+     "ad": "libsource-highlight4t64",
+     "surum": "3.1.9-4.3+b1",
+     "bayt": 334684,
+     "sha256": "6d69c221c44345f33af52cc849c5d39438590d5b2030224a6fdb3e6e660f815a"
+    },
+    {
+     "ad": "libssh2-1t64",
+     "surum": "1.11.1-1+deb13u2",
+     "bayt": 245240,
+     "sha256": "dbb1024c192d4d292b7cfa902b96076cfe81b56a5eed4fb28da36e8bf543e49a"
+    },
+    {
+     "ad": "libsystemd-shared",
+     "surum": "257.13-1~deb13u1",
+     "bayt": 2154616,
+     "sha256": "2d349824e57f88507e2a33360610d8afc143a4ad5e80ee4bf8f37b826d6f37f9"
+    },
+    {
+     "ad": "libtasn1-6",
+     "surum": "4.20.0-2+deb13u1",
+     "bayt": 50112,
+     "sha256": "23fec6e06583ce2bad9b2c04c9b485e90440e259b1abf8677cd80d3ce60831ad"
+    },
+    {
+     "ad": "libtext-charwidth-perl",
+     "surum": "0.04-11+b4",
+     "bayt": 9476,
+     "sha256": "3a1d44df306e0252e8a16df07eba457bc9f2ef736ee890a1c35ffdfd548eafa0"
+    },
+    {
+     "ad": "libtext-wrapi18n-perl",
+     "surum": "0.06-10",
+     "bayt": 8808,
+     "sha256": "17f98c7c09af8ac3bdbfd5a5dad32f3f51c71b02cdfc411366f49092a395de85"
+    },
+    {
+     "ad": "libtsan2",
+     "surum": "14.2.0-19",
+     "bayt": 2460216,
+     "sha256": "529d7f68227d16975076c5f842e8b687faea1b5df8e0dcf62e436d5402844ca5"
+    },
+    {
+     "ad": "libubsan1",
+     "surum": "14.2.0-19",
+     "bayt": 1074340,
+     "sha256": "9205a1bef7d6a52ffc06548e0cde169ff303e688c12d9be3a98f734449077e22"
+    },
+    {
+     "ad": "libunistring5",
+     "surum": "1.3-2",
+     "bayt": 476768,
+     "sha256": "6dd3490bef06ea1096f32d10766b7e016cf579bfae8451d1b7df15ce05b8aa46"
+    },
+    {
+     "ad": "libunwind8",
+     "surum": "1.8.1-0.1",
+     "bayt": 56252,
+     "sha256": "db21a86dd05c93413f0ef36282a9c64d32410d240f332273a53be1408bec1f62"
+    },
+    {
+     "ad": "linux-libc-dev",
+     "surum": "6.12.107-1",
+     "bayt": 2919204,
+     "sha256": "dc68dd53c7356598d005866da0d19d7bd33af2a62971aced624cdf04492902b4"
+    },
+    {
+     "ad": "make",
+     "surum": "4.4.1-2",
+     "bayt": 463104,
+     "sha256": "70a9709e665383b06068ccd423d62ea191b65355f318a25565dbf324b254cec6"
+    },
+    {
+     "ad": "media-types",
+     "surum": "13.0.0",
+     "bayt": 29336,
+     "sha256": "0788e4b0b72db1bcf74a19cb24c3511e7770ad0b341f0f30e361701c3072f53e"
+    },
+    {
+     "ad": "netbase",
+     "surum": "6.5",
+     "bayt": 12436,
+     "sha256": "76bafa92947ebd37b0a6f9ec6570412041f56edebc1c66d323731216d318471e"
+    },
+    {
+     "ad": "procps",
+     "surum": "2:4.0.4-9",
+     "bayt": 882088,
+     "sha256": "4db90bb6776772fc52585d6b1fbfc52ec2a85480e1b4363b743fbb2ffa2a5375"
+    },
+    {
+     "ad": "python3",
+     "surum": "3.13.5-1",
+     "bayt": 28244,
+     "sha256": "c1388174dc7140e6c19a6dd39f8a0dcb38a835cd66c65644e0dded43d5223cb0"
+    },
+    {
+     "ad": "python3-minimal",
+     "surum": "3.13.5-1",
+     "bayt": 27248,
+     "sha256": "a5d2371bebf3689f676e3f3bae800371bcc4392a8a51269e23d528249b399615"
+    },
+    {
+     "ad": "python3.13",
+     "surum": "3.13.5-2+deb13u5",
+     "bayt": 757492,
+     "sha256": "460c1fd72845516ac3ce9d1686916f3ab2e4c86f8a9746e14d26243a47e2b98d"
+    },
+    {
+     "ad": "python3.13-minimal",
+     "surum": "3.13.5-2+deb13u5",
+     "bayt": 2224552,
+     "sha256": "c1fda9e7b1bf15b2fa75a238d8a8710e142fe14c722fc650c5fc614f078c9073"
+    },
+    {
+     "ad": "rpcsvc-proto",
+     "surum": "1.4.3-1",
+     "bayt": 63268,
+     "sha256": "32ac0692694f8a34cc90c895f4fc739680fb2ef0e2d4870a68833682bf1c81a3"
+    },
+    {
+     "ad": "sensible-utils",
+     "surum": "0.0.25",
+     "bayt": 24992,
+     "sha256": "873a9b73c3478cc3148cdbf5cc2084949a0a8e4fa16131d1cbc895d2f1f3470e"
+    },
+    {
+     "ad": "strace",
+     "surum": "6.13+ds-1",
+     "bayt": 1422560,
+     "sha256": "cae290b67cf835350a2cde58ca332256fba475784b3e02a9a8677d73eaf47511"
+    },
+    {
+     "ad": "systemd",
+     "surum": "257.13-1~deb13u1",
+     "bayt": 3093632,
+     "sha256": "ee81302a1d5b7434762b6e784a572854d4b6cf6235e33e2d104ad4e1cae71ab4"
+    },
+    {
+     "ad": "ucf",
+     "surum": "3.0052",
+     "bayt": 43296,
+     "sha256": "ab5a6d5a621ad07034ce29d0c2587e6e267ecd2975458b2c8a7d0ada77dcb95b"
+    }
+   ]
+  },
+  "mingw_ek": {
+   "kok": [
+    "gcc-mingw-w64-x86-64-win32"
+   ],
+   "eksik": [],
+   "paket_sayisi": 6,
+   "indirme_bayt": 65061580,
+   "kurulu_kb": 433083,
+   "koklerin_surumu": {
+    "gcc-mingw-w64-x86-64-win32": "14.2.0-19+27+b1"
+   },
+   "paketler": [
+    {
+     "ad": "binutils-mingw-w64-x86-64",
+     "surum": "2.44-3+12+b1",
+     "bayt": 3473344,
+     "sha256": "b53f4a091b16a0d0952b8e3bd6027931641386258f96b37db1f0c62c787221d3"
+    },
+    {
+     "ad": "gcc-mingw-w64-base",
+     "surum": "14.2.0-19+27+b1",
+     "bayt": 194268,
+     "sha256": "8d2c64b886ab4a435a78ddc4cd3b510f149b65fbd6be8472e8f460627562718a"
+    },
+    {
+     "ad": "gcc-mingw-w64-x86-64-win32",
+     "surum": "14.2.0-19+27+b1",
+     "bayt": 37555380,
+     "sha256": "a4d7abc5c9c97380eeac348d3b94d522a04e80028bb825cd44df09d9ba90092f"
+    },
+    {
+     "ad": "gcc-mingw-w64-x86-64-win32-runtime",
+     "surum": "14.2.0-19+27+b1",
+     "bayt": 13174644,
+     "sha256": "73a27ee935bec4c81331c3e92c2399e11f161e75fe27898524dcf2bae77f97cb"
+    },
+    {
+     "ad": "mingw-w64-common",
+     "surum": "12.0.0-5",
+     "bayt": 5792084,
+     "sha256": "97dce5d0d8aff1cade4786ad4ef5078345477a598829afcac2e7f2fbc5399990"
+    },
+    {
+     "ad": "mingw-w64-x86-64-dev",
+     "surum": "12.0.0-5",
+     "bayt": 4871860,
+     "sha256": "0bf89cf7454cccb49cd2a46a6f7b33896f6ae3a1a2fe33e02c40be6155bbb385"
+    }
+   ]
+  }
+ }
+}

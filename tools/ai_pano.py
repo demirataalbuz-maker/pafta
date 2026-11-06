@@ -298,6 +298,7 @@ aside{display:flex;flex-direction:column;gap:18px}
 <div class="sayfa">
 <header>
  <h1>Pafta AI<small>Ortak hafıza panosu · burada çalışan tüm yapay zekâlar</small></h1>
+ <p style="grid-column:1/-1;margin:12px 0 0"><a href="YENI-DERSLER.html" style="font-weight:700">→ Yeni eklenecek dersler · konu / sorumlu / durum tablosu</a></p>
  <div class="kunye">{{KUNYE}}</div>
 </header>
 <div class="protokol">

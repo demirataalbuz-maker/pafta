@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi LoRA sınıfını yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek q_proj/v_proj: dondurulmuş temel, A/B biçimleri, B=0 başlangıç, alfa/rank ölçeği, ileri hesap ve birleştirme doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ölçek alfa (rank'a bölünmüyor)"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: B rastgele başlıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: temel dondurulmuyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: birleştirme temel ağırlığı yerinde değiştiriyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ileri hesapta ölçek unutulmuş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: adaptör hesaba katılmıyor"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek model: yalnız LoRA parametreleri eğitiliyor (460,800)"
+    },
+    {
+      "ok": true,
+      "msg": "adaptör takılınca model davranışı değişmiyor (B=0)"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek eğitim hedef kaybını düşürdü (4.851 → 0.001)"
+    },
+    {
+      "ok": true,
+      "msg": "temel ağırlıklar eğitim boyunca değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "birleşik ağırlıklı model adaptörlü modelle aynı çıktıyı veriyor (fark 1.4e-04)"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK ÇIKTI (HuggingFaceTB/SmolLM2-135M@93efa2f0): 460,800/134,515,008 parametre (%0.34) eğitildi; hedef kayıp 4.85 → 0.0006, ilgisiz metin kaybı 2.67 → 6.72; devam: ' that the first two letters of' → ' 7342.'"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-lora",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-lora-1793435494814.json",
+      "zaman": "2026-10-31T11:31:34+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

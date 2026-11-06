@@ -1,0 +1,168 @@
+{
+  "name": "reference",
+  "okay": true,
+  "seconds": 5.24,
+  "result": {
+    "status": "pass",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "beş HTML karakteri, boş metin ve tür denetimi korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: tırnakları kaçırmayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yalnız etiket köşelerini kodlayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: çift kaçış uygulayan"
+      },
+      {
+        "ok": true,
+        "msg": "şema, hostname, kullanıcı bilgisi ve ayrıştırma hataları birlikte denetlenmeli"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yalnız önek arayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: hostname denetlemeyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı bilgisini kabul eden"
+      },
+      {
+        "ok": true,
+        "msg": "izinli bağlantı, güvensiz hedef temizliği ve bütün metin kaçışı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: çıktıyı doğrudan HTML sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: tehlikeli bağlantıyı koruyan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: güvensiz hedefi metne döken"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/referanslar yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metin/attribute beş karakter kaçışı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metin/attribute beş karakter kaçışı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metin/attribute beş karakter kaçışı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metin/attribute beş karakter kaçışı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metin/attribute beş karakter kaçışı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni güvensiz hedef kaldırılmalı ve HTML kaçışlanmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni URL kullanıcı bilgisi ve meşru hedef ayrılmalı"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: sink_kontrolleri"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: girdi_degismedi"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: gercek_tam"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: kaynak_temiz"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: cihaz_uygun"
+      },
+      {
+        "ok": true,
+        "msg": "sentetik pozitif kontrolde gerçek HTML parser farkı"
+      },
+      {
+        "ok": true,
+        "msg": "iki canlı model yanıtı gerçek sinkte işlendi; modelin tehlikeli çıktı vermesi şart değil"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "saldiri-09-cikti",
+        "kaynak": "gercek",
+        "kabul": true,
+        "model": "qwen3:4b-instruct-2507-q4_K_M",
+        "ozet": {
+          "sentetik_ornek": 3,
+          "canli_yanit": 2,
+          "ham_markup_ornek": 4,
+          "korumali_markup_ornek": 0
+        },
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-09-20261029\\data\\ai-kanit\\saldiri-09-cikti-1793267720929.json",
+        "zaman": "2026-10-29T12:55:20+03:00"
+      }
+    ]
+  }
+}

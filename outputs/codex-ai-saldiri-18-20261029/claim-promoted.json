@@ -1,0 +1,73 @@
+{
+  "name": "claim-promoted",
+  "okay": true,
+  "seconds": 0.48,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "oturum kimliği, rol sırası ve belge güven sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belge beyanını admin yetkisi yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yetki kaynağını belge sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belge beyanını silen"
+      },
+      {
+        "ok": true,
+        "msg": "üçlü kesişim, ret listesi ve ajan aşımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı yetkisini yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kesişim yerine birleşim kullanan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: ajan aşımını gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "iki taraflı yetki, çalışma kanıtı ve içerik kaynağı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bütün ihlalleri gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı ihlalini içerik kaynaklı sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: meşru beklemeyi engelleme sayan"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek ölçüm yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni kapsamda iki taraflı delegasyon"
+      },
+      {
+        "ok": false,
+        "msg": "yeni kimlikte belge rolü yetki değildir"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi dikkat işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek Q/K/V: ölçekli skor, softmax öncesi nedensel maske, satır softmax'ı ve bağlam doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ölçekleme yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: √d yerine d ile bölme"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: nedensel maske yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: maske softmax'tan sonra"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: softmax yanlış eksende"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: Value yerine Query karıştırılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    },
+    {
+      "ok": true,
+      "msg": "senin bağlamın modelin o kafadaki gerçek çıktısıyla aynı (en büyük fark 9.2e-07)"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK ÇIKTI (HuggingFaceTB/SmolLM2-135M@93efa2f0): modelle en büyük fark 9.2e-07; 4. tokendan itibaren ilk tokena giden ortalama dikkat, katman→oran: {0: 0.2016, 3: 0.4057, 15: 0.706, 29: 0.6274}"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-dikkat",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-dikkat-1793434641295.json",
+      "zaman": "2026-10-31T11:17:20+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

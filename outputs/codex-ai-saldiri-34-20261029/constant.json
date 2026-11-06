@@ -1,0 +1,68 @@
+{
+  "name": "constant",
+  "okay": true,
+  "seconds": 0.41,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "rol kümesi, sistem ve araç sırası, karakter toplamı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: araç rolünü sistem yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: içerik uzunluğunu eksilten"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rol sırasını ters çeviren"
+      },
+      {
+        "ok": false,
+        "msg": "template biçimi, kontrol işareti etkisizleştirme ve mesaj sırası korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: içerik işaretlerini ham bırakan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bütün rolleri system yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: template seçimini değiştiren"
+      },
+      {
+        "ok": false,
+        "msg": "rol sırası, template özeti, kaçış ve deterministik rapor korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: template özetlerini değiştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rol kanıtını değiştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rapor sırasını bozan"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "NameError",
+      "msg": "name 'ai_lab' is not defined",
+      "frames": [],
+      "line": null,
+      "where": "test",
+      "missing": "ai_lab"
+    },
+    "ai_kanit": []
+  }
+}

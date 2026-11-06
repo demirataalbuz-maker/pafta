@@ -1,0 +1,50 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi LoRA sınıfını yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "gerçek q_proj/v_proj: dondurulmuş temel, A/B biçimleri, B=0 başlangıç, alfa/rank ölçeği, ileri hesap ve birleştirme doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ölçek alfa (rank'a bölünmüyor)"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: B rastgele başlıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: temel dondurulmuyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: birleştirme temel ağırlığı yerinde değiştiriyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ileri hesapta ölçek unutulmuş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: adaptör hesaba katılmıyor"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-lora",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t10-negatif-20261031\\ai-kanit\\temel-lora-1793436010470.json",
+      "zaman": "2026-10-31T11:40:10+03:00"
+    }
+  ]
+}

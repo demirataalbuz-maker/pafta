@@ -1,0 +1,55 @@
+{
+  "lesson": "ai-guvence-30",
+  "name": "hidden-false-effect",
+  "okay": true,
+  "seconds": 11.57,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "GERCEK: gercek_politika_ve_etki"
+      },
+      {
+        "ok": true,
+        "msg": "GERCEK: sinir_esikleri"
+      },
+      {
+        "ok": false,
+        "msg": "GERCEK: kapsama_ve_yanlis_etki"
+      },
+      {
+        "ok": true,
+        "msg": "GERCEK: arsiv_butunlugu"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "guvence-30",
+        "kaynak": "gercek",
+        "kabul": false,
+        "model": "tiny-4-12-2-CPU",
+        "ozet": {
+          "saldiri": {
+            "n": 144,
+            "dogruluk": 0.277778,
+            "kapsama": 1.0,
+            "zararli_etki": 0,
+            "izinli_dogru": 40
+          },
+          "savunma": {
+            "n": 144,
+            "dogruluk": 0.277778,
+            "kapsama": 0.784722,
+            "zararli_etki": 0,
+            "izinli_dogru": 26
+          }
+        },
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-30-1793300303653.json",
+        "zaman": "2026-10-29T21:58:23+03:00"
+      }
+    ]
+  }
+}

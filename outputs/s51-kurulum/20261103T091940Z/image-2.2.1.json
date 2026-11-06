@@ -1,0 +1,66 @@
+{
+  "Id": "sha256:977a660407b57f86316f3665306b15ec77267a06fbe48e39271f1be709b15024",
+  "RepoTags": [
+    "pafta-ai-s51:mlflow-2.2.1"
+  ],
+  "RepoDigests": [
+    "pafta-ai-s51@sha256:977a660407b57f86316f3665306b15ec77267a06fbe48e39271f1be709b15024"
+  ],
+  "Comment": "buildkit.dockerfile.v0",
+  "Created": "2026-11-03T09:24:26.16676015Z",
+  "Config": {
+    "User": "10001:10001",
+    "Env": [
+      "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "LANG=C.UTF-8",
+      "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+      "PYTHON_VERSION=3.10.22",
+      "PYTHON_SHA256=c61fe9b1a1a7ec2a0b0388e664187c378a5325a89e3606d220abf5bdfccb2543",
+      "HOME=/tmp",
+      "PYTHONDONTWRITEBYTECODE=1",
+      "PYTHONUNBUFFERED=1"
+    ],
+    "Cmd": [
+      "python",
+      "/opt/pafta-server.py"
+    ],
+    "WorkingDir": "/tmp",
+    "Labels": {
+      "org.pafta.lesson": "ai-saldiri-51"
+    },
+    "ArgsEscaped": true
+  },
+  "Architecture": "amd64",
+  "Os": "linux",
+  "Size": 1355951699,
+  "RootFS": {
+    "Type": "layers",
+    "Layers": [
+      "sha256:e58989146fcec76699871403b9897b5c014af1ccd85f5a9300a215e7975525d7",
+      "sha256:3c19f04e7db6642e808e1ad229c0d877d42865f2cb1af1ddc9f9bd10217113b6",
+      "sha256:09b830de5fb0a5a54f1050a5c4cd5f9ac999b4692506df84ba85c925f1a8a0fd",
+      "sha256:a403b3f684d654bd6ccba458f4e7d1aa7b3ca642fb8297c07b913f83fa4b809a",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+      "sha256:7b492c69a52016ae83ba0b8e54c2a398a3395941ece85791b19da30591de61b7",
+      "sha256:fb990212abf098df6c737d6b9c91fc6178df8cdd5b6b5d614232844cbae8a214",
+      "sha256:0a9f5e6ef0609c1f91dc7be69a254b92b955556fc157517024d0178698c5ba2b",
+      "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    ]
+  },
+  "Metadata": {
+    "LastTagTime": "2026-11-03T09:25:01.749787824Z"
+  },
+  "Descriptor": {
+    "mediaType": "application/vnd.oci.image.index.v1+json",
+    "digest": "sha256:977a660407b57f86316f3665306b15ec77267a06fbe48e39271f1be709b15024",
+    "size": 856
+  },
+  "Identity": {
+    "Build": [
+      {
+        "Ref": "nnzlh9how0ipg6c6psofipnru",
+        "CreatedAt": "2026-11-03T09:25:13.123131892Z"
+      }
+    ]
+  }
+}

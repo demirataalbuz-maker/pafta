@@ -1,0 +1,188 @@
+{
+ "aciklama": "Sentetik, elle yazılmış örnekler. Son görev bunları kullanmaz; kendi 127.0.0.1 sunucusuna gerçek ffuf ve nuclei koşturur.",
+ "ffuf": {
+  "commandline": "ffuf -u http://127.0.0.1:8080/FUZZ -w kelimeler.txt -mc all -of json",
+  "results": [
+   {
+    "input": {
+     "FFUFHASH": "a1b2c3",
+     "FUZZ": "admin"
+    },
+    "position": 1,
+    "status": 302,
+    "length": 0,
+    "words": 1,
+    "lines": 1,
+    "content-type": "text/html; charset=utf-8",
+    "redirectlocation": "/giris",
+    "url": "http://127.0.0.1:8080/admin"
+   },
+   {
+    "input": {
+     "FFUFHASH": "a1b2c3",
+     "FUZZ": "backup"
+    },
+    "position": 1,
+    "status": 200,
+    "length": 42,
+    "words": 3,
+    "lines": 1,
+    "content-type": "text/html; charset=utf-8",
+    "redirectlocation": "",
+    "url": "http://127.0.0.1:8080/backup"
+   },
+   {
+    "input": {
+     "FFUFHASH": "a1b2c3",
+     "FUZZ": "yedek"
+    },
+    "position": 1,
+    "status": 200,
+    "length": 36,
+    "words": 3,
+    "lines": 1,
+    "content-type": "text/html; charset=utf-8",
+    "redirectlocation": "",
+    "url": "http://127.0.0.1:8080/yedek"
+   },
+   {
+    "input": {
+     "FFUFHASH": "a1b2c3",
+     "FUZZ": "api/surum"
+    },
+    "position": 1,
+    "status": 200,
+    "length": 39,
+    "words": 1,
+    "lines": 1,
+    "content-type": "text/html; charset=utf-8",
+    "redirectlocation": "",
+    "url": "http://127.0.0.1:8080/api/surum"
+   },
+   {
+    "input": {
+     "FFUFHASH": "a1b2c3",
+     "FUZZ": "cgi-bin"
+    },
+    "position": 1,
+    "status": 404,
+    "length": 9,
+    "words": 1,
+    "lines": 1,
+    "content-type": "text/html; charset=utf-8",
+    "redirectlocation": "",
+    "url": "http://127.0.0.1:8080/cgi-bin"
+   },
+   {
+    "input": {
+     "FFUFHASH": "a1b2c3",
+     "FUZZ": "test"
+    },
+    "position": 1,
+    "status": 200,
+    "length": 40,
+    "words": 3,
+    "lines": 1,
+    "content-type": "text/html; charset=utf-8",
+    "redirectlocation": "",
+    "url": "http://127.0.0.1:8080/test"
+   }
+  ]
+ },
+ "taban": {
+  "status": 200,
+  "words": 3,
+  "lines": 1
+ },
+ "esik": 3,
+ "pencere": 2.0,
+ "guvenilir": [
+  "127.0.0.1"
+ ],
+ "sablon": [
+  "pafta-surum-ifsasi",
+  "/api/surum",
+  [
+   "pafta-market",
+   "\"surum\""
+  ],
+  "low",
+  [
+   "Sayfa bulunamadi"
+  ]
+ ],
+ "kayitlar": [
+  {
+   "t": 100.0,
+   "kaynak": "127.0.0.1",
+   "xff": "10.20.0.5",
+   "yol": "/",
+   "durum": 200,
+   "bulunamadi": false,
+   "ua": "Mozilla/5.0 PaftaKullanici/1.0"
+  },
+  {
+   "t": 100.4,
+   "kaynak": "127.0.0.1",
+   "xff": "10.20.0.5",
+   "yol": "/urunler/kalm",
+   "durum": 200,
+   "bulunamadi": true,
+   "ua": "Mozilla/5.0 PaftaKullanici/1.0"
+  },
+  {
+   "t": 101.0,
+   "kaynak": "127.0.0.1",
+   "xff": "10.66.0.9",
+   "yol": "/backup",
+   "durum": 200,
+   "bulunamadi": true,
+   "ua": "Fuzz Faster U Fool v2.3.0"
+  },
+  {
+   "t": 101.1,
+   "kaynak": "127.0.0.1",
+   "xff": "10.66.0.9",
+   "yol": "/config",
+   "durum": 200,
+   "bulunamadi": true,
+   "ua": "Fuzz Faster U Fool v2.3.0"
+  },
+  {
+   "t": 101.2,
+   "kaynak": "127.0.0.1",
+   "xff": "10.66.0.9",
+   "yol": "/dev",
+   "durum": 200,
+   "bulunamadi": true,
+   "ua": "Fuzz Faster U Fool v2.3.0"
+  },
+  {
+   "t": 101.3,
+   "kaynak": "127.0.0.1",
+   "xff": "10.66.0.9",
+   "yol": "/admin",
+   "durum": 302,
+   "bulunamadi": false,
+   "ua": "Fuzz Faster U Fool v2.3.0"
+  },
+  {
+   "t": 104.5,
+   "kaynak": "127.0.0.1",
+   "xff": "10.66.0.9",
+   "yol": "/yonetim",
+   "durum": 200,
+   "bulunamadi": true,
+   "ua": "Mozilla/5.0 (X11; Linux x86_64) Firefox/120.0"
+  },
+  {
+   "t": 105.0,
+   "kaynak": "192.0.2.44",
+   "xff": "10.66.0.9",
+   "yol": "/phpinfo.php",
+   "durum": 200,
+   "bulunamadi": true,
+   "ua": "curl/8.9"
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kaynak koruması: oracle/audit/introspection kopyası yok"
+    },
+    {
+      "ok": false,
+      "msg": "SQL karakterli meşru girdi korunur",
+      "got": "None",
+      "exp": "(\"O'Reilly_6ae67676\", '4096a2eb9d2b3a86')"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış parola ret"
+    },
+    {
+      "ok": true,
+      "msg": "bypass parameter binding ile yok"
+    },
+    {
+      "ok": true,
+      "msg": "bypass parameter binding ile yok"
+    },
+    {
+      "ok": true,
+      "msg": "tablo korunur"
+    },
+    {
+      "ok": false,
+      "msg": "Yanıtlar gerçek beş HTTP/DB audit kaydıyla eşleşmeli"
+    }
+  ],
+  "segs": [],
+  "error": null
+}

@@ -1,0 +1,223 @@
+{
+  "name": "zero-instead-none",
+  "okay": true,
+  "seconds": 0.5,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "büyük harf Base64 ve token"
+      },
+      {
+        "ok": true,
+        "msg": "tam 12 karakterli Base64 token sınırı"
+      },
+      {
+        "ok": true,
+        "msg": "üç padding karakteri Base64 tokenı değildir"
+      },
+      {
+        "ok": true,
+        "msg": "kelime içi base64 sinyal değildir"
+      },
+      {
+        "ok": true,
+        "msg": "çift sayıda hex hanesi"
+      },
+      {
+        "ok": true,
+        "msg": "on dört hex hanesi ve bağımsız Base64 benzeri token"
+      },
+      {
+        "ok": true,
+        "msg": "kısa hex token sinyal değildir"
+      },
+      {
+        "ok": true,
+        "msg": "kısa tek sayıda hex hanesi reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "on üç hex hanesi reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "geçerli ayrı hex token korunur"
+      },
+      {
+        "ok": true,
+        "msg": "yalnız rakam token Base64 adayı değildir"
+      },
+      {
+        "ok": true,
+        "msg": "rol işareti casefold ile bulunur"
+      },
+      {
+        "ok": true,
+        "msg": "kurgu sinyali"
+      },
+      {
+        "ok": true,
+        "msg": "Türkçe metin normalize edilir"
+      },
+      {
+        "ok": true,
+        "msg": "yok say tek başına önceki talimat sinyali değildir"
+      },
+      {
+        "ok": true,
+        "msg": "çok sinyalli vaka alfabetik döner"
+      },
+      {
+        "ok": true,
+        "msg": "metin string olmalı"
+      },
+      {
+        "ok": true,
+        "msg": "taktiksiz vaka doğrudan istek"
+      },
+      {
+        "ok": true,
+        "msg": "Base64 dönüştürme sınıfı"
+      },
+      {
+        "ok": true,
+        "msg": "çok etiket korunur"
+      },
+      {
+        "ok": true,
+        "msg": "kurgu bağlam manipülasyonu"
+      },
+      {
+        "ok": true,
+        "msg": "vaka sırası korunur"
+      },
+      {
+        "ok": true,
+        "msg": "ham metin kayıtta kalır"
+      },
+      {
+        "ok": true,
+        "msg": "girdi değişmez"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz vaka veya sinyal reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz vaka veya sinyal reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz vaka veya sinyal reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "vaka kimliği benzersiz olmalı"
+      },
+      {
+        "ok": true,
+        "msg": "dönüştürme sayımları"
+      },
+      {
+        "ok": true,
+        "msg": "bağlam sayımları"
+      },
+      {
+        "ok": true,
+        "msg": "precision"
+      },
+      {
+        "ok": true,
+        "msg": "recall"
+      },
+      {
+        "ok": true,
+        "msg": "F1"
+      },
+      {
+        "ok": true,
+        "msg": "tam eşleşen sınıf"
+      },
+      {
+        "ok": true,
+        "msg": "hiç TP olmayan ölçülmüş precision"
+      },
+      {
+        "ok": true,
+        "msg": "hiç TP olmayan ölçülmüş recall"
+      },
+      {
+        "ok": true,
+        "msg": "sıfır F1 ölçülmüş sonuçtur"
+      },
+      {
+        "ok": false,
+        "msg": "boş veri None oranlar",
+        "got": "{'tp': 0, 'fp': 0, 'fn': 0, 'precision': 0.0, 'recall': None, 'f1': None}",
+        "exp": "{'tp': 0, 'fp': 0, 'fn': 0, 'precision': None, 'recall': None, 'f1': None}"
+      },
+      {
+        "ok": true,
+        "msg": "rapor dışı etiket yok sayılmaz"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar ve bağımsız referanslar yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "dosya gerçek okunmalı; yeni içerik/bozuk JSON/yinelenen kimlik/etiket doğrulanmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metinde bütün sinyaller korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "çok etiketli yeni vaka aynı kimlik ve metinle dönmeli"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metinde bütün sinyaller korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "çok etiketli yeni vaka aynı kimlik ve metinle dönmeli"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metinde bütün sinyaller korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "çok etiketli yeni vaka aynı kimlik ve metinle dönmeli"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metinde bütün sinyaller korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "çok etiketli yeni vaka aynı kimlik ve metinle dönmeli"
+      },
+      {
+        "ok": true,
+        "msg": "yeni metinde bütün sinyaller korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "çok etiketli yeni vaka aynı kimlik ve metinle dönmeli"
+      },
+      {
+        "ok": false,
+        "msg": "yeni gözlemlerde sayımlar ve girdi değişmezliği"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

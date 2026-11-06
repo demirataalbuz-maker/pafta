@@ -1,0 +1,62 @@
+{
+  "name": "starter",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "laboratuvar yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "sınır testi gerçekten token bütçesini aşıyor"
+      },
+      {
+        "ok": false,
+        "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+      },
+      {
+        "ok": false,
+        "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "temel-02-embedding",
+        "kaynak": "gercek",
+        "kabul": false,
+        "model": "HuggingFaceTB/SmolLM2-135M",
+        "ozet": null,
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-02-20261028-142905\\test-data\\ai-kanit\\temel-02-embedding-1793186963669.json",
+        "zaman": "2026-10-28T14:29:23+03:00"
+      }
+    ]
+  }
+}

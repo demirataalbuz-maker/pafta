@@ -1,0 +1,3 @@
+1 ders, 9 kontrol · geçen: {'tahmin': 1, 'solution': 3, 'starter': 4}
+  ✗ ÇÖZÜM GEÇMEDİ          ai-saldiri/ai-saldiri-24:9 gorev «Gerçek deney · Gerçek alıcıdaki parçalar»  fail [{'ok': False, 'msg': 'ASCII, parça boyutu, sıra ve dolgusuz Base64URL korunmalı'}] {'type': 'NameError', 'msg': "name 'sinir' is not defined", 'frames': [{'line': 4, 'func': 'parcalari_kodla', 'text': 'if not isinstance(veri, str) or not 1 <= len(veri) <= sinir or any(ord(c) < 33 or ord(c) > 126 for c in veri):'}], 'line': 4, 'where': 'kod-test'}
+1 SORUN

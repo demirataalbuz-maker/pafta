@@ -1,0 +1,30 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "GGUF ölçüm/eşli rapor, eşleşme ve girdi değişmezliği"
+    },
+    {
+      "ok": true,
+      "msg": "hep geçti diyen ölçüm reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "sabit rapor reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "eşleşme yerine toplam farkı kullanan rapor reddedilir"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "URLError",
+    "msg": "<urlopen error [WinError 10061] Hedef makine etkin olarak reddettiğinden bağlantı kurulamadı>",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": []
+}

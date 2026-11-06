@@ -1,0 +1,159 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kaynak koruması: oracle/import/introspection kopyası yok"
+    },
+    {
+      "ok": false,
+      "msg": "görünür XML; UDP ayrılır",
+      "got": "{}",
+      "exp": "{18080: 'open', 18081: 'filtered'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{59672: 'open'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{22953: 'open'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{52771: 'filtered'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{23530: 'open'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{28113: 'open'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{36071: 'closed'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{22020: 'open'}"
+    },
+    {
+      "ok": false,
+      "msg": "görülmemiş port/durum",
+      "got": "{}",
+      "exp": "{56759: 'filtered'}"
+    },
+    {
+      "ok": true,
+      "msg": "explicit port yok; extraports genişletilmez"
+    },
+    {
+      "ok": false,
+      "msg": "yanlış root ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "port sınırı",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "ekleme/silme/değişim sıralı",
+      "got": "[]",
+      "exp": "[{'port': 1, 'once': 'filtered', 'sonra': 'yok'}, {'port': 2, 'once': 'open', 'sonra': 'closed'}, {'port': 3, 'once': 'yok', 'sonra': 'open'}]"
+    },
+    {
+      "ok": true,
+      "msg": "aynı durum değişim değil"
+    },
+    {
+      "ok": false,
+      "msg": "filtered olduğu gibi korunur",
+      "got": "[]",
+      "exp": "[{'port': 13, 'once': 'open', 'sonra': 'filtered'}]"
+    },
+    {
+      "ok": false,
+      "msg": "filtered olduğu gibi korunur",
+      "got": "[]",
+      "exp": "[{'port': 971, 'once': 'open', 'sonra': 'filtered'}]"
+    },
+    {
+      "ok": false,
+      "msg": "filtered olduğu gibi korunur",
+      "got": "[]",
+      "exp": "[{'port': 43123, 'once': 'open', 'sonra': 'filtered'}]"
+    },
+    {
+      "ok": false,
+      "msg": "state: open",
+      "got": "'belirsiz'",
+      "exp": "'acik'"
+    },
+    {
+      "ok": false,
+      "msg": "state: closed",
+      "got": "'belirsiz'",
+      "exp": "'kapali'"
+    },
+    {
+      "ok": true,
+      "msg": "state: filtered"
+    },
+    {
+      "ok": true,
+      "msg": "state: unfiltered"
+    },
+    {
+      "ok": true,
+      "msg": "state: open|filtered"
+    },
+    {
+      "ok": true,
+      "msg": "state: closed|filtered"
+    },
+    {
+      "ok": false,
+      "msg": "bilinmeyen state ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "bilinmeyen state ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "bilinmeyen state ret",
+      "got": "hata yükselmedi",
+      "exp": "ValueError"
+    },
+    {
+      "ok": false,
+      "msg": "Gerçek XML port/durum ayrıştırması yanlış"
+    }
+  ],
+  "segs": [],
+  "error": null
+}

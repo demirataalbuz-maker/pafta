@@ -1,0 +1,230 @@
+{
+  "kaynak": "gercek",
+  "kabul": true,
+  "pilot": "pu22-web",
+  "python": "3.13.14",
+  "expat": "expat_2.8.1",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "address": "127.0.0.1",
+  "port": 4153,
+  "yanitlar": {
+    "xss-mesru-acik": {
+      "status": 200,
+      "govde": "<p>Sonuç: Ayşe & Ali <3</p>"
+    },
+    "xss-mesru-korumali": {
+      "status": 200,
+      "govde": "<p>Sonuç: Ayşe &amp; Ali &lt;3</p>"
+    },
+    "xss-saldiri-acik": {
+      "status": 200,
+      "govde": "<p>Sonuç: <b id=\"PU22-b1a4068d\">x</b></p>"
+    },
+    "xss-saldiri-korumali": {
+      "status": 200,
+      "govde": "<p>Sonuç: &lt;b id=&quot;PU22-b1a4068d&quot;&gt;x&lt;/b&gt;</p>"
+    },
+    "sablon-mesru-acik": {
+      "status": 200,
+      "govde": "Merhaba Deniz!"
+    },
+    "sablon-mesru-korumali": {
+      "status": 200,
+      "govde": "Merhaba Deniz!"
+    },
+    "sablon-saldiri-acik": {
+      "status": 200,
+      "govde": "PU22_AYAR_ecf1a3ec6d69"
+    },
+    "sablon-saldiri-korumali": {
+      "status": 400,
+      "govde": "izinsiz sablon"
+    },
+    "xml-mesru-acik": {
+      "status": 200,
+      "govde": "kalem & defter"
+    },
+    "xml-mesru-korumali": {
+      "status": 200,
+      "govde": "kalem & defter"
+    },
+    "xml-saldiri-acik": {
+      "status": 200,
+      "govde": "PU22_DOSYA_f9a87bb36b9d"
+    },
+    "xml-saldiri-korumali": {
+      "status": 400,
+      "govde": "DTD reddedildi"
+    },
+    "xml-utf16-korumali": {
+      "status": 400,
+      "govde": "DTD reddedildi"
+    }
+  },
+  "denetim": [
+    {
+      "route": "/vulnerable/ara",
+      "girdi": "Ayşe & Ali <3",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/secure/ara",
+      "girdi": "Ayşe & Ali <3",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/vulnerable/ara",
+      "girdi": "<b id=\"PU22-b1a4068d\">x</b>",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/secure/ara",
+      "girdi": "<b id=\"PU22-b1a4068d\">x</b>",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/vulnerable/selam",
+      "girdi": "Merhaba {ad}!",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/secure/selam",
+      "girdi": "Merhaba {ad}!",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/vulnerable/selam",
+      "girdi": "{u.ayar[GIZLI]}",
+      "status": 200,
+      "gizli_sizdi": true
+    },
+    {
+      "route": "/secure/selam",
+      "girdi": "{u.ayar[GIZLI]}",
+      "status": 400,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/vulnerable/xml",
+      "girdi": "<siparis><urun>kalem &amp; defter</urun></siparis>",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/secure/xml",
+      "girdi": "<siparis><urun>kalem &amp; defter</urun></siparis>",
+      "status": 200,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/vulnerable/xml",
+      "girdi": "<?xml version=\"1.0\"?><!DOCTYPE r [<!ENTITY x SYSTEM \"file:///C:/Users/demo12/AppData/Local/Temp/pu22_web_n5hw0l_h/gizli.txt\">]><r>&x;</r>",
+      "status": 200,
+      "gizli_sizdi": true
+    },
+    {
+      "route": "/secure/xml",
+      "girdi": "<?xml version=\"1.0\"?><!DOCTYPE r [<!ENTITY x SYSTEM \"file:///C:/Users/demo12/AppData/Local/Temp/pu22_web_n5hw0l_h/gizli.txt\">]><r>&x;</r>",
+      "status": 400,
+      "gizli_sizdi": false
+    },
+    {
+      "route": "/secure/xml",
+      "girdi": "��<\u0000?\u0000x\u0000m\u0000l\u0000 \u0000v\u0000e\u0000r\u0000s\u0000i\u0000o\u0000n\u0000=\u0000\"\u00001\u0000.\u00000\u0000\"\u0000 \u0000e\u0000n\u0000c\u0000o\u0000d\u0000i\u0000n\u0000g\u0000=\u0000\"\u0000U\u0000T\u0000F\u0000-\u00001\u00006\u0000\"\u0000?\u0000>\u0000<\u0000!\u0000D\u0000O\u0000C\u0000T\u0000Y\u0000P\u0000E\u0000 \u0000r\u0000 \u0000[\u0000<\u0000!\u0000E\u0000N\u0000T\u0000I\u0000T\u0000Y\u0000 \u0000x\u0000 \u0000\"\u0000y\u0000\"\u0000>\u0000]\u0000>\u0000<\u0000r\u0000>\u0000&\u0000x\u0000;\u0000<\u0000/\u0000r\u0000>\u0000",
+      "status": 400,
+      "gizli_sizdi": false
+    }
+  ],
+  "isaret": "PU22-b1a4068d",
+  "html": [
+    "",
+    "düz metin",
+    "a&amp;b",
+    "&amp;lt;",
+    "&lt;a href=&quot;x&quot;&gt;&#x27;&lt;/a&gt;",
+    "Ayşe &amp; Ali &lt;3",
+    "&quot;&#x27;&quot;",
+    "&amp;amp;amp;"
+  ],
+  "html_referans": [
+    "",
+    "düz metin",
+    "a&amp;b",
+    "&amp;lt;",
+    "&lt;a href=&quot;x&quot;&gt;&#x27;&lt;/a&gt;",
+    "Ayşe &amp; Ali &lt;3",
+    "&quot;&#x27;&quot;",
+    "&amp;amp;amp;"
+  ],
+  "sablon": [
+    [
+      "ad"
+    ],
+    [
+      "ad"
+    ],
+    [
+      "ad",
+      "soyad"
+    ],
+    [],
+    [
+      "ad"
+    ],
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError"
+  ],
+  "sablon_referans": [
+    [
+      "ad"
+    ],
+    [
+      "ad"
+    ],
+    [
+      "ad",
+      "soyad"
+    ],
+    [],
+    [
+      "ad"
+    ],
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError",
+    "ValueError"
+  ],
+  "dtd": [
+    false,
+    true,
+    true,
+    true,
+    "ValueError",
+    false
+  ],
+  "dtd_referans": [
+    false,
+    true,
+    true,
+    true,
+    "ValueError",
+    false
+  ],
+  "cleanup": true
+}

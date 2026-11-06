@@ -1,0 +1,434 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "tolerans": {
+   "logit": 0.001,
+   "olasilik": 1e-05
+  },
+  "girdiler": [
+   [
+    "The capital of France is",
+    8,
+    1.0
+   ],
+   [
+    "kedi river 4051 and the",
+    4,
+    0.8
+   ],
+   [
+    "Bugün kedi ile token",
+    8,
+    1.3
+   ],
+   [
+    "The capital of France is",
+    1,
+    1.0
+   ],
+   [
+    "kedi river 4051 and the",
+    20,
+    0.8
+   ]
+  ]
+ },
+ "ciktilar": [
+  {
+   "token_idleri": [
+    504,
+    3575,
+    282,
+    4649,
+    314
+   ],
+   "tokenlar": [
+    "The",
+    "Ġcapital",
+    "Ġof",
+    "ĠFrance",
+    "Ġis"
+   ],
+   "en_olasi": [
+    {
+     "id": 260,
+     "metin": " the",
+     "logit": 14.02281379699707,
+     "olasilik": 0.2616770891248882
+    },
+    {
+     "id": 7042,
+     "metin": " Paris",
+     "logit": 12.99731159210205,
+     "olasilik": 0.09384167507127615
+    },
+    {
+     "id": 3807,
+     "metin": " located",
+     "logit": 12.747228622436523,
+     "olasilik": 0.07307790652924019
+    },
+    {
+     "id": 1217,
+     "metin": " called",
+     "logit": 12.236933708190918,
+     "olasilik": 0.04387001997784613
+    },
+    {
+     "id": 253,
+     "metin": " a",
+     "logit": 12.124645233154297,
+     "olasilik": 0.039210426576716105
+    },
+    {
+     "id": 13010,
+     "metin": " situated",
+     "logit": 12.036123275756836,
+     "olasilik": 0.035888637389226694
+    },
+    {
+     "id": 281,
+     "metin": " in",
+     "logit": 11.24277114868164,
+     "olasilik": 0.01623336368378168
+    },
+    {
+     "id": 216,
+     "metin": " ",
+     "logit": 10.92789077758789,
+     "olasilik": 0.011848345528225735
+    }
+   ],
+   "olasilik_toplami": 1.0000000000000002
+  },
+  {
+   "token_idleri": [
+    91,
+    2144,
+    4626,
+    216,
+    36,
+    32,
+    37,
+    33,
+    284,
+    260
+   ],
+   "tokenlar": [
+    "k",
+    "edi",
+    "Ġriver",
+    "Ġ",
+    "4",
+    "0",
+    "5",
+    "1",
+    "Ġand",
+    "Ġthe"
+   ],
+   "en_olasi": [
+    {
+     "id": 216,
+     "metin": " ",
+     "logit": 11.151121139526367,
+     "olasilik": 0.09309641679769678
+    },
+    {
+     "id": 198,
+     "metin": "\n",
+     "logit": 10.440552711486816,
+     "olasilik": 0.03829905264719434
+    },
+    {
+     "id": 4626,
+     "metin": " river",
+     "logit": 10.412843704223633,
+     "olasilik": 0.03699522690449665
+    },
+    {
+     "id": 659,
+     "metin": " K",
+     "logit": 10.204571723937988,
+     "olasilik": 0.028515532145506485
+    }
+   ],
+   "olasilik_toplami": 1.0000000000000018
+  },
+  {
+   "token_idleri": [
+    50,
+    1433,
+    47682,
+    501,
+    2144,
+    216,
+    552,
+    9624
+   ],
+   "tokenlar": [
+    "B",
+    "ug",
+    "Ã¼n",
+    "Ġk",
+    "edi",
+    "Ġ",
+    "ile",
+    "Ġtoken"
+   ],
+   "en_olasi": [
+    {
+     "id": 2347,
+     "metin": "ler",
+     "logit": 20.287220001220703,
+     "olasilik": 0.05585082839368837
+    },
+    {
+     "id": 89,
+     "metin": "i",
+     "logit": 19.479841232299805,
+     "olasilik": 0.03001279426963836
+    },
+    {
+     "id": 25004,
+     "metin": "lar",
+     "logit": 18.946781158447266,
+     "olasilik": 0.019917078021832346
+    },
+    {
+     "id": 463,
+     "metin": "iz",
+     "logit": 18.842666625976562,
+     "olasilik": 0.018384160543377197
+    },
+    {
+     "id": 29,
+     "metin": "-",
+     "logit": 18.578813552856445,
+     "olasilik": 0.015007131950101662
+    },
+    {
+     "id": 329,
+     "metin": " y",
+     "logit": 18.1633358001709,
+     "olasilik": 0.010901793098430243
+    },
+    {
+     "id": 259,
+     "metin": "er",
+     "logit": 18.07883644104004,
+     "olasilik": 0.010215720641117853
+    },
+    {
+     "id": 92,
+     "metin": "l",
+     "logit": 18.03311538696289,
+     "olasilik": 0.009862677973922745
+    }
+   ],
+   "olasilik_toplami": 1.000000000000001
+  },
+  {
+   "token_idleri": [
+    504,
+    3575,
+    282,
+    4649,
+    314
+   ],
+   "tokenlar": [
+    "The",
+    "Ġcapital",
+    "Ġof",
+    "ĠFrance",
+    "Ġis"
+   ],
+   "en_olasi": [
+    {
+     "id": 260,
+     "metin": " the",
+     "logit": 14.02281379699707,
+     "olasilik": 0.2616770891248882
+    }
+   ],
+   "olasilik_toplami": 1.0000000000000002
+  },
+  {
+   "token_idleri": [
+    91,
+    2144,
+    4626,
+    216,
+    36,
+    32,
+    37,
+    33,
+    284,
+    260
+   ],
+   "tokenlar": [
+    "k",
+    "edi",
+    "Ġriver",
+    "Ġ",
+    "4",
+    "0",
+    "5",
+    "1",
+    "Ġand",
+    "Ġthe"
+   ],
+   "en_olasi": [
+    {
+     "id": 216,
+     "metin": " ",
+     "logit": 11.151121139526367,
+     "olasilik": 0.09309641679769678
+    },
+    {
+     "id": 198,
+     "metin": "\n",
+     "logit": 10.440552711486816,
+     "olasilik": 0.03829905264719434
+    },
+    {
+     "id": 4626,
+     "metin": " river",
+     "logit": 10.412843704223633,
+     "olasilik": 0.03699522690449665
+    },
+    {
+     "id": 659,
+     "metin": " K",
+     "logit": 10.204571723937988,
+     "olasilik": 0.028515532145506485
+    },
+    {
+     "id": 442,
+     "metin": " N",
+     "logit": 9.93876838684082,
+     "olasilik": 0.020454333252151763
+    },
+    {
+     "id": 452,
+     "metin": " G",
+     "logit": 9.87502384185791,
+     "olasilik": 0.018887759632862974
+    },
+    {
+     "id": 422,
+     "metin": " D",
+     "logit": 9.628174781799316,
+     "olasilik": 0.013873114364107876
+    },
+    {
+     "id": 334,
+     "metin": " S",
+     "logit": 9.596826553344727,
+     "olasilik": 0.013340005638224144
+    },
+    {
+     "id": 312,
+     "metin": " T",
+     "logit": 9.569982528686523,
+     "olasilik": 0.012899808061715066
+    },
+    {
+     "id": 530,
+     "metin": " J",
+     "logit": 9.496278762817383,
+     "olasilik": 0.011764455326101899
+    },
+    {
+     "id": 550,
+     "metin": " other",
+     "logit": 9.490376472473145,
+     "olasilik": 0.011677978187759105
+    },
+    {
+     "id": 1085,
+     "metin": " main",
+     "logit": 9.32159423828125,
+     "olasilik": 0.009456733895870316
+    },
+    {
+     "id": 389,
+     "metin": " B",
+     "logit": 9.310400009155273,
+     "olasilik": 0.009325329340348522
+    },
+    {
+     "id": 407,
+     "metin": " H",
+     "logit": 9.226219177246094,
+     "olasilik": 0.008393925109974153
+    },
+    {
+     "id": 3426,
+     "metin": " sea",
+     "logit": 9.121203422546387,
+     "olasilik": 0.007361314737828335
+    },
+    {
+     "id": 8690,
+     "metin": " lake",
+     "logit": 9.0999174118042,
+     "olasilik": 0.0071680312564517176
+    },
+    {
+     "id": 492,
+     "metin": " O",
+     "logit": 9.0530366897583,
+     "olasilik": 0.006760048966946921
+    },
+    {
+     "id": 428,
+     "metin": " R",
+     "logit": 9.006364822387695,
+     "olasilik": 0.006376952377465276
+    },
+    {
+     "id": 15184,
+     "metin": " delta",
+     "logit": 8.99856185913086,
+     "olasilik": 0.00631505582215074
+    },
+    {
+     "id": 3102,
+     "metin": " town",
+     "logit": 8.99432373046875,
+     "olasilik": 0.00628168925870206
+    }
+   ],
+   "olasilik_toplami": 1.0000000000000018
+  }
+ ],
+ "pilot": "temel-logit",
+ "zaman": "2026-10-30T16:30:27+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 440 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "6b0ef0a4a848427ff8c2470d07dc9583a6f1d15207b5e22391ea1939ba2f7bf1",
+ "mod": "test"
+}

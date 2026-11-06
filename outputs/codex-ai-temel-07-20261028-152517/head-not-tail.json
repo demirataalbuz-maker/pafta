@@ -1,0 +1,66 @@
+{
+  "name": "head-not-tail",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "laboratuvar yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "gerçek ileri hesap: son token penceresi, gerçek position_ids ve son konum logitleri doğru"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: son yerine ilk tokenlar"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: token sırasını ters çevirme"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: ilk konumun logitleri"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: bütün konumları sıfırlama"
+      },
+      {
+        "ok": false,
+        "msg": "en az bir gerçek girdi bütçe yüzünden kırpıldı"
+      },
+      {
+        "ok": false,
+        "msg": "sığan gerçek girdi de sınandı"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "temel-07-baglam",
+        "kaynak": "gercek",
+        "kabul": false,
+        "model": "HuggingFaceTB/SmolLM2-135M",
+        "ozet": null,
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-07-20261028-152517\\test-data\\ai-kanit\\temel-07-baglam-1793190462567.json",
+        "zaman": "2026-10-28T15:27:41+03:00"
+      }
+    ]
+  }
+}

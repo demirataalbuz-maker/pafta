@@ -1,0 +1,68 @@
+{
+  "name": "constant",
+  "okay": true,
+  "seconds": 0.53,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "oturum doğrulaması, kullanıcı eşleşmesi ve şema korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: çağrıyı doğrudan yetkili sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: oturumu zorla doğrulanmış yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kullanıcı uyuşmazlığını gizleyen"
+      },
+      {
+        "ok": false,
+        "msg": "sahiplik, paylaşım, silme onayı ve onay kapsamı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her nesneye erişim veren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: onayı zorla geçerli yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: paylaşımı sahipliğe çeviren"
+      },
+      {
+        "ok": false,
+        "msg": "karar, çalışma, yanlış ret ve tutarlılık ayrımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: reddedip çalışan bypass'ı düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: yanlış retleri gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: çalışmayı tutarlılıkta yok sayan"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "NameError",
+      "msg": "name 'ai_lab' is not defined",
+      "frames": [],
+      "line": null,
+      "where": "test",
+      "missing": "ai_lab"
+    },
+    "ai_kanit": []
+  }
+}

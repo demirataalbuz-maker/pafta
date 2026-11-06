@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi token dağılımı işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek model: token kimlikleri, tokenlar, son konum logitleri ve sıcaklıklı softmax doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ilk konumun logitleri"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: softmax yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sıcaklık yok sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: NaN ile tolerans karşılaştırmasını atlatan"
+    },
+    {
+      "ok": true,
+      "msg": "token kimlikleri gerçek tokenizer'la metne geri çözülüyor"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK ÇIKTI (HuggingFaceTB/SmolLM2-135M@93efa2f0): 'The capital of France is' → 5 token, en olası sonraki token ' the' (id 260, logit 14.023, p=0.2617)"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-logit",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-logit-1793367027866.json",
+      "zaman": "2026-10-30T16:30:27+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

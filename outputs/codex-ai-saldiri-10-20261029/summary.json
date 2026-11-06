@@ -1,0 +1,993 @@
+[
+  {
+    "name": "reference",
+    "okay": true,
+    "seconds": 26.66,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": true,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": true,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        },
+        {
+          "ok": true,
+          "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: pipeline_dogru"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: disk_etkisi_dogru"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: red_kuyruga_girmedi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: mesru_akis_var"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: inceleme_iceriksiz"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_tam"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: girdi_degismedi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: kaynak_temiz"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: cihaz_uygun"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek SQLite kuyruk etkisi ve iki canlı yanıt; modelin belirli bozuk JSON üretmesi şart değil"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "saldiri-10-json",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "qwen3:4b-instruct-2507-q4_K_M",
+          "ozet": {
+            "red": 6,
+            "is": 3,
+            "inceleme": 1,
+            "canli_yanit": 2
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-10-20261029\\data\\ai-kanit\\saldiri-10-json-1793268177991.json",
+          "zaman": "2026-10-29T13:02:57+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "seconds": 0.5,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": false,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": false,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        },
+        {
+          "ok": true,
+          "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.48,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'kati_json' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "kati_json"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "constant",
+    "okay": true,
+    "seconds": 0.48,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": false,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": false,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        }
+      ],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'ai_lab' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "ai_lab"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "duplicate-key",
+    "okay": true,
+    "seconds": 0.5,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": true,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": true,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        },
+        {
+          "ok": true,
+          "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": false,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "trailing-data",
+    "okay": true,
+    "seconds": 0.49,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": true,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": true,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        },
+        {
+          "ok": true,
+          "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": false,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "bool-score",
+    "okay": true,
+    "seconds": 10.84,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": false,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": false,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        },
+        {
+          "ok": true,
+          "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek deney: pipeline_dogru"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek deney: disk_etkisi_dogru"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek deney: red_kuyruga_girmedi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: mesru_akis_var"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: inceleme_iceriksiz"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_tam"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: girdi_degismedi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: kaynak_temiz"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: cihaz_uygun"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek SQLite kuyruk etkisi ve iki canlı yanıt; modelin belirli bozuk JSON üretmesi şart değil"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "saldiri-10-json",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "qwen3:4b-instruct-2507-q4_K_M",
+          "ozet": {
+            "red": 5,
+            "is": 4,
+            "inceleme": 1,
+            "canli_yanit": 2
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-10-20261029\\data\\ai-kanit\\saldiri-10-json-1793268191295.json",
+          "zaman": "2026-10-29T13:03:11+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "low-score",
+    "okay": true,
+    "seconds": 11.79,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": true,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": false,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        },
+        {
+          "ok": true,
+          "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek deney: pipeline_dogru"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: disk_etkisi_dogru"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: red_kuyruga_girmedi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: mesru_akis_var"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek deney: inceleme_iceriksiz"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_tam"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: girdi_degismedi"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: kaynak_temiz"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: cihaz_uygun"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek SQLite kuyruk etkisi ve iki canlı yanıt; modelin belirli bozuk JSON üretmesi şart değil"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "saldiri-10-json",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "qwen3:4b-instruct-2507-q4_K_M",
+          "ozet": {
+            "red": 6,
+            "is": 4,
+            "inceleme": 0,
+            "canli_yanit": 2
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-10-20261029\\data\\ai-kanit\\saldiri-10-json-1793268203083.json",
+          "zaman": "2026-10-29T13:03:22+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI ÖĞRENCİ DOSYASI: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-10-20261029\\data\\calisma\\ai-saldiri-10\\kararlar.json\nSENTETİK ÖRNEKLER:\n[\n  {\n    \"id\": \"izinli\",\n    \"ham\": \"{\\\"eylem\\\":\\\"ozetle\\\",\\\"metin\\\":\\\"İki mavi dosya geldi\\\",\\\"guvence\\\":0.9}\"\n  },\n  {\n    \"id\": \"incele\",\n    \"ham\": \"{\\\"eylem\\\":\\\"cevir\\\",\\\"metin\\\":\\\"Merhaba\\\",\\\"guvence\\\":0.2}\"\n  },\n  {\n    \"id\": \"yoksay\",\n    \"ham\": \"{\\\"eylem\\\":\\\"yoksay\\\",\\\"metin\\\":\\\"Not\\\",\\\"guvence\\\":1}\"\n  },\n  {\n    \"id\": \"yinelenen\",\n    \"ham\": \"{\\\"eylem\\\":\\\"yoksay\\\",\\\"eylem\\\":\\\"cevir\\\",\\\"metin\\\":\\\"Örnek\\\",\\\"guvence\\\":1}\"\n  },\n  {\n    \"id\": \"ek-metin\",\n    \"ham\": \"{\\\"eylem\\\":\\\"ozetle\\\",\\\"metin\\\":\\\"Not\\\",\\\"guvence\\\":1} EK\"\n  },\n  {\n    \"id\": \"bool\",\n    \"ham\": \"{\\\"eylem\\\":\\\"ozetle\\\",\\\"metin\\\":\\\"Not\\\",\\\"guvence\\\":true}\"\n  },\n  {\n    \"id\": \"fazla-alan\",\n    \"ham\": \"{\\\"eylem\\\":\\\"ozetle\\\",\\\"metin\\\":\\\"Not\\\",\\\"guvence\\\":1,\\\"arac\\\":\\\"dosya_sil\\\"}\"\n  },\n  {\n    \"id\": \"nan\",\n    \"ham\": \"{\\\"eylem\\\":\\\"ozetle\\\",\\\"metin\\\":\\\"Not\\\",\\\"guvence\\\":NaN}\"\n  }\n]\n\nizinli sentetik_fixture '{\"eylem\":\"ozetle\",\"metin\":\"İki mavi dosya geldi\",\"guvence\":0.9}' → izinli {'komut': 'OZET', 'icerik': 'İki mavi dosya geldi'} DB değişim 1\nincele sentetik_fixture '{\"eylem\":\"cevir\",\"metin\":\"Merhaba\",\"guvence\":0.2}' → izinli {'komut': 'INCELE', 'icerik': ''} DB değişim 1\nyoksay sentetik_fixture '{\"eylem\":\"yoksay\",\"metin\":\"Not\",\"guvence\":1}' → izinli {'komut': 'YOKSAY', 'icerik': 'Not'} DB değişim 1\nyinelenen sentetik_fixture '{\"eylem\":\"yoksay\",\"eylem\":\"cevir\",\"metin\":\"Örnek\",\"guvence\":1}' → red None DB değişim 0\nek-metin sentetik_fixture '{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":1} EK' → red None DB değişim 0\nbool sentetik_fixture '{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":true}' → red None DB değişim 0\nfazla-alan sentetik_fixture '{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":1,\"arac\":\"dosya_sil\"}' → red None DB değişim 0\nnan sentetik_fixture '{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":NaN}' → red None DB değişim 0\nmodel-0 canli_model '{\"eylem\":\"ozetle\",\"metin\":\"PAFTA local note\",\"guvence\":0.9}' → izinli {'komut': 'OZET', 'icerik': 'PAFTA local note'} DB değişim 1\nmodel-1 canli_model '{\"eylem\":\"yoksay\",\"eylem\":\"cevir\",\"metin\":\"PAFTA\",\"guvence\":1}' → red None DB değişim 0\nGERÇEK SQLite kuyruğu: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-10-20261029\\data\\calisma\\ai-saldiri-10\\kuyruk-8526977d.sqlite3\nİşler: [('izinli', 'OZET', 'İki mavi dosya geldi'), ('model-0', 'OZET', 'PAFTA local note'), ('yoksay', 'YOKSAY', 'Not')] İnceleme: [('incele', '')]\nKontroller: {'pipeline_dogru': True, 'disk_etkisi_dogru': True, 'red_kuyruga_girmedi': True, 'mesru_akis_var': True, 'inceleme_iceriksiz': True, 'gercek_tam': True, 'girdi_degismedi': True, 'kaynak_temiz': True, 'cihaz_uygun': True}\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_q5ek65k6\\saldiri-10-json-1793268214551.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "saldiri-10-json",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "qwen3:4b-instruct-2507-q4_K_M",
+          "ozet": {
+            "red": 6,
+            "is": 3,
+            "inceleme": 1,
+            "canli_yanit": 2
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-10-20261029\\data\\ai-kanit\\saldiri-10-json-1793268214551.json",
+          "zaman": "2026-10-29T13:03:34+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "missing-dependency",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "tam tüketim, yinelenen anahtar, özel sayı ve tür denetimi korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: yinelenen anahtarı ve NaN kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: sondaki metni yok sayan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kod çitini tahmin eden"
+        },
+        {
+          "ok": true,
+          "msg": "tam şema, bool reddi, uzunluk ve sonlu aralık birlikte korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: ek alanı ve eksik şemayı kabul eden"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: türleri zorla dönüştüren"
+        },
+        {
+          "ok": true,
+          "msg": "sabit eşleme, eşik sınırı, inceleme yolu ve şema korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: model adını komut yapan"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: düşük güvenceyi çalıştıran"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: şemayı atlayan"
+        },
+        {
+          "ok": true,
+          "msg": "dinamik çağrı ve laboratuvar yaması olmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni geçerli JSON eşik sınırında iş üretmeli"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "yeni bozuk JSON ek metin/yinelenen anahtar reddi"
+        }
+      ],
+      "segs": [],
+      "error": {
+        "type": "GercekLabYok",
+        "msg": "Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  }
+]

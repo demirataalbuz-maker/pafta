@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "err",
+      "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  37%|███▋      | 100/272 [00:00<00:00, 986.03it/s]\rLoading weights:  73%|███████▎  | 199/272 [00:00<00:00, 681.98it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 806.64it/s]\n"
+    ],
+    [
+      "out",
+      "Model: HuggingFaceTB/SmolLM2-135M@93efa2f0 · sözlük 49152 token\nMetin: 'Once upon a time, in a small village,'\n\nAday kümesi boyutu (sonraki token):\n  T=0.5, p=0.5   → 1 aday\n  T=0.5, p=0.9   → 2 aday\n  T=1.0, p=0.5   → 1 aday\n  T=1.0, p=0.9   → 2 aday\n  T=1.5, p=0.5   → 4 aday\n  T=1.5, p=0.9   → 1210 aday\n\nAynı tohumla 12 token üretim:\n  greedy         ' lived two best friends named Sam and Alex. They loved exploring'\n  T=0.7, p=0.9   ' lived two best friends, Sam and Alex. They loved exploring'\n  T=1.0, k=50    ' lived two curious brothers named Timmy and Lucy. They loved playing'\n  T=1.5, p=0.95  ' lived three mothers who believed that adversity helped children move higher on'\n\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_h5mftws2\\temel-ornekleme-calistir-1793434138148.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-ornekleme-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-ornekleme-calistir-1793434138148.json",
+      "zaman": "2026-10-31T11:08:57+03:00"
+    }
+  ]
+}

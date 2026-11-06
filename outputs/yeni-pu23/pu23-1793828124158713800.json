@@ -1,0 +1,397 @@
+{
+  "kaynak": "gercek",
+  "kabul": true,
+  "pilot": "pu23-devsecops",
+  "python": "3.13.14",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "surum": {
+    "gitleaks": "8.30.1",
+    "trivy": "Version: 0.76.1",
+    "semgrep": "1.183.0"
+  },
+  "sure": {
+    "gitleaks": {
+      "kod": 1,
+      "sn": 0.9
+    },
+    "semgrep": {
+      "kod": 0,
+      "sn": 1.0
+    },
+    "trivy": {
+      "kod": 0,
+      "sn": 1.1
+    }
+  },
+  "dis_istek": [],
+  "bulgular": [
+    {
+      "arac": "semgrep",
+      "kural": "sql-birlestirme",
+      "dosya": "uygulama/app.py",
+      "satir": 7,
+      "tur": "sast"
+    },
+    {
+      "arac": "semgrep",
+      "kural": "shell-true",
+      "dosya": "uygulama/app.py",
+      "satir": 15,
+      "tur": "sast"
+    },
+    {
+      "arac": "semgrep",
+      "kural": "zayif-ozet",
+      "dosya": "uygulama/app.py",
+      "satir": 23,
+      "tur": "sast"
+    },
+    {
+      "arac": "semgrep",
+      "kural": "zayif-ozet",
+      "dosya": "uygulama/app.py",
+      "satir": 27,
+      "tur": "sast"
+    },
+    {
+      "arac": "gitleaks",
+      "kural": "github-pat",
+      "dosya": ".env",
+      "satir": 1,
+      "tur": "sir"
+    },
+    {
+      "arac": "gitleaks",
+      "kural": "aws-access-token",
+      "dosya": "uygulama/ayar.py",
+      "satir": 2,
+      "tur": "sir"
+    },
+    {
+      "arac": "gitleaks",
+      "kural": "generic-api-key",
+      "dosya": "uygulama/ayar.py",
+      "satir": 3,
+      "tur": "sir"
+    },
+    {
+      "arac": "trivy",
+      "kural": "DS-0026",
+      "dosya": "Dockerfile",
+      "satir": 0,
+      "tur": "yapilandirma"
+    },
+    {
+      "arac": "trivy",
+      "kural": "DS-0001",
+      "dosya": "Dockerfile",
+      "satir": 1,
+      "tur": "yapilandirma"
+    },
+    {
+      "arac": "trivy",
+      "kural": "DS-0005",
+      "dosya": "Dockerfile",
+      "satir": 3,
+      "tur": "yapilandirma"
+    },
+    {
+      "arac": "trivy",
+      "kural": "DS-0002",
+      "dosya": "Dockerfile",
+      "satir": 5,
+      "tur": "yapilandirma"
+    },
+    {
+      "arac": "trivy",
+      "kural": "aws-access-key-id",
+      "dosya": "uygulama/ayar.py",
+      "satir": 2,
+      "tur": "sir"
+    },
+    {
+      "arac": "trivy",
+      "kural": "aws-secret-access-key",
+      "dosya": "uygulama/ayar.py",
+      "satir": 3,
+      "tur": "sir"
+    }
+  ],
+  "gercek": [
+    {
+      "id": "S1",
+      "tur": "sast",
+      "dosya": "uygulama/app.py",
+      "satir": 7,
+      "sorun": true,
+      "not": "SQL birleştirme"
+    },
+    {
+      "id": "S2",
+      "tur": "sast",
+      "dosya": "uygulama/app.py",
+      "satir": 15,
+      "sorun": true,
+      "not": "shell=True + girdi"
+    },
+    {
+      "id": "S3",
+      "tur": "sast",
+      "dosya": "uygulama/app.py",
+      "satir": 23,
+      "sorun": true,
+      "not": "parola için MD5"
+    },
+    {
+      "id": "S4",
+      "tur": "sast",
+      "dosya": "uygulama/app.py",
+      "satir": 31,
+      "sorun": true,
+      "not": "os.system + girdi"
+    },
+    {
+      "id": "N1",
+      "tur": "sast",
+      "dosya": "uygulama/app.py",
+      "satir": 27,
+      "sorun": false,
+      "not": "önbellek anahtarı, güvenlik amaçlı değil"
+    },
+    {
+      "id": "N2",
+      "tur": "sast",
+      "dosya": "uygulama/app.py",
+      "satir": 11,
+      "sorun": false,
+      "not": "parametreli sorgu"
+    },
+    {
+      "id": "G1",
+      "tur": "sir",
+      "dosya": "uygulama/ayar.py",
+      "satir": 2,
+      "sorun": true,
+      "not": "AWS erişim anahtarı (sahte, rastgele)"
+    },
+    {
+      "id": "G2",
+      "tur": "sir",
+      "dosya": "uygulama/ayar.py",
+      "satir": 3,
+      "sorun": true,
+      "not": "AWS gizli anahtarı (sahte, rastgele)"
+    },
+    {
+      "id": "G3",
+      "tur": "sir",
+      "dosya": ".env",
+      "satir": 1,
+      "sorun": true,
+      "not": "silinmiş ama git geçmişinde duran token"
+    },
+    {
+      "id": "N3",
+      "tur": "sir",
+      "dosya": "tests/ornek_veri.py",
+      "satir": 2,
+      "sorun": false,
+      "not": "AWS belgelerindeki örnek anahtar"
+    },
+    {
+      "id": "Y1",
+      "tur": "yapilandirma",
+      "dosya": "Dockerfile",
+      "satir": 1,
+      "sorun": true,
+      "not": ":latest etiketi"
+    },
+    {
+      "id": "Y2",
+      "tur": "yapilandirma",
+      "dosya": "Dockerfile",
+      "satir": 5,
+      "sorun": true,
+      "not": "root kullanıcı"
+    },
+    {
+      "id": "Y3",
+      "tur": "yapilandirma",
+      "dosya": "Dockerfile",
+      "satir": 3,
+      "sorun": true,
+      "not": "COPY yerine ADD"
+    },
+    {
+      "id": "N4",
+      "tur": "yapilandirma",
+      "dosya": "Dockerfile",
+      "satir": 0,
+      "sorun": false,
+      "not": "HEALTHCHECK yok: işletim konusu, bu politika için güvenlik bulgusu değil"
+    }
+  ],
+  "olcum": {
+    "gitleaks": {
+      "dogru": 3,
+      "yanlis": 0,
+      "kacan": [],
+      "kesinlik": 1.0,
+      "duyarlilik": 1.0
+    },
+    "semgrep": {
+      "dogru": 3,
+      "yanlis": 1,
+      "kacan": [
+        "S4"
+      ],
+      "kesinlik": 0.75,
+      "duyarlilik": 0.75
+    },
+    "trivy": {
+      "dogru": 5,
+      "yanlis": 1,
+      "kacan": [
+        "G3"
+      ],
+      "kesinlik": 0.833,
+      "duyarlilik": 0.833
+    },
+    "hat": {
+      "dogru": 9,
+      "yanlis": 2,
+      "kacan": [
+        "S4"
+      ],
+      "kesinlik": 0.818,
+      "duyarlilik": 0.9
+    }
+  },
+  "bugun": "2026-11-05",
+  "istisnalar": [
+    {
+      "id": "I1",
+      "arac": "trivy",
+      "kural": "DS-0026",
+      "dosya": "Dockerfile",
+      "gerekce": "Sağlık denetimi orkestratörde yapılıyor",
+      "bitis": "2099-12-31"
+    },
+    {
+      "id": "I2",
+      "arac": "semgrep",
+      "kural": "zayif-ozet",
+      "dosya": "uygulama/app.py",
+      "satir": 27,
+      "gerekce": "Önbellek anahtarı; usedforsecurity=False",
+      "bitis": "2099-12-31"
+    },
+    {
+      "id": "I3",
+      "arac": "trivy",
+      "kural": "DS-0005",
+      "dosya": "Dockerfile",
+      "gerekce": "Geçiş dönemi",
+      "bitis": "2026-01-01"
+    },
+    {
+      "id": "I4",
+      "arac": "gitleaks",
+      "kural": "generic-api-key",
+      "dosya": "tests/ornek_veri.py",
+      "gerekce": "Belge örneği",
+      "bitis": "2099-12-31"
+    }
+  ],
+  "ci": {
+    "gecti": false,
+    "engelleyen": [
+      {
+        "arac": "gitleaks",
+        "kural": "github-pat",
+        "dosya": ".env",
+        "satir": 1,
+        "tur": "sir"
+      },
+      {
+        "arac": "trivy",
+        "kural": "DS-0001",
+        "dosya": "Dockerfile",
+        "satir": 1,
+        "tur": "yapilandirma"
+      },
+      {
+        "arac": "trivy",
+        "kural": "DS-0005",
+        "dosya": "Dockerfile",
+        "satir": 3,
+        "tur": "yapilandirma"
+      },
+      {
+        "arac": "trivy",
+        "kural": "DS-0002",
+        "dosya": "Dockerfile",
+        "satir": 5,
+        "tur": "yapilandirma"
+      },
+      {
+        "arac": "semgrep",
+        "kural": "sql-birlestirme",
+        "dosya": "uygulama/app.py",
+        "satir": 7,
+        "tur": "sast"
+      },
+      {
+        "arac": "semgrep",
+        "kural": "shell-true",
+        "dosya": "uygulama/app.py",
+        "satir": 15,
+        "tur": "sast"
+      },
+      {
+        "arac": "semgrep",
+        "kural": "zayif-ozet",
+        "dosya": "uygulama/app.py",
+        "satir": 23,
+        "tur": "sast"
+      },
+      {
+        "arac": "gitleaks",
+        "kural": "aws-access-token",
+        "dosya": "uygulama/ayar.py",
+        "satir": 2,
+        "tur": "sir"
+      },
+      {
+        "arac": "trivy",
+        "kural": "aws-access-key-id",
+        "dosya": "uygulama/ayar.py",
+        "satir": 2,
+        "tur": "sir"
+      },
+      {
+        "arac": "gitleaks",
+        "kural": "generic-api-key",
+        "dosya": "uygulama/ayar.py",
+        "satir": 3,
+        "tur": "sir"
+      },
+      {
+        "arac": "trivy",
+        "kural": "aws-secret-access-key",
+        "dosya": "uygulama/ayar.py",
+        "satir": 3,
+        "tur": "sir"
+      }
+    ],
+    "bastirilan": 2,
+    "suresi_dolan": [
+      "I3"
+    ],
+    "kullanilmayan": [
+      "I4"
+    ]
+  },
+  "sizinti": [],
+  "cleanup": true
+}

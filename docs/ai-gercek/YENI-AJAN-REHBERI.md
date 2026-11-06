@@ -57,3 +57,12 @@ Bu karar ileriye dönük öğretim standardıdır. Eski derslere topluca dönü�
 
 ## 10. Terimler çevrilmez (kullanıcı kararı, 02.11.2026)
 Anlatım Türkçe yazılır, teknik terimler orijinal haliyle kalır: `prompt injection`, `embedding`, `confused deputy`, `gradient masking`, `abliteration`, `retrieval`. Terime Türkçe karşılık uydurulmaz ("Şaşkın Vekil", "Açgözlü Koordinat Gradyanları", "Toplam Varyasyon Uzaklığı" gibi). Terimin ne olduğu gerekiyorsa cümle içinde Türkçe açıklanır: "`confused deputy`, kendi yetkisini başkasının isteğiyle kullanan bileşendir." Bu kural yeni yazılan ve düzeltilen bütün anlatımlar için geçerlidir; denetçi çevrilmiş terimi eksik sayar.
+
+
+## 11. Yeni plan başlığı ile gerçek ders kimliği
+
+Yeni ders henüz dosya/track kaydında yoksa tracker onu alamaz: önce ortak panoda planı ve ders numarasını rezerve et, diğer yazarın rezervasyonunu kontrol et. Dosya ve dar track kaydı eklendiğinde gerçek ders ID'sini ai_ders_takip.py ile al. takip.json elle değiştirilmez.
+
+Tek bir AI plan başlığı somut derse dönüşünce, yeni-dersler-atamalar.json içindeki o plan kaydına ders_id alanı eklenir. Örnek: plan-saldiri-7 → ai-saldiri-53, plan-saldiri-8 → ai-saldiri-54, plan-savunma-7 → ai-savunma-38. Bu alan sahipliği veya puanı değiştirmez. tools/ai_yeni_dersler.py alanı korur; YENI-DERSLER.html çalışma/denetim durumunu gerçek ders ID'sinin tracker/kuyruk kaydından okur. Bir planı ve dersini iki ayrı yeni ders gibi sayma.
+
+Bu eşleme yalnız tek somut AI dersi için kullanılır. Çok alt dersli Purple/klasik modülleri tek bir çocuğun teslimiyle tamamlanmış sayma; bu alt işler ayrıca kaydedilir. Sadece bağımsız denetçi kabul ettiğinde yeşil görünür. Üretici veya şablon değiştiğinde açık tarayıcı sayfasını yenile; JSON durumları sonrasında20saniyede bir okunur. Başka yazarın ders_id/sorumlu/asama/oncelik alanlarını değiştirme.

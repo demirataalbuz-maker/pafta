@@ -1,0 +1,40 @@
+{
+ "aciklama": "Sentetik, elle yazılmış örnek girdiler. Son görev bunları kullanmaz; yerel sunucuya gerçek istek gönderir.",
+ "html": [
+  "Ayşe & Ali <3",
+  "<b id=\"ornek\">x</b>",
+  "O'Reilly \"kitap\""
+ ],
+ "sablonlar": [
+  [
+   "Merhaba {ad}!",
+   [
+    "ad"
+   ]
+  ],
+  [
+   "{{ad}} sabit, {ad} değişken",
+   [
+    "ad"
+   ]
+  ],
+  [
+   "{u.ayar[GIZLI]}",
+   [
+    "ad"
+   ]
+  ],
+  [
+   "{ad!r}",
+   [
+    "ad"
+   ]
+  ]
+ ],
+ "xml": [
+  "<siparis><urun>kalem</urun></siparis>",
+  "<!DOCTYPE r [<!ENTITY x \"y\">]><r>&x;</r>",
+  "<!DOCTYPE r SYSTEM \"dis.dtd\"><r/>",
+  "<r><!-- <!ENTITY sahte> --></r>"
+ ]
+}

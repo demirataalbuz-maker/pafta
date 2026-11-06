@@ -1,0 +1,4 @@
+34 ders, 257 kontrol · geçen: {'ornek': 14, 'tahmin': 35, 'solution': 102, 'starter': 104}
+  ✗ ÇÖZÜM GEÇMEDİ          ai-saldiri/ai-saldiri-21:2 gorev «Model çıktısından canary'ye saldırı zinc»  fail [] {'type': 'TimeoutError', 'msg': 'timed out', 'frames': [{'line': 5, 'func': 'modelden_araca', 'text': 'arac_yaniti = url_getir(secilen_url)'}], 'line': 5, 'where': 'kod-test'}
+  ✗ ÇÖZÜM GEÇMEDİ          ai-saldiri/ai-saldiri-21:3 gorev «Her hop'ta origin, DNS ve gerçek bağlant»  fail [{'ok': False, 'msg': 'varsayılan sınır üçüncü redirecti reddeder', 'got': 'TimeoutError: timed out', 'exp': 'ValueError'}, {'ok': False, 'msg': 'varsayılan sınırda /ok hedefine istek yok', 'got': '1', 'exp': '3'}] None
+2 SORUN

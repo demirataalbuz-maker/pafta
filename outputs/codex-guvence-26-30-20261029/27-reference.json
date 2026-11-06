@@ -1,0 +1,61 @@
+{
+  "lesson": "ai-guvence-27",
+  "name": "reference",
+  "okay": true,
+  "seconds": 9.0,
+  "result": {
+    "status": "pass",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "GERCEK: kalibrasyon_ve_test_ayri"
+      },
+      {
+        "ok": true,
+        "msg": "GERCEK: sinir_kalibrasyonlari"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "guvence-27",
+        "kaynak": "gercek",
+        "kabul": true,
+        "model": "tiny-4-12-2-CPU",
+        "ozet": [
+          [
+            {
+              "n": 48,
+              "nll": 0.181518,
+              "dogruluk": 0.895833,
+              "ece": 0.036522
+            },
+            {
+              "n": 48,
+              "nll": 0.210121,
+              "dogruluk": 0.895833,
+              "ece": 0.08994
+            }
+          ],
+          [
+            {
+              "n": 48,
+              "nll": 0.274456,
+              "dogruluk": 0.895833,
+              "ece": 0.066256
+            },
+            {
+              "n": 48,
+              "nll": 0.229989,
+              "dogruluk": 0.895833,
+              "ece": 0.060105
+            }
+          ]
+        ],
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-27-1793299841050.json",
+        "zaman": "2026-10-29T21:50:40+03:00"
+      }
+    ]
+  }
+}

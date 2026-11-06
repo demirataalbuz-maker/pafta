@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi autograd eğitim işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek autograd gradyanları, SGD adımları, analitik ağırlık ve güncelleme öncesi kayıp doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: zero_grad unutulmuş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ortalama yerine toplam kayıp"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: backward çağrılmıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: optimizer adımı yok"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-09-egitim",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "yerelde oluşturulan Linear(2,1,bias=True)",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-09-egitim-1793372543913.json",
+      "zaman": "2026-10-30T18:02:23+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

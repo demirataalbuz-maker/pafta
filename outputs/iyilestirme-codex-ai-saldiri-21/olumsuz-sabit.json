@@ -1,0 +1,26 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": false,
+      "msg": "model istemi değişmeden bir kez aldı",
+      "got": "[]",
+      "exp": "['Bu sayfayı özetle']"
+    },
+    {
+      "ok": false,
+      "msg": "model çıktısı değişmeden tool argümanı oldu",
+      "got": "[]",
+      "exp": "['http://public.test:13082/start']"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "KeyError",
+    "msg": "'prompt'",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": []
+}

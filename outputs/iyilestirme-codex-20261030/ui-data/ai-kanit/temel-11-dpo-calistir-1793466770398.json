@@ -1,0 +1,178 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32",
+  "uyarlama": "Yalnız sözlük boyutlu ek çıktı biası; LM ağırlıkları eğitilmez.",
+  "protokol": "Gerçek son-konum logitleri; tek tokenlık chosen/rejected tamamlamalar.",
+  "veri_tohumu": 1206329610,
+  "gercek_cagrilar": [
+   {
+    "prompt": "Training sample 11140: choose a label.",
+    "token_idleri": [
+     27706,
+     4315,
+     216,
+     33,
+     33,
+     33,
+     36,
+     32,
+     42,
+     3525,
+     253,
+     4368,
+     30
+    ],
+    "chosen": 9805,
+    "rejected": 787,
+    "chosen_metin": " yes",
+    "rejected_metin": " no",
+    "chosen_logit": 12.348185539245605,
+    "rejected_logit": 15.309947967529297,
+    "logit_sha256": "c11721741f9d69729ade8949793fc9caaf6eeb2a9c97a6085a482463a2e411cd"
+   },
+   {
+    "prompt": "An invented direction exercise 18083: choose a label.",
+    "token_idleri": [
+     2089,
+     11396,
+     4376,
+     3388,
+     216,
+     33,
+     40,
+     32,
+     40,
+     35,
+     42,
+     3525,
+     253,
+     4368,
+     30
+    ],
+    "chosen": 2049,
+    "rejected": 1048,
+    "chosen_metin": " left",
+    "rejected_metin": " right",
+    "chosen_logit": 12.510344505310059,
+    "rejected_logit": 11.717583656311035,
+    "logit_sha256": "d24e81fe118f7a0cfd20ff434679932a4119d3d3a7e51d0d0e15e97f91f289d2"
+   },
+   {
+    "prompt": "An invented color exercise 48528: choose a label.",
+    "token_idleri": [
+     2089,
+     11396,
+     2380,
+     3388,
+     216,
+     36,
+     40,
+     37,
+     34,
+     40,
+     42,
+     3525,
+     253,
+     4368,
+     30
+    ],
+    "chosen": 2382,
+    "rejected": 4461,
+    "chosen_metin": " red",
+    "rejected_metin": " blue",
+    "chosen_logit": 15.215473175048828,
+    "rejected_logit": 15.089523315429688,
+    "logit_sha256": "11636441d948ea4f47469759a48b76853eeb2bf4f9bdb37cdafa4c7e0110e5d1"
+   }
+  ]
+ },
+ "ayarlar": {
+  "beta": 0.4,
+  "adim": 3,
+  "lr": 0.1,
+  "vakalar": [
+   {
+    "prompt": "Training sample 11140: choose a label.",
+    "chosen": 9805,
+    "rejected": 787
+   },
+   {
+    "prompt": "An invented direction exercise 18083: choose a label.",
+    "chosen": 2049,
+    "rejected": 1048
+   },
+   {
+    "prompt": "An invented color exercise 48528: choose a label.",
+    "chosen": 2382,
+    "rejected": 4461
+   }
+  ]
+ },
+ "ciktilar": {
+  "kayiplar": [
+   0.6931471805599453,
+   0.6904840694446205,
+   0.6878351425754731
+  ],
+  "son_marjlar": [
+   0.039893428903742034,
+   0.039893428903742034,
+   0.039893428903742034
+  ]
+ },
+ "bias_ozeti": {
+  "787": -0.019946714451870358,
+  "1048": -0.019946714451870358,
+  "2049": 0.019946714451870358,
+  "2382": 0.019946714451870358,
+  "4461": -0.019946714451870358,
+  "9805": 0.019946714451870358
+ },
+ "olculen": {
+  "gradyan": 3,
+  "adim": 3,
+  "referans_grad_acik": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ]
+ },
+ "sinir": "tek-token ek bias eğitimi; Çalıştır kabul değildir; tam LM fine-tuning/güvenlik ölçülmez",
+ "temizlik": "CPU, kalıcı süreç veya model dosyası değişikliği yok",
+ "pilot": "temel-11-dpo-calistir",
+ "zaman": "2026-10-31T20:12:49+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 403 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "5aa652b572f02e4e767cb9542891ba983b6be541d7260fc1b1d2b4d10c92c6bb",
+ "mod": "run"
+}

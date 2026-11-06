@@ -1,0 +1,73 @@
+{
+ "kaynak": "kusurlu başlangıç kodu 1 ve 2, veri/uyelik.json",
+ "kusurlu_skor": [
+  {
+   "id": "degil-x",
+   "uye": false,
+   "ham_skor": 4.6,
+   "kalibre_skor": -0.40000000000000036
+  },
+  {
+   "id": "degil-y",
+   "uye": false,
+   "ham_skor": 5.1,
+   "kalibre_skor": -0.20000000000000018
+  },
+  {
+   "id": "degil-yaygin",
+   "uye": false,
+   "ham_skor": 1.1,
+   "kalibre_skor": -0.09999999999999987
+  },
+  {
+   "id": "uye-a",
+   "uye": true,
+   "ham_skor": 0.4,
+   "kalibre_skor": -4.699999999999999
+  },
+  {
+   "id": "uye-b-zor",
+   "uye": true,
+   "ham_skor": 2.6,
+   "kalibre_skor": -5.300000000000001
+  },
+  {
+   "id": "uye-c",
+   "uye": true,
+   "ham_skor": 1.0,
+   "kalibre_skor": -3.8
+  }
+ ],
+ "kusurlu_auc": {
+  "ham_skor": {
+   "auc": 0.1111111111111111,
+   "tpr_dusuk_fpr": 0.0,
+   "esik": null,
+   "uye": 3,
+   "uye_degil": 3
+  },
+  "kalibre_skor": {
+   "auc": 0.0,
+   "tpr_dusuk_fpr": 0.0,
+   "esik": null,
+   "uye": 3,
+   "uye_degil": 3
+  }
+ },
+ "dogru_auc": {
+  "ham_skor": {
+   "auc": 0.8888888888888888,
+   "tpr_dusuk_fpr": 0.6666666666666666,
+   "esik": -1.0,
+   "uye": 3,
+   "uye_degil": 3
+  },
+  "kalibre_skor": {
+   "auc": 1.0,
+   "tpr_dusuk_fpr": 1.0,
+   "esik": 3.8,
+   "uye": 3,
+   "uye_degil": 3
+  }
+ }
+}

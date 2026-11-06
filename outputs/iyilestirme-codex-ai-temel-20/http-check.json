@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi olay kaydını yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gizliliği koruyan kayıt doğru (hash + redaksiyon + ölçü); geçersiz girdi reddedilmeli"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ham anahtarı kayda yazan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: istemi redakte etmeyen"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: istemi uzunluk yerine ham yazan"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek kayıtlar bağımsız referansla aynı"
+    },
+    {
+      "ok": true,
+      "msg": "gizli istek kaydı hiçbir sırrı sızdırmıyor (sızan: yok); türler ['anahtar', 'eposta', 'numara']"
+    },
+    {
+      "ok": true,
+      "msg": "ham API anahtarı hiçbir kayıtta yok (tuzlanmış hash kullanıldı)"
+    },
+    {
+      "ok": true,
+      "msg": "token ve gecikme gerçek ölçüldü (6/6 istekte token>0)"
+    },
+    {
+      "ok": true,
+      "msg": "tekrarlı istem kayıtlarda görünür (tekrar oranı 0.5)"
+    },
+    {
+      "ok": true,
+      "msg": "BULGU (qwen3:4b-instruct-2507-q4_K_M): 6 gerçek istek, toplam 321 token; sır kaydı türleri ['anahtar', 'eposta', 'numara'], sızan sır: yok, ham anahtar kayıtta: False; tekrar oranı 0.5 (kötüye kullanım görünür)."
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-gozlem",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "istek": 6,
+        "toplam_token": 321,
+        "yineleme_orani": 0.5,
+        "sir_turleri": [
+          "anahtar",
+          "eposta",
+          "numara"
+        ],
+        "sizan_sir": [],
+        "anahtar_hash_ornegi": "7077faabb5e8885e",
+        "ham_anahtar_kayitta": false
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-gozlem-1793388761760.json",
+      "zaman": "2026-10-30T22:32:40+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

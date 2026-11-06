@@ -1,0 +1,3368 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek çalışma dosyasının SHA256 özeti"
+    },
+    {
+      "ok": true,
+      "msg": "manifest değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "str klasör de kabul edilir"
+    },
+    {
+      "ok": false,
+      "msg": "yanlış hash",
+      "got": "True",
+      "exp": "False"
+    },
+    {
+      "ok": false,
+      "msg": "dosya değiştiyse eski manifest yetmez",
+      "got": "True",
+      "exp": "False"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk manifest fail closed"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk manifest fail closed",
+      "got": "True",
+      "exp": "False"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk manifest fail closed",
+      "got": "True",
+      "exp": "False"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk manifest fail closed",
+      "got": "True",
+      "exp": "False"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk manifest fail closed",
+      "got": "True",
+      "exp": "False"
+    },
+    {
+      "ok": true,
+      "msg": "dosya adının sınır uzunluğu"
+    },
+    {
+      "ok": true,
+      "msg": "dosya adının sınır uzunluğu"
+    },
+    {
+      "ok": true,
+      "msg": "dizin ağırlık dosyası değildir"
+    },
+    {
+      "ok": true,
+      "msg": "eksik çalışma dizini"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk çalışma dizini"
+    },
+    {
+      "ok": true,
+      "msg": "iki sabit de tam eşleşti"
+    },
+    {
+      "ok": true,
+      "msg": "politika değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "kimlik VE issuer birebir olmalı"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk kimlik"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk issuer"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk politika"
+    },
+    {
+      "ok": true,
+      "msg": "iki taraf boşsa onay yok"
+    },
+    {
+      "ok": true,
+      "msg": "iki taraf boşsa onay yok"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "bütün gerçek sonuç kombinasyonları"
+    },
+    {
+      "ok": true,
+      "msg": "girdi korunur"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "komut hatası güvenli ret değildir"
+    },
+    {
+      "ok": true,
+      "msg": "şema, sekiz benzersiz vaka ve bool türü"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

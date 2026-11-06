@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "days": [
+  "2026-10-29"
+ ],
+ "last": {
+  "track": "ai-saldiri",
+  "lesson": "ai-saldiri-05",
+  "step": 8
+ },
+ "tracks": {
+  "ai-saldiri": {
+   "steps": {
+    "ai-saldiri-05:8": {
+     "attempts": 3,
+     "revealed": true,
+     "done": true,
+     "at": "2026-10-29T05:49:38"
+    }
+   },
+   "drafts": {
+    "ai-saldiri-05:8": "import ai_lab\n\nimport hashlib\nimport json\n\ndef set_imzala(vakalar):\n    kayitlar = []\n    kimlikler = set()\n    for vaka in vakalar:\n        if set(vaka) != {\"id\", \"tur\", \"girdi\", \"hedef\"}:\n            raise ValueError(\"vaka şeması geçersiz\")\n        if not isinstance(vaka[\"id\"], str) or not vaka[\"id\"]:\n            raise ValueError(\"id boş olamaz\")\n        if vaka[\"id\"] in kimlikler:\n            raise ValueError(\"id yinelenemez\")\n        if not isinstance(vaka[\"girdi\"], str) or not vaka[\"girdi\"]:\n            raise ValueError(\"girdi boş olamaz\")\n        if vaka[\"tur\"] not in (\"saldiri\", \"kontrol\"):\n            raise ValueError(\"tur geçersiz\")\n        if vaka[\"tur\"] == \"saldiri\":\n            if not isinstance(vaka[\"hedef\"], str) or not vaka[\"hedef\"]:\n                raise ValueError(\"saldırı hedefi gerekli\")\n        elif vaka[\"hedef\"] is not None:\n            raise ValueError(\"kontrol hedefi None olmalı\")\n        kimlikler.add(vaka[\"id\"])\n        kayitlar.append((vaka[\"id\"], vaka[\"tur\"], vaka[\"girdi\"], vaka[\"hedef\"]))\n    kanonik = json.dumps(vakalar, ensure_ascii=False, sort_keys=True, separators=(\",\", \":\"))\n    return kayitlar, hashlib.sha256(kanonik.encode(\"utf-8\")).hexdigest()\n\ndef asr_olc(plan, sonuclar):\n    beklenen = {(adim[\"vaka_id\"], adim[\"tekrar\"]) for adim in plan}\n    gelen = {}\n    for sonuc in sonuclar:\n        anahtar = (sonuc[\"vaka_id\"], sonuc[\"tekrar\"])\n        if anahtar in gelen or sonuc[\"durum\"] not in (\"basari\", \"basarisiz\", \"hata\"):\n            raise ValueError(\"yinelenen sonuç veya geçersiz durum\")\n        gelen[anahtar] = sonuc[\"durum\"]\n    if set(gelen) != beklenen:\n        raise ValueError(\"sonuçlar deneme planıyla eşleşmiyor\")\n    rapor = {\"deneme\": len(plan), \"gecerli_saldiri\": 0, \"basari\": 0, \"saldiri_hatasi\": 0, \"kontrol\": 0, \"saglam_kontrol\": 0, \"asr\": None}\n    for adim in plan:\n        durum = gelen[(adim[\"vaka_id\"], adim[\"tekrar\"])]\n        if adim[\"hedef\"] is None:\n            rapor[\"kontrol\"] += 1\n            if durum == \"basarisiz\":\n                rapor[\"saglam_kontrol\"] += 1\n        elif durum == \"hata\":\n            rapor[\"saldiri_hatasi\"] += 1\n        else:\n            rapor[\"gecerli_saldiri\"] += 1\n            if durum == \"basari\":\n                rapor[\"basari\"] += 1\n    if rapor[\"gecerli_saldiri\"]:\n        rapor[\"asr\"] = rapor[\"basari\"] / rapor[\"gecerli_saldiri\"]\n    return rapor\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_saldiri_05 as deney\n    deney.goster(set_imzala, asr_olc)"
+   },
+   "review": {
+    "ai-saldiri-05:8": {
+     "box": 1,
+     "due": "2026-10-30"
+    }
+   }
+  }
+ },
+ "playground": "",
+ "settings": {
+  "theme": "mavi"
+ }
+}

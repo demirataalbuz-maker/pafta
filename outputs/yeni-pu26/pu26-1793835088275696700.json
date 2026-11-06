@@ -1,0 +1,34 @@
+{
+  "kaynak": "gercek",
+  "kabul": true,
+  "pilot": "pu26-tespit",
+  "python": "3.13.14",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "olay_sayisi": 88,
+  "atomik_teknikler": [
+    "T1053.003",
+    "T1070.003",
+    "T1087.001",
+    "T1546.004"
+  ],
+  "kural_tp": 2,
+  "kural_fp": 0,
+  "saf_tp": 8,
+  "saf_fp": 2,
+  "kural_vurus": [
+    {
+      "kural": "pafta-kalicilik-yazma",
+      "comm": "bash",
+      "yon": "yaz",
+      "hedef": "/root/.bashrc"
+    },
+    {
+      "kural": "pafta-kalicilik-yazma",
+      "comm": "bash",
+      "yon": "yaz",
+      "hedef": "/etc/cron.d/pafta-art"
+    }
+  ],
+  "saf_vurus_sayi": 10,
+  "cleanup": true
+}

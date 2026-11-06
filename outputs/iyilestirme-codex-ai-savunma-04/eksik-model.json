@@ -1,0 +1,32 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "laboratuvar yamalanmamalı, referans kullanılmamalı "
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: hep boş metrik"
+    },
+    {
+      "ok": true,
+      "msg": "güvenli telemetri metrikleri doğru; hassas alan ve geçersiz girdi reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "GERÇEK MODEL YOK, deney yapılmadı: Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

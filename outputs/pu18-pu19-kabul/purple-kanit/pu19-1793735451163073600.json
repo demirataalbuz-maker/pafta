@@ -1,0 +1,121 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "pilot": "pu19-sqli",
+  "python": "3.13.14",
+  "sqlite": "3.50.4",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "address": "127.0.0.1",
+  "port": 37891,
+  "audit": [
+    {
+      "route": "/vulnerable/login",
+      "username": "uye_32903579",
+      "password": "demo_3330a9edf7",
+      "status": 200,
+      "body": {
+        "username": "uye_32903579",
+        "canary": "PU19_4035def63d42cabc"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = 'uye_32903579' AND password = 'demo_3330a9edf7'",
+      "parameters": []
+    },
+    {
+      "route": "/secure/login",
+      "username": "uye_32903579",
+      "password": "demo_3330a9edf7",
+      "status": 200,
+      "body": {
+        "username": "uye_32903579",
+        "canary": "PU19_4035def63d42cabc"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_32903579",
+        "demo_3330a9edf7"
+      ]
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 200,
+      "body": {
+        "username": "uye_32903579",
+        "canary": "PU19_4035def63d42cabc"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = '' OR 1=1 -- ' AND password = 'yanlis'",
+      "parameters": []
+    },
+    {
+      "route": "/secure/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "' OR 1=1 -- ",
+        "yanlis"
+      ]
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "'",
+      "password": "yanlis",
+      "status": 500,
+      "body": {
+        "error": "sql_hatasi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ''' AND password = 'yanlis'",
+      "parameters": []
+    }
+  ],
+  "student_rows": [
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_32903579",
+        "canary": "PU19_4035def63d42cabc"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_32903579",
+        "canary": "PU19_4035def63d42cabc"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_32903579",
+        "canary": "PU19_4035def63d42cabc"
+      }
+    },
+    {
+      "status": 401,
+      "body": {
+        "error": "login_reddedildi"
+      }
+    },
+    {
+      "status": 500,
+      "body": {
+        "error": "sql_hatasi"
+      }
+    }
+  ],
+  "safe_query_normal": [
+    "uye_32903579",
+    "PU19_4035def63d42cabc"
+  ],
+  "safe_query_attack": null,
+  "error": {
+    "type": "AssertionError",
+    "msg": "Tırnak ve SQL benzeri metin içeren meşru hesap engellendi"
+  },
+  "cleanup": true
+}

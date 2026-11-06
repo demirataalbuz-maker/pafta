@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi kiracı işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "kiracı filtresi ve bağımsız kayıt kopyası korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kayıtları bozan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kiracıyı değiştiren"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: yalıtımı kaldıran"
+    },
+    {
+      "ok": true,
+      "msg": "iki_gercek_cagri"
+    },
+    {
+      "ok": true,
+      "msg": "http_eszamanli"
+    },
+    {
+      "ok": true,
+      "msg": "korumasiz_yabanci_kayit"
+    },
+    {
+      "ok": true,
+      "msg": "korumali_yalitim"
+    },
+    {
+      "ok": true,
+      "msg": "sahte_kiraci_red"
+    },
+    {
+      "ok": true,
+      "msg": "anonim_red"
+    },
+    {
+      "ok": true,
+      "msg": "sunucu_kapandi"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek HTTP görünümü bağımsız kiracı referansıyla aynı: kiraci-a"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek HTTP görünümü bağımsız kiracı referansıyla aynı: kiraci-b"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-08-ollama-sunucu",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-08-ollama-sunucu-1793366020464.json",
+      "zaman": "2026-10-30T16:13:40+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

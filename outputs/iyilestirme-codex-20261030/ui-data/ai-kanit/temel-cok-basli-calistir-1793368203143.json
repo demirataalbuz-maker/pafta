@@ -1,0 +1,96 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "ders": "ai-temel-06",
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "katman": 4,
+ "model_farki": 3.6189116603413396e-07,
+ "kafa_ozeti": [
+  {
+   "kafa": 0,
+   "token": "Ġthe",
+   "agirlik": 0.348,
+   "ilk_tokena": 0.195
+  },
+  {
+   "kafa": 1,
+   "token": "Ġthe",
+   "agirlik": 0.228,
+   "ilk_tokena": 0.307
+  },
+  {
+   "kafa": 2,
+   "token": "Ġkeys",
+   "agirlik": 0.273,
+   "ilk_tokena": 0.134
+  },
+  {
+   "kafa": 3,
+   "token": "Ġthe",
+   "agirlik": 0.46,
+   "ilk_tokena": 0.186
+  },
+  {
+   "kafa": 4,
+   "token": "Ġthe",
+   "agirlik": 0.421,
+   "ilk_tokena": 0.249
+  },
+  {
+   "kafa": 5,
+   "token": "Ġthe",
+   "agirlik": 0.474,
+   "ilk_tokena": 0.185
+  },
+  {
+   "kafa": 6,
+   "token": "Ġthe",
+   "agirlik": 0.403,
+   "ilk_tokena": 0.237
+  },
+  {
+   "kafa": 7,
+   "token": "Ġthe",
+   "agirlik": 0.473,
+   "ilk_tokena": 0.185
+  },
+  {
+   "kafa": 8,
+   "token": "Ġthe",
+   "agirlik": 0.467,
+   "ilk_tokena": 0.225
+  }
+ ],
+ "nedensellik": {
+  "ortak_onek": 8,
+  "onceki_konum_farki": 0.0,
+  "son_konum_farki": 8.730627059936523
+ },
+ "pilot": "temel-cok-basli-calistir",
+ "zaman": "2026-10-30T16:50:02+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 440 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "6f1186bbdad3e62fdd253fdea994157dba787d8c4c57963a5f7889e6c14b2c16",
+ "mod": "run"
+}

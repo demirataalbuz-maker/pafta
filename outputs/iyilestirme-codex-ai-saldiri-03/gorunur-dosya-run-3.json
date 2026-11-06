@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik kurallar: [{'id': 's1', 'rol': 'system', 'eylem': 'gonder', 'kapsam': 'musteri', 'karar': 'yasak'}, {'id': 'u1', 'rol': 'user', 'eylem': 'gonder', 'kapsam': 'musteri', 'karar': 'izin'}, {'id': 't1', 'rol': 'tool', 'eylem': 'gonder', 'kapsam': 'musteri', 'karar': 'izin'}, {'id': 'd1', 'rol': 'developer', 'eylem': 'oku', 'kapsam': 'proje', 'karar': 'izin'}, {'id': 'd2', 'rol': 'developer', 'eylem': 'oku', 'kapsam': 'proje', 'karar': 'yasak'}, {'id': 'd3', 'rol': 'developer', 'eylem': 'oku', 'kapsam': 'proje', 'karar': 'izin'}]\n{'eylem': 'gonder', 'kapsam': 'musteri'} {'karar': 'yasak', 'rol': 'system', 'kural': 's1'}\n{'eylem': 'oku', 'kapsam': 'proje'} {'karar': 'izin', 'rol': 'developer', 'kural': 'd3'}\n{'eylem': 'oku', 'kapsam': 'baska'} {'karar': 'belirsiz', 'rol': None, 'kural': None}\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

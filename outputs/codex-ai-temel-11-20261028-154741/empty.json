@@ -1,0 +1,22 @@
+{
+  "name": "empty",
+  "okay": true,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "`dpo_egit` adında bir fonksiyon tanımlamalısın",
+        "got": "bulunamadı",
+        "exp": "dpo_egit"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

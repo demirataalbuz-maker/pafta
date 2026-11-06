@@ -1,0 +1,422 @@
+[
+  {
+    "name": "solution",
+    "okay": true,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-11-dpo",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191671815.json",
+          "zaman": "2026-10-28T15:47:51+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-11-dpo",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191681250.json",
+          "zaman": "2026-10-28T15:48:01+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "`dpo_egit` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "dpo_egit"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "fixed",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-11-dpo",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191690694.json",
+          "zaman": "2026-10-28T15:48:10+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "omit-reference",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-11-dpo",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191701284.json",
+          "zaman": "2026-10-28T15:48:21+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ignore-beta",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-11-dpo",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191718856.json",
+          "zaman": "2026-10-28T15:48:38+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "reverse-preference",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-11-dpo",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191755061.json",
+          "zaman": "2026-10-28T15:49:14+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "no-backward",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "çözüm laboratuvarı yamalamamalı veya test oracle'ını çağırmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-11-dpo",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-11-20261028-154741\\test-data\\ai-kanit\\temel-11-dpo-1793191789837.json",
+          "zaman": "2026-10-28T15:49:49+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run-button",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "err",
+          "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  25%|██▍       | 67/272 [00:00<00:00, 645.94it/s]\rLoading weights:  49%|████▊     | 132/272 [00:00<00:00, 595.09it/s]\rLoading weights:  71%|███████   | 192/272 [00:00<00:00, 539.29it/s]\rLoading weights:  92%|█████████▏| 251/272 [00:00<00:00, 554.94it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 577.82it/s]\n"
+        ],
+        [
+          "out",
+          "{'kayiplar': [0.6931471805599453, 0.6904840694446204, 0.687835142575473], 'son_marjlar': [0.03989342890374292, 0.039893428903742034, 0.039893428903742034]}\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": []
+    }
+  }
+]

@@ -1,0 +1,69 @@
+{
+  "name": "original-lost",
+  "okay": true,
+  "seconds": 0.71,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "özgün metin, Unicode casefold, boşluk ve farklı terimler korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: özgün sorgu izini kaybeden"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: terim tekrarını ve noktalamayı karıştıran"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: talimat kanıtını silen"
+      },
+      {
+        "ok": true,
+        "msg": "skor, tie-break, tam metin ve bütçe sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bütçeyi ve kırpmama kuralını yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: ilk elemede bütçeyi kapatan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: skor sırasını kimlik sırasına çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "iki bağlam kolu, küme farkları ve kaybolan kanıt korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kanıt kaybını gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: giren ve çıkanı ters çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kanıt içermeyen değişimi düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/bağımsız ölçüm yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni sorguda özgün/normalize iz"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

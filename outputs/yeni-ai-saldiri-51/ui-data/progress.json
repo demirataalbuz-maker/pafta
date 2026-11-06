@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "days": [
+  "2026-11-03"
+ ],
+ "last": {
+  "track": "ai-saldiri",
+  "lesson": "ai-saldiri-51",
+  "step": 5
+ },
+ "tracks": {
+  "ai-saldiri": {
+   "steps": {
+    "ai-saldiri-51:5": {
+     "attempts": 3,
+     "revealed": true,
+     "done": true,
+     "at": "2026-11-03T12:31:10"
+    }
+   },
+   "drafts": {
+    "ai-saldiri-51:5": "import ai_lab\ndef yama_raporu(kayitlar):\n    if not isinstance(kayitlar,list) or len(kayitlar)!=4:raise ValueError(\"dört kayıt\")\n    out={};seen=set()\n    for k in kayitlar:\n        if not isinstance(k,dict) or set(k)!={\"surum\",\"tur\",\"bulgu\"}:raise ValueError(\"şema\")\n        if k[\"surum\"] not in (\"2.1.1\",\"2.2.1\") or k[\"tur\"] not in (\"normal\",\"yerel-kaynak\"):raise ValueError(\"kimlik\")\n        if k[\"bulgu\"] not in (\"okundu\",\"reddedildi\",\"uyusmazlik\",\"hata\"):raise ValueError(\"bulgu\")\n        key=(k[\"surum\"],k[\"tur\"])\n        if key in seen:raise ValueError(\"yinelenen\")\n        seen.add(key);out.setdefault(k[\"surum\"],{})[k[\"tur\"]]=k[\"bulgu\"]\n    normal=all(out[v][\"normal\"]==\"okundu\" for v in (\"2.1.1\",\"2.2.1\"))\n    tamam=normal and all(out[v][\"yerel-kaynak\"] in (\"okundu\",\"reddedildi\") for v in (\"2.1.1\",\"2.2.1\"))\n    yama=normal and out[\"2.1.1\"][\"yerel-kaynak\"]==\"okundu\" and out[\"2.2.1\"][\"yerel-kaynak\"]==\"reddedildi\"\n    return {\"surumler\":out,\"normal_akis\":normal,\"deney_tamam\":tamam,\"yama_gozlendi\":yama}\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_saldiri_51 as D\n    D.goster(yama_raporu)"
+   },
+   "review": {
+    "ai-saldiri-51:5": {
+     "box": 1,
+     "due": "2026-11-04"
+    }
+   }
+  }
+ },
+ "playground": "",
+ "settings": {
+  "theme": "mavi"
+ }
+}

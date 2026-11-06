@@ -1,0 +1,67 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi örnekleme işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek logitler: sıcaklık → top-k → yeniden normalize → top-p sırası, eşikteki aday ve olasılıklar doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sıcaklık yok sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: top-p top-k'dan önce, tam dağılımda"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: eşiği geçen aday dışarıda"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: yeniden normalize yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: k yok sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    },
+    {
+      "ok": true,
+      "msg": "bağımsız karşılaştırma: transformers işlemcileri aynı aday kümesini veriyor (7/7)"
+    },
+    {
+      "ok": true,
+      "msg": "senin işlevinle gerçek üretim, aynı tohumla referans üretimle birebir aynı"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK ÇIKTI (HuggingFaceTB/SmolLM2-135M@93efa2f0, sözlük 49152): 'Once upon a time, in a small village,' için p=0.9 aday sayısı T=0.5'te 2, T=1.5'te 1210; T=1.5,p=0.95 üretimi: ' lived three mothers who believed that adversity helped children move higher on'"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-ornekleme",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-ornekleme-1793434111433.json",
+      "zaman": "2026-10-31T11:08:30+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

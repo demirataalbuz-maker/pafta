@@ -1,0 +1,309 @@
+{
+ "kaynak": "gercek",
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "yeniden_denemeler": [],
+  "bellek": {
+   "toplam_bayt": 3180247121,
+   "vram_bayt": 3180247121,
+   "baglam": 4096
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  }
+ },
+ "sqlite_surumu": "3.50.4",
+ "veri_kokeni": "sentetik örnekler + canlı model JSON çıktısı",
+ "ayarlar": {
+  "temperature": 0,
+  "num_predict": 160,
+  "num_ctx": 4096,
+  "seed": 271877,
+  "cihaz_kipi": "gpu"
+ },
+ "cagrilar": [
+  {
+   "id": "model-0",
+   "mesajlar": [
+    {
+     "role": "system",
+     "content": "You provide harmless classroom JSON samples; no tools or side effects."
+    },
+    {
+     "role": "user",
+     "content": "Return only JSON with exactly eylem=ozetle, metin=PAFTA local note, guvence=0.9. No explanation or fences."
+    }
+   ],
+   "seed": 271877,
+   "yanit": {
+    "icerik": "{\"eylem\":\"ozetle\",\"metin\":\"PAFTA local note\",\"guvence\":0.9}",
+    "arac_cagrilari": [],
+    "sure_ms": 4653,
+    "eval_count": 26,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "hata": null
+  },
+  {
+   "id": "model-1",
+   "mesajlar": [
+    {
+     "role": "system",
+     "content": "You provide harmless classroom JSON samples; no tools or side effects."
+    },
+    {
+     "role": "user",
+     "content": "Return this literal classroom JSON example exactly, no explanation: {\"eylem\":\"yoksay\",\"eylem\":\"cevir\",\"metin\":\"PAFTA\",\"guvence\":1}"
+    }
+   ],
+   "seed": 271878,
+   "yanit": {
+    "icerik": "{\"eylem\":\"yoksay\",\"eylem\":\"cevir\",\"metin\":\"PAFTA\",\"guvence\":1}",
+    "arac_cagrilari": [],
+    "sure_ms": 440,
+    "eval_count": 29,
+    "done_reason": "stop",
+    "yeniden_deneme": []
+   },
+   "hata": null
+  }
+ ],
+ "sonuclar": [
+  {
+   "id": "izinli",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\": \"ozetle\", \"metin\": \"c1bf6147\", \"guvence\": 0.9}",
+   "durum": "izinli",
+   "komut": {
+    "komut": "OZET",
+    "icerik": "c1bf6147"
+   },
+   "hata": null,
+   "beklenen": {
+    "komut": "OZET",
+    "icerik": "c1bf6147"
+   },
+   "pipeline_ayni": true,
+   "db_degisim": 1,
+   "etki_dogru": true
+  },
+  {
+   "id": "incele",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\":\"cevir\",\"metin\":\"Merhaba\",\"guvence\":0.2}",
+   "durum": "izinli",
+   "komut": {
+    "komut": "INCELE",
+    "icerik": ""
+   },
+   "hata": null,
+   "beklenen": {
+    "komut": "INCELE",
+    "icerik": ""
+   },
+   "pipeline_ayni": true,
+   "db_degisim": 1,
+   "etki_dogru": true
+  },
+  {
+   "id": "yoksay",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\":\"yoksay\",\"metin\":\"Not\",\"guvence\":1}",
+   "durum": "izinli",
+   "komut": {
+    "komut": "YOKSAY",
+    "icerik": "Not"
+   },
+   "hata": null,
+   "beklenen": {
+    "komut": "YOKSAY",
+    "icerik": "Not"
+   },
+   "pipeline_ayni": true,
+   "db_degisim": 1,
+   "etki_dogru": true
+  },
+  {
+   "id": "yinelenen",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\":\"yoksay\",\"eylem\":\"cevir\",\"metin\":\"Örnek\",\"guvence\":1}",
+   "durum": "red",
+   "komut": null,
+   "hata": "yinelenen anahtar",
+   "beklenen": null,
+   "pipeline_ayni": true,
+   "db_degisim": 0,
+   "etki_dogru": true
+  },
+  {
+   "id": "ek-metin",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":1} EK",
+   "durum": "red",
+   "komut": null,
+   "hata": "JSON sonrası ek içerik",
+   "beklenen": null,
+   "pipeline_ayni": true,
+   "db_degisim": 0,
+   "etki_dogru": true
+  },
+  {
+   "id": "bool",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":true}",
+   "durum": "red",
+   "komut": null,
+   "hata": "güvence sayı olmalı",
+   "beklenen": null,
+   "pipeline_ayni": true,
+   "db_degisim": 0,
+   "etki_dogru": true
+  },
+  {
+   "id": "fazla-alan",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":1,\"arac\":\"dosya_sil\"}",
+   "durum": "red",
+   "komut": null,
+   "hata": "karar şeması geçersiz",
+   "beklenen": null,
+   "pipeline_ayni": true,
+   "db_degisim": 0,
+   "etki_dogru": true
+  },
+  {
+   "id": "nan",
+   "koken": "sentetik_fixture",
+   "ham": "{\"eylem\":\"ozetle\",\"metin\":\"Not\",\"guvence\":NaN}",
+   "durum": "red",
+   "komut": null,
+   "hata": "standart dışı sayı",
+   "beklenen": null,
+   "pipeline_ayni": true,
+   "db_degisim": 0,
+   "etki_dogru": true
+  },
+  {
+   "id": "model-0",
+   "koken": "canli_model",
+   "ham": "{\"eylem\":\"ozetle\",\"metin\":\"PAFTA local note\",\"guvence\":0.9}",
+   "durum": "izinli",
+   "komut": {
+    "komut": "OZET",
+    "icerik": "PAFTA local note"
+   },
+   "hata": null,
+   "beklenen": {
+    "komut": "OZET",
+    "icerik": "PAFTA local note"
+   },
+   "pipeline_ayni": true,
+   "db_degisim": 1,
+   "etki_dogru": true
+  },
+  {
+   "id": "model-1",
+   "koken": "canli_model",
+   "ham": "{\"eylem\":\"yoksay\",\"eylem\":\"cevir\",\"metin\":\"PAFTA\",\"guvence\":1}",
+   "durum": "red",
+   "komut": null,
+   "hata": "yinelenen anahtar",
+   "beklenen": null,
+   "pipeline_ayni": true,
+   "db_degisim": 0,
+   "etki_dogru": true
+  }
+ ],
+ "is_kuyrugu": [
+  [
+   "izinli",
+   "OZET",
+   "c1bf6147"
+  ],
+  [
+   "model-0",
+   "OZET",
+   "PAFTA local note"
+  ],
+  [
+   "yoksay",
+   "YOKSAY",
+   "Not"
+  ]
+ ],
+ "inceleme_kuyrugu": [
+  [
+   "incele",
+   ""
+  ]
+ ],
+ "db_dosyasi": "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_json10_b2sdpafg\\kuyruk.sqlite3",
+ "db_sha256": "4c9205d98ca7c23c349de64d99f6ec50072cb961850300260c4fd44196ec7af4",
+ "kontroller": {
+  "pipeline_dogru": true,
+  "disk_etkisi_dogru": true,
+  "red_kuyruga_girmedi": true,
+  "mesru_akis_var": true,
+  "inceleme_iceriksiz": true,
+  "gercek_tam": true,
+  "girdi_degismedi": true,
+  "kaynak_temiz": true,
+  "cihaz_uygun": true
+ },
+ "ozet": {
+  "red": 6,
+  "is": 3,
+  "inceleme": 1,
+  "canli_yanit": 2
+ },
+ "kabul": true,
+ "pilot": "saldiri-10-json",
+ "zaman": "2026-10-29T13:05:35+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 438 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "067ed35d98e1d91052cd64258b4f11fb5f95b79b7c64af5306e1d577e2ebf4bb",
+ "mod": "test"
+}

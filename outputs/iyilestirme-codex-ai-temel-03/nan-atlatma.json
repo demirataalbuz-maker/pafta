@@ -1,0 +1,36 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi token dağılımı işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "gerçek model: token kimlikleri, tokenlar, son konum logitleri ve sıcaklıklı softmax doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ilk konumun logitleri"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: softmax yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sıcaklık yok sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: NaN ile tolerans karşılaştırmasını atlatan"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

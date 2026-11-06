@@ -1,0 +1,40 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi akış raporunu yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "sentetik akış: birleştirme, parça, done_reason, TTFT, kesilme ve geçersiz girdiler doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: son parçayı metin sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: TTFT'yi son parça sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kesilmeyi yok sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: parçayı token sayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber sonuç"
+    },
+    {
+      "ok": false,
+      "msg": "GERÇEK SUNUCU YOK, deney yapılmadı: Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

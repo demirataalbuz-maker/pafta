@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi dosya doğrulayıcını yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "sentetik dosyalar: akışlı sha256/git blob, başlık sözleşmesi ve bütün geçersiz durumlar doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: git blob başlığı yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tampon kapsaması denetlenmiyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: başlık boyu big-endian okunuyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: parametre yerine bayt sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit cevap"
+    },
+    {
+      "ok": true,
+      "msg": "önbellekteki dosya kümesi ve snapshot commit'i Hub kaydıyla aynı"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek dosyalar: boyutlar, git blob kimlikleri, LFS sha256 oid'i ve işaretçinin blob kimliği Hub'la aynı"
+    },
+    {
+      "ok": true,
+      "msg": "başlıktan sayılan parametre modelle aynı (134,515,008)"
+    },
+    {
+      "ok": true,
+      "msg": "veri baytı kurcalaması: başlık geçerli kalıyor, sha256 yakalıyor"
+    },
+    {
+      "ok": true,
+      "msg": "kesik dosya ve bozuk başlık boyu başlık denetiminde reddediliyor"
+    },
+    {
+      "ok": true,
+      "msg": "kurcalama kopyaları silindi; önbelleğe dokunulmadı"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK ÇIKTI (HuggingFaceTB/SmolLM2-135M@93efa2f0): 8 dosya Hub kaydıyla aynı; safetensors başlığı 30,528 bayt, 272 tensör {'BF16': 272}, 134,515,008 parametre; tek bayt değişikliğini yalnız sha256 yakaladı"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-dosya-butunlugu",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-dosya-butunlugu-1793391306586.json",
+      "zaman": "2026-10-30T23:15:06+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "days": [
+  "2026-11-03"
+ ],
+ "last": {
+  "track": "ai-saldiri",
+  "lesson": "ai-saldiri-47",
+  "step": 2
+ },
+ "tracks": {
+  "ai-saldiri": {
+   "steps": {
+    "ai-saldiri-47:5": {
+     "attempts": 3,
+     "revealed": true,
+     "done": true,
+     "at": "2026-11-03T17:57:37"
+    }
+   },
+   "drafts": {
+    "ai-saldiri-47:5": "import ai_lab\nimport hashlib,json,re\ndef onay_kaydi(sunucu,araclar):\n    if not isinstance(sunucu,str) or not sunucu.strip():raise ValueError('sunucu')\n    if not isinstance(araclar,list) or not araclar or len(araclar)>16:raise ValueError('araclar')\n    pins={}\n    for t in araclar:\n        if not isinstance(t,dict) or set(t)!={'name','description','inputSchema','annotations'}:raise ValueError('alanlar')\n        if not isinstance(t['name'],str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}',t['name']):raise ValueError('ad')\n        if not isinstance(t['description'],str) or not t['description'].strip():raise ValueError('description')\n        if not isinstance(t['inputSchema'],dict) or t['inputSchema'].get('type')!='object':raise ValueError('schema')\n        if not isinstance(t['annotations'],dict):raise ValueError('annotations')\n        try:raw=json.dumps(t,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False)\n        except (TypeError,ValueError):raise ValueError('JSON')\n        if t['name'] in pins:raise ValueError('yinelenen')\n        pins[t['name']]=hashlib.sha256(raw.encode('utf-8')).hexdigest()\n    return {'sunucu':sunucu,'araclar':pins}\n\nimport hashlib,json,re\ndef yeniden_onay(onay,sunucu,arac):\n    try:\n        if not isinstance(onay,dict) or set(onay)!={'sunucu','araclar'}:return True\n        if not isinstance(onay['araclar'],dict):return True\n        if not isinstance(sunucu,str) or not sunucu.strip():return True\n        for name,digest in onay['araclar'].items():\n            if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}',name):return True\n            if not re.fullmatch('[0-9a-f]{64}',digest):return True\n        if not isinstance(arac,dict) or set(arac)!={'name','description','inputSchema','annotations'}:return True\n        if not isinstance(arac['description'],str) or not arac['description'].strip():return True\n        if not isinstance(arac['inputSchema'],dict) or arac['inputSchema'].get('type')!='object':return True\n        if not isinstance(arac['annotations'],dict):return True\n        raw=json.dumps(arac,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False)\n        digest=hashlib.sha256(raw.encode('utf-8')).hexdigest()\n        return onay['sunucu']!=sunucu or onay['araclar'].get(arac['name'])!=digest\n    except (KeyError,TypeError,ValueError):return True\n\ndef ozetle(kayitlar):\n    if not isinstance(kayitlar,list):raise ValueError('liste')\n    out={k:{'deneme':0,'hata':0,'ret':0,'etki':0} for k in ('temiz','korumasiz','korumali')}\n    for row in kayitlar:\n        if not isinstance(row,dict) or set(row)!={'kip','ret','etki','hata'}:raise ValueError('kayit')\n        if row['kip'] not in out or type(row['ret']) is not bool or type(row['etki']) is not int or row['etki']<0 or type(row['hata']) is not bool:raise ValueError('deger')\n        v=out[row['kip']];v['deneme']+=1;v['hata']+=int(row['hata']);v['ret']+=int(row['ret']);v['etki']+=row['etki']\n    return out\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_saldiri_47 as D\n    D.goster(onay_kaydi,yeniden_onay,ozetle)"
+   },
+   "review": {
+    "ai-saldiri-47:5": {
+     "box": 1,
+     "due": "2026-11-04"
+    }
+   }
+  }
+ },
+ "playground": "",
+ "settings": {
+  "theme": "mavi"
+ }
+}

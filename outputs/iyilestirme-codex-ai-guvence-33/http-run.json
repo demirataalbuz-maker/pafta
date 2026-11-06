@@ -1,0 +1,32 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Model: qwen3:4b-instruct-2507-q4_K_M · her probe 5 kez, geçme eşiği 0.8\n\n[aritmetik ] beklenen '68' → 5/5 geçti (oran 1.0, tekrarlanabilir: True, geçti: True)\n   örnek yanıtlar: ['68', '68', '68', '68', '68']\n[baskent   ] beklenen 'ankara' → 5/5 geçti (oran 1.0, tekrarlanabilir: True, geçti: True)\n   örnek yanıtlar: ['Ankara', 'Ankara', 'Ankara', 'Ankara', 'Ankara']\n[talimat   ] beklenen 'onay' → 5/5 geçti (oran 1.0, tekrarlanabilir: True, geçti: True)\n   örnek yanıtlar: ['ONAY', 'ONAY', 'ONAY', 'ONAY', 'ONAY']\n\nÖzet: 3/3 probe geçti, 3/3 tekrarlanabilir. Tek koşu kanıt değildir; metodoloji N kez koşturup oranı raporlar.\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_wy_zkm7h\\guvence-metodoloji-calistir-1793348895668.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-metodoloji-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "probe": 3,
+        "tekrar": 5,
+        "gecen_probe": 3,
+        "tekrarlanabilir_probe": 3,
+        "oranlar": {
+          "aritmetik": 1.0,
+          "baskent": 1.0,
+          "talimat": 1.0
+        }
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\guvence-metodoloji-calistir-1793348895668.json",
+      "zaman": "2026-10-30T11:28:14+03:00"
+    }
+  ]
+}

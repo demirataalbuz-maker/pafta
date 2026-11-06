@@ -1,0 +1,50 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi DPO güncellemeni yaz; test oracle'ı ithal edilmez"
+    },
+    {
+      "ok": false,
+      "msg": "gerçek LM tabanlı DPO: referans farkı, beta, autograd, SGD ve son marjlar doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit gerçek rapor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: referans farkı yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: beta yok sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tercih yönü ters"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-11-dpo",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t11-negatif-20261031\\ai-kanit\\temel-11-dpo-1793466456759.json",
+      "zaman": "2026-10-31T20:07:35+03:00"
+    }
+  ]
+}

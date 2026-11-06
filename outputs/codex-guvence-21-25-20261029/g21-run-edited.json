@@ -1,0 +1,22 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "KALICI SENTETIK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\calisma\\ai-guvence-21\\ayar.json\n{\"seed\": 1255, \"adim\": 31}\n{\n \"egitim\": {\n  \"seed\": 1255,\n  \"adim\": 31,\n  \"loss\": [\n   0.6342642307281494,\n   0.028306476771831512\n  ],\n  \"ornek\": 192,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"tanimlar\": [\n  {\n   \"id\": \"model\",\n   \"dosya\": \"model.pt\",\n   \"bagimliliklar\": [\n    \"veri\",\n    \"torch\"\n   ]\n  },\n  {\n   \"id\": \"veri\",\n   \"dosya\": \"veri.json\",\n   \"bagimliliklar\": []\n  },\n  {\n   \"id\": \"torch\",\n   \"dosya\": \"torch.json\",\n   \"bagimliliklar\": []\n  }\n ],\n \"once\": [\n  {\n   \"id\": \"model\",\n   \"sha256\": \"e4795c14aa71d7978c972e62f6daf6fca8151ca2198dc9f2e00993f446ac8b1b\",\n   \"boyut\": 2633,\n   \"bagimliliklar\": [\n    \"torch\",\n    \"veri\"\n   ]\n  },\n  {\n   \"id\": \"torch\",\n   \"sha256\": \"75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4\",\n   \"boyut\": 43,\n   \"bagimliliklar\": []\n  },\n  {\n   \"id\": \"veri\",\n   \"sha256\": \"f1cde0d6ea2aa7f26ed52579a9d112cea28ca7234751e97aa244ed27a2e16c65\",\n   \"boyut\": 194,\n   \"bagimliliklar\": []\n  }\n ],\n \"sonra\": [\n  {\n   \"id\": \"model\",\n   \"sha256\": \"e4795c14aa71d7978c972e62f6daf6fca8151ca2198dc9f2e00993f446ac8b1b\",\n   \"boyut\": 2633,\n   \"bagimliliklar\": [\n    \"torch\",\n    \"veri\"\n   ]\n  },\n  {\n   \"id\": \"torch\",\n   \"sha256\": \"75a171fcf8654e3425852f3414af422d6e562f61c396aa5214c5b9b4a2e2e1a4\",\n   \"boyut\": 43,\n   \"bagimliliklar\": []\n  },\n  {\n   \"id\": \"veri\",\n   \"sha256\": \"3a0f9040d47380fc42a9aa2ecb4b45268e32219e95d92b3ca0019d538825815b\",\n   \"boyut\": 196,\n   \"bagimliliklar\": []\n  }\n ],\n \"reddedilen\": [\n  \"../outside.txt\",\n  \"C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-guvence-21-25-20261029\\\\cli-data\\\\calisma\\\\ai-guvence-21\\\\deney-1d0a5e96\\\\model.pt\",\n  \"missing.bin\"\n ],\n \"kontroller\": {\n  \"disk_hash_boyut_baglar\": true,\n  \"degisiklik_gercekten_olculdu\": true,\n  \"kok_siniri\": true\n },\n \"kaynak\": \"gercek\",\n \"ortam\": {\n  \"python\": \"3.13.14\",\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"veri_kokeni\": \"Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.\",\n \"sinir\": \"Bu yerel SHA-256 envanteridir; Syft/CycloneDX taramasi, lisans veya kaynagin guvenilirligi ispati degildir.\"\n}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_tqmy78ey\\guvence-21-deney-1793300191387.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-21-deney",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-21-25-20261029\\cli-data\\ai-kanit\\guvence-21-deney-1793300191387.json",
+      "zaman": "2026-10-29T21:56:31+03:00"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "status": "error",
+  "segs": [
+    [
+      "out",
+      "GERÇEK HTTP + SQLite · kabul yok / deneme · kanıt: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\pu18-pu19-kabul\\purple-kanit\\pu19-1793735586204120600.json\n"
+    ]
+  ],
+  "error": {
+    "type": "AssertionError",
+    "msg": "Yanıtlar gerçek beş HTTP/DB audit kaydıyla eşleşmeli",
+    "frames": [
+      {
+        "line": 12,
+        "func": "<module>",
+        "text": "calistir(guvenli_sorgu,dene)"
+      }
+    ],
+    "line": 12,
+    "where": "kod"
+  },
+  "checks": []
+}

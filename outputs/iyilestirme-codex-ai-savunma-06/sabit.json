@@ -1,0 +1,42 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "laboratuvar yamalanmamalı, referans kullanılmamalı "
+    },
+    {
+      "ok": false,
+      "msg": "önceki doğru final sözleşmesi korunmalı"
+    },
+    {
+      "ok": false,
+      "msg": "guardrail kararı (izin/incele/reddet, ret önceliği) ve geçersiz girdi reddi korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: hep izin"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "savunma-guardrail",
+      "kaynak": "fixture",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-s06-negatif-20261031\\ai-kanit\\savunma-guardrail-1793476106551.json",
+      "zaman": "2026-10-31T22:48:26+03:00"
+    }
+  ]
+}

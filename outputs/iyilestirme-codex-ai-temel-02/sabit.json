@@ -1,0 +1,70 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi embedding raporunu yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "sınır testi gerçekten token bütçesini aşıyor"
+    },
+    {
+      "ok": false,
+      "msg": "gerçek giriş katmanı no_grad ile çağrıldı;transformer forward çalışmadı"
+    },
+    {
+      "ok": true,
+      "msg": "üst sınır vakası gerçekten16token"
+    },
+    {
+      "ok": false,
+      "msg": "gerçek giriş embedding satırları, boyut, sıra ve kosinüs doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber vektörler"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: satır sırası ters"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kosinüs yerine nokta çarpımı"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ham vektör yerine birim vektör"
+    },
+    {
+      "ok": true,
+      "msg": "bütün yinelenen kimlik çiftleri aynı ham embedding satırını seçer"
+    },
+    {
+      "ok": false,
+      "msg": "gerçek metinler içinde yinelenen kimlik sınandı"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-02-embedding",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t02-negatif-20261031\\ai-kanit\\temel-02-embedding-1793438499869.json",
+      "zaman": "2026-10-31T12:21:39+03:00"
+    }
+  ]
+}

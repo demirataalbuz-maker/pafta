@@ -1,0 +1,50 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "islem": "gerçek öğrenilmiş giriş embedding tablosu; transformer ileri hesabı yok",
+ "ayarlar": {
+  "girdiler": [
+   " the the the the the the the the the the the the the the the the",
+   "hello",
+   " the the river",
+   " river the the",
+   "İstanbul",
+   "  model",
+   "blue music 384"
+  ],
+  "max_token": 16,
+  "atol": 1e-10,
+  "rtol": 1e-09
+ },
+ "ciktilar": [],
+ "tekrarlanan_kimlik_ciftleri": 0,
+ "temizlik": "CPU işlemi; dış sunucu veya kalıcı süreç açılmadı",
+ "pilot": "temel-02-embedding",
+ "zaman": "2026-10-31T12:33:07+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 403 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "162951b7cb777bfc7eb1cb1160b4dec0cf4bf8b0b9bd098190a6b25678f3d2c4",
+ "mod": "test"
+}

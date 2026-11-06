@@ -1,0 +1,142 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "saglik": true,
+  "trust": {
+    "chains": [
+      {
+        "certificates": [
+          "-----BEGIN CERTIFICATE-----\nMIICFzCCAb2gAwIBAgIUC+jYC+EIIIqT4+4xLcWlOs8+QVUwCgYIKoZIzj0EAwIw\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE1NTg0MFoXDTM2MTEwMzE1NTg0MFowaDEMMAoG\nA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQxFTATBgNV\nBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoTCHNpZ3N0\nb3JlMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEM/JdNQOLfbDWrkoabaEFcB3h\nHzkgrUjulxXOZHidqjJWtBTyjjZ6MCID8e8LzZqT/sVV/+91RtClOEQfmS5fvqNF\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\nFAGrI6CucFaP5217bmcYdeQ/ZT9oMAoGCCqGSM49BAMCA0gAMEUCIQCNpo3ZPxnP\naa2SiCIEBetur2rwq3KyV+aReiP10UjgYAIgHXSHnqNpbvxFy1oEsCxwuMpJyQwN\n37WcBonedkqD+Jw=\n-----END CERTIFICATE-----\n"
+        ]
+      }
+    ]
+  },
+  "ortam": {
+    "kaynak": "gercek",
+    "fulcio_surumu": "v1.9.1",
+    "binary_sha256": "d851e6fcc33bad57a08435e41fe082d8cc466f99c57d2fae156e82941f84ea31",
+    "image_id": "sha256:e70da0b4dd92ebe0fbc6c838a1d1df15da6a86f1c249caeaf698c5f47aad1590",
+    "image_reference": "pafta-ai-s51:mlflow-2.1.1",
+    "kendi_container": "fc69f3f100aafd318f90f91c97037310708798074a7158a7f64cb7e509317e45",
+    "kendi_network": null,
+    "network": "none",
+    "transport": "localhost HTTP to real Fulcio via own docker-exec relay",
+    "http": [
+      {
+        "method": "GET",
+        "path": "/api/v2/trustBundle",
+        "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "status": 200,
+        "response": "{\"chains\":[{\"certificates\":[\"-----BEGIN CERTIFICATE-----\\nMIICFzCCAb2gAwIBAgIUC+jYC+EIIIqT4+4xLcWlOs8+QVUwCgYIKoZIzj0EAwIw\\naDEMMAoGA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQx\\nFTATBgNVBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoT\\nCHNpZ3N0b3JlMB4XDTI2MTEwMzE1NTg0MFoXDTM2MTEwMzE1NTg0MFowaDEMMAoG\\nA1UEBhMDVVNBMQswCQYDVQQIEwJXQTERMA8GA1UEBxMIS2lya2xhbmQxFTATBgNV\\nBAkTDDc2NyA2dGggU3QgUzEOMAwGA1UEERMFOTgwMzMxETAPBgNVBAoTCHNpZ3N0\\nb3JlMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEM/JdNQOLfbDWrkoabaEFcB3h\\nHzkgrUjulxXOZHidqjJWtBTyjjZ6MCID8e8LzZqT/sVV/+91RtClOEQfmS5fvqNF\\nMEMwDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYE\\nFAGrI6CucFaP5217bmcYdeQ/ZT9oMAoGCCqGSM49BAMCA0gAMEUCIQCNpo3ZPxnP\\naa2SiCIEBetur2rwq3KyV+aReiP10UjgYAIgHXSHnqNpbvxFy1oEsCxwuMpJyQwN\\n37WcBonedkqD+Jw=\\n-----END CERTIFICATE-----\\n\"]}]}"
+      }
+    ],
+    "izolasyon": {
+      "Binds": null,
+      "ContainerIDFile": "",
+      "LogConfig": {
+        "Type": "local",
+        "Config": {}
+      },
+      "NetworkMode": "none",
+      "PortBindings": {},
+      "RestartPolicy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "AutoRemove": false,
+      "VolumeDriver": "",
+      "VolumesFrom": null,
+      "ConsoleSize": [
+        0,
+        0
+      ],
+      "CapAdd": null,
+      "CapDrop": [
+        "ALL"
+      ],
+      "CgroupnsMode": "private",
+      "Dns": null,
+      "DnsOptions": [],
+      "DnsSearch": [],
+      "ExtraHosts": null,
+      "GroupAdd": null,
+      "IpcMode": "private",
+      "Cgroup": "",
+      "Links": null,
+      "OomScoreAdj": 0,
+      "PidMode": "",
+      "Privileged": false,
+      "PublishAllPorts": false,
+      "ReadonlyRootfs": true,
+      "SecurityOpt": [
+        "no-new-privileges"
+      ],
+      "Tmpfs": {
+        "/opt/pafta-s36": "rw,nosuid,nodev,uid=10001,gid=10001,size=100663296",
+        "/tmp": "rw,exec,nosuid,nodev,uid=10001,gid=10001,size=134217728"
+      },
+      "UTSMode": "",
+      "UsernsMode": "",
+      "ShmSize": 67108864,
+      "Runtime": "runc",
+      "Isolation": "",
+      "CpuShares": 0,
+      "Memory": 536870912,
+      "NanoCpus": 2000000000,
+      "CgroupParent": "",
+      "BlkioWeight": 0,
+      "BlkioWeightDevice": [],
+      "BlkioDeviceReadBps": [],
+      "BlkioDeviceWriteBps": [],
+      "BlkioDeviceReadIOps": [],
+      "BlkioDeviceWriteIOps": [],
+      "CpuPeriod": 0,
+      "CpuQuota": 0,
+      "CpuRealtimePeriod": 0,
+      "CpuRealtimeRuntime": 0,
+      "CpusetCpus": "",
+      "CpusetMems": "",
+      "Devices": [],
+      "DeviceCgroupRules": null,
+      "DeviceRequests": null,
+      "MemoryReservation": 0,
+      "MemorySwap": 1073741824,
+      "MemorySwappiness": null,
+      "OomKillDisable": null,
+      "PidsLimit": 128,
+      "Ulimits": null,
+      "CpuCount": 0,
+      "CpuPercent": 0,
+      "IOMaximumIOps": 0,
+      "IOMaximumBandwidth": 0,
+      "MaskedPaths": [
+        "/proc/acpi",
+        "/proc/asound",
+        "/proc/interrupts",
+        "/proc/kcore",
+        "/proc/keys",
+        "/proc/latency_stats",
+        "/proc/sched_debug",
+        "/proc/scsi",
+        "/proc/timer_list",
+        "/proc/timer_stats",
+        "/sys/devices/virtual/powercap",
+        "/sys/firmware"
+      ],
+      "ReadonlyPaths": [
+        "/proc/bus",
+        "/proc/fs",
+        "/proc/irq",
+        "/proc/sys",
+        "/proc/sysrq-trigger"
+      ]
+    },
+    "issuer": "http://127.0.0.1:5556",
+    "identity": "student@pafta.invalid",
+    "fulcio_url": "http://127.0.0.1:19142",
+    "temizlendi": true,
+    "servis_log": "{\"fulcio.stderr\": \"\", \"fulcio.stdout\": \"2026-11-03T15:58:40.950Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:242\\tlistening on grpc at 127.0.0.1:5557\\n2026-11-03T15:58:40.950Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/http.go:138\\tlistening on http at 0.0.0.0:5555\\n2026-11-03T15:58:40.951Z\\t\\u001b[34mINFO\\u001b[0m\\tapp/grpc.go:290\\tlistening on grpc at @fulcio-legacy-grpc-socket\\n2026-11-03T15:58:43.016Z\\t\\u001b[35mDEBUG\\u001b[0m\\tlog/log.go:106\\tfinished unary call with code OK\\t{\\\"grpc.start_time\\\": \\\"2026-11-03T15:58:43Z\\\", \\\"system\\\": \\\"grpc\\\", \\\"span.kind\\\": \\\"server\\\", \\\"grpc.service\\\": \\\"dev.sigstore.fulcio.v2.CA\\\", \\\"grpc.method\\\": \\\"GetTrustBundle\\\", \\\"grpc.code\\\": \\\"OK\\\", \\\"requestID\\\": \\\"Nt3kiuYj\\\", \\\"grpc.time_ms\\\": 0.088}\\n\"}",
+    "cleanup_errors": [],
+    "tlog": "yok: private lab sertifika/imza akışı; public şeffaflık iddiası yok"
+  }
+}

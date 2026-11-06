@@ -1,0 +1,54 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi dosya doğrulayıcını yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "sentetik dosyalar: akışlı sha256/git blob, başlık sözleşmesi ve bütün geçersiz durumlar doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: dosyanın tümünü belleğe alan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: başlık için veri tamponunu okuyan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: git blob başlığı yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tampon kapsaması denetlenmiyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: başlık boyu big-endian okunuyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: parametre yerine bayt sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit cevap"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-dosya-butunlugu",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t19-sonda-20261030\\ai-kanit\\temel-dosya-butunlugu-1793391586774.json",
+      "zaman": "2026-10-30T23:19:46+03:00"
+    }
+  ]
+}

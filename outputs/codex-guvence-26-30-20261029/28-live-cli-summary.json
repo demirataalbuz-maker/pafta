@@ -1,0 +1,249 @@
+[
+  {
+    "name": "reference",
+    "okay": true,
+    "seconds": 23.15,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: izinli_gercek_cift_olcumu"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: kaynak_temiz"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_cihaz"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-28",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": [
+            "qwen3:4b-instruct-2507-q4_K_M",
+            "qwen3:8b"
+          ],
+          "ozet": {
+            "kucuk": {
+              "n": 4,
+              "kalite": 1.0,
+              "guvenlik": 1.0,
+              "token": 10,
+              "ortalama_ms": 1383.75,
+              "ucret": 0.0
+            },
+            "guclu": {
+              "n": 4,
+              "kalite": 1.0,
+              "guvenlik": 1.0,
+              "token": 10,
+              "ortalama_ms": 3906.5,
+              "ucret": 0.0
+            }
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\28-optin-data\\ai-kanit\\guvence-28-1793300335201.json",
+          "zaman": "2026-10-29T21:58:54+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "seconds": 1.2,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EKSIK / PASS DEGIL: Ogrenci plani onay/farkli-model/butce kapisini uygulamadi"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-28",
+          "kaynak": "eksik",
+          "kabul": false,
+          "model": null,
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\28-optin-data\\ai-kanit\\guvence-28-1793300336412.json",
+          "zaman": "2026-10-29T21:58:56+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.77,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'ai_lab' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "ai_lab"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "constant",
+    "okay": true,
+    "seconds": 0.68,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'ai_lab' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "ai_lab"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "consent-ignored",
+    "okay": true,
+    "seconds": 1.1,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EKSIK / PASS DEGIL: Ogrenci plani onay/farkli-model/butce kapisini uygulamadi"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-28",
+          "kaynak": "eksik",
+          "kabul": false,
+          "model": null,
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\28-optin-data\\ai-kanit\\guvence-28-1793300338968.json",
+          "zaman": "2026-10-29T21:58:58+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "secret-case-sensitive",
+    "okay": true,
+    "seconds": 0.99,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EKSIK / PASS DEGIL: Skor kontrolu yanlis"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-28",
+          "kaynak": "eksik",
+          "kabul": false,
+          "model": null,
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\28-optin-data\\ai-kanit\\guvence-28-1793300339967.json",
+          "zaman": "2026-10-29T21:58:59+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "token-count-hidden",
+    "okay": true,
+    "seconds": 1.05,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "EKSIK / PASS DEGIL: Ozet kontrolu yanlis"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-28",
+          "kaynak": "eksik",
+          "kabul": false,
+          "model": null,
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\28-optin-data\\ai-kanit\\guvence-28-1793300341022.json",
+          "zaman": "2026-10-29T21:59:00+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI ACIK ONAY DOSYASI: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\28-optin-data\\calisma\\ai-guvence-28\\ayar.json\n{\n  \"opt_in\": true,\n  \"kucuk\": \"qwen3:4b-instruct-2507-q4_K_M\",\n  \"guclu\": \"qwen3:8b\",\n  \"max_calls\": 8,\n  \"max_model_bytes\": 5500000000\n}\n{'kucuk': {'n': 4, 'kalite': 1.0, 'guvenlik': 1.0, 'token': 10, 'ortalama_ms': 1553.5, 'ucret': 0.0}, 'guclu': {'n': 4, 'kalite': 1.0, 'guvenlik': 1.0, 'token': 10, 'ortalama_ms': 2801.0, 'ucret': 0.0}}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_n9uiosjx\\guvence-28-1793300360823.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-28",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": [
+            "qwen3:4b-instruct-2507-q4_K_M",
+            "qwen3:8b"
+          ],
+          "ozet": {
+            "kucuk": {
+              "n": 4,
+              "kalite": 1.0,
+              "guvenlik": 1.0,
+              "token": 10,
+              "ortalama_ms": 1553.5,
+              "ucret": 0.0
+            },
+            "guclu": {
+              "n": 4,
+              "kalite": 1.0,
+              "guvenlik": 1.0,
+              "token": 10,
+              "ortalama_ms": 2801.0,
+              "ucret": 0.0
+            }
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\28-optin-data\\ai-kanit\\guvence-28-1793300360823.json",
+          "zaman": "2026-10-29T21:59:20+03:00"
+        }
+      ]
+    }
+  }
+]

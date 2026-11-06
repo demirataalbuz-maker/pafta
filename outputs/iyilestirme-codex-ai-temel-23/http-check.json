@@ -1,0 +1,70 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi dispatch işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "şema doğrulama + dispatch doğru; bozuk girdi ValueError, model hatası hata sözlüğü"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: şema doğrulamayı atlayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tip doğrulamayı atlayan"
+    },
+    {
+      "ok": true,
+      "msg": "ajan döngüsü hatasız koştu: None"
+    },
+    {
+      "ok": true,
+      "msg": "döngü durma nedeni ve gerçek model çağrı bütçesi kaydedildi"
+    },
+    {
+      "ok": true,
+      "msg": "model gerçekten araç çağırdı: 2 çağrı, araçlar ['carp', 'topla']"
+    },
+    {
+      "ok": true,
+      "msg": "senin dispatch'in araçları doğru çalıştırdı: 2/2 doğru"
+    },
+    {
+      "ok": true,
+      "msg": "BULGU (qwen3:4b-instruct-2507-q4_K_M): 2 turlu ajan döngüsü, 2 araç çağrısı (2 doğru), araçlar ['carp', 'topla']; final doğru: False (beklenen 444)."
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-ajan",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "tur": 2,
+        "arac_cagri": 2,
+        "dogru_cagri": 2,
+        "kullanilan_araclar": [
+          "carp",
+          "topla"
+        ],
+        "final_dogru": false,
+        "final_olcutu": "Tam metnin sonlu Decimal değeri beklenen sayıya eşit",
+        "final": "Sonuç, 444'tür. Bu sayı tek bir sayı değildir; çift bir sayıdır."
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-ajan-1793401179045.json",
+      "zaman": "2026-10-31T01:59:38+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

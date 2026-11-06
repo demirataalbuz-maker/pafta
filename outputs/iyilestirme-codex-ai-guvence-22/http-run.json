@@ -1,0 +1,22 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "KALICI SENTETIK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\iyilestirme-codex-20261030\\ui-data\\calisma\\ai-guvence-22\\ayar.json\n{\n  \"seed\": 2122,\n  \"adim\": 60\n}\n\n{\n \"egitim\": {\n  \"seed\": 2122,\n  \"adim\": 60,\n  \"loss\": [\n   0.7354261875152588,\n   0.0192062109708786\n  ],\n  \"ornek\": 192,\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"safetensors\": \"0.8.0\",\n \"dosya_sha256\": \"a0b0c71b2258ed1f4131e370d2f4c3121cbd5983526e652b804768575e98afd1\",\n \"pickle_opcodes\": [\n  \"PROTO\",\n  \"FRAME\",\n  \"EMPTY_DICT\",\n  \"MEMOIZE\",\n  \"SHORT_BINUNICODE\",\n  \"MEMOIZE\",\n  \"BININT2\",\n  \"SETITEM\",\n  \"STOP\"\n ],\n \"pickle_yuklendi\": false,\n \"gercek_tensor_yuklemeleri\": 1,\n \"vakalar\": [\n  {\n   \"bicim\": \"safetensors\",\n   \"baslik_hex\": \"00010000000000007b22302e62696173223a7b2264747970\",\n   \"template\": \"system: sinirli; user: {{ user }}\",\n   \"karar\": true,\n   \"beklenen\": true\n  },\n  {\n   \"bicim\": \"gguf\",\n   \"baslik_hex\": \"474755460300000000000000000000000000000000000000\",\n   \"template\": \"system: sinirli; user: {{ user }}\",\n   \"karar\": true,\n   \"beklenen\": true\n  },\n  {\n   \"bicim\": \"pickle\",\n   \"baslik_hex\": \"80049519000000000000007d948c0f73656e746574696b5f\",\n   \"template\": \"system: sinirli; user: {{ user }}\",\n   \"karar\": false,\n   \"beklenen\": false\n  },\n  {\n   \"bicim\": \"gguf\",\n   \"baslik_hex\": \"424144210300000000000000000000000000000000000000\",\n   \"template\": \"system: sinirli; user: {{ user }}\",\n   \"karar\": false,\n   \"beklenen\": false\n  },\n  {\n   \"bicim\": \"gguf\",\n   \"baslik_hex\": \"474755460200000000000000000000000000000000000000\",\n   \"template\": \"system: sinirli; user: {{ user }}\",\n   \"karar\": false,\n   \"beklenen\": false\n  },\n  {\n   \"bicim\": \"safetensors\",\n   \"baslik_hex\": \"626164\",\n   \"template\": \"system: sinirli; user: {{ user }}\",\n   \"karar\": false,\n   \"beklenen\": false\n  },\n  {\n   \"bicim\": \"safetensors\",\n   \"baslik_hex\": \"a186010000000000\",\n   \"template\": \"system: sinirli; user: {{ user }}\",\n   \"karar\": false,\n   \"beklenen\": false\n  },\n  {\n   \"bicim\": \"safetensors\",\n   \"baslik_hex\": \"00010000000000007b22302e62696173223a7b2264747970\",\n   \"template\": \"{{ user }} [SYSTEM_OVERRIDE]\",\n   \"karar\": false,\n   \"beklenen\": false\n  },\n  {\n   \"bicim\": \"gguf\",\n   \"baslik_hex\": \"474755460300000000000000000000000000000000000000\",\n   \"template\": \"yalniz sistem\",\n   \"karar\": false,\n   \"beklenen\": false\n  }\n ],\n \"kontroller\": {\n  \"kapi\": true,\n  \"gercek_safetensors\": true,\n  \"inert_pickle\": true\n },\n \"kaynak\": \"gercek\",\n \"ortam\": {\n  \"python\": \"3.13.14\",\n  \"cihaz\": \"cpu\",\n  \"torch\": \"2.14.1+cu130\"\n },\n \"veri_kokeni\": \"Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.\",\n \"sinir\": \"Safetensors gercek kitaplikla yuklenir. GGUF sadece v3 basligi/metadata siniri kontroludur; GGUF model inference yapilmaz. Pickle disassemble edilir, hic unpickle edilmez. Template sezgisi genel enjeksiyon tespiti degildir.\"\n}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_t7m_es4n\\guvence-22-deney-1793344248123.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-22-deney",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\guvence-22-deney-1793344248123.json",
+      "zaman": "2026-10-30T10:10:47+03:00"
+    }
+  ]
+}

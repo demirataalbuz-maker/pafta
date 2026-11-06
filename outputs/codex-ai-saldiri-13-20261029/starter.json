@@ -1,0 +1,69 @@
+{
+  "name": "starter",
+  "okay": true,
+  "seconds": 0.79,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "şema, kaynak-aşama izi, deterministik sıra ve değişmezlik korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: katmanları ham metinde birleştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kaynak katmanını silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belgeyi system sayan"
+      },
+      {
+        "ok": false,
+        "msg": "tam üçlü katman, tam satır canary ve fark listesi korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: katmanları ve tam satırı yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bütün farkları gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eksik katmanı kabul eden"
+      },
+      {
+        "ok": false,
+        "msg": "hat sırası, ilk gözlem, eş aşama katmanları ve tam satır korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: son olayı ilk gözlem sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eş aşamadaki katmanı düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: alıntıyı gözlem sayan"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/bağımsız ölçüm yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni belge/işarette katman farkı"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

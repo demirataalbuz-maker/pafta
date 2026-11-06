@@ -1,0 +1,38 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "laboratuvar yamalanmamalı, referans kullanılmamalı "
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: boş"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: hep boş metrik"
+    },
+    {
+      "ok": false,
+      "msg": "güvenli telemetri metrikleri doğru; hassas alan ve geçersiz girdi reddedilmeli"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "savunma-telemetri",
+      "kaynak": "fixture",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-s04-negatif-20261031\\ai-kanit\\savunma-telemetri-1793470263594.json",
+      "zaman": "2026-10-31T21:11:02+03:00"
+    }
+  ]
+}

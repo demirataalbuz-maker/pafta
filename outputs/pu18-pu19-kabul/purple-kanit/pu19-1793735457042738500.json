@@ -1,0 +1,115 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "pilot": "pu19-sqli",
+  "python": "3.13.14",
+  "sqlite": "3.50.4",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "address": "127.0.0.1",
+  "port": 30945,
+  "audit": [
+    {
+      "route": "/vulnerable/login",
+      "username": "uye_762075e3",
+      "password": "demo_3104e0ba04",
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = 'uye_762075e3' AND password = 'demo_3104e0ba04'",
+      "parameters": []
+    },
+    {
+      "route": "/secure/login",
+      "username": "uye_762075e3",
+      "password": "demo_3104e0ba04",
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ? AND password = ?",
+      "parameters": [
+        "uye_762075e3",
+        "demo_3104e0ba04"
+      ]
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = '' OR 1=1 -- ' AND password = 'yanlis'",
+      "parameters": []
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "' OR 1=1 -- ",
+      "password": "yanlis",
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = '' OR 1=1 -- ' AND password = 'yanlis'",
+      "parameters": []
+    },
+    {
+      "route": "/vulnerable/login",
+      "username": "'",
+      "password": "yanlis",
+      "status": 500,
+      "body": {
+        "error": "sql_hatasi"
+      },
+      "sql": "SELECT username, canary FROM accounts WHERE username = ''' AND password = 'yanlis'",
+      "parameters": []
+    }
+  ],
+  "student_rows": [
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "username": "uye_762075e3",
+        "canary": "PU19_b88c1a7b40f90227"
+      }
+    },
+    {
+      "status": 500,
+      "body": {
+        "error": "sql_hatasi"
+      }
+    }
+  ],
+  "error": {
+    "type": "AssertionError",
+    "msg": "normal, bypass, blocked ve bozuk SQL kontrolü yanlış"
+  },
+  "cleanup": true
+}

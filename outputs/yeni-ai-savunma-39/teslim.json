@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-04",
+  "lesson": "ai-savunma-39",
+  "plan": "plan-savunma-8",
+  "author": "codex",
+  "status": "denetime-hazir",
+  "reviewer": "claude-opus",
+  "score": null,
+  "evidence": {
+    "cli": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\yeni-ai-savunma-39\\data\\ai-kanit\\unlearning39-kabul-1793746179307.json",
+    "ui": "C:\\Users\\demo12\\Desktop\\pafta-unlearn39-ui\\ai-kanit\\unlearning39-kabul-1793746203526.json",
+    "run": "C:\\Users\\demo12\\Desktop\\pafta-unlearn39-ui\\ai-kanit\\unlearning39-run-1793746247712.json"
+  },
+  "ui_checks": 75,
+  "mutations": {
+    "generated": 45,
+    "survived": 0,
+    "timeouts": 0
+  },
+  "negative_cases": {
+    "empty": true,
+    "constant": true,
+    "meaningful_wrong": 3,
+    "oracle_copy": 4,
+    "module_patch": true,
+    "missing_interpreter": true
+  },
+  "tahmin": {
+    "count": 1,
+    "suspicious": 0
+  },
+  "related_pure_regression": [
+    {
+      "lesson": "ai-savunma-26",
+      "step": 3,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-savunma-26",
+      "step": 4,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-savunma-26",
+      "step": 5,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-savunma-33",
+      "step": 2,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-savunma-33",
+      "step": 4,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-savunma-33",
+      "step": 6,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-guvence-07",
+      "step": 3,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-guvence-07",
+      "step": 4,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-guvence-07",
+      "step": 5,
+      "status": "pass"
+    }
+  ],
+  "source_sha256": {
+    "tracks/ai-savunma/lessons/ai-savunma-39-unlearning-dogrulama.md": "14a79fc9328f9024f88e5787622c07139d1c1a516029d8b0918c28b9386b33fc",
+    "sandbox/ai_gercek_ai_savunma_39.py": "4b04861f4b0d1faeef2740dbaf4c899b15ca0244c91787b8a44d21cd4d306308",
+    "tracks/ai-savunma/track.json": "d6293bdac66fee1c311203c89588ba413e2e4276a325143fe08ad4d604db2767",
+    "tracks/ai-savunma/fixtures/ai-savunma-39/ornek.json": "3d93721d91c36b7733678a92bc402d7689b24991b7f175ee9ca440dd7e1dc9cc",
+    "tracks/ai-savunma/fixtures/ai-savunma-39/README.md": "02751d8771a6ef09810f3da47bf056fddd124ec037fedfdb9fd7a31dabf5d1b1"
+  }
+}

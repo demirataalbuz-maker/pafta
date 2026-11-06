@@ -1,0 +1,122 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "deneyler": [
+  {
+   "egitim": {
+    "seed": 7121,
+    "adim": 45,
+    "loss": [
+     0.6608859896659851,
+     0.01679942011833191
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "tanimlar": [
+    {
+     "id": "model",
+     "dosya": "model.pt",
+     "bagimliliklar": [
+      "veri",
+      "torch"
+     ]
+    },
+    {
+     "id": "veri",
+     "dosya": "veri.json",
+     "bagimliliklar": []
+    },
+    {
+     "id": "torch",
+     "dosya": "torch.json",
+     "bagimliliklar": []
+    }
+   ],
+   "once": null,
+   "sonra": null,
+   "reddedilen": [],
+   "kontroller": {
+    "disk_hash_boyut_baglar": false,
+    "degisiklik_gercekten_olculdu": false,
+    "kok_siniri": false
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Bu yerel SHA-256 envanteridir; Syft/CycloneDX taramasi, lisans veya kaynagin guvenilirligi ispati degildir."
+  },
+  {
+   "egitim": {
+    "seed": 9221,
+    "adim": 45,
+    "loss": [
+     0.7312516570091248,
+     0.023567557334899902
+    ],
+    "ornek": 192,
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "tanimlar": [
+    {
+     "id": "model",
+     "dosya": "model.pt",
+     "bagimliliklar": [
+      "veri",
+      "torch"
+     ]
+    },
+    {
+     "id": "veri",
+     "dosya": "veri.json",
+     "bagimliliklar": []
+    },
+    {
+     "id": "torch",
+     "dosya": "torch.json",
+     "bagimliliklar": []
+    }
+   ],
+   "once": null,
+   "sonra": null,
+   "reddedilen": [],
+   "kontroller": {
+    "disk_hash_boyut_baglar": false,
+    "degisiklik_gercekten_olculdu": false,
+    "kok_siniri": false
+   },
+   "kaynak": "gercek",
+   "ortam": {
+    "python": "3.13.14",
+    "cihaz": "cpu",
+    "torch": "2.14.1+cu130"
+   },
+   "veri_kokeni": "Sentetik girdiler; gercek yerel dosya islemleri ve CPU autograd. Canli LLM degil.",
+   "sinir": "Bu yerel SHA-256 envanteridir; Syft/CycloneDX taramasi, lisans veya kaynagin guvenilirligi ispati degildir."
+  }
+ ],
+ "ortam": {
+  "python": "3.13.14",
+  "cihaz": "cpu",
+  "torch": "2.14.1+cu130"
+ },
+ "temizlik": "Gorev temp dosyalari kapsam sonunda temizlenir; JSON kaniti kalicidir.",
+ "pilot": "guvence-21-kabul",
+ "zaman": "2026-10-29T21:52:42+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 536 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "6015d804e8d38740c455068a14ec1511680984f8d7c4619f46c7fc3406a0c16f",
+ "mod": "test"
+}

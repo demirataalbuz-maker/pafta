@@ -1,0 +1,134 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": false,
+      "msg": "ASCII, parça boyutu, sıra ve dolgusuz Base64URL korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: sıfır boyutu düzelten"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: parça sırasını bozan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: dolguyu geri ekleyen"
+    },
+    {
+      "ok": false,
+      "msg": "sınırda tam paket içeriği",
+      "got": "[]",
+      "exp": "[{'sira': 1, 'toplam': 1, 'veri': 'IQ'}]"
+    },
+    {
+      "ok": false,
+      "msg": "sınırda tam paket içeriği",
+      "got": "[]",
+      "exp": "[{'sira': 1, 'toplam': 1, 'veri': 'fg'}]"
+    },
+    {
+      "ok": false,
+      "msg": "sınırda tam paket içeriği",
+      "got": "[]",
+      "exp": "[{'sira': 1, 'toplam': 4, 'veri': 'QUFBQUFBQUFBQUFBQUFBQQ'}, {'sira': 2, 'toplam': 4, 'veri': 'QUFBQUFBQUFBQUFBQUFBQQ'}, {'sira': 3, 'toplam': 4, 'veri': 'QUFBQUFBQUFBQUFBQUFBQQ'}, {'sira': 4, 'toplam': 4, 'veri': 'QUFBQUFBQUFBQUFBQUFBQQ'}]"
+    },
+    {
+      "ok": false,
+      "msg": "sınırda tam paket içeriği",
+      "got": "[]",
+      "exp": "[{'sira': 1, 'toplam': 4, 'veri': 'Q0E'}, {'sira': 2, 'toplam': 4, 'veri': 'TkE'}, {'sira': 3, 'toplam': 4, 'veri': 'Ulk'}, {'sira': 4, 'toplam': 4, 'veri': 'LTc'}]"
+    },
+    {
+      "ok": false,
+      "msg": "sıra, toplam, kanonik Base64URL ve birleşik ASCII sınırı korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: birleşik sırayı ters çeviren"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kanonik olmayan kodu düzelten"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: geçersiz sonucu boş metinle gizleyen"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk meta veri veya ASCII reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk meta veri veya ASCII reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk meta veri veya ASCII reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk meta veri veya ASCII reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk meta veri veya ASCII reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk meta veri veya ASCII reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "altmış beş parça/toplam karakter reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "sıralı birleştirme, tek çıktı ve parçalı kanıt ayrımı korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: girdi sırasını kullanan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: parçalı kanıtı gizleyen"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: eksik sıraları yeniden numaralayan"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk çıktı/canary reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk çıktı/canary reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk çıktı/canary reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "bozuk çıktı/canary reddedilmeli"
+    },
+    {
+      "ok": false,
+      "msg": "tek çıktı kimlikleri alfabetik",
+      "got": "{}",
+      "exp": "{'cikti': 2, 'kanit_var': True, 'parcali_kanit': False, 'tek_ciktida': ['a', 'z']}"
+    },
+    {
+      "ok": false,
+      "msg": "yeni canary ve parça boyutunda gerçek kodlama sözleşmesi"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

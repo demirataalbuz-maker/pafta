@@ -1,0 +1,1193 @@
+{
+  "kaynak": "gercek",
+  "kabul": true,
+  "pilot": "pu25-istihbarat",
+  "python": "3.13.14",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "calistirilan_komut": 0,
+  "plan": {
+    "dosya": "center-for-threat-informed-defense/adversary_emulation_library@4467a6ee:apt29/Emulation_Plan/yaml/APT29.yaml",
+    "bayt": 101876,
+    "sha256": "644f28185097f545e522ca8ed04b43f19ec8b31ace864d347feb138bc56c1615",
+    "ayrinti": {
+      "id": "4975696e-1d41-11eb-adc1-0242ac120002",
+      "adversary_name": "APT29",
+      "attack_version": 8.1,
+      "format_version": 1.0
+    }
+  },
+  "pyyaml": "6.0.3",
+  "attack_surum": "19.2",
+  "adim_sayisi": 79,
+  "ilk_son": [
+    "1.A",
+    "20.B"
+  ],
+  "denetim": [
+    {
+      "teknik": "T1003",
+      "plan_adi": "Credential Dumping",
+      "durum": "yeniden-adlandirildi",
+      "guncel_ad": "OS Credential Dumping",
+      "yeni": null
+    },
+    {
+      "teknik": "T1005",
+      "plan_adi": "Data from Local System",
+      "durum": "gecerli",
+      "guncel_ad": "Data from Local System",
+      "yeni": null
+    },
+    {
+      "teknik": "T1007",
+      "plan_adi": "System Service Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "System Service Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1012",
+      "plan_adi": "Query Registry",
+      "durum": "gecerli",
+      "guncel_ad": "Query Registry",
+      "yeni": null
+    },
+    {
+      "teknik": "T1016",
+      "plan_adi": "System Network Configuration Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "System Network Configuration Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1018",
+      "plan_adi": "Remote System Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "Remote System Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1033",
+      "plan_adi": "System Owner/User Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "System Owner/User Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1036.002",
+      "plan_adi": "Masquerading: Right-to-Left Override",
+      "durum": "gecerli",
+      "guncel_ad": "Right-to-Left Override",
+      "yeni": null
+    },
+    {
+      "teknik": "T1036.005",
+      "plan_adi": "Masquerading: Match Legitimate Name or Location",
+      "durum": "yeniden-adlandirildi",
+      "guncel_ad": "Match Legitimate Resource Name or Location",
+      "yeni": null
+    },
+    {
+      "teknik": "T1037.005",
+      "plan_adi": "Boot or Logon Initialization Scripts: Startup Items",
+      "durum": "gecerli",
+      "guncel_ad": "Startup Items",
+      "yeni": null
+    },
+    {
+      "teknik": "T1041",
+      "plan_adi": "Exfiltration Over Command and Control Channel",
+      "durum": "yeniden-adlandirildi",
+      "guncel_ad": "Exfiltration Over C2 Channel",
+      "yeni": null
+    },
+    {
+      "teknik": "T1049",
+      "plan_adi": "System Network Connections Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "System Network Connections Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1055",
+      "plan_adi": "Process Injection",
+      "durum": "gecerli",
+      "guncel_ad": "Process Injection",
+      "yeni": null
+    },
+    {
+      "teknik": "T1056.001",
+      "plan_adi": "Input Capture: Keylogging",
+      "durum": "gecerli",
+      "guncel_ad": "Keylogging",
+      "yeni": null
+    },
+    {
+      "teknik": "T1057",
+      "plan_adi": "Process Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "Process Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1059.001",
+      "plan_adi": "Command and Scripting Interpreter: PowerShell",
+      "durum": "gecerli",
+      "guncel_ad": "PowerShell",
+      "yeni": null
+    },
+    {
+      "teknik": "T1069",
+      "plan_adi": "Permission Groups Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "Permission Groups Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1070.004",
+      "plan_adi": "Indicator Removal on Host: File Deletion",
+      "durum": "gecerli",
+      "guncel_ad": "File Deletion",
+      "yeni": null
+    },
+    {
+      "teknik": "T1070.006",
+      "plan_adi": "Indicator Removal on Host: Timestomp",
+      "durum": "gecerli",
+      "guncel_ad": "Timestomp",
+      "yeni": null
+    },
+    {
+      "teknik": "T1082",
+      "plan_adi": "System Information Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "System Information Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1083",
+      "plan_adi": "File and Directory Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "File and Directory Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1087",
+      "plan_adi": "Account Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "Account Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1105",
+      "plan_adi": "Ingress Tool Transfer",
+      "durum": "gecerli",
+      "guncel_ad": "Ingress Tool Transfer",
+      "yeni": null
+    },
+    {
+      "teknik": "T1112",
+      "plan_adi": "Modify Registry",
+      "durum": "gecerli",
+      "guncel_ad": "Modify Registry",
+      "yeni": null
+    },
+    {
+      "teknik": "T1113",
+      "plan_adi": "Screen Capture",
+      "durum": "gecerli",
+      "guncel_ad": "Screen Capture",
+      "yeni": null
+    },
+    {
+      "teknik": "T1114.001",
+      "plan_adi": "Email Collection: Local Email Collection",
+      "durum": "gecerli",
+      "guncel_ad": "Local Email Collection",
+      "yeni": null
+    },
+    {
+      "teknik": "T1115",
+      "plan_adi": "Clipboard Data",
+      "durum": "gecerli",
+      "guncel_ad": "Clipboard Data",
+      "yeni": null
+    },
+    {
+      "teknik": "T1119",
+      "plan_adi": "Automated Collection",
+      "durum": "gecerli",
+      "guncel_ad": "Automated Collection",
+      "yeni": null
+    },
+    {
+      "teknik": "T1134",
+      "plan_adi": "Access Token Manipulation",
+      "durum": "gecerli",
+      "guncel_ad": "Access Token Manipulation",
+      "yeni": null
+    },
+    {
+      "teknik": "T1134.001",
+      "plan_adi": "Access Token Manipulation: Token Impersonation/Theft",
+      "durum": "gecerli",
+      "guncel_ad": "Token Impersonation/Theft",
+      "yeni": null
+    },
+    {
+      "teknik": "T1134.002",
+      "plan_adi": "Access Token Manipulation: Create Process with Token",
+      "durum": "gecerli",
+      "guncel_ad": "Create Process with Token",
+      "yeni": null
+    },
+    {
+      "teknik": "T1204.002",
+      "plan_adi": "User Execution: Malicious File",
+      "durum": "gecerli",
+      "guncel_ad": "Malicious File",
+      "yeni": null
+    },
+    {
+      "teknik": "T1218.011",
+      "plan_adi": "Signed Binary Proxy Execution: Rundll32",
+      "durum": "gecerli",
+      "guncel_ad": "Rundll32",
+      "yeni": null
+    },
+    {
+      "teknik": "T1518",
+      "plan_adi": "Software Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "Software Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1518.001",
+      "plan_adi": "Software Discovery: Security Software Discovery",
+      "durum": "gecerli",
+      "guncel_ad": "Security Software Discovery",
+      "yeni": null
+    },
+    {
+      "teknik": "T1529",
+      "plan_adi": "System Shutdown/Reboot",
+      "durum": "gecerli",
+      "guncel_ad": "System Shutdown/Reboot",
+      "yeni": null
+    },
+    {
+      "teknik": "T1537",
+      "plan_adi": "Transfer Data to Cloud Account",
+      "durum": "gecerli",
+      "guncel_ad": "Transfer Data to Cloud Account",
+      "yeni": null
+    },
+    {
+      "teknik": "T1546.003",
+      "plan_adi": "Event Triggered Execution: Windows Management Instrumentation Event Subscription",
+      "durum": "gecerli",
+      "guncel_ad": "Windows Management Instrumentation Event Subscription",
+      "yeni": null
+    },
+    {
+      "teknik": "T1547.009",
+      "plan_adi": "Boot or Logon Autostart Execution: Shortcut Modification",
+      "durum": "gecerli",
+      "guncel_ad": "Shortcut Modification",
+      "yeni": null
+    },
+    {
+      "teknik": "T1548.002",
+      "plan_adi": "Abuse Elevation Control Mechanism: Bypass User Account Control",
+      "durum": "gecerli",
+      "guncel_ad": "Bypass User Account Control",
+      "yeni": null
+    },
+    {
+      "teknik": "T1552.004",
+      "plan_adi": "Unsecured Credentials: Private Keys",
+      "durum": "gecerli",
+      "guncel_ad": "Private Keys",
+      "yeni": null
+    },
+    {
+      "teknik": "T1561.001",
+      "plan_adi": "Disk Wipe: Disk Content Wipe",
+      "durum": "gecerli",
+      "guncel_ad": "Disk Content Wipe",
+      "yeni": null
+    }
+  ],
+  "denetim_ozet": {
+    "gecerli": 39,
+    "yeniden-adlandirildi": 3,
+    "emekli": 0,
+    "kullanim-disi": 0,
+    "bilinmiyor": 0
+  },
+  "test_plani": {
+    "satirlar": [
+      {
+        "adim": "1.A",
+        "teknik": "T1036.002",
+        "taktik": "execution",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 11 (dosya oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "1.B",
+        "teknik": "T1059.001",
+        "taktik": "execution",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.A.1",
+        "teknik": "T1119",
+        "taktik": "collection",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "2.A.2",
+        "teknik": "T1016",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.A.3",
+        "teknik": "T1016",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.B.1",
+        "teknik": "T1033",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.B.2",
+        "teknik": "T1041",
+        "taktik": "exfiltration",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.C.1",
+        "teknik": "T1057",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.C.2",
+        "teknik": "T1057",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.D.1",
+        "teknik": "T1007",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.D.2",
+        "teknik": "T1007",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.E.1",
+        "teknik": "T1082",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)",
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.E.2",
+        "teknik": "T1082",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)",
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.F.1",
+        "teknik": "T1069",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.F.2",
+        "teknik": "T1069",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.F.3",
+        "teknik": "T1069",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.G.1",
+        "teknik": "T1087",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.G.2",
+        "teknik": "T1087",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "2.H.1",
+        "teknik": "T1012",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "3.A.1",
+        "teknik": "T1036.005",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (OriginalFileName)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "3.A.2",
+        "teknik": "T1134.001",
+        "taktik": "privilege-escalation",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "3.A.3",
+        "teknik": "T1548.002",
+        "taktik": "privilege-escalation",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (bütünlük düzeyi)",
+          "Sysmon 13 (kayıt defteri değeri)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "3.B",
+        "teknik": "T1112",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 13 (kayıt defteri değeri)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "3.C",
+        "teknik": "T1055",
+        "taktik": "privilege-escalation",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 10 (süreç erişimi)",
+          "Sysmon 8 (CreateRemoteThread)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.A.1",
+        "teknik": "T1036.005",
+        "taktik": "stage-capabilities",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (OriginalFileName)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.A.2",
+        "teknik": "T1018",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)",
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.A.3",
+        "teknik": "T1018",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)",
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.B.1",
+        "teknik": "T1016",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.B.2",
+        "teknik": "T1057",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.B.3",
+        "teknik": "T1070.004",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 23 (dosya silme)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.C.1",
+        "teknik": "T1082",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)",
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "4.C.2",
+        "teknik": "T1049",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "5.A.1",
+        "teknik": "T1003",
+        "taktik": "credential-access",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 10 (LSASS'a erişim)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "5.A.2",
+        "teknik": "T1547.009",
+        "taktik": "persistence",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 11 (dosya oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "5.B.1",
+        "teknik": "T1547.009",
+        "taktik": "persistence",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 11 (dosya oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "5.B.2",
+        "teknik": "T1134",
+        "taktik": "defensive-evasion",
+        "durum": "ertele",
+        "beklenen": [
+          "Security 4624 (oturum açma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "6.A.1",
+        "teknik": "T1003",
+        "taktik": "credential-access",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 10 (LSASS'a erişim)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "6.A.2",
+        "teknik": "T1134",
+        "taktik": "defensive-evasion",
+        "durum": "ertele",
+        "beklenen": [
+          "Security 4624 (oturum açma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "6.B",
+        "teknik": "T1552.004",
+        "taktik": "credential-access",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "7.A.1",
+        "teknik": "T1036.005",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (OriginalFileName)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "7.A.2",
+        "teknik": "T1113",
+        "taktik": "collection",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "7.A.3",
+        "teknik": "T1115",
+        "taktik": "collection",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "7.A.4",
+        "teknik": "T1056.001",
+        "taktik": "collection",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "7.B.1",
+        "teknik": "T1041",
+        "taktik": "exfiltration",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "7.B.2",
+        "teknik": "T1134.001",
+        "taktik": "defensive-evasion",
+        "durum": "ertele",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "7.C.1",
+        "teknik": "T1134.001",
+        "taktik": "defensive-evasion",
+        "durum": "ertele",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "8.A.1",
+        "teknik": "T1059.001",
+        "taktik": "execution",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "8.A.2",
+        "teknik": "T1059.001",
+        "taktik": "execution",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "8.A.3",
+        "teknik": "T1134.001",
+        "taktik": "defensive-evasion",
+        "durum": "ertele",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "8.B",
+        "teknik": "T1105",
+        "taktik": "lateral-movement",
+        "durum": "ertele",
+        "beklenen": [
+          "Sysmon 11 (dosya oluşturma)",
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "8.D.1",
+        "teknik": "T1113",
+        "taktik": "collection",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "9.A.1",
+        "teknik": "T1083",
+        "taktik": "discovery",
+        "durum": "ertele",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "9.B.1",
+        "teknik": "T1059.001",
+        "taktik": "execution",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "9.B.8",
+        "teknik": "T1041",
+        "taktik": "exfiltration",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "9.C",
+        "teknik": "T1070.004",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 23 (dosya silme)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "10.A.2",
+        "teknik": "T1529",
+        "taktik": "impact",
+        "durum": "planla",
+        "beklenen": [
+          "System 1074 (kapatma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "10.A.3",
+        "teknik": "T1070.004",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 23 (dosya silme)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "10.B",
+        "teknik": "T1037.005",
+        "taktik": "lateral-movement",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 11 (dosya oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "11.A",
+        "teknik": "T1204.002",
+        "taktik": "execution",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "12.A",
+        "teknik": "T1070.006",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 2 (dosya zamanı değişimi)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "12.B",
+        "teknik": "T1518.001",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "12.C",
+        "teknik": "T1518",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "13.A",
+        "teknik": "T1082",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)",
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "13.B",
+        "teknik": "T1082",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)",
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "13.C",
+        "teknik": "T1033",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "13.D",
+        "teknik": "T1057",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "PowerShell 4104 (betik bloğu)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "14.A",
+        "teknik": "T1134.002",
+        "taktik": "defensive-evasion",
+        "durum": "planla",
+        "beklenen": [
+          "Security 4624 (oturum açma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "14.B",
+        "teknik": "T1003",
+        "taktik": "credential-access",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 10 (LSASS'a erişim)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "14.C",
+        "teknik": "T1003",
+        "taktik": "credential-access",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 10 (LSASS'a erişim)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "15.A",
+        "teknik": "T1546.003",
+        "taktik": "persistence",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 19/20/21 (WMI aboneliği)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "16.A",
+        "teknik": "T1018",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)",
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "16.B",
+        "teknik": "T1033",
+        "taktik": "discovery",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "16.C",
+        "teknik": "T1105",
+        "taktik": "lateral-movement",
+        "durum": "ertele",
+        "beklenen": [
+          "Sysmon 11 (dosya oluşturma)",
+          "Sysmon 3 (ağ bağlantısı)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "17.A",
+        "teknik": "T1114.001",
+        "taktik": "collection",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "17.B",
+        "teknik": "T1005",
+        "taktik": "collection",
+        "durum": "planla",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "18.A",
+        "teknik": "T1537",
+        "taktik": "exfiltration",
+        "durum": "kapsam-disi",
+        "beklenen": [],
+        "kor_nokta": true
+      },
+      {
+        "adim": "19.A",
+        "teknik": "T1561.001",
+        "taktik": "impact",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 9 (ham disk okuma)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "20.A.1",
+        "teknik": "T1003",
+        "taktik": "credential-access",
+        "durum": "ertele",
+        "beklenen": [
+          "Sysmon 10 (LSASS'a erişim)"
+        ],
+        "kor_nokta": false
+      },
+      {
+        "adim": "20.B",
+        "teknik": "T1218.011",
+        "taktik": "persistence",
+        "durum": "planla",
+        "beklenen": [
+          "Sysmon 1 (süreç oluşturma)"
+        ],
+        "kor_nokta": false
+      }
+    ],
+    "ozet": {
+      "collection": {
+        "planla": 7,
+        "ertele": 0,
+        "kapsam-disi": 0,
+        "kor_nokta": 7
+      },
+      "credential-access": {
+        "planla": 5,
+        "ertele": 1,
+        "kapsam-disi": 0,
+        "kor_nokta": 1
+      },
+      "defensive-evasion": {
+        "planla": 8,
+        "ertele": 5,
+        "kapsam-disi": 0,
+        "kor_nokta": 3
+      },
+      "discovery": {
+        "planla": 29,
+        "ertele": 1,
+        "kapsam-disi": 0,
+        "kor_nokta": 2
+      },
+      "execution": {
+        "planla": 6,
+        "ertele": 0,
+        "kapsam-disi": 0,
+        "kor_nokta": 0
+      },
+      "exfiltration": {
+        "planla": 3,
+        "ertele": 0,
+        "kapsam-disi": 1,
+        "kor_nokta": 1
+      },
+      "impact": {
+        "planla": 2,
+        "ertele": 0,
+        "kapsam-disi": 0,
+        "kor_nokta": 0
+      },
+      "lateral-movement": {
+        "planla": 1,
+        "ertele": 2,
+        "kapsam-disi": 0,
+        "kor_nokta": 0
+      },
+      "persistence": {
+        "planla": 4,
+        "ertele": 0,
+        "kapsam-disi": 0,
+        "kor_nokta": 0
+      },
+      "privilege-escalation": {
+        "planla": 3,
+        "ertele": 0,
+        "kapsam-disi": 0,
+        "kor_nokta": 1
+      },
+      "stage-capabilities": {
+        "planla": 1,
+        "ertele": 0,
+        "kapsam-disi": 0,
+        "kor_nokta": 0
+      }
+    }
+  },
+  "durum_ozet": {
+    "planla": 69,
+    "ertele": 9,
+    "kapsam-disi": 1
+  },
+  "kor_nokta": [
+    "T1005",
+    "T1012",
+    "T1056.001",
+    "T1083",
+    "T1113",
+    "T1114.001",
+    "T1115",
+    "T1119",
+    "T1134.001",
+    "T1537",
+    "T1552.004"
+  ],
+  "komut_sizintisi": 0,
+  "cleanup": true
+}

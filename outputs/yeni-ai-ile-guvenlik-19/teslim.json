@@ -1,0 +1,85 @@
+{
+  "date": "2026-11-04",
+  "lesson": "ai-ile-guvenlik-19",
+  "plan": "plan-ai-purple-kopru",
+  "status": "denetime-hazir",
+  "author": "codex",
+  "reviewer": "claude-opus",
+  "score": null,
+  "evidence": {
+    "ui": "C:\\Users\\demo12\\Desktop\\pafta-soc19-ui\\ai-kanit\\soc19-kabul-1793745362265.json",
+    "run": "C:\\Users\\demo12\\Desktop\\pafta-soc19-ui\\ai-kanit\\soc19-run-1793745401541.json"
+  },
+  "ui_checks": 76,
+  "mutations": {
+    "generated": 35,
+    "survived": 0,
+    "timeouts": 0
+  },
+  "negative_cases": {
+    "empty": true,
+    "constant": true,
+    "meaningful_wrong": 3,
+    "oracle_copy": 4,
+    "module_patch": true,
+    "missing_ollama": true
+  },
+  "tahmin": {
+    "count": 1,
+    "suspicious": 0
+  },
+  "related_pure_regression": [
+    {
+      "lesson": "ai-ile-guvenlik-11",
+      "step": 4,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-11",
+      "step": 5,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-11",
+      "step": 6,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-12",
+      "step": 4,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-12",
+      "step": 5,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-12",
+      "step": 6,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-18",
+      "step": 5,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-18",
+      "step": 6,
+      "status": "pass"
+    },
+    {
+      "lesson": "ai-ile-guvenlik-18",
+      "step": 7,
+      "status": "pass"
+    }
+  ],
+  "source_sha256": {
+    "tracks/ai-ile-guvenlik/lessons/ai-ile-guvenlik-19-soc-purple-alarm-kilidi.md": "8ef8400821486a14d0ec380ff71206f7af525818f447af3a7b47a2684ab6cf79",
+    "sandbox/ai_gercek_ai_ile_guvenlik_19.py": "96bb0a543af1d50a167c6a1ed1879e4d5aa140f1c66082e783c39d53a236c0a1",
+    "tracks/ai-ile-guvenlik/track.json": "049dacb56ed51f26f87bb661e831f992ad273bdebbe95861920261ae73e53c56",
+    "tracks/ai-ile-guvenlik/fixtures/ai-ile-guvenlik-19/olaylar.json": "a586b070d60903f336fdf4b43c012da47e716840f95a173a25a141582194cef3",
+    "tracks/ai-ile-guvenlik/fixtures/ai-ile-guvenlik-19/README.md": "90796ccc1d8561533ab857b61c6b46adc16f2b05a8176c289153db627251f3a4"
+  }
+}

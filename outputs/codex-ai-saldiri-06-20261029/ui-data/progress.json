@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "days": [
+  "2026-10-29"
+ ],
+ "last": {
+  "track": "ai-saldiri",
+  "lesson": "ai-saldiri-06",
+  "step": 8
+ },
+ "tracks": {
+  "ai-saldiri": {
+   "steps": {
+    "ai-saldiri-06:8": {
+     "attempts": 6,
+     "revealed": true,
+     "done": true,
+     "at": "2026-10-29T06:01:25"
+    }
+   },
+   "drafts": {
+    "ai-saldiri-06:8": "import ai_lab\n\nimport base64\n\ndef sizinti_sinyalleri(yanit, gizli):\n    if not isinstance(yanit, str) or not isinstance(gizli, str):\n        raise ValueError(\"yanıt ve gizli değer string olmalı\")\n    if len(gizli) < 8:\n        raise ValueError(\"gizli değer en az 8 karakter olmalı\")\n    sinyaller = set()\n    if gizli.casefold() in yanit.casefold():\n        sinyaller.add(\"duz\")\n    normal_yanit = \" \".join(yanit.split()).casefold()\n    normal_gizli = \" \".join(gizli.split()).casefold()\n    if normal_gizli in normal_yanit:\n        sinyaller.add(\"normal\")\n    kod = base64.b64encode(gizli.encode(\"utf-8\")).decode(\"ascii\")\n    if kod in yanit or kod.rstrip(\"=\") in yanit:\n        sinyaller.add(\"base64\")\n    return sorted(sinyaller)\n\nimport base64\n\ndef guvenli_kayit(veri, gizler):\n    if not gizler:\n        raise ValueError(\"en az bir gizli değer gerekli\")\n    parcalar = []\n    for gizli in gizler:\n        if not isinstance(gizli, str) or len(gizli) < 8:\n            raise ValueError(\"gizli değer en az 8 karakterli string olmalı\")\n        kod = base64.b64encode(gizli.encode(\"utf-8\")).decode(\"ascii\")\n        parcalar.extend((gizli, kod, kod.rstrip(\"=\")))\n    parcalar = sorted(set(parcalar), key=len, reverse=True)\n    def temizle(deger):\n        if isinstance(deger, str):\n            for parca in parcalar:\n                deger = deger.replace(parca, \"[GIZLI]\")\n            return deger\n        if isinstance(deger, list):\n            return [temizle(x) for x in deger]\n        if isinstance(deger, dict):\n            return {k: temizle(v) for k, v in deger.items()}\n        return deger\n    return temizle(veri)\n\ndef cikarim_raporu(kayitlar):\n    rapor = {\n        \"dogrudan\": {\"deneme\": 0, \"sizinti\": 0, \"oran\": None},\n        \"dolayli\": {\"deneme\": 0, \"sizinti\": 0, \"oran\": None},\n        \"kontrol\": {\"deneme\": 0, \"yanlis_pozitif\": 0},\n    }\n    for kayit in kayitlar:\n        yontem = kayit[\"yontem\"]\n        sinyaller = kayit[\"sinyaller\"]\n        if yontem not in rapor or not isinstance(sinyaller, list) or not all(isinstance(x, str) for x in sinyaller):\n            raise ValueError(\"geçersiz yöntem veya sinyal listesi\")\n        rapor[yontem][\"deneme\"] += 1\n        if yontem == \"kontrol\":\n            if sinyaller:\n                rapor[yontem][\"yanlis_pozitif\"] += 1\n        elif sinyaller:\n            rapor[yontem][\"sizinti\"] += 1\n    for yontem in (\"dogrudan\", \"dolayli\"):\n        kol = rapor[yontem]\n        if kol[\"deneme\"]:\n            kol[\"oran\"] = kol[\"sizinti\"] / kol[\"deneme\"]\n    return rapor\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_saldiri_06 as deney\n    deney.goster(sizinti_sinyalleri, guvenli_kayit, cikarim_raporu)"
+   },
+   "review": {
+    "ai-saldiri-06:8": {
+     "box": 1,
+     "due": "2026-10-30"
+    }
+   }
+  }
+ },
+ "playground": "",
+ "settings": {
+  "theme": "mavi"
+ }
+}

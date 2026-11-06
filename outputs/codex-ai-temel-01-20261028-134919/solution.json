@@ -1,0 +1,106 @@
+{
+  "name": "solution",
+  "okay": true,
+  "result": {
+    "status": "pass",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "laboratuvar yamalanmamalı: "
+      },
+      {
+        "ok": true,
+        "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: ''"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'token'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: ' token'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'token  token\\n'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'İstanbul 🧪'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'é'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'é'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: '\\t a\\n b  '"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: '<|im_end|>'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'öğrenci é é öğrenci 878936'"
+      },
+      {
+        "ok": true,
+        "msg": "tam kimlik listesi metne kayıpsız dönüyor: '\\nriver  güvenlik'"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "temel-01-tokenizasyon",
+        "kaynak": "gercek",
+        "kabul": true,
+        "model": "HuggingFaceTB/SmolLM2-135M",
+        "ozet": null,
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184580570.json",
+        "zaman": "2026-10-28T13:49:40+03:00"
+      }
+    ]
+  }
+}

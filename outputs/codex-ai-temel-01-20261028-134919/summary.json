@@ -1,0 +1,522 @@
+[
+  {
+    "name": "solution",
+    "okay": true,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": true,
+          "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: ''"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'token'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: ' token'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'token  token\\n'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'İstanbul 🧪'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'é'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'é'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: '\\t a\\n b  '"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: '<|im_end|>'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: 'öğrenci é é öğrenci 878936'"
+        },
+        {
+          "ok": true,
+          "msg": "tam kimlik listesi metne kayıpsız dönüyor: '\\nriver  güvenlik'"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-01-tokenizasyon",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184580570.json",
+          "zaman": "2026-10-28T13:49:40+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": true,
+          "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-01-tokenizasyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184586319.json",
+          "zaman": "2026-10-28T13:49:46+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": false,
+          "msg": "`gercek_token_izi` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "gercek_token_izi"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "fixed",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": true,
+          "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-01-tokenizasyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184592251.json",
+          "zaman": "2026-10-28T13:49:52+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "strip",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": true,
+          "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-01-tokenizasyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184597885.json",
+          "zaman": "2026-10-28T13:49:57+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "characters",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": true,
+          "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-01-tokenizasyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184603416.json",
+          "zaman": "2026-10-28T13:50:03+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "reverse",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": true,
+          "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-01-tokenizasyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184609380.json",
+          "zaman": "2026-10-28T13:50:09+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "offset",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı: "
+        },
+        {
+          "ok": true,
+          "msg": "karakter aralıkları için gerçek hızlı tokenizer gerekli"
+        },
+        {
+          "ok": false,
+          "msg": "gerçek tokenizer: kimlikler, Unicode ofsetleri, tam decode ve boşluklar korunuyor"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kodun işlevi yok"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek sonuç"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: baştaki ve sondaki boşluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: karakter sayısını token sayan"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: token sırasını ters çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Unicode aralıklarını kaydıran"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-01-tokenizasyon",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "HuggingFaceTB/SmolLM2-135M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-01-20261028-134919\\test-data\\ai-kanit\\temel-01-tokenizasyon-1793184615775.json",
+          "zaman": "2026-10-28T13:50:15+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run-button",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "err",
+          "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  32%|███▏      | 88/272 [00:00<00:00, 875.69it/s]\rLoading weights:  68%|██████▊   | 185/272 [00:00<00:00, 929.35it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 914.46it/s]\n"
+        ],
+        [
+          "out",
+          "' token' {'token_idleri': [9624], 'tokenlar': ['Ġtoken'], 'araliklar': [[0, 6]], 'cozulen': ' token', 'token_sayisi': 1}\n'token  token\\n' {'token_idleri': [8087, 216, 9624, 198], 'tokenlar': ['token', 'Ġ', 'Ġtoken', 'Ċ'], 'araliklar': [[0, 5], [5, 6], [6, 12], [12, 13]], 'cozulen': 'token  token\\n', 'token_sayisi': 4}\n'İstanbul 🧪' {'token_idleri': [143, 125, 28683, 15107, 117, 120], 'tokenlar': ['Ä', '°', 'stanbul', 'ĠðŁ', '§', 'ª'], 'araliklar': [[0, 1], [0, 1], [1, 8], [8, 10], [9, 10], [9, 10]], 'cozulen': 'İstanbul 🧪', 'token_sayisi': 6}\n'é' {'token_idleri': [85, 151, 219], 'tokenlar': ['e', 'Ì', 'ģ'], 'araliklar': [[0, 1], [1, 2], [1, 2]], 'cozulen': 'é', 'token_sayisi': 3}\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": []
+    }
+  }
+]

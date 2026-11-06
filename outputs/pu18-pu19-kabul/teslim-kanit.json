@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-03",
+  "author": "codex",
+  "review": "Opus denetimi bekliyor; puan verilmedi",
+  "proof": {
+    "pu18": {
+      "ui_accepted_receipts": [
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu18-1793735381598981300.json",
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu18-1793735811617627600.json"
+      ],
+      "ui_run_receipts": [
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu18-1793735280588953200.json",
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu18-1793735376336703300.json",
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu18-1793735401566288300.json",
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu18-1793735805959639000.json"
+      ]
+    },
+    "pu19": {
+      "ui_accepted_receipts": [
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu19-1793735599537972800.json",
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu19-1793735599613142600.json"
+      ],
+      "ui_run_receipts": [
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu19-1793735599461699700.json",
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu19-1793735648431213400.json",
+        "C:\\Users\\demo12\\Desktop\\pafta-pu18-pu19-ui-20261103\\purple-kanit\\pu19-1793735682617790600.json"
+      ]
+    }
+  },
+  "source_sha256": {
+    "tracks/purple/track.json": "705dda5cdfd4a5b132fe56fba0df26c36579f0bc87e96a2251f5971af227e418",
+    "tracks/purple/lessons/pu18-nmap-yerel-kesif.md": "7a537701c32590725ee63abde25f8a2113f602910801c79b7000e7930a733812",
+    "tracks/purple/lessons/pu19-yerel-web-sqli.md": "4b1e34cbb89b70503eb3efb10424ff054c5754ea442466d23b80ae01f8b4c50c",
+    "sandbox/purple_nmap_lab.py": "53b6fb46b27f60002ecf78ec7e4f9690b4f0bddd2759f37a102d782b9cad00bc",
+    "sandbox/purple_sqli_lab.py": "56b2f50450deca742ec749b3bf025fcfd58535995cdc5f68b29dd2d7042d3406",
+    "tracks/purple/fixtures/pu18_nmap/ornek.xml": "b4b0cb5cc00d58a3498be2bee8b7fde73034de4132fd92a73c96d672be64b786",
+    "tracks/purple/fixtures/pu18_nmap/README.md": "a5ad295bf62ef375c0f0295d677a03eec998db41123b51db233837f1d87e7b87",
+    "tracks/purple/fixtures/pu19_yerel_sqli/istek.http": "557e44a5d77e495e2822b59216aebede323d262d15800eec10f35f83b17a6fe1",
+    "tracks/purple/fixtures/pu19_yerel_sqli/istekler.json": "d5478cde325d27ef821fa5a22e9f75e6ae40acfd635c807d837cd131a920c077",
+    "tracks/purple/fixtures/pu19_yerel_sqli/README.md": "77532c907fd0388928624b7827c6d34a69293555115e9278cc1e58b3071f4900",
+    "tracks/purple/fixtures/pu19_yerel_sqli/sorgular.sql": "777a7c277bd6001fd9b68c4511168f50e07f4cf0904c6a1bf2efdf34ed16bbda"
+  },
+  "pure_mutations": {
+    "generated": 11,
+    "survived": 0
+  },
+  "tahmin": {
+    "count": 0,
+    "suspicious": 0
+  },
+  "targeted_validate": "2 ders,12 kontrol,TEMİZ",
+  "purple_regression": "19 ders,125 kontrol,TEMİZ; aynı testler seri zamanlama ile",
+  "exam_regression": "12 tests,10.719s,OK; önceki paralel yük koşusundaki1sq12 hatası ayrıca raporlandı",
+  "ui_counts": {
+    "pu18": 36,
+    "pu19": 12
+  }
+}

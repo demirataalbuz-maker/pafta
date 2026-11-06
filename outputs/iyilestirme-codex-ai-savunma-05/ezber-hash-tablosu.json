@@ -1,0 +1,28 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": false,
+      "msg": "güvenli yol, UTF-8 bayt sayısı ve SHA-256 korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: yol sınırını bozan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: baytı karakter sayan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: özeti değiştiren"
+    }
+  ],
+  "segs": [
+    [
+      "out",
+      "Sentetik ham metinler: [{'ad': 'metin.txt', 'icerik': 'ş\\r\\n'}, {'ad': 'senaryolar/demo.json', 'icerik': '{\"sentetik\":true}\\n'}]\nManifesto: [{'ad': 'metin.txt', 'bayt': 4, 'sha256': '0000000000000000000000000000000000000000000000000000000000000000'}, {'ad': 'senaryolar/demo.json', 'bayt': 18, 'sha256': '0000000000000000000000000000000000000000000000000000000000000000'}]\n"
+    ]
+  ],
+  "error": null
+}

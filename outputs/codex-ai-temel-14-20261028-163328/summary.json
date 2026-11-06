@@ -1,0 +1,366 @@
+[
+  {
+    "name": "solution",
+    "okay": true,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+        },
+        {
+          "ok": true,
+          "msg": "iki gerçek şemalı model çağrısı tamamlandı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek model JSON'u katı doğrulamadan geçti"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek istekte JSON Schema ve CPU sınırı kullanıldı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek model JSON'u katı doğrulamadan geçti"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek istekte JSON Schema ve CPU sınırı kullanıldı"
+        },
+        {
+          "ok": true,
+          "msg": "yalnız deneyin sahipli Ollama süreci kapandı"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek /api/ps ölçümünde deney modeli GPU belleği kullanmadı"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "temel-14-schema",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "qwen3:4b-instruct-2507-q4_K_M",
+          "ozet": null,
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-temel-14-20261028-163328\\test-data\\ai-kanit\\temel-14-schema-1793194447050.json",
+          "zaman": "2026-10-28T16:34:06+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "`kati_model_jsonu` adında bir fonksiyon tanımlamalısın",
+          "got": "bulunamadı",
+          "exp": "kati_model_jsonu"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "fixed",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "duplicate-hidden",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "bool-coercion",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "allow-extra",
+    "okay": true,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "laboratuvar yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "katı JSON: tam şema, tam bool, uzunluk ve yinelenen anahtar reddi"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş kod/işlev"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: boş sözlük"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sabit gerçek şekilli nesne"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: bilinmeyen alanı düşüren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: sayısal onayı bool'a çeviren"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: yinelenen anahtarı gizleyen"
+        },
+        {
+          "ok": true,
+          "msg": "hatalı çözüm reddedilmeli: Markdown'u sessiz temizleyen"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "run-button",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "Gerçek ham yanıt: {\n  \"deger\": \"PAFTA-BB02D4C6\",\n  \"islem\": \"raporla\",\n  \"onay\": false\n}\nDoğrulama: {'deger': 'PAFTA-BB02D4C6', 'islem': 'raporla', 'onay': False}\nGerçek ham yanıt: {\n  \"deger\": \"PAFTA-708BAF3E\",\n  \"islem\": \"not_ekle\",\n  \"onay\": false\n}\nDoğrulama: {'deger': 'PAFTA-708BAF3E', 'islem': 'not_ekle', 'onay': False}\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": []
+    }
+  }
+]

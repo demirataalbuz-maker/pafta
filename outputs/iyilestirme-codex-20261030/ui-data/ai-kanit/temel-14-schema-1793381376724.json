@@ -1,0 +1,266 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ortam": {
+  "kaynak": "gercek",
+  "arac": "ollama",
+  "cihaz": {
+   "kip": "gpu",
+   "gpu_kilit_bekleme_sn": 0.0
+  },
+  "sunucu": {
+   "adres": "http://127.0.0.1:11434",
+   "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+  },
+  "ollama_surumu": "0.40.11",
+  "model": {
+   "ad": "qwen3:4b-instruct-2507-q4_K_M",
+   "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+   "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+   "boyut": 2497293803,
+   "ayrinti": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen3",
+    "families": [
+     "qwen3"
+    ],
+    "parameter_size": "4.0B",
+    "quantization_level": "Q4_K_M",
+    "context_length": 262144,
+    "embedding_length": 2560,
+    "runner": "ggml"
+   },
+   "yetenekler": [
+    "tools",
+    "thinking",
+    "completion"
+   ],
+   "lisans_ilk_satir": "Apache License"
+  },
+  "model_once_yukluydu": false,
+  "bellek": {
+   "toplam_bayt": 2724116561,
+   "vram_bayt": 2724116561,
+   "baglam": 1024
+  },
+  "temizlik": {
+   "model_bosaltildi": true
+  },
+  "kullanici_sunucu_once": "0.40.11",
+  "kullanici_sunucu_sonra": "0.40.11"
+ },
+ "ayarlar": {
+  "schema": {
+   "type": "object",
+   "properties": {
+    "islem": {
+     "type": "string",
+     "enum": [
+      "not_ekle",
+      "raporla"
+     ]
+    },
+    "deger": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 80
+    },
+    "onay": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "islem",
+    "deger",
+    "onay"
+   ],
+   "additionalProperties": false
+  },
+  "cihaz": "gpu",
+  "num_ctx": 1024,
+  "num_predict": 96
+ },
+ "ciktilar": [
+  {
+   "ham": {
+    "istek": {
+     "model": "qwen3:4b-instruct-2507-q4_K_M",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Return only the requested JSON object. No markdown or commentary."
+      },
+      {
+       "role": "user",
+       "content": "A synthetic note: islem=raporla, deger=PAFTA-637C731F, onay=false. Copy these values into the object.\nJSON schema: {\"type\": \"object\", \"properties\": {\"islem\": {\"type\": \"string\", \"enum\": [\"not_ekle\", \"raporla\"]}, \"deger\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 80}, \"onay\": {\"type\": \"boolean\"}}, \"required\": [\"islem\", \"deger\", \"onay\"], \"additionalProperties\": false}"
+      }
+     ],
+     "stream": false,
+     "format": {
+      "type": "object",
+      "properties": {
+       "islem": {
+        "type": "string",
+        "enum": [
+         "not_ekle",
+         "raporla"
+        ]
+       },
+       "deger": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 80
+       },
+       "onay": {
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "islem",
+       "deger",
+       "onay"
+      ],
+      "additionalProperties": false
+     },
+     "options": {
+      "temperature": 0,
+      "seed": 485634,
+      "num_predict": 96,
+      "num_ctx": 1024
+     },
+     "keep_alive": "2m",
+     "think": false
+    },
+    "ham_yanit": {
+     "model": "qwen3:4b-instruct-2507-q4_K_M",
+     "created_at": "2026-10-30T17:29:35.8457261Z",
+     "message": {
+      "role": "assistant",
+      "content": "{\n  \"deger\": \"PAFTA-637C731F\",\n  \"islem\": \"raporla\",\n  \"onay\": false\n}"
+     },
+     "done": true,
+     "done_reason": "stop",
+     "total_duration": 5646593300,
+     "load_duration": 5083904200,
+     "prompt_eval_count": 155,
+     "prompt_eval_cached_count": 0,
+     "prompt_eval_duration": 107909000,
+     "eval_count": 38,
+     "eval_duration": 445388000
+    },
+    "yeniden_denemeler": [],
+    "icerik": "{\n  \"deger\": \"PAFTA-637C731F\",\n  \"islem\": \"raporla\",\n  \"onay\": false\n}",
+    "sure_ms": 5648,
+    "beklenen": {
+     "islem": "raporla",
+     "deger": "PAFTA-637C731F",
+     "onay": false
+    }
+   },
+   "dogrulanan": {
+    "deger": "PAFTA-637C731F",
+    "islem": "raporla",
+    "onay": false
+   },
+   "istenen_degerlerle_ayni": true
+  },
+  {
+   "ham": {
+    "istek": {
+     "model": "qwen3:4b-instruct-2507-q4_K_M",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Return only the requested JSON object. No markdown or commentary."
+      },
+      {
+       "role": "user",
+       "content": "A synthetic note: islem=not_ekle, deger=PAFTA-53EA1A45, onay=false. Copy these values into the object.\nJSON schema: {\"type\": \"object\", \"properties\": {\"islem\": {\"type\": \"string\", \"enum\": [\"not_ekle\", \"raporla\"]}, \"deger\": {\"type\": \"string\", \"minLength\": 1, \"maxLength\": 80}, \"onay\": {\"type\": \"boolean\"}}, \"required\": [\"islem\", \"deger\", \"onay\"], \"additionalProperties\": false}"
+      }
+     ],
+     "stream": false,
+     "format": {
+      "type": "object",
+      "properties": {
+       "islem": {
+        "type": "string",
+        "enum": [
+         "not_ekle",
+         "raporla"
+        ]
+       },
+       "deger": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 80
+       },
+       "onay": {
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "islem",
+       "deger",
+       "onay"
+      ],
+      "additionalProperties": false
+     },
+     "options": {
+      "temperature": 0,
+      "seed": 267124,
+      "num_predict": 96,
+      "num_ctx": 1024
+     },
+     "keep_alive": "2m",
+     "think": false
+    },
+    "ham_yanit": {
+     "model": "qwen3:4b-instruct-2507-q4_K_M",
+     "created_at": "2026-10-30T17:29:36.410887Z",
+     "message": {
+      "role": "assistant",
+      "content": "{\n  \"deger\": \"PAFTA-53EA1A45\",\n  \"islem\": \"not_ekle\",\n  \"onay\": false\n}"
+     },
+     "done": true,
+     "done_reason": "stop",
+     "total_duration": 546947000,
+     "load_duration": 5305500,
+     "prompt_eval_count": 155,
+     "prompt_eval_cached_count": 27,
+     "prompt_eval_duration": 44188000,
+     "eval_count": 38,
+     "eval_duration": 473899000
+    },
+    "yeniden_denemeler": [],
+    "icerik": "{\n  \"deger\": \"PAFTA-53EA1A45\",\n  \"islem\": \"not_ekle\",\n  \"onay\": false\n}",
+    "sure_ms": 565,
+    "beklenen": {
+     "islem": "not_ekle",
+     "deger": "PAFTA-53EA1A45",
+     "onay": false
+    }
+   },
+   "dogrulanan": {
+    "deger": "PAFTA-53EA1A45",
+    "islem": "not_ekle",
+    "onay": false
+   },
+   "istenen_degerlerle_ayni": true
+  }
+ ],
+ "sinir": "şema/tür kabulü; semantik doğruluk ve araç yetkisi ayrı; araç yürütülmedi",
+ "kaynak_belge": "https://docs.ollama.com/capabilities/structured-outputs",
+ "pilot": "temel-14-schema",
+ "zaman": "2026-10-30T20:29:36+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 479 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "89e55e0fd4c18fb0bd9493e885fc357cda9228d8fc0cf6f654b12beaf258af9f",
+ "mod": "test"
+}

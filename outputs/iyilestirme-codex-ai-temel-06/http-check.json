@@ -1,0 +1,71 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi çok başlı dikkat işlevini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "gerçek katman: ardışık kafa bölme, kafa boyutuyla ölçek, softmax öncesi maske, sıralı birleştirme ve nedensellik doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kafalar atlamalı bölünüyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: nedensel maske yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: maske softmax'tan sonra"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: √D ile ölçekleme"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kafalar ters sırayla birleşiyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tek kafa"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    },
+    {
+      "ok": true,
+      "msg": "birleşik bağlamın modelin gerçek katman çıktısıyla aynı (en büyük fark 6.6e-07)"
+    },
+    {
+      "ok": true,
+      "msg": "gerçek modelde ortak geçmiş logitleri gelecekteki değişiklikten etkilenmedi"
+    },
+    {
+      "ok": true,
+      "msg": "GERÇEK ÇIKTI (HuggingFaceTB/SmolLM2-135M@93efa2f0): modelle en büyük fark 6.6e-07; katman 4'te son tokenın kafaları ['Ġkeys', 'Ġthe'] tokenlarına bakıyor; son kelime değişince önceki 8 konumun logit farkı 0.0e+00, son konumunki 8.73"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-cok-basli",
+      "kaynak": "gercek",
+      "kabul": true,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-cok-basli-1793367933980.json",
+      "zaman": "2026-10-30T16:45:33+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 1,
+    "first": true,
+    "revealed": false
+  }
+}

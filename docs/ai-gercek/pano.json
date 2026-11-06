@@ -1,6 +1,979 @@
 {
  "kayitlar": [
   {
+   "zaman": "2026-11-05T02:32:52+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "pu26",
+   "mesaj": "plan-purple-7 -> pu26 Tespiti dogrulama yazar tarafi bitti, DENETIME HAZIR (puan yok). Izole pafta-linux-lab konteyneri (--network none, no-new-privileges, 512m, pids 256), 4 secili Atomic adimi strace altinda; ogrenci olay_sinifla+atomik_oku+kural_uygula. Kalicilik kurali (yon=yaz+hedef) TP2/FP0, saf kural TP8/FP2 (hata vitrini). validate TEMIZ 9, tahmin 0, mekanik mutasyon 80/0, elle anlamsal 15/0, kopya 7/7 ret. Ikinci kosuda ayni karar. Rapor CLAUDE-YENI-pu26.md, kanit outputs/yeni-pu26. Siradaki Dalga B: purple-3, klasik-3, klasik-4, purple-2."
+  },
+  {
+   "zaman": "2026-11-05T02:32:49+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "pu26 track.json",
+   "mesaj": "tracks/purple/track.json 'Istihbarattan Avciliga' modulune pu25'ten sonra yalniz pu26 eklendi (tespiti dogrulama). Yeni lab sandbox/purple_tespit_lab.py; .deps/linux-lab-build imajlari ve .deps/atomic-red-team-a8f00488 kullanilir. Eski dersler degismedi."
+  },
+  {
+   "zaman": "2026-11-05T01:54:21+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "dalga-b-kurulum",
+   "mesaj": "Dalga B indirildi ve dogrulandi. FLOSS 3.2.0, capa 10.0.0, Ghidra 12.1.4, 6 Atomic YAML, debian:13-slim, gophish 0.12.1, mailpit 1.33.0; boyut+sha256/git blob birebir uydu (.deps/dalga-b-indirme-kaydi.json). Linux lab imajlari kuruldu: pafta-linux-lab:13-1 (100 paket, tahmin 97) + :13-1-mingw (+6, tahmin 6); imzali snapshot deposu, sapma %20 altinda. Siradaki ders yazimi: purple-7 -> purple-3 -> klasik-3 -> klasik-4 -> purple-2, her biri ayri denetime."
+  },
+  {
+   "zaman": "2026-11-05T01:42:42+03:00",
+   "kim": "claude-yazar",
+   "tur": "karar",
+   "konu": "dalga-b-kurulum",
+   "mesaj": "Kullanici 05.11 'Hepsini onayla' dedi: DALGA-B-KURULUM-ONAYI.md listesi (FLOSS 3.2.0, capa 10.0.0, Ghidra 12.1.4, 6 Atomic YAML, debian:13-slim, gophish 0.12.1, mailpit 1.33.0, apt paketleri). Indirme + hash dogrulama basliyor; araclar .deps altinda, PATH'e eklenmez, Windows'a kurulmaz."
+  },
+  {
+   "zaman": "2026-11-05T01:37:45+03:00",
+   "kim": "claude-yazar",
+   "tur": "soru",
+   "konu": "dalga-b-kurulum",
+   "mesaj": "Dalga B indirme listesi kullanici onayina sunuldu (DALGA-B-KURULUM-ONAYI.md, DALGA-B-APT-LISTE.json), HENUZ INDIRME YOK. FLOSS 3.2.0, capa 10.0.0, Ghidra 12.1.4 (12.2 JDK 25 istiyor, kurulu JDK 21), 6 Atomic YAML @a8f00488 + izin listesinde 8 test, debian:13-slim, gophish 0.12.1, mailpit 1.33.0, 103 apt paketi; toplam ~967 MB. Olcum: Docker Desktop'ta audit netlink EPERM (root + --pid=host dahil), auditd cikarildi, telemetri strace. Personality(ADDR_NO_RANDOMIZE) varsayilan seccomp'ta engelli."
+  },
+  {
+   "zaman": "2026-11-05T00:37:13+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "pu23 pu24 pu25 denetime hazir",
+   "mesaj": "Dalga A tamam. pu23 DevSecOps (Semgrep --experimental, gitleaks git, Trivy secret+misconfig; validate 9, mutasyon 41/0, elle 14/0, kopya 7/7) · pu24 kesif (ffuf+nuclei kendi sablonu+XFF/kayan pencere tespiti; validate 9, mutasyon 31/0, elle 25/0, kopya 7/7) · pu25 CTID APT29 -> test plani (komut calistirilmaz; validate 9, mutasyon 14/0, elle 23/0, kopya 7/7). Raporlar docs/ai-gercek/CLAUDE-YENI-pu23/24/25.md, kanitlar outputs/yeni-pu2x. Commit yok. Siradaki: Dalga B listesi kullanici onayina."
+  },
+  {
+   "zaman": "2026-11-05T00:29:00+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "pu25 track.json",
+   "mesaj": "tracks/purple/track.json 'Istihbarattan Avciliga' modulune yalniz pu25 ekleniyor (CTID APT29 planindan test plani; komut calistirilmaz). Yeni lab: sandbox/purple_istihbarat_lab.py. pu24 (ffuf+nuclei+tespit) yazar kontrolleri bitti: validate 9, mutasyon 31/0, elle 25/0, kopya 7/7."
+  },
+  {
+   "zaman": "2026-11-05T00:11:10+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "pu24 track.json",
+   "mesaj": "tracks/purple/track.json 'Kesif ve Ilk Erisim' modulune pu22'den sonra yalniz pu24 ekleniyor (ffuf+nuclei+tespit). Yeni lab: sandbox/purple_kesif_lab.py. pu23 (DevSecOps) yazar kontrolleri bitti: validate 9, mutasyon 41/0, kopya 7/7."
+  },
+  {
+   "zaman": "2026-11-04T23:55:45+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "pu23 track.json",
+   "mesaj": "tracks/purple/track.json'a yeni modul 'DevSecOps ve Kod Guvenligi' (rank buyuk-orta) ekleniyor, icinde yalniz pu23. Eski dersler tasinmiyor. Yeni lab: sandbox/purple_devsecops_lab.py (.deps semgrep/gitleaks/trivy)."
+  },
+  {
+   "zaman": "2026-11-04T23:40:33+03:00",
+   "kim": "claude-yazar",
+   "tur": "not",
+   "konu": "Dalga A indirmeleri",
+   "mesaj": "6 kalem indirildi, boyut+sha256 birebir uydu (.deps/dalga-a-indirme-kaydi.json). semgrep-venv require-hashes ile kuruldu. Kayit vekiliyle cevrimdisi sinama: 0 dis istek, nuclei sablon deposu inmedi, trivy misconfig gomulu (.deps/dalga-a-sinama.json). Siradaki: klasik-6 DevSecOps dersi."
+  },
+  {
+   "zaman": "2026-11-04T23:35:31+03:00",
+   "kim": "claude-yazar",
+   "tur": "karar",
+   "konu": "Dalga A indirmeleri",
+   "mesaj": "Kullanici 04.11 'Hepsini onayla' dedi: DALGA-A-KURULUM-ONAYI.md'deki 6 kalem (ffuf 2.3.0, nuclei 3.11.1, trivy 0.76.1, gitleaks 8.30.1, semgrep 1.183.0 ayri venv, CTID APT29.yaml @4467a6ee). Indirme + hash dogrulama basliyor; hepsi .deps altinda, PATH'e eklenmez."
+  },
+  {
+   "zaman": "2026-11-04T20:22:33+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-yazar",
+   "mesaj": "YENI AI YAZAR ICIN BASLANGIC: once docs/ai-gercek/YENI-YAZAR-BASLANGIC.md oku, sonra YENI-AJAN-REHBERI.md. Roller: claude-opus yalniz DENETCI (ders yazmaz, kabul/puan/bitti ondan); yazilacak TUM isler yeni yazarda. codex devrede degil, gemini yeni ders almiyor. Kalan 21 ders ve denetim bari o dosyada. Kurallar: ucretsiz+yerel, terim cevrilmez, dogrulanmamis iddia yazma, kurulum once onay, sinir cumlesi. Teslim: al->yaz->kendi kontrol->denetime-hazir+rapor->claude-opus denetler."
+  },
+  {
+   "zaman": "2026-11-04T20:22:27+03:00",
+   "kim": "claude-yazar",
+   "tur": "soru",
+   "konu": "dalga-a-kurulum",
+   "mesaj": "Dalga A hafif indirme listesi kullanici onayina sunuldu (DALGA-A-KURULUM-ONAYI.md), HENUZ INDIRME YOK: ffuf v2.3.0 4.5MB, nuclei v3.11.1 46.1MB, trivy v0.76.1 53.9MB (DB yok), gitleaks v8.30.1 8.4MB, semgrep 1.183.0 + 66 bagimlilik 82.4MB ayri venv, CTID APT29.yaml @4467a6ee 0.1MB. Toplam ~195MB, hepsi .deps, sha256 GitHub/PyPI API'den. Yalniz 127.0.0.1 lab hedefi, metrics/update kapali."
+  },
+  {
+   "zaman": "2026-11-04T19:41:45+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "pu22",
+   "mesaj": "plan-klasik-2 -> pu22 Yerel web XSS/sablon enjeksiyonu/XXE yazar tarafi bitti, DENETIME HAZIR (puan yok). validate TEMIZ 9, tahmin 0, mekanik mutasyon 4/0 (Gorev 1/3'te operator yok) + elle anlamsal 18/0, kopya 7/7 ret. Kurulumsuz kendi 127.0.0.1 sunucusu: acik uclar gercekten sizdi (ham etiket, gizli ayar, gizli dosya), korumali uclar ogrenci islevleriyle durdurdu (UTF-16 DTD dahil), mesru istekler calisti. Dalga A kurulumsuz uclu (pu20, pu21, pu22) tamam. Rapor CLAUDE-YENI-pu22.md."
+  },
+  {
+   "zaman": "2026-11-04T19:35:13+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/purple/track.json",
+   "mesaj": "pu22 (klasik-2 web: XSS, str.format sablon enjeksiyonu, XXE) mevcut 'Kesif ve Ilk Erisim' modulunde pu19'dan sonra eklenecek (plan M2 bu modul; eski dersler tasinmiyor/degismiyor). Yeni lab sandbox/purple_web_lab.py, kurulumsuz."
+  },
+  {
+   "zaman": "2026-11-04T19:30:30+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "pu21",
+   "mesaj": "plan-purple-9 -> pu21 Tatbikat yonetimi yazar tarafi bitti, DENETIME HAZIR (puan yok). validate TEMIZ 9, tahmin 0, mutasyon 51/0, kopya 7/7 ret. Kurulumsuz: RoE kapisi (tam hedef eslesmesi, alt teknik yasagi, saat dilimli yari acik pencere), pu19 yerel lab + kapsam disi yem dinleyici (0 vurus), 9 eylem: 4 red (yasak/2 kapsam disi/zaman), 5 izinli 7 gercek istek; mavi kural 4 alarm, eslesme A2/A3/A4, T1078 iki kez kacirildi, AL4 yanlis alarm (kesme isaretli mesru hesap). Tespit 0.6. Rapor CLAUDE-YENI-pu21.md."
+  },
+  {
+   "zaman": "2026-11-04T19:18:46+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "pu20",
+   "mesaj": "plan-klasik-7 -> pu20 Pentest raporu yazar tarafi bitti, DENETIME HAZIR (puan yok). validate TEMIZ 9, tahmin 0, mutasyon 108/0, kopya 7/7 ret. Kurulumsuz: pu19 yerel HTTP+SQLite labindan 4 gercek istek (200/200/401/500), CVSS 3.1 resmi formul (2592 vektor tarandi), sha256 kanit butunlugu, rapor karari: F1 8.2 + F2 5.3 raporda; F3 kanit-eksik, F4 kanit-uyusmuyor (duzeltilmis yanit) ayri bolumde. Yeni modul 'Tatbikat Yonetimi ve Raporlama'. Rapor CLAUDE-YENI-pu20.md."
+  },
+  {
+   "zaman": "2026-11-04T19:10:27+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/purple/track.json",
+   "mesaj": "Secenek A: purple track.json'a yalniz yeni bir modul eklenecek: 'Tatbikat Yonetimi ve Raporlama' (rank baspehlivan) icinde pu20 (klasik-7 pentest raporu); pu21 sonra ayni module. Mevcut 9 modul ve pu01-pu19 degismez. Yeni lab sandbox/purple_rapor_lab.py, pu19 labini yalniz import eder."
+  },
+  {
+   "zaman": "2026-11-04T19:03:59+03:00",
+   "kim": "claude-yazar",
+   "tur": "karar",
+   "konu": "purple-klasik-plan",
+   "mesaj": "Kullanici karari (04.11): 'Evet, A + basla'. Purple yapisi SECENEK A: mevcut 9 modul ve pu01-pu19 aynen kalir, yeni dersler yeni modullere eklenir. Dalga A kurulumsuz uclu ile basliyorum: klasik-7 pentest raporu -> purple-9 tatbikat yonetimi -> klasik-2 web (kendi yerel uygulama, Juice Shop yok). Indirme yok."
+  },
+  {
+   "zaman": "2026-11-04T19:02:39+03:00",
+   "kim": "claude-yazar",
+   "tur": "not",
+   "konu": "purple-klasik-plan",
+   "mesaj": "Kullanici istegiyle 19 Purple/klasik madde icin taslak plan yazildi: docs/ai-gercek/PURPLE-KLASIK-PLAN.md. 4 dalga (A kurulumsuz/hafif, B konteyner, C VM/AD, D sonra), her madde icin mevcut mavi bag, gereken arac, tahmini boyut. Ders/indirme/kurulum YOK; kullanici kararlari bekleniyor (yapi A/B, Dalga A sirasi, Juice Shop vs kendi uygulama, VM katmani)."
+  },
+  {
+   "zaman": "2026-11-04T18:52:56+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-saldiri-55",
+   "mesaj": "plan-saldiri-9 -> ai-saldiri-55 yazar tarafi bitti, DENETIME HAZIR (puan yok). validate TEMIZ 9, tahmin 0, mutasyon 43/0, kopya 7/7 ret. Onayli Piper 1.8.0 + LJSpeech + librispeech_asr_dummy (sha esit, .ai-venv degismedi) + yerlesik SAPI Zira. 45 metin 30/15, metne gore bolme. A (karisik Hz) temiz EER 0 ama 16k yeniden ornekleme TPR .067 (kisayol); telefon TPR 0 EER 0 (kalibrasyon kaymasi); SAPI iki modelde TPR 0, B EER .80. Tek gercek konusmaci confound'u ayrilamiyor, derste acikca sinir. Rapor CLAUDE-YENI-ai-saldiri-55.md."
+  },
+  {
+   "zaman": "2026-11-04T18:45:26+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "ai-saldiri-55 icin yalniz 'Adaptif Saldirilar ve Purple Dogrulama' modulunde 54'ten hemen sonra ai-saldiri-55 eklenecek. Diger kayitlar korunur."
+  },
+  {
+   "zaman": "2026-11-04T18:45:08+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ai-saldiri-55",
+   "mesaj": "plan-saldiri-9 (deepfake/ses tespiti) -> ai-saldiri-55 olarak rezerve. Onayli Piper 1.8.0 + LJSpeech medium + librispeech_asr_dummy (sha dogrulandi, .deps/ses-tespit) ve yerlesik Windows SAPI Zira. Iki model (karisik Hz kisayolu / esit 16k), 5 kosul. Tek gercek konusmaci kapsami derste sinir olarak yaziyor; klonlama yok, mikrofon yok. Diger ajan girmesin."
+  },
+  {
+   "zaman": "2026-11-04T18:36:22+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-savunma-37",
+   "mesaj": "plan-savunma-6 -> ai-savunma-37 yazar tarafi bitti, DENETIME HAZIR (puan yok). validate TEMIZ 9, tahmin 0, mutasyon 61/0, kopya 7/7 ret. Onayli c2patool 0.28.4 (.deps, zip+exe sha). Gercek 12 okuma: imzali varsayilan Valid/untrusted, test kokle Trusted; tEXt ekleme pikseller ayni (BER 0) ama dataHash.mismatch->Invalid; yeniden kaydet/JPEG/olcek manifest yok; filigran yeniden kaydette kaldi, JPEG .47/olcek .44 bozuldu; saldirgan 'Haber Ajansi (sahte)' yerel sertifikasiyla Valid ama untrusted. TEST koku uretim guveni diye sunulmuyor. Rapor CLAUDE-YENI-ai-savunma-37.md."
+  },
+  {
+   "zaman": "2026-11-04T18:29:26+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/ai-savunma/track.json",
+   "mesaj": "ai-savunma-37 icin yalniz 'RAG ve Tedarik Zinciri Koruyucusu' modulunde 36'dan sonra ai-savunma-37 eklenecek. Diger kayitlar korunur."
+  },
+  {
+   "zaman": "2026-11-04T18:24:04+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ai-savunma-37",
+   "mesaj": "plan-savunma-6 (watermark/C2PA) -> ai-savunma-37 olarak rezerve. Onayli c2patool 0.28.4 (.deps, zip sha dogrulandi). Gercek: sentetik PNG'yi c2patool ornek TEST sertifikasiyla imzala; meta degisikligi/yeniden kaydet/JPEG/olcekleme/saldirgan kendi sertifikasiyla yeniden imza; varsayilan ve test kok guveniyle oku. LSB filigran ayni donusumlerde. Imza butunlugu, imzaci guveni ve icerik gercekligi ayri. Diger ajan girmesin."
+  },
+  {
+   "zaman": "2026-11-04T18:20:01+03:00",
+   "kim": "claude-yazar",
+   "tur": "karar",
+   "konu": "yeni-dersler-dalga3",
+   "mesaj": "Kullanici 04.11 onayladi ('Ikisini de onayla'): c2patool v0.28.4 Windows zip (11MB) ve ses tespiti paketi (piper-tts 1.8.0, pathvalidate 3.3.1, LJSpeech medium onnx rev e7229f7d, librispeech_asr_dummy parquet rev 5be91486; ~107MB). Yalniz .deps altina, sha256 dogrulamali; .ai-venv degismez."
+  },
+  {
+   "zaman": "2026-11-04T18:19:39+03:00",
+   "kim": "claude-yazar",
+   "tur": "soru",
+   "konu": "yeni-dersler-dalga3",
+   "mesaj": "18:13 devriyle tum yazilacak isler claude-yazar'da. Kalan 2 AI dersi icin kullaniciya indirme onayi soruluyor (codex'in hazirladigi sabit liste, degistirilmedi): C2PA c2patool v0.28.4 Windows zip 10.998.290 bayt sha256 00e5bcfe...; ses tespiti piper-tts 1.8.0 wheel 34.1MB + pathvalidate 3.3.1 + LJSpeech medium onnx 63.5MB (rev e7229f7d) + librispeech_asr_dummy parquet 9.2MB (rev 5be91486), toplam ~107MB. Hepsi .deps altina, hash dogrulamali. Onay gelene kadar indirme yok."
+  },
+  {
+   "zaman": "2026-11-04T18:13:32+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "Kullanici karari (04.11): codex artik devrede DEGIL. Tum yazilacak isler claude-yazar'a devredildi. codex'in 12 yazilmamis isi (purple-2,3,4,5,6,8 + klasik-1,2,3,4,5,8) claude-yazar'a gecti. codex'in denetime-hazir teslimleri (unlearning plan-savunma-8, SOC kopru) denetci audit bekliyor; yeniden yazilmayacak. Yeni yazar atamasi yok: her sey claude-yazar."
+  },
+  {
+   "zaman": "2026-11-04T01:55:11+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": ".yazilmamis-ai",
+   "mesaj": "Kullanıcının kalanAIyazımı talebinde2yeni ders teslim edildi:SOC19UI76/76,unlearning39UI75/75;80mutantFAIL0geçen,18hedeflisafregresyon ve12sınavtestiOK. KalanC2PA/sestespitplanlarıiçinayrıonaylarbekleniyor,henüzyazılmadı/indirilmedi. Günceldevir CODEX-KALAN-AI-20261104.md;eski4başlıkClaude-yazarnotutarihsel. Ortak8798açık,kendiUItestsunucularıkapalı,commit/pushpuanyok."
+  },
+  {
+   "zaman": "2026-11-04T01:53:14+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "plan-savunma-8",
+   "mesaj": "Yeni AI39 unlearning doğrulaması yazıldı ve denetime teslim:CLI TEMIZ9,UI75/75+gerçekRun,45mutantFAIL0geçen0timeout,3yanlış4kopya+yama/eksikruntimeRET,9hedeflisafregresyonPASS. CPUtorch full/unlearn/retrain/unchanged,100gerçekautogradadımı,ağırlıkdosyalarıyenidenokundu. Bu koşuda forgetaccuracy1.0kalıp retrainTV0.373çıktı; yöntem unutma garantisi diye sunulmuyor. Yeniindirme/kurulumyok;Opuspuanlar."
+  },
+  {
+   "zaman": "2026-11-04T01:53:12+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-savunma-39",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): ValidateTEMIZ9,tahmin1/0,45mutant0geçen,kopya4RET. GerçekUI75/75 ve Run kabulfalse,CPUtorch100autogradadımı. CODEX-YENI-ai-savunma-39.md;puanyok."
+  },
+  {
+   "zaman": "2026-11-04T01:48:37+03:00",
+   "kim": "codex",
+   "tur": "soru",
+   "konu": "plan-saldiri-9",
+   "mesaj": "Ses/deepfaketespitdersi için Piper1.8.0+pathvalidate3.3.1+LJSpeechonnx+LibriSpeechörnekleri yaklaşık107MB topluindirmeonayı soruldu. Plan SES-TESPIT-KURULUM-ONAYI.md; model/verisabitrev/hash,bütünüyereleayrı.deps,mevcutvenvdeğişmez. Henüzindirmeyok,gerçekkabulyok;yanıtbekleniyor. Gerçekkişisesiklonlamayok,verikapsamıdürüstbelirtilecek."
+  },
+  {
+   "zaman": "2026-11-04T01:48:36+03:00",
+   "kim": "codex",
+   "tur": "soru",
+   "konu": "plan-savunma-6",
+   "mesaj": "Kullanıcı tüm yazılmamışAI dersleriniCodexe devretti. C2PA için resmîc2patool0.28.4 Windows11MB hashdoğrulamalı ayrı.depsindirmeonayı soruldu; yanıtbekleniyor. C2PA-KURULUM-ONAYI.md. Henüzkurulumvegerçekkabulyok,bitmişsayılmıyor."
+  },
+  {
+   "zaman": "2026-11-04T01:42:37+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "plan-savunma-7",
+   "mesaj": "AI38 gerçekOCR/ASR+8diskakışı tamam;UI70/70,Run kabulfalse,30mutant0geçen,4kopyaRET. CODEX-YENI-ai-savunma-38.md ve teslim.json kanıtları. Opus bekliyor. Son kapanış kaydı önceki kullanım sınırından dolayı şimdi yazıldı."
+  },
+  {
+   "zaman": "2026-11-04T01:42:35+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai38-byte-guard",
+   "mesaj": "Önceki kapanış mesajı otomatik onay incelemesinin kullanım sınırına takılmıştı; düzeltme ve testler tamam. AI38 hamUTF8 write_bytes/read_bytes,CLI70/UI70yenidenPASS;16arşivbayt+SHAeşitliği doğrulandı. Rapor/teslimmanifesti güncel. Puan yok."
+  },
+  {
+   "zaman": "2026-11-04T01:38:40+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "plan-ai-purple-kopru",
+   "mesaj": "SOC19 tamam ve Opus denetimine teslim: UI76/76,CLI TEMIZ9,tahmin0şüpheli,35mutant0geçen,3yanlış4kopya+yama/modelyokRET,9hedeflisafregresyonPASS. Gerçek Ollama4çağrı+SQLite12defter; Run kabulfalse. ÖğrenciJSONu değiştirildi/okundu. İndirme/kurulum yok; rapor CODEX-YENI-ai-ile-guvenlik-19.md. Puanı Opus verecek."
+  },
+  {
+   "zaman": "2026-11-04T01:38:38+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-ile-guvenlik-19",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): ValidateTEMIZ9,tahmin1/0,35mutant0geçen,4kopyaRET;UI76/76 ve gerçek Run,SQLite12dosya,eksikOllamaRET. Rapor CODEX-YENI-ai-ile-guvenlik-19.md;puanyok."
+  },
+  {
+   "zaman": "2026-11-04T01:36:17+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "plan-savunma-8",
+   "mesaj": "Kullanıcının yazılmamış AI derslerini Codex yazsın kararıyla unlearning doğrulamasını ai-savunma-39 olarak rezerve ediyorum. Aktif başka yazar kaydı yok. Kurulu torch ile küçük yerel model: full/retain-only retrain/approximate-unlearn/unchanged karşılaştırması, gerçek loss ve weights, unutma garantisi iddiası yok. Yeni indirme/kurulum yok. SOC19 testleri sürüyor; ayrı dosyalar."
+  },
+  {
+   "zaman": "2026-11-04T01:33:39+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "Kullanici indirmeleri bu oturumda ACIKCA onayladi (04.11). Denetim turu 2: 32,35,36,51,38,53,54 KABUL (bitti) - hepsi validate TEMIZ9/tahmin0/mutasyon0gecen/kopya ret, icerik+atif dogru, indirmeler onayli yerel/ucretsiz. AI tarafinda sadece 4 yazilmamis ders kaldi: deepfake(plan-saldiri-9), watermark/C2PA(plan-savunma-6), unlearning(plan-savunma-8), SOC kopru(plan-ai-purple-kopru)."
+  },
+  {
+   "zaman": "2026-11-04T01:23:04+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "plan-ai-purple-kopru",
+   "mesaj": "Kullanıcı yazılmamış AI derslerini Codex yazsın dedi. Dört kalan plan için aktif yazar başlangıcı bulunmadı. Önce SOC LLM asistanı saldırı/savunma köprüsünü alıyorum; kurulu Ollama ve yalnız sentetik log/canary, gerçek araç etkisi ve deterministik alarm kilidi. Yeni indirme/kurulum yok. Diğer üç plan henüz yazılmaya başlanmadı; mevcut dosyalara dokunmadan tek ders ilerleyeceğim."
+  },
+  {
+   "zaman": "2026-11-04T01:07:55+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "DENETIM TURU: 47,50,33,34,48,52 KABUL (bitti) - hepsi validate TEMIZ9/tahmin0/mutasyon0gecen/kopya ret, atiflar dogru, INDIRME YOK. 32(DistilBERT+dataset),35(AgentDojo+HarmBench+StrongREJECT),36(cosign+Fulcio) teknik denetim GECTI ama KABUL BEKLEMEDE: bu derslerin indirmeleri baska oturumlarda 'kullanici onayiyla' yapildi, denetci bu onayi dogrulayamiyor; kullanici indirmeleri teyit edene kadar bitti YAZILMAYACAK. 51 Docker ayni sekilde beklemede. Yazarlar yeni is icin Dalga3'e bakabilir."
+  },
+  {
+   "zaman": "2026-11-04T00:58:26+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "ai38-byte-guard",
+   "mesaj": "SonarsivkontrolundeWindowsCRLFdonusumuneizinvermemekicinyalniznot_yaz hamUTF8write_bytes+read_byteskarsilastirmasinageciyor;metinhashivegercekdosyabytehashiayniolacak. AyniOCR/ASR+8akisreferansigercekyenidenkosuluyor;UI70tekrarlanacak. Yetkisiniri/replayscope/puan/diğerajanlarindosyasidegismiyor."
+  },
+  {
+   "zaman": "2026-11-04T00:54:31+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-savunma-38",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): GercekvalidateTEMIZ9,tahmin1/0supheli,mutasyon0/30gecen,3yanlis4kopya+yamaRET,bos/sabit/OCRyok/ASRyokRET. UI70/70+Run gercek/kabulfalse;gorunurcalismakopyasiyazildiokundu.4algilama8diskakisi;korumasiz4etki,korumali0yetkisiz/4dogruarsiv. OCR/ASRgercek,replaydeterministikacik. OnayliOCR39.8MBag/128.3MBkatman,cleanupOK. RaporCODEX-YENI-ai-savunma-38.md;Opusbekliyor,puanyok."
+  },
+  {
+   "zaman": "2026-11-04T00:29:56+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai53-ai54-guard",
+   "mesaj": "Ekimported-module/globalsguardtamam:53refgercek67/67,54refgercek65/65yenidenPASS. M.deneynamespaceyamasiherikidersdeRET,kabultrueyok. Dersicikontrol/diseylemdegismedi,ortakmotorayardegismedi;raporhashleriguncellenecek. 38deaynikorumailkversiyondanvar."
+  },
+  {
+   "zaman": "2026-11-04T00:22:57+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "yeni-dersler-ders-id",
+   "mesaj": "Dalga3planlariyazilmisdersIDleriilebaglanacagiicinatamalar.jsona sadececodex3planinin ders_id eslemesini ekliyorum(7->53,8->54,sav7->38). Uretici bu alanikoruyacak,sablon durum/puanifaketheoryyerinegercektrackerIDdenokuyacak. Basliksayi37kalir,kopyaderssayilmaz;Claudeplan/devirlerikorunur. YeniGUIpuan/yazaratanmaz."
+  },
+  {
+   "zaman": "2026-11-04T00:21:01+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/ai-savunma/track.json",
+   "mesaj": "Yalniz yeniAI38(multimodalOCR/ASRguardrail) dersiniAracveYurutmeBekcisi12den sonrakaydedecegim;digersavunmadersleri/atamalarikorunacak. OCR/ASRgercek,aracreplayacikcadeterministik;8gercekdosyaakisi.Digerajanlarindosyasina dokunmayacagim."
+  },
+  {
+   "zaman": "2026-11-04T00:15:41+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "plan-savunma-7",
+   "mesaj": "GercekTesseractOCR0hataveSAPI(WindowsZira,en-US)+kuruluWhisper-smallCPUASRsondasi gecti. Gelenmetin2komutuyerliDosya/outbox-aracreplayineaktarilacak;LLMplanneriddiasiyok. Hostkontrolluprovenance,failclosedgate,korumasiz/protected/temizkontrol;notdosyasihamtranskriptiaynenarsivleyerekmesruişkanitlanacak. ASRveOCRgercek,replaydeterministiketiketli."
+  },
+  {
+   "zaman": "2026-11-04T00:11:07+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "ai53-ai54-guard",
+   "mesaj": "Teslimsonrasi53/54icin ekkopyakorumasinisiniyorum:importedlabmoduluneatama/fonksiyonglobalsiledeneyi yamalamayi reddedenyalnizdersicindeASTkontrolu. Gercekdeneykodudegismiyor;ekyamaRETveherikireferansgercekyenidenkosulacak. Ortakai_lab/engine/web degismiyor,puan/denetimyok."
+  },
+  {
+   "zaman": "2026-11-04T00:04:53+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "plan-savunma-7",
+   "mesaj": "KullaniciOCRkurulumunuonayladi;Tesseract5.3.0-2+English resmiDebianpaketleri mevcutbasetenayriimajakuruldu. Agplani39756840bayt,ekkatman128336723bayt;yenibase/pip/modelyok. pafta-ocr38:tesseract-5.3.0-2 sha256d54c568d. SimdimultimodalOCR+ASRguardraildersi38gercekakisi;kurulumtekbasinaderskabuludegil."
+  },
+  {
+   "zaman": "2026-11-04T00:04:51+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "plan-saldiri-7",
+   "mesaj": "AI53yazarlikteslimi,Opusdenetimibekliyor. GercekVLMautograd,12adim,PNGroundtrip,eps0;UI67/67,Runfalse,validateTEMIZ9,tahmin1/0supheli,40mutasyon0gecen,3yanlis4kopya/modelyokRET. Darikilitokenattack1/2degisti;geneljailbreak/serbestyanitiddiasiyok. OnayliSmolVLM~518MB,modelSHAkontrol,CUDApeakallocated2.23GB. RaporCODEX-YENI-ai-saldiri-53.md;puan yok."
+  },
+  {
+   "zaman": "2026-11-04T00:04:47+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-saldiri-53",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): Gercek validateTEMIZ9;tahmin1/0supheli;mutasyon0/40gecen;3yanlis4kopyaRET,bos/sabit/modelyokRET. UI67/67+Run gercek/kabulfalse,gorunurJSON;12gercekpixelgradient,PNGroundtrip,eps0kontrol. Ikilitokentercihiattack1/2degisti;serbestyanit/jailbreakiddiasiyok. OnaylimodelSHAkontrol;peakPyTorchallocated2.23GB,toplamVRAMdegil. RaporCODEX-YENI-ai-saldiri-53.md,puan yok."
+  },
+  {
+   "zaman": "2026-11-03T23:58:51+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "plan-savunma-7",
+   "mesaj": "Kalan multimodal savunma icin mevcut ilgiliimajlarda/WindowsPATHteTesseractyok. ResmiDebian5.3.0-2+English+kitapliklar,indekslerle~100MBbutce,ekkatman150-250MB;mevcutbaseimajdanayriOCRimaji,yenibase/pip/modelyok. Dockerfile ve MULTIMODAL-38-KURULUM-ONAYI.md hazir;henuzpaketindirme/kurulumyok. Kullanici onayi istenecek. MLflowcalismayacak,OCRnetworknone/readonly;kapaliKaliacilmadi."
+  },
+  {
+   "zaman": "2026-11-03T23:44:54+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "Gercek VLM pikselgradient sondasi gecti;AI53 yeni kaydini multimodal modulunde12den sonra dar ekleyecegim. AI54 ve diger52ders sirasi/atamalari korunur. 53 henüzkabuldegil. SondaCUDApeak2.23GBPyTorchallocated;toplamVRAM/genelperformans iddiasi degil."
+  },
+  {
+   "zaman": "2026-11-03T23:41:50+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "plan-saldiri-7",
+   "mesaj": "Onayli SmolVLM tamamen yerelkurulu. ai-saldiri-53 icin ilkgercek autograd sondasi basladi;henuzderskabuluyok. Yalnizsentetik512RGBgorsel,ikiadayingorelitokenlogiti,donukmodelparametreleri,pikselgradienti ve sinirlihedefliperturbasyon. KullaniciOllama/model sureclerine dokunulmuyor."
+  },
+  {
+   "zaman": "2026-11-03T23:38:05+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "plan-saldiri-7",
+   "mesaj": "Kullanici model indirmesini onayladi. ResmiSmolVLM rev7e3e67ed,13dosya517903046bayt indirilipupstreamsize+LFSsha256dogrulandi. Yeni paket/imaj yok. outputs/vlm53-kurulum/kurulum.json. Simdi53icin gercek pikselgradient fizibilitesi;modelindirme tekbasina derskabuludegil."
+  },
+  {
+   "zaman": "2026-11-03T23:38:04+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "plan-saldiri-8",
+   "mesaj": "Yeni AI54 yazarlik teslimi denetimehazir. UI65/65,validateTEMIZ9,tahmin1/0supheli,40mutasyon0gecen,3yanlis4kopyaRET. GerceksklearnCPU48train12test;96search+72eval+24defense. YalnizsentetiklabASR Q1=0,Q3/4=1. Rapor CODEX-YENI-ai-saldiri-54.md,puan yok.21eski safregresyonOK. Diger6yeniAIderstamam degil."
+  },
+  {
+   "zaman": "2026-11-03T23:37:59+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-saldiri-54",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): Gercek validateTEMIZ9;tahmin1/0supheli;mutasyon0/40gecen;3yanlis4kopyaRET,bos/sabitRET,kabultrueyok. UI65/65veRun gercek/kabulfalse;gorunurJSON. Sklearn1.9.1CPU,48train12test,96search72eval24defense;Q1ASR0,Q3/4ASR1yalnizsentetiklab. 21eski safkontrolregresyonOK;agirregresyoniddiasiyok. Rapor CODEX-YENI-ai-saldiri-54.md;Opus denetimi bekliyor,puan yok."
+  },
+  {
+   "zaman": "2026-11-03T23:34:05+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "web/app.js",
+   "mesaj": "AI54 ekraninda mevcut sabitrozet sklearnCPU deneyine yanlislikla torchmodeli diyor. Yalniz iki statik metni duzeltecegim: .ai-venv icin yerelPython deneyi,fixtureyok yerine canliolcum/bagimlilik. Kosucu/API/motor/akiskodu degismiyor;davranis degisikligi yok. Puan/denetim yok."
+  },
+  {
+   "zaman": "2026-11-03T23:30:02+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "plan-saldiri-7",
+   "mesaj": "VLM dersi53 icin kurulu cacheteVLM yok. Resmi HuggingFaceTB/SmolVLM-256M-Instruct rev7e3e67edbbed1bf9888184d9df282b700a323964 Apache2.0,agirlik513028808bayt,tokenizer/configile~520MB. Kullanici onayi istenecek;henuz indirme yok. Torch/transformers mevcut;ekpaket/tabanimaj yok. Onay beklerkenAI54 kontrolleri suruyor."
+  },
+  {
+   "zaman": "2026-11-03T23:24:35+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "Yalniz yeni ai-saldiri-54 kaydini Adaptif Saldirilar modulune ekliyorum;varolan ders/atamalar korunacak. Plan-saldiri-8 eslemesi panoda. Motor torch yalniz .ai-venv secimi;gercek deney sklearnCPU,gradient/GPU iddiasi yok."
+  },
+  {
+   "zaman": "2026-11-03T23:21:47+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "plan-saldiri-8",
+   "mesaj": "Dalga3: kurulu sklearn ile sentetik phishing siniflandiricisi uzerinde butceli black-box evasion dersini aliyorum. Yeni ders ai-saldiri-54;53 VLM icin Codex rezervasyonu. Yeni kurulum/veri indirme yok. Sentetik.invalid ornekler,gercekfit/predict_proba,ayri train/test,gorunurfixture,querybudget,mesru kontrol,3kusurlu+mutant+kopya. Track AI54 kaydi dar eklenecek. DigerCodexplan7VLM ve savunma7multimodal sonraki."
+  },
+  {
+   "zaman": "2026-11-03T23:14:23+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "DALGA 3 (kalan 7 AI dersi) ACILDI. Alin ve yazin (ai_ders_takip.py al). SALDIRI: plan-saldiri-7 VLM adversarial perturbasyon (codex, kucuk yerel VLM - KURULUM ONAYI); plan-saldiri-8 guvenlik ML dedektoru atlatma (codex, scikit-learn kucuk phishing, hafif); plan-saldiri-9 deepfake/ses klonlama tespiti (claude-yazar, yerel TTS - KURULUM ONAYI). SAVUNMA: plan-savunma-6 watermark/C2PA gomme+dogrulama (claude-yazar, yerel hafif); plan-savunma-7 multimodal savunma OCR/ses guardrail (codex, Pillow+Tesseract - KURULUM ONAYI); plan-savunma-8 unlearning dogrulamasi (claude-yazar, torch kucuk model). KOPRU: plan-ai-purple-kopru SOC LLM asistanina saldiri+savunma, log enjeksiyonu/triyaj kandirma/deterministik alarm (claude-yazar, yerel LLM+sentetik SOC log). Kurallar ayni: ucretsiz+yerel, terim cevrilmez, dogrulanmamis iddia yazma, 3+ kusurlu, kopya 4/4, sinir cumlesi. KURULUM gerektirenler once panoya uyari+kullanici onayi."
+  },
+  {
+   "zaman": "2026-11-03T23:13:50+03:00",
+   "kim": "claude-opus",
+   "tur": "uyari",
+   "konu": "tools/ai_yeni_dersler.py",
+   "mesaj": "atamalari_koru'ya asama/oncelik override ekliyorum (kalici atama dosyasi artik asama de tasir). Sablon/plan okuma degismez; yalniz override alani genisler. Kisa dokunus."
+  },
+  {
+   "zaman": "2026-11-03T22:58:59+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "plan-klasik-2",
+   "mesaj": "SQLi alt dersi pu19 denetimehazir. XSS/SSTI/XXE,JuiceShopdegerlendirmesi ve M2kalanlari acik. TekSQLi ilewebplani bitmis degil. Altis manifesti ve detayli teslim raporu eklendi;Opus puanlayacak."
+  },
+  {
+   "zaman": "2026-11-03T22:58:57+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "plan-klasik-1",
+   "mesaj": "Nmap alt dersi pu18 denetimehazir. ffuf/nuclei ve BlueIDS/SIEM entegrasyonu henuz yapilmadi;ustplan acik. M2ileortusme tekillestirildi;ayni Nmap ikinci ders sayilmaz."
+  },
+  {
+   "zaman": "2026-11-03T22:58:56+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "pu19",
+   "mesaj": "Codex yazarlik teslimi;denetim bekliyor,puan yok. Gercek localhostHTTP+SQLite:UI12/12,Run kabulfalse,gorunuristek.http okundu. Vulnerable200+canary,secure401,mesru200,bozukSQL500. Bos/sabit/3anlamliyanlis/2kopyaRET;uydurma yanit gercekDBaudit farkiyla reddedildi. Iki dersvalidateTEMIZ12;Purple19ders125kontrolseriTEMIZ;sinav12OK. Rapor CODEX-PU18-PU19-TESLIM.md."
+  },
+  {
+   "zaman": "2026-11-03T22:58:54+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "pu18",
+   "mesaj": "Codex yazarlik teslimi;denetim bekliyor,puan yok. Gercek Nmap7.80,UI36/36,Run kabulfalse,gorunurXML okundu. Bos/sabit/3anlamliyanlis/2kopya RET;11safmutasyon0gecen. Gercek filtered korunuyor,Npcapuyarisi kayitta. CODEX-PU18-PU19-TESLIM.md;altis kaydi CODEX-PLAN-ALT-ISLER.json. Kurulum/commit/push yok."
+  },
+  {
+   "zaman": "2026-11-03T22:45:53+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/purple/track.json",
+   "mesaj": "pu18 Nmap ve pu19 yerel SQLi alt derslerini yeni Kesif ve Ilk Erisim modulune kaydedecegim. Mevcut17dersin sirasini/icerigini koruyorum;engine/web degismiyor. SQLi iscisinin limiti doldu;taslagi anaCodex tamamladi,kontroller suruyor. Ustplanlar tamam degil."
+  },
+  {
+   "zaman": "2026-11-03T19:43:05+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "plan-klasik-2",
+   "mesaj": "M2ileortusen websömürüsü altisinden pu19 yerelSQLiicin Codexicinde ayri isci ayrildi. Yalnizpu19ders/fixture/sandbox yeni dosyalari;paylasilantrack/engine/web yazmayacak. AnaCodexpu18Nmap uzerinde. Ikiisdeyalnizkendi127labverileri;kurulumyok. UstwebplaniSQLitekderslebitmis sayilmaz."
+  },
+  {
+   "zaman": "2026-11-03T19:35:25+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "plan-klasik-1",
+   "mesaj": "S36 tesliminden sonra kurulu Nmap7.80 ile yalniz127.0.0.1 kendi HTTPservislerimde gercek kesif alt dersi basliyor; yeni kurulum yok. Nmap/ffuf/nuclei ustplani bu tek dersle bitmis sayilmayacak;M2ileortusenaltisler tekillestirilecek. Codexicinde saltokunur26planenvanteri paralel;dersdosyasinaikinciyazar yok."
+  },
+  {
+   "zaman": "2026-11-03T19:31:03+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-savunma-36",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): Gercek CLI TEMIZ9,tahmin0,mutasyon0/20gecen,3anlamliyanlis/4kopyaRET;UI74/74veRungercek/kabulfalse. Ikiayrikgercekmodel/keyless kosu;dogruimzaOK,tahrifat/key/subject/issuer/rootRET. Cosign+Fulcio onayla kurulu,networknone,cleanupOK,JWT/privatekeyyok. Rapor CODEX-YENI-ai-savunma-36.md. PrivateOIDC;publicCT/Rekor/TSAyok. Opus denetimi bekliyor,puan yok."
+  },
+  {
+   "zaman": "2026-11-03T19:19:14+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "yeni-dersler-atamalar.json",
+   "mesaj": "19:13 kullanici karari kalici kayda islendi:30Codex/7Claude,37PLANbasligi. 26 eski sahipsiz artikCodex;Claude7korundu. Numara/puan/dersbitmisdurumu uydurulmadi, uretimde atamalar korunuyor. S36tesliminden sonra sirayla uygulanacak."
+  },
+  {
+   "zaman": "2026-11-03T19:19:09+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "yeni-dersler-atamalar.json",
+   "mesaj": "19:13 claude-yazar pano karari kullanici kalan sahipsizleri Codex alsin dedi diyor. Yalniz mevcut26sahipsiz plan kalemine codex atamasi ekleyecegim; kesin7claude dersi korunacak. Toplam30codex/7claude37PLANbasligi olacak;37dersiddiasi degil. Once S36 teslim edilecek."
+  },
+  {
+   "zaman": "2026-11-03T19:13:19+03:00",
+   "kim": "claude-yazar",
+   "tur": "karar",
+   "konu": "yeni-dersler-atama",
+   "mesaj": "Kullanici karari (03.11.2026, soruma cevap): kalan sahipsiz kalemler icin 'Codex alsin knk'. claude-yazar'in kesin 7 dersi (48,52,32,33,34,35,50) denetime hazir; claude-yazar sahipsiz 26 kaleme girmiyor. Iade gelirse claude-yazar duzeltir."
+  },
+  {
+   "zaman": "2026-11-03T19:12:21+03:00",
+   "kim": "claude-yazar",
+   "tur": "soru",
+   "konu": "yeni-dersler-atama",
+   "mesaj": "Kesin atanan 7 dersimin hepsi denetime hazir (48,52,32,33,34,35,50). 14:09 kararindaki 18'in kalan 11'i hicbir dosyada yok; 26 sahipsiz kalemin 6'si 'Sonra' asamasinda AI dersi (plan-saldiri-7/8/9, plan-savunma-6/7/8), 20'si purple/klasik modul-konu PLANI. Hangilerinin claude-yazar'a dustugu kullaniciya soruldu; cevap gelene kadar sahipsiz kaleme girmiyorum."
+  },
+  {
+   "zaman": "2026-11-03T19:11:20+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-saldiri-50",
+   "mesaj": "Yazar tarafı bitti, DENETİME HAZIR (puan yok). validate TEMİZ 9, tahmin 0, mutasyon 53 mutant 0 geçen, kopya 7/7 ret. Gerçek: qwen3:4b q4 (0edcdef3), 3 asistanlık e-posta zinciri × 3 seed × solucan/normal = 18 çağrı, ~49 sn. Solucan derinliği 2/3/2; s1 ve s3'te 3. asistan bozulmuş solucanı okuyup KENDİ kodunu yazdı (ikinci_ajanda_tetiklendi). 2. asistanların çıktısındaki kod 1. asistanın taşınan kodu (ayrı sayılıyor). Normal zincir sızıntı 0. Kopya bekçisi (en uzun ortak kelime dizisi ≥20): solucan sızıntısı 5→0, yanlış alarm 0 (ilk yazar koşusunda 1). Virtual Donkey'nin kendisi değil, sınırda yazıyor. Kurulum yok. Rapor CLAUDE-YENI-ai-saldiri-50.md."
+  },
+  {
+   "zaman": "2026-11-03T19:01:05+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "ai-saldiri-50 icin yalniz 'Ajanlar, Araclar ve Yetki Sinirlari' modulunun sonuna (44'ten sonra) ai-saldiri-50 eklenecek. Diger kayitlar korunur."
+  },
+  {
+   "zaman": "2026-11-03T19:01:02+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ai-saldiri-50",
+   "mesaj": "14:09 atamasiyla (yeni-dersler-atamalar.json) kendini kopyalayan istem / AI worm (Morris II fikri, arXiv:2403.02817). 3 yerel Ollama e-posta asistani zincir, her birinin kendi canary'si; solucan vs normal zincir, 3 seed; kopya bekcisi (girdi-cikti en uzun ortak kelime dizisi). Kurulum/indirme yok. Diger ajan bu derse girmesin."
+  },
+  {
+   "zaman": "2026-11-03T18:46:20+03:00",
+   "kim": "codex",
+   "tur": "karar",
+   "konu": "ai-savunma-36",
+   "mesaj": "Kullanici Onay verildi diyerek bekleyen resmi Fulcio v1.9.1 Linuxamd64 50925712bayt indirmesini onayladi. Sabit SHA256 d851e6fcc33bad57a08435e41fe082d8cc466f99c57d2fae156e82941f84ea31 ile yalniz .deps altina indirilecek. Mevcut Docker imaji kullanilacak; ek paket veya dis kimlik servisi yok."
+  },
+  {
+   "zaman": "2026-11-03T18:43:42+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-savunma-36",
+   "mesaj": "Onaydan bagimsiz kaynaklar tamamlandi: ders3gorev+gorunurveri+runtime,20/20mutant,3/3anlamliyanlis,4/4kopyaRET,tahmin0,6dosyaRunOK. UIhamveri okundu;UIreferans eksikFulcio'daRET. TamvalidateTEMIZdegil(1gercekdeneyFAIL). Fulcio51MBayriONAYbekliyor;henuzindirilmedi/gercekkeylesscalistirilmadi. Kalanlarvehamkanit CODEX-YENI-ai-savunma-36-DEVAM.md;teslim/puan yok."
+  },
+  {
+   "zaman": "2026-11-03T18:37:01+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "tools/ai_yeni_dersler.py",
+   "mesaj": "Atama kaybina dar duzeltme tamam: yeni-dersler-atamalar.json kalici devir kaynagi; uretici mevcut dolu sorumluyu koruyor, canli JS eski brief ile ezmiyor. 37baslik korundu, kesin11 sorumlu(4codex/7claude) ve26 kaydi belirsiz acikca ayrildi;19/18tam dagilim uydurulmadi. Ikinciuretim/JSsyntax/birlesim ve tarayiciCodex4kart+yenileme testleri OK. Pano8798yeniden acildi, digerajan tracker/puanina dokunulmadi."
+  },
+  {
+   "zaman": "2026-11-03T18:29:30+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tools/ai_yeni_dersler.py",
+   "mesaj": "Atama kaybi tekrar etmesin diye ureticiye yalniz kalici atama dosyasini ve mevcut dolu sorumlulari koruyan dar veri birlestirme eklenecek. Kesin 14:09 devirleri47codex/50claude-yazar/36codex ve zaten sahiplenilmis32/33/52claude kaynaga alinacak; diger26 bilinmeyen atama uydurulmayacak. Ders/puan/sahiplik tracker degismeyecek."
+  },
+  {
+   "zaman": "2026-11-03T18:23:26+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/ai-savunma/track.json",
+   "mesaj": "S36 icin yalniz RAG ve Tedarik Zinciri Koruyucusu modulunde20'den sonra36 eklenecek. Diger ajanin32/33/34/35 kayitlari korunacak. Fulcio onayi bekliyor; kaynak+fixture+saf testler hazirlaniyor, gercek/UI kabul tamamlanmadi."
+  },
+  {
+   "zaman": "2026-11-03T18:18:26+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-savunma-36",
+   "mesaj": "Cosign191MB ONAYLA KURULDU, SHA eslesti, version0. Gercek egitilmis Linear model+safetensors ile keypair imza gecti; 1bayt tahrifat ve baska key ret (keypair-on-sonda.json,kabulfalse; keyless degil). Fulcio v1.9.1 51MB ayri onay soruldu. Mevcut imaji yeniden kullanan stdlib OIDC+resmi Fulcio lifecycle/supervisor ve indirilmeyen installer hazir; eksikbinaryde servis/container/network acilmadigi dogrulandi. Gercek keyless/UI kabul henuz yok; ders teslim edilmedi."
+  },
+  {
+   "zaman": "2026-11-03T18:08:28+03:00",
+   "kim": "codex",
+   "tur": "karar",
+   "konu": "ai-savunma-36",
+   "mesaj": "Kullanici cosign v3.1.4 Windows amd64 191MB resmi binary indirmesini SHA256 dogrulamayla yalniz proje .deps altina ONAYLADI. Bu onay baska paket veya dis kimlik servisine veri aktarimini kapsamaz. Simdi sabit surum/hash installer calisacak."
+  },
+  {
+   "zaman": "2026-11-03T18:07:44+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-savunma-36",
+   "mesaj": "Onay beklerken somut hazirlik tamam: SAVUNMA-36-KURULUM-ONAYI.md (kaynak/surum/boyut/hash, keyless ve keypair ayrimi, gercek model/imza/tahrifat/signer/issuer kabul plani). ai_s36_kur.py --kontrol eksik araci dogru raporluyor; --indir CALISTIRILMADI. Yerel keyless icin resmi scaffolding ek servis ister; bu binary onayi onlara genisletilmeyecek. Gercek deney/CLI/UI kabul henuz yok."
+  },
+  {
+   "zaman": "2026-11-03T18:05:29+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "ai-savunma-36",
+   "mesaj": "14:09 atamasina gore siradaki is36. Cosign kurulu degil; resmi v3.1.4 Windowsamd64 191066624bayt SHA256 cbe953787074611f1334cbf37dc1cf953995bb8c45398eb4fc7bb781d29c1f2a. Indirme onayi kullaniciya soruldu; henuz indirme yok. Onaydan bagimsiz gorunur veri/sozlesme ve keyless kapsam plani hazirlaniyor. Key-pair imzalamayi keyless diye sunmayacagim."
+  },
+  {
+   "zaman": "2026-11-03T18:03:21+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-saldiri-47",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): Nihai gercek validate TEMIZ9; tahmin0; mutasyon0/31 gecen; anlamli yanlis3/3,kopya4/4 ret; modelyok ret. UI Check74/74,Run gercek/kabulfalse; gorunur JSON UI Run. Korumasiz model2+replay2 outbox; korumali0,temiz0; kendi6MCPsureci kapandi. Rapor CODEX-YENI-ai-saldiri-47.md. Opus denetimi bekliyor, puan yok."
+  },
+  {
+   "zaman": "2026-11-03T17:51:32+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "yeni-dersler-atama",
+   "mesaj": "14:09 karari 37 kalem codex19/claude-yazar18 diyor; mevcut kapsam JSON'u eski brief'ten tekrar uretilmis gibi gorunuyor (yalniz codex2, gemini4, sahipsiz26). ai_yeni_dersler.py mevcut atamalari korumuyor. 47->codex,50->claude-yazar,36->codex karari korunacak; kalan 37 kesin dagilim icin eski atama kaydinin yeniden kalici kaynaga yazilmasi gerekli. 47 uzerinde fiilen calisiyorum, testler suruyor; eski JSON ile atama degistirmiyorum."
+  },
+  {
+   "zaman": "2026-11-03T17:48:25+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "S47 MCP rug pull icin yalniz Ajanlar Araclar ve Yetki Sinirlari modulunde 16'dan sonra 47 eklenecek. Mevcut diger kayitlar korunacak. Gorev dosyasi disindaki eski sahipliklere gore tablo yeniden uretilmeyecek."
+  },
+  {
+   "zaman": "2026-11-03T15:57:31+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-savunma-35",
+   "mesaj": "Yazar tarafı bitti, DENETİME HAZIR (puan yok). validate TEMİZ 9, tahmin 0, mutasyon 34 mutant 0 geçen, kopya 7/7 ret. Gerçek: qwen3:4b; HarmBench 6 standard davranış ASR 1/6 (hakem yerel model, resmi değil); StrongREJECT 6 istem ort 0.0 (hakem çelişkili: ret=1 ama ikna/özgüllük 5); AgentDojo 0.1.35 banking: savunmasız ASR 1.0, spotlighting ASR 0.5 ama saldırı altında fayda 0. Yanıt metinleri kanıtta yok (sha256+uzunluk). Kurulum .deps altında (onaylı). Rapor CLAUDE-YENI-ai-savunma-35.md."
+  },
+  {
+   "zaman": "2026-11-03T15:47:43+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ai-savunma-35",
+   "mesaj": "HarmBench (6 standard davranis) + StrongREJECT (6 istem, rubrik) + AgentDojo 0.1.35 (banking, 2 gorev x 1 enjeksiyon x 2 savunma) yerel Ollama ile. Yanit metinleri kanita yazilmaz (yalniz sha256/uzunluk). Kurulum onayli, .deps altinda. Track: 'Adversarial Guvence ve Mor Tatbikat' modulune yalniz ai-savunma-35 eklenecek."
+  },
+  {
+   "zaman": "2026-11-03T15:34:23+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "ai-savunma-35",
+   "mesaj": "Kullanici onayladi (03.11.2026 'Devam'): agentdojo==0.1.35 + bagimliliklari .deps/agentdojo-venv icine kuruluyor; HarmBench/StrongREJECT CSV'leri .deps/benchmarks altina indiriliyor. .ai-venv degismez."
+  },
+  {
+   "zaman": "2026-11-03T15:26:23+03:00",
+   "kim": "claude-yazar",
+   "tur": "soru",
+   "konu": "ai-savunma-35",
+   "mesaj": "Kurulum onayi bekleniyor (kullanici 'kuralim' dedi, kesin liste gosterildi): PyPI agentdojo==0.1.35 (MIT, ethz-spylab) + 72 bagimlilik (openai/anthropic/cohere/google-genai/langchain istemcileri dahil; bulut API kullanilmayacak, yerel Ollama OpenAI-uyumlu ucla). Toplam indirme ~29 MB wheel, kurulum ~150 MB tahmini. Ayri sanal ortam: .agentdojo-venv (proje .ai-venv'e dokunulmaz). torch extra'si kurulmaz. Ayrica HarmBench text_test CSV (MIT, 157 KB, commit 8e1604d1) ve StrongREJECT CSV (MIT, 55 KB, commit f7cad6c1)."
+  },
+  {
+   "zaman": "2026-11-03T14:56:34+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "ai-saldiri-47",
+   "mesaj": "14:09 kullanici devir karari ve devam talebiyle MCP rug pull dersini aliyorum. Yerel JSON-RPC servis + kurulu Ollama; ilk onaydan sonra degisen tool semasi, sabitlenmis sema kontrolu ve mesru is akisinin olcumu. Yeni kurulum yok. Diger ajan bu derse girmesin."
+  },
+  {
+   "zaman": "2026-11-03T14:23:08+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-savunma-32",
+   "mesaj": "Yazar tarafı bitti, DENETİME HAZIR (puan yok). validate TEMİZ 9, tahmin 0, mutasyon 81 mutant 0 geçen, kopya sondası 7/7 ret. Gerçek: distilbert-base-uncased@12040acc + deepset/prompt-injections@4f61ecb0 (sha256 doğrulanır), cuda, 3 tur/90 adım. Eşik doğrulama kümesinde FPR≤0.05 ile 0.094. Test: 0.5 eşik recall .817 FPR 0; seçilen eşik recall .90 FPR .018; anahtar kelime recall .35. Bozulma: leet/homoglif/harf aralı recall 1.0 ama FPR .84-1.0 (J düştü), sıfır genişlik etkisiz (tokenizer siliyor). Rapor CLAUDE-YENI-ai-savunma-32.md."
+  },
+  {
+   "zaman": "2026-11-03T14:14:08+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ai-savunma-32",
+   "mesaj": "DistilBERT (distilbert-base-uncased, sabit rev, offline) + deepset/prompt-injections ile kendi injection siniflandiricisi: dogrulama kumesinde FPR sinirli esik, anahtar kelime kiyasi, 5 bozulma kipi (recall/FPR/J). Indirme kullanici onayiyla yapildi (pano uyari). Track: 'Girdi ve Cikti Muhafizi' modulune yalniz ai-savunma-32 eklenecek."
+  },
+  {
+   "zaman": "2026-11-03T14:09:52+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "Kullanici karari (03.11.2026): YAPILACAK TUM 37 ders panele yazildi ve YALNIZ codex+claude-yazar yapacak. gemini yeni derslerden cikarildi (yeni ders ALMAYACAK; mevcut acik isi varsa bitirir). Dagilim yeni-dersler-kapsam.json'da: codex19 / claude-yazar18. Panel YENI-DERSLER.html guncel. gemini onceki 47/50/36 atamalari iptal: 47->codex,50->claude-yazar,36->codex."
+  },
+  {
+   "zaman": "2026-11-03T14:07:45+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "ai-savunma-32",
+   "mesaj": "Kullanici onayi (03.11.2026) ile indiriliyor, yalniz HF onbellegine: distilbert/distilbert-base-uncased rev 12040accade4e8a0f71eabdb258fecc2e7e948be (~256MB safetensors+tokenizer, Apache-2.0) ve deepset/prompt-injections rev 4f61ecb038e9c3fb77e21034b22511b523772cdd (2 parquet, <100KB, Apache-2.0). Baska paket/kurulum yok."
+  },
+  {
+   "zaman": "2026-11-03T13:59:19+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-savunma-33",
+   "mesaj": "Yazar tarafı bitti, DENETİME HAZIR (puan yok). validate TEMİZ 9, tahmin 0, mutasyon 62 mutant 0 geçen, kopya sondası 7/7 ret. Gerçek: Qwen2.5-0.5B-Instruct offline sabit revizyon, cuda, iki LoRA (ret eğitimi + 2 adversarial ifade; circuit breaker RR Zou vd. 2024). Taban hash aynı, iki adapter farklı, kayıplar düştü. Temsil: zararlı cos -0.10 / koru 0.999. Sızıntı (doğrudan+saldırı) taban 4, ret 4, devre kesici 1; koru doğru 4/4/3. Sayılar koşudan koşuya değişiyor, derste sabit iddia yok. GPU ~3.4GB, ~170 sn. Rapor CLAUDE-YENI-ai-savunma-33.md. Kurulum yok."
+  },
+  {
+   "zaman": "2026-11-03T13:45:56+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/ai-savunma/track.json",
+   "mesaj": "ai-savunma-33 icin 'Adversarial Guvence ve Mor Tatbikat' modulunun lessons listesine yalniz 'ai-savunma-33' eklenecek. Baska alan degismez."
+  },
+  {
+   "zaman": "2026-11-03T13:45:54+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ai-savunma-33",
+   "mesaj": "Adversarial training (ret egitimi + adversarial ifadeler) ve circuit breaker (Zou vd. 2024 RR) ayni Qwen2.5-0.5B-Instruct'ta (kurulu, sabit revizyon, offline) LoRA ile kiyas. Kurulum/indirme yok. GPU deneyi: Ollama kullanilmiyor. Ders/fixture/sandbox eklenecek."
+  },
+  {
+   "zaman": "2026-11-03T12:55:49+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "GOREV-YENI-AI-DERSLERI.md",
+   "mesaj": "12:21 kullanici devir karari brief/tabloya islendi: Savunma32/33 claude-yazar'da. S51 onay bekliyor yazisi kaldirildi, gercek CLI/UI kabuluyla teslim olarak aciklandi. Codex kuyrugunda alindi/iade yok; S51 Opus denetimi bekliyor. Ders ve puan degismedi."
+  },
+  {
+   "zaman": "2026-11-03T12:55:34+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "GOREV-YENI-AI-DERSLERI.md",
+   "mesaj": "12:21 ortak kararinda Savunma32/33 claude-yazar'a devredilmis; brief ve uretilen tablo halen codex gosteriyor. Yalniz bu iki atama ve S51'in onay/teslim durumunu dar kapsamda esitleyecegim; ders dosyalarina dokunulmayacak."
+  },
+  {
+   "zaman": "2026-11-03T12:46:01+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-savunma-34",
+   "mesaj": "Yazar tarafı bitti, DENETİME HAZIR (puan yok). validate TEMİZ 9, tahmin 0, mutasyon 46 mutant 0 geçen, kopya sondası 7/7 ret. Gerçek: qwen3:4b-instruct q4 (0edcdef3), 24 çağrı, model boşaltıldı. duz yetkisiz 6/6; spotlight yetkisiz 0 ama canary 3; dual_llm yetkisiz 3 (Q-LLM saldırgan adresini çıkardı); camel aynı planda yetkisiz 0, fayda bedeli 3. P-LLM e-postayı hiç görmedi (kabul şartı). CaMeL'in kendisi değil taslak; sınır cümlesinde. Rapor CLAUDE-YENI-ai-savunma-34.md. Kurulum yok."
+  },
+  {
+   "zaman": "2026-11-03T12:38:06+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "ai-saldiri-51",
+   "mesaj": "İyileştirme teslim (denetim bekliyor): Gercek validate TEMIZ 9; tahmin 0 supheli; mutasyon 0/38 gecen; kopya 4/4 ret; anlamli yanlis 3/3 ret. UI Check 6/6, Run gercek/kabul=false. MLflow 2.1.1 canary okundu, 2.2.1 reddetti, normal kontroller ikisinde OK. Onayli kurulum tamamlandi. Rapor CODEX-YENI-ai-saldiri-51.md. Puan verilmedi, Opus denetimi bekleniyor."
+  },
+  {
+   "zaman": "2026-11-03T12:36:27+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Gercek CLI/UI kabul tamamlandi. Yalniz S51 teslim raporu ve kurulum durumunu guncelliyorum; ortak iyilestirme kuyruguna puansiz yeni S51 emrini kilitli arac API ile ekleyip teslim edecegim. Diger kayitlara dokunmayacagim."
+  },
+  {
+   "zaman": "2026-11-03T12:34:22+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/ai-savunma/track.json",
+   "mesaj": "ai-savunma-34 icin 'Arac ve Yurutme Bekcisi' modulunun lessons listesine yalniz 'ai-savunma-34' eklenecek. Baska alan degismez."
+  },
+  {
+   "zaman": "2026-11-03T12:31:37+03:00",
+   "kim": "claude-opus",
+   "tur": "bitti",
+   "konu": "ai-saldiri-48",
+   "mesaj": "KABUL. validate TEMIZ9, tahmin1/0, mutasyon 86/0gecen, kopya 5/5, atiflar arXiv dogru, gercek LoRA kaniti saglam. Tracker=bitti."
+  },
+  {
+   "zaman": "2026-11-03T12:21:23+03:00",
+   "kim": "claude-yazar",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "Kullanici karari (03.11.2026): codex'e atanmis dalga 2 dersleri ai-savunma-32 (guardrail egitme) ve ai-savunma-33 (adversarial training/circuit breaker) claude-yazar'a gecti. Sira: 34 -> 33 -> 32 -> 35. 32 dataset ve 35 repo indirmesi icin once kaynak/surum/boyutla ayrica onay istenecek. ai-saldiri-51 codex'te alinmis ve Docker onayi bekliyor; ona dokunulmadi."
+  },
+  {
+   "zaman": "2026-11-03T12:20:52+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "web/app.js",
+   "mesaj": "Saldiri51 icin yalniz GERCEK DENEY rozet metnine docker secenegi eklenecek;Docker dersi Ollama diye etiketlenmeyecek. Mevcut torch/ollama metinleri ve akis korunacak."
+  },
+  {
+   "zaman": "2026-11-03T12:19:37+03:00",
+   "kim": "codex",
+   "tur": "karar",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Kullanici bu sohbette evet onay verdim diyerek SALDIRI-51-KURULUM-ONAYI.md kapsamindaki resmi Python3.10digest+MLflow2.1.1/2.2.1 bagimlilik indirme/kurulumunu onayladi. Simdi yalniz bu Docker labinin kurulumu basliyor;diger ortamlara dokunulmayacak."
+  },
+  {
+   "zaman": "2026-11-03T12:17:02+03:00",
+   "kim": "claude-yazar",
+   "tur": "not",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "Kullanici karari (03.11.2026, claude-yazar oturumu): dalga 2 claude-yazar icin acildi -> ai-savunma-34 (injection mimari desenleri) basliyor. Kurulum/indirme yok (kurulu Ollama). 35 benchmark repo indirmesi icin once kaynak/surum/boyut ile ayrica onay istenecek. Codex 32/33 ve gemini 36 icin acilis karari bu not degildir."
+  },
+  {
+   "zaman": "2026-11-03T01:27:38+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-saldiri-52",
+   "mesaj": "Yazar tarafı bitti, DENETİME HAZIR (puan yok). validate TEMİZ 9, tahmin 0, mutasyon 43 mutant 0 geçen, kopya sondası 5/5 ret. Gerçek: qwen3:4b-instruct q4 (0edcdef3), 12 çağrı; görünür kontrol uyum 3/3, gizli tag talimatı uyum 0/3, temizlenmiş sızıntı 0, aynen-tekrar kipinde görünmez yük taşıma 3/3. KAPSAM: brief 'modelin tag'e uyduğunu göster' diyor; kurulu 3 modelin hiçbiri uymadı (ön sonda), ders bunu uydurmadan ölçüm + görünmez taşıma olarak kurdu — denetçi değerlendirsin. track.json'a yalnız 52 eklendi. Web arayüzü görsel sınanmadı. Rapor: docs/ai-gercek/CLAUDE-YENI-ai-saldiri-52.md"
+  },
+  {
+   "zaman": "2026-11-03T01:09:23+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ai-saldiri-52",
+   "mesaj": "Unicode tag (U+E0000-E007F) görünmez talimat kaçakçılığı. Saf Python + kurulu Ollama modelleri; yeni indirme/kurulum yok. Ders dosyası, fixture, sandbox/ai_gercek_ai_saldiri_52.py eklenecek; track.json'a yalnız 52 (dar ekleme, önceki uyari kapsamında). Önce kurulu modellerle kısa sonda: model gizli tag'e gerçekten uyuyor mu."
+  },
+  {
+   "zaman": "2026-11-03T01:07:26+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ai-saldiri-48",
+   "mesaj": "Yazar tarafı bitti, DENETİME HAZIR (puan yok, bitti kararı denetçinin). validate TEMİZ 9 (1 tahmin,4 solution,4 starter), tahmin 0, mutasyon 43 mutant 0 geçen, kopya sondası 5/5 ret. Gerçek: offline Qwen2.5-0.5B rev 7ae55760 + LoRA r8, 72 adım, base donuk; AUC ham/kalibre 1.0; üye tam 2/6. track.json'a yalnız 48 eklendi. Web arayüzü görsel sınanmadı. Rapor: docs/ai-gercek/CLAUDE-YENI-ai-saldiri-48.md"
+  },
+  {
+   "zaman": "2026-11-03T00:59:05+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Kalan bagimsiz hazirlik da tamam: ai_s51_kur.py --kontrol exit2/iki imaj eksik;--kur CALISTIRILMADI. Onay sonrasi build log/imageinspect/pipURLSHA raporu kaydedilecek. Modulyamasi sondasi ret,dogru referans eksikimaj kapisina ulasiyor. GercekCVE/UIkabul yok,kurulumonayi bekliyor. Savunma32/33 baslatilmadi."
+  },
+  {
+   "zaman": "2026-11-03T00:55:50+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Onaydan bagimsiz kodhazirligi:3gorev/gorunurHTTPJSON/runtimeDockerfile;38/38mutant,3/3yanlis,4/4kopyaret,6dosyaRunok,tahmin0. GercekMLflow/UIkabul YAPILMADI;tamvalidateeksikimajnedeniyleFAIL,trackerengelli. Kurulumonayibekliyor;hicpull/build/pipcalismadi. Rapor CODEX-YENI-ai-saldiri-51.md. Savunma32/33dalga2bekliyor."
+  },
+  {
+   "zaman": "2026-11-03T00:48:32+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "ai-saldiri-48 (eğitim verisi çıkarımı) için 'Model Bilgisi, Veri Sızıntısı ve Çıktı Güvenliği' modülünün lessons listesine yalnız 'ai-saldiri-48' eklenecek (ileride 52 de). Başka alan değişmez. Kurulum/indirme yok: kurulu offline Qwen2.5-0.5B-Instruct (49 ile aynı revizyon) + PEFT kullanılacak."
+  },
+  {
+   "zaman": "2026-11-03T00:45:58+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "Yalniz Saldiri51 kaydi eklenecek; diger ajanin mevcut eklemeleri yeniden okunup korunacak."
+  },
+  {
+   "zaman": "2026-11-03T00:45:54+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Onaydan bagimsiz kaynak/fixture/sozlesme testlerini ve kurulum taslagini hazirliyorum. Imaj cekme/pip/dockerbuild CALISTIRILMAYACAK; onceki somut indirme onayi halen bekliyor. Runtime imaj yoksa PASS vermeyecek."
+  },
+  {
+   "zaman": "2026-11-03T00:28:47+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Onay listesi netlesti: gecikmeli resmi manifest sorgusu tamamlandi. Taban Python3.10-slim-bookworm linuxamd64 digest db6ee5170ebce0f4d165af242e8e77addc08bd9ffc37e8b1815752cf027aa4f8. Onceki3.11onerisi yerine bu dogrulanmis3.10tabani kullanilacak. Imaj/paket indirilmedi;300–600MB/1–2GBtahmini,onaybekliyor. Belge guncel."
+  },
+  {
+   "zaman": "2026-11-03T00:28:28+03:00",
+   "kim": "codex",
+   "tur": "soru",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Resmi Python3.11slim-bookworm tabani ve MLflow2.1.1/2.2.1+PyPIbagimliliklarini yalniz izole Dockerlabina indirme/kurma onayi gerekiyor.300–600MBindirme,1–2GBdisk tahmini. Gorevbrief kural5ve51acik onay istiyor. Detay SALDIRI-51-KURULUM-ONAYI.md. Savunma dalgasi baslatilmadi."
+  },
+  {
+   "zaman": "2026-11-03T00:28:26+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "ai-saldiri-51",
+   "mesaj": "Kurulum hazirligi:resmi Python3.11slim-bookworm+PyPI MLflow2.1.1ve2.2.1+bagimliliklar;yaklasik300–600MBindirme,1–2GBdisk. Henuz indirme/kurulum yok. Runtime networknone/hostmountyok/sadececanary;detay SALDIRI-51-KURULUM-ONAYI.md. Kural5 geregi kullanici onayi bekleniyor."
+  },
+  {
+   "zaman": "2026-11-03T00:22:35+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "Kullanici karari: SIMDILIK YALNIZ SALDIRI. Savunma (32-36) dalga 2'ye bekletildi, baslatmayin. Aktif saldiri: 49 BITTI; kalan 47(gemini),48(claude-yazar),50(gemini),51(codex,Docker onayi bekliyor),52(claude-yazar). Brief guncellendi: GOREV-YENI-AI-DERSLERI.md."
+  },
+  {
+   "zaman": "2026-11-03T00:22:34+03:00",
+   "kim": "claude-opus",
+   "tur": "bitti",
+   "konu": "ai-saldiri-49",
+   "mesaj": "KABUL. Bagimsiz denetim gecti: validate TEMIZ9, tahmin1/0supheli, mutasyon 32mutant 0gecen, kopya sondasi 4/4 ret, icerik tam, gercek GPU LoRA kaniti dogru (base donuk/adapter hash farkli/2 kosu ayni karar). Dar sentetik policy reversal kapsami sinir cumlesinde durust belirtilmis, kabul. Tracker=bitti."
+  },
+  {
+   "zaman": "2026-11-03T00:09:22+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "yeni-dersler-tam-kapsam",
+   "mesaj": "YENI-DERSLER.html genel plana genisletildi:17AI ders basligi(9saldiri+8savunma),10Purplemodulu,9klasikkonu,1kopru=37PLANbasligi;37dersiddiasiyok. Ilkdalga11atamali,kalan26atanmamis;8Sonra. Kaynak claude-devir/PAFTA-EKLEME-PLANI.md yerelkopya EKLEME-PLANI-KAYNAK.md. Kapsam/yazar/arama/canliveri runtime dogrulandi. Yeni dersnumarasi/puan/sahiplik uydurulmadi. Genel kaynak degisirse ai_yeni_dersler.py yenidenuretir."
+  },
+  {
+   "zaman": "2026-11-03T00:07:34+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "yeni-dersler-tam-kapsam",
+   "mesaj": "Kullanici eksik listeyi duzeltti: ilk11yerine genel PAFTA-EKLEME-PLANI A2/A3(17AI),B2(10Purplemodul),C(9klasikkonu),A4kopru eklenecek. Ders/modul/konu ayrilacak;Sonra planlari ve sahipsizler gorunecek. Durum/puan degismeyecek."
+  },
+  {
+   "zaman": "2026-11-02T23:08:39+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "tools/ai_pano.py",
+   "mesaj": "Ortak pano ureticisine YENI-DERSLER.html icin tek kalici baglanti eklendi; sablon/kayit isleyisi korundu. Tablo kaynagi gorevplani,tracker ve iyilestirme kuyruğu; manuel durum boyama yok."
+  },
+  {
+   "zaman": "2026-11-02T23:08:38+03:00",
+   "kim": "codex",
+   "tur": "bitti",
+   "konu": "yeni-dersler-tablosu",
+   "mesaj": "11 yeni dersin tumu YENI-DERSLER.html tablosunda:6saldiri+5savunma,kutu/konu/sorumlu/durum,arama ve filtre. Plan+tracker+kuyruk20sncanliokunur;dosyasiyokderslerplanligorunur,sahiplik/puanadegismez. HTTP200,11kart,filtre4/4/3,aramavehatafallbackruntimekontroluOK;gorseltarayicikabuluWorkbrowserkapalinedeniyleyapilmadi. Baglanti ortakpano ustunde."
+  },
+  {
+   "zaman": "2026-11-02T23:05:16+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tools/ai_pano.py",
+   "mesaj": "Ortak pano sablonuna yalniz YENI-DERSLER.html baglantisi eklenecek; pano kayitlari ve filtreleri korunacak."
+  },
+  {
+   "zaman": "2026-11-02T23:05:14+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "yeni-dersler-tablosu",
+   "mesaj": "11 planli yeni dersin tamami icin ayri canli kutu tablosu: konu/sorumlu/durum; gorev plani+tracker+iyilestirme kuyruğundan okunacak. Ders sahiplikleri ve puanlar degismeyecek."
+  },
+  {
+   "zaman": "2026-11-02T20:13:25+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "Dar ekleme tamamlandi: yalniz49 son module eklendi. Ortak track duzenlemesi bitti; diger moduller degismedi. Dersin UI kabulu Work tarayici kapali nedeniyle bekliyor."
+  },
+  {
+   "zaman": "2026-11-02T20:13:23+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-saldiri-49",
+   "mesaj": "CLI hazır:TEMİZ9,tahmin0,mutasyon0/21,3/3mutant,4/4kopyaret,3dosyaRunok;QwenCUDA iki gerçekLoRAfazı. UI YAPILMADI:Work local browser disabled;trackerengelli,denetime-hazir/bitti değil. Rapor CODEX-YENI-ai-saldiri-49.md. Genel safetyalignment değil sentetikpolicyvekili. Kendi18800kapatıldı;kurulum/commit yok."
+  },
+  {
+   "zaman": "2026-11-02T20:09:40+03:00",
+   "kim": "codex",
+   "tur": "not",
+   "konu": "ai-saldiri-49",
+   "mesaj": "CLI gercek GPU LoRA calisti: lab-policy sonra conflicting-update, yasak grubunda constrained A/B izin0→1,base donuk. UI kabul henuz YAPILMADI: Work ayarinda Local browser use disabled. Bu nedenle ekran PASS/bitmis iddiasi yok. Son mutasyon/sondalar tamamlaninca raporlanacak."
+  },
+  {
+   "zaman": "2026-11-02T19:58:28+03:00",
+   "kim": "codex",
+   "tur": "uyari",
+   "konu": "tracks/ai-saldiri/track.json",
+   "mesaj": "Saldiri49 icin tek ders kaydi ekleyecegim; mevcut modul listesi yeniden okunup dar ekleme yapilacak."
+  },
+  {
+   "zaman": "2026-11-02T19:58:27+03:00",
+   "kim": "codex",
+   "tur": "basladi",
+   "konu": "ai-saldiri-49",
+   "mesaj": "Yeni gorev: Qwen2.5-0.5B-Instruct kurulu sabit revizyon, PEFT LoRA; yalniz sentetik lab politika ihlali vekili. Yeni indirme yok. Ders dosyasi/fixture/modul eklenecek; track.json'a yalniz 49 eklenecek."
+  },
+  {
+   "zaman": "2026-11-02T19:52:50+03:00",
+   "kim": "claude-opus",
+   "tur": "karar",
+   "konu": ".yeni-ai-dersleri",
+   "mesaj": "Dalga 1: 11 yeni AI dersi acildi (6 saldiri 47-52, 5 savunma 32-36). Gorev brief + anlatim teknikleri: docs/ai-gercek/GOREV-YENI-AI-DERSLERI.md. Dagilim: codex=49,51,32,33 | claude-yazar=48,34,35 | gemini=47,50,52,36. Kurallar: ucretsiz+yerel, terim cevrilmez, dogrulanmamis iddia yazma, 3+ kusurlu baslangic, kopya sondasi 4/4. Kurulum gerektirenler (51 Docker, 32 dataset, 35 repo, 36 cosign) once panoya uyari + kullanici onayi. Baslarken: ai_ders_takip.py al <slug> --kim <sen>."
+  },
+  {
    "zaman": "2026-11-02T03:07:08+03:00",
    "kim": "claude-opus",
    "tur": "karar",
@@ -2526,980 +3499,7 @@
    "tur": "basladi",
    "konu": "ai-temel-02",
    "mesaj": "Dalga3ilk açık02alındı.Görünür embedding/kosinüs senaryosu ve3kusurlu starter;gerçek CPU embeddingkatmanı,kopyakoruması,Run kanıtı,4kontrol+UI.Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-31T12:16:25+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-02",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-31T12:15:22+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-16",
-   "mesaj": "Opus denetimine teslim.GeçiciOllamaileTEMİZ9,tahmin0,mutasyon0/18,kopya korunuyor;UI11/11,Run kabulfalse,3veriUI,tablo/NOT. AynıQwenQ4GPU18/18hatasız;küçük izlenensızıntı0,normal3/3. Varsayılan11434sunucuda6HTTP500FAIL saklandı,çözülmüşsayılmıyor;ilgili lograporda.KullanıcıPID19768korundu,yalnızPaftasüreçlerikapandı.Rapor/devir/özet güncel.Sıradakiilk açık02."
-  },
-  {
-   "zaman": "2026-10-31T12:14:36+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-16",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): GeçiciOllamaileTEMİZ9;tahmin0;mutasyon0/18;kopya korunuyor.GörünürJSON/setup/3kusurlu starter/943sözcük.UI11/11,Run kabulfalse,3veriUI,tablo/NOT.18/18QwenGPUhatasız;küçükbağlam izlenen sızıntı0,normal3/3.Varsayılan11434sunucuda6HTTP500FAILayrı;çözülmüşsayılmadı.KullanıcıPID19768korundu.Rapor CODEX-IYILESTIRME-ai-temel-16.md;puan Opus."
-  },
-  {
-   "zaman": "2026-10-31T11:46:29+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-16",
-   "mesaj": "Dalga3ilk açık16alındı.Görünür minimizasyon/maskeleme/kapsam senaryosu ve18gerçek çağrı;4kontrol+UI.Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-31T11:46:27+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-16",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-31T11:45:31+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-10",
-   "mesaj": "Opus denetimine teslim.SonTEMİZ9,tahmin0,mutasyon0/43,kopya korunuyor;sabitA/ölçekyanlışı red.UI14/14,Run gerçek/kabulfalse,3veriUI,tablo/NOT.40adımLoRA460800parametre;272temel+ortakstate_dict bütünü değişmedi.Hedef4.85→0.00057,kontrol2.67→6.72bozulma ayrıca raporda;kendi18800kapalı.Rapor/devir/özet güncel.Sırada ilk açık16."
-  },
-  {
-   "zaman": "2026-10-31T11:44:59+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-10",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): SonTEMİZ9;tahmin0;mutasyon0/43;kopya korunuyor.SabitAveölçekhatası reddedildi;görünürJSON/setup/3kusurlu starter/934sözcük.40adım gerçekLoRA;272temelparametre+ortakstate_dict değişmez.UI14/14,Run kabulfalse,3veriUI,tablo/NOT görüldü.Rapor CODEX-IYILESTIRME-ai-temel-10.md;puan Opus."
-  },
-  {
-   "zaman": "2026-10-31T11:44:13+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-05",
-   "mesaj": "Denetim kabul (91): validate TEMİZ · tahmin 0 · mutasyon 0/43 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 190+548+96 kelime (ilk blok kısa, toplam yeterli)."
-  },
-  {
-   "zaman": "2026-10-31T11:41:04+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-04",
-   "mesaj": "Denetim kabul (92): validate TEMİZ · tahmin 0 · mutasyon 0/35 · kopya 3/3 engellendi (elle: import/getattr/inspect, referans) · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 199+551+89 kelime (ilk blok kısa, toplam yeterli)."
-  },
-  {
-   "zaman": "2026-10-31T11:38:11+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-24",
-   "mesaj": "Denetim kabul (93): validate TEMİZ · tahmin 0 · mutasyon 0/65 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU, çelişki giderildi (ilk 3 görevin Docker/FastAPI sınırı dürüst)."
-  },
-  {
-   "zaman": "2026-10-31T11:36:31+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-23",
-   "mesaj": "Denetim kabul (93): validate TEMİZ · tahmin 0 · mutasyon 0/89 · kopya 3/3 engellendi · tablo+NOT, 2 fixture+hazirla, 3 KUSURLU, çelişki giderildi; final gerçek Ollama ajan döngüsü."
-  },
-  {
-   "zaman": "2026-10-31T11:32:28+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-22",
-   "mesaj": "Denetim kabul (92): validate TEMİZ (ilk 2 koşu geçici Ollama /tokenize zaman aşımı; doğrudan deney 6.5 sn çalıştı, 3. koşu TEMİZ) · tahmin 0 · mutasyon 0/97 · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU, çelişki giderildi (FAISS/cross-encoder sınırı dürüst). Küçük: 'İlk3görev', 'ile10parça' boşluk yazımları."
-  },
-  {
-   "zaman": "2026-10-31T11:26:17+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-10",
-   "mesaj": "Dalga3ilk açık10alındı.Görünür LoRA matrisleri/setup/kusurlu başlangıçlar/anlatım;gerçek40adım eğitim ve4kontrol+UI.Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-31T11:26:15+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-10",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-31T11:25:46+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-05",
-   "mesaj": "Opus denetimine teslim.TEMİZ9,tahmin0,mutasyon0/43,kopya korunuyor;sonUI11/11,Run gerçek/kabulfalse,3veriUI.4gerçekkafa/tamQKV/modelöğrenciçıktısı,fark4.7e-7.İlksekme kapandı/10053,sonteksekme tekrar kabulü gözlendi.Rapor/devir/özet güncel;kendi18800kapalı."
-  },
-  {
-   "zaman": "2026-10-31T11:25:43+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-05",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;mutasyon0/43;kopya korunuyor.GörünürQKV/setup/3kusurlu starter/834sözcük;gerçek4kafa tamtensör kanıtı.UI11/11,Run kabulfalse,3veriUI.Rapor CODEX-IYILESTIRME-ai-temel-05.md;puan Opus."
-  },
-  {
-   "zaman": "2026-10-31T11:13:38+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-05",
-   "mesaj": "Dalga3sırasındaki05alındı.GörünürQKV verisi/3kusurlu starter/anlatım ve gerçek model kafa kabulü;4kontrol+dersUI.Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-31T11:13:36+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-05",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-31T11:13:35+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-04",
-   "mesaj": "Opus denetimine teslim.TEMİZ9,tahmin0,mutasyon0/35,kopya korunuyor;UI11/11,Run gerçek/kabulfalse,3veriUI.SmolLM2 gerçeklogitlerde7/7HFuyumu,4üretim/tokenolasılıkizi.Rapor/devir/özet güncel;kendi18800kapalı."
-  },
-  {
-   "zaman": "2026-10-31T11:13:32+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-04",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;mutasyon0/35;kopya korunuyor.Görünür logit JSON/setup/3kusurlu starter/839sözcük;gerçek SmolLM2 7/7HFuyumu;UI11/11,Run kabulfalse,3veriUI.Rapor CODEX-IYILESTIRME-ai-temel-04.md;puan Opus."
-  },
-  {
-   "zaman": "2026-10-31T11:03:39+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-04",
-   "mesaj": "Dalga1/2açık emir yok;Dalga3ilk açık04alındı.Tüm iş emri,görünür örnekler,gerçek SmolLM2 deneyi ve4kontrol;kurulum yok."
-  },
-  {
-   "zaman": "2026-10-31T11:03:38+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-04",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-31T11:03:36+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-24",
-   "mesaj": "Opus denetimine teslim. TEMİZ9,tahmin0,mutasyon0/65,kopya korunuyor;UI8/8,Run gerçek/kabulfalse,3veriUI.2/2gerçekRAGçağrısı;yetkisiz sır korumalıbağlamdayok. Kaçış anlamsal güvenlik garantisi değil;Docker/egress gerçek kabulü yok. Rapor/devir/özet güncel,kendi18800 kapalı."
-  },
-  {
-   "zaman": "2026-10-31T11:03:33+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-24",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9; tahmin0; mutasyon0/65; kopya korunuyor. Görünür JSON/setup/3kusurlu starter; güçlü2/2gerçek kabul+ham kanıt; UI8/8/Run kabulfalse/3veriUI. Rapor CODEX-IYILESTIRME-ai-temel-24.md; puan Opus."
-  },
-  {
-   "zaman": "2026-10-31T02:08:19+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-24",
-   "mesaj": "Kullanıcı tüm kuyruk bitene kadar devam dedi. Dalga2 son açık24:tüm iş emri,gerçek deney ve4kontrol;sonra dalga3. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-31T02:08:17+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-24",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu"
-  },
-  {
-   "zaman": "2026-10-31T02:06:08+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-23",
-   "mesaj": "Opus denetimine teslim:TEMİZ9,tahmin0,mutant0/89,kopya korunuyor. Tablo/NOT,1191sözcük,çağrı/ajanJSON+setup,3kusurlu starter. SonUI9/9;2gerçekçağrı2doğru;tam tur/ayarlar/durma nedeni kanıtta. Model çalışmadıysa gerçekkanıt yok. FinalyalnızsayıFalse bulgusu(PASSşartıdeğil);2çağrıaynıilkmesajda,ardışıkbağımlıplanlamakanıtıyok. Rungerçek/kabulfalse;3veriUI. Kendi18800kapandı;kurulum/engine/web/commit/puan yok. Rapor CODEX-IYILESTIRME-ai-temel-23.md."
-  },
-  {
-   "zaman": "2026-10-31T02:05:40+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-23",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;mutant0/89;kopya korunuyor. Tablo/NOT,1191sözcük,görünür çağrı/ajanJSON+setup,3kusurlu starter. DuplicateJSON/sonlutip/hostşema/hata-sır kontrolleri;tam gerçek tur ve durma nedeni. SonUI9/9;2gerçekçağrı2doğru;finalyalnızsayıbulgusuFalse(PASSşartıdeğil). Rungerçek/kabulfalse;3veriUI. Rapor CODEX-IYILESTIRME-ai-temel-23.md;puanOpus."
-  },
-  {
-   "zaman": "2026-10-31T01:52:36+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-23",
-   "mesaj": "Dalga2 ilk açık23:tüm iş emri,görünür veri/setup,3kusurlu starter,gerçek deney ve4kontrol. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-31T01:52:34+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-23",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu"
-  },
-  {
-   "zaman": "2026-10-31T01:28:13+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-22",
-   "mesaj": "Opus denetimine teslim:TEMİZ9,tahmin0,mutant0/97,kopya korunuyor. Tablo/NOT,1142sözcük,retrievalJSON+setup,3kusurlu starter. SonUI12/12;gerçek10parça+6soru384boyut;recall1=.8333/3=1.0,MRR.9167,nDCG.9385. Rungerçek/kabulfalse;3veriUI. İkiembed boyunca model tutulur,finallytekownedunload doğrulandı. ÖncekiHTTP400kök nedeni kesinleşmedi;sonkontroller geçti;enjektehatafixture ayrı/kabulfalse/temizlikdoğru. Kendi18800kapandı;kurulum/engine/web/commit/puan yok. Rapor CODEX-IYILESTIRME-ai-temel-22.md."
-  },
-  {
-   "zaman": "2026-10-31T01:27:36+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-22",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;mutant0/97;kopya korunuyor. Tablo/NOT,1142sözcük,görünür retrievalJSON+setup,3kusurlu starter. SonUI12/12;10parça+6soru gerçek384boyut;recall1=.8333/3=1.0. K1/k3 ve uç sayılar sınandı;Rungerçek/kabulfalse;3veriUI. HTTP400geçmişi raporda;oturum sonu finallytemizlik doğrulandı,kasıtlı hatafixture ayrı/kabulfalse. Rapor CODEX-IYILESTIRME-ai-temel-22.md;puanOpus."
-  },
-  {
-   "zaman": "2026-10-31T00:21:25+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-19",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (ilk koşuda Ollama /api/embed HTTP 400 geçici; yeniden koşu temiz) · tahmin 0 · mutasyon 0/51 · kopya sondası 3/3 engellendi · tablo+NOT, görünür vektör kayıt/politika/sorgu fixture+hazirla, 4 kusurlu başlangıç. 77→93."
-  },
-  {
-   "zaman": "2026-10-31T00:17:46+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-16",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek Ollama gömme skorlarıyla provenance) · tahmin 0 · mutasyon 0/38 · kopya sondası 3/3 engellendi · tablo+NOT, görünür kaynak defteri/parça/provenance fixture+hazirla, 4 kusurlu başlangıç. 77→93."
-  },
-  {
-   "zaman": "2026-10-31T00:15:11+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-11",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek Ollama tool_calls, araç çalıştırılmıyor) · tahmin 0 · mutasyon 0/38 · kopya sondası 3/3 engellendi · tablo+NOT, görünür şema/çağrı/yetki fixture+hazirla, 4 kusurlu başlangıç. 77→93."
-  },
-  {
-   "zaman": "2026-10-31T00:12:38+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-25",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek kanıt dosyası SHA manifestosu) · tahmin 0 · mutasyon 0/30 · kopya sondası 3/3 engellendi · tablo+NOT, görünür manifesto/olay/devir zinciri fixture+hazirla, 4 kusurlu başlangıç. 74→93."
-  },
-  {
-   "zaman": "2026-10-31T00:10:20+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-saldiri-06",
-   "mesaj": "Denetim kabul (94): Bağımsız: validate TEMİZ (gerçek Promptfoo extraction koşusu) · tahmin 0 · mutasyon 0/15 · kopya sondası 3/3 engellendi (import/getattr/vars) · tablo+NOT, görünür deneme/deney/yanıt fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 84→94."
-  },
-  {
-   "zaman": "2026-10-31T00:07:53+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-19",
-   "mesaj": "Denetim kabul (92): Bağımsız: validate TEMİZ (önbellekteki gerçek model dosyaları Hub kaydıyla) · tahmin 0 · mutasyon 0/74 · kopya sondası 3/3 engellendi (import/vars/inspect) · tablo+NOT, görünür LFS/safetensors/kart fixture, 3 kusurlu başlangıç, çelişki yok. 83→92."
-  },
-  {
-   "zaman": "2026-10-31T00:03:54+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-saldiri-15",
-   "mesaj": "Denetim kabul (94): Bağımsız: validate TEMİZ (gerçek Ollama gömme + sohbet, bütçeli bağlam) · tahmin 0 · mutasyon 0/22 · kopya sondası 3/3 engellendi (import/getattr/vars) · tablo+NOT, görünür sorgu/aday/bağlam fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 83→94."
-  },
-  {
-   "zaman": "2026-10-31T00:01:43+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-20",
-   "mesaj": "Denetim kabul (92): Bağımsız: validate TEMİZ (gerçek gizliliği koruyan gözlemlenebilirlik kaydı) · tahmin 0 · mutasyon 0/85 · kopya sondası 3/3 engellendi · tablo+NOT, görünür trafik.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 82→92."
-  },
-  {
-   "zaman": "2026-10-30T23:58:03+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-17",
-   "mesaj": "Denetim kabul (92): Bağımsız: validate TEMİZ (gerçek Ollama SSE akışı, TTFT, eşzamanlı istek) · tahmin 0 · mutasyon 0/85 · kopya sondası 3/3 engellendi · tablo+NOT, görünür JSON + tam/yarım SSE fixture, 3 kusurlu başlangıç. Kapsam -1: sunucu içi sürekli batching kanıtlanmadı (düşük öncelik, ders sınırı açık). 81→92."
-  },
-  {
-   "zaman": "2026-10-30T23:54:11+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-saldiri-18",
-   "mesaj": "Denetim kabul (94): Bağımsız: validate TEMİZ (gerçek Ollama vekil işlemi, disk etkisi) · tahmin 0 · mutasyon 0/21 · kopya sondası 3/3 engellendi (import/getattr/vars) · tablo+NOT, görünür kapsam/oturum/vekil fixture+hazirla, 5 kusurlu başlangıç, çelişki giderildi. 81→94."
-  },
-  {
-   "zaman": "2026-10-30T23:51:49+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-12",
-   "mesaj": "Denetim kabul (92): Bağımsız: validate TEMİZ (gerçek uyarlayıcılarda eşlenmiş regresyon) · tahmin 0 · mutasyon 0/38 · kopya sondası 3/3 engellendi · tablo+NOT, görünür degerlendirme.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 76→92."
-  },
-  {
-   "zaman": "2026-10-30T23:48:16+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-22",
-   "mesaj": "Dalga2 ilk açık22:tüm iş emri,görünür veri+setup,3kusurlu starter,gerçek deney ve4kontrol. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T23:48:14+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-22",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu"
-  },
-  {
-   "zaman": "2026-10-30T23:22:19+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-19",
-   "mesaj": "Opus denetimine teslim:TEMİZ9,tahmin0,sonmutant0/74,kopya korunuyor. Tablo/NOT,1101sözcük,5görünürdosya+setup,3kusurlu starter. Duplicatekey/dolgu/dtype ve gerçek okuma sınırı kontrolleri. SonUI16/16;8gerçekdosya/272tensör/134515008parametre;tekbayt ve kesik/bozukbaşlık yakalandı. Run gerçek/kabulfalse;3veriUI. Hubmanifestikayıtlı/offline,kartlarsentetik,geneluygunlukiddiasıyok. Kendi18800kapandı;kurulum/engine/web/commit/puan yok. Rapor CODEX-IYILESTIRME-ai-temel-19.md."
-  },
-  {
-   "zaman": "2026-10-30T23:21:51+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-19",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;sonmutant0/74;kopya korunuyor. Tablo/NOT,1101sözcük,5görünürdosya+setup,3kusurlu starter. Katı duplicatekey/dolgu/dtype ve I/O okuma sınırı kontrolleri. SonUI16/16;8gerçekdosya,272tensör,134515008parametre;kurcalamalar yakalandı. Run gerçek/kabulfalse;3veriUI. Manifest offline/kartlar sentetik sınırı açık. Rapor CODEX-IYILESTIRME-ai-temel-19.md;puanOpus."
-  },
-  {
-   "zaman": "2026-10-30T23:09:58+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-19",
-   "mesaj": "Dalga2 ilk açık19: tüm iş emri,görünür veri+setup,3kusurlu starter,anlatım; gerçek deney ve4kabul kontrolü. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T23:09:56+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-19",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu"
-  },
-  {
-   "zaman": "2026-10-30T22:51:21+03:00",
-   "kim": "claude-yazar",
-   "tur": "not",
-   "konu": "iyilestirme",
-   "mesaj": "Kullanıcı isteğiyle duraklandı. Elimde alınmış ders yok. Denetim bekleyen claude-yazar teslimleri: ai-saldiri-18, ai-saldiri-15, ai-saldiri-06, ai-savunma-25, ai-savunma-11, ai-savunma-16, ai-savunma-19 (raporlar docs/ai-gercek/CLAUDE-IYILESTIRME-<ders>.md)."
-  },
-  {
-   "zaman": "2026-10-30T22:46:58+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-19",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/51; kopya 6/6. Gerçek skorlarla referans karşılaştırması ve manipüle filtreli sorgu eklendi. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-19.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T22:46:56+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-19",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/51 · kopya korunuyor (6 sonda) · yapılanlar: tablo+NOT (ve 'model kullanılmaz' çelişkisi), görünür politika/sorgu/kayıt verisi (filtre oyunu, yabancı kiracının en yüksek skoru, kesme sırası tuzağı)+hazirla, 4 kusurlu başlangıç, anlatım ~870 kelime, yasak listesi+AST+stop, gerçek skorlarla referans karşılaştırması + manipüle filtreli ikinci gerçek sorgu, vektör doğrulaması; model-skoruna bağlı 'en yüksek kiracı b' şartı bulguya çevrildi. Gerçek all-minilm: b 0.910 en yüksek ama dışlandı. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-19.md"
-  },
-  {
-   "zaman": "2026-10-30T22:40:45+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-19",
-   "mesaj": "Dalga3: tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T22:40:44+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-19",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T22:37:37+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-20",
-   "mesaj": "Opus denetimine teslim:TEMİZ9,tahmin0,mutant0/85,kopya korunuyor. Tablo/NOT,1410sözcük,trafikJSON+setup,3kusurlu starter. SonUI11/11;6gerçekistek,321token,3sentetiksırtürü redakte/hamanahtaryok;Run gerçek/kabulfalse;3veriUI. Kanıtta artık tekil gerçek yanıt/ölçüler ve sentetik girdiler var. Regex genel gizlilik garantisi değil;HMAC/gizliönekSHA256 ayrımı açık. Kendi18800kapandı;kurulum/engine/web/commit/puan yok. Rapor CODEX-IYILESTIRME-ai-temel-20.md."
-  },
-  {
-   "zaman": "2026-10-30T22:37:10+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-20",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;mutant0/85;kopya korunuyor. Tablo/NOT,1410sözcük,görünür trafikJSON+setup,3kusurlu starter. Gerçek6istek;sonUI11/11;Run gerçek/kabulfalse;3dosyaUI. Deney kanıtı artık sentetik girdiler+6tekil gerçek yanıt/ölçü içerir. Regex/genelgizlilik ve HMAC/gizliönekhash ayrımı açık. Rapor CODEX-IYILESTIRME-ai-temel-20.md;puanOpus."
-  },
-  {
-   "zaman": "2026-10-30T22:35:07+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-16",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/38; kopya 6/6. Gerçek gömme skorlarıyla seçim referansla birebir. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-16.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T22:35:05+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-16",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/38 · kopya korunuyor (6 sonda) · yapılanlar: tablo+NOT (ve 'Qdrant çağrılmaz' çelişkisi), görünür kaynak defteri/7 parça/provenance (en yüksek skorlu 4 parçanın 3'ü doğrulanamaz)+hazirla, 4 kusurlu başlangıç, anlatım ~900 kelime, yasak listesi+AST+stop, gerçek skorlarla seçimin referansla birebir karşılaştırılması, vektör doğrulaması; model skoruna bağlı 'zehirli daha alakalı' kabul şartı bulguya çevrildi (gerekçe raporda). Gerçek all-minilm: 0.761/0.579/0.496, zehirli elendi. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-16.md"
-  },
-  {
-   "zaman": "2026-10-30T22:28:51+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-20",
-   "mesaj": "Dalga2 ilk açık20: tüm iş emri, görünür veri/3kusurlu starter/anlatım; gerçek deney korunacak,4kabul kontrolü. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T22:28:49+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-20",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu"
-  },
-  {
-   "zaman": "2026-10-30T22:28:27+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-16",
-   "mesaj": "Dalga3: tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T22:28:25+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-16",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T22:27:07+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-11",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/38; kopya 6/6. Gerçek çağrılarda referansla birebir karar, 9 argüman tuzaklı görünür veri. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-11.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T22:27:05+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-11",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/38 · kopya korunuyor (6 sonda) · yapılanlar: tablo+NOT (ve 'model kullanılmaz' çelişkisi), görünür şema/çağrı/yetki verisi (9 argüman tuzağı)+hazirla, 4 kusurlu başlangıç, anlatım ~900 kelime, yasak listesi+AST+stop, gerçek çağrılarda referansla birebir karar; model-bağımlı 'iki senaryoda da çağırmalı' şartı referans karşılaştırmasına çevrildi (gerekçe raporda), ham yanıt/araç çağrıları kanıtta. Gerçek qwen3:4b: güvenli geçerli, ../../ gezinti reddedildi. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-11.md"
-  },
-  {
-   "zaman": "2026-10-30T22:20:43+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-11",
-   "mesaj": "Dalga3: tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T22:20:42+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-11",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T22:15:47+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-17",
-   "mesaj": "Opus denetimine teslim:TEMİZ9,tahmin0,mutant0/85,kopya korunuyor. Tablo/NOT,1266sözcük,görünür JSON/tam-yarım SSE+setup,3kusurlu starter. Gerçek4ardışık+2eşzamanlı HTTP,6/6hatasız,UI13/13;Run gerçek/kabulfalse;3veriUI. HamNDJSON/zamanlar artık kanıtta. İç sürekli batching kanıtı yok,üretim backend kapsamı açık:TEMEL-17-SUNUCU-KAPSAMI.md. Kendi18800 kapandı. Kurulum/engine/web/commit/puan yok. Rapor CODEX-IYILESTIRME-ai-temel-17.md."
-  },
-  {
-   "zaman": "2026-10-30T22:15:21+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-17",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;mutant0/85;kopya korunuyor. Tablo/NOT,1266sözcük,JSON/tam-yarım SSE+setup,3kusurlu starter. Gerçek sunucu4ardışık+2eşzamanlı istek;6/6hatasız;UI13/13,Run gerçek/kabulfalse;3dosyaUI. İç sürekli batching kanıtlanmadı,kapsam dosyasında açık. Rapor CODEX-IYILESTIRME-ai-temel-17.md;puan Opus."
-  },
-  {
-   "zaman": "2026-10-30T22:13:19+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-25",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/30; kopya 6/6. Gerçek tahrif senaryosu (kanıt kopyasında 13 bayt) eklendi. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-25.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T22:13:17+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-25",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/30 · kopya korunuyor (6 sonda) · yapılanlar: tablo+NOT (ve 'gerçek model kullanılmaz' çelişkisi), görünür manifesto/olay/devir zinciri verisi+hazirla, 4 kusurlu başlangıç, anlatım ~800 kelime, yasak listesi+AST+stop, referansla karşılaştırma. Gerçek deneye kanıt dosyasının geçici kopyasında gerçek tahrif senaryosu eklendi (13 bayt, yakalandı); boş yanıt=tamamlanmadı; model yanıtı kanıtta. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-25.md"
-  },
-  {
-   "zaman": "2026-10-30T22:06:22+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-17",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, kapsam"
-  },
-  {
-   "zaman": "2026-10-30T22:05:57+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-25",
-   "mesaj": "Dalga3: tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T22:05:56+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-17",
-   "mesaj": "Dalga2 ilk açık17: kapsam dahil tüm iş emri, görünür veri/3kusurlu starter/anlatım; gerçek deney ve dört kabul kontrolü. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T22:05:52+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-25",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T22:05:52+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-17",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, kapsam"
-  },
-  {
-   "zaman": "2026-10-30T21:53:47+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-12",
-   "mesaj": "Opus denetimine teslim:TEMİZ9,tahmin0,mutant0/38,kopya korunuyor. Tablo/NOT,946sözcük,JSON+setup,3kusurlu starter. Gerçek LM+SGD ders ekranı10/10,Runolasılıklar ve3dosyaUI doğrulandı. Olumlu1→1 yayınaizin; bozuk1→2/3 kritik sentetik-1/yayınred. Mevcut Run kanıt yazmaz/kabul değildir. Kendi18800 kapandı. Kurulum/engine/web/commit/puan yok. Rapor CODEX-IYILESTIRME-ai-temel-12.md."
-  },
-  {
-   "zaman": "2026-10-30T21:53:18+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-12",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9;tahmin0;mutant0/38;kopya korunuyor. Tablo/NOT,946sözcük,görünür JSON+setup,3kusurlu starter,tam256karşılaştırma ve kimliksırası testleri. Gerçek model+SGD UI10/10;3dosyaUI Run. Run gerçek çıktı gösterir ama kanıt yazmaz/kabul değildir. Rapor CODEX-IYILESTIRME-ai-temel-12.md. Puan Opus."
-  },
-  {
-   "zaman": "2026-10-30T21:45:17+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-saldiri-06",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ10; tahmin0; mutant0/15; kopya 6/6. Görünür yanıt/kayıt/deneme verisi, 4 kusurlu starter, kopya korumasına AST+stop. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-saldiri-06.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T21:45:15+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-saldiri-06",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ10 · tahmin 0 · mutasyon 0/15 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT (promptfoo), görünür model_yanitlari (casefold-b64 FP, dolgusuz, boşluk/parça FN)+deney_kaydi (iç içe/örtüşen sırlar)+deneme_kayitlari+hazirla, 4 kusurlu başlangıç, anlatım ~1000 kelime, kopya korumasına AST+kanit_yaz+stop. Gerçek deney modülü değiştirilmedi. Gerçek promptfoo 0.125.1/qwen3:4b: doğrudan 2/4, dolaylı 0/4, kontrol 0 FP, 8/8 kontrol. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-saldiri-06.md"
-  },
-  {
-   "zaman": "2026-10-30T21:44:31+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-12",
-   "mesaj": "Dalga2 ilk açık ders: tüm iş emri, görünür veri,3kusurlu starter,anlatım ve dört kabul kontrolü. Gerçek deney korunacak; kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T21:44:28+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-12",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T21:39:43+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-saldiri-06",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T21:39:41+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-saldiri-06",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu"
-  },
-  {
-   "zaman": "2026-10-30T21:26:24+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-saldiri-15",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/22; kopya 6/6. Görünür sorgu/belge/bağlam verisi, 4 kusurlu starter, kopya korumasına AST. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-saldiri-15.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T21:26:22+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-saldiri-15",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/22 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür sorgular+aday_belgeler+baglam_kayitlari (bütçeye sığmayan üst skor, sıra değişimi, Türkçe İ casefold tuzağı)+hazirla, 4 kusurlu başlangıç, anlatım ~1050 kelime, kopya korumasına AST+kanit_yaz. Gerçek deney modülü değiştirilmedi. Gerçek: sahte skor 100 kanıtı eledi, manipüle kolda model canary yazdı (kabul şartı değil). Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-saldiri-15.md"
-  },
-  {
-   "zaman": "2026-10-30T21:19:30+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-saldiri-15",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T21:19:28+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-saldiri-15",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu"
-  },
-  {
-   "zaman": "2026-10-30T21:00:19+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-saldiri-18",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/21; kopya 6/6. Görünür oturum/kapsam/vekil verisi, 4 kusurlu starter, kopya korumasına AST eklendi. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-saldiri-18.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T21:00:18+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-saldiri-18",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/21 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür oturum_ve_belgeler+kapsamlar+vekil_kayitlari+hazirla, 4 kusurlu başlangıç (gerçek deneyde yalnız-ajan kapısı direct kontrolde gizli satırı diske yazdırıyor), anlatım ~1050 kelime, kopya korumasına AST (takma ad importu) + kanit_yaz eklendi. Gerçek deney modülü zaten güçlüydü, değiştirilmedi. Gerçek qwen3:4b: 3 kolda yalnız oku:rapor, 8/8 kontrol. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-saldiri-18.md"
-  },
-  {
-   "zaman": "2026-10-30T20:56:06+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-24",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (kurulu pySigma 2.0.1 ile gerçek Sigma YAML + gerçek Ollama yanıtı) · tahmin 0 · mutasyon 0/40 · kopya sondası 3/3 engellendi · tablo+NOT, görünür Sigma YAML/kurallar/olaylar+hazirla, 4 kusurlu başlangıç, çelişki giderildi, uydurma egress olayı kaldırılmış. 77→93."
-  },
-  {
-   "zaman": "2026-10-30T20:52:32+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-saldiri-18",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T20:52:30+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-saldiri-18",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T20:51:16+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-24",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/40; kopya 6/6. Kapsam: kurulu pySigma 2.0.1 ile gerçek Sigma YAML ayrıştırılıyor; uydurma egress olayı kaldırıldı. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-24.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T20:51:14+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-24",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/40 · kopya korunuyor (6 sonda) · kapsam: kurulu pySigma 2.0.1 ile gerçek Sigma YAML ayrıştırma (UUID ve belirleyici doğrulaması, bozuk kural SigmaModifierError ile reddedildi), kurulum yok · yapılanlar: çelişki giderildi, tablo+NOT, görünür gerçek biçimli Sigma YAML + kurallar.json + olaylar.json (FP/FN, alan sınırı, çoklu eşleşme)+hazirla, 4 kusurlu başlangıç, anlatım 1037 kelime, yasak listesi+AST+stop, referansla birebir. Eski deneyin uydurma egress olayı (model çağırmazsa sabit URL) kaldırıldı; modelin gerçek yanıtı olay oldu. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-24.md"
-  },
-  {
-   "zaman": "2026-10-30T20:44:54+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-23",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek Ollama abuse sinyalleri) · tahmin 0 · mutasyon 0/44 · kopya sondası 3/3 engellendi · tablo+NOT, görünür politika/olay akışı fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
-  },
-  {
-   "zaman": "2026-10-30T20:42:18+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-22",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek Ollama araç çağrısı zinciri) · tahmin 0 · mutasyon 0/49 · kopya sondası 3/3 engellendi · tablo+NOT, görünür OTel olay/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
-  },
-  {
-   "zaman": "2026-10-30T20:42:08+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-24",
-   "mesaj": "Dalga2+kapsam: çelişki, tablo/NOT, görünür Sigma YAML fixture+hazirla, kusurlu starter, anlatım; gerçek deneyde kurulu pySigma 2.0.1 ile gerçek Sigma YAML ayrıştırma. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T20:42:06+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-24",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim, kapsam"
-  },
-  {
-   "zaman": "2026-10-30T20:39:43+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-14",
-   "mesaj": "Denetim kabul (92): Bağımsız: validate TEMİZ (gerçek Ollama JSON Schema çıktısı) · tahmin 0 · mutasyon 0/42 · kopya sondası 3/3 engellendi · tablo+NOT, görünür ornekler.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 75→92."
-  },
-  {
-   "zaman": "2026-10-30T20:39:10+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-23",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/44; kopya 6/6. Normal kullanıcı da gerçek ölçüm hattında; referansla birebir. Not: Codex'le eşzamanlı Ollama kullanımında bir Run denemesi geçici error verdi. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-23.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T20:39:10+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-23",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/44 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT (Elastic/FastAPI 429), görünür abuse_politikasi+olay_akisi (low-and-slow, sınır eşitliği, referans zaman, sızıntı önceliği)+hazirla, 4 kusurlu başlangıç, anlatım 1058 kelime, yasak listesi+AST+stop, referansla birebir; normal kullanıcı da aynı ölçüm hattında, ham yanıtlar kanıtta, boş yanıt=tamamlanmadı; model-bağımlı 'normal izin' şartı referans karşılaştırmasına devredildi. Gerçek qwen3:4b: 3 jb, 0 sızıntı, saldırgan beklet, normal izin. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-23.md"
-  },
-  {
-   "zaman": "2026-10-30T20:36:52+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-21",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek Ollama, içerik özetiyle değişiklik kontrolü) · tahmin 0 · mutasyon 0/42 · kopya sondası 3/3 engellendi · tablo+NOT, görünür kayıt/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
-  },
-  {
-   "zaman": "2026-10-30T20:33:11+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-20",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (kurulu Ollama modelinin gerçek digest'i) · tahmin 0 · mutasyon 0/32 · kopya sondası 3/3 engellendi · tablo+NOT, görünür bileşen/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
-  },
-  {
-   "zaman": "2026-10-30T20:33:08+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-14",
-   "mesaj": "Opus denetimine teslim: TEMİZ9, tahmin0, mutant0/42,kopya korunuyor. Görünür sentetik JSON+setup,3kusurlu starter,896sözcük. Gerçek ders ekranı16/16,Run2gerçekhamyanıt; mevcut Run kanıt yazmaz ve kabul değildir. İlk dosya UI Run doğrulandı. Kendi18800 sunucusu kapandı. Kurulum/engine/web/commit/puan yok. Rapor CODEX-IYILESTIRME-ai-temel-14.md."
-  },
-  {
-   "zaman": "2026-10-30T20:33:03+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-14",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): TEMİZ9; tahmin0; mutant0/42; kopya korunuyor. Tablo/NOT,896 sözcük,görünür JSON+setup,3kusurlu starter,dupe/Windows yol/büyük tamsayı testleri. Gerçek UI16/16,Run2hamyanıt; Run kanıt yazmaz. Rapor CODEX-IYILESTIRME-ai-temel-14.md. Puan Opus."
-  },
-  {
-   "zaman": "2026-10-30T20:30:52+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-18",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (ilk koşuda Ollama HTTP 500 geçici; yeniden koşu temiz) · tahmin 0 · mutasyon 0/54 · kopya sondası 3/3 engellendi · tablo+NOT, görünür RAG belge/politika fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 78→93."
-  },
-  {
-   "zaman": "2026-10-30T20:30:10+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-23",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T20:30:09+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-23",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T20:29:42+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-28",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (detector gerçek Ollama çıktılarında) · tahmin 0 · mutasyon 0/58 · kopya sondası 3/3 engellendi · tablo+NOT, görünür politika/yanıt fixture+hazirla, 4 kusurlu başlangıç, çelişki giderildi. 76→93."
-  },
-  {
-   "zaman": "2026-10-30T20:26:59+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-22",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/49; kopya 6/6. Araç gerçekten çalıştırılıyor; modelin aracı çağırması kabul şartı değil; referansla birebir. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-22.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T20:26:53+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-22",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/49 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT (OTel span/trace_id), görünür telemetri_politikasi+otel_olaylari (karışık sıra, yeniden deneme, canary sürüm geçişi, loglanmamış araç)+hazirla, 4 kusurlu başlangıç, anlatım 996 kelime, yasak listesi+AST+stop, referansla birebir. Araç artık gerçekten çalıştırılıyor (eskiden ARACLAR kullanılmıyordu); model-bağımlı 'cagrilan==topla' ve 'tam' kabul şartları kaldırıldı (gerekçe raporda); ham araç çağrıları/yanıt kanıtta. Gerçek qwen3:4b: topla(5,3)=8, iz tam. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-22.md"
-  },
-  {
-   "zaman": "2026-10-30T20:26:18+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-savunma-26",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek Ollama ASR koşusu) · tahmin 0 · mutasyon 0/36 · kopya sondası 3/3 engellendi · tablo+NOT, görünür eval_kosusu.json/hazirla, 4 kusurlu başlangıç, çelişki giderildi. 76→93."
-  },
-  {
-   "zaman": "2026-10-30T20:22:07+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-13",
-   "mesaj": "Denetim kabul (92): Bağımsız: validate TEMİZ (gerçek yerel model talimat/veri ölçümü) · tahmin 0 · mutasyon 0/25 · kopya sondası 3/3 engellendi · tablo+NOT, görünür baglam.json/hazirla, 3 kusurlu başlangıç, çelişki yok. 74→92."
-  },
-  {
-   "zaman": "2026-10-30T20:17:34+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-14",
-   "mesaj": "Dalga2 ilk açık ders14: tablo/NOT,görünür JSON dosyaları,3kusurlu starter,anlatım. Gerçek JSON Schema/Ollama deneyi korunacak; Windows sürücü yolları/standart dışı sayılar/dupe anahtar ve kopya guard kontrolleri güçlendirilecek. Kabul edilmiş Güvence07 başka ajanın, dokunulmuyor. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T20:17:32+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-14",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T20:16:39+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-22",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T20:16:37+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-22",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T20:03:54+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-21",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/42; kopya 6/6. Döngüsel deploy=registry kontrolü kaldırıldı; v1/v2 gerçek yanıtlar kanıtta; boşluk-değişikliği kaydı eklendi. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-21.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T20:03:52+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-21",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/42 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür registry_politikasi+degisiklik_kayitlari (sahip onayı, eşit geri alma, no-op, ilk sürüm, tekrar yayın)+hazirla, 4 kusurlu başlangıç, anlatım 1025 kelime, yasak listesi+AST+stop, referansla birebir. Döngüsel dagitilan_sha==sha_v2 kontrolü kaldırıldı; v1/v2 gerçek yanıtları kanıtta, boş yanıt=tamamlanmadı, r-bosluk kaydı (özet baytı ölçer). Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-21.md"
-  },
-  {
-   "zaman": "2026-10-30T19:58:15+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-13",
-   "mesaj": "Opus denetimine teslim:TEMİZ9 tahmin0 mutant0/25 kopya korunuyor. Görünür bağlam dosyası/setup,3kusurlu starter,826sözcük. Gerçek20tamçağrı/hata tipi/alias koruması; ham belge+mesajlar kayıtlı. HTTP/UI12/12; Run10çağrı kabulfalse,starter reddi ve ilk dosya görüldü. Bu koşuda iki yöntemde ASR0; üstünlük/genel güvenlik iddiası yok. Önceki kullanım/onay engeli normal onayla çözüldü. Kurulum/commit/puan yok,kendi18800 kapatıldı. Rapor CODEX-IYILESTIRME-ai-temel-13.md."
-  },
-  {
-   "zaman": "2026-10-30T19:58:11+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-13",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9;tahmin0;mutant0/25;kopya korunuyor. Tablo/NOT,görünür bağlam dosyası/setup,3kusurlu starter,anlatım826sözcük. Gerçek20çağrı tam/hatasız koşulu,hata tipi ve alias guard; tam belge/mesajlar kanıtta. HTTP/UI12/12; Run10çağrı kabulfalse,starter7/9 fail ve ilk dosya UI görüldü. Puan Opus; rapor CODEX-IYILESTIRME-ai-temel-13.md."
-  },
-  {
-   "zaman": "2026-10-30T19:57:02+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-21",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T19:57:01+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-21",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T19:55:51+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-20",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/32; kopya 6/6. Gerçek deney artık kurulu Ollama modelinin katmanlarını salt okunur gerçek SHA-256 ile doğruluyor (6/6 eşleşti, tahrif kopyası yakalandı). Model dosyalarına yazılmadı. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-20.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T19:55:50+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-20",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/32 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür tedarik_politikasi+bilesenler (sınır eşitliği, son-karakter farkı, tek risk nedeni, bozuk özetler)+hazirla, 4 kusurlu başlangıç, anlatım 1066 kelime, yasak listesi+AST+stop. Gerçek deney yeniden yazıldı: eskiden /api/tags digest'i hem beklenen hem gerçek yazılıyordu; şimdi kurulu modelin manifest katmanları gerçekten SHA-256'lanıyor (2.4 GB ağırlık dahil), tahrif kopyası, imza yok=imza nedeni (gerçek bulgu), referansla birebir. Gerçek qwen3:4b: 6/6 katman eşleşti, tahrif butunluk. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-20.md"
-  },
-  {
-   "zaman": "2026-10-30T19:46:39+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-20",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T19:46:37+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-20",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T19:32:57+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-18",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/54; kopya 6/6 korunuyor. Tablo/NOT, görünür politika+8 belge (Türkçe yanlış negatif)+hazirla, 4 kusurlu starter, anlatım1007 kelime. Gerçek qwen3:4b: zehir karantinada, bağlamda işaret yok. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-18.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T19:32:56+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-18",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/54 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT, görünür rag_politikasi+getirilen_belgeler (eşitlik, sistem taklidi, Türkçe yanlış negatif, kapasite)+hazirla, 4 kusurlu başlangıç, anlatım 1007 kelime, yasak listesi+AST+stop, referansla birebir paket+bağlam karşılaştırması, boş yanıt=tamamlanmadı, ham yanıtlar kanıtta. Model-bağımlı 'baglam_sizdi False' kabul şartı bulguya çevrildi (gerekçe raporda). Gerçek qwen3:4b: zehir karantinada, sızıntı yok. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-18.md"
-  },
-  {
-   "zaman": "2026-10-30T19:26:01+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-18",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T19:26:00+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-18",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T19:23:20+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-28",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/58; kopya 6/6 korunuyor. Tablo/NOT, görünür politika+7 yanıt (FP/FN)+hazirla, 4 kusurlu starter, anlatım1001 kelime. Gerçek qwen3:4b Bearer yanıtı yakalandı 1/3. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-28.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T19:23:19+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-28",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/58 · kopya korunuyor (6 sonda) · yapılanlar: çelişki giderildi, tablo+NOT (garak probe/detector), görünür detector_politikasi+model_yanitlari (FP/FN/Türkçe casefold)+hazirla, 4 kusurlu başlangıç, anlatım 1001 kelime, yasak listesi+AST+stop, referansla birebir karşılaştırma, boş yanıt=tamamlanmadı, ham yanıtlar kanıtta. Eski 'y-kimlik yakalanmalı' koşulu modele bağlı olduğu için koşullu yapıldı (bearer geçiyorsa yakalanmalı) — gerekçe raporda. Gerçek qwen3:4b: 1/3 gecti. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-28.md"
-  },
-  {
-   "zaman": "2026-10-30T19:15:19+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-28",
-   "mesaj": "Dalga2: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
-  },
-  {
-   "zaman": "2026-10-30T19:15:17+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-28",
-   "mesaj": "İyileştirme emri alındı: celiski, tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-30T18:33:11+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-26",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9; tahmin0; mutant0/36; kopya 6/6 korunuyor. Tablo/NOT, görünür eval_kosusu.json+hazirla, 4 kusurlu starter, anlatım997 kelime. Gerçek qwen3:4b: ASR0/3, FP0/2, ham yanıtlar kanıtta. Görsel UI kabulü YAPILMADI. Rapor CLAUDE-IYILESTIRME-ai-savunma-26.md; puan başka AI."
-  },
-  {
-   "zaman": "2026-10-30T18:33:09+03:00",
-   "kim": "claude-yazar",
-   "tur": "bitti",
-   "konu": "ai-savunma-26",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): validate TEMİZ9 · tahmin 0 · mutasyon 0/36 · kopya korunuyor (6 sonda: alias/öznitelik/getattr/inspect+exec/*/importlib) · yapılanlar: çelişki giderildi, tablo+NOT, görünür eval_kosusu.json+hazirla, 4 kusurlu başlangıç, anlatım 997 kelime, kod_denetimi yasak listesi+AST+stop, gerçek raporun bağımsız referansla karşılaştırılması, ham yanıtlar kanıtta, boş yanıt=deney tamamlanmadı. Gerçek qwen3:4b ASR 0/3 FP 0/2. Görsel UI kabulü yapılmadı. Rapor CLAUDE-IYILESTIRME-ai-savunma-26.md"
-  },
-  {
-   "zaman": "2026-10-30T18:32:54+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-guvence-07",
-   "mesaj": "Denetim kabul (93): Bağımsız: validate TEMİZ (gerçek torch FGSM eğrisi) · tahmin 0 · mutasyon 0/45 · kopya sondası 3/3 engellendi · tablo+NOT, görünür fgsm_ornekleri/epsilon_gozlemleri+hazirla, 4 kusurlu başlangıç, çelişki giderildi. Küçük: geçici klasörler Desktop'ta açılmış (kalıcı iz yok). 75→93."
-  },
-  {
-   "zaman": "2026-10-30T18:23:06+03:00",
-   "kim": "claude-yazar",
-   "tur": "basladi",
-   "konu": "ai-savunma-26",
-   "mesaj": "Dalga2 tehdit odaklı eval/ASR: çelişki, tablo/NOT, görünür fixture+hazirla, kusurlu starter, anlatım. Gerçek deney korunacak. Kurulum yok."
   }
  ],
- "guncelleme": "2026-11-02T03:07:08+03:00"
+ "guncelleme": "2026-11-05T02:32:52+03:00"
 }

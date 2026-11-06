@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "err",
+      "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  39%|███▊      | 105/272 [00:00<00:00, 1049.03it/s]\rLoading weights:  77%|███████▋  | 210/272 [00:00<00:00, 1040.53it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 1072.58it/s]\n"
+    ],
+    [
+      "out",
+      "Model: HuggingFaceTB/SmolLM2-135M@93efa2f0 · katman 4 · 9 kafa × 64 boyut\nMetin: 'The keys to the cabinet are on the table'\nSenin birleşik bağlamın ile modelin gerçek katman çıktısı arasındaki en büyük fark: 3.62e-07\n\nSon token 'Ġtable' her kafada (ilk token hariç) en çok kime bakıyor:\n  kafa 0:       'Ġthe' (0.348)   ilk tokena: 0.195\n  kafa 1:       'Ġthe' (0.228)   ilk tokena: 0.307\n  kafa 2:      'Ġkeys' (0.273)   ilk tokena: 0.134\n  kafa 3:       'Ġthe' (0.460)   ilk tokena: 0.186\n  kafa 4:       'Ġthe' (0.421)   ilk tokena: 0.249\n  kafa 5:       'Ġthe' (0.474)   ilk tokena: 0.185\n  kafa 6:       'Ġthe' (0.403)   ilk tokena: 0.237\n  kafa 7:       'Ġthe' (0.473)   ilk tokena: 0.185\n  kafa 8:       'Ġthe' (0.467)   ilk tokena: 0.225\n\nNedensellik (gerçek model): son kelime 'table' → 'chair'. İlk 8 konumun logit farkı 0.00e+00, son konumun farkı 8.73\n\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_q5uettkh\\temel-cok-basli-calistir-1793367950019.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-cok-basli-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-cok-basli-calistir-1793367950019.json",
+      "zaman": "2026-10-30T16:45:49+03:00"
+    }
+  ]
+}

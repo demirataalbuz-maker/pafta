@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik ham dosya:\n {\r\n  \"koken\": \"elle yazılmış sentetik tercih verisi; gerçek insan etiketi veya model kaydı değil\",\r\n  \"tercih_ciftleri\": [\r\n    {\r\n      \"prompt\": \"  Renk etiketi seç  \",\r\n      \"chosen\": \" mavi \",\r\n      \"rejected\": \" kırmızı \"\r\n    },\r\n    {\r\n      \"prompt\": \"  Yön etiketi seç  \",\r\n      \"chosen\": \" sol \",\r\n      \"rejected\": \" sağ \"\r\n    }\r\n  ],\r\n  \"logp_deneyi\": [\r\n    {\r\n      \"secilen\": [\r\n        -1,\r\n        -2\r\n      ],\r\n      \"reddedilen\": [\r\n        -3,\r\n        -2\r\n      ],\r\n      \"beta\": 1\r\n    },\r\n    {\r\n      \"secilen\": [\r\n        -1,\r\n        -3\r\n      ],\r\n      \"reddedilen\": [\r\n        -3,\r\n        -1\r\n      ],\r\n      \"beta\": 0.5\r\n    },\r\n    {\r\n      \"secilen\": [\r\n        -1000,\r\n        0\r\n      ],\r\n      \"reddedilen\": [\r\n        0,\r\n        0\r\n      ],\r\n      \"beta\": 1\r\n    }\r\n  ],\r\n  \"degerlendirme\": [\r\n    {\r\n      \"dogru\": true,\r\n      \"guvenli\": false\r\n    },\r\n    {\r\n      \"dogru\": true,\r\n      \"guvenli\": true\r\n    },\r\n    {\r\n      \"dogru\": false,\r\n      \"guvenli\": false\r\n    }\r\n  ]\r\n}\r\n\nTemiz tercihler: [{'prompt': 'Renk etiketi seç', 'chosen': 'mavi', 'rejected': 'kırmızı'}, {'prompt': 'Yön etiketi seç', 'chosen': 'sol', 'rejected': 'sağ'}]\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

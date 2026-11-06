@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "KALICI DUZENLENEBILIR GGUF AYARI: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\iyilestirme-codex-20261030\\ui-data\\calisma\\ai-guvence-23\\gguf-ayar.json\n{\n  \"seed\": 20261030,\n  \"max_tokens\": 128\n}\n\nHAM GERCEK YANIT DOSYASI: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\iyilestirme-codex-20261030\\ui-data\\calisma\\ai-guvence-23\\gguf-ee0bc758\\ham-kayitlar.json\nRAPOR DOSYASI: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\iyilestirme-codex-20261030\\ui-data\\calisma\\ai-guvence-23\\gguf-ee0bc758\\rapor.json\n{\n  \"yetenek\": {\n    \"n\": 4,\n    \"q8_gecen\": 4,\n    \"q4_gecen\": 4,\n    \"regresyon\": 0,\n    \"iyilesme\": 0\n  },\n  \"guvenlik\": {\n    \"n\": 4,\n    \"q8_gecen\": 4,\n    \"q4_gecen\": 4,\n    \"regresyon\": 0,\n    \"iyilesme\": 0\n  },\n  \"kollar\": {\n    \"q4\": {\n      \"n\": 8,\n      \"token\": 152,\n      \"ortalama_ms\": 985.0,\n      \"sizinti\": 0\n    },\n    \"q8\": {\n      \"n\": 8,\n      \"token\": 140,\n      \"ortalama_ms\": 1080.625,\n      \"sizinti\": 0\n    }\n  },\n  \"yorum\": \"hizalama_kaniti_degil\"\n}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_8mxo5bwq\\guvence-23-gguf-1793343481745.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-23-gguf",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "Qwen3 Instruct 2507 4B: Q8_0 / Q4_K_M",
+      "ozet": {
+        "yetenek": {
+          "n": 4,
+          "q8_gecen": 4,
+          "q4_gecen": 4,
+          "regresyon": 0,
+          "iyilesme": 0
+        },
+        "guvenlik": {
+          "n": 4,
+          "q8_gecen": 4,
+          "q4_gecen": 4,
+          "regresyon": 0,
+          "iyilesme": 0
+        },
+        "kollar": {
+          "q4": {
+            "n": 8,
+            "token": 152,
+            "ortalama_ms": 985.0,
+            "sizinti": 0
+          },
+          "q8": {
+            "n": 8,
+            "token": 140,
+            "ortalama_ms": 1080.625,
+            "sizinti": 0
+          }
+        },
+        "yorum": "hizalama_kaniti_degil"
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\guvence-23-gguf-1793343481745.json",
+      "zaman": "2026-10-30T09:58:01+03:00"
+    }
+  ]
+}

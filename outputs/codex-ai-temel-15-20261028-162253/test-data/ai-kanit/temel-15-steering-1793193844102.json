@@ -1,0 +1,100 @@
+{
+ "kaynak": "gercek",
+ "kabul": false,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cpu",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32",
+  "yon_cikarma": [
+   {
+    "katman": 0,
+    "pozitif": [
+     "The report is calm and clear.",
+     "A quiet and careful explanation."
+    ],
+    "negatif": [
+     "The report is urgent and loud.",
+     "A hurried and noisy explanation."
+    ],
+    "fark_normu": 0.37834846082879486,
+    "yon_normu": 1.0000000000000002,
+    "yon_sha256": "ff5e89b2b938b15cce51933a5a32bb00933d828caa6b2e1d6307cfb4df79f70c",
+    "boyut": 576
+   },
+   {
+    "katman": 2,
+    "pozitif": [
+     "The report is calm and clear.",
+     "A quiet and careful explanation."
+    ],
+    "negatif": [
+     "The report is urgent and loud.",
+     "A hurried and noisy explanation."
+    ],
+    "fark_normu": 1.6332732430232717,
+    "yon_normu": 1.0,
+    "yon_sha256": "231b001387c78d69c22ee149ce6fcf396f5ed678ccb0b9de8ad9091eaf425f97",
+    "boyut": 576
+   }
+  ],
+  "sinir": "Sentetik karşıt metinlerin aktivasyon farkı; semantik/refusal veya güvenlik yönü kabulü değil."
+ },
+ "ayarlar": {
+  "metin": "A careful report 966 about a river.",
+  "katman_katsayi_esik": [
+   [
+    0,
+    0.5,
+    0.2
+   ],
+   [
+    2,
+    -1.0,
+    0.3
+   ],
+   [
+    0,
+    0.0,
+    0.4
+   ],
+   [
+    2,
+    0.25,
+    1.0
+   ],
+   [
+    0,
+    0.5,
+    0.0
+   ]
+  ]
+ },
+ "ciktilar": [],
+ "agirlik_oncesi_sonrasi_sha256": "4a21403a78502849b08fb97bf61a5c8f99d96282252b68c2ba1e5904b1983e67",
+ "olculen": "gerçek residual forward hook, aşağı katman aktivasyonu ve logit değişimi",
+ "sinir": "evrensel anlam/refusal/güvenlik veya TransformerLens/repeng kabulü değildir",
+ "temizlik": "deney hookları kaldırıldı; CPU, harici süreç/sunucu/indirme yok",
+ "pilot": "temel-15-steering",
+ "zaman": "2026-10-28T16:24:03+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 3463 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "d5a28f803a000c50004e46f62b00c512e20b799601f72a9f7dd4ddfba8008fe2",
+ "mod": "test"
+}

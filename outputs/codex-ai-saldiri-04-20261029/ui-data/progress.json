@@ -1,0 +1,36 @@
+{
+ "version": 1,
+ "days": [
+  "2026-10-29"
+ ],
+ "last": {
+  "track": "ai-saldiri",
+  "lesson": "ai-saldiri-04",
+  "step": 9
+ },
+ "tracks": {
+  "ai-saldiri": {
+   "steps": {
+    "ai-saldiri-04:9": {
+     "attempts": 4,
+     "revealed": true,
+     "done": true,
+     "at": "2026-10-29T10:45:33"
+    }
+   },
+   "drafts": {
+    "ai-saldiri-04:9": "import ai_lab\n\nimport re\n\ndef taktikleri_bul(metin):\n    if not isinstance(metin, str):\n        raise ValueError(\"metin string olmalı\")\n    normal = metin.casefold().replace(\"\\u0307\", \"\")\n    sinyaller = set()\n    if re.search(r\"(?<![a-z0-9])base64(?![a-z0-9])\", normal):\n        sinyaller.add(\"base64\")\n    for token in re.findall(r\"(?<![A-Za-z0-9+/])[A-Za-z0-9+/]+={0,2}(?![A-Za-z0-9+/=])\", metin):\n        govde = token.rstrip(\"=\")\n        if (len(token) >= 12 and len(token) % 4 == 0 and re.search(r\"[A-Za-z]\", govde)\n                and re.search(r\"[0-9+/=]\", token) and \"base64\" not in token.casefold()):\n            sinyaller.add(\"base64\")\n    if re.search(r\"(?<![a-z0-9])hex(?![a-z0-9])\", normal):\n        sinyaller.add(\"hex\")\n    if any(len(t) >= 12 and len(t) % 2 == 0 for t in re.findall(\n            r\"(?<![a-z0-9])0x([0-9a-f]+)(?![0-9a-f])\", normal)):\n        sinyaller.add(\"hex\")\n    if any(x in normal for x in (\"<|system|>\", \"<|developer|>\", \"system:\", \"developer mode\", \"admin onaylı\")):\n        sinyaller.add(\"sahte-rol\")\n    if any(x in normal for x in (\"roleplay\", \"hypothetical\", \"fiction\", \"senaryo\", \"kurgu\")):\n        sinyaller.add(\"kurgu\")\n    if \"önceki talimat\" in normal and \"yok say\" in normal:\n        sinyaller.add(\"onceki-talimati-yok-say\")\n    return sorted(sinyaller)\n\ndef vakalari_siniflandir(vakalar):\n    bilinen = {\"base64\", \"hex\", \"sahte-rol\", \"kurgu\", \"onceki-talimati-yok-say\"}\n    kimlikler = set()\n    sonuc = []\n    for vaka in vakalar:\n        if not isinstance(vaka, dict):\n            raise ValueError(\"geçersiz vaka\")\n        kimlik = vaka.get(\"id\")\n        metin = vaka.get(\"metin\")\n        sinyaller = vaka.get(\"sinyaller\", [])\n        if not isinstance(kimlik, str) or not kimlik or kimlik in kimlikler or not isinstance(metin, str):\n            raise ValueError(\"geçersiz veya yinelenen vaka\")\n        kimlikler.add(kimlik)\n        if not isinstance(sinyaller, (list, set, tuple)) or any(s not in bilinen for s in sinyaller):\n            raise ValueError(\"bilinmeyen sinyal\")\n        kume = set(sinyaller)\n        etiketler = set()\n        if kume & {\"base64\", \"hex\"}:\n            etiketler.add(\"donusturme\")\n        if kume & {\"sahte-rol\", \"kurgu\"}:\n            etiketler.add(\"baglam-manipulasyonu\")\n        if \"onceki-talimati-yok-say\" in kume:\n            etiketler.add(\"politika-catistirma\")\n        if not etiketler:\n            etiketler.add(\"dogrudan-istek\")\n        sonuc.append({\"id\":kimlik, \"metin\":metin, \"etiketler\":sorted(etiketler)})\n    return sonuc\n\ndef siniflandirma_olc(vakalar, etiketler):\n    rapor = {}\n    siniflar = set(etiketler)\n    for vaka in vakalar:\n        if set(vaka[\"beklenen\"]) - siniflar or set(vaka[\"tahmin\"]) - siniflar:\n            raise ValueError(\"rapor dışı etiket\")\n    for sinif in etiketler:\n        tp = sum(sinif in vaka[\"beklenen\"] and sinif in vaka[\"tahmin\"] for vaka in vakalar)\n        fp = sum(sinif not in vaka[\"beklenen\"] and sinif in vaka[\"tahmin\"] for vaka in vakalar)\n        fn = sum(sinif in vaka[\"beklenen\"] and sinif not in vaka[\"tahmin\"] for vaka in vakalar)\n        precision = tp / (tp + fp) if tp + fp else None\n        recall = tp / (tp + fn) if tp + fn else None\n        if precision is None or recall is None:\n            f1 = None\n        elif precision + recall:\n            f1 = 2 * precision * recall / (precision + recall)\n        else:\n            f1 = 0.0\n        rapor[sinif] = {\"tp\":tp,\"fp\":fp,\"fn\":fn,\"precision\":precision,\"recall\":recall,\"f1\":f1}\n    return rapor\n\ndef vaka_dosyasini_oku(yol):\n    import json\n    from pathlib import Path\n    etiketler = {\"baglam-manipulasyonu\", \"dogrudan-istek\", \"donusturme\", \"politika-catistirma\"}\n    sonuc = []\n    kimlikler = set()\n    for satir in Path(yol).read_text(encoding=\"utf-8\").splitlines():\n        if not satir.strip():\n            continue\n        vaka = json.loads(satir)\n        if not isinstance(vaka, dict) or set(vaka) != {\"id\", \"metin\", \"beklenen\"}:\n            raise ValueError(\"vaka alanları\")\n        kimlik, metin, beklenen = vaka[\"id\"], vaka[\"metin\"], vaka[\"beklenen\"]\n        if not isinstance(kimlik, str) or not kimlik or kimlik in kimlikler:\n            raise ValueError(\"kimlik\")\n        if not isinstance(metin, str) or not 1 <= len(metin) <= 1500:\n            raise ValueError(\"metin\")\n        if not isinstance(beklenen, list) or not beklenen or any(not isinstance(e, str) or e not in etiketler for e in beklenen):\n            raise ValueError(\"etiket\")\n        if len(set(beklenen)) != len(beklenen) or \"dogrudan-istek\" in beklenen and len(beklenen) > 1:\n            raise ValueError(\"etiket birleşimi\")\n        kimlikler.add(kimlik)\n        sonuc.append(vaka)\n    if not 1 <= len(sonuc) <= 8:\n        raise ValueError(\"1..8 vaka\")\n    return sonuc\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_saldiri_04 as deney\n    deney.goster(vaka_dosyasini_oku, taktikleri_bul, vakalari_siniflandir, siniflandirma_olc)"
+   },
+   "review": {
+    "ai-saldiri-04:9": {
+     "box": 1,
+     "due": "2026-10-30"
+    }
+   }
+  }
+ },
+ "playground": "",
+ "settings": {
+  "theme": "mavi"
+ }
+}

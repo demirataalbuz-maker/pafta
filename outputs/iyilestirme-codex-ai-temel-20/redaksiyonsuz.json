@@ -1,0 +1,38 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi olay kaydını yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "gizliliği koruyan kayıt doğru (hash + redaksiyon + ölçü); geçersiz girdi reddedilmeli"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ham anahtarı kayda yazan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: istemi redakte etmeyen"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: istemi uzunluk yerine ham yazan"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-gozlem",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-t14-sonda-20261030\\ai-kanit\\temel-gozlem-1793388820619.json",
+      "zaman": "2026-10-30T22:33:40+03:00"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Model: qwen3:4b-instruct-2507-q4_K_M · 6 gerçek istek\n\n[normal1] anahtar_hash=ebe056dab812c68d uzunluk=48 token=80 sure=11599ms türler=[]\n          redakte: Bir cümlede yıldızların neden parladığını söyle.\n[normal2] anahtar_hash=ebe056dab812c68d uzunluk=60 token=24 sure=6059ms türler=[]\n          redakte: Suyun deniz seviyesinde kaynama sıcaklığı nedir? Kısa yanıt.\n[tekrar ] anahtar_hash=ebe056dab812c68d uzunluk=24 token=44 sure=20597ms türler=[]\n          redakte: Merhaba, bugün nasılsın?\n[tekrar ] anahtar_hash=ebe056dab812c68d uzunluk=24 token=44 sure=595ms türler=[]\n          redakte: Merhaba, bugün nasılsın?\n[tekrar ] anahtar_hash=ebe056dab812c68d uzunluk=24 token=73 sure=919ms türler=[]\n          redakte: Merhaba, bugün nasılsın?\n[sir    ] anahtar_hash=ebe056dab812c68d uzunluk=126 token=56 sure=736ms türler=['anahtar', 'eposta', 'numara']\n          redakte: API anahtarım [GIZLI:anahtar], e-postam [GIZLI:eposta], kart numaram [GIZLI:numara]. Bunu \n\nTekrar oranı: 0.5 (3 aynı istem → kötüye kullanım görünür) · toplam token: 321\nSır kaydı türleri: ['anahtar', 'eposta', 'numara'] · sızan sır: yok · ham anahtar kayıtta: False\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_vd0mb8qx\\temel-gozlem-calistir-1793388808649.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-gozlem-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "qwen3:4b-instruct-2507-q4_K_M",
+      "ozet": {
+        "istek": 6,
+        "toplam_token": 321,
+        "yineleme_orani": 0.5,
+        "sir_turleri": [
+          "anahtar",
+          "eposta",
+          "numara"
+        ],
+        "sizan_sir": [],
+        "anahtar_hash_ornegi": "ebe056dab812c68d",
+        "ham_anahtar_kayitta": false
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-gozlem-calistir-1793388808649.json",
+      "zaman": "2026-10-30T22:33:25+03:00"
+    }
+  ]
+}

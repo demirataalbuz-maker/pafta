@@ -1,0 +1,61 @@
+{
+  "kaynak": "fixture",
+  "gercek_model_kabulu": false,
+  "results": [
+    {
+      "case": "500-then-ready",
+      "okay": true,
+      "calls": 2,
+      "kayit": {
+        "vision_yeniden_denemeleri": [
+          {
+            "deneme": 1,
+            "tur": "HTTPError",
+            "hata": "HTTP Error 500: fixture",
+            "gecici": true,
+            "govde": "fixture-only"
+          }
+        ]
+      }
+    },
+    {
+      "case": "400-permanent",
+      "okay": true,
+      "calls": 1,
+      "kayit": {
+        "vision_yeniden_denemeleri": [
+          {
+            "deneme": 1,
+            "tur": "HTTPError",
+            "hata": "HTTP Error 400: fixture",
+            "gecici": false,
+            "govde": "fixture-only"
+          }
+        ]
+      }
+    },
+    {
+      "case": "503-persistent",
+      "okay": true,
+      "calls": 2,
+      "kayit": {
+        "vision_yeniden_denemeleri": [
+          {
+            "deneme": 1,
+            "tur": "HTTPError",
+            "hata": "HTTP Error 503: fixture",
+            "gecici": true,
+            "govde": "fixture-only"
+          },
+          {
+            "deneme": 2,
+            "tur": "HTTPError",
+            "hata": "HTTP Error 503: fixture",
+            "gecici": true,
+            "govde": "fixture-only"
+          }
+        ]
+      }
+    }
+  ]
+}

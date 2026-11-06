@@ -1,0 +1,1561 @@
+{
+  "ai-guvence-17": [
+    {
+      "case": "reference",
+      "expected_pass": true,
+      "ok": true,
+      "seconds": 10.95,
+      "result": {
+        "status": "pass",
+        "checks": [
+          {
+            "ok": true,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "olcum-0"
+          },
+          {
+            "ok": true,
+            "msg": "olcum-1"
+          },
+          {
+            "ok": true,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-17-cpu",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc": 0.781065,
+                "tpr": 0.769231,
+                "fpr": 0.384615,
+                "avantaj": 0.384615
+              },
+              {
+                "auc": 0.840237,
+                "tpr": 0.615385,
+                "fpr": 0.230769,
+                "avantaj": 0.384615
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-17-cpu-1793299795010.json",
+            "zaman": "2026-10-29T21:49:54+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "starter",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 9.32,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "olcum-0"
+          },
+          {
+            "ok": false,
+            "msg": "olcum-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-17-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {},
+              {}
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-17-cpu-1793299804425.json",
+            "zaman": "2026-10-29T21:50:04+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "empty",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 0.59,
+      "result": {
+        "status": "fail",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'olc' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "olc"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "constant",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 9.13,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "olcum-0"
+          },
+          {
+            "ok": false,
+            "msg": "olcum-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-17-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {},
+              {}
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-17-cpu-1793299814057.json",
+            "zaman": "2026-10-29T21:50:13+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-1",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 7.94,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "olcum-0"
+          },
+          {
+            "ok": true,
+            "msg": "olcum-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-17-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc": 0.781065,
+                "tpr": 0.769231,
+                "fpr": 0.384615,
+                "avantaj": 0.384615
+              },
+              {
+                "auc": 0.840237,
+                "tpr": 0.615385,
+                "fpr": 0.230769,
+                "avantaj": 0.384615
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-17-cpu-1793299822092.json",
+            "zaman": "2026-10-29T21:50:21+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-2",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 8.97,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "olcum-0"
+          },
+          {
+            "ok": true,
+            "msg": "olcum-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-17-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc": 0.781065,
+                "tpr": 0.769231,
+                "fpr": 0.384615,
+                "avantaj": 0.384615
+              },
+              {
+                "auc": 0.840237,
+                "tpr": 0.615385,
+                "fpr": 0.230769,
+                "avantaj": 0.384615
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-17-cpu-1793299831044.json",
+            "zaman": "2026-10-29T21:50:30+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-3",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 8.94,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "olcum-0"
+          },
+          {
+            "ok": false,
+            "msg": "olcum-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-17-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc": 0.781065,
+                "tpr": 0.769231,
+                "fpr": 0.384615,
+                "avantaj": -0.384615
+              },
+              {
+                "auc": 0.840237,
+                "tpr": 0.615385,
+                "fpr": 0.230769,
+                "avantaj": -0.384615
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-17-cpu-1793299840021.json",
+            "zaman": "2026-10-29T21:50:39+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "missing-dependency",
+      "ok": true,
+      "result": {
+        "status": "error",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        }
+      }
+    },
+    {
+      "case": "persistent-edited-copy-relative-root",
+      "ok": true,
+      "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-17\\ayarlar.json"
+    }
+  ],
+  "ai-guvence-18": [
+    {
+      "case": "reference",
+      "expected_pass": true,
+      "ok": true,
+      "seconds": 8.1,
+      "result": {
+        "status": "pass",
+        "checks": [
+          {
+            "ok": true,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "acik-0-3"
+          },
+          {
+            "ok": true,
+            "msg": "acik-0-35"
+          },
+          {
+            "ok": true,
+            "msg": "acik-1-3"
+          },
+          {
+            "ok": true,
+            "msg": "acik-1-35"
+          },
+          {
+            "ok": true,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-18-cpu",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "acik": 0.307692,
+                "auc": 0.650888,
+                "risk": true
+              },
+              {
+                "acik": 0.384615,
+                "auc": 0.739645,
+                "risk": true
+              },
+              {
+                "acik": 0.076923,
+                "auc": 0.615385,
+                "risk": false
+              },
+              {
+                "acik": 0.230769,
+                "auc": 0.56213,
+                "risk": false
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-18-cpu-1793299848082.json",
+            "zaman": "2026-10-29T21:50:47+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "starter",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 10.12,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "acik-0-3"
+          },
+          {
+            "ok": false,
+            "msg": "acik-0-35"
+          },
+          {
+            "ok": false,
+            "msg": "acik-1-3"
+          },
+          {
+            "ok": false,
+            "msg": "acik-1-35"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-18-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {},
+              {},
+              {},
+              {}
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-18-cpu-1793299858183.json",
+            "zaman": "2026-10-29T21:50:58+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "empty",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 0.49,
+      "result": {
+        "status": "fail",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'olc' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "olc"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "constant",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 8.0,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "acik-0-3"
+          },
+          {
+            "ok": false,
+            "msg": "acik-0-35"
+          },
+          {
+            "ok": false,
+            "msg": "acik-1-3"
+          },
+          {
+            "ok": false,
+            "msg": "acik-1-35"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-18-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {},
+              {},
+              {},
+              {}
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-18-cpu-1793299866796.json",
+            "zaman": "2026-10-29T21:51:06+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-1",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 9.96,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "acik-0-3"
+          },
+          {
+            "ok": false,
+            "msg": "acik-0-35"
+          },
+          {
+            "ok": false,
+            "msg": "acik-1-3"
+          },
+          {
+            "ok": false,
+            "msg": "acik-1-35"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-18-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "acik": -0.307692,
+                "auc": 0.650888,
+                "risk": true
+              },
+              {
+                "acik": -0.384615,
+                "auc": 0.739645,
+                "risk": true
+              },
+              {
+                "acik": -0.076923,
+                "auc": 0.615385,
+                "risk": false
+              },
+              {
+                "acik": -0.230769,
+                "auc": 0.56213,
+                "risk": false
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-18-cpu-1793299876659.json",
+            "zaman": "2026-10-29T21:51:16+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-2",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 8.13,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "acik-0-3"
+          },
+          {
+            "ok": true,
+            "msg": "acik-0-35"
+          },
+          {
+            "ok": true,
+            "msg": "acik-1-3"
+          },
+          {
+            "ok": false,
+            "msg": "acik-1-35"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-18-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "acik": 0.307692,
+                "auc": 0.650888,
+                "risk": true
+              },
+              {
+                "acik": 0.384615,
+                "auc": 0.739645,
+                "risk": true
+              },
+              {
+                "acik": 0.076923,
+                "auc": 0.615385,
+                "risk": false
+              },
+              {
+                "acik": 0.230769,
+                "auc": 0.56213,
+                "risk": true
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-18-cpu-1793299884880.json",
+            "zaman": "2026-10-29T21:51:24+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-3",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 8.1,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "acik-0-3"
+          },
+          {
+            "ok": true,
+            "msg": "acik-0-35"
+          },
+          {
+            "ok": true,
+            "msg": "acik-1-3"
+          },
+          {
+            "ok": true,
+            "msg": "acik-1-35"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-18-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "acik": 0.307692,
+                "auc": 0.650888,
+                "risk": true
+              },
+              {
+                "acik": 0.384615,
+                "auc": 0.739645,
+                "risk": true
+              },
+              {
+                "acik": 0.076923,
+                "auc": 0.615385,
+                "risk": false
+              },
+              {
+                "acik": 0.230769,
+                "auc": 0.56213,
+                "risk": false
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-18-cpu-1793299892903.json",
+            "zaman": "2026-10-29T21:51:32+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "missing-dependency",
+      "ok": true,
+      "result": {
+        "status": "error",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        }
+      }
+    },
+    {
+      "case": "persistent-edited-copy-relative-root",
+      "ok": true,
+      "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-18\\ayarlar.json"
+    }
+  ],
+  "ai-guvence-19": [
+    {
+      "case": "reference",
+      "expected_pass": true,
+      "ok": true,
+      "seconds": 8.88,
+      "result": {
+        "status": "pass",
+        "checks": [
+          {
+            "ok": true,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "butce-0"
+          },
+          {
+            "ok": true,
+            "msg": "butce-1"
+          },
+          {
+            "ok": true,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-19-cpu",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "sigma": 1.75,
+                "epsilon": 9.061711505454005,
+                "test_dogruluk": 0.5384615384615384
+              },
+              {
+                "sigma": 3.5,
+                "epsilon": 4.204325140482105,
+                "test_dogruluk": 0.6153846153846154
+              },
+              {
+                "sigma": 1.75,
+                "epsilon": 9.061711505454005,
+                "test_dogruluk": 0.5384615384615384
+              },
+              {
+                "sigma": 3.5,
+                "epsilon": 4.204325140482105,
+                "test_dogruluk": 0.5384615384615384
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-19-cpu-1793299901849.json",
+            "zaman": "2026-10-29T21:51:41+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "starter",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 10.03,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          }
+        ],
+        "segs": [],
+        "error": {
+          "type": "TypeError",
+          "msg": "must be real number, not dict",
+          "frames": [],
+          "line": null,
+          "where": "test"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "empty",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 0.7,
+      "result": {
+        "status": "fail",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'olc' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "olc"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "constant",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 9.08,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          }
+        ],
+        "segs": [],
+        "error": {
+          "type": "TypeError",
+          "msg": "must be real number, not dict",
+          "frames": [],
+          "line": null,
+          "where": "test"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "mutant-1",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 9.14,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          }
+        ],
+        "segs": [],
+        "error": {
+          "type": "ValueError",
+          "msg": "Örnek başına kırpma bağımsız autograd ile uyuşmadı",
+          "frames": [],
+          "line": null,
+          "where": "test"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "mutant-2",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 11.25,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          }
+        ],
+        "segs": [],
+        "error": {
+          "type": "ValueError",
+          "msg": "Bütçe hesabı yanlış",
+          "frames": [],
+          "line": null,
+          "where": "test"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "mutant-3",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 14.91,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          }
+        ],
+        "segs": [],
+        "error": {
+          "type": "ValueError",
+          "msg": "Bütçe hesabı yanlış",
+          "frames": [],
+          "line": null,
+          "where": "test"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "missing-dependency",
+      "ok": true,
+      "result": {
+        "status": "error",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        }
+      }
+    },
+    {
+      "case": "persistent-edited-copy-relative-root",
+      "ok": true,
+      "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-19\\ayarlar.json"
+    }
+  ],
+  "ai-guvence-20": [
+    {
+      "case": "reference",
+      "expected_pass": true,
+      "ok": true,
+      "seconds": 14.15,
+      "result": {
+        "status": "pass",
+        "checks": [
+          {
+            "ok": true,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "iddia-0"
+          },
+          {
+            "ok": true,
+            "msg": "iddia-1"
+          },
+          {
+            "ok": true,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-20-cpu",
+            "kaynak": "gercek",
+            "kabul": true,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc_azalisi": 0.035503,
+                "dogruluk_kaybi": 0.153846,
+                "destekli": false,
+                "bicimsel_garanti": false
+              },
+              {
+                "auc_azalisi": 0.076923,
+                "dogruluk_kaybi": 0.0,
+                "destekli": false,
+                "bicimsel_garanti": false
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-20-cpu-1793299970886.json",
+            "zaman": "2026-10-29T21:52:50+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "starter",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 16.44,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-0"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-20-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {},
+              {}
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-20-cpu-1793299987305.json",
+            "zaman": "2026-10-29T21:53:06+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "empty",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 1.15,
+      "result": {
+        "status": "fail",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'olc' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "olc"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "case": "constant",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 17.13,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-0"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-20-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {},
+              {}
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-20-cpu-1793300005590.json",
+            "zaman": "2026-10-29T21:53:25+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-1",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 14.35,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-0"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-20-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc_azalisi": -0.035503,
+                "dogruluk_kaybi": 0.153846,
+                "destekli": false,
+                "bicimsel_garanti": false
+              },
+              {
+                "auc_azalisi": -0.076923,
+                "dogruluk_kaybi": 0.0,
+                "destekli": false,
+                "bicimsel_garanti": false
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-20-cpu-1793300020070.json",
+            "zaman": "2026-10-29T21:53:39+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-2",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 13.62,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": true,
+            "msg": "iddia-0"
+          },
+          {
+            "ok": true,
+            "msg": "iddia-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-20-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc_azalisi": 0.035503,
+                "dogruluk_kaybi": 0.153846,
+                "destekli": false,
+                "bicimsel_garanti": false
+              },
+              {
+                "auc_azalisi": 0.076923,
+                "dogruluk_kaybi": 0.0,
+                "destekli": false,
+                "bicimsel_garanti": false
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-20-cpu-1793300033695.json",
+            "zaman": "2026-10-29T21:53:53+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "mutant-3",
+      "expected_pass": false,
+      "ok": true,
+      "seconds": 12.48,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "Görülmemiş sınırlar, eşitlik ve yanlış ölçüm reddi"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-0"
+          },
+          {
+            "ok": false,
+            "msg": "iddia-1"
+          },
+          {
+            "ok": false,
+            "msg": "ogrenci_sozlesmesi"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 1 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 2 reddedilir"
+          },
+          {
+            "ok": true,
+            "msg": "Mutant 3 reddedilir"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-20-cpu",
+            "kaynak": "gercek",
+            "kabul": false,
+            "model": "Yerel 12-24-2 MLP / SGD / CPU",
+            "ozet": [
+              {
+                "auc_azalisi": 0.035503,
+                "dogruluk_kaybi": 0.153846,
+                "destekli": false,
+                "bicimsel_garanti": true
+              },
+              {
+                "auc_azalisi": 0.076923,
+                "dogruluk_kaybi": 0.0,
+                "destekli": false,
+                "bicimsel_garanti": true
+              }
+            ],
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\cli-data\\ai-kanit\\guvence-20-cpu-1793300046129.json",
+            "zaman": "2026-10-29T21:54:05+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "case": "missing-dependency",
+      "ok": true,
+      "result": {
+        "status": "error",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "BağımlılıkEksik",
+          "line": null,
+          "frames": [],
+          "where": "kurulum",
+          "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+        }
+      }
+    },
+    {
+      "case": "persistent-edited-copy-relative-root",
+      "ok": true,
+      "path": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-17-20\\persistence\\calisma\\ai-guvence-20\\ayarlar.json"
+    }
+  ]
+}

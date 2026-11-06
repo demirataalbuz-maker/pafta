@@ -1,0 +1,149 @@
+{
+  "canli_kabul": "EKSIK-opt-in-yok-referans-PASS-DEGIL",
+  "negatif_kosucu_kontrolleri": [
+    {
+      "name": "reference-no-opt-in",
+      "okay": true,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "EKSIK / PASS DEGIL: Kucuk-guclu canli karsilastirma icin ayar.json opt_in=true acik onayi gerekli; eksik deney PASS degil"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-28",
+            "kaynak": "eksik",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-28-1793299981157.json",
+            "zaman": "2026-10-29T21:53:00+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "name": "starter",
+      "okay": true,
+      "result": {
+        "status": "fail",
+        "checks": [
+          {
+            "ok": false,
+            "msg": "EKSIK / PASS DEGIL: Kucuk-guclu canli karsilastirma icin ayar.json opt_in=true acik onayi gerekli; eksik deney PASS degil"
+          }
+        ],
+        "segs": [],
+        "error": null,
+        "ai_kanit": [
+          {
+            "pilot": "guvence-28",
+            "kaynak": "eksik",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-28-1793299982486.json",
+            "zaman": "2026-10-29T21:53:02+03:00"
+          }
+        ]
+      }
+    },
+    {
+      "name": "empty",
+      "okay": true,
+      "result": {
+        "status": "fail",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'ai_lab' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "ai_lab"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "name": "constant",
+      "okay": true,
+      "result": {
+        "status": "fail",
+        "checks": [],
+        "segs": [],
+        "error": {
+          "type": "NameError",
+          "msg": "name 'ai_lab' is not defined",
+          "frames": [],
+          "line": null,
+          "where": "test",
+          "missing": "ai_lab"
+        },
+        "ai_kanit": []
+      }
+    },
+    {
+      "name": "run-no-opt-in",
+      "okay": true,
+      "result": {
+        "status": "error",
+        "segs": [
+          [
+            "out",
+            "KALICI ACIK ONAY DOSYASI: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\calisma\\ai-guvence-28\\ayar.json\n{\n  \"opt_in\": false,\n  \"kucuk\": \"qwen3:4b-instruct-2507-q4_K_M\",\n  \"guclu\": \"qwen3:8b\",\n  \"max_calls\": 8,\n  \"max_model_bytes\": 5500000000\n}\n\nEKSIK / PASS DEGIL: Kucuk-guclu canli karsilastirma icin ayar.json opt_in=true acik onayi gerekli; eksik deney PASS degil\n"
+          ]
+        ],
+        "truncated": false,
+        "error": {
+          "type": "ValueError",
+          "msg": "Kucuk-guclu canli karsilastirma icin ayar.json opt_in=true acik onayi gerekli; eksik deney PASS degil",
+          "frames": [
+            {
+              "line": 19,
+              "func": "<module>",
+              "text": "deney.goster(karsilastirma_plani,karsilastirma_skoru,karsilastirma_ozeti)"
+            }
+          ],
+          "line": 19,
+          "where": "kod"
+        },
+        "ai_kanit": [
+          {
+            "pilot": "guvence-28",
+            "kaynak": "eksik",
+            "kabul": false,
+            "model": null,
+            "ozet": null,
+            "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-28-1793299985581.json",
+            "zaman": "2026-10-29T21:53:05+03:00"
+          }
+        ]
+      }
+    }
+  ],
+  "sentetik_sozlesme_kontrolleri": [
+    {
+      "name": "reference-contract",
+      "okay": true
+    },
+    {
+      "name": "mutant-consent-ignored",
+      "okay": true
+    },
+    {
+      "name": "mutant-secret-case-sensitive",
+      "okay": true
+    },
+    {
+      "name": "mutant-fixed-quality",
+      "okay": true
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "kopya/yama koruması: []"
+    },
+    {
+      "ok": false,
+      "msg": "tüm metadata, iki araç, girdi değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "JSON key sırası onayı değiştirmez"
+    },
+    {
+      "ok": false,
+      "msg": "değişen description",
+      "got": "{'sunucu': 'server-9f94b4cd', 'araclar': {'lookup_order': 'lookup_order'}}",
+      "exp": "{'sunucu': 'server-9f94b4cd', 'araclar': {'lookup_order': 'dd69797c9982d419143d9053b2492f22ff67960de58127b0382ea950a055f1d2'}}"
+    },
+    {
+      "ok": false,
+      "msg": "değişen annotations",
+      "got": "{'sunucu': 'server-9f94b4cd', 'araclar': {'lookup_order': 'lookup_order'}}",
+      "exp": "{'sunucu': 'server-9f94b4cd', 'araclar': {'lookup_order': '2e9c80b5ffff0a69462ccf340c8d0a646753661a15d7336540229ffcb1e88dee'}}"
+    },
+    {
+      "ok": false,
+      "msg": "değişen inputSchema",
+      "got": "{'sunucu': 'server-9f94b4cd', 'araclar': {'lookup_order': 'lookup_order'}}",
+      "exp": "{'sunucu': 'server-9f94b4cd', 'araclar': {'lookup_order': 'c54bc2f686d6ec09d7f4cc9ad2ab8a819238178ec2d76779fd49665cc2cf4955'}}"
+    },
+    {
+      "ok": false,
+      "msg": "değişen name",
+      "got": "{'sunucu': 'server-9f94b4cd', 'araclar': {'renamed': 'renamed'}}",
+      "exp": "{'sunucu': 'server-9f94b4cd', 'araclar': {'renamed': '19cfa703358c568ab7ed06fc878344e20596b0034b1354f057d2dc60fcb21c26'}}"
+    },
+    {
+      "ok": true,
+      "msg": "16 araç sınırı dahil"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk/tekrar/üst sınır reddi"
+    },
+    {
+      "ok": true,
+      "msg": "sunucu kimliği"
+    },
+    {
+      "ok": true,
+      "msg": "aynı metadata izinli"
+    },
+    {
+      "ok": true,
+      "msg": "girdiler değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "yeniden onay: description"
+    },
+    {
+      "ok": true,
+      "msg": "yeniden onay: annotations"
+    },
+    {
+      "ok": true,
+      "msg": "yeniden onay: inputSchema"
+    },
+    {
+      "ok": true,
+      "msg": "yeniden onay: name"
+    },
+    {
+      "ok": true,
+      "msg": "başka sunucu"
+    },
+    {
+      "ok": true,
+      "msg": "sıra farkı"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk araç fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk onay fail closed"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk sunucu"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk sunucu"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk sunucu"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk sunucu"
+    },
+    {
+      "ok": true,
+      "msg": "64 karakter ad dahil"
+    },
+    {
+      "ok": true,
+      "msg": "hash eşleşse de bozuk sözleşme reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "hash eşleşse de bozuk sözleşme reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "hash eşleşse de bozuk sözleşme reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "hash eşleşse de bozuk sözleşme reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "hash eşleşse de bozuk sözleşme reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "hash eşleşse de bozuk sözleşme reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "onaydaki ilave bozuk kayıt reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "onaydaki ilave bozuk kayıt reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "iki taraf boşken izin çıkmaz"
+    },
+    {
+      "ok": true,
+      "msg": "iki taraf boşken izin çıkmaz"
+    },
+    {
+      "ok": true,
+      "msg": "ölçülen etkiler ve hatalar ayrı"
+    },
+    {
+      "ok": true,
+      "msg": "girdi değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "ölçülen etkiler ve hatalar ayrı"
+    },
+    {
+      "ok": true,
+      "msg": "girdi değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "ölçülen etkiler ve hatalar ayrı"
+    },
+    {
+      "ok": true,
+      "msg": "girdi değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "ölçülen etkiler ve hatalar ayrı"
+    },
+    {
+      "ok": true,
+      "msg": "girdi değişmedi"
+    },
+    {
+      "ok": true,
+      "msg": "sıra bağımsız"
+    },
+    {
+      "ok": true,
+      "msg": "şema, gerçek bool/int ve negatif etki reddi"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

@@ -1,0 +1,24 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi dispatch işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "şema doğrulama + dispatch doğru; bozuk girdi ValueError, model hatası hata sözlüğü"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: şema doğrulamayı atlayan"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tip doğrulamayı atlayan"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

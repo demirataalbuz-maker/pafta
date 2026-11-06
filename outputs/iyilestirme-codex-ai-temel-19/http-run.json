@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "err",
+      "\rLoading weights:   0%|          | 0/272 [00:00<?, ?it/s]\rLoading weights:  40%|███▉      | 108/272 [00:00<00:00, 1071.81it/s]\rLoading weights:  83%|████████▎ | 227/272 [00:00<00:00, 1125.05it/s]\rLoading weights: 100%|██████████| 272/272 [00:00<00:00, 1153.01it/s]\n"
+    ],
+    [
+      "out",
+      "HuggingFaceTB/SmolLM2-135M @ 93efa2f097d5 · snapshot klasörü 93efa2f097d5\nDosya                     boyut        Hub ile karşılaştırma\n  config.json                      704  git blob ✓\n  generation_config.json           111  git blob ✓\n  merges.txt                   466,391  git blob ✓\n  model.safetensors        269,060,552  LFS sha256 ✓ · işaretçinin git blob kimliği ✓\n  special_tokens_map.json          831  git blob ✓\n  tokenizer.json             2,104,556  git blob ✓\n  tokenizer_config.json          3,658  git blob ✓\n  vocab.json                   800,662  git blob ✓\n\nsafetensors başlığı: 30,528 bayt, 272 tensör, {'BF16': 272}, metadata {'format': 'pt'}\nBaşlıktan sayılan parametre 134,515,008 · transformers modelinin parametresi 134,515,008\n\nKurcalanmış kopyalar (geçici klasörde):\n  veri_bayti   başlık denetimi: geçti                                         sha256 Hub'la FARKLI\n  kesik        başlık denetimi: ValueError: veri bölümü uzunluğu başlıkla tutmuyor sha256 Hub'la FARKLI\n  baslik_boyu  başlık denetimi: ValueError: başlık UTF-8 JSON değil           sha256 Hub'la FARKLI\n\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_i_s158e6\\temel-dosya-butunlugu-calistir-1793391320816.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-dosya-butunlugu-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "HuggingFaceTB/SmolLM2-135M",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-dosya-butunlugu-calistir-1793391320816.json",
+      "zaman": "2026-10-30T23:15:20+03:00"
+    }
+  ]
+}

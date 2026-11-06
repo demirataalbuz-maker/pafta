@@ -1,0 +1,110 @@
+{
+  "kaynak": "gercek",
+  "kabul": false,
+  "pilot": "pu18-nmap",
+  "cihaz": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.14"
+  },
+  "scans": [
+    {
+      "phase": "once",
+      "argv": [
+        "C:\\Program Files (x86)\\Nmap\\nmap.EXE",
+        "-sT",
+        "-Pn",
+        "-n",
+        "--unprivileged",
+        "--max-retries",
+        "0",
+        "--host-timeout",
+        "8s",
+        "-p",
+        "50377,50378,50379",
+        "-oX",
+        "-",
+        "127.0.0.1"
+      ],
+      "returncode": 0,
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///C:/Program Files (x86)/Nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.80 scan initiated Tue Nov 03 22:50:31 2026 as: &quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 8s -p 50377,50378,50379 -oX - 127.0.0.1 -->\n<nmaprun scanner=\"nmap\" args=\"&quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 8s -p 50377,50378,50379 -oX - 127.0.0.1\" start=\"1793735431\" startstr=\"Tue Nov 03 22:50:31 2026\" version=\"7.80\" xmloutputversion=\"1.04\">\n<scaninfo type=\"connect\" protocol=\"tcp\" numservices=\"3\" services=\"50377-50379\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1793735431\" endtime=\"1793735431\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"127.0.0.1\" addrtype=\"ipv4\"/>\n<hostnames>\n</hostnames>\n<ports><port protocol=\"tcp\" portid=\"50377\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"50378\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"50379\"><state state=\"filtered\" reason=\"no-response\" reason_ttl=\"0\"/></port>\n</ports>\n<times srtt=\"2750\" rttvar=\"4250\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1793735431\" timestr=\"Tue Nov 03 22:50:31 2026\" elapsed=\"0.17\" summary=\"Nmap done at Tue Nov 03 22:50:31 2026; 1 IP address (1 host up) scanned in 0.17 seconds\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>\n",
+      "stderr": "WARNING: Could not import all necessary Npcap functions. You may need to upgrade to the latest version from https://npcap.org. Resorting to connect() mode -- Nmap may not function completely\n",
+      "ground_tcp": {
+        "50377": true,
+        "50378": true,
+        "50379": false
+      },
+      "parsed": {
+        "50377": "open",
+        "50378": "open",
+        "50379": "filtered"
+      }
+    },
+    {
+      "phase": "sonra",
+      "argv": [
+        "C:\\Program Files (x86)\\Nmap\\nmap.EXE",
+        "-sT",
+        "-Pn",
+        "-n",
+        "--unprivileged",
+        "--max-retries",
+        "0",
+        "--host-timeout",
+        "8s",
+        "-p",
+        "50377,50378,50379",
+        "-oX",
+        "-",
+        "127.0.0.1"
+      ],
+      "returncode": 0,
+      "stdout": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///C:/Program Files (x86)/Nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.80 scan initiated Tue Nov 03 22:50:33 2026 as: &quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 8s -p 50377,50378,50379 -oX - 127.0.0.1 -->\n<nmaprun scanner=\"nmap\" args=\"&quot;C:\\\\Program Files (x86)\\\\Nmap\\\\nmap.EXE&quot; -sT -Pn -n -&#45;unprivileged -&#45;max-retries 0 -&#45;host-timeout 8s -p 50377,50378,50379 -oX - 127.0.0.1\" start=\"1793735433\" startstr=\"Tue Nov 03 22:50:33 2026\" version=\"7.80\" xmloutputversion=\"1.04\">\n<scaninfo type=\"connect\" protocol=\"tcp\" numservices=\"3\" services=\"50377-50379\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1793735433\" endtime=\"1793735433\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"127.0.0.1\" addrtype=\"ipv4\"/>\n<hostnames>\n</hostnames>\n<ports><port protocol=\"tcp\" portid=\"50377\"><state state=\"filtered\" reason=\"no-response\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"50378\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"0\"/></port>\n<port protocol=\"tcp\" portid=\"50379\"><state state=\"filtered\" reason=\"no-response\" reason_ttl=\"0\"/></port>\n</ports>\n<times srtt=\"0\" rttvar=\"5000\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1793735433\" timestr=\"Tue Nov 03 22:50:33 2026\" elapsed=\"0.16\" summary=\"Nmap done at Tue Nov 03 22:50:33 2026; 1 IP address (1 host up) scanned in 0.16 seconds\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>\n",
+      "stderr": "WARNING: Could not import all necessary Npcap functions. You may need to upgrade to the latest version from https://npcap.org. Resorting to connect() mode -- Nmap may not function completely\n",
+      "ground_tcp": {
+        "50377": false,
+        "50378": true,
+        "50379": false
+      },
+      "parsed": {
+        "50377": "filtered",
+        "50378": "open",
+        "50379": "filtered"
+      }
+    }
+  ],
+  "http": [
+    {
+      "port": 50377,
+      "path": "/",
+      "status": 200,
+      "body": "PAFTA-56b601174a1d1cac"
+    },
+    {
+      "port": 50378,
+      "path": "/",
+      "status": 200,
+      "body": "PAFTA-46e4040f7c09ad8e"
+    }
+  ],
+  "executable": "C:\\Program Files (x86)\\Nmap\\nmap.EXE",
+  "sha256": "59d9f0f86a34a25ea2c39754c0efde40e2412170462b18d658219f0cd611471b",
+  "version": "Nmap version 7.80 ( https://nmap.org )\nPlatform: i686-pc-windows-windows\nCompiled with: nmap-liblua-5.3.5 openssl-1.0.2s nmap-libssh2-1.8.2 nmap-libz-1.2.11 nmap-libpcre-7.6 Npcap-0.9982 nmap-libdnet-1.12 ipv6\nCompiled without:\nAvailable nsock engines: iocp poll select\n",
+  "ports": [
+    50377,
+    50378,
+    50379
+  ],
+  "connection_reset_observations": 3,
+  "changes": [
+    {
+      "port": 50377,
+      "once": "open",
+      "sonra": "filtered"
+    }
+  ],
+  "not": "TCP ground truth ve Nmap gözlemi ayrıdır; filtered sonucu closed yapılmadı.",
+  "cleanup": {
+    "own_threads_stopped": true,
+    "only_owned_resources": true
+  }
+}

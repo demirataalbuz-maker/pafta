@@ -1,0 +1,45 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "GGUF ölçüm/eşli rapor, eşleşme ve girdi değişmezliği"
+    },
+    {
+      "ok": true,
+      "msg": "hep geçti diyen ölçüm reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "sabit rapor reddedilir"
+    },
+    {
+      "ok": true,
+      "msg": "eşleşme yerine toplam farkı kullanan rapor reddedilir"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "HTTPError",
+    "msg": "HTTP Error 500: Internal Server Error",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": [
+    {
+      "pilot": "guvence-23-gguf-hata",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "qwen3:4b-instruct-2507-q8_0",
+      "ozet": null,
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\guvence-23-gguf-hata-1793343413850.json",
+      "zaman": "2026-10-30T09:56:53+03:00"
+    }
+  ],
+  "progress": {
+    "attempts": 3,
+    "first": false,
+    "revealed": true
+  }
+}

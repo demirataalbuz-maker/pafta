@@ -1,0 +1,1545 @@
+[
+  {
+    "lesson": "ai-guvence-26",
+    "name": "reference",
+    "okay": true,
+    "seconds": 10.87,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_fgsm"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_sapma_raporu"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: ayni_tohum_tekrar"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-26",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            {
+              "seed": 939,
+              "kol": "referans",
+              "temiz": 0.875,
+              "bozuk": 0.25,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "replikasyon",
+              "temiz": 0.875,
+              "bozuk": 0.25,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "sapma",
+              "temiz": 0.541667,
+              "bozuk": 0.291667,
+              "fark": 0.041667,
+              "degisen": [
+                "lr"
+              ]
+            },
+            {
+              "seed": 950,
+              "kol": "referans",
+              "temiz": 0.895833,
+              "bozuk": 0.1875,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "replikasyon",
+              "temiz": 0.895833,
+              "bozuk": 0.1875,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "sapma",
+              "temiz": 0.708333,
+              "bozuk": 0.229167,
+              "fark": 0.041667,
+              "degisen": [
+                "lr"
+              ]
+            }
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-26-1793299774068.json",
+          "zaman": "2026-10-29T21:49:33+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "starter",
+    "okay": true,
+    "seconds": 8.32,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "AttributeError",
+        "msg": "'NoneType' object has no attribute 'detach'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.53,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'fgsm_replika' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "fgsm_replika"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "constant",
+    "okay": true,
+    "seconds": 10.41,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "AttributeError",
+        "msg": "'dict' object has no attribute 'detach'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "gradient-reversed",
+    "okay": true,
+    "seconds": 10.25,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: gercek_fgsm"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_sapma_raporu"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: ayni_tohum_tekrar"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-26",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            {
+              "seed": 939,
+              "kol": "referans",
+              "temiz": 0.875,
+              "bozuk": 1.0,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "replikasyon",
+              "temiz": 0.875,
+              "bozuk": 1.0,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "sapma",
+              "temiz": 0.541667,
+              "bozuk": 0.833333,
+              "fark": -0.166667,
+              "degisen": [
+                "lr"
+              ]
+            },
+            {
+              "seed": 950,
+              "kol": "referans",
+              "temiz": 0.895833,
+              "bozuk": 1.0,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "replikasyon",
+              "temiz": 0.895833,
+              "bozuk": 1.0,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "sapma",
+              "temiz": 0.708333,
+              "bozuk": 0.895833,
+              "fark": -0.104167,
+              "degisen": [
+                "lr"
+              ]
+            }
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-26-1793299803723.json",
+          "zaman": "2026-10-29T21:50:03+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "clipping-missing",
+    "okay": true,
+    "seconds": 9.85,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: gercek_fgsm"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_sapma_raporu"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: ayni_tohum_tekrar"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-26",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            {
+              "seed": 939,
+              "kol": "referans",
+              "temiz": 0.875,
+              "bozuk": 0.25,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "replikasyon",
+              "temiz": 0.875,
+              "bozuk": 0.25,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "sapma",
+              "temiz": 0.541667,
+              "bozuk": 0.291667,
+              "fark": 0.041667,
+              "degisen": [
+                "lr"
+              ]
+            },
+            {
+              "seed": 950,
+              "kol": "referans",
+              "temiz": 0.895833,
+              "bozuk": 0.1875,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "replikasyon",
+              "temiz": 0.895833,
+              "bozuk": 0.1875,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "sapma",
+              "temiz": 0.708333,
+              "bozuk": 0.229167,
+              "fark": 0.041667,
+              "degisen": [
+                "lr"
+              ]
+            }
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-26-1793299813618.json",
+          "zaman": "2026-10-29T21:50:13+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "lr-difference-hidden",
+    "okay": true,
+    "seconds": 8.85,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_fgsm"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: gercek_sapma_raporu"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: ayni_tohum_tekrar"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-26",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            {
+              "seed": 939,
+              "kol": "referans",
+              "temiz": 0.875,
+              "bozuk": 0.25,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "replikasyon",
+              "temiz": 0.875,
+              "bozuk": 0.25,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 939,
+              "kol": "sapma",
+              "temiz": 0.541667,
+              "bozuk": 0.291667,
+              "fark": 0.041667,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "referans",
+              "temiz": 0.895833,
+              "bozuk": 0.1875,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "replikasyon",
+              "temiz": 0.895833,
+              "bozuk": 0.1875,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 950,
+              "kol": "sapma",
+              "temiz": 0.708333,
+              "bozuk": 0.229167,
+              "fark": 0.041667,
+              "degisen": []
+            }
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-26-1793299822391.json",
+          "zaman": "2026-10-29T21:50:22+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\calisma\\ai-guvence-26\\ayar.json\n{\n  \"seed\": 2052,\n  \"eps\": 0.18\n}\n\n[\n  {\n    \"seed\": 2052,\n    \"kol\": \"referans\",\n    \"temiz\": 0.833333,\n    \"bozuk\": 0.291667,\n    \"fark\": 0.0,\n    \"degisen\": []\n  },\n  {\n    \"seed\": 2052,\n    \"kol\": \"replikasyon\",\n    \"temiz\": 0.833333,\n    \"bozuk\": 0.291667,\n    \"fark\": 0.0,\n    \"degisen\": []\n  },\n  {\n    \"seed\": 2052,\n    \"kol\": \"sapma\",\n    \"temiz\": 0.666667,\n    \"bozuk\": 0.458333,\n    \"fark\": 0.166667,\n    \"degisen\": [\n      \"lr\"\n    ]\n  },\n  {\n    \"seed\": 2063,\n    \"kol\": \"referans\",\n    \"temiz\": 0.9375,\n    \"bozuk\": 0.229167,\n    \"fark\": 0.0,\n    \"degisen\": []\n  },\n  {\n    \"seed\": 2063,\n    \"kol\": \"replikasyon\",\n    \"temiz\": 0.9375,\n    \"bozuk\": 0.229167,\n    \"fark\": 0.0,\n    \"degisen\": []\n  },\n  {\n    \"seed\": 2063,\n    \"kol\": \"sapma\",\n    \"temiz\": 0.75,\n    \"bozuk\": 0.4375,\n    \"fark\": 0.208333,\n    \"degisen\": [\n      \"lr\"\n    ]\n  }\n]\nKontroller: {'gercek_fgsm': True, 'gercek_sapma_raporu': True, 'ayni_tohum_tekrar': True}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_gk64kiq2\\guvence-26-1793299831981.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-26",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            {
+              "seed": 2052,
+              "kol": "referans",
+              "temiz": 0.833333,
+              "bozuk": 0.291667,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 2052,
+              "kol": "replikasyon",
+              "temiz": 0.833333,
+              "bozuk": 0.291667,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 2052,
+              "kol": "sapma",
+              "temiz": 0.666667,
+              "bozuk": 0.458333,
+              "fark": 0.166667,
+              "degisen": [
+                "lr"
+              ]
+            },
+            {
+              "seed": 2063,
+              "kol": "referans",
+              "temiz": 0.9375,
+              "bozuk": 0.229167,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 2063,
+              "kol": "replikasyon",
+              "temiz": 0.9375,
+              "bozuk": 0.229167,
+              "fark": 0.0,
+              "degisen": []
+            },
+            {
+              "seed": 2063,
+              "kol": "sapma",
+              "temiz": 0.75,
+              "bozuk": 0.4375,
+              "fark": 0.208333,
+              "degisen": [
+                "lr"
+              ]
+            }
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-26-1793299831981.json",
+          "zaman": "2026-10-29T21:50:31+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-26",
+    "name": "missing-dependency",
+    "okay": true,
+    "result": {
+      "status": "error",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "BağımlılıkEksik",
+        "line": null,
+        "frames": [],
+        "where": "kurulum",
+        "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+      }
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "reference",
+    "okay": true,
+    "seconds": 9.0,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: kalibrasyon_ve_test_ayri"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: sinir_kalibrasyonlari"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-27",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            [
+              {
+                "n": 48,
+                "nll": 0.181518,
+                "dogruluk": 0.895833,
+                "ece": 0.036522
+              },
+              {
+                "n": 48,
+                "nll": 0.210121,
+                "dogruluk": 0.895833,
+                "ece": 0.08994
+              }
+            ],
+            [
+              {
+                "n": 48,
+                "nll": 0.274456,
+                "dogruluk": 0.895833,
+                "ece": 0.066256
+              },
+              {
+                "n": 48,
+                "nll": 0.229989,
+                "dogruluk": 0.895833,
+                "ece": 0.060105
+              }
+            ]
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-27-1793299841050.json",
+          "zaman": "2026-10-29T21:50:40+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "starter",
+    "okay": true,
+    "seconds": 8.17,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "TypeError",
+        "msg": "unsupported operand type(s) for /: 'Tensor' and 'NoneType'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.55,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'sicaklik_sec' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "sicaklik_sec"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "constant",
+    "okay": true,
+    "seconds": 9.55,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "TypeError",
+        "msg": "unsupported operand type(s) for /: 'Tensor' and 'dict'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "temperature-ignored",
+    "okay": true,
+    "seconds": 8.26,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: kalibrasyon_ve_test_ayri"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: sinir_kalibrasyonlari"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-27",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            [
+              {
+                "n": 48,
+                "nll": 0.181518,
+                "dogruluk": 0.895833,
+                "ece": 0.036522
+              },
+              {
+                "n": 48,
+                "nll": 0.210121,
+                "dogruluk": 0.895833,
+                "ece": 0.036522
+              }
+            ],
+            [
+              {
+                "n": 48,
+                "nll": 0.274456,
+                "dogruluk": 0.895833,
+                "ece": 0.066256
+              },
+              {
+                "n": 48,
+                "nll": 0.229989,
+                "dogruluk": 0.895833,
+                "ece": 0.066256
+              }
+            ]
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-27-1793299867538.json",
+          "zaman": "2026-10-29T21:51:07+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "all-correct",
+    "okay": true,
+    "seconds": 10.59,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: kalibrasyon_ve_test_ayri"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: sinir_kalibrasyonlari"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-27",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            [
+              {
+                "n": 48,
+                "nll": 0.181518,
+                "dogruluk": 1.0,
+                "ece": 0.099448
+              },
+              {
+                "n": 48,
+                "nll": 0.210121,
+                "dogruluk": 1.0,
+                "ece": 0.140397
+              }
+            ],
+            [
+              {
+                "n": 48,
+                "nll": 0.274456,
+                "dogruluk": 1.0,
+                "ece": 0.049528
+              },
+              {
+                "n": 48,
+                "nll": 0.229989,
+                "dogruluk": 1.0,
+                "ece": 0.07252
+              }
+            ]
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-27-1793299878062.json",
+          "zaman": "2026-10-29T21:51:17+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "ece-unweighted",
+    "okay": true,
+    "seconds": 7.79,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: kalibrasyon_ve_test_ayri"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: sinir_kalibrasyonlari"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-27",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            [
+              {
+                "n": 48,
+                "nll": 0.181518,
+                "dogruluk": 0.895833,
+                "ece": 0.172587
+              },
+              {
+                "n": 48,
+                "nll": 0.210121,
+                "dogruluk": 0.895833,
+                "ece": 0.368215
+              }
+            ],
+            [
+              {
+                "n": 48,
+                "nll": 0.274456,
+                "dogruluk": 0.895833,
+                "ece": 0.369521
+              },
+              {
+                "n": 48,
+                "nll": 0.229989,
+                "dogruluk": 0.895833,
+                "ece": 0.427225
+              }
+            ]
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-27-1793299886058.json",
+          "zaman": "2026-10-29T21:51:25+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\calisma\\ai-guvence-27\\ayar.json\n{\n  \"seed\": 2053,\n  \"eps\": 0.18\n}\n\n[\n  [\n    {\n      \"n\": 48,\n      \"nll\": 0.182598,\n      \"dogruluk\": 0.9375,\n      \"ece\": 0.027284\n    },\n    {\n      \"n\": 48,\n      \"nll\": 0.182598,\n      \"dogruluk\": 0.9375,\n      \"ece\": 0.027284\n    }\n  ],\n  [\n    {\n      \"n\": 48,\n      \"nll\": 0.278718,\n      \"dogruluk\": 0.895833,\n      \"ece\": 0.030355\n    },\n    {\n      \"n\": 48,\n      \"nll\": 0.243165,\n      \"dogruluk\": 0.895833,\n      \"ece\": 0.055172\n    }\n  ]\n]\nKontroller: {'kalibrasyon_ve_test_ayri': True, 'sinir_kalibrasyonlari': True}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_a718hhig\\guvence-27-1793299894598.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-27",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": [
+            [
+              {
+                "n": 48,
+                "nll": 0.182598,
+                "dogruluk": 0.9375,
+                "ece": 0.027284
+              },
+              {
+                "n": 48,
+                "nll": 0.182598,
+                "dogruluk": 0.9375,
+                "ece": 0.027284
+              }
+            ],
+            [
+              {
+                "n": 48,
+                "nll": 0.278718,
+                "dogruluk": 0.895833,
+                "ece": 0.030355
+              },
+              {
+                "n": 48,
+                "nll": 0.243165,
+                "dogruluk": 0.895833,
+                "ece": 0.055172
+              }
+            ]
+          ],
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-27-1793299894598.json",
+          "zaman": "2026-10-29T21:51:34+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-27",
+    "name": "missing-dependency",
+    "okay": true,
+    "result": {
+      "status": "error",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "BağımlılıkEksik",
+        "line": null,
+        "frames": [],
+        "where": "kurulum",
+        "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+      }
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "reference",
+    "okay": true,
+    "seconds": 8.65,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: maskeli_gercek_cikti"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: tekrar_sir_yok"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: temiz_metin_korunur"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: dosya_hashlari"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_butunlugu"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_canary_yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-29",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "temiz": 38,
+            "bozuk": 7,
+            "toplam": 48,
+            "gonderildi": false,
+            "arsiv": "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-guvence-29-54ghnv2l\\deney\\bildirim.zip"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-29-1793299903307.json",
+          "zaman": "2026-10-29T21:51:43+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "starter",
+    "okay": true,
+    "seconds": 10.6,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "TypeError",
+        "msg": "data must be str, not NoneType",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.65,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'kanit_maskele' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "kanit_maskele"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "constant",
+    "okay": true,
+    "seconds": 9.44,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "TypeError",
+        "msg": "data must be str, not dict",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "first-secret-only",
+    "okay": true,
+    "seconds": 9.62,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: maskeli_gercek_cikti"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: tekrar_sir_yok"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: temiz_metin_korunur"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: dosya_hashlari"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_butunlugu"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: arsiv_canary_yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-29",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "temiz": 38,
+            "bozuk": 7,
+            "toplam": 48,
+            "gonderildi": false,
+            "arsiv": "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-guvence-29-xe1gxywm\\deney\\bildirim.zip"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-29-1793299933518.json",
+          "zaman": "2026-10-29T21:52:13+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "secret-preserved",
+    "okay": true,
+    "seconds": 12.0,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: maskeli_gercek_cikti"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: tekrar_sir_yok"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: temiz_metin_korunur"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: dosya_hashlari"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_butunlugu"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: arsiv_canary_yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-29",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "temiz": 38,
+            "bozuk": 7,
+            "toplam": 48,
+            "gonderildi": false,
+            "arsiv": "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-guvence-29-m34i89nc\\deney\\bildirim.zip"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-29-1793299945488.json",
+          "zaman": "2026-10-29T21:52:25+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "hash-not-bytes",
+    "okay": true,
+    "seconds": 15.51,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: maskeli_gercek_cikti"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: tekrar_sir_yok"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: temiz_metin_korunur"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: dosya_hashlari"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: arsiv_butunlugu"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_canary_yok"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-29",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "temiz": 38,
+            "bozuk": 7,
+            "toplam": 48,
+            "gonderildi": false,
+            "arsiv": "C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta-guvence-29-qu_2oguk\\deney\\bildirim.zip"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-29-1793299961066.json",
+          "zaman": "2026-10-29T21:52:40+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\calisma\\ai-guvence-29\\ayar.json\n{\n  \"seed\": 2055,\n  \"eps\": 0.18\n}\n\n{\n  \"temiz\": 42,\n  \"bozuk\": 12,\n  \"toplam\": 48,\n  \"gonderildi\": false,\n  \"arsiv\": \"C:\\\\Users\\\\demo12\\\\Documents\\\\Pafta-AI-GercekLab\\\\outputs\\\\codex-guvence-26-30-20261029\\\\data\\\\calisma\\\\ai-guvence-29\\\\deney-196807e2\\\\bildirim.zip\"\n}\nKontroller: {'maskeli_gercek_cikti': True, 'tekrar_sir_yok': True, 'temiz_metin_korunur': True, 'dosya_hashlari': True, 'arsiv_butunlugu': True, 'arsiv_canary_yok': True}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_z_8wcywi\\guvence-29-1793299975299.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-29",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "temiz": 42,
+            "bozuk": 12,
+            "toplam": 48,
+            "gonderildi": false,
+            "arsiv": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\calisma\\ai-guvence-29\\deney-196807e2\\bildirim.zip"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-29-1793299975299.json",
+          "zaman": "2026-10-29T21:52:54+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-29",
+    "name": "missing-dependency",
+    "okay": true,
+    "result": {
+      "status": "error",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "BağımlılıkEksik",
+        "line": null,
+        "frames": [],
+        "where": "kurulum",
+        "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+      }
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "reference",
+    "okay": true,
+    "seconds": 18.22,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_politika_ve_etki"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: sinir_esikleri"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: kapsama_ve_yanlis_etki"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_butunlugu"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-30",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "saldiri": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 1.0,
+              "zararli_etki": 104,
+              "izinli_dogru": 40
+            },
+            "savunma": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 0.784722,
+              "zararli_etki": 87,
+              "izinli_dogru": 26
+            }
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-30-1793299993281.json",
+          "zaman": "2026-10-29T21:53:12+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "starter",
+    "okay": true,
+    "seconds": 15.94,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "TypeError",
+        "msg": "unsupported operand type(s) for +: 'int' and 'NoneType'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.8,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'yayin_politikasi' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "yayin_politikasi"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "constant",
+    "okay": true,
+    "seconds": 13.7,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "TypeError",
+        "msg": "unsupported operand type(s) for +: 'int' and 'dict'",
+        "frames": [],
+        "line": null,
+        "where": "test"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "always-allow",
+    "okay": true,
+    "seconds": 13.85,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "GERCEK: gercek_politika_ve_etki"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: sinir_esikleri"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: kapsama_ve_yanlis_etki"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_butunlugu"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-30",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "saldiri": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 1.0,
+              "zararli_etki": 104,
+              "izinli_dogru": 40
+            },
+            "savunma": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 1.0,
+              "zararli_etki": 104,
+              "izinli_dogru": 40
+            }
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-30-1793300037716.json",
+          "zaman": "2026-10-29T21:53:57+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "strict-threshold",
+    "okay": true,
+    "seconds": 13.54,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_politika_ve_etki"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: sinir_esikleri"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: kapsama_ve_yanlis_etki"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_butunlugu"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-30",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "saldiri": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 1.0,
+              "zararli_etki": 104,
+              "izinli_dogru": 40
+            },
+            "savunma": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 0.784722,
+              "zararli_etki": 87,
+              "izinli_dogru": 26
+            }
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-30-1793300051203.json",
+          "zaman": "2026-10-29T21:54:10+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "hidden-false-effect",
+    "okay": true,
+    "seconds": 13.4,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "GERCEK: gercek_politika_ve_etki"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: sinir_esikleri"
+        },
+        {
+          "ok": false,
+          "msg": "GERCEK: kapsama_ve_yanlis_etki"
+        },
+        {
+          "ok": true,
+          "msg": "GERCEK: arsiv_butunlugu"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-30",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "saldiri": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 1.0,
+              "zararli_etki": 0,
+              "izinli_dogru": 40
+            },
+            "savunma": {
+              "n": 144,
+              "dogruluk": 0.277778,
+              "kapsama": 0.784722,
+              "zararli_etki": 0,
+              "izinli_dogru": 26
+            }
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-30-1793300064745.json",
+          "zaman": "2026-10-29T21:54:24+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI DUZENLENEBILIR SENTETIK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\calisma\\ai-guvence-30\\ayar.json\n{\n  \"seed\": 2056,\n  \"eps\": 0.18\n}\n\n{\n  \"saldiri\": {\n    \"n\": 144,\n    \"dogruluk\": 0.236111,\n    \"kapsama\": 1.0,\n    \"zararli_etki\": 110,\n    \"izinli_dogru\": 34\n  },\n  \"savunma\": {\n    \"n\": 144,\n    \"dogruluk\": 0.236111,\n    \"kapsama\": 0.826389,\n    \"zararli_etki\": 93,\n    \"izinli_dogru\": 26\n  }\n}\nKontroller: {'gercek_politika_ve_etki': True, 'sinir_esikleri': True, 'kapsama_ve_yanlis_etki': True, 'arsiv_butunlugu': True}\nKanit: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_eziktxqs\\guvence-30-1793300079914.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-30",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": "tiny-4-12-2-CPU",
+          "ozet": {
+            "saldiri": {
+              "n": 144,
+              "dogruluk": 0.236111,
+              "kapsama": 1.0,
+              "zararli_etki": 110,
+              "izinli_dogru": 34
+            },
+            "savunma": {
+              "n": 144,
+              "dogruluk": 0.236111,
+              "kapsama": 0.826389,
+              "zararli_etki": 93,
+              "izinli_dogru": 26
+            }
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-30-1793300079914.json",
+          "zaman": "2026-10-29T21:54:39+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "lesson": "ai-guvence-30",
+    "name": "missing-dependency",
+    "okay": true,
+    "result": {
+      "status": "error",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "BağımlılıkEksik",
+        "line": null,
+        "frames": [],
+        "where": "kurulum",
+        "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\missing-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+      }
+    }
+  }
+]

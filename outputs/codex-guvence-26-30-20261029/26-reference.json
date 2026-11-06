@@ -1,0 +1,89 @@
+{
+  "lesson": "ai-guvence-26",
+  "name": "reference",
+  "okay": true,
+  "seconds": 10.87,
+  "result": {
+    "status": "pass",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "GERCEK: gercek_fgsm"
+      },
+      {
+        "ok": true,
+        "msg": "GERCEK: gercek_sapma_raporu"
+      },
+      {
+        "ok": true,
+        "msg": "GERCEK: ayni_tohum_tekrar"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "guvence-26",
+        "kaynak": "gercek",
+        "kabul": true,
+        "model": "tiny-4-12-2-CPU",
+        "ozet": [
+          {
+            "seed": 939,
+            "kol": "referans",
+            "temiz": 0.875,
+            "bozuk": 0.25,
+            "fark": 0.0,
+            "degisen": []
+          },
+          {
+            "seed": 939,
+            "kol": "replikasyon",
+            "temiz": 0.875,
+            "bozuk": 0.25,
+            "fark": 0.0,
+            "degisen": []
+          },
+          {
+            "seed": 939,
+            "kol": "sapma",
+            "temiz": 0.541667,
+            "bozuk": 0.291667,
+            "fark": 0.041667,
+            "degisen": [
+              "lr"
+            ]
+          },
+          {
+            "seed": 950,
+            "kol": "referans",
+            "temiz": 0.895833,
+            "bozuk": 0.1875,
+            "fark": 0.0,
+            "degisen": []
+          },
+          {
+            "seed": 950,
+            "kol": "replikasyon",
+            "temiz": 0.895833,
+            "bozuk": 0.1875,
+            "fark": 0.0,
+            "degisen": []
+          },
+          {
+            "seed": 950,
+            "kol": "sapma",
+            "temiz": 0.708333,
+            "bozuk": 0.229167,
+            "fark": 0.041667,
+            "degisen": [
+              "lr"
+            ]
+          }
+        ],
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-guvence-26-30-20261029\\data\\ai-kanit\\guvence-26-1793299774068.json",
+        "zaman": "2026-10-29T21:49:33+03:00"
+      }
+    ]
+  }
+}

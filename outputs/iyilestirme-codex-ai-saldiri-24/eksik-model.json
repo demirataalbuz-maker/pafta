@@ -1,0 +1,142 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "ASCII, parça boyutu, sıra ve dolgusuz Base64URL korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: sıfır boyutu düzelten"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: parça sırasını bozan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: dolguyu geri ekleyen"
+    },
+    {
+      "ok": true,
+      "msg": "sınırda tam paket içeriği"
+    },
+    {
+      "ok": true,
+      "msg": "sınırda tam paket içeriği"
+    },
+    {
+      "ok": true,
+      "msg": "sınırda tam paket içeriği"
+    },
+    {
+      "ok": true,
+      "msg": "sınırda tam paket içeriği"
+    },
+    {
+      "ok": true,
+      "msg": "sıra, toplam, kanonik Base64URL ve birleşik ASCII sınırı korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: birleşik sırayı ters çeviren"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kanonik olmayan kodu düzelten"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: geçersiz sonucu boş metinle gizleyen"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk meta veri veya ASCII reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "üst sınır dışı akış reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "sıralı birleştirme, tek çıktı ve parçalı kanıt ayrımı korunmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: girdi sırasını kullanan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: parçalı kanıtı gizleyen"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: eksik sıraları yeniden numaralayan"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk çıktı/canary reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk çıktı/canary reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk çıktı/canary reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "bozuk çıktı/canary reddedildi"
+    },
+    {
+      "ok": true,
+      "msg": "tek çıktı kimlikleri alfabetik"
+    },
+    {
+      "ok": true,
+      "msg": "yeni canary ve parça boyutunda gerçek kodlama sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "yeni canary ve parça boyutunda gerçek kodlama sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "yeni canary ve parça boyutunda gerçek kodlama sözleşmesi"
+    },
+    {
+      "ok": true,
+      "msg": "yeni canary ve parça boyutunda gerçek kodlama sözleşmesi"
+    }
+  ],
+  "segs": [],
+  "error": {
+    "type": "GercekLabYok",
+    "msg": "Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download",
+    "frames": [],
+    "line": null,
+    "where": "test"
+  },
+  "ai_kanit": []
+}

@@ -1,0 +1,12 @@
+# ai-saldiri-11 — gerçek MIME/HTML belge çıkarımı
+Uygulayıcı kabulü; bağımsız denetim değildir. 29 Ekim 2026.
+
+Değişen: ai-saldiri-11 dersine anlat/gerçek görev index8 eklendi, eski adımlar korundu; sandbox/ai_gercek_ai_saldiri_11.py; web/data/ai-saldiri-11/eposta.txt ve web.txt. Bunlar elle yazılmış sentetik MIME/HTML dosyalarıdır. Çalıştır ayrı kalıcı eposta.eml/web.html kopyalarını oluşturur, ham biçimleri ve gerçek stdlib çıkarımını gösterir. HTMLParser JavaScript çalıştırmaz, PDF çıkarımı bu derste yapılmaz. Kaynak dosyaların hashleri ve çıkarılmış metin kanıtta. Öğrenci düzenlemeleri farklı süreç/çalışma dizinlerinde korunur (persistence.json; fixture kontrolü).
+
+Gerçek akış: öğrenci kanonik paketleme -> iki API mesajında rol sınırı -> gerçek Qwen3 4B -> belge bazlı tam-satır ölçümü. Temiz e-posta, e-posta+web ve web'i sistem rolüne yükselten kusurlu kontrol ikişer kez çağrılır. Gerçek hata/ham yanıt/seed/cihaz/bellek/temizlik kaydedilir. Kusurlu akış yalnız laboratuvar pozitif kontrolüdür. JSON paketleme modelin anlamsal etkiden bağışık olduğunu göstermez. Tam-satır canary aktarımı bir gözlem sinyalidir; cümle içi alıntı/kodlama/kısmi işaret kapsam dışıdır. Alıntı ile talimata uyma ayrımı tek sinyalden çıkarılmaz; saldırı oranı kabul şartı değildir.
+
+Kabul: hedef validate 1ders/10kontrol TEMİZ. kabul.py/summary.json 9/9: referans PASS; starter/boş/sabit ve güven etiketi yükseltme,rol yükseltme,tam-satır yerine substring mutantları FAIL. Test içinde önceki9 mutant + yeni rastgele belge/kimlik/canary kontrolleri. Çalıştır OK/kabulfalse; eksik Ollama FAIL/kabul yok. CLI referans gerçek bulgu: temiz0/2,korumalı0/2,kusurlu rol2/2 tam-satır işaret; taşıma hatası0. Bu küçük yerel deneyin sonucu, evrensel savunma iddiası değil.
+
+UI ve son regresyon tamamlanınca aşağıya yazılacak. Kurulum/commit/push ve başka ajanın derslerine müdahale yok. Bağımsız denetim bekliyor.
+
+UI Kontrol35/35: outputs/codex-kirmizi-seri-20261029/ui-data/ai-kanit/saldiri-11-belge-1793268886238.json. UI Çalıştır: saldiri-11-belge-1793269053269.json, bütün kontrollertrue/kabulfalse. Korumalı yanıtta işaret cümle içinde de görüldü; tam-satır detector0 bunu güvenli yanıt ilan etmez. Tam yol:41ders/350kontrol,348geçen; yalnız başka ajanın30/33 görevlerinde ai_lab NameError. Bunlar panoya bildirildi; kullanıcının devrettiği derslere dokunulmadı. 40/41 kazanım biçimleri son koşuda düzeldi. Bütün yol TEMİZ iddiası yok.

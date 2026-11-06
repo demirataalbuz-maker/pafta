@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik sahiplik: {'izinli_hostlar': ['docs.example.com', 'api.example.com'], 'urller': ['https://docs.example.com/x', 'http://127.0.0.1/admin', 'https://evil.test/y'], 'sahiplik': {'k1': 'ali', 'k2': 'veli'}, 'istekler': [{'kullanici': 'ali', 'kaynak': 'k1'}, {'kullanici': 'ali', 'kaynak': 'k2'}, {'kullanici': 'ali', 'kaynak': 'k9'}]}\n{'kullanici': 'ali', 'kaynak': 'k1'} {'karar': 'izin', 'neden': 'sahip doğrulandı'}\n{'kullanici': 'ali', 'kaynak': 'k2'} {'karar': 'izin', 'neden': 'sahip doğrulandı'}\n{'kullanici': 'ali', 'kaynak': 'k9'} {'karar': 'red', 'neden': 'kaynak yok'}\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

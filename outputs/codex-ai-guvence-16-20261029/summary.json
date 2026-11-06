@@ -1,0 +1,610 @@
+[
+  {
+    "name": "reference",
+    "okay": true,
+    "seconds": 12.8,
+    "result": {
+      "status": "pass",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "tehdit şeması, izinli değerler, sıralama ve kopyalar korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: varlıkları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: saldırgan bilgisini silen"
+        },
+        {
+          "ok": true,
+          "msg": "üyelik sayımları, doğruluk, avantaj ve sıfır payda korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: üyeliği silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tahminleri silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kimlikleri birleştiren"
+        },
+        {
+          "ok": true,
+          "msg": "taban karşılaştırması, avantaj eşiği ve seçim korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: avantajı silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: doğruluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tabanı değiştiren"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni dengesiz üyelikte TPR-FPR"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: tehdit_gercek_erisimi_tanimli"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_uyelik_olcumu"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: taban_ve_avantaj_raporu"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_autograd_tam"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek autograd/modelolasılığı/üyelikölçümü; saldırıbaşarısı şart değil"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-16-gizlilik",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": null,
+          "ozet": {
+            "satirlar": [
+              {
+                "deney": "shadow-esikli",
+                "dogruluk": 0.885417,
+                "taban_dogrulugu": 0.5,
+                "avantaj": 0.770833,
+                "kanit": true
+              }
+            ],
+            "secilen": "shadow-esikli"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-guvence-16-20261029\\data\\ai-kanit\\guvence-16-gizlilik-1793299535555.json",
+          "zaman": "2026-10-29T21:45:35+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "starter",
+    "okay": true,
+    "seconds": 0.64,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "tehdit şeması, izinli değerler, sıralama ve kopyalar korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: varlıkları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: saldırgan bilgisini silen"
+        },
+        {
+          "ok": false,
+          "msg": "üyelik sayımları, doğruluk, avantaj ve sıfır payda korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: üyeliği silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tahminleri silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kimlikleri birleştiren"
+        },
+        {
+          "ok": false,
+          "msg": "taban karşılaştırması, avantaj eşiği ve seçim korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: avantajı silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: doğruluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tabanı değiştiren"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni dengesiz üyelikte TPR-FPR"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "empty",
+    "okay": true,
+    "seconds": 0.71,
+    "result": {
+      "status": "fail",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'tehdit_modeli_dogrula' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "tehdit_modeli_dogrula"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "constant",
+    "okay": true,
+    "seconds": 0.82,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "tehdit şeması, izinli değerler, sıralama ve kopyalar korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: varlıkları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: saldırgan bilgisini silen"
+        },
+        {
+          "ok": false,
+          "msg": "üyelik sayımları, doğruluk, avantaj ve sıfır payda korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: üyeliği silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tahminleri silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kimlikleri birleştiren"
+        },
+        {
+          "ok": false,
+          "msg": "taban karşılaştırması, avantaj eşiği ve seçim korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: avantajı silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: doğruluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tabanı değiştiren"
+        }
+      ],
+      "segs": [],
+      "error": {
+        "type": "NameError",
+        "msg": "name 'ai_lab' is not defined",
+        "frames": [],
+        "line": null,
+        "where": "test",
+        "missing": "ai_lab"
+      },
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "unknown-scope-allowed",
+    "okay": true,
+    "seconds": 11.99,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": false,
+          "msg": "tehdit şeması, izinli değerler, sıralama ve kopyalar korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: varlıkları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: saldırgan bilgisini silen"
+        },
+        {
+          "ok": true,
+          "msg": "üyelik sayımları, doğruluk, avantaj ve sıfır payda korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: üyeliği silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tahminleri silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kimlikleri birleştiren"
+        },
+        {
+          "ok": true,
+          "msg": "taban karşılaştırması, avantaj eşiği ve seçim korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: avantajı silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: doğruluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tabanı değiştiren"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni dengesiz üyelikte TPR-FPR"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: tehdit_gercek_erisimi_tanimli"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_uyelik_olcumu"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: taban_ve_avantaj_raporu"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_autograd_tam"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek autograd/modelolasılığı/üyelikölçümü; saldırıbaşarısı şart değil"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-16-gizlilik",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": null,
+          "ozet": {
+            "satirlar": [
+              {
+                "deney": "shadow-esikli",
+                "dogruluk": 0.817708,
+                "taban_dogrulugu": 0.5,
+                "avantaj": 0.635417,
+                "kanit": true
+              }
+            ],
+            "secilen": "shadow-esikli"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-guvence-16-20261029\\data\\ai-kanit\\guvence-16-gizlilik-1793299549829.json",
+          "zaman": "2026-10-29T21:45:49+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "accuracy-as-advantage",
+    "okay": true,
+    "seconds": 0.62,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "tehdit şeması, izinli değerler, sıralama ve kopyalar korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: varlıkları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: saldırgan bilgisini silen"
+        },
+        {
+          "ok": false,
+          "msg": "üyelik sayımları, doğruluk, avantaj ve sıfır payda korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: üyeliği silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tahminleri silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kimlikleri birleştiren"
+        },
+        {
+          "ok": true,
+          "msg": "taban karşılaştırması, avantaj eşiği ve seçim korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: avantajı silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: doğruluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tabanı değiştiren"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney yamalanmamalı"
+        },
+        {
+          "ok": false,
+          "msg": "yeni dengesiz üyelikte TPR-FPR"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": []
+    }
+  },
+  {
+    "name": "baseline-ignored",
+    "okay": true,
+    "seconds": 12.67,
+    "result": {
+      "status": "fail",
+      "checks": [
+        {
+          "ok": true,
+          "msg": "tehdit şeması, izinli değerler, sıralama ve kopyalar korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: varlıkları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: çıktıları silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: saldırgan bilgisini silen"
+        },
+        {
+          "ok": true,
+          "msg": "üyelik sayımları, doğruluk, avantaj ve sıfır payda korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: üyeliği silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tahminleri silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: kimlikleri birleştiren"
+        },
+        {
+          "ok": false,
+          "msg": "taban karşılaştırması, avantaj eşiği ve seçim korunmalı"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: avantajı silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: doğruluğu silen"
+        },
+        {
+          "ok": true,
+          "msg": "yanlış çözüm/mutant yakalanmalı: tabanı değiştiren"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney yamalanmamalı"
+        },
+        {
+          "ok": true,
+          "msg": "yeni dengesiz üyelikte TPR-FPR"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: tehdit_gercek_erisimi_tanimli"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_uyelik_olcumu"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: taban_ve_avantaj_raporu"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek deney: gercek_autograd_tam"
+        },
+        {
+          "ok": true,
+          "msg": "gerçek autograd/modelolasılığı/üyelikölçümü; saldırıbaşarısı şart değil"
+        }
+      ],
+      "segs": [],
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-16-gizlilik",
+          "kaynak": "gercek",
+          "kabul": true,
+          "model": null,
+          "ozet": {
+            "satirlar": [
+              {
+                "deney": "shadow-esikli",
+                "dogruluk": 0.770833,
+                "taban_dogrulugu": 0.5,
+                "avantaj": 0.541667,
+                "kanit": true
+              }
+            ],
+            "secilen": "shadow-esikli"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-guvence-16-20261029\\data\\ai-kanit\\guvence-16-gizlilik-1793299563079.json",
+          "zaman": "2026-10-29T21:46:02+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "run",
+    "okay": true,
+    "result": {
+      "status": "ok",
+      "segs": [
+        [
+          "out",
+          "KALICI SENTETİK AYAR: C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-guvence-16-20261029\\data\\calisma\\ai-guvence-16\\gizlilik.json\n{\"seed\":2026,\"ornek\":32}\n\nTekrar 1 shadow esik 0.9999440908432007 gercek olcum {'toplam': 64, 'tp': 32, 'fp': 17, 'tn': 15, 'fn': 0, 'dogruluk': 0.734375, 'avantaj': 0.46875}\nTekrar 2 shadow esik 0.999967098236084 gercek olcum {'toplam': 64, 'tp': 28, 'fp': 12, 'tn': 20, 'fn': 4, 'dogruluk': 0.75, 'avantaj': 0.5}\nTekrar 3 shadow esik 0.9999014139175415 gercek olcum {'toplam': 64, 'tp': 31, 'fp': 11, 'tn': 21, 'fn': 1, 'dogruluk': 0.8125, 'avantaj': 0.625}\nRapor: {'satirlar': [{'deney': 'shadow-esikli', 'dogruluk': 0.765625, 'taban_dogrulugu': 0.5, 'avantaj': 0.53125, 'kanit': True}], 'secilen': 'shadow-esikli'}\nKontroller: {'tehdit_gercek_erisimi_tanimli': True, 'gercek_uyelik_olcumu': True, 'taban_ve_avantaj_raporu': True, 'gercek_autograd_tam': True}\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_x0j6367_\\guvence-16-gizlilik-1793299572994.json\n"
+        ]
+      ],
+      "truncated": false,
+      "error": null,
+      "ai_kanit": [
+        {
+          "pilot": "guvence-16-gizlilik",
+          "kaynak": "gercek",
+          "kabul": false,
+          "model": null,
+          "ozet": {
+            "satirlar": [
+              {
+                "deney": "shadow-esikli",
+                "dogruluk": 0.765625,
+                "taban_dogrulugu": 0.5,
+                "avantaj": 0.53125,
+                "kanit": true
+              }
+            ],
+            "secilen": "shadow-esikli"
+          },
+          "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-guvence-16-20261029\\data\\ai-kanit\\guvence-16-gizlilik-1793299572994.json",
+          "zaman": "2026-10-29T21:46:12+03:00"
+        }
+      ]
+    }
+  },
+  {
+    "name": "missing-dependency",
+    "okay": true,
+    "result": {
+      "status": "error",
+      "checks": [],
+      "segs": [],
+      "error": {
+        "type": "BağımlılıkEksik",
+        "line": null,
+        "frames": [],
+        "where": "kurulum",
+        "msg": "AI sanal ortamı bulunamadı (C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-guvence-16-20261029\\eksik-torch-python.exe). Bu gerçek deney kurulmadan çalışmaz ve geçmiş sayılmaz; bkz. docs/ai-gercek-kurulum-onayi.md."
+      }
+    }
+  }
+]

@@ -1,0 +1,279 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "model_bilgisi": {
+  "kaynak": "gercek",
+  "arac": "transformers",
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "agirlik_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+  "parametre": 134515008,
+  "sozluk": 49152,
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0",
+   "tokenizers": "0.23.3"
+  },
+  "aygit": "cpu",
+  "dtype": "float32"
+ },
+ "ayarlar": {
+  "girdiler": [
+   [
+    "The original rule is blue. The latest note is green.",
+    1
+   ],
+   [
+    "The original rule is blue. The latest note is green.",
+    4
+   ],
+   [
+    "  İstanbul is a city; a model reads tokens, not words.",
+    8
+   ],
+   [
+    "A 4165 forest message with a final word.",
+    32
+   ],
+   [
+    " the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the the",
+    32
+   ]
+  ],
+  "deney_butce_ust_siniri": 32,
+  "use_cache": false
+ },
+ "ciktilar": [
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 12,
+   "dusen_token_sayisi": 11,
+   "token_idleri": [
+    30
+   ],
+   "konumlar": [
+    0
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    18.94180679321289,
+    1.7133188247680664,
+    1.7671520709991455,
+    0.46927642822265625,
+    0.4272899627685547,
+    1.8165819644927979,
+    10.18692398071289,
+    1.8171436786651611
+   ]
+  },
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 12,
+   "dusen_token_sayisi": 8,
+   "token_idleri": [
+    4109,
+    314,
+    2654,
+    30
+   ],
+   "konumlar": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    13.976269721984863,
+    -5.988411903381348,
+    -5.9668779373168945,
+    -6.767607688903809,
+    -7.5949506759643555,
+    -5.9521484375,
+    1.442392349243164,
+    -5.951875686645508
+   ]
+  },
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 16,
+   "dusen_token_sayisi": 8,
+   "token_idleri": [
+    253,
+    1743,
+    12927,
+    17837,
+    28,
+    441,
+    1924,
+    30
+   ],
+   "konumlar": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    11.892016410827637,
+    -9.722210884094238,
+    -9.801275253295898,
+    -12.632835388183594,
+    -13.307666778564453,
+    -9.846858024597168,
+    -0.5416712760925293,
+    -9.846516609191895
+   ]
+  },
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 13,
+   "dusen_token_sayisi": 0,
+   "token_idleri": [
+    49,
+    216,
+    36,
+    33,
+    38,
+    37,
+    3150,
+    3714,
+    351,
+    253,
+    3403,
+    2229,
+    30
+   ],
+   "konumlar": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "en_olasi_id": 198,
+   "ornek_logitler": [
+    13.0249662399292,
+    -8.342236518859863,
+    -8.295543670654297,
+    -9.094305992126465,
+    -9.064579963684082,
+    -8.277589797973633,
+    2.254025459289551,
+    -8.277202606201172
+   ]
+  },
+  {
+   "model_siniri": 8192,
+   "girdi_token_sayisi": 40,
+   "dusen_token_sayisi": 8,
+   "token_idleri": [
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260,
+    260
+   ],
+   "konumlar": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "en_olasi_id": 1142,
+   "ornek_logitler": [
+    7.129696846008301,
+    -3.1023073196411133,
+    -2.9869446754455566,
+    -3.7095494270324707,
+    -4.012942790985107,
+    -2.9748878479003906,
+    -1.0211725234985352,
+    -2.974592685699463
+   ]
+  }
+ ],
+ "olculen": "gerçek tokenizasyon, konumlarla ileri hesap ve kısa pencere kırpması",
+ "sinir": "tam context kapasitesi veya uzun bağlam doğruluğu kabulü yapılmadı",
+ "temizlik": "CPU işlemi; kalıcı sunucu, model indirme ve dış süreç yok",
+ "pilot": "temel-07-baglam",
+ "zaman": "2026-10-31T20:02:45+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 403 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "f73f1349b600ffa9ca28022d2d12c529148d516b316e212bcceb94ed4589eea9",
+ "mod": "test"
+}

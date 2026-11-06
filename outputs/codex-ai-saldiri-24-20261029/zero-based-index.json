@@ -1,0 +1,69 @@
+{
+  "name": "zero-based-index",
+  "okay": true,
+  "seconds": 0.54,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "ASCII, parça boyutu, sıra ve dolgusuz Base64URL korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: sıfır boyutu düzelten"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: parça sırasını bozan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: dolguyu geri ekleyen"
+      },
+      {
+        "ok": true,
+        "msg": "sıra, toplam, kanonik Base64URL ve birleşik ASCII sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: birleşik sırayı ters çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kanonik olmayan kodu düzelten"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: geçersiz sonucu boş metinle gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "sıralı birleştirme, tek çıktı ve parçalı kanıt ayrımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: girdi sırasını kullanan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: parçalı kanıtı gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eksik sıraları yeniden numaralayan"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek ölçüm yamalanmamalı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni canary ve parça boyutunda gerçek kodlama sözleşmesi"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi tekrar özetini yaz; laboratuvar yamalanmamalı: "
+    },
+    {
+      "ok": false,
+      "msg": "tekrarlanabilirlik özeti (oran, tutarlılık, geçti) doğru; geçersiz girdi reddedilmeli"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tekrarlanabilirliği orana bağlayan"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "guvence-metodoloji",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": null,
+      "ozet": null,
+      "dosya": "C:\\Users\\demo12\\Desktop\\pafta-g33-olumsuz-20261030\\ai-kanit\\guvence-metodoloji-1793348947389.json",
+      "zaman": "2026-10-30T11:29:04+03:00"
+    }
+  ]
+}

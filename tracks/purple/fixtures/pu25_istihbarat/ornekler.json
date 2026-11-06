@@ -1,0 +1,179 @@
+{
+ "aciklama": "Sentetik, CTID plan biçiminde elle yazılmış yedi öğe; komutlar çıkarılmıştır. Son görev bunu değil, gerçek APT29 planını okur.",
+ "plan": [
+  {
+   "emulation_plan_details": {
+    "id": "ornek",
+    "adversary_name": "ÖRNEK",
+    "attack_version": "8.1",
+    "format_version": 1.0
+   }
+  },
+  {
+   "id": "ornek-10.B",
+   "name": "örnek adım",
+   "description": "sentetik",
+   "tactic": "persistence",
+   "technique": {
+    "attack_id": "T1037.005",
+    "name": "Boot or Logon Initialization Scripts: Startup Items"
+   },
+   "procedure_step": "10.B",
+   "platforms": {
+    "windows": {
+     "psh": {
+      "command": "(komut çıkarıldı)"
+     }
+    }
+   },
+   "executors": [
+    {
+     "name": "powershell",
+     "command": "(komut çıkarıldı)"
+    }
+   ],
+   "input_arguments": null
+  },
+  {
+   "id": "ornek-2.A.1",
+   "name": "örnek adım",
+   "description": "sentetik",
+   "tactic": "discovery",
+   "technique": {
+    "attack_id": "T1082",
+    "name": "System Information Discovery"
+   },
+   "procedure_step": "2.A.1",
+   "platforms": {
+    "windows": {
+     "psh": {
+      "command": "(komut çıkarıldı)"
+     }
+    }
+   },
+   "executors": [
+    {
+     "name": "command_prompt",
+     "command": "(komut çıkarıldı)"
+    },
+    {
+     "name": "powershell",
+     "command": "(komut çıkarıldı)"
+    }
+   ],
+   "input_arguments": {
+    "profile_user": {
+     "default": "x"
+    }
+   }
+  },
+  {
+   "id": "ornek-1.A",
+   "name": "örnek adım",
+   "description": "sentetik",
+   "tactic": "execution",
+   "technique": {
+    "attack_id": "T1036.002",
+    "name": "Masquerading: Right-to-Left Override"
+   },
+   "procedure_step": "1.A",
+   "platforms": {
+    "windows": {
+     "psh": {
+      "command": "(komut çıkarıldı)"
+     }
+    }
+   },
+   "executors": [
+    {
+     "name": "powershell",
+     "command": "(komut çıkarıldı)"
+    }
+   ],
+   "input_arguments": {
+    "server": {
+     "default": "192.0.2.10"
+    }
+   }
+  },
+  {
+   "id": "ornek-2.A.2",
+   "name": "örnek adım",
+   "description": "sentetik",
+   "tactic": "credential-access",
+   "technique": {
+    "attack_id": "T1003",
+    "name": "Credential Dumping"
+   },
+   "procedure_step": "2.A.2",
+   "platforms": {
+    "windows": {
+     "psh": {
+      "command": "(komut çıkarıldı)"
+     }
+    }
+   },
+   "executors": [
+    {
+     "name": "powershell",
+     "command": "(komut çıkarıldı)"
+    }
+   ],
+   "input_arguments": null
+  },
+  {
+   "id": "ornek-8.C",
+   "name": "örnek adım",
+   "description": "sentetik",
+   "tactic": "lateral-movement",
+   "technique": {
+    "attack_id": "T1021.006",
+    "name": "Remote Services: Windows Remote Management"
+   },
+   "procedure_step": "8.C",
+   "platforms": {
+    "windows": {
+     "psh": {
+      "command": "(komut çıkarıldı)"
+     }
+    }
+   },
+   "executors": [
+    {
+     "name": "powershell",
+     "command": "(komut çıkarıldı)"
+    }
+   ],
+   "input_arguments": {
+    "target.winrm.remote_host": {}
+   }
+  },
+  {
+   "id": "ornek-19.B",
+   "name": "örnek adım",
+   "description": "sentetik",
+   "tactic": "exfiltration",
+   "technique": {
+    "attack_id": "T1537",
+    "name": "Transfer Data to Cloud Account"
+   },
+   "procedure_step": "19.B",
+   "platforms": {
+    "windows": {
+     "psh": {
+      "command": "(komut çıkarıldı)"
+     }
+    }
+   },
+   "executors": [
+    {
+     "name": "powershell",
+     "command": "(komut çıkarıldı)"
+    }
+   ],
+   "input_arguments": {
+    "onedrive.url": {}
+   }
+  }
+ ]
+}

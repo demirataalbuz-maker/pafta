@@ -1,0 +1,176 @@
+{
+  "name": "reference",
+  "okay": true,
+  "seconds": 19.87,
+  "result": {
+    "status": "pass",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "şema, kaynak-aşama izi, deterministik sıra ve değişmezlik korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: katmanları ham metinde birleştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kaynak katmanını silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: belgeyi system sayan"
+      },
+      {
+        "ok": true,
+        "msg": "tam üçlü katman, tam satır canary ve fark listesi korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: katmanları ve tam satırı yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bütün farkları gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eksik katmanı kabul eden"
+      },
+      {
+        "ok": true,
+        "msg": "hat sırası, ilk gözlem, eş aşama katmanları ve tam satır korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: son olayı ilk gözlem sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: eş aşamadaki katmanı düşüren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: alıntıyı gözlem sayan"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/bağımsız ölçüm yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni belge/işarette katman farkı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni olaylarda güven etiketi ve paket içeriği"
+      },
+      {
+        "ok": true,
+        "msg": "yeni olaylarda ilk gözlem"
+      },
+      {
+        "ok": true,
+        "msg": "yeni belge/işarette katman farkı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni olaylarda güven etiketi ve paket içeriği"
+      },
+      {
+        "ok": true,
+        "msg": "yeni olaylarda ilk gözlem"
+      },
+      {
+        "ok": true,
+        "msg": "yeni belge/işarette katman farkı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni olaylarda güven etiketi ve paket içeriği"
+      },
+      {
+        "ok": true,
+        "msg": "yeni olaylarda ilk gözlem"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: paket_dogru"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: katman_farki_dogru"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: ilk_gozlem_dogru"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: gercek_pdf"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: gercek_ocr"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: kaynak_temiz"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek deney: cihaz_uygun"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek PDF katmanları/vision OCR ve doğru ölçüm; modelin işareti aktarması şart değil"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": [
+      {
+        "pilot": "saldiri-13-pdf",
+        "kaynak": "gercek",
+        "kabul": true,
+        "model": "qwen3:4b-instruct-2507-q4_K_M",
+        "ozet": {
+          "katman_farki": {
+            "belgeler": {
+              "meta-only": {
+                "metin-katmani": false,
+                "metadata": true,
+                "ocr": false
+              },
+              "text-only": {
+                "metin-katmani": true,
+                "metadata": false,
+                "ocr": false
+              }
+            },
+            "farkli": [
+              "meta-only",
+              "text-only"
+            ]
+          },
+          "ilk_gozlem": {
+            "meta-only": {
+              "asama": "cikarma",
+              "katmanlar": [
+                "metadata"
+              ]
+            },
+            "text-only": {
+              "asama": "cikarma",
+              "katmanlar": [
+                "metin-katmani"
+              ]
+            }
+          }
+        },
+        "dosya": "C:\\Users\\demo12\\Documents\\Pafta-AI-GercekLab\\outputs\\codex-ai-saldiri-13-20261029\\data\\ai-kanit\\saldiri-13-pdf-1793269426214.json",
+        "zaman": "2026-10-29T13:23:45+03:00"
+      }
+    ]
+  }
+}

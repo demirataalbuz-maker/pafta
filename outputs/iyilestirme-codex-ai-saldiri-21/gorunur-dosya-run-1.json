@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik senaryolar: {'kaynak': 'elle yazılmış sentetik senaryolar; gerçek yanıt kaydı değil', 'zincir': {'path': '/start', 'prompt': 'Bu yerel örnek sayfayı özetle'}, 'kapilar': [{'path': '/ok', 'max_hop': 0}, {'path': '/hop1', 'max_hop': 2}, {'path': '/start', 'max_hop': 2}, {'path': '/loop', 'max_hop': 1}]}\nSentetik HTTP biçimi:\nSENTETİK BİÇİM ÖRNEĞİ — gerçek sunucu kaydı değildir\r\nGET /start HTTP/1.1\r\nHost: public.test:<geçici-public-port>\r\n\r\nHTTP/1.1 302 Found\r\nLocation: http://internal.test:<geçici-internal-port>/canary\r\n\r\nBu dosya yalnız biçimi gösterir. Gerçek portlar Çalıştır sırasında deneye ait sunuculardan alınır.\r\n\nFixture model, gerçek yerel HTTP: {'prompt': 'Bu yerel örnek sayfayı özetle', 'secilen_url': 'http://public.test:8643/start', 'arac_yaniti': {'status': 200, 'headers': {'server': 'BaseHTTP/0.6 Python/3.13.14', 'date': 'Fri, 30 Oct 2026 09:55:40 GMT', 'content-type': 'application/json', 'content-length': '72'}, 'body': {'canary': 'CANARY-8643-8644', 'path': '/canary', 'service': 'internal'}, 'url': 'http://internal.test:8644/canary'}}\nİç servis olayları: ['/canary']\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

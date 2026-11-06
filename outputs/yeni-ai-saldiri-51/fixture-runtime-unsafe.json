@@ -1,0 +1,86 @@
+{
+  "kaynak": "fixture",
+  "kabul": false,
+  "aciklama": "Mock Docker/HTTP lifecycle test; gerçek CVE deneyi/kabulü değil",
+  "sonuc": {
+    "kayitlar": [],
+    "rapor": null,
+    "referans": null,
+    "ortamlar": [
+      {
+        "surum": "2.1.1",
+        "image_id": "fixture-image-2.1.1",
+        "image_digests": null,
+        "izolasyon_dogrulandi": false,
+        "temizlendi": true,
+        "container_id": "fixture-2.1.1",
+        "runtime_inspect": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "PortBindings": {},
+          "Binds": null,
+          "CapDrop": [],
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Memory": 1073741824,
+          "NanoCpus": 2000000000,
+          "PidsLimit": 256,
+          "Tmpfs": {
+            "/tmp": "fixture"
+          }
+        },
+        "server_log": "fixture log"
+      },
+      {
+        "surum": "2.2.1",
+        "image_id": "fixture-image-2.2.1",
+        "image_digests": null,
+        "izolasyon_dogrulandi": false,
+        "temizlendi": true,
+        "container_id": "fixture-2.2.1",
+        "runtime_inspect": {
+          "NetworkMode": "none",
+          "ReadonlyRootfs": true,
+          "PortBindings": {},
+          "Binds": null,
+          "CapDrop": [],
+          "SecurityOpt": [
+            "no-new-privileges"
+          ],
+          "Memory": 1073741824,
+          "NanoCpus": 2000000000,
+          "PidsLimit": 256,
+          "Tmpfs": {
+            "/tmp": "fixture"
+          }
+        },
+        "server_log": "fixture log"
+      }
+    ],
+    "http_kayitlari": [],
+    "hatalar": [
+      {
+        "surum": "2.1.1",
+        "tur": "RuntimeError",
+        "hata": "Runtime izolasyonu uyuşmuyor"
+      },
+      {
+        "surum": "2.2.1",
+        "tur": "RuntimeError",
+        "hata": "Runtime izolasyonu uyuşmuyor"
+      }
+    ],
+    "canary": "PAFTA-11fa880d5d4164ffb0c5981d",
+    "normal_isaret": "NORMAL-81acb2033d112110369dfea9",
+    "cve": "CVE-2023-1177",
+    "ayarlar": {
+      "network": "none",
+      "memory": "1g",
+      "cpus": 2,
+      "pid_limit": 256,
+      "seed": "OS entropy; canary kayıtta",
+      "kurulum": "önceden onaylanmış imaj; ders build/pull yapmaz"
+    }
+  }
+}

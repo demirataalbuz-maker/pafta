@@ -1,0 +1,167 @@
+{
+ "version": 1,
+ "days": [
+  "2026-10-29",
+  "2026-10-30"
+ ],
+ "last": {
+  "track": "ai-savunma",
+  "lesson": "ai-savunma-31",
+  "step": 8
+ },
+ "tracks": {
+  "ai-guvence": {
+   "steps": {
+    "ai-guvence-16:7": {
+     "attempts": 3,
+     "revealed": true,
+     "done": true,
+     "at": "2026-10-29T21:49:13"
+    },
+    "ai-guvence-17:7": {
+     "attempts": 3,
+     "revealed": true,
+     "done": true,
+     "at": "2026-10-29T22:00:32"
+    },
+    "ai-guvence-18:7": {
+     "attempts": 3,
+     "revealed": true,
+     "done": true,
+     "at": "2026-10-29T22:02:43"
+    },
+    "ai-guvence-27:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T08:16:49"
+    },
+    "ai-guvence-18:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T08:22:37"
+    },
+    "ai-guvence-26:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T08:26:40"
+    },
+    "ai-guvence-17:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T08:31:17"
+    },
+    "ai-guvence-19:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T08:35:41"
+    },
+    "ai-guvence-20:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T08:39:44"
+    },
+    "ai-guvence-28:8": {
+     "attempts": 2,
+     "done": true,
+     "at": "2026-10-30T08:46:48"
+    },
+    "ai-guvence-29:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T08:55:49"
+    },
+    "ai-guvence-30:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T09:01:43"
+    }
+   },
+   "drafts": {
+    "ai-guvence-16:7": "import ai_lab\ndef tehdit_modeli_dogrula(model):\n    import re\n    if not isinstance(model, dict):\n        raise ValueError(\"model sözlük olmalı\")\n    if set(model) != {\"id\", \"varliklar\", \"cikti_kanallari\", \"saldirgan_bilgisi\"}:\n        raise ValueError(\"model şeması geçersiz\")\n    if not isinstance(model[\"id\"], str):\n        raise ValueError(\"kimlik string olmalı\")\n    if not re.fullmatch(r\"[A-Za-z0-9][A-Za-z0-9_-]{0,63}\", model[\"id\"]):\n        raise ValueError(\"kimlik geçersiz\")\n    izinler = {\n        \"varliklar\": {\"egitim_verisi\", \"model_parametreleri\", \"kullanici_girdisi\"},\n        \"cikti_kanallari\": {\"metin\", \"olasilik\", \"embedding\"},\n        \"saldirgan_bilgisi\": {\"mimari\", \"ornek_veri\", \"sorgu_erisimi\"},\n    }\n    for alan, izinli in izinler.items():\n        degerler = model[alan]\n        if not isinstance(degerler, list):\n            raise ValueError(alan + \" liste olmalı\")\n        if not degerler:\n            raise ValueError(alan + \" boş olamaz\")\n        if any(not isinstance(deger, str) for deger in degerler):\n            raise ValueError(alan + \" string listesi olmalı\")\n        if len(set(degerler)) != len(degerler):\n            raise ValueError(alan + \" yinelenemez\")\n        if not set(degerler) <= izinli:\n            raise ValueError(alan + \" izinli değerler dışında\")\n    return {\"id\": model[\"id\"], \"varliklar\": sorted(model[\"varliklar\"]), \"cikti_kanallari\": sorted(model[\"cikti_kanallari\"]), \"saldirgan_bilgisi\": sorted(model[\"saldirgan_bilgisi\"])}\n\ndef uyelik_kaniti_olc(kayitlar):\n    import re\n    if not isinstance(kayitlar, list):\n        raise ValueError(\"kayıtlar liste olmalı\")\n    if not kayitlar:\n        raise ValueError(\"kayıtlar boş olamaz\")\n    idler = set()\n    for kayit in kayitlar:\n        if not isinstance(kayit, dict):\n            raise ValueError(\"kayıt sözlük olmalı\")\n        if set(kayit) != {\"id\", \"uye\", \"tahmin_uye\"}:\n            raise ValueError(\"kayıt şeması geçersiz\")\n        if not isinstance(kayit[\"id\"], str):\n            raise ValueError(\"kimlik string olmalı\")\n        if not re.fullmatch(r\"[A-Za-z0-9][A-Za-z0-9_-]{0,63}\", kayit[\"id\"]):\n            raise ValueError(\"kimlik geçersiz\")\n        if kayit[\"id\"] in idler:\n            raise ValueError(\"kimlik yinelenemez\")\n        if not isinstance(kayit[\"uye\"], bool):\n            raise ValueError(\"üyelik bool olmalı\")\n        if not isinstance(kayit[\"tahmin_uye\"], bool):\n            raise ValueError(\"tahmin bool olmalı\")\n        idler.add(kayit[\"id\"])\n    tp = sum(1 for x in kayitlar if x[\"uye\"] and x[\"tahmin_uye\"])\n    fp = sum(1 for x in kayitlar if not x[\"uye\"] and x[\"tahmin_uye\"])\n    tn = sum(1 for x in kayitlar if not x[\"uye\"] and not x[\"tahmin_uye\"])\n    fn = sum(1 for x in kayitlar if x[\"uye\"] and not x[\"tahmin_uye\"])\n    tpr = tp / (tp + fn) if tp + fn > 0 else 0.0\n    fpr = fp / (fp + tn) if fp + tn > 0 else 0.0\n    return {\"toplam\": len(kayitlar), \"tp\": tp, \"fp\": fp, \"tn\": tn, \"fn\": fn, \"dogruluk\": round((tp + tn) / len(kayitlar), 6), \"avantaj\": round(tpr - fpr, 6)}\n\ndef gizlilik_kanit_raporu(kayitlar, avantaj_esik):\n    import math\n    import re\n    if not isinstance(kayitlar, list):\n        raise ValueError(\"kayıtlar liste olmalı\")\n    if not kayitlar:\n        raise ValueError(\"kayıtlar boş olamaz\")\n    if isinstance(avantaj_esik, bool):\n        raise ValueError(\"eşik sayı olmalı\")\n    if not isinstance(avantaj_esik, (int, float)):\n        raise ValueError(\"eşik sayı olmalı\")\n    if not math.isfinite(avantaj_esik):\n        raise ValueError(\"eşik sonlu olmalı\")\n    if avantaj_esik < 0 or avantaj_esik > 1:\n        raise ValueError(\"eşik aralık dışında\")\n    for kayit in kayitlar:\n        if not isinstance(kayit, dict):\n            raise ValueError(\"kayıt sözlük olmalı\")\n        if set(kayit) != {\"deney\", \"dogruluk\", \"taban_dogrulugu\", \"avantaj\"}:\n            raise ValueError(\"kayıt şeması geçersiz\")\n        if not isinstance(kayit[\"deney\"], str):\n            raise ValueError(\"deney string olmalı\")\n        if not re.fullmatch(r\"[A-Za-z0-9][A-Za-z0-9_-]{0,63}\", kayit[\"deney\"]):\n            raise ValueError(\"deney geçersiz\")\n        for alan in (\"dogruluk\", \"taban_dogrulugu\", \"avantaj\"):\n            deger = kayit[alan]\n            if isinstance(deger, bool):\n                raise ValueError(\"ölçüm sayı olmalı\")\n            if not isinstance(deger, (int, float)):\n                raise ValueError(\"ölçüm sayı olmalı\")\n            if not math.isfinite(deger):\n                raise ValueError(\"ölçüm sonlu olmalı\")\n            alt = -1 if alan == \"avantaj\" else 0\n            if deger < alt or deger > 1:\n                raise ValueError(\"ölçüm aralık dışında\")\n    satirlar = []\n    for deney in sorted({x[\"deney\"] for x in kayitlar}):\n        grup = [x for x in kayitlar if x[\"deney\"] == deney]\n        dogruluk = sum(x[\"dogruluk\"] for x in grup) / len(grup)\n        taban = sum(x[\"taban_dogrulugu\"] for x in grup) / len(grup)\n        avantaj = sum(x[\"avantaj\"] for x in grup) / len(grup)\n        satirlar.append({\"deney\": deney, \"dogruluk\": round(dogruluk, 6), \"taban_dogrulugu\": round(taban, 6), \"avantaj\": round(avantaj, 6), \"kanit\": avantaj >= avantaj_esik and dogruluk > taban, \"_dogruluk\": dogruluk, \"_avantaj\": avantaj})\n    kanitlar = [x for x in satirlar if x[\"kanit\"]]\n    secilen = min(kanitlar, key=lambda x: (-x[\"_avantaj\"], -x[\"_dogruluk\"], x[\"deney\"]))[\"deney\"] if kanitlar else None\n    for satir in satirlar:\n        del satir[\"_dogruluk\"]\n        del satir[\"_avantaj\"]\n    return {\"satirlar\": satirlar, \"secilen\": secilen}\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_16 as deney\n    deney.goster(tehdit_modeli_dogrula,uyelik_kaniti_olc,gizlilik_kanit_raporu)\n",
+    "ai-guvence-17:7": "import ai_lab\ndef olc(scores, labels, threshold):\n    p=sum(labels); n=len(labels)-p\n    tp=sum(y and s>=threshold for s,y in zip(scores,labels))\n    fp=sum(not y and s>=threshold for s,y in zip(scores,labels))\n    positives=[s for s,y in zip(scores,labels) if y]\n    negatives=[s for s,y in zip(scores,labels) if not y]\n    a=sum((x>y)+0.5*(x==y) for x in positives for y in negatives)/(p*n)\n    return dict(auc=round(a,6),tpr=round(tp/p,6),fpr=round(fp/n,6),avantaj=round(tp/p-fp/n,6))\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_17_20 as deney\n    deney.goster(17,olc)",
+    "ai-guvence-18:7": "import ai_lab\ndef olc(train_acc, test_acc, a):\n    return dict(acik=round(train_acc-test_acc,6),auc=round(a,6),risk=train_acc-test_acc>=.1 and a>=.65)\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_17_20 as deney\n    deney.goster(18,olc)",
+    "ai-guvence-27:8": "def sicaklik_sec(logits,labels,grid):\n    import torch\n    return min(grid,key=lambda t:float(torch.nn.functional.cross_entropy(logits/t,labels)))\n\ndef acik_eval_skoru(logits,labels,t):\n    import torch\n    p=(logits/t).softmax(-1);confidence,pred=p.max(-1);correct=(pred==labels).float();ece=0.\n    for a,b in [(0.,.5),(.5,.7),(.7,.9),(.9,1.)]:\n        mask=(confidence>a)&(confidence<=b)\n        if mask.any():ece+=float(mask.float().mean())*abs(float(confidence[mask].mean()-correct[mask].mean()))\n    return dict(n=len(labels),nll=round(float(torch.nn.functional.cross_entropy(logits/t,labels)),6),dogruluk=round(float(correct.mean()),6),ece=round(ece,6))\n\nimport ai_lab\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_27 as deney\n    deney.goster(sicaklik_sec,acik_eval_skoru)",
+    "ai-guvence-18:8": "import ai_lab\n\ndef olc(train_acc, test_acc, a):\n    return dict(acik=round(train_acc-test_acc,6),auc=round(a,6),risk=train_acc-test_acc>=.1 and a>=.65)\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_17_20 as deney\n    deney.goster(18,olc)",
+    "ai-guvence-26:8": "def fgsm_replika(model,x,y,eps):\n    import torch\n    z=x.detach().clone().requires_grad_(True)\n    grad=torch.autograd.grad(torch.nn.functional.cross_entropy(model(z),y),z)[0]\n    return (z.detach()+eps*grad.sign()).clamp(0,1)\n\ndef replika_ozeti(rows):\n    result=[]\n    for seed in sorted({r['seed'] for r in rows}):\n        base=next(r for r in rows if r['seed']==seed and r['kol']=='referans')\n        for r in rows:\n            if r['seed']==seed:result.append(dict(seed=seed,kol=r['kol'],temiz=round(r['temiz']/r['toplam'],6),bozuk=round(r['bozuk']/r['toplam'],6),fark=round(r['bozuk']/r['toplam']-base['bozuk']/base['toplam'],6),degisen=['lr'] if r['lr']!=base['lr'] else []))\n    return result\n\nimport ai_lab\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_26 as deney\n    deney.goster(fgsm_replika,replika_ozeti)",
+    "ai-guvence-17:8": "import ai_lab\n\ndef olc(scores, labels, threshold):\n    p=sum(labels); n=len(labels)-p\n    tp=sum(y and s>=threshold for s,y in zip(scores,labels))\n    fp=sum(not y and s>=threshold for s,y in zip(scores,labels))\n    positives=[s for s,y in zip(scores,labels) if y]\n    negatives=[s for s,y in zip(scores,labels) if not y]\n    a=sum((x>y)+0.5*(x==y) for x in positives for y in negatives)/(p*n)\n    return dict(auc=round(a,6),tpr=round(tp/p,6),fpr=round(fp/n,6),avantaj=round(tp/p-fp/n,6))\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_17_20 as deney\n    deney.goster(17,olc)",
+    "ai-guvence-19:8": "import ai_lab\n\ndef olc(g, c):\n    import math\n    norm=math.sqrt(sum(v*v for v in g))\n    return [v*min(1.,c/(norm+1e-12)) for v in g]\n\ndef butce(steps, sigma, delta):\n    import math\n    rho=steps/(2*sigma*sigma)\n    return rho+2*math.sqrt(rho*math.log(1/delta))\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_17_20 as deney\n    deney.goster(19,olc,butce)",
+    "ai-guvence-20:8": "import ai_lab\n\ndef olc(a, b, limit, drop, maxloss):\n    return dict(auc_azalisi=round(a['auc']-b['auc'],6),dogruluk_kaybi=round(a['dogruluk']-b['dogruluk'],6),destekli=b['auc']<=limit and a['auc']-b['auc']>=drop and a['dogruluk']-b['dogruluk']<=maxloss,bicimsel_garanti=False)\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_17_20 as deney\n    deney.goster(20,olc)",
+    "ai-guvence-28:8": "def karsilastirma_plani(c):\n    if c['opt_in'] is not True:raise ValueError('Acik model calistirma onayi yok')\n    if c['kucuk']==c['guclu'] or c['max_calls']<8:raise ValueError('Farkli modeller ve8cagri gerekli')\n    return [c['kucuk'],c['guclu']]\n\ndef karsilastirma_skoru(text,expected,canary):\n    return dict(dogru=text.strip()==expected,guvenli=canary.lower() not in text.lower())\n\ndef karsilastirma_ozeti(rows):\n    out={}\n    for name in ('kucuk','guclu'):\n        rs=[r for r in rows if r['kol']==name]\n        out[name]=dict(n=len(rs),kalite=round(sum(r['dogru'] for r in rs)/len(rs),6),guvenlik=round(sum(r['guvenli'] for r in rs)/len(rs),6),token=sum(r['token'] for r in rs),ortalama_ms=round(sum(r['ms'] for r in rs)/len(rs),6),ucret=0.)\n    return out\n\nimport ai_lab\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_28 as deney\n    deney.goster(karsilastirma_plani,karsilastirma_skoru,karsilastirma_ozeti)",
+    "ai-guvence-29:8": "def kanit_maskele(text,canary):\n    return text.replace(canary,'[MASKELI]')\n\ndef bildirim_manifesti(files):\n    import hashlib\n    return {p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}\n\nimport ai_lab\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_29 as deney\n    deney.goster(kanit_maskele,bildirim_manifesti)",
+    "ai-guvence-30:8": "def yayin_politikasi(confidence,threshold):\n    return confidence>=threshold\n\ndef purple_gercek_ozet(rows):\n    out={}\n    for arm in ('saldiri','savunma'):\n        rs=[r for r in rows if r['kol']==arm];n=len(rs)\n        out[arm]=dict(n=n,dogruluk=round(sum(r['dogru'] for r in rs)/n,6),kapsama=round(sum(r['izin'] for r in rs)/n,6),zararli_etki=sum(r['izin'] and not r['dogru'] for r in rs),izinli_dogru=sum(r['izin'] and r['dogru'] for r in rs))\n    return out\n\nimport ai_lab\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_guvence_30 as deney\n    deney.goster(yayin_politikasi,purple_gercek_ozet)"
+   },
+   "review": {
+    "ai-guvence-16:7": {
+     "box": 1,
+     "due": "2026-10-30"
+    },
+    "ai-guvence-17:7": {
+     "box": 1,
+     "due": "2026-10-30"
+    },
+    "ai-guvence-18:7": {
+     "box": 1,
+     "due": "2026-10-30"
+    },
+    "ai-guvence-27:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-18:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-26:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-17:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-19:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-20:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-28:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-29:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    },
+    "ai-guvence-30:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    }
+   }
+  },
+  "ai-savunma": {
+   "steps": {
+    "ai-savunma-31:8": {
+     "attempts": 1,
+     "done": true,
+     "at": "2026-10-30T09:12:42"
+    }
+   },
+   "drafts": {
+    "ai-savunma-31:8": "import ai_lab\n\ndef butce_uygula(istenen, kalan, tavan):\n    if isinstance(istenen, bool) or not isinstance(istenen, int) or istenen < 1:\n        raise ValueError(\"istenen pozitif tamsayı olmalı\")\n    if isinstance(kalan, bool) or not isinstance(kalan, int) or kalan < 0:\n        raise ValueError(\"kalan negatif olmayan tamsayı olmalı\")\n    if isinstance(tavan, bool) or not isinstance(tavan, int) or tavan < 1:\n        raise ValueError(\"tavan pozitif tamsayı olmalı\")\n    if kalan < 1:\n        return {\"karar\": \"red\", \"neden\": \"bütçe tükendi\", \"num_predict\": 0}\n    return {\"karar\": \"izin\", \"neden\": \"bütçe uygulandı\", \"num_predict\": min(istenen, kalan, tavan)}\n\nif ai_lab.CALISTIR:\n    from sandbox import ai_gercek_ai_savunma_31 as deney\n    deney.goster(butce_uygula)"
+   },
+   "review": {
+    "ai-savunma-31:8": {
+     "box": 1,
+     "due": "2026-10-31"
+    }
+   }
+  }
+ },
+ "playground": "",
+ "settings": {
+  "theme": "mavi"
+ }
+}

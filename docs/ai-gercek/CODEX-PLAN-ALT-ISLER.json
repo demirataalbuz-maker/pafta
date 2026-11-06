@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-03",
+  "rule": "Alt ders teslimi üst planı tamamlamaz. Puan/denetim kabulü yalnız Opus tarafından verilir.",
+  "children": [
+    {
+      "id": "pu18",
+      "owner": "codex",
+      "status": "denetime-hazir",
+      "parent_ids": [
+        "plan-klasik-1",
+        "plan-purple-2"
+      ],
+      "scope": "Kurulu gerçek Nmap; kendi loopback HTTP servisleri, XML ve önce/sonra fark",
+      "remaining_parent_scope": [
+        "ffuf",
+        "nuclei",
+        "Blue IDS/SIEM entegrasyonu",
+        "M2 web ve GoPhish işleri"
+      ],
+      "report": "CODEX-PU18-PU19-TESLIM.md"
+    },
+    {
+      "id": "pu19",
+      "owner": "codex",
+      "status": "denetime-hazir",
+      "parent_ids": [
+        "plan-klasik-2",
+        "plan-purple-2"
+      ],
+      "scope": "stdlib HTTP + gerçek SQLite login bypass ve parameter binding",
+      "remaining_parent_scope": [
+        "XSS",
+        "SSTI",
+        "XXE",
+        "Juice Shop değerlendirmesi",
+        "M2 keşif/GoPhish ve Blue bağlantıları"
+      ],
+      "report": "CODEX-PU18-PU19-TESLIM.md"
+    }
+  ]
+}

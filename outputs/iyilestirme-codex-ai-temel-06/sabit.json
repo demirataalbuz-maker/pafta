@@ -1,0 +1,44 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi çok başlı dikkat işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "gerçek katman: ardışık kafa bölme, kafa boyutuyla ölçek, softmax öncesi maske, sıralı birleştirme ve nedensellik doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kafalar atlamalı bölünüyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: nedensel maske yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: maske softmax'tan sonra"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: √D ile ölçekleme"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kafalar ters sırayla birleşiyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tek kafa"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ezber tablo"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

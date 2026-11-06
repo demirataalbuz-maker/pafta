@@ -1,0 +1,40 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": false,
+      "msg": "şema, benzersiz kimlik, değişmeyen girdi ve kanonik imza birlikte doğrulanmalı"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: sırayı bozan ve imzayı sabitleyen"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: kanonik olmayan JSON kullanan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: girdiyi değiştiren"
+    },
+    {
+      "ok": true,
+      "msg": "eksiksiz eşleşme, ayrık hata ve kontrol, doğru payda birlikte zorunlu"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: eksik sonucu gizleyen"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: hatayı ve kontrolü paydaya katan"
+    },
+    {
+      "ok": true,
+      "msg": "yanlış çözüm/mutant yakalanmalı: bozuk kontrolü sağlam sayan"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

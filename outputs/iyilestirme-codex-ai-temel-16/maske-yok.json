@@ -1,0 +1,32 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi bağlam işlevini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "bağlam: yalnız izinli alanlar, liste sırası, token maskesi (beşinci karakterde değil) ve UTF-8 JSON doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: maskeleme yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: token alanı seçilebiliyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: alan sırası korunmuyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ASCII kaçışlı JSON"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

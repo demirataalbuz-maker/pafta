@@ -1,0 +1,44 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi hiyerarşi işlevlerini yaz: "
+    },
+    {
+      "ok": false,
+      "msg": "karar: tool otorite değil, en yüksek rol, rol içinde yasak önceliği, en son kural izi, belirsiz durum doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: tool kuralı otorite sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: rol içinde yasak önceliği yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: en son kural kazanıyor (hiyerarşi yok)"
+    },
+    {
+      "ok": false,
+      "msg": "özet: hatalı kayıtlar paydada değil, format dışı uyumsuz, kontrol ayrı, tür sırası ve kontrol_tam doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: taşıma hatası uyumsuz sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: format dışı yanıt paydadan atılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kontrol vakaları çatışma oranına karışıyor"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

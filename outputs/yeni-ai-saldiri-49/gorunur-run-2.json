@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik ham veri: {\r\n  \"koken\": \"elle hazırlanmış sentetik lab policy; gerçek training kaydı değil\",\r\n  \"bolmeler\": [\r\n    {\r\n      \"id\": \"a\",\r\n      \"bolme\": \"train\",\r\n      \"metin\": \"RED 1\"\r\n    },\r\n    {\r\n      \"id\": \"b\",\r\n      \"bolme\": \"test\",\r\n      \"metin\": \"BLUE 2\"\r\n    }\r\n  ],\r\n  \"tokenler\": [\r\n    11,\r\n    12,\r\n    13,\r\n    14\r\n  ],\r\n  \"prompt_uzunlugu\": 3,\r\n  \"skorlar\": [\r\n    {\r\n      \"id\": \"red\",\r\n      \"grup\": \"yasak\",\r\n      \"once\": 0.1,\r\n      \"sonra\": 0.8\r\n    },\r\n    {\r\n      \"id\": \"blue\",\r\n      \"grup\": \"izinli\",\r\n      \"once\": 0.9,\r\n      \"sonra\": 0.7\r\n    }\r\n  ]\r\n}\nLabels: [11, 12, 13, -100]\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}

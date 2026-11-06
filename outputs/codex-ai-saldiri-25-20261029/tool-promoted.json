@@ -1,0 +1,77 @@
+{
+  "name": "tool-promoted",
+  "okay": true,
+  "seconds": 0.92,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": false,
+        "msg": "kaynak, güvenilmez rol, içerik bütünlüğü ve NUL sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: içeriği güvenilir sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: kanıtı silen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rolü system yapan"
+      },
+      {
+        "ok": true,
+        "msg": "tek model çağrısı, paket kopyası, eylem şeması ve izin sınırı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: sil eylemini zorla izinli yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: model rolünü system yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: modeli ikinci kez çağıran"
+      },
+      {
+        "ok": true,
+        "msg": "rol, çalışma bypass'ı, yeniden enjeksiyon ve temizlik ayrımı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rol sapmasını gizleyen"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: her çalışma bypass'ını enjeksiyon sayan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: temizlikte rolü yok sayan"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek ölçüm yamalanmamalı"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "ValueError",
+      "msg": "paket güven sınırı geçersiz",
+      "frames": [
+        {
+          "line": 14,
+          "func": "guvenli_ajan_adimi",
+          "text": "raise ValueError(\"paket güven sınırı geçersiz\")"
+        }
+      ],
+      "line": 14,
+      "where": "kod-test"
+    },
+    "ai_kanit": []
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Gömme: all-minilm:22m (23M, num_ctx 256) · 10 parça × 384 boyut · 6 soru · k=3\n\nS: İade için kaç günüm var?  (altın ['iade#0'], altın sıra: 1)\n   k=3 → getirilen ilk: iade#0 · anma 1.0 mrr 1.0 ndcg 1.0\nS: Kargo ne zaman ücretsiz olur?  (altın ['kargo#0'], altın sıra: 1)\n   k=3 → getirilen ilk: kargo#0 · anma 1.0 mrr 1.0 ndcg 1.0\nS: Parola en az kaç karakter olmalı?  (altın ['guv#0'], altın sıra: 1)\n   k=3 → getirilen ilk: guv#0 · anma 1.0 mrr 1.0 ndcg 1.0\nS: Sunucu yedekleri kaç gün saklanır?  (altın ['yedek#0'], altın sıra: 1)\n   k=3 → getirilen ilk: yedek#0 · anma 1.0 mrr 1.0 ndcg 1.0\nS: Yıllık izin hakkım kaç gün?  (altın ['izin#0'], altın sıra: 2)\n   k=3 → getirilen ilk: yedek#0 · anma 1.0 mrr 0.5 ndcg 0.6309\nS: Maaşlar ne zaman ödenir?  (altın ['maas#0'], altın sıra: 1)\n   k=3 → getirilen ilk: maas#0 · anma 1.0 mrr 1.0 ndcg 1.0\n\nOrtalama: recall@3 1.0 vs recall@1 0.8333 · MRR 0.9167 · nDCG@3 0.9385 · isabet@3 6/6 vs isabet@1 5/6\nKanıt: C:\\Users\\demo12\\AppData\\Local\\Temp\\pafta_ai_kanit_d5a2mx3f\\temel-retrieval-calistir-1793398987200.json\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null,
+  "ai_kanit": [
+    {
+      "pilot": "temel-retrieval-calistir",
+      "kaynak": "gercek",
+      "kabul": false,
+      "model": "all-minilm:22m",
+      "ozet": {
+        "soru": 6,
+        "boyut": 384,
+        "anma_k3": 1.0,
+        "anma_k1": 0.8333,
+        "mrr": 0.9167,
+        "ndcg_k3": 0.9385,
+        "isabet_k3": 6,
+        "isabet_k1": 5
+      },
+      "dosya": "outputs/iyilestirme-codex-20261030/ui-data\\ai-kanit\\temel-retrieval-calistir-1793398987200.json",
+      "zaman": "2026-10-31T01:23:06+03:00"
+    }
+  ]
+}

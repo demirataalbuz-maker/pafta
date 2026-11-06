@@ -1,0 +1,77 @@
+{
+  "name": "hash-from-wrong-template",
+  "okay": true,
+  "seconds": 0.37,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "rol kümesi, sistem ve araç sırası, karakter toplamı korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: araç rolünü sistem yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: içerik uzunluğunu eksilten"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rol sırasını ters çeviren"
+      },
+      {
+        "ok": true,
+        "msg": "template biçimi, kontrol işareti etkisizleştirme ve mesaj sırası korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: içerik işaretlerini ham bırakan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: bütün rolleri system yapan"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: template seçimini değiştiren"
+      },
+      {
+        "ok": false,
+        "msg": "rol sırası, template özeti, kaçış ve deterministik rapor korunmalı"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: template özetlerini değiştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rol kanıtını değiştiren"
+      },
+      {
+        "ok": true,
+        "msg": "yanlış çözüm/mutant yakalanmalı: rapor sırasını bozan"
+      },
+      {
+        "ok": true,
+        "msg": "laboratuvar/gerçek ölçüm yamalanmamalı"
+      },
+      {
+        "ok": true,
+        "msg": "yeni içerikte rol/karakter özeti"
+      },
+      {
+        "ok": true,
+        "msg": "yeni markerlı içerikte render sınırı"
+      },
+      {
+        "ok": false,
+        "msg": "yeni kimlikte gerçek renderhash sözleşmesi"
+      }
+    ],
+    "segs": [],
+    "error": null,
+    "ai_kanit": []
+  }
+}

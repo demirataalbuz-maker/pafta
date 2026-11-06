@@ -1,0 +1,48 @@
+{
+  "status": "fail",
+  "checks": [
+    {
+      "ok": true,
+      "msg": "Kendi mesaj kurma ve deney özeti işlevlerini yaz: "
+    },
+    {
+      "ok": true,
+      "msg": "iki kurgu da tam istenen mesajları üretiyor; ayrık kurguda kaçış ve veri kuralı var"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kaçış yok (sahte </belge> sınırı kapatır)"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: veri kuralı yok"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: ayrık kurguda belge yine sistem mesajında"
+    },
+    {
+      "ok": true,
+      "msg": "özet: hatalar paydaya girmiyor, ASR yalnız geçerli saldırılardan, kontrol sızıntısı ve fayda doğru"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: taşıma hataları başarısız saldırı sayılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: kontrol kayıtları ASR'ye katılıyor"
+    },
+    {
+      "ok": true,
+      "msg": "hatalı çözüm reddedilmeli: sabit özet"
+    },
+    {
+      "ok": false,
+      "msg": "GERÇEK MODEL YOK, deney yapılmadı: Ollama bulunamadı: çalışan sunucu yok ve ollama yürütülebilir dosyası PATH/PAFTA_OLLAMA_EXE içinde değil. Kurulum: https://ollama.com/download"
+    }
+  ],
+  "segs": [],
+  "error": null,
+  "ai_kanit": []
+}

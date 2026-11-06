@@ -1,0 +1,99 @@
+{
+  "kaynak": "gercek",
+  "kabul": true,
+  "pilot": "pu24-kesif",
+  "python": "3.13.14",
+  "cihaz": "Windows-11-10.0.26200-SP0",
+  "address": "127.0.0.1",
+  "port": 40813,
+  "taban": {
+    "status": 200,
+    "words": 3,
+    "lines": 1
+  },
+  "ffuf_sn": 0.2,
+  "ffuf_ham_sonuc": 25,
+  "ffuf_bulunan": [
+    {
+      "yol": "/.git/HEAD",
+      "durum": 200,
+      "uzunluk": 21,
+      "yonlendirme": null
+    },
+    {
+      "yol": "/admin",
+      "durum": 302,
+      "uzunluk": 0,
+      "yonlendirme": "/giris"
+    },
+    {
+      "yol": "/api/surum",
+      "durum": 200,
+      "uzunluk": 39,
+      "yonlendirme": null
+    },
+    {
+      "yol": "/urunler",
+      "durum": 200,
+      "uzunluk": 51,
+      "yonlendirme": null
+    },
+    {
+      "yol": "/yedek",
+      "durum": 200,
+      "uzunluk": 36,
+      "yonlendirme": null
+    }
+  ],
+  "nuclei": [
+    {
+      "sablon": "pafta-git-ifsasi",
+      "adres": "http://127.0.0.1:40813/.git/HEAD"
+    },
+    {
+      "sablon": "pafta-surum-ifsasi",
+      "adres": "http://127.0.0.1:40813/api/surum"
+    },
+    {
+      "sablon": "pafta-yonetim-saf",
+      "adres": "http://127.0.0.1:40813/yonetim"
+    }
+  ],
+  "nuclei_sn": 0.3,
+  "kayit_sayisi": 35,
+  "alarm": [
+    {
+      "istemci": "10.66.0.9",
+      "en_cok": 22,
+      "farkli_yol": 21,
+      "ilk": 1793828138.0208,
+      "son": 1793828138.5368,
+      "ua": [
+        "Fuzz Faster U Fool v2.3.0",
+        "Mozilla/5.0 (Kubuntu; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0",
+        "Mozilla/5.0 (X11; Linux i686; rv:1.9.5.20) Gecko/ Firefox/3.6.14",
+        "pafta-kalibrasyon/1.0"
+      ]
+    }
+  ],
+  "guvenilmez_vekil_alarm": [
+    {
+      "istemci": "127.0.0.1",
+      "en_cok": 23,
+      "farkli_yol": 22,
+      "ilk": 1793828138.019,
+      "son": 1793828138.5368,
+      "ua": [
+        "Fuzz Faster U Fool v2.3.0",
+        "Mozilla/5.0 (Kubuntu; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) PaftaKullanici/1.0",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:138.0) Gecko/20100101 Firefox/138.0",
+        "Mozilla/5.0 (X11; Linux i686; rv:1.9.5.20) Gecko/ Firefox/3.6.14",
+        "pafta-kalibrasyon/1.0"
+      ]
+    }
+  ],
+  "dis_istek": [],
+  "cleanup": true
+}

@@ -1,0 +1,134 @@
+{
+  "name": "relative-location-broken",
+  "okay": true,
+  "seconds": 3.65,
+  "result": {
+    "status": "fail",
+    "checks": [
+      {
+        "ok": true,
+        "msg": "model istemi değişmeden bir kez aldı"
+      },
+      {
+        "ok": true,
+        "msg": "model çıktısı değişmeden tool argümanı oldu"
+      },
+      {
+        "ok": true,
+        "msg": "izde prompt var"
+      },
+      {
+        "ok": true,
+        "msg": "izde model URLsi var"
+      },
+      {
+        "ok": true,
+        "msg": "iç servis gövdesi gerçek yanıt"
+      },
+      {
+        "ok": true,
+        "msg": "redirect sonrası gerçek hedef izde"
+      },
+      {
+        "ok": true,
+        "msg": "public HTTP olayı"
+      },
+      {
+        "ok": true,
+        "msg": "internal canary HTTP olayı"
+      },
+      {
+        "ok": true,
+        "msg": "zincir canary ile kanıtlandı"
+      },
+      {
+        "ok": true,
+        "msg": "dinamik canary; hardcode değil"
+      },
+      {
+        "ok": true,
+        "msg": "gerçek internal HTTP 200"
+      },
+      {
+        "ok": true,
+        "msg": "doğrudan AI-SSRF kanıtı"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz model çıktısı reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz çıktı araca ulaşmadı"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz model çıktısı reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz çıktı araca ulaşmadı"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz model çıktısı reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz çıktı araca ulaşmadı"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz model çıktısı reddedilir"
+      },
+      {
+        "ok": true,
+        "msg": "geçersiz çıktı araca ulaşmadı"
+      },
+      {
+        "ok": true,
+        "msg": "tool tam bir kez çağrıldı"
+      },
+      {
+        "ok": true,
+        "msg": "araç cevabı ve tool izi korunur"
+      },
+      {
+        "ok": true,
+        "msg": "izinli gerçek HTTP cevabı"
+      },
+      {
+        "ok": true,
+        "msg": "doğrulanan IP gerçek bağlantıya sabitlendi"
+      },
+      {
+        "ok": true,
+        "msg": "sıfır hop doğrudan isteği engellemez"
+      },
+      {
+        "ok": true,
+        "msg": "sıfır hopta tam bir doğrudan bağlantı"
+      }
+    ],
+    "segs": [],
+    "error": {
+      "type": "ValueError",
+      "msg": "URL/DNS reddi",
+      "frames": [
+        {
+          "line": 38,
+          "func": "guvenli_getir",
+          "text": "ip = denetle(url)"
+        },
+        {
+          "line": 31,
+          "func": "denetle",
+          "text": "raise ValueError('URL/DNS reddi') from exc"
+        }
+      ],
+      "line": 31,
+      "where": "kod-test"
+    },
+    "ai_kanit": []
+  }
+}

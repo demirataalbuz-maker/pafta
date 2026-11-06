@@ -1,0 +1,11 @@
+{
+  "status": "ok",
+  "segs": [
+    [
+      "out",
+      "Sentetik ham dosya:\n {\r\n  \"koken\": \"elle hazırlanmış sentetik olaylar; canlı kayıt değil\",\r\n  \"model_indeksi\": 1,\r\n  \"olaylar\": [\r\n    {\r\n      \"iz_id\": \"a\",\r\n      \"olay_id\": \"http\",\r\n      \"parent_id\": null,\r\n      \"tur\": \"http\",\r\n      \"zaman_ms\": 0,\r\n      \"sure_ms\": 10,\r\n      \"alanlar\": {\r\n        \"http_kod\": 200,\r\n        \"yontem\": \"POST\"\r\n      }\r\n    },\r\n    {\r\n      \"iz_id\": \"a\",\r\n      \"olay_id\": \"model\",\r\n      \"parent_id\": \"http\",\r\n      \"tur\": \"model\",\r\n      \"zaman_ms\": 2,\r\n      \"sure_ms\": 4,\r\n      \"alanlar\": {\r\n        \"model\": \"sentetik-yerel\",\r\n        \"token_in\": 7,\r\n        \"token_out\": 3,\r\n        \"hata_kodu\": \"E_DEMO\"\r\n      }\r\n    },\r\n    {\r\n      \"iz_id\": \"a\",\r\n      \"olay_id\": \"guard\",\r\n      \"parent_id\": \"http\",\r\n      \"tur\": \"guardrail\",\r\n      \"zaman_ms\": 2,\r\n      \"sure_ms\": 1,\r\n      \"alanlar\": {\r\n        \"karar\": \"reddet\"\r\n      }\r\n    },\r\n    {\r\n      \"iz_id\": \"b\",\r\n      \"olay_id\": \"http\",\r\n      \"parent_id\": null,\r\n      \"tur\": \"http\",\r\n      \"zaman_ms\": 20,\r\n      \"sure_ms\": 3,\r\n      \"alanlar\": {\r\n        \"durum\": \"hata\",\r\n        \"hata_kodu\": \"E_DEMO\"\r\n      }\r\n    }\r\n  ]\r\n}\r\n\nModel olayı: {'iz_id': 'a', 'olay_id': 'model', 'parent_id': 'http', 'tur': 'model', 'zaman_ms': 2, 'sure_ms': 4, 'alanlar': {'model': 'sentetik-yerel', 'token_in': 7, 'token_out': 3, 'hata_kodu': 'E_DEMO'}}\n"
+    ]
+  ],
+  "truncated": false,
+  "error": null
+}
