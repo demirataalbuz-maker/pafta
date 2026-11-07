@@ -1,0 +1,203 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-guvence-40",
+ "deney": {
+  "model": "distilbert/distilbert-base-uncased",
+  "revizyon": "12040accade4e8a0f71eabdb258fecc2e7e948be",
+  "veri": "deepset/prompt-injections",
+  "veri_revizyon": "4f61ecb038e9c3fb77e21034b22511b523772cdd",
+  "cihaz": "cuda",
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0"
+  },
+  "ayarlar": {
+   "gizli": 128,
+   "epoch": 400,
+   "lr": 0.002,
+   "dogrulama": 150,
+   "kova": 10,
+   "kova_duyarlilik": [
+    5,
+    10,
+    20
+   ],
+   "alt": 0.05,
+   "ust": 50.0,
+   "alarm_esik": 0.9,
+   "yigin": 32,
+   "max_uzunluk": 128
+  },
+  "boyut": {
+   "egitim": 396,
+   "dogrulama": 150,
+   "test": 116
+  },
+  "sicaklik": {
+   "T": 2.23930908259518,
+   "nll_once": 0.19232575339155614,
+   "nll_sonra": 0.1362421752972365
+  },
+  "sicaklik_ayni": true,
+  "sicaklik_cozum_nll": 0.1362421752972365,
+  "ece_ayni": true,
+  "ece_ozet": {
+   "once": 0.07988373897556678,
+   "sonra": 0.06365472101017543
+  },
+  "ece_kova_duyarlilik": {
+   "once": {
+    "5": 0.06625379479515656,
+    "10": 0.07988373897556678,
+    "20": 0.07988373897556676
+   },
+   "sonra": {
+    "5": 0.052840758650519154,
+    "10": 0.06365472101017543,
+    "20": 0.0855984788135461
+   }
+  },
+  "kovalar_once": [
+   {
+    "kova": 0,
+    "adet": 53,
+    "guven": 0.004264353490180272,
+    "dogruluk": 0.07547169811320754
+   },
+   {
+    "kova": 1,
+    "adet": 2,
+    "guven": 0.14240479850240062,
+    "dogruluk": 0.0
+   },
+   {
+    "kova": 2,
+    "adet": 2,
+    "guven": 0.23622204820507503,
+    "dogruluk": 1.0
+   },
+   {
+    "kova": 3,
+    "adet": 1,
+    "guven": 0.3987956187328731,
+    "dogruluk": 0.0
+   },
+   {
+    "kova": 5,
+    "adet": 1,
+    "guven": 0.5461938271636002,
+    "dogruluk": 1.0
+   },
+   {
+    "kova": 6,
+    "adet": 3,
+    "guven": 0.6476937915999809,
+    "dogruluk": 0.0
+   },
+   {
+    "kova": 8,
+    "adet": 2,
+    "guven": 0.8887721212276567,
+    "dogruluk": 0.5
+   },
+   {
+    "kova": 9,
+    "adet": 52,
+    "guven": 0.9979436241014208,
+    "dogruluk": 1.0
+   }
+  ],
+  "kovalar_sonra": [
+   {
+    "kova": 0,
+    "adet": 47,
+    "guven": 0.011894990859259791,
+    "dogruluk": 0.06382978723404255
+   },
+   {
+    "kova": 1,
+    "adet": 4,
+    "guven": 0.15680245421501626,
+    "dogruluk": 0.0
+   },
+   {
+    "kova": 2,
+    "adet": 3,
+    "guven": 0.24734321680866864,
+    "dogruluk": 0.3333333333333333
+   },
+   {
+    "kova": 3,
+    "adet": 3,
+    "guven": 0.35620980993500523,
+    "dogruluk": 0.6666666666666666
+   },
+   {
+    "kova": 4,
+    "adet": 1,
+    "guven": 0.45430060231556324,
+    "dogruluk": 0.0
+   },
+   {
+    "kova": 5,
+    "adet": 4,
+    "guven": 0.5560036701533219,
+    "dogruluk": 0.25
+   },
+   {
+    "kova": 7,
+    "adet": 2,
+    "guven": 0.716887182389047,
+    "dogruluk": 0.5
+   },
+   {
+    "kova": 8,
+    "adet": 3,
+    "guven": 0.8309063770742213,
+    "dogruluk": 1.0
+   },
+   {
+    "kova": 9,
+    "adet": 49,
+    "guven": 0.9896512050111789,
+    "dogruluk": 1.0
+   }
+  ],
+  "roc_ayni": true,
+  "auc": {
+   "once": 0.9702380952380952,
+   "sonra": 0.9702380952380952,
+   "logit": 0.9702380952380952
+  },
+  "eer": {
+   "once": 0.08928571428571429,
+   "sonra": 0.08928571428571429,
+   "logit": 0.08928571428571429
+  },
+  "alarm": {
+   "once": {
+    "tpr": 0.8666666666666667,
+    "fpr": 0.0
+   },
+   "sonra": {
+    "tpr": 0.8166666666666667,
+    "fpr": 0.0
+   }
+  },
+  "olcum": "Sıcaklık yalnız doğrulama kümesinde seçilir; ECE, AUC ve EER ayrı test kümesinde ölçülür. Özellikler distilbert ortalama-havuzdur, baş her koşuda yeniden eğitilir.",
+  "sinir": "Küçük tek veri seti (116 test örneği), tek baş model; dağılım kayması, adaptif saldırgan veya gerçek trafikte alarm oranı hakkında bilgi vermez."
+ },
+ "pilot": "ai-guvence-40-kabul",
+ "zaman": "2026-11-07T15:10:34+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 196 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "756c221ed49634003a818bdc70b455b7be662668294e24666db3ffad33ba65d2",
+ "mod": "test"
+}

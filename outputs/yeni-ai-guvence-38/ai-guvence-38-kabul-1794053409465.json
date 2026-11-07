@@ -1,0 +1,144 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-guvence-38",
+ "deney": {
+  "model": "all-minilm:22m",
+  "ortam": {
+   "kaynak": "gercek",
+   "arac": "ollama",
+   "cihaz": {
+    "kip": "gpu",
+    "gpu_kilit_bekleme_sn": 0.0
+   },
+   "sunucu": {
+    "adres": "http://127.0.0.1:11434",
+    "sahip": "kullanici (zaten çalışıyordu; kapatılmaz)"
+   },
+   "ollama_surumu": "0.40.15",
+   "model": {
+    "ad": "qwen3:4b-instruct-2507-q4_K_M",
+    "secim": "tercih sırasındaki ilk kurulu model (['qwen3:4b-instruct-2507-q4_K_M', 'llama3.2:3b', 'qwen3:8b'])",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+    "boyut": 2497293803,
+    "ayrinti": {
+     "parent_model": "",
+     "format": "gguf",
+     "family": "qwen3",
+     "families": [
+      "qwen3"
+     ],
+     "parameter_size": "4.0B",
+     "quantization_level": "Q4_K_M",
+     "context_length": 262144,
+     "embedding_length": 2560,
+     "runner": "ggml"
+    },
+    "yetenekler": [
+     "tools",
+     "thinking",
+     "completion"
+    ],
+    "lisans_ilk_satir": "Apache License"
+   },
+   "model_once_yukluydu": false,
+   "temizlik": {
+    "model_bosaltildi": true
+   },
+   "gomme": {
+    "model": "all-minilm:22m",
+    "parametre": "23M"
+   }
+  },
+  "surumler": {
+   "torch": "2.14.1+cu130"
+  },
+  "ayarlar": {
+   "ornek": 120,
+   "adim": 120,
+   "k": 5,
+   "cift": 200,
+   "oran": 0.9,
+   "model": "all-minilm:22m",
+   "kaynak": "Sentetik şablon cümleleri (8 konu, 3 ifade, 8 kalıp)"
+  },
+  "boyut": 384,
+  "ornek": 120,
+  "norm_min": 0.9999997230804667,
+  "norm_max": 1.000000280107411,
+  "kos_ayni": true,
+  "kimlik_max": 5.551115123125783e-16,
+  "gruplar": {
+   "ayni_konu_farkli_kalip": {
+    "adet": 28,
+    "ort": 0.659672820005364
+   },
+   "ayni_kalip_farkli_konu": {
+    "adet": 19,
+    "ort": 0.8064470810297472
+   },
+   "farkli": {
+    "adet": 152,
+    "ort": 0.5737405121374051
+   }
+  },
+  "pca": {
+   "ozdeger": 0.06319865698949205,
+   "aciklanan_oran": 0.16484831760004645
+  },
+  "pca_ayni": true,
+  "pca_eigh_fark": 1.0979495822294066e-15,
+  "analiz": {
+   "all-minilm": {
+    "ad": "all-minilm",
+    "kos_ort": 0.6166254112470647,
+    "kos_std": 0.12585202794125536,
+    "kos_max": 0.9741706036072046,
+    "goreli_kontrast": 1.5095305074881125,
+    "bilesen_90": 20,
+    "ilk_oran": 0.16484831760004628,
+    "ozdeger": 0.06319865698949198
+   },
+   "gaussian": {
+    "ad": "gaussian",
+    "kos_ort": 0.0014447099814232922,
+    "kos_std": 0.05076034417473715,
+    "kos_max": 0.2167473055826442,
+    "goreli_kontrast": 0.14134794231950992,
+    "bilesen_90": 88,
+    "ilk_oran": 0.019380785206402133,
+    "ozdeger": 0.019352785592566625
+   }
+  },
+  "hub_ayni": true,
+  "hub": {
+   "all-minilm": {
+    "carpiklik": 0.9309650862989269,
+    "anti_hub": 6,
+    "en_buyuk_hub": 1,
+    "en_buyuk_hub_n": 17
+   },
+   "gaussian": {
+    "carpiklik": 0.12467196455667727,
+    "anti_hub": 1,
+    "en_buyuk_hub": 61,
+    "en_buyuk_hub_n": 11
+   }
+  },
+  "en_buyuk_hub_metin": "bahçe toprağı hazırlama için bir kontrol listesi hazırlıyorum.",
+  "olcum": "Cümleler sentetik şablondur. Gaussian taban aynı boyut ve örnek sayısında birim vektörlerdir.",
+  "sinir": "Tek gömme modeli, küçük sentetik şablon derlemi; gerçek bir vektör veritabanının ya da başka bir modelin hubness değerini göstermez."
+ },
+ "pilot": "ai-guvence-38-kabul",
+ "zaman": "2026-11-07T15:10:09+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 0 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "d06a12e38ea5e80c6112ed6a96b11abc7240924c39878b01b0ce42f2f65f0e3f",
+ "mod": "test"
+}

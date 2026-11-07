@@ -1,0 +1,303 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-guvence-36",
+ "deney": {
+  "cihaz": "cuda",
+  "dtype": "float32",
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "scikit-learn": "1.9.1"
+  },
+  "ayarlar": {
+   "seed": 36,
+   "gizli": 64,
+   "adim": 400,
+   "lr": 0.01,
+   "ornek": 128,
+   "olcek": 1000.0,
+   "eps": 0.1,
+   "eps_l2": 1.0,
+   "adim_pgd": 40,
+   "alfa_oran": 0.25,
+   "tol": 0.02,
+   "sinir": 0.5,
+   "rastgele_tekrar": 8
+  },
+  "secim": [
+   13,
+   161,
+   337,
+   377,
+   197,
+   16,
+   455,
+   123,
+   227,
+   439,
+   324,
+   316,
+   279,
+   484,
+   456,
+   313,
+   392,
+   391,
+   259,
+   362,
+   166,
+   174,
+   191,
+   201,
+   188,
+   321,
+   496,
+   195,
+   307,
+   480,
+   40,
+   380,
+   211,
+   79,
+   76,
+   153,
+   459,
+   1,
+   142,
+   270,
+   100,
+   463,
+   68,
+   215,
+   94,
+   343,
+   131,
+   417,
+   112,
+   125,
+   256,
+   67,
+   36,
+   169,
+   242,
+   395,
+   34,
+   492,
+   251,
+   49,
+   372,
+   249,
+   298,
+   245,
+   129,
+   350,
+   199,
+   427,
+   333,
+   69,
+   82,
+   107,
+   355,
+   386,
+   237,
+   351,
+   183,
+   412,
+   254,
+   266,
+   187,
+   85,
+   65,
+   318,
+   295,
+   27,
+   388,
+   271,
+   6,
+   420,
+   198,
+   196,
+   144,
+   331,
+   222,
+   462,
+   457,
+   35,
+   12,
+   468,
+   432,
+   301,
+   488,
+   430,
+   473,
+   325,
+   287,
+   357,
+   122,
+   7,
+   281,
+   441,
+   60,
+   150,
+   434,
+   477,
+   352,
+   185,
+   335,
+   90,
+   70,
+   88,
+   296,
+   443,
+   114,
+   317,
+   121,
+   418
+  ],
+  "karar_ayni": true,
+  "taban": {
+   "temiz": 1.0,
+   "fgsm": 0.3125,
+   "rastgele": 0.9609375,
+   "sifir_grad": 0.0,
+   "pgd_ce": 0.265625,
+   "pgd_marjin": 0.3203125
+  },
+  "maskeli": {
+   "temiz": 1.0,
+   "fgsm": 1.0,
+   "rastgele": 0.953125,
+   "sifir_grad": 1.0,
+   "pgd_ce": 1.0,
+   "pgd_marjin": 0.3203125
+  },
+  "l2_marjin_robust": 0.015625,
+  "linf_max": 0.10000002384185791,
+  "l2_max": 0.9982569813728333,
+  "kutu_icinde": true,
+  "proj_ayni": true,
+  "kayip_ayni": true,
+  "kayip_ornekleri": [
+   {
+    "taban": {
+     "ce": 0.0007799889430120402,
+     "marjin": -7.469784498214722,
+     "doygunluk": 0.0007796848307095931
+    },
+    "olcekli": {
+     "ce": 0.0,
+     "marjin": -7469.78466796875,
+     "doygunluk": 0.0
+    }
+   },
+   {
+    "taban": {
+     "ce": 2.4723676387974388e-05,
+     "marjin": -11.081134557723999,
+     "doygunluk": 2.472337076032065e-05
+    },
+    "olcekli": {
+     "ce": 0.0,
+     "marjin": -11081.134765625,
+     "doygunluk": 0.0
+    }
+   },
+   {
+    "taban": {
+     "ce": 2.9709335530505184e-07,
+     "marjin": -15.49320662021637,
+     "doygunluk": 2.9709331114677817e-07
+    },
+    "olcekli": {
+     "ce": 0.0,
+     "marjin": -15493.20751953125,
+     "doygunluk": 0.0
+    }
+   },
+   {
+    "taban": {
+     "ce": 6.244107415733162e-05,
+     "marjin": -9.689300537109375,
+     "doygunluk": 6.24391247541144e-05
+    },
+    "olcekli": {
+     "ce": 0.0,
+     "marjin": -9689.30078125,
+     "doygunluk": 0.0
+    }
+   },
+   {
+    "taban": {
+     "ce": 2.8879675589107277e-06,
+     "marjin": -12.80489706993103,
+     "doygunluk": 2.8879633886535426e-06
+    },
+    "olcekli": {
+     "ce": 0.0,
+     "marjin": -12804.897216796875,
+     "doygunluk": 0.0
+    }
+   },
+   {
+    "taban": {
+     "ce": 3.7404196896720304e-06,
+     "marjin": -12.49917984008789,
+     "doygunluk": 3.7404126943323684e-06
+    },
+    "olcekli": {
+     "ce": 0.0,
+     "marjin": -12499.1796875,
+     "doygunluk": 0.0
+    }
+   }
+  ],
+  "tani": {
+   "taban": {
+    "bayraklar": [],
+    "maskeli": false,
+    "en_dusuk_robust": 0.265625
+   },
+   "maskeli": {
+    "bayraklar": [
+     "etkisiz",
+     "kayip_farki",
+     "rastgele",
+     "sifir_grad"
+    ],
+    "maskeli": true,
+    "en_dusuk_robust": 0.3203125
+   }
+  },
+  "tani_referans": {
+   "taban": {
+    "bayraklar": [],
+    "maskeli": false,
+    "en_dusuk_robust": 0.265625
+   },
+   "maskeli": {
+    "bayraklar": [
+     "etkisiz",
+     "kayip_farki",
+     "rastgele",
+     "sifir_grad"
+    ],
+    "maskeli": true,
+    "en_dusuk_robust": 0.3203125
+   }
+  },
+  "olcum": "Aynı ağırlıklar; ikinci model yalnız logitleri 1000 ile çarpar. Doğruluklar 128 doğru sınıflanmış test örneği üzerindedir.",
+  "sinir": "Tek MLP ve yapay ölçekleme; gerçek bir savunmanın maskelediğini ya da tek saldırıyla sağlamlığın kanıtlandığını göstermez."
+ },
+ "pilot": "ai-guvence-36-kabul",
+ "zaman": "2026-11-07T15:09:43+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 180 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "073efca94a3c4f45ff096814a7a9c8b2ace6152e35d740380faad8706ac875ee",
+ "mod": "test"
+}

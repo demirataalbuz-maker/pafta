@@ -1,0 +1,203 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-guvence-37",
+ "deney": {
+  "model": "HuggingFaceTB/SmolLM2-135M",
+  "revizyon": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "cihaz": "cuda",
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "transformers": "5.21.0"
+  },
+  "ayarlar": {
+   "sonek": 8,
+   "pozisyon": 4,
+   "rastgele_aday": 128,
+   "topk": 32,
+   "arama_adim": 24,
+   "arama_aday": 16,
+   "yigin": 64,
+   "onekler": [
+    "Sabah pazarda gördüğüm meyve",
+    "Tarifte kullanılacak meyve",
+    "Sepetteki en güzel meyve"
+   ],
+   "hedef": " muz",
+   "uretim_token": 4
+  },
+  "onek": "Sepetteki en güzel meyve",
+  "sozluk": 49152,
+  "izinli": 15199,
+  "taban_kayip": 5.793724436334614,
+  "pozisyonlar": [
+   {
+    "poz": 3,
+    "spearman": 0.1611771944216571,
+    "spearman_rastgele": 0.2777421717634133,
+    "isabet": {
+     "isabet": true,
+     "kesisim": 0.0625,
+     "rastgele_beklenti": 0.2,
+     "iyilesen_oran": 0.90625,
+     "ort_gercek_topk": -0.1336739361004664,
+     "ort_gercek_tum": -0.13341918595459032
+    },
+    "ort_gercek_rastgele": -0.1333554984181213,
+    "tahmin_ort_mutlak": 0.2713197286357172,
+    "gercek_ort_mutlak": 0.17352506882584406
+   },
+   {
+    "poz": 1,
+    "spearman": 0.4960535567795617,
+    "spearman_rastgele": 0.34006477751327596,
+    "isabet": {
+     "isabet": false,
+     "kesisim": 0.5,
+     "rastgele_beklenti": 0.2,
+     "iyilesen_oran": 0.96875,
+     "ort_gercek_topk": -0.3028607106045991,
+     "ort_gercek_tum": -0.15378259898590924
+    },
+    "ort_gercek_rastgele": -0.11651307108123675,
+    "tahmin_ort_mutlak": 0.268565248278901,
+    "gercek_ort_mutlak": 0.19837039843345164
+   },
+   {
+    "poz": 0,
+    "spearman": 0.24716688151880933,
+    "spearman_rastgele": 0.16759750961362388,
+    "isabet": {
+     "isabet": false,
+     "kesisim": 0.34375,
+     "rastgele_beklenti": 0.2,
+     "iyilesen_oran": 0.125,
+     "ort_gercek_topk": 0.13420537042492955,
+     "ort_gercek_tum": 0.18545821465967607
+    },
+    "ort_gercek_rastgele": 0.1982714257183627,
+    "tahmin_ort_mutlak": 0.16979080003220587,
+    "gercek_ort_mutlak": 0.1922129242251988
+   },
+   {
+    "poz": 7,
+    "spearman": 0.008112621586780734,
+    "spearman_rastgele": -0.08068577183665995,
+    "isabet": {
+     "isabet": false,
+     "kesisim": 0.21875,
+     "rastgele_beklenti": 0.2,
+     "iyilesen_oran": 0.4375,
+     "ort_gercek_topk": 0.20626689895406858,
+     "ort_gercek_tum": 0.3467905312077939
+    },
+    "ort_gercek_rastgele": 0.38192143927122524,
+    "tahmin_ort_mutlak": 1.373719594348222,
+    "gercek_ort_mutlak": 0.6427739846103016
+   }
+  ],
+  "aday_ayni": true,
+  "spearman_ayni": true,
+  "isabet_ayni": true,
+  "gradyan_arama": {
+   "iz": [
+    5.793724436334614,
+    5.194181632485332,
+    4.5924610207356436,
+    4.5924610207356436,
+    4.5763413410607185,
+    4.089647555428665,
+    4.089647555428665,
+    4.089647555428665,
+    3.874716288307408,
+    3.874716288307408,
+    3.6914243948090726,
+    3.678810397851856,
+    3.678810397851856,
+    3.418521959816281,
+    3.418521959816281,
+    3.418521959816281,
+    3.2932891284548447,
+    3.2932891284548447,
+    3.2932891284548447,
+    3.2090564365129812,
+    3.021762306911951,
+    2.9707869338353654,
+    2.9707869338353654,
+    2.9270624844017448,
+    2.9270624844017448
+   ],
+   "sorgu": 384,
+   "sonek": [
+    24703,
+    40359,
+    3307,
+    39549,
+    17208,
+    40197,
+    38107,
+    264
+   ],
+   "son_kayip": 2.9270624844017448,
+   "uretim": " konzim",
+   "sonek_metin": "mulviksanksopardsCszineciaen"
+  },
+  "rastgele_arama": {
+   "iz": [
+    5.793724436334614,
+    5.476005410866023,
+    5.324622142561524,
+    5.0267332366591315,
+    5.0267332366591315,
+    4.9873898600253845,
+    4.9873898600253845,
+    4.966688810496976,
+    4.966688810496976,
+    4.966688810496976,
+    4.506963984127971,
+    4.506963984127971,
+    4.506963984127971,
+    4.506963984127971,
+    4.469692816147669,
+    4.469692816147669,
+    4.434811788004943,
+    4.178882978642057,
+    4.178882978642057,
+    4.178882978642057,
+    3.973173772091798,
+    3.9727706856500573,
+    3.9727706856500573,
+    3.8089910806730045,
+    3.725353556737516
+   ],
+   "sorgu": 384,
+   "sonek": [
+    17791,
+    16104,
+    45070,
+    40359,
+    33958,
+    22045,
+    31931,
+    8982
+   ],
+   "son_kayip": 3.725353556737516,
+   "uretim": "kserva\n",
+   "sonek_metin": "responsvolumviksgeraldfemGrowingvi"
+  },
+  "olcum": "Tahmin: g[j]-g[mevcut] (one-hot gradient). Gerçek: tokeni değiştirip modeli yeniden koşturunca hedef token loss farkı. Hedef zararsız ' muz' kelimesidir.",
+  "sinir": "Tek küçük model, zararsız kısa hedef, tek rastgele başlangıç; güvenlik hizalaması, jailbreak başarısı veya transfer hakkında bilgi vermez."
+ },
+ "pilot": "ai-guvence-37-kabul",
+ "zaman": "2026-11-07T15:10:01+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 1442 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "f67c575f3e92647b28d97cb071f37f3e15a6210ae6eb22a8268be4b710e22021",
+ "mod": "test"
+}

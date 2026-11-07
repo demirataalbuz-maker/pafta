@@ -1,0 +1,28 @@
+{
+ "kaynak": "kusurlu başlangıç kodu 2 ve 3, veri/masking.json",
+ "kusurlu_tani": {
+  "bayraklar": [],
+  "maskeli": false,
+  "en_dusuk_robust": 0.97
+ },
+ "dogru_tani": {
+  "bayraklar": [
+   "etkisiz",
+   "kayip_farki",
+   "rastgele",
+   "sifir_grad"
+  ],
+  "maskeli": true,
+  "en_dusuk_robust": 0.31
+ },
+ "kusurlu_kayip_doygun": {
+  "ce": 9.41469124882177e-14,
+  "marjin": 0.0,
+  "doygunluk": 9.414691248821327e-14
+ },
+ "dogru_kayip_doygun": {
+  "ce": 9.414691248820884e-14,
+  "marjin": -30.0,
+  "doygunluk": 9.420674136440758e-14
+ }
+}

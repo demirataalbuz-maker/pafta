@@ -1,0 +1,86 @@
+{
+ "kaynak": "gercek",
+ "kabul": true,
+ "ders": "ai-guvence-39",
+ "deney": {
+  "cihaz": "cuda",
+  "surumler": {
+   "torch": "2.14.1+cu130",
+   "scikit-learn": "1.9.1"
+  },
+  "veri": "sklearn load_digits; etiketlerin bir kısmı her koşuda rastgele bozulur",
+  "ayarlar": {
+   "seed": 39,
+   "gizli": 128,
+   "epoch": 300,
+   "lr": 0.003,
+   "havuz": 800,
+   "shadow": 16,
+   "hedef_uye": 400,
+   "fpr": 0.05,
+   "guven": 0.95,
+   "taban_var": 0.0001,
+   "etiket_gurultu": 0.15
+  },
+  "egitim_dogrulugu": 1.0,
+  "test_dogrulugu": 0.7274999618530273,
+  "uygun": 800,
+  "uye": 400,
+  "uye_degil": 400,
+  "logit_ayni": true,
+  "lr_ayni": true,
+  "cp_ayni": true,
+  "sonuc": {
+   "kayip_esigi": {
+    "auc": 0.641575,
+    "tp": 25,
+    "fp": 20,
+    "uye": 400,
+    "uye_degil": 400,
+    "tpr": {
+     "oran": 0.0625,
+     "alt": 0.040851457009575765,
+     "ust": 0.0908823695513103
+    },
+    "fpr": {
+     "oran": 0.05,
+     "alt": 0.030805241143284035,
+     "ust": 0.07616697275514334
+    }
+   },
+   "lira": {
+    "auc": 0.77009375,
+    "tp": 107,
+    "fp": 20,
+    "uye": 400,
+    "uye_degil": 400,
+    "tpr": {
+     "oran": 0.2675,
+     "alt": 0.22473052360006035,
+     "ust": 0.31374793232633535
+    },
+    "fpr": {
+     "oran": 0.05,
+     "alt": 0.030805241143284035,
+     "ust": 0.07616697275514334
+    }
+   }
+  },
+  "ic_ort_adet": 8.0,
+  "dis_ort_adet": 8.0,
+  "olcum": "Her shadow model havuzun yarısıyla eğitilir; örnek başına üye/üye-değil logit güven dağılımına Gaussian uydurulur. TPR, yanlış pozitif sınırına en yakın eşikte ölçülür; aralıklar Clopper-Pearson'dır.",
+  "sinir": "Tek veri, küçük MLP, etiket gürültüsüyle bilerek ezberletilmiş hedef; gerçek bir modelin gizlilik riskini veya LiRA'nın tam yeniden üretimini göstermez."
+ },
+ "pilot": "ai-guvence-39-kabul",
+ "zaman": "2026-11-07T15:10:21+03:00",
+ "cihaz": {
+  "isletim": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "islemci": "AMD64 Family 25 Model 124 Stepping 0, AuthenticAMD",
+  "mantiksal_cekirdek": 12,
+  "ram_gb": 23.3,
+  "gpu": "NVIDIA GeForce RTX 5050 Laptop GPU, 8151 MiB, 176 MiB, 595.95"
+ },
+ "ogrenci_kodu_sha256": "14bd43ce210404e915cbd427bcd9b259002ef9abc66843664d15ce126134645d",
+ "mod": "test"
+}

@@ -1,0 +1,71 @@
+{
+ "kaynak": "kusurlu başlangıç kodu 1 ve 3, veri/taylor.json",
+ "kusurlu_taylor": {
+  "satirlar": [
+   {
+    "eps": 0.05,
+    "goreli_hata": 0.24
+   },
+   {
+    "eps": 0.1,
+    "goreli_hata": 0.8999999999999999
+   },
+   {
+    "eps": 0.02,
+    "goreli_hata": 0.0399999999999999
+   },
+   {
+    "eps": 0.01,
+    "goreli_hata": 0.003999999999999976
+   },
+   {
+    "eps": 0.2,
+    "goreli_hata": 0.020000000000000018
+   }
+  ],
+  "gecerli_eps": 0.2,
+  "kopma_eps": 0.1
+ },
+ "dogru_taylor": {
+  "satirlar": [
+   {
+    "eps": 0.01,
+    "goreli_hata": 0.003984063745019896
+   },
+   {
+    "eps": 0.02,
+    "goreli_hata": 0.038461538461538367
+   },
+   {
+    "eps": 0.05,
+    "goreli_hata": 0.1935483870967742
+   },
+   {
+    "eps": 0.1,
+    "goreli_hata": 0.47368421052631576
+   },
+   {
+    "eps": 0.2,
+    "goreli_hata": 0.01960784313725492
+   }
+  ],
+  "gecerli_eps": 0.02,
+  "kopma_eps": 0.05
+ },
+ "kusurlu_gradyan_tol_0_6": {
+  "sayisal": [
+   10.006000999998044,
+   3.9999999999995595
+  ],
+  "maks_goreli_hata": 0.4939990000019563,
+  "gecti": true
+ },
+ "dogru_gradyan_tol_1e_4": {
+  "sayisal": [
+   10.000000999998537,
+   3.9999999999995595
+  ],
+  "maks_goreli_hata": 0.047618952381091685,
+  "gecti": false
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "zaman": "2026-11-07T15:10:35+0300",
+ "sohbet_modeli_ortam": null,
+ "guvence": {
+  "ders": "ai-guvence-07",
+  "adim": 7,
+  "gereksinim": "torch",
+  "referans": {
+   "durum": "PASS",
+   "sure_sn": 4.5,
+   "kanit": "C:\\Users\\demo12\\AppData\\Local\\Temp\\claude\\ce117c67c8a53b72\\8a86abce-55f5-49fe-ac11-c76b9b2ce0b2\\scratchpad\\pafta-data\\ai-kanit\\guvence-fgsm-1794053440106.json",
+   "model": "fgsm-mlp-64-32-4",
+   "ozet": {
+    "test_dogrulugu": 1.0,
+    "eps": 0.05,
+    "degisen": 5
+   },
+   "bulgu": [
+    "GERÇEK ÖLÇÜM: temiz test doğruluğu 1.000; ε=0.05 ile tam test kümesinde 5/400 tahmin değişti; eğri ε=0.0:1.000, ε=0.05:0.988, ε=0.1:0.723, ε=0.2:0.075, ε=0.3:0.015"
+   ]
+  },
+  "reddedilmeli": [
+   {
+    "ad": "başlangıç kodu",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 6.1,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.1); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "boş kod",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 3.4,
+    "neden": "`fgsm` adında bir fonksiyon tanımlamalısın"
+   },
+   {
+    "ad": "sabit cevap",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 7.0,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.15); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "kırpma yok",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 6.7,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.1); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "ters işaret",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 6.8,
+    "neden": "FGSM bozuntusu bağımsız autograd hesabıyla aynı (rastgele 96 örnek, ε=0.3); ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   },
+   {
+    "ad": "eğride temiz doğruluk bozuk yerine",
+    "durum": "REDDEDİLDİ",
+    "sure_sn": 6.9,
+    "neden": "ε eğrisi gerçek tahminlerden: temiz/bozuk doğruluk ve L∞ doğru"
+   }
+  ]
+ }
+}

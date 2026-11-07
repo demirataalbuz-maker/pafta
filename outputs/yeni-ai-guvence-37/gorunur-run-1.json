@@ -1,0 +1,47 @@
+{
+ "kaynak": "kusurlu başlangıç kodu 1 ve 3, veri/gcg.json",
+ "kusurlu_isabet": {
+  "isabet": true,
+  "kesisim": 1.0,
+  "rastgele_beklenti": 0.375,
+  "iyilesen_oran": 0.375,
+  "ort_gercek_topk": -0.3,
+  "ort_gercek_tum": 0.018750000000000003
+ },
+ "dogru_isabet": {
+  "isabet": false,
+  "kesisim": 0.3333333333333333,
+  "rastgele_beklenti": 0.375,
+  "iyilesen_oran": 0.3333333333333333,
+  "ort_gercek_topk": -0.01666666666666666,
+  "ort_gercek_tum": 0.018750000000000003
+ },
+ "kusurlu_aday": [
+  {
+   "token": 6,
+   "tahmin": 2.0
+  },
+  {
+   "token": 0,
+   "tahmin": 0.8
+  },
+  {
+   "token": 4,
+   "tahmin": 0.4
+  }
+ ],
+ "dogru_aday": [
+  {
+   "token": 3,
+   "tahmin": -1.0
+  },
+  {
+   "token": 1,
+   "tahmin": -0.4
+  },
+  {
+   "token": 5,
+   "tahmin": -0.4
+  }
+ ]
+}

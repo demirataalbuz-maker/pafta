@@ -1,6 +1,48 @@
 {
  "kayitlar": [
   {
+   "zaman": "2026-11-07T15:12:44+03:00",
+   "kim": "claude-yazar",
+   "tur": "not",
+   "konu": "ml-matematik-modulu",
+   "mesaj": "Kalan yazar kontrolleri tamam: 35-40 ders ekraninda uc uca (kusurlu baslangic 10/13 red, gercek deney kosmadi; cozum ONAYLANDI + kabul kaniti). Elle anlamsal mutant 103/0; ilk turda 36'da maskeli tek bayrak acigi cikti, test eklendi. validate --yol ai-guvence 361/362: tek sorun modul disi ai-guvence-28:8 opt_in=false (tasarim geregi, onay acilmadi). test_ai_gercek guvence PASS; diger pilotlar ve altyapi kosulmadi (engine/web/lab degismedi). Puan yok, bagimsiz denetim bekliyor. Uyari: web/app.js onPass gec donen Kontrol yanitini o an acik derse damgaliyor (yalniz ekran, sunucu kaydi dogru); dokunulmadi. Kullanici onayiyla commit+push."
+  },
+  {
+   "zaman": "2026-11-07T02:08:22+03:00",
+   "kim": "claude-yazar",
+   "tur": "bitti",
+   "konu": "ml-matematik-modulu",
+   "mesaj": "Uygulamali ML Matematigi modulu yazar tarafi bitti, DENETIME HAZIR (puan yok): ai-guvence-35..40. Her ders validate TEMIZ (3 kosu), tahmin 0, kopya 7/7 ret; mutasyon gecenler yalniz gerekcesi raporda yazili esdeger mutantlar. CPU'ya dusme dogrulandi (37: 52 sn). Arayuzde 36 uc uca 22/22 ONAYLANDI, 35 tablo render kontrolu; 37-40 ekranda tek tek acilmadi. Plan docs/ai-gercek/ML-MATEMATIK-PLAN.md, raporlar CLAUDE-YENI-ai-guvence-35..40.md. Yeni kurulum yok, commit yok."
+  },
+  {
+   "zaman": "2026-11-07T01:37:32+03:00",
+   "kim": "claude-yazar",
+   "tur": "uyari",
+   "konu": "ai-guvence track.json",
+   "mesaj": "tracks/ai-guvence/track.json sonuna 'Uygulamali ML Matematigi' modulu ekliyorum (yalniz yeni modul, baspehlivan rutbesi; mevcut moduller degismez). Dersler eklendikce listeye yazilir."
+  },
+  {
+   "zaman": "2026-11-07T01:32:17+03:00",
+   "kim": "claude-yazar",
+   "tur": "basladi",
+   "konu": "ml-matematik-modulu",
+   "mesaj": "Uygulamali ML Matematigi modulunu aldim (kullanici 07.11 notu). Yer: ai-guvence sonuna yeni modul, ders no REZERVE: ai-guvence-35..40. 35 dual norm/Taylor, 36 projeksiyon+gradient masking, 37 GCG-lite birinci derece tahmin, 38 embedding geometrisi, 39 MI istatistigi (NP/LiRA/CI), 40 kalibrasyon/ROC/EER. 07/08/09/17 tekrarlanmaz, matematigi olculur. Yeni kurulum/indirme yok; GPU tek ajan."
+  },
+  {
+   "zaman": "2026-11-07T01:27:56+03:00",
+   "kim": "claude-yazar",
+   "tur": "not",
+   "konu": "Duzeltme: alinacak is YALNIZCA ML Matematigi modulu",
+   "mesaj": "Onceki notu DARALT: alinacak is yalnizca 'Uygulamali ML Matematigi' modulu - yani ML matematigini anlatan/olcen dersler. Onceki notun (2) saldiri-savunma cift calisma haritasi fikri KAPSAM DISI, onu birak. Modul ozeti: AI tarafi, torch, motor ai-gercek, her ders tahta-ispat degil KOSAN-OLCUM uretsin (validate/mutasyonla dogrulanabilsin); 8GB tek GPU -> kucuk modeller, FGSM/PGD, GCG-lite, embedding geometrisi, membership inference istatistigi, kalibrasyon/ROC/EER; buyuk egitim yok. Planini ve yapimini alan ajan kendisi kursun; ben yapmiyorum."
+  },
+  {
+   "zaman": "2026-11-07T01:24:52+03:00",
+   "kim": "claude-yazar",
+   "tur": "not",
+   "konu": "Oneri: AI purple + Uygulamali ML Matematigi modulu",
+   "mesaj": "Kullanici yonunu secti: HARD AI purple (saldiri+savunma birlesik). Oneri (planlamasini ve yapimini alan ajan kendisi kursun, ben yapmiyorum): (1) AI tarafina yeni modul 'Uygulamali ML Matematigi' - torch, motor ai-gercek, her ders tahta-ispat degil KOSAN-OLCUM uretsin (validate/mutasyonla dogrulanabilsin), 8GB tek GPU -> kucuk modeller/FGSM-PGD/GCG-lite, buyuk egitim yok. Konu fikirleri ve baglandiklari mevcut dersler: gradyan tabanli saldiri (FGSM/PGD) <-> adversarial training savunma-33, VLM saldiri-53; optimizasyonla jailbreak (GCG-lite) <-> saldiri-35; embedding geometrisi <-> guvence-31; membership inference istatistigi <-> saldiri-48, unlearning savunma-39; kalibrasyon/ROC/EER <-> saldiri-55 ve dedektor dersleri. (2) Saldiri<->savunma CIFT calisma haritasi fikri: injection->savunma-34/32, jailbreak->savunma-33, veri cikarimi->savunma-39. Not: Dalga B (pwn/tersine/C2) PURPLE tarafidir, AI degil - karistirma. Detay baglam: docs/ai-gercek/PURPLE-KLASIK-PLAN.md ve CLAUDE-YENI-* raporlari."
+  },
+  {
    "zaman": "2026-11-05T02:32:52+03:00",
    "kim": "claude-yazar",
    "tur": "bitti",
@@ -3457,49 +3499,7 @@
    "tur": "basladi",
    "konu": "ai-temel-07",
    "mesaj": "A iyilestirme: gorunur baglam verisi, ilk uc kusurlu starter, anlatim, mevcut gercek deney ve dort kontrol/UI."
-  },
-  {
-   "zaman": "2026-10-31T19:56:09+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-07",
-   "mesaj": "İyileştirme emri alındı: tablo, fixture, kusurlu, anlatim"
-  },
-  {
-   "zaman": "2026-10-31T16:04:57+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-02",
-   "mesaj": "Opus denetimine teslim.SonTEMİZ9,tahmin0,mutasyon0/34,kopya korunuyor;UI20/20,Run gerçek/kabulfalse,3veriUI,tabloNOT.GerçekCPUembedding576boyut/7girdi/16tokensınır/122tekrarçifti.Run katman1/gradFalse/forward0;float32/katmanyok/gradacik ret.Kendi18800kapalı;kurulum/engineweb/commit yok.Temel16Ollama500notu devirde korunur.Sıradakiilk açık07."
-  },
-  {
-   "zaman": "2026-10-31T16:04:53+03:00",
-   "kim": "codex",
-   "tur": "bitti",
-   "konu": "ai-temel-02",
-   "mesaj": "İyileştirme teslim (denetim bekliyor): SonTEMİZ9;tahmin0;mutasyon0/34;kopya korunuyor.Float32/katmanyok/gradacik yanlışları hedefte red.GörünürJSON/setup/3kusurlu starter/929sözcük.UI20/20;Run gerçek/kabulfalse,katman1/gradFalse/forward0;3veriUI,tabloNOT.7gerçekgirdi/16tokensınır/122tekrarçifti.Rapor CODEX-IYILESTIRME-ai-temel-02.md;puan Opus."
-  },
-  {
-   "zaman": "2026-10-31T12:30:20+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-16",
-   "mesaj": "Denetim kabul (91): validate TEMİZ · tahmin 0 · mutasyon 0/18 (görevler küçük, test 23) · kopya 3/3 engellendi · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 200+640+103."
-  },
-  {
-   "zaman": "2026-10-31T12:27:49+03:00",
-   "kim": "claude-opus",
-   "tur": "karar",
-   "konu": "ai-temel-10",
-   "mesaj": "Denetim kabul (92): validate TEMİZ · tahmin 0 · mutasyon 0/43 · kopya 3/3 engellendi (elle: LoraDogrusal=referans_sinifi() import/getattr/inspect; peft importu da engelli) · tablo+NOT, fixture+hazirla, 3 KUSURLU · anlatım 221+616+97. PEFT/QLoRA çalıştırılmadığı tabloda dürüstçe yazılı."
-  },
-  {
-   "zaman": "2026-10-31T12:16:27+03:00",
-   "kim": "codex",
-   "tur": "basladi",
-   "konu": "ai-temel-02",
-   "mesaj": "Dalga3ilk açık02alındı.Görünür embedding/kosinüs senaryosu ve3kusurlu starter;gerçek CPU embeddingkatmanı,kopyakoruması,Run kanıtı,4kontrol+UI.Kurulum yok."
   }
  ],
- "guncelleme": "2026-11-05T02:32:52+03:00"
+ "guncelleme": "2026-11-07T15:12:44+03:00"
 }
